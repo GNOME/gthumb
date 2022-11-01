@@ -1,27 +1,30 @@
 # German translation of the gThumb manual.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011, 2013, 2016.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2009, 2011.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb docs master\n"
-"POT-Creation-Date: 2017-09-17 12:26+0000\n"
-"PO-Revision-Date: 2017-10-16 23:37+0200\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2022-08-10 07:24+0000\n"
+"PO-Revision-Date: 2022-11-01 11:49+0100\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
-"Language: de_DE\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2016\n"
-"Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011, 2013, 2016, 2017"
+"Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011, 2013, 2016, "
+"2017\n"
+"Jürgen Benvenuti <gastornis@posteo.org>, 2022"
 
 #. (itstool) path: credit/name
 #: C/index.page:7
@@ -704,8 +707,8 @@ msgstr ""
 #: C/introduction.page:34
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"https://wiki.gnome.org/Apps/gthumb"
-"\">https://wiki.gnome.org/Apps/gthumb</link>."
+"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
+"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
 "Weitere Informationen zu den Erweiterungen und zu <app>gThumb</app> erhalten "
 "Sie unter <link href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki."
@@ -1214,8 +1217,7 @@ msgid "Symbol"
 msgstr "Symbol"
 
 #. (itstool) path: td/p
-#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:84
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:538
+#: C/rename-series.page:27
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1228,7 +1230,7 @@ msgstr "<key>#</key>"
 #: C/rename-series.page:37
 msgid ""
 "This symbol will be replaced with the value of a counter that increments "
-"itself by 1 passing from one image to another. If you specify this symbols in "
+"itself by 1 passing from one image to another. If you specify this symbol in "
 "sequence you'll get leading zeros if the counter value has a lesser number of "
 "digits, for example ### will produce the sequence: 001, 002, 003, etc.."
 msgstr ""
@@ -1633,8 +1635,8 @@ msgid ""
 "simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
 msgstr ""
 "<app>gThumb</app> bietet auch ein Werkzeug zur Stapelverarbeitung, um die "
-"Größe mehrerer Bilder in einem Arbeitsgang zu ändern. Siehe <link xref="
-"\"gthumb-batch-resize\"/>."
+"Größe mehrerer Bilder in einem Arbeitsgang zu ändern. Siehe <link "
+"xref=\"gthumb-batch-resize\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-redeye.page:6
@@ -1664,8 +1666,8 @@ msgid ""
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
 "reddish tinge. This tool could use improvement - if you are fiendishly "
-"clever, love matrix algebra and open source software, please <link href="
-"\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
+"clever, love matrix algebra and open source software, please <link "
+"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
 msgstr ""
 "Dieses Werkzeug arbeitet am effektivsten bei einem hohen Kontrast zwischen "
 "dem roten Auge und dem umgebenden Bereich des Gesichts. Es funktioniert "
@@ -1719,14 +1721,14 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/extensions.page:20
 msgid ""
-"If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
-"link> for development information. An example extension is provided in the "
-"source code, which you can base your own extension on."
+"If you would like to write your own extension, please visit <link "
+"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+"Gthumb</link> for development information. An example extension is provided "
+"in the source code, which you can base your own extension on."
 msgstr ""
 "Wenn Sie eigene Erweiterungen erstellen möchten, so besuchen Sie bitte <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/"
-"gthumb</link> für weitere Informationen zum Entwickeln. Eine Beispiel-"
+"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+"Gthumb</link> für weitere Informationen zum Entwickeln. Eine Beispiel-"
 "Erweiterung ist im Quellcode der Software enthalten, auf die Sie Ihre "
 "Erweiterung aufbauen können."
 
@@ -2040,553 +2042,6 @@ msgid "When you are ready to print, press the <gui>Print</gui> button."
 msgstr "Klicken Sie auf den Knopf <gui>Drucken</gui>, sobald Sie fertig sind."
 
 #. (itstool) path: page/title
-#: C/shortcuts.page:7
-msgid "Keyboard Shortcuts"
-msgstr "Tastenkombinationen"
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:10
-msgid "Viewing and hiding parts of the user interface"
-msgstr "Anzeigen und verbergen von Teilen der grafischen Oberflächen"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:14 C/shortcuts.page:81 C/shortcuts.page:270
-#: C/shortcuts.page:535
-msgid "Keyboard Shortcut"
-msgstr "Tastenkombination"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:22
-msgid "<key>F9</key>"
-msgstr "<key>F9</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:27
-msgid ""
-"Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
-"tree and the file properties summary (if enabled)."
-msgstr ""
-"Die Seitenleiste im Ansichtsmodus anzeigen/verbergen. Die Seitenleiste "
-"enthält den Ordnerbaum und die Zusammenfassung der Dateieigenschaften (sofern "
-"aktiviert)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:33
-msgid "<key>i</key>"
-msgstr "<key>i</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:38
-msgid "Show the file properties summary."
-msgstr "Die Zusammenfassung der Eigenschaften der Datei anzeigen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:43
-msgid "<key>F8</key>"
-msgstr "<key>F8</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:48
-msgid "Shows/hides the thumbnail pane in the viewer mode."
-msgstr "Die Vorschauleiste im Ansichtsmodus anzeigen/verbergen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:53
-msgid "<key>F11</key> or <key>f</key>"
-msgstr "<key>F11</key> or <key>f</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:58
-msgid "Toggles the fullscreen mode."
-msgstr "Den Vollbildmodus ein- oder ausschalten."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:63
-msgid "<key>Esc</key>"
-msgstr "<key>Esc</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:68
-msgid "Closes the viewer or fullscreen mode."
-msgstr "Schließt den Betrachter oder den Vollbildmodus."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:77
-msgid "Editing shortcuts for the browser and viewer"
-msgstr "Tastenkombinationen für Bildbetrachter und Browser bearbeiten"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:89
-msgid "<key>e</key>"
-msgstr "<key>e</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:94
-msgid "Edit the image. Opens the viewer and shows the editing tools."
-msgstr ""
-"Das Bild bearbeiten. Es wird der Betrachter geöffnet und die "
-"Bearbeitungswerkzeuge angezeigt."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:99
-msgid "<key>g</key>"
-msgstr "<key>g</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:104
-msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
-msgstr "Das Bild mit dem GNU Image Manipulation Program (GIMP) öffnen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:109
-msgid "<key>F2</key>"
-msgstr "<key>F2</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:114
-msgid "Rename the image."
-msgstr "Das Bild umbenennen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:119
-#| msgid "<key>Esc</key>"
-msgid "<key>c</key>"
-msgstr "<key>c</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:124
-msgid "Add comments or metadata to the selected images."
-msgstr "Kommentare oder Metadaten zu den ausgewählten Bildern hinzufügen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:129
-#| msgid "<key>#</key>"
-msgid "<key>t</key>"
-msgstr "<key>t</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:134
-msgid "Add tags to the selected images."
-msgstr "Schlagwörter zu den ausgewählten Bildern hinzufügen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:139
-msgid "<key>]</key>"
-msgstr "<key>]</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:144
-msgid "Rotate right, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Im Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
-"automatisch gespeichert."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:149
-msgid "<key>[</key>"
-msgstr "<key>[</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:154
-msgid "Rotate left, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Gegen den Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
-"automatisch gespeichert."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:159
-msgid "<key>Delete</key>"
-msgstr "<key>Entf</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:164
-msgid "Move the selected files to the Trash."
-msgstr "Die ausgewählten Dateien in den Papierkorb verschieben."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:169
-msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-msgstr "<keyseq><key>Umschalttaste</key><key>Entf</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:174
-msgid "Delete the selected files permanently."
-msgstr "Die gewählten Bilder dauerhaft löschen."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:182
-msgid "Editing shortcuts for the viewer mode only"
-msgstr "Tastenkombinationen nur für den Ansichtsmodus bearbeiten"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:186
-msgid "Keyboard Shortcut (Case Sensitive)"
-msgstr "Tastenkombinationen (Groß-/Kleinschreibung wird berücksichtigt)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:194
-msgid "<key>a</key>"
-msgstr "<key>a</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:199
-msgid "Adjust contrast."
-msgstr "Anpassung des Kontrasts."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:204
-msgid "<key>l</key>"
-msgstr "<key>l</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:209
-msgid "Flip image."
-msgstr "Das Bild umdrehen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:214
-msgid "<key>m</key>"
-msgstr "<key>m</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:219
-msgid "Mirror image."
-msgstr "Das Bild spiegeln."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:224
-msgid "<key>r</key>"
-msgstr "<key>r</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:229
-msgid "Rotate right."
-msgstr "Rechts herum drehen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:234
-msgid "<key>R</key>"
-msgstr "<key>R</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:239
-msgid "Rotate left."
-msgstr "Links herum drehen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:244
-msgid "<key>C</key>"
-msgstr "<key>C</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:249
-msgid "Crop image."
-msgstr "Das Bild zuschneiden."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:254
-msgid "<key>S</key>"
-msgstr "<key>S</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:259
-msgid "Resize image."
-msgstr "Größe des Bildes ändern."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:266
-msgid "Viewer shortcuts"
-msgstr "Tastenkombinationen des Betrachters"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:278
-msgid "<key>Space</key> or <key>Page Down</key>"
-msgstr "<key>Leertaste</key> oder <key>Bild ab</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:283
-msgid "View the next image."
-msgstr "Das nächste Bild zeigen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:288
-msgid "<key>Backspace</key> or <key>Page Up</key>"
-msgstr "<key>Löschtaste</key> oder <key>Bild auf</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:293
-msgid "View the previous image."
-msgstr "Das vorhergehende Bild zeigen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:446
-msgid "<key>Home</key>"
-msgstr "<key>Pos1</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:303
-msgid "View the first image."
-msgstr "Das erste Bild zeigen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:456
-msgid "<key>End</key>"
-msgstr "<key>Ende</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:313
-msgid "View the last image."
-msgstr "Das letzte Bild zeigen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:318
-msgid "<key>+</key> or <key>=</key>"
-msgstr "<key>+</key> oder <key>=</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:323
-msgid "Zoom in."
-msgstr "Vergrößern."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:328
-msgid "<key>-</key>"
-msgstr "<key>-</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:333
-msgid "Zoom out."
-msgstr "Verkleinern."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:338
-msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
-msgstr "<key>1</key> oder <key>z</key> oder <key>/ (auf dem Nummernblock)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:344
-msgid "Actual size."
-msgstr "Normale Größe."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:349
-msgid "<key>x</key> or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key>oder <key>* (auf dem Nummernblock)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:354
-msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr "Einpassen (verkleinert nur)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:359
-msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-msgstr "<keyseq> <key>Umschalttaste</key> <key>x</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:367
-msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr "Einpassen (verkleinert oder vergrößert je nach Bedarf)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:372
-msgid "<key>w</key>"
-msgstr "<key>w</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:376
-msgid "Zoom to fit width (scales down only, does not magnify)"
-msgstr "Einpassen (verkleinert nur)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:381
-msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
-msgstr "<keyseq> <key>Umschalttaste</key> <key>w</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:389
-msgid "Zoom to fit width (scale down or magnify, as required)"
-msgstr "Größe an Breite anpassen (verkleinert oder vergrößert je nach Bedarf)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:394
-msgid "<key>h</key>"
-msgstr "<key>h</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:398
-msgid "Zoom to fit height (scales down only, does not magnify)"
-msgstr "Größe an Höhe anpassen (verkleinert nur)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:403
-msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
-msgstr "<keyseq> <key>Umschalttaste</key> <key>h</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:411
-msgid "Zoom to fit height (scale down or magnify, as required)"
-msgstr "Größe an Höhe anpassen (verkleinert oder vergrößert je nach Bedarf)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:416
-msgid "<key>Arrows</key>"
-msgstr "<key>Pfeile</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:421
-msgid "Scroll the image."
-msgstr "Das Bild vorschieben."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:426
-msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
-msgstr "<keyseq> <key>Umschalttaste</key> <key>Pfeiltasten</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:434
-msgid "Scroll the image faster."
-msgstr "Das Bild schneller vorschieben."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:441
-msgid "Browser Navigation"
-msgstr "Browser-Navigation"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:451
-msgid "Go to the first file in the browser view."
-msgstr "Zur ersten Datei in der Browseransicht wechseln."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:461
-msgid "Go to the last file in the browser view."
-msgstr "Zur letzten Datei in der Browseransicht wechseln."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:466
-msgid "<key>Down Arrow</key> or <key>Page Down</key>"
-msgstr "<key>Pfeiltaste runter</key> oder <key>Bild ab</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:471
-msgid "Scroll downwards through the thumbnails."
-msgstr "Nach unten durch die Vorschaubilder bewegen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:476
-msgid "<key>Up Arrow</key> or <key>Page Up</key>"
-msgstr "<key>Pfeiltaste rauf</key> oder <key>Bild rauf</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:481
-msgid "Scroll upwards through the thumbnails."
-msgstr "Nach oben durch die Vorschaubilder bewegen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:486
-msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Linke Pfeiltaste</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:491
-msgid "Go back to the previously viewed folder."
-msgstr "Zum zuletzt besuchten Ordner gehen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:496
-msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Rechte Pfeiltaste</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:501
-msgid "Go forward (after going back to a folder)."
-msgstr "Vorwärts gehen (nach vorhergehendem rückwärts gehen)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:506
-msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Pfeiltaste hoch</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:514
-msgid "Go up one level."
-msgstr "Eine Ebene hoch gehen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:519
-msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:524
-msgid "Open a location typing the path."
-msgstr "Einen Ort durch Eingabe des Pfads öffnen."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:531
-msgid "Slideshow controls"
-msgstr "Steuerung von Dia-Vorführungen"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:543
-msgid "<key>F5</key>"
-msgstr "<key>F5</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:548
-msgid "Start a slideshow."
-msgstr "Die Diaschau starten."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:553
-msgid "<key>p</key>"
-msgstr "<key>p</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:558
-msgid "Pause/Unpause the slideshow."
-msgstr "Eine Diaschau pausieren/fortsetzen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:563
-msgid "<key>Esc</key> or <key>q</key>"
-msgstr "<key>Esc</key> oder <key>q</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:568
-msgid "Close the slideshow."
-msgstr "Die Diashow schließen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:573
-msgid ""
-"<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
-"<key>Page Down</key>"
-msgstr ""
-"<key>Leertaste</key> <key>Pfeiltaste runter</key> oder <key>Pfeiltaste "
-"rechts</key> oder <key>Bild ab</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:578
-msgid "Load the next image."
-msgstr "Das nächste Bild zeigen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:583
-msgid ""
-"<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
-"<key>Page Up</key>"
-msgstr ""
-"<key>Rücktaste</key> oder <key>Pfeiltaste rauf</key> oder <key>Pfeiltaste "
-"links</key> oder <key>Bild rauf</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:588
-msgid "Load the previous image."
-msgstr "Das vorhergehende Bild zeigen."
-
-#. (itstool) path: page/title
 #: C/sharing-disc.page:6
 msgid "Creating a CD/DVD/ISO"
 msgstr "Erzeugen einer CD/DVD oder eines ISO-Abbildes"
@@ -2893,26 +2348,27 @@ msgid ""
 "whether a \"deep\" or \"shallow\" hierarchy of files is made (for example, "
 "with <gui>year-month</gui>, you can have year subfolders with month "
 "subfolders under them, or all subfolders can be at the same level in the "
-"filesystem, with the year and name both the folder name."
+"filesystem, with the year and name both the folder name.)"
 msgstr ""
 "Sie können entweder das <gui>Dateidatum</gui> oder das <gui>aktuelle Datum</"
-"gui> als Basis für den Namen des Unterordners verwenden (Das <gui>Dateidatum</"
-"gui> untersucht die Metadaten der Datei zur Bestimmung des Aufnahmedatums). "
-"Eine Reihe von üblichen Datumsformaten steht zur Auswahl (zum Beispiel "
-"<gui>Jahr-Monat</gui>). Das Ankreuzfeld <gui>als einzelner Unterordner</gui> "
-"legt fest, ob eine tiefe oder flache Ordner-Hierarchie angelegt wird. Zum "
-"Beispiel kann es für die Einstellung <gui>Jahr-Monat</gui> einen Unterordner "
-"mit der Jahreszahl und einen weiteren innerhalb mit dem Monat geben, oder es "
-"kann nur einen mit Monat und Jahreszahl im Ordnernamen geben."
+"gui> als Basis für den Namen des Unterordners verwenden. (Das "
+"<gui>Dateidatum</gui> untersucht die Metadaten der Datei zur Bestimmung des "
+"Aufnahmedatums.) Eine Reihe von üblichen Datumsformaten steht zur Auswahl "
+"(zum Beispiel <gui>Jahr-Monat</gui>). Das Ankreuzfeld <gui>als einzelner "
+"Unterordner</gui> legt fest, ob eine tiefe oder flache Ordner-Hierarchie "
+"angelegt wird. (Zum Beispiel kann es für die Einstellung <gui>Jahr-Monat</"
+"gui> einen Unterordner mit der Jahreszahl und einen weiteren innerhalb mit "
+"dem Monat geben, oder es kann nur einen mit Monat und Jahreszahl im "
+"Ordnernamen geben.)"
 
 #. (itstool) path: page/p
 #: C/import.page:61
 msgid ""
 "It is not necessary to use the predefined date formats. If you select "
 "<gui>custom format</gui>, standard date codes can be used. Click on the help "
-"icon to the right of the custom format field for a list of format codes. \"%E"
-"\" is a special code that will embed the <gui>Event</gui> name defined in the "
-"main import dialog."
+"icon to the right of the custom format field for a list of format codes. "
+"\"%E\" is a special code that will embed the <gui>Event</gui> name defined in "
+"the main import dialog."
 msgstr ""
 "Es ist nicht zwingend, die vordefinierten Datumsformate zu verwenden. Wenn "
 "Sie <gui>Eigenes Format</gui> wählen, können Sie voreingestellte "
@@ -3138,3 +2594,342 @@ msgstr ""
 "Als besondere Ausnahme erteilen Ihnen die Urheberrechtsinhaber die "
 "Genehmigung, den in diesem Dokument enthaltenen Beispielcode ohne "
 "Einschränkung unter den Bedingungen Ihrer Wahl zu verbreiten."
+
+#~ msgid "Keyboard Shortcuts"
+#~ msgstr "Tastenkombinationen"
+
+#~ msgid "Viewing and hiding parts of the user interface"
+#~ msgstr "Anzeigen und verbergen von Teilen der grafischen Oberflächen"
+
+#~ msgid "Keyboard Shortcut"
+#~ msgstr "Tastenkombination"
+
+#~ msgid "<key>F9</key>"
+#~ msgstr "<key>F9</key>"
+
+#~ msgid ""
+#~ "Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
+#~ "tree and the file properties summary (if enabled)."
+#~ msgstr ""
+#~ "Die Seitenleiste im Ansichtsmodus anzeigen/verbergen. Die Seitenleiste "
+#~ "enthält den Ordnerbaum und die Zusammenfassung der Dateieigenschaften "
+#~ "(sofern aktiviert)."
+
+#~ msgid "<key>i</key>"
+#~ msgstr "<key>i</key>"
+
+#~ msgid "Show the file properties summary."
+#~ msgstr "Die Zusammenfassung der Eigenschaften der Datei anzeigen."
+
+#~ msgid "<key>F8</key>"
+#~ msgstr "<key>F8</key>"
+
+#~ msgid "Shows/hides the thumbnail pane in the viewer mode."
+#~ msgstr "Die Vorschauleiste im Ansichtsmodus anzeigen/verbergen."
+
+#~ msgid "<key>F11</key> or <key>f</key>"
+#~ msgstr "<key>F11</key> or <key>f</key>"
+
+#~ msgid "Toggles the fullscreen mode."
+#~ msgstr "Den Vollbildmodus ein- oder ausschalten."
+
+#~ msgid "<key>Esc</key>"
+#~ msgstr "<key>Esc</key>"
+
+#~ msgid "Closes the viewer or fullscreen mode."
+#~ msgstr "Schließt den Betrachter oder den Vollbildmodus."
+
+#~ msgid "Editing shortcuts for the browser and viewer"
+#~ msgstr "Tastenkombinationen für Bildbetrachter und Browser bearbeiten"
+
+#~ msgid "<key>e</key>"
+#~ msgstr "<key>e</key>"
+
+#~ msgid "Edit the image. Opens the viewer and shows the editing tools."
+#~ msgstr ""
+#~ "Das Bild bearbeiten. Es wird der Betrachter geöffnet und die "
+#~ "Bearbeitungswerkzeuge angezeigt."
+
+#~ msgid "<key>g</key>"
+#~ msgstr "<key>g</key>"
+
+#~ msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
+#~ msgstr "Das Bild mit dem GNU Image Manipulation Program (GIMP) öffnen."
+
+#~ msgid "<key>F2</key>"
+#~ msgstr "<key>F2</key>"
+
+#~ msgid "Rename the image."
+#~ msgstr "Das Bild umbenennen."
+
+#~| msgid "<key>Esc</key>"
+#~ msgid "<key>c</key>"
+#~ msgstr "<key>c</key>"
+
+#~ msgid "Add comments or metadata to the selected images."
+#~ msgstr "Kommentare oder Metadaten zu den ausgewählten Bildern hinzufügen."
+
+#~| msgid "<key>#</key>"
+#~ msgid "<key>t</key>"
+#~ msgstr "<key>t</key>"
+
+#~ msgid "Add tags to the selected images."
+#~ msgstr "Schlagwörter zu den ausgewählten Bildern hinzufügen."
+
+#~ msgid "<key>]</key>"
+#~ msgstr "<key>]</key>"
+
+#~ msgid ""
+#~ "Rotate right, losslessly if possible. The file is saved automatically."
+#~ msgstr ""
+#~ "Im Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
+#~ "automatisch gespeichert."
+
+#~ msgid "<key>[</key>"
+#~ msgstr "<key>[</key>"
+
+#~ msgid "Rotate left, losslessly if possible. The file is saved automatically."
+#~ msgstr ""
+#~ "Gegen den Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei "
+#~ "wird automatisch gespeichert."
+
+#~ msgid "<key>Delete</key>"
+#~ msgstr "<key>Entf</key>"
+
+#~ msgid "Move the selected files to the Trash."
+#~ msgstr "Die ausgewählten Dateien in den Papierkorb verschieben."
+
+#~ msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
+#~ msgstr "<keyseq><key>Umschalttaste</key><key>Entf</key></keyseq>"
+
+#~ msgid "Delete the selected files permanently."
+#~ msgstr "Die gewählten Bilder dauerhaft löschen."
+
+#~ msgid "Editing shortcuts for the viewer mode only"
+#~ msgstr "Tastenkombinationen nur für den Ansichtsmodus bearbeiten"
+
+#~ msgid "Keyboard Shortcut (Case Sensitive)"
+#~ msgstr "Tastenkombinationen (Groß-/Kleinschreibung wird berücksichtigt)"
+
+#~ msgid "<key>a</key>"
+#~ msgstr "<key>a</key>"
+
+#~ msgid "Adjust contrast."
+#~ msgstr "Anpassung des Kontrasts."
+
+#~ msgid "<key>l</key>"
+#~ msgstr "<key>l</key>"
+
+#~ msgid "Flip image."
+#~ msgstr "Das Bild umdrehen."
+
+#~ msgid "<key>m</key>"
+#~ msgstr "<key>m</key>"
+
+#~ msgid "Mirror image."
+#~ msgstr "Das Bild spiegeln."
+
+#~ msgid "<key>r</key>"
+#~ msgstr "<key>r</key>"
+
+#~ msgid "Rotate right."
+#~ msgstr "Rechts herum drehen."
+
+#~ msgid "<key>R</key>"
+#~ msgstr "<key>R</key>"
+
+#~ msgid "Rotate left."
+#~ msgstr "Links herum drehen."
+
+#~ msgid "<key>C</key>"
+#~ msgstr "<key>C</key>"
+
+#~ msgid "Crop image."
+#~ msgstr "Das Bild zuschneiden."
+
+#~ msgid "<key>S</key>"
+#~ msgstr "<key>S</key>"
+
+#~ msgid "Resize image."
+#~ msgstr "Größe des Bildes ändern."
+
+#~ msgid "Viewer shortcuts"
+#~ msgstr "Tastenkombinationen des Betrachters"
+
+#~ msgid "<key>Space</key> or <key>Page Down</key>"
+#~ msgstr "<key>Leertaste</key> oder <key>Bild ab</key>"
+
+#~ msgid "View the next image."
+#~ msgstr "Das nächste Bild zeigen."
+
+#~ msgid "<key>Backspace</key> or <key>Page Up</key>"
+#~ msgstr "<key>Löschtaste</key> oder <key>Bild auf</key>"
+
+#~ msgid "View the previous image."
+#~ msgstr "Das vorhergehende Bild zeigen."
+
+#~ msgid "<key>Home</key>"
+#~ msgstr "<key>Pos1</key>"
+
+#~ msgid "View the first image."
+#~ msgstr "Das erste Bild zeigen."
+
+#~ msgid "<key>End</key>"
+#~ msgstr "<key>Ende</key>"
+
+#~ msgid "View the last image."
+#~ msgstr "Das letzte Bild zeigen."
+
+#~ msgid "<key>+</key> or <key>=</key>"
+#~ msgstr "<key>+</key> oder <key>=</key>"
+
+#~ msgid "Zoom in."
+#~ msgstr "Vergrößern."
+
+#~ msgid "<key>-</key>"
+#~ msgstr "<key>-</key>"
+
+#~ msgid "Zoom out."
+#~ msgstr "Verkleinern."
+
+#~ msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
+#~ msgstr ""
+#~ "<key>1</key> oder <key>z</key> oder <key>/ (auf dem Nummernblock)</key>"
+
+#~ msgid "Actual size."
+#~ msgstr "Normale Größe."
+
+#~ msgid "<key>x</key> or <key>* (numeric keypad)</key>"
+#~ msgstr "<key>x</key>oder <key>* (auf dem Nummernblock)</key>"
+
+#~ msgid "Zoom to fit (scales down only, does not magnify)"
+#~ msgstr "Einpassen (verkleinert nur)"
+
+#~ msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Umschalttaste</key> <key>x</key> </keyseq>"
+
+#~ msgid "Zoom to fit (scale down or magnify, as required)"
+#~ msgstr "Einpassen (verkleinert oder vergrößert je nach Bedarf)"
+
+#~ msgid "<key>w</key>"
+#~ msgstr "<key>w</key>"
+
+#~ msgid "Zoom to fit width (scales down only, does not magnify)"
+#~ msgstr "Einpassen (verkleinert nur)"
+
+#~ msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Umschalttaste</key> <key>w</key> </keyseq>"
+
+#~ msgid "Zoom to fit width (scale down or magnify, as required)"
+#~ msgstr ""
+#~ "Größe an Breite anpassen (verkleinert oder vergrößert je nach Bedarf)"
+
+#~ msgid "<key>h</key>"
+#~ msgstr "<key>h</key>"
+
+#~ msgid "Zoom to fit height (scales down only, does not magnify)"
+#~ msgstr "Größe an Höhe anpassen (verkleinert nur)"
+
+#~ msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Umschalttaste</key> <key>h</key> </keyseq>"
+
+#~ msgid "Zoom to fit height (scale down or magnify, as required)"
+#~ msgstr "Größe an Höhe anpassen (verkleinert oder vergrößert je nach Bedarf)"
+
+#~ msgid "<key>Arrows</key>"
+#~ msgstr "<key>Pfeile</key>"
+
+#~ msgid "Scroll the image."
+#~ msgstr "Das Bild vorschieben."
+
+#~ msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Umschalttaste</key> <key>Pfeiltasten</key> </keyseq>"
+
+#~ msgid "Scroll the image faster."
+#~ msgstr "Das Bild schneller vorschieben."
+
+#~ msgid "Browser Navigation"
+#~ msgstr "Browser-Navigation"
+
+#~ msgid "Go to the first file in the browser view."
+#~ msgstr "Zur ersten Datei in der Browseransicht wechseln."
+
+#~ msgid "Go to the last file in the browser view."
+#~ msgstr "Zur letzten Datei in der Browseransicht wechseln."
+
+#~ msgid "<key>Down Arrow</key> or <key>Page Down</key>"
+#~ msgstr "<key>Pfeiltaste runter</key> oder <key>Bild ab</key>"
+
+#~ msgid "Scroll downwards through the thumbnails."
+#~ msgstr "Nach unten durch die Vorschaubilder bewegen."
+
+#~ msgid "<key>Up Arrow</key> or <key>Page Up</key>"
+#~ msgstr "<key>Pfeiltaste rauf</key> oder <key>Bild rauf</key>"
+
+#~ msgid "Scroll upwards through the thumbnails."
+#~ msgstr "Nach oben durch die Vorschaubilder bewegen."
+
+#~ msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
+#~ msgstr "<keyseq><key>Alt</key><key>Linke Pfeiltaste</key></keyseq>"
+
+#~ msgid "Go back to the previously viewed folder."
+#~ msgstr "Zum zuletzt besuchten Ordner gehen."
+
+#~ msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
+#~ msgstr "<keyseq><key>Alt</key><key>Rechte Pfeiltaste</key></keyseq>"
+
+#~ msgid "Go forward (after going back to a folder)."
+#~ msgstr "Vorwärts gehen (nach vorhergehendem rückwärts gehen)"
+
+#~ msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Alt</key> <key>Pfeiltaste hoch</key> </keyseq>"
+
+#~ msgid "Go up one level."
+#~ msgstr "Eine Ebene hoch gehen."
+
+#~ msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+#~ msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
+
+#~ msgid "Open a location typing the path."
+#~ msgstr "Einen Ort durch Eingabe des Pfads öffnen."
+
+#~ msgid "Slideshow controls"
+#~ msgstr "Steuerung von Dia-Vorführungen"
+
+#~ msgid "<key>F5</key>"
+#~ msgstr "<key>F5</key>"
+
+#~ msgid "Start a slideshow."
+#~ msgstr "Die Diaschau starten."
+
+#~ msgid "<key>p</key>"
+#~ msgstr "<key>p</key>"
+
+#~ msgid "Pause/Unpause the slideshow."
+#~ msgstr "Eine Diaschau pausieren/fortsetzen."
+
+#~ msgid "<key>Esc</key> or <key>q</key>"
+#~ msgstr "<key>Esc</key> oder <key>q</key>"
+
+#~ msgid "Close the slideshow."
+#~ msgstr "Die Diashow schließen."
+
+#~ msgid ""
+#~ "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
+#~ "<key>Page Down</key>"
+#~ msgstr ""
+#~ "<key>Leertaste</key> <key>Pfeiltaste runter</key> oder <key>Pfeiltaste "
+#~ "rechts</key> oder <key>Bild ab</key>"
+
+#~ msgid "Load the next image."
+#~ msgstr "Das nächste Bild zeigen."
+
+#~ msgid ""
+#~ "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
+#~ "<key>Page Up</key>"
+#~ msgstr ""
+#~ "<key>Rücktaste</key> oder <key>Pfeiltaste rauf</key> oder <key>Pfeiltaste "
+#~ "links</key> oder <key>Bild rauf</key>"
+
+#~ msgid "Load the previous image."
+#~ msgstr "Das vorhergehende Bild zeigen."
