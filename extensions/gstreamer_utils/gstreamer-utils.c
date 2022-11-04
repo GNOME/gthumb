@@ -46,6 +46,7 @@
 #include <gthumb.h>
 #include "gstreamer-utils.h"
 
+#define MAX_WAITING_TIME (10 * GST_SECOND)
 
 static gboolean gstreamer_initialized = FALSE;
 
@@ -122,6 +123,7 @@ metadata_extractor_free (MetadataExtractor *extractor)
 {
 	reset_extractor_data (extractor);
 	gst_element_set_state (extractor->playbin, GST_STATE_NULL);
+	gst_element_get_state (extractor->playbin, NULL, NULL, MAX_WAITING_TIME);
 	gst_object_unref (GST_OBJECT (extractor->playbin));
 	g_slice_free (MetadataExtractor, extractor);
 }
@@ -541,7 +543,7 @@ message_loop_to_state_change (MetadataExtractor *extractor,
 	for (;;) {
 		GstMessage *message;
 
-		message = gst_bus_timed_pop_filtered (bus, GST_SECOND * 5, events);
+		message = gst_bus_timed_pop_filtered (bus, MAX_WAITING_TIME, events);
 		if (message == NULL)
 			goto timed_out;
 
@@ -788,9 +790,6 @@ _gst_playbin_get_current_frame (GstElement  *playbin,
 
 	return pixbuf;
 }
-
-
-#define MAX_WAITING_TIME (5 * GST_SECOND)
 
 
 GthImage *
