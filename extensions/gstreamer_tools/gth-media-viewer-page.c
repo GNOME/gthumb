@@ -924,6 +924,8 @@ create_playbin (GthMediaViewerPage *self)
 			  "message",
 			  G_CALLBACK (bus_message_cb),
 			  self);
+
+	g_object_unref (bus);
 }
 
 
@@ -1354,6 +1356,11 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 
 		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 		wait_playbin_state_change_to_complete (self);
+		GstBus *bus = gst_element_get_bus (self->priv->playbin);
+		if (bus != NULL) {
+			gst_bus_remove_signal_watch (bus);
+			g_object_unref (bus);
+		}
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
 		self->priv->video_area = NULL;

@@ -268,6 +268,12 @@ gth_slideshow_finalize (GObject *object)
 #if HAVE_GSTREAMER
 	if (self->priv->playbin != NULL) {
 		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+		gst_element_get_state (self->priv->playbin, NULL, NULL, GST_CLOCK_TIME_NONE);
+		GstBus *bus = gst_element_get_bus (self->priv->playbin);
+		if (bus != NULL) {
+			gst_bus_remove_signal_watch (bus);
+			g_object_unref (bus);
+		}
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
 	}
@@ -365,6 +371,7 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 			bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
 			gst_bus_add_signal_watch (bus);
 			g_signal_connect (bus, "message::eos", G_CALLBACK (pipeline_eos_cb), self);
+			g_object_unref (bus);
 		}
 		else
 			gst_element_set_state (self->priv->playbin, GST_STATE_READY);
