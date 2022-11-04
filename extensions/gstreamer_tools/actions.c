@@ -244,7 +244,7 @@ gth_browser_activate_video_zoom_fit (GSimpleAction	*action,
 				     gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	g_simple_action_set_state (action, state);
 	gth_media_viewer_page_set_fit_if_larger (page, g_variant_get_boolean (state));
@@ -257,7 +257,7 @@ gth_browser_activate_next_video_frame (GSimpleAction	*action,
 				       gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_next_frame (page);
 }
@@ -269,7 +269,7 @@ gth_browser_activate_skip_forward_smallest (GSimpleAction	*action,
 					    gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, 1);
 }
@@ -281,7 +281,7 @@ gth_browser_activate_skip_forward_smaller (GSimpleAction	*action,
 					   gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, 5);
 }
@@ -293,7 +293,7 @@ gth_browser_activate_skip_forward_small (GSimpleAction	*action,
 					 gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, 10);
 }
@@ -305,7 +305,7 @@ gth_browser_activate_skip_forward_big (GSimpleAction	*action,
 				       gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, 60);
 }
@@ -317,7 +317,7 @@ gth_browser_activate_skip_forward_bigger (GSimpleAction	*action,
 					  gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, 60 * 5);
 }
@@ -329,7 +329,7 @@ gth_browser_activate_skip_back_smallest (GSimpleAction	*action,
 					 gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, -1);
 }
@@ -341,7 +341,7 @@ gth_browser_activate_skip_back_smaller (GSimpleAction	*action,
 					gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, -5);
 }
@@ -353,7 +353,7 @@ gth_browser_activate_skip_back_small (GSimpleAction	*action,
 				      gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, -10);
 }
@@ -365,7 +365,7 @@ gth_browser_activate_skip_back_big (GSimpleAction	*action,
 				    gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, -60);
 }
@@ -377,7 +377,7 @@ gth_browser_activate_skip_back_bigger (GSimpleAction	*action,
 				       gpointer		 user_data)
 {
 	GthBrowser	   *browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
 	gth_media_viewer_page_skip (page, -60 * 5);
 }
