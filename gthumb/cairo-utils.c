@@ -1359,7 +1359,7 @@ _cairo_draw_film_foreground (cairo_t *cr,
 	cairo_pattern_t *pattern;
 	double           film_scale;
 	cairo_matrix_t   matrix;
-	double           film_strip;
+	double           film_strip_width;
 
 	/* left film strip */
 
@@ -1369,7 +1369,7 @@ _cairo_draw_film_foreground (cairo_t *cr,
 		film_scale = 256.0 / thumbnail_size;
 	else
 		film_scale = 128.0 / thumbnail_size;
-	film_strip = 9.0 / film_scale;
+	film_strip_width = 9.0 / film_scale;
 
 	cairo_matrix_init_identity (&matrix);
 	cairo_matrix_scale (&matrix, film_scale, film_scale);
@@ -1379,13 +1379,13 @@ _cairo_draw_film_foreground (cairo_t *cr,
 	cairo_rectangle (cr,
 			 x,
 			 y,
-			 film_strip,
+			 film_strip_width,
 			 height);
 	cairo_fill (cr);
 
 	/* right film strip */
 
-	x = x + width - film_strip;
+	x = x + width - film_strip_width + 1;
 	cairo_matrix_init_identity (&matrix);
 	cairo_matrix_scale (&matrix, film_scale, film_scale);
 	cairo_matrix_translate (&matrix, -x, 0);
@@ -1394,7 +1394,7 @@ _cairo_draw_film_foreground (cairo_t *cr,
 	cairo_rectangle (cr,
 			 x,
 			 y,
-			 film_strip,
+			 film_strip_width,
 			 height);
 	cairo_fill (cr);
 
