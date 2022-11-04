@@ -76,6 +76,7 @@ gthumb_extension_activate (void)
 					     /* Keep in sync with the mime types in _g_mime_type_is_video(). */
 					     "video/*",
 					     "application/ogg",
+					     "application/x-matroska",
 					     "application/vnd.ms-asf",
 					     "application/vnd.rn-realmedia",
 					     NULL);

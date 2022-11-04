@@ -1895,6 +1895,7 @@ _g_mime_type_is_video (const char *mime_type)
 
 	return (g_content_type_is_a (mime_type, "video/*")
 		|| (strcmp (mime_type, "application/ogg") == 0)
+		|| (strcmp (mime_type, "application/x-matroska") == 0)
 		|| (strcmp (mime_type, "application/vnd.ms-asf") == 0)
 		|| (strcmp (mime_type, "application/vnd.rn-realmedia") == 0));
 }
