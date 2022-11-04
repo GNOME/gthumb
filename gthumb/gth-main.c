@@ -856,26 +856,40 @@ gth_main_get_image_loader_func (const char     *mime_type,
 				GthImageFormat  preferred_format)
 {
 	GthImageLoaderFunc  loader;
+	char               *generic_type;
 	char               *key;
-	int                 format;
+
+	generic_type = _g_mime_type_get_generic_type (mime_type);
 
 	/* give priority to the preferred format */
 
 	key = g_strdup_printf ("%s-%d", mime_type, preferred_format);
 	loader = g_hash_table_lookup (Main->priv->image_loaders, key);
+	if (loader == NULL) {
+		g_free (key);
+		key = g_strdup_printf ("%s-%d", generic_type, preferred_format);
+		loader = g_hash_table_lookup (Main->priv->image_loaders, key);
+	}
 
 	/* if the preferred format is not available, search another
 	 * format. */
 
-	for (format = 0; (loader == NULL) && (format < GTH_IMAGE_N_FORMATS); format++) {
+	for (int format = 0; (loader == NULL) && (format < GTH_IMAGE_N_FORMATS); format++) {
 		if (format == preferred_format)
 			continue;
 		g_free (key);
 		key = g_strdup_printf ("%s-%d", mime_type, format);
 		loader = g_hash_table_lookup (Main->priv->image_loaders, key);
+
+		if (loader == NULL) {
+			g_free (key);
+			key = g_strdup_printf ("%s-%d", generic_type, format);
+			loader = g_hash_table_lookup (Main->priv->image_loaders, key);
+		}
 	}
 
 	g_free (key);
+	g_free (generic_type);
 
 	return loader;
 }

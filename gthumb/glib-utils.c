@@ -1928,6 +1928,26 @@ _g_mime_type_has_transparency (const char *mime_type)
 
 
 char *
+_g_mime_type_get_generic_type (const char *mime_type)
+{
+	g_return_val_if_fail (mime_type != NULL, NULL);
+
+	const char *sep = strchr (mime_type, '/');
+	if (sep == NULL)
+		return NULL;
+
+	int sep_pos = sep - mime_type;
+	char *generic_type = g_new0 (char, sep_pos + 3);
+	strncpy (generic_type, mime_type, sep_pos + 1);
+	generic_type[sep_pos + 1] = '*';
+	generic_type[sep_pos + 2] = 0;
+
+	return generic_type;
+
+}
+
+
+char *
 _g_settings_get_uri (GSettings  *settings,
 		     const char *key)
 {
