@@ -76,6 +76,7 @@ struct _GthMediaViewerPagePrivate {
 	GtkWidget      *screenshot_button;
 	GtkWidget      *fit_button;
 	gboolean        background_painted;
+	guint           file_popup_merge_id;
 };
 
 
@@ -108,6 +109,12 @@ static const GActionEntry actions[] = {
 	{ "skip-back-big", gth_browser_activate_skip_back_big },
 	{ "skip-back-bigger", gth_browser_activate_skip_back_bigger },
 	{ "video-zoom-fit", toggle_action_activated, NULL, "true", gth_browser_activate_video_zoom_fit },
+	{ "copy-frame", gth_browser_activate_copy_frame },
+};
+
+
+static const GthMenuEntry file_popup_entries[] = {
+	{ N_("Copy Image"), "win.copy-frame" },
 };
 
 
@@ -1396,6 +1403,12 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 {
 	GthMediaViewerPage *self = GTH_MEDIA_VIEWER_PAGE (base);
 
+	if (self->priv->file_popup_merge_id == 0)
+		self->priv->file_popup_merge_id =
+				gth_menu_manager_append_entries (gth_browser_get_menu_manager (self->priv->browser, GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS),
+								 file_popup_entries,
+								 G_N_ELEMENTS (file_popup_entries));
+
 	self->priv->visible = TRUE;
 	self->priv->background_painted = FALSE;
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
@@ -1417,6 +1430,9 @@ gth_media_viewer_page_real_hide (GthViewerPage *base)
 	GthMediaViewerPage *self;
 
 	self = (GthMediaViewerPage*) base;
+
+	gth_menu_manager_remove_entries (gth_browser_get_menu_manager (self->priv->browser, GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS), self->priv->file_popup_merge_id);
+	self->priv->file_popup_merge_id = 0;
 
 	self->priv->visible = FALSE;
 	if ((self->priv->playbin != NULL) && self->priv->playing)
@@ -1542,6 +1558,7 @@ gth_media_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	gtk_widget_set_sensitive (GET_WIDGET ("play_button"), self->priv->has_video || self->priv->has_audio);
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "video-screenshot", self->priv->has_video);
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "video-zoom-fit", self->priv->has_video);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "copy-frame", self->priv->has_video);
 }
 
 
@@ -1689,6 +1706,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv->updated_info = NULL;
 	self->priv->loop = FALSE;
 	self->priv->fit_if_larger = TRUE;
+	self->priv->file_popup_merge_id = 0;
 
 	/* settings notifications */
 

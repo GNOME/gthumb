@@ -41,5 +41,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_smaller)
 DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_small)
 DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_big)
 DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_bigger)
+DEF_ACTION_CALLBACK (gth_browser_activate_copy_frame)
 
 #endif /* ACTIONS_H */

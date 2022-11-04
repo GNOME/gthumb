@@ -381,3 +381,42 @@ gth_browser_activate_skip_back_bigger (GSimpleAction	*action,
 
 	gth_media_viewer_page_skip (page, -60 * 5);
 }
+
+
+void
+gth_browser_activate_copy_frame (GSimpleAction	*action,
+				 GVariant		*state,
+				 gpointer		 user_data)
+{
+	GthBrowser		*browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage	*page;
+	GstElement		*playbin;
+	gboolean		 was_playing;
+	GError			*error = NULL;
+	GdkPixbuf		*pixbuf;
+	GtkClipboard		*clipboard;
+
+	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	playbin = gth_media_viewer_page_get_playbin (page);
+	if (playbin == NULL)
+		return;
+
+	was_playing = gth_media_viewer_page_is_playing (page);
+	if (was_playing)
+		gst_element_set_state (playbin, GST_STATE_PAUSED);
+
+	pixbuf = _gst_playbin_get_current_frame (playbin, &error);
+	if (pixbuf == NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not take a screenshot"), error);
+		g_clear_error (&error);
+		return;
+	}
+
+	clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (browser)), GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_image (clipboard, pixbuf);
+
+	if (was_playing)
+		gst_element_set_state (playbin, GST_STATE_PLAYING);
+
+	g_object_unref (pixbuf);
+}
