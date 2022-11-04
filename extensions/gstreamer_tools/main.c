@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/gstreamer_utils/gstreamer-utils.h>
 #include "callbacks.h"
 #include "dlg-media-viewer-preferences.h"
 #include "gth-metadata-provider-gstreamer.h"
@@ -70,6 +71,14 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_category (gstreamer_metadata_category);
 	gth_main_register_metadata_info_v (gstreamer_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_GSTREAMER);
+	gth_main_register_image_loader_func (gstreamer_thumbnail_generator,
+					     GTH_IMAGE_FORMAT_GDK_PIXBUF,
+					     /* Keep in sync with the mime types in _g_mime_type_is_video(). */
+					     "video/*",
+					     "application/ogg",
+					     "application/vnd.ms-asf",
+					     "application/vnd.rn-realmedia",
+					     NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (media_viewer__gth_browser_construct_cb), NULL);
 }
 

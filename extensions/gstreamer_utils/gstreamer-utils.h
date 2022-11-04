@@ -38,6 +38,15 @@ gboolean    gstreamer_read_metadata_from_file (GFile               *file,
 gboolean    _gst_playbin_get_current_frame    (GstElement          *playbin,
 					       FrameReadyCallback   cb,
 					       gpointer             user_data);
+GthImage *  gstreamer_thumbnail_generator     (GInputStream        *istream,
+					       GthFileData         *file_data,
+					       int                  requested_size,
+					       int                 *original_width,
+					       int                 *original_height,
+					       gboolean            *loaded_original,
+					       gpointer             user_data,
+					       GCancellable        *cancellable,
+					       GError             **error);
 
 G_END_DECLS
 
