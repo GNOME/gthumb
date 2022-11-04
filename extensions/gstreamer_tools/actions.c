@@ -124,18 +124,39 @@ get_screenshot_file (SaveData  *save_data,
 }
 
 
-static void
-screenshot_ready_cb (GdkPixbuf *pixbuf,
-		     gpointer   user_data)
+void
+gth_browser_activate_video_screenshot (GSimpleAction	*action,
+				       GVariant	*parameter,
+				       gpointer	 user_data)
 {
-	SaveData *save_data = user_data;
-	GFile    *file;
-	GError   *error = NULL;
-	GthTask  *task;
+	GthBrowser		*browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage	*page;
+	GstElement		*playbin;
+	SaveData		*save_data;
+	GdkPixbuf		*pixbuf;
+	GFile			*file;
+	GError			*error = NULL;
+	GthTask		*task;
 
+	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	playbin = gth_media_viewer_page_get_playbin (page);
+	if (playbin == NULL)
+		return;
+
+	save_data = g_new0 (SaveData, 1);
+	save_data->browser = gth_media_viewer_page_get_browser (page);
+	save_data->settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
+	save_data->page = page;
+	save_data->playing_before_screenshot = gth_media_viewer_page_is_playing (page);
+
+	if (save_data->playing_before_screenshot)
+		gst_element_set_state (playbin, GST_STATE_PAUSED);
+
+	pixbuf = _gst_playbin_get_current_frame (playbin, &error);
 	if (pixbuf == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not take a screenshot"), NULL);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not take a screenshot"), error);
 		save_date_free (save_data);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -162,35 +183,6 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 			  G_CALLBACK (save_screenshot_task_completed_cb),
 			  save_data);
 	gth_browser_exec_task (GTH_BROWSER (save_data->browser), task, GTH_TASK_FLAGS_IGNORE_ERROR);
-}
-
-
-void
-gth_browser_activate_video_screenshot (GSimpleAction	*action,
-				       GVariant		*parameter,
-				       gpointer		 user_data)
-{
-	GthBrowser		*browser = GTH_BROWSER (user_data);
-	GthMediaViewerPage	*page;
-	GstElement		*playbin;
-	SaveData		*save_data;
-
-	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
-	playbin = gth_media_viewer_page_get_playbin (page);
-	if (playbin == NULL)
-		return;
-
-	save_data = g_new0 (SaveData, 1);
-	save_data->browser = gth_media_viewer_page_get_browser (page);
-	save_data->settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
-	save_data->page = page;
-	save_data->playing_before_screenshot = gth_media_viewer_page_is_playing (page);
-
-	if (save_data->playing_before_screenshot)
-		gst_element_set_state (playbin, GST_STATE_PAUSED);
-	_gst_playbin_get_current_frame (playbin,
-					screenshot_ready_cb,
-					save_data);
 }
 
 

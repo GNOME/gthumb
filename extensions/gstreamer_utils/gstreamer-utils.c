@@ -95,6 +95,28 @@ reset_extractor_data (MetadataExtractor *extractor)
 }
 
 
+static MetadataExtractor*
+metadata_extractor_new (GFile *file)
+{
+	MetadataExtractor *extractor;
+	char              *uri;
+
+	extractor = g_slice_new0 (MetadataExtractor);
+	reset_extractor_data (extractor);
+
+	extractor->playbin = gst_element_factory_make ("playbin", "playbin");
+	uri = g_file_get_uri (file);
+	g_object_set (G_OBJECT (extractor->playbin),
+		      "uri", uri,
+		      "audio-sink", gst_element_factory_make ("fakesink", "fakesink-audio"),
+		      "video-sink", gst_element_factory_make ("fakesink", "fakesink-video"),
+		      NULL);
+	g_free (uri);
+
+	return extractor;
+}
+
+
 static void
 metadata_extractor_free (MetadataExtractor *extractor)
 {
@@ -621,53 +643,23 @@ gstreamer_read_metadata_from_file (GFile       *file,
 				   GFileInfo   *info,
 				   GError     **error)
 {
-	char              *uri;
 	MetadataExtractor *extractor;
 
 	if (! gstreamer_init ())
 		return FALSE;
 
-	uri = g_file_get_uri (file);
-	g_return_val_if_fail (uri != NULL, FALSE);
-
-	extractor = g_slice_new0 (MetadataExtractor);
-	reset_extractor_data (extractor);
-
-	extractor->playbin = gst_element_factory_make ("playbin", "playbin");
-	g_object_set (G_OBJECT (extractor->playbin),
-		      "uri", uri,
-		      "audio-sink", gst_element_factory_make ("fakesink", "fakesink-audio"),
-		      "video-sink", gst_element_factory_make ("fakesink", "fakesink-video"),
-		      NULL);
-
+	extractor = metadata_extractor_new (file);
 	gst_element_set_state (extractor->playbin, GST_STATE_PAUSED);
-	message_loop_to_state_change (extractor, GST_STATE_PAUSED);
-	extract_metadata (extractor, info);
+	if (message_loop_to_state_change (extractor, GST_STATE_PAUSED))
+		extract_metadata (extractor, info);
 
 	metadata_extractor_free (extractor);
-	g_free (uri);
 
 	return TRUE;
 }
 
 
 /* -- _gst_playbin_get_current_frame -- */
-
-
-typedef struct {
-	GdkPixbuf          *pixbuf;
-	FrameReadyCallback  cb;
-	gpointer            user_data;
-} ScreenshotData;
-
-
-static void
-screenshot_data_finalize (ScreenshotData *data)
-{
-	if (data->cb != NULL)
-		data->cb (data->pixbuf, data->user_data);
-	g_free (data);
-}
 
 
 static void
@@ -677,12 +669,10 @@ destroy_pixbuf (guchar *pix, gpointer data)
 }
 
 
-gboolean
-_gst_playbin_get_current_frame (GstElement          *playbin,
-				FrameReadyCallback   cb,
-				gpointer             user_data)
+GdkPixbuf *
+_gst_playbin_get_current_frame (GstElement  *playbin,
+				GError     **error)
 {
-	ScreenshotData *data;
 	GstElement     *sink;
 	GstSample      *sample;
 	GstCaps        *sample_caps;
@@ -691,15 +681,10 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	int             width;
 	int             height;
 
-	data = g_new0 (ScreenshotData, 1);
-	data->cb = cb;
-	data->user_data = user_data;
-
-	sink = gst_bin_get_by_name (GST_BIN(playbin), "sink");
+	sink = gst_bin_get_by_name (GST_BIN (playbin), "sink");
 	if (sink == NULL) {
-		g_warning ("Could not take screenshot: %s", "no sink on playbin");
-		screenshot_data_finalize (data);
-		return FALSE;
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", "no sink on playbin");
+		return NULL;
 	}
 
 	sample = NULL;
@@ -707,16 +692,14 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	g_object_unref (sink);
 
 	if (sample == NULL) {
-		g_warning ("Could not take screenshot: %s", "failed to retrieve video frame");
-		screenshot_data_finalize (data);
-		return FALSE;
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", "failed to retrieve video frame");
+		return NULL;
 	}
 
 	sample_caps = gst_sample_get_caps (sample);
 	if (sample_caps == NULL) {
-		g_warning ("Could not take screenshot: %s", "no caps on output buffer");
-		screenshot_data_finalize (data);
-		return FALSE;
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", "no caps on output buffer");
+		return NULL;
 	}
 
 	s = gst_caps_get_structure (sample_caps, 0);
@@ -728,29 +711,29 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	if (! _g_str_equal (format, "RGB") && ! _g_str_equal (format, "RGBA")) {
 		GstCaps   *to_caps;
 		GstSample *to_sample;
-		GError    *error = NULL;
+		GError    *local_error = NULL;
 
 		/* our desired output format (RGB24) */
-		to_caps = gst_caps_new_simple ("video/x-raw",
-					       "format", G_TYPE_STRING, "RGB",
-					       /* Note: we don't ask for a specific width/height here, so that
-						* videoscale can adjust dimensions from a non-1/1 pixel aspect
-						* ratio to a 1/1 pixel-aspect-ratio. We also don't ask for a
-						* specific framerate, because the input framerate won't
-						* necessarily match the output framerate if there's a deinterlacer
-						* in the pipeline. */
-					       "pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
-					       NULL);
-		to_sample = gst_video_convert_sample (sample, to_caps, GST_CLOCK_TIME_NONE, &error);
+		to_caps = gst_caps_new_simple (
+			"video/x-raw",
+			"format", G_TYPE_STRING, "RGB",
+			/* Note: we don't ask for a specific width/height here, so that
+			 * videoscale can adjust dimensions from a non-1/1 pixel aspect
+			 * ratio to a 1/1 pixel-aspect-ratio. We also don't ask for a
+			 * specific framerate, because the input framerate won't
+			 * necessarily match the output framerate if there's a deinterlacer
+			 * in the pipeline. */
+			"pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
+			NULL);
+		to_sample = gst_video_convert_sample (sample, to_caps, GST_CLOCK_TIME_NONE, &local_error);
 
 		gst_caps_unref (to_caps);
 		gst_sample_unref (sample);
 
 		if (to_sample == NULL) {
-			g_warning ("Could not take screenshot: %s", (error != NULL) ? error->message : "failed to convert video frame");
-			g_clear_error (&error);
-			screenshot_data_finalize (data);
-			return FALSE;
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", (error != NULL) ? local_error->message : "failed to convert video frame");
+			g_clear_error (&local_error);
+			return NULL;
 		}
 
 		sample = to_sample;
@@ -758,9 +741,8 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 
 	sample_caps = gst_sample_get_caps (sample);
 	if (sample_caps == NULL) {
-		g_warning ("Could not take screenshot: %s", "no caps on output buffer");
-		screenshot_data_finalize (data);
-		return FALSE;
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", "no caps on output buffer");
+		return NULL;
 	}
 
 	/*g_print ("cap: %s\n", gst_caps_to_string (sample_caps));*/
@@ -771,10 +753,11 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	format = gst_structure_get_string (s, "format");
 
 	if (! _g_str_equal (format, "RGB") && ! _g_str_equal (format, "RGBA")) {
-		g_warning ("Could not take screenshot: %s", "wrong format");
-		screenshot_data_finalize (data);
-		return FALSE;
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", "wrong format");
+		return NULL;
 	}
+
+	GdkPixbuf *pixbuf = NULL;
 
 	if ((width > 0) && (height > 0)) {
 		GstMemory  *memory;
@@ -783,28 +766,30 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 
 		memory = gst_buffer_get_memory (gst_sample_get_buffer (sample), 0);
 		if (gst_memory_map (memory, &info, GST_MAP_READ))
-			data->pixbuf = gdk_pixbuf_new_from_data (info.data,
-								 GDK_COLORSPACE_RGB,
-								 with_alpha,
-								 8,
-								 width,
-								 height,
-								 GST_ROUND_UP_4 (width * (with_alpha ? 4 : 3)),
-								 destroy_pixbuf,
-								 sample);
+			pixbuf = gdk_pixbuf_new_from_data (
+				info.data,
+				GDK_COLORSPACE_RGB,
+				with_alpha,
+				8,
+				width,
+				height,
+				GST_ROUND_UP_4 (width * (with_alpha ? 4 : 3)),
+				destroy_pixbuf,
+				sample);
 
 		gst_memory_unmap (memory, &info);
 		gst_memory_unref (memory);
 	}
 
-	if (data->pixbuf == NULL) {
+	if (pixbuf == NULL) {
 		gst_sample_unref (sample);
-		g_warning ("Could not take screenshot: %s", "could not create pixbuf");
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not take the screenshot: %s", "could not create pixbuf");
 	}
 
-	screenshot_data_finalize (data);
+	return pixbuf;
+}
 
-	return TRUE;
+
 #define MAX_WAITING_TIME (5 * GST_SECOND)
 
 

@@ -29,15 +29,12 @@
 
 G_BEGIN_DECLS
 
-typedef void (*FrameReadyCallback) (GdkPixbuf *, gpointer user_data);
-
 gboolean    gstreamer_init                    (void);
 gboolean    gstreamer_read_metadata_from_file (GFile               *file,
 					       GFileInfo           *info,
 					       GError             **error);
-gboolean    _gst_playbin_get_current_frame    (GstElement          *playbin,
-					       FrameReadyCallback   cb,
-					       gpointer             user_data);
+GdkPixbuf * _gst_playbin_get_current_frame    (GstElement          *playbin,
+					       GError             **error);
 GthImage *  gstreamer_thumbnail_generator     (GInputStream        *istream,
 					       GthFileData         *file_data,
 					       int                  requested_size,
