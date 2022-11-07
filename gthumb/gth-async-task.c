@@ -79,17 +79,6 @@ gth_async_task_finalize (GObject *object)
 }
 
 
-static void
-task_completed (GError  *error,
-		gpointer user_data)
-{
-	GthAsyncTask *self = user_data;
-
-	gth_task_completed (GTH_TASK (self), error);
-	g_object_unref (self);
-}
-
-
 static gboolean
 update_progress (gpointer data)
 {
@@ -116,12 +105,11 @@ update_progress (gpointer data)
 		if (cancelled)
 			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
 
-		g_object_ref (self);
-
 		if (self->priv->after_func != NULL)
 			self->priv->after_func (self, error, self->priv->user_data);
 
-		ready_with_error (task_completed, self, error);
+		gth_task_completed (GTH_TASK (self), error);
+		g_object_unref (self);
 
 		return G_SOURCE_REMOVE;
 	}
@@ -168,8 +156,10 @@ gth_async_task_exec (GthTask *task)
 		self->priv->before_func (self, self->priv->user_data);
 	self->priv->thread = g_thread_new ("asynctask", exec_task, self);
 
-	if (self->priv->progress_event == 0)
+	if (self->priv->progress_event == 0) {
+		g_object_ref (self);
 		self->priv->progress_event = g_idle_add (update_progress, self);
+	}
 }
 
 

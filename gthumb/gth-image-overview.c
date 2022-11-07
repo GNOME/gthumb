@@ -130,8 +130,10 @@ gth_image_overview_finalize (GObject *object)
 
 	_gth_image_overviewer_disconnect_from_viewer (self);
 	_cairo_clear_surface (&self->priv->preview);
-	if (self->priv->scale_task != NULL)
+	if (self->priv->scale_task != NULL) {
 		gth_task_cancel (self->priv->scale_task);
+		self->priv->scale_task = NULL;
+	}
 
 	G_OBJECT_CLASS (gth_image_overview_parent_class)->finalize (object);
 }
@@ -254,10 +256,9 @@ _gth_image_overview_scale_after (GthAsyncTask *task,
 				 gpointer      user_data)
 {
 	ScaleData *scale_data = user_data;
+	GthImageOverview *overview = scale_data->overview;
 
 	if (error == NULL) {
-		GthImageOverview *overview = scale_data->overview;
-
 		if (overview->priv->viewer != NULL) {
 			_gth_image_overview_update_zoom_info (overview);
 			_cairo_clear_surface (&overview->priv->preview);
@@ -265,12 +266,10 @@ _gth_image_overview_scale_after (GthAsyncTask *task,
 				overview->priv->preview = cairo_surface_reference (scale_data->scaled);
 			gtk_widget_queue_resize (GTK_WIDGET (overview));
 		}
-
-		if (GTH_TASK (task) == overview->priv->scale_task)
-			overview->priv->scale_task = NULL;
 	}
 
-	g_object_unref (task);
+	if (GTH_TASK (task) == overview->priv->scale_task)
+		overview->priv->scale_task = NULL;
 }
 
 
@@ -319,6 +318,7 @@ _gth_image_overview_update_preview (GthImageOverview *self)
 						     scale_data,
 						     (GDestroyNotify) scale_data_free);
 	gth_task_exec (self->priv->scale_task, NULL);
+	g_object_unref (self->priv->scale_task);
 }
 
 

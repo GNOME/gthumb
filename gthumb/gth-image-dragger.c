@@ -82,8 +82,10 @@ gth_image_dragger_finalize (GObject *object)
 
 	self = GTH_IMAGE_DRAGGER (object);
 	_cairo_clear_surface (&self->priv->scaled);
-	if (self->priv->scale_task != NULL)
+	if (self->priv->scale_task != NULL) {
 		gth_task_cancel (self->priv->scale_task);
+		self->priv->scale_task = NULL;
+	}
 	if (self->priv->dnd_target_list != NULL) {
 		gtk_target_list_unref (self->priv->dnd_target_list);
 		self->priv->dnd_target_list = NULL;
@@ -495,23 +497,20 @@ _gth_image_dragger_scale_after (GthAsyncTask *task,
 				GError       *error,
 				gpointer      user_data)
 {
-	ScaleData *scale_data = user_data;
+	ScaleData       *scale_data = user_data;
+	GthImageDragger *dragger = scale_data->dragger;
 
 	if (error == NULL) {
-		GthImageDragger *dragger = scale_data->dragger;
-
 		if ((scale_data->scaled != NULL) && (dragger->priv->viewer != NULL)) {
 			_cairo_clear_surface (&dragger->priv->scaled);
 			dragger->priv->scaled = cairo_surface_reference (scale_data->scaled);
 			if (dragger->priv->viewer != NULL)
 				gtk_widget_queue_draw (GTK_WIDGET (dragger->priv->viewer));
 		}
-
-		if (GTH_TASK (task) == dragger->priv->scale_task)
-			dragger->priv->scale_task = NULL;
 	}
 
-	g_object_unref (task);
+	if (GTH_TASK (task) == dragger->priv->scale_task)
+		dragger->priv->scale_task = NULL;
 }
 
 
@@ -540,8 +539,8 @@ _gth_image_dragger_create_scaled_high_quality (GthImageDragger *self,
 						     _gth_image_dragger_scale_after,
 						     scale_data,
 						     (GDestroyNotify) scale_data_free);
-
 	gth_task_exec (self->priv->scale_task, NULL);
+	g_object_unref (self->priv->scale_task);
 }
 
 
