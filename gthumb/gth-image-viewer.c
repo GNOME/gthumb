@@ -1759,10 +1759,10 @@ _set_surface (GthImageViewer  *self,
 	      int              original_height,
 	      gboolean         better_quality)
 {
-	if (self->priv->surface != surface) {
-		_cairo_clear_surface (&self->priv->surface);
-		self->priv->surface = cairo_surface_reference (surface);
-	}
+	if (surface != NULL)
+		cairo_surface_reference (surface);
+	cairo_surface_destroy (self->priv->surface);
+	self->priv->surface = surface;
 
 	_cairo_clear_surface (&self->priv->iter_surface);
 	_g_clear_object (&self->priv->animation);
@@ -1835,10 +1835,9 @@ gth_image_viewer_set_image (GthImageViewer *self,
 			    int             original_width,
 			    int             original_height)
 {
-	if (self->priv->image != image)
-		_g_clear_object (&self->priv->image);
-
-	self->priv->image = g_object_ref (image);
+	_g_object_ref (image);
+	_g_object_unref (self->priv->image);
+	self->priv->image = image;
 
 	if (gth_image_get_is_animation (image)) {
 		GdkPixbufAnimation *animation;

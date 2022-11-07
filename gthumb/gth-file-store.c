@@ -130,12 +130,10 @@ static void
 _gth_file_row_set_thumbnail (GthFileRow      *row,
 			     cairo_surface_t *thumbnail)
 {
-	if (thumbnail != NULL) {
+	if (thumbnail != NULL)
 		cairo_surface_reference (thumbnail);
-		if (row->thumbnail != NULL)
-			cairo_surface_destroy (row->thumbnail);
-		row->thumbnail = thumbnail;
-	}
+	cairo_surface_destroy (row->thumbnail);
+	row->thumbnail = thumbnail;
 }
 
 
@@ -172,10 +170,8 @@ _gth_file_row_unref (GthFileRow *row)
 	if (--row->ref_count > 0)
 		return;
 
-	if (row->file_data != NULL)
-		g_object_unref (row->file_data);
-	if (row->thumbnail != NULL)
-		cairo_surface_destroy (row->thumbnail);
+	_g_object_unref (row->file_data);
+	cairo_surface_destroy (row->thumbnail);
 	g_free (row);
 }
 

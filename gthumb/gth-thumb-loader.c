@@ -500,9 +500,10 @@ cache_image_ready_cb (GObject      *source_object,
 				    self->priv->requested_size,
 				    self->priv->cache_max_size);
 	if (modified) {
-		cairo_surface_t *tmp = surface;
-		surface = _cairo_image_surface_scale_for_thumbnail (tmp, width, height);
-		cairo_surface_destroy (tmp);
+		cairo_surface_t *tmp;
+		tmp = _cairo_image_surface_scale_for_thumbnail (surface, width, height);
+		cairo_surface_destroy (surface);
+		surface = tmp;
 	}
 
 	load_result = g_new0 (LoadResult, 1);
@@ -614,9 +615,10 @@ original_image_loaded_correctly (GthThumbLoader *self,
 						self->priv->cache_max_size,
 						FALSE);
 		if (modified) {
-			cairo_surface_t *tmp = local_image;
-			local_image = _cairo_image_surface_scale_for_thumbnail (tmp, width, height);
-			cairo_surface_destroy (tmp);
+			cairo_surface_t *tmp;
+			tmp = _cairo_image_surface_scale_for_thumbnail (local_image, width, height);
+			cairo_surface_destroy (local_image);
+			local_image = tmp;
 		}
 
 		_gth_thumb_loader_save_to_cache (self,
@@ -633,9 +635,10 @@ original_image_loaded_correctly (GthThumbLoader *self,
 				    self->priv->requested_size,
 				    self->priv->cache_max_size);
 	if (modified) {
-		cairo_surface_t *tmp = local_image;
-		local_image = _cairo_image_surface_scale_for_thumbnail (tmp, width, height);
-		cairo_surface_destroy (tmp);
+		cairo_surface_t *tmp;
+		tmp = _cairo_image_surface_scale_for_thumbnail (local_image, width, height);
+		cairo_surface_destroy (local_image);
+		local_image = tmp;
 	}
 
 	load_result = g_new0 (LoadResult, 1);
