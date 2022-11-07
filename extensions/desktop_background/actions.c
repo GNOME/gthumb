@@ -510,13 +510,15 @@ wallpaper_file_read_cb (GObject      *source_object,
 
 		viewer_page = gth_browser_get_viewer_page (browser);
 		if (viewer_page != NULL) {
+			cairo_surface_t *surface;
 			GthImage *image;
 			GthTask  *task;
 
 			if (gth_image_viewer_page_get_is_modified (GTH_IMAGE_VIEWER_PAGE (viewer_page)))
-				image = gth_image_new_for_surface (gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+				surface = gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 			else
-				image = gth_image_new_for_surface (gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+				surface = cairo_surface_reference (gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+			image = gth_image_new_for_surface (surface);
 			file_data = gth_file_data_new (wdata->new_style.file, NULL);
 			task = gth_save_image_task_new (image,
 							"image/jpeg",
@@ -531,6 +533,7 @@ wallpaper_file_read_cb (GObject      *source_object,
 			saving_wallpaper = TRUE;
 
 			g_object_unref (image);
+			cairo_surface_destroy (surface);
 		}
 	}
 

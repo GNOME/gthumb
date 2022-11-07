@@ -257,7 +257,7 @@ gth_image_get_original_size (GthImage *image,
 
 	switch (image->priv->format) {
 	case GTH_IMAGE_FORMAT_CAIRO_SURFACE:
-		surface = gth_image_get_cairo_surface (image);
+		surface = image->priv->data.surface;
 		if (surface != NULL) {
 			if (! _cairo_image_surface_get_original_size (surface, &local_width, &local_height)) {
 				local_width = cairo_image_surface_get_width (surface);
@@ -515,11 +515,11 @@ gth_image_apply_icc_profile (GthImage      *image,
 			surface_row += row_stride;
 		}
 		cairo_surface_mark_dirty (surface);
-
-		cairo_surface_destroy (surface);
+		gth_image_set_cairo_surface (image, surface);
 	}
 
 	_g_object_unref (transform);
+	cairo_surface_destroy (surface);
 
 #endif
 }

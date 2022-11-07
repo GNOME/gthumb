@@ -112,6 +112,7 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 
 	idec = WebPINewDecoder (&config.output);
 	if (idec == NULL) {
+		cairo_surface_destroy (surface);
 		g_free (buffer);
 		return image;
 	}

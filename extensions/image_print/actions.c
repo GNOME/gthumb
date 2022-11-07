@@ -69,6 +69,7 @@ gth_browser_activate_print (GSimpleAction *action,
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not print the selected files"), error);
 			g_clear_error (&error);
 		}
+		cairo_surface_destroy (current_image);
 	}
 
 	_g_object_list_unref (file_list);
