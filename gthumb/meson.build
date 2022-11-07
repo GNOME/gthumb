@@ -155,6 +155,16 @@ authors_dep = declare_dependency(sources : [ authors_tab ])
 
 gresource_files = gnome.compile_resources('gth-resources', 'gthumb.gresource.xml', c_name : 'gth')
 
+gthumb_video_thumbnailer_files = files(
+  'cairo-utils.c',
+  'cairo-scale.c',
+  'glib-utils.c',
+  'str-utils.c',
+  'uri-utils.c',
+  'gth-async-task.c',
+  'gth-task.c',
+)
+
 source_files = files(
   'cairo-scale.c',
   'cairo-utils.c',

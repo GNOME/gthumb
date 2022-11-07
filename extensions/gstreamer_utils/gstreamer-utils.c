@@ -45,6 +45,7 @@
 #include <gst/video/video.h>
 #include <gthumb.h>
 #include "gstreamer-utils.h"
+#include "gstreamer-thumbnail.h"
 
 #define MAX_WAITING_TIME (10 * GST_SECOND)
 
@@ -803,141 +804,68 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 			       GCancellable  *cancellable,
 			       GError       **error)
 {
-	GthImage     *image;
-	GstElement   *playbin = NULL;
-	char         *uri;
-	gint64        duration;
-	gint64        thumbnail_position;
-	GstSample    *sample = NULL;
-	GstCaps      *caps;
-	GstCaps      *sample_caps;
-	GstStructure *cap_struct;
-	const char   *format;
-	int           width, height;
-	GdkPixbuf    *pixbuf = NULL;
+	GthImage      *image;
+	char          *dir;
+	char          *command;
+	char          *input;
+	GFile         *tmp_dir;
+	GFile         *tmp_file;
+	char          *output;
+	char          *size;
+	GStrvBuilder  *builder;
+	char         **argv;
+	char          *tmp_path;
 
 	image = gth_image_new ();
 
-	if (! gstreamer_init ()) {
-		g_set_error_literal (error,
-				     GDK_PIXBUF_ERROR,
-				     GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION,
-				     "Could not initialize GStreamer.");
-		return image;
+#ifdef RUN_IN_PLACE
+	dir = g_build_filename (PRIVEXECDIR, "extensions", "gstreamer_tools", NULL);
+#else
+	dir = g_strdup (PRIVEXECDIR);
+#endif
+
+	command = g_build_filename (dir, "video-thumbnailer", NULL);
+	input = g_file_get_uri (file_data->file);
+	tmp_dir = _g_directory_create_tmp ();
+	tmp_file = g_file_get_child (tmp_dir, "thumbnail.png");
+	output = g_file_get_path (tmp_file);
+	size = g_strdup_printf ("%d", requested_size);
+
+	builder = g_strv_builder_new ();
+	g_strv_builder_add (builder, command);
+	g_strv_builder_add (builder, "--size");
+	g_strv_builder_add (builder, size);
+	g_strv_builder_add (builder, input);
+	g_strv_builder_add (builder, output);
+	argv = g_strv_builder_end (builder);
+
+	//g_print ("command: '%s'\n", g_strjoinv (" ", argv));
+
+	tmp_path = g_file_get_path (tmp_dir);
+	if (g_spawn_sync (tmp_path, argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, NULL, NULL, NULL, error)) {
+		cairo_surface_t *surface = cairo_image_surface_create_from_png (output);
+		if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
+			gth_image_set_cairo_surface (image, surface);
+		cairo_surface_destroy (surface);
 	}
 
-	/* Create the playbin. */
-	playbin = gst_element_factory_make ("playbin", "playbin");
-	uri = g_file_get_uri (file_data->file);
-	g_object_set (G_OBJECT (playbin),
-		      "uri", uri,
-		      "audio-sink", gst_element_factory_make ("fakesink", "fakesink-audio"),
-		      "video-sink", gst_element_factory_make ("fakesink", "fakesink-video"),
-		      NULL);
-	g_free (uri);
-
-	/* Set the playbin to paused to query duration. */
-	gst_element_set_state (playbin, GST_STATE_PAUSED);
-	gst_element_get_state (playbin, NULL, NULL, MAX_WAITING_TIME);
-
-	/* Get the video length. */
-	if (! gst_element_query_duration (playbin, GST_FORMAT_TIME, &duration)) {
-		g_set_error_literal (error,
-				     GDK_PIXBUF_ERROR,
-				     GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION,
-				     "Could not get the media length.");
-		goto error;
+	g_file_delete (tmp_file, NULL, NULL);
+	GError *local_error = NULL;
+	if (!g_file_delete (tmp_dir, NULL, &local_error)) {
+		g_warning ("%s", local_error->message);
+		g_error_free (local_error);
 	}
 
-	/* Seek to the thumbnail position. */
-	thumbnail_position = duration / 3;
-	if (! gst_element_seek_simple (playbin,
-				       GST_FORMAT_TIME,
-				       GST_SEEK_FLAG_KEY_UNIT | GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
-				       thumbnail_position))
-	{
-		g_set_error_literal (error,
-				     GDK_PIXBUF_ERROR,
-				     GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION,
-				     "Seek failed.");
-		goto error;
-	}
-	gst_element_get_state (playbin, NULL, NULL, MAX_WAITING_TIME);
-
-	/* Get the sample. */
-	caps = gst_caps_new_simple ("video/x-raw", "format", G_TYPE_STRING, "RGB", NULL);
-	g_signal_emit_by_name (playbin, "convert-sample", caps, &sample);
-	if (sample == NULL) {
-		g_set_error_literal (error,
-				     G_IO_ERROR,
-				     G_IO_ERROR_FAILED,
-				     "Failed to convert the video frame.");
-		goto error;
-	}
-	gst_caps_unref (caps);
-
-	/* Check the sample format. */
-	sample_caps = gst_sample_get_caps (sample);
-	if (sample_caps == NULL) {
-		g_set_error_literal (error,
-				     G_IO_ERROR,
-				     G_IO_ERROR_FAILED,
-				     "No caps on output buffer.");
-		goto error;
-	}
-
-	cap_struct = gst_caps_get_structure (sample_caps, 0);
-	format = gst_structure_get_string (cap_struct, "format");
-	if (! _g_str_equal (format, "RGB") && ! _g_str_equal (format, "RGBA")) {
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Wrong sample format.");
-		goto error;
-	}
-
-	/* Create the pixbuf from the sample data. */
-	gst_structure_get_int (cap_struct, "width", &width);
-	gst_structure_get_int (cap_struct, "height", &height);
-	if ((width > 0) && (height > 0)) {
-		GstMemory  *memory;
-		GstMapInfo  info;
-		gboolean    with_alpha = _g_str_equal (format, "RGBA");
-
-		memory = gst_buffer_get_memory (gst_sample_get_buffer (sample), 0);
-		if (gst_memory_map (memory, &info, GST_MAP_READ))
-			pixbuf = gdk_pixbuf_new_from_data (
-				info.data,
-				GDK_COLORSPACE_RGB,
-				with_alpha,
-				8,
-				width,
-				height,
-				GST_ROUND_UP_4 (width * (with_alpha ? 4 : 3)),
-				destroy_pixbuf,
-				sample);
-
-		gst_memory_unmap (memory, &info);
-		gst_memory_unref (memory);
-	}
-
-	if (pixbuf == NULL) {
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not create the pixbuf.");
-		goto error;
-	}
-
-	gth_image_set_pixbuf (image, pixbuf);
-	g_object_unref (pixbuf);
-
- error:
-	if ((error != NULL) && (*error != NULL))
-		g_warning ("%s", (*error)->message);
-
-	if ((pixbuf == NULL) && (sample != NULL))
-		gst_sample_unref (sample);
-
-	if (playbin != NULL) {
-		gst_element_set_state (playbin, GST_STATE_NULL);
-		gst_element_get_state (playbin, NULL, NULL, GST_CLOCK_TIME_NONE);
-		gst_object_unref (GST_OBJECT (playbin));
-	}
+	g_free (tmp_path);
+	g_strfreev (argv);
+	g_strv_builder_unref (builder);
+	g_free (size);
+	g_free (output);
+	g_object_unref (tmp_file);
+	g_object_unref (tmp_dir);
+	g_free (input);
+	g_free (command);
+	g_free (dir);
 
 	return image;
 }

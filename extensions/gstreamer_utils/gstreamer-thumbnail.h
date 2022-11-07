@@ -1,9 +1,9 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: CPP; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2012 The Free Software Foundation, Inc.
+ *  Copyright (C) 2009 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,24 +19,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GTH_IMAGE_UTILS_H
-#define GTH_IMAGE_UTILS_H
+#ifndef GSTREAMER_THUMBNAIL_H
+#define GSTREAMER_THUMBNAIL_H
 
 #include <glib.h>
-#include "gth-file-data.h"
+#include <gio/gio.h>
+#include <gst/gst.h>
+#include <gthumb.h>
 
 G_BEGIN_DECLS
 
-gboolean    _g_buffer_resize_image               (void            *buffer,
-						  gsize            count,
-						  GthFileData     *file_data,
-						  int              max_width,
-						  int              max_height,
-						  void           **resized_buffer,
-						  gsize           *resized_count,
-						  GCancellable    *cancellable,
-						  GError         **error);
+GdkPixbuf * gstreamer_generate_thumbnail (GFile   *file,
+					  GError **error);
 
 G_END_DECLS
 
-#endif /* GTH_IMAGE_UTILS_H */
+#endif /* GSTREAMER_THUMBNAIL_H */

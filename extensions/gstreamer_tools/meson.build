@@ -19,6 +19,19 @@ shared_library('gstreamer_tools',
   install_rpath : extensions_install_dir
 )
 
+executable('video-thumbnailer',
+  sources : [
+    'video-thumbnailer.c',
+    gthumb_video_thumbnailer_files,
+    gstreamer_video_thumbailer_files,
+  ],
+  dependencies : [ extension_common_deps, gstreamer_deps ],
+  include_directories : [ config_inc, gthumb_inc ],
+  c_args : c_args,
+  install: true,
+  install_dir: privexecdir,
+)
+
 # .extension file
 
 extension_in_file = configure_file(

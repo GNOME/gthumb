@@ -42,6 +42,7 @@ po_dir = join_paths(meson.source_root(), 'po')
 extensions_install_dir = join_paths(pkglibdir, 'extensions')
 ui_install_dir = join_paths(pkgdatadir, 'ui')
 icons_install_dir = join_paths(pkgdatadir, 'icons')
+privexecdir = join_paths(prefix, get_option('libexecdir'), meson.project_name())
 if get_option('run-in-place')
   ui_data_dir = join_paths(meson.source_root(), 'data', 'ui')
   icons_data_dir = join_paths(meson.source_root(), 'data', 'icons', 'private')
@@ -256,6 +257,9 @@ if get_option('buildtype').contains('debug')
 endif
 if get_option('run-in-place')
   config_data.set('RUN_IN_PLACE', 1)
+  config_data.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root()))
+else
+  config_data.set_quoted('PRIVEXECDIR', privexecdir)
 endif
 if use_exiv2
   config_data.set('HAVE_EXIV2', 1)

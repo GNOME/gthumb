@@ -1,6 +1,11 @@
 source_files = files(
   'gstreamer-utils.c',
+  'gstreamer-thumbnail.c',
   'main.c'
+)
+
+gstreamer_video_thumbailer_files = files(
+  'gstreamer-thumbnail.c'
 )
 
 gstreamer_utils_mod = shared_library('gstreamer_utils',

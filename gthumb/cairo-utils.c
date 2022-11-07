@@ -1466,6 +1466,8 @@ _cairo_create_dnd_icon (cairo_surface_t *image,
 	default:
 		icon_rect.width = 0;
 		icon_rect.height = 0;
+		thumbnail_rect.x = 0;
+		thumbnail_rect.y = 0;
 		break;
 	}
 
@@ -1513,4 +1515,60 @@ _cairo_create_dnd_icon (cairo_surface_t *image,
 	cairo_destroy (cr);
 
 	return icon;
+}
+
+
+
+gboolean
+scale_keeping_ratio_min (int      *width,
+			 int      *height,
+			 int       min_width,
+			 int       min_height,
+			 int       max_width,
+			 int       max_height,
+			 gboolean  allow_upscaling)
+{
+	double   w = *width;
+	double   h = *height;
+	double   min_w = min_width;
+	double   min_h = min_height;
+	double   max_w = max_width;
+	double   max_h = max_height;
+	double   factor;
+	int      new_width, new_height;
+	gboolean modified;
+
+	if ((*width < max_width) && (*height < max_height) && ! allow_upscaling)
+		return FALSE;
+
+	if (((*width < min_width) || (*height < min_height)) && ! allow_upscaling)
+		return FALSE;
+
+	factor = MAX (MIN (max_w / w, max_h / h), MAX (min_w / w, min_h / h));
+	new_width  = MAX ((int) floor (w * factor + 0.50), 1);
+	new_height = MAX ((int) floor (h * factor + 0.50), 1);
+
+	modified = (new_width != *width) || (new_height != *height);
+
+	*width = new_width;
+	*height = new_height;
+
+	return modified;
+}
+
+
+gboolean
+scale_keeping_ratio (int      *width,
+		     int      *height,
+		     int       max_width,
+		     int       max_height,
+		     gboolean  allow_upscaling)
+{
+	return scale_keeping_ratio_min (width,
+					height,
+					0,
+					0,
+					max_width,
+					max_height,
+					allow_upscaling);
 }

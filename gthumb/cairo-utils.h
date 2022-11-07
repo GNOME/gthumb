@@ -28,6 +28,7 @@
 #include <cairo.h>
 #include "typedefs.h"
 
+G_BEGIN_DECLS
 
 #define CAIRO_MAX_IMAGE_SIZE    32767
 #define CLAMP_TEMP(x, min, max) (temp = (x), CLAMP (temp, min, max))
@@ -297,5 +298,20 @@ cairo_surface_t * _cairo_create_dnd_icon                    (cairo_surface_t    
 							     int                    icon_size,
 							     ItemStyle              style,
 							     gboolean               multi_dnd);
+
+gboolean    scale_keeping_ratio_min              (int             *width,
+					          int             *height,
+					          int              min_width,
+					          int              min_height,
+					          int              max_width,
+					          int              max_height,
+					          gboolean         allow_upscaling);
+gboolean    scale_keeping_ratio                  (int             *width,
+					          int             *height,
+					          int              max_width,
+					          int              max_height,
+					          gboolean         allow_upscaling);
+
+G_END_DECLS
 
 #endif /* CAIRO_UTILS_H */
