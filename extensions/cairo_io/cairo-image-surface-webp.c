@@ -78,6 +78,8 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 		*original_width = width;
 	if (original_height != NULL)
 		*original_height = height;
+	if (loaded_original != NULL)
+		*loaded_original = TRUE;
 
 #if SCALING_WORKS
 	if (requested_size > 0)
