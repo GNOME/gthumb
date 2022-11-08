@@ -1323,7 +1323,6 @@ static cairo_pattern_t *
 _cairo_film_pattern_create (void)
 {
 	static cairo_pattern_t *film_pattern = NULL;
-	cairo_pattern_t        *pattern;
 	static GMutex           mutex;
 
 	g_mutex_lock (&mutex);
@@ -1333,18 +1332,17 @@ _cairo_film_pattern_create (void)
 
 		filename = g_build_filename (GTHUMB_ICON_DIR, "filmholes.png", NULL);
 		surface = cairo_image_surface_create_from_png (filename);
-		film_pattern = cairo_pattern_create_for_surface (surface);
-		cairo_pattern_set_filter (film_pattern, CAIRO_FILTER_GOOD);
-		cairo_pattern_set_extend (film_pattern, CAIRO_EXTEND_REPEAT);
-
-		cairo_surface_destroy (surface);
+		if (surface != NULL) {
+			film_pattern = cairo_pattern_create_for_surface (surface);
+			cairo_pattern_set_filter (film_pattern, CAIRO_FILTER_GOOD);
+			cairo_pattern_set_extend (film_pattern, CAIRO_EXTEND_REPEAT);
+			cairo_surface_destroy (surface);
+		}
 		g_free (filename);
-
 	}
-	pattern = cairo_pattern_reference (film_pattern);
 	g_mutex_unlock (&mutex);
 
-	return pattern;
+	return cairo_pattern_reference (film_pattern);
 }
 
 
@@ -1364,6 +1362,8 @@ _cairo_draw_film_foreground (cairo_t *cr,
 	/* left film strip */
 
 	pattern = _cairo_film_pattern_create ();
+	if (pattern == NULL)
+		return;
 
 	if (thumbnail_size > 128)
 		film_scale = 256.0 / thumbnail_size;
@@ -1373,7 +1373,7 @@ _cairo_draw_film_foreground (cairo_t *cr,
 
 	cairo_matrix_init_identity (&matrix);
 	cairo_matrix_scale (&matrix, film_scale, film_scale);
-	cairo_matrix_translate (&matrix, -x, 0);
+	cairo_matrix_translate (&matrix, -x, -y);
 	cairo_pattern_set_matrix (pattern, &matrix);
 	cairo_set_source (cr, pattern);
 	cairo_rectangle (cr,
@@ -1388,7 +1388,7 @@ _cairo_draw_film_foreground (cairo_t *cr,
 	x = x + width - film_strip_width + 1;
 	cairo_matrix_init_identity (&matrix);
 	cairo_matrix_scale (&matrix, film_scale, film_scale);
-	cairo_matrix_translate (&matrix, -x, 0);
+	cairo_matrix_translate (&matrix, -x, -y);
 	cairo_pattern_set_matrix (pattern, &matrix);
 	cairo_set_source (cr, pattern);
 	cairo_rectangle (cr,
