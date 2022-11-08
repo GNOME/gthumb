@@ -37,6 +37,7 @@
 #define RESTART_LOADING_THUMBS_DELAY 1500
 #define N_CREATEAHEAD 50000
 #define MAX_THUMBNAIL_LOADERS 4
+#define MAX_THUMBNAILS_TO_CHECK 25
 #define NO_FILE_MSG (N_("No file"))
 #define _FILE_VIEW "file-view"
 #define _EMPTY_VIEW "empty-view"
@@ -96,7 +97,6 @@ typedef struct {
 	GthFileData    *file_data;
 	gboolean        update_in_view;
 	gboolean        started;
-	guint           idle_id;
 } ThumbnailJob;
 
 
@@ -402,27 +402,21 @@ restart_thumb_update_cb (gpointer data)
 {
 	GthFileList *file_list = data;
 
-	if (file_list->priv->restart_thumb_update != 0) {
-		g_source_remove (file_list->priv->restart_thumb_update);
-		file_list->priv->restart_thumb_update = 0;
-	}
+	file_list->priv->restart_thumb_update = 0;
+	if (! file_list->priv->cancelling)
+		_gth_file_list_update_next_thumb (file_list);
 
-	if (file_list->priv->cancelling)
-		return FALSE;
-
-	_gth_file_list_update_next_thumb (file_list);
-
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 
 static void
-start_update_next_thumb (GthFileList *file_list)
+start_update_next_thumb (GthFileList *file_list, gboolean even_when_loading_thumbs)
 {
 	if (file_list->priv->cancelling)
 		return;
 
-	if (file_list->priv->loading_thumbs)
+	if (!even_when_loading_thumbs && file_list->priv->loading_thumbs)
 		return;
 
 	if (! file_list->priv->load_thumbs)
@@ -474,13 +468,8 @@ thumbnail_job_cancel (ThumbnailJob *job)
 
 	if (job->started)
 		g_cancellable_cancel (job->cancellable);
-	else {
-		if (job->idle_id != 0) {
-			g_source_remove (job->idle_id);
-			job->idle_id = 0;
-		}
+	else
 		thumbnail_job_free (job);
-	}
 }
 
 
@@ -494,7 +483,7 @@ vadj_changed_cb (GtkAdjustment *adjustment,
 	GthFileList *file_list = user_data;
 
 	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
-	start_update_next_thumb (GTH_FILE_LIST (user_data));
+	start_update_next_thumb (GTH_FILE_LIST (user_data), FALSE);
 
 	return FALSE;
 }
@@ -768,9 +757,6 @@ wait_for_jobs_to_finish (gpointer user_data)
 		cancel_data->file_list->priv->cancelling = FALSE;
 		if (cancel_data->done_func != NULL)
 			cancel_data->done_func (cancel_data->user_data);
-
-		cancel_data_free (cancel_data);
-
 		return G_SOURCE_REMOVE;
 	}
 
@@ -802,7 +788,10 @@ gth_file_list_cancel (GthFileList    *file_list,
 	}
 	g_list_free (list);
 
-	g_idle_add (wait_for_jobs_to_finish, cancel_data);
+	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+			 wait_for_jobs_to_finish,
+			 cancel_data,
+			 (GDestroyNotify) cancel_data_free);
 }
 
 
@@ -1188,7 +1177,7 @@ gfl_enable_thumbs (GthFileList *file_list,
 
 	if (enable)
 		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
-	start_update_next_thumb (file_list);
+	start_update_next_thumb (file_list, FALSE);
 }
 
 
@@ -1352,7 +1341,6 @@ thumbnail_job_ready_cb (GObject      *source_object,
 					    &iter,
 					    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_DEFAULT,
 					    -1);
-
 #ifdef DEBUG_THUMBNAILER
 		g_print ("<CANCELLED: %s\n", g_file_get_uri (job->file_data->file));
 		g_print (" success: %d\n", success);
@@ -1392,12 +1380,8 @@ thumbnail_job_ready_cb (GObject      *source_object,
 #ifdef DEBUG_THUMBNAILER
 		g_print ("<ERROR: %s\n", g_file_get_uri (job->file_data->file));
 #endif
-
-		GIcon           *icon;
-		cairo_surface_t *icon_image;
-
-		icon = g_file_info_get_symbolic_icon (job->file_data->info);
-		icon_image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
+		GIcon *icon = g_file_info_get_symbolic_icon (job->file_data->info);
+		cairo_surface_t *icon_image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 		gth_file_store_set (file_store,
 				    &iter,
 				    GTH_FILE_STORE_THUMBNAIL_COLUMN, icon_image,
@@ -1411,69 +1395,38 @@ thumbnail_job_ready_cb (GObject      *source_object,
 	cairo_surface_destroy (image);
 	thumbnail_job_free (job);
 
-	_gth_file_list_update_next_thumb (file_list);
+	start_update_next_thumb (file_list, TRUE);
 }
 
 
 static gboolean
-_gth_file_list_update_thumb (gpointer user_data)
+_gth_file_list_update_thumb (ThumbnailJob *job, GtkTreeIter *iter)
 {
-	ThumbnailJob *job = user_data;
 	GthFileList  *file_list = job->file_list;
 	GthFileStore *file_store;
-	GtkTreeIter   iter;
-
-	job->idle_id = 0;
-
-	if (file_list->priv->cancelling) {
-#ifdef DEBUG_THUMBNAILER
-		g_print ("CANCELLING\n");
-#endif
-		thumbnail_job_free (job);
-		return G_SOURCE_REMOVE;
-	}
 
 	file_store = gth_file_list_get_model (file_list);
-
-	if (! gth_file_store_find (file_store, job->file_data->file, &iter)) {
-#ifdef DEBUG_THUMBNAILER
-		g_print ("=INVALID: %s\n", g_file_get_uri (job->file_data->file));
-#endif
-
-		thumbnail_job_free (job);
-		_gth_file_list_update_next_thumb (file_list);
-		return G_SOURCE_REMOVE;
-	}
 
 	if (! job->update_in_view) {
 		if (gth_thumb_loader_has_valid_thumbnail (job->loader, job->file_data)) {
 #ifdef DEBUG_THUMBNAILER
 			g_print ("=CREATED: %s\n", g_file_get_uri (job->file_data->file));
 #endif
-
 			gth_file_store_set (file_store,
-					    &iter,
+					    iter,
 					    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATED,
 					    -1);
-			thumbnail_job_free (job);
-			job = NULL;
+			return FALSE;
 		}
 		else if (gth_thumb_loader_has_failed_thumbnail (job->loader, job->file_data)) {
 #ifdef DEBUG_THUMBNAILER
 			g_print ("=FAILED: %s\n", g_file_get_uri (job->file_data->file));
 #endif
-
 			gth_file_store_set (file_store,
-					    &iter,
+					    iter,
 					    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_ERROR,
 					    -1);
-			thumbnail_job_free (job);
-			job = NULL;
-		}
-
-		if (job == NULL) {
-			_gth_file_list_update_next_thumb (file_list);
-			return G_SOURCE_REMOVE;
+			return FALSE;
 		}
 	}
 
@@ -1484,7 +1437,7 @@ _gth_file_list_update_thumb (gpointer user_data)
 			       thumbnail_job_ready_cb,
 			       job);
 
-	return G_SOURCE_REMOVE;
+	return TRUE;
 }
 
 
@@ -1500,7 +1453,6 @@ can_create_file_thumbnail (GthFileData *file_data,
 	/* Check for files that are exactly 0 or 1 seconds old; they may still be changing. */
 	time_diff = current_time->tv_sec - gth_file_data_get_mtime (file_data);
 	young_file = (time_diff <= 1) && (time_diff >= 0);
-
 	if (young_file)
 		*young_file_found = TRUE;
 
@@ -1783,15 +1735,20 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 }
 
 
+static gboolean
+update_next_thumb_cb (gpointer user_data)
+{
+	GthFileList *file_list = GTH_FILE_LIST (user_data);
+	g_object_unref (file_list);
+	_gth_file_list_update_next_thumb (file_list);
+	return G_SOURCE_REMOVE;
+}
+
+
 static void
 _gth_file_list_update_next_thumb (GthFileList *file_list)
 {
-	GTimeVal      current_time;
-	gboolean      young_file_found;
-	ThumbnailJob *job;
-	GthFileStore *file_store;
-
-	/* give priority to any other operation, the thumbnailer will restart
+	/* Give priority to any other operation, the thumbnailer will restart
 	 * again soon after the operation terminates. */
 	if (file_list->priv->queue != NULL) {
 		file_list->priv->loading_thumbs = FALSE;
@@ -1807,87 +1764,86 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 		return;
 	}
 
-	if (file_list->priv->started_loaders >= file_list->priv->max_loaders)
-		return;
-
-	file_list->priv->loading_thumbs = TRUE;
-
-	/* find the new thumbnail to load */
-
+	GTimeVal current_time;
 	g_get_current_time (&current_time);
-	young_file_found = FALSE;
-	while (_gth_file_list_thumbnailer_iterate (file_list, &current_time, &young_file_found))
-		/* void */;
 
-	if (file_list->priv->thumbnailer_state.phase == THUMBNAILER_PHASE_COMPLETED) {
-		_gth_file_list_thumbs_completed (file_list);
-		if (young_file_found) {
-			if (file_list->priv->restart_thumb_update != 0)
-				g_source_remove (file_list->priv->restart_thumb_update);
-			file_list->priv->restart_thumb_update = g_timeout_add (RESTART_LOADING_THUMBS_DELAY,
-									       restart_thumb_update_cb,
-									       file_list);
+	int i = 0;
+	while (i++ < MAX_THUMBNAILS_TO_CHECK) {
+		if (file_list->priv->started_loaders >= file_list->priv->max_loaders)
+			return;
+
+		file_list->priv->loading_thumbs = TRUE;
+
+		/* Find the new thumbnail to load */
+		gboolean young_file_found = FALSE;
+		while (_gth_file_list_thumbnailer_iterate (file_list, &current_time, &young_file_found))
+			/* void */;
+
+		if (file_list->priv->thumbnailer_state.phase == THUMBNAILER_PHASE_COMPLETED) {
+			_gth_file_list_thumbs_completed (file_list);
+			if (young_file_found) {
+				if (file_list->priv->restart_thumb_update != 0)
+					g_source_remove (file_list->priv->restart_thumb_update);
+				file_list->priv->restart_thumb_update = g_timeout_add (RESTART_LOADING_THUMBS_DELAY,
+										       restart_thumb_update_cb,
+										       file_list);
+			}
+			return;
 		}
-		return;
-	}
 
-	job = g_new0 (ThumbnailJob, 1);
-	job->file_list = g_object_ref (file_list);
-	job->loader = gth_thumb_loader_copy (file_list->priv->thumb_loader);
-	job->cancellable = g_cancellable_new ();
-	job->update_in_view = file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead;
-	gtk_tree_model_get (GTK_TREE_MODEL (gth_file_list_get_model (file_list)),
-			    &file_list->priv->thumbnailer_state.current,
-			    GTH_FILE_STORE_FILE_DATA_COLUMN, &job->file_data,
-			    -1);
-
-#ifdef DEBUG_THUMBNAILER
-	g_print ("JOB: %s\n", g_file_get_uri (job->file_data->file));
-#endif
-
-	file_store = gth_file_list_get_model (file_list);
-
-	if (job->update_in_view) {
-		GIcon           *icon;
-		cairo_surface_t *icon_image;
-
-#ifdef DEBUG_THUMBNAILER
-		g_print (">LOADING: %s\n", g_file_get_uri (job->file_data->file));
-#endif
-
-		icon = g_themed_icon_new ("content-loading-symbolic");
-		icon_image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
-		gth_file_store_set (file_store,
+		ThumbnailJob *job = g_new0 (ThumbnailJob, 1);
+		job->file_list = g_object_ref (file_list);
+		job->loader = gth_thumb_loader_copy (file_list->priv->thumb_loader);
+		job->cancellable = g_cancellable_new ();
+		job->update_in_view = file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead;
+		gtk_tree_model_get (GTK_TREE_MODEL (gth_file_list_get_model (file_list)),
 				    &file_list->priv->thumbnailer_state.current,
-				    GTH_FILE_STORE_THUMBNAIL_COLUMN, icon_image,
-				    GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
-				    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_LOADING,
+				    GTH_FILE_STORE_FILE_DATA_COLUMN, &job->file_data,
 				    -1);
 
-		cairo_surface_destroy (icon_image);
-		g_object_unref (icon);
-	}
-	else {
-#ifdef DEBUG_THUMBNAILER
-		g_print (">CREATING: %s\n", g_file_get_uri (job->file_data->file));
-#endif
-
-		gth_file_store_set (file_store,
-				    &file_list->priv->thumbnailer_state.current,
-				    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATING,
-				    -1);
-	}
-
-	file_list->priv->jobs = g_list_prepend (file_list->priv->jobs, job);
-	file_list->priv->started_loaders++;
-	job->idle_id = g_idle_add (_gth_file_list_update_thumb, job);
+		file_list->priv->jobs = g_list_prepend (file_list->priv->jobs, job);
+		file_list->priv->started_loaders++;
 
 #ifdef DEBUG_THUMBNAILER
-	g_print ("STARTED LOADERS: %d\n", file_list->priv->started_loaders);
-	g_print ("JOBS: %d\n", g_list_length (file_list->priv->jobs));
+		g_print ("JOB: %s\n", g_file_get_uri (job->file_data->file));
+		g_print ("STARTED LOADERS: %d\n", file_list->priv->started_loaders);
+		g_print ("JOBS: %d\n", g_list_length (file_list->priv->jobs));
 #endif
 
-	_gth_file_list_update_next_thumb (file_list);
+		if (_gth_file_list_update_thumb (job, &file_list->priv->thumbnailer_state.current)) {
+			GthFileStore *file_store = gth_file_list_get_model (file_list);
+			if (job->update_in_view) {
+#ifdef DEBUG_THUMBNAILER
+				g_print (">LOADING: %s\n", g_file_get_uri (job->file_data->file));
+#endif
+				GIcon *icon = g_themed_icon_new ("content-loading-symbolic");
+				cairo_surface_t *icon_image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
+				gth_file_store_set (file_store,
+						    &file_list->priv->thumbnailer_state.current,
+						    GTH_FILE_STORE_THUMBNAIL_COLUMN, icon_image,
+						    GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
+						    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_LOADING,
+						    -1);
+
+				cairo_surface_destroy (icon_image);
+				g_object_unref (icon);
+			}
+			else {
+#ifdef DEBUG_THUMBNAILER
+				g_print (">CREATING: %s\n", g_file_get_uri (job->file_data->file));
+#endif
+				gth_file_store_set (file_store,
+						    &file_list->priv->thumbnailer_state.current,
+						    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATING,
+						    -1);
+			}
+		}
+		else
+			thumbnail_job_free (job);
+	}
+
+	g_object_ref (file_list);
+	g_idle_add (update_next_thumb_cb, file_list);
 }
 
 
@@ -1899,7 +1855,7 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 	gboolean       exec_next_op = TRUE;
 
 	if (file_list->priv->queue == NULL) {
-		start_update_next_thumb (file_list);
+		start_update_next_thumb (file_list, FALSE);
 		return;
 	}
 
