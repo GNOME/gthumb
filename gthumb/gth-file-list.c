@@ -1631,11 +1631,40 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 #endif
 
 			if (file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead) {
+#ifdef DEBUG_THUMBNAILER
+				g_print ("    REQUEST: LOAD\n");
+#endif
 				/* requested action: load the thumbnail */
 				requested_action_performed = _thumbnail_loaded (state);
-			else
+			}
+			else {
+#ifdef DEBUG_THUMBNAILER
+				g_print ("    REQUEST: CREATE\n");
+#endif
+				/* remove the thumbnail if set (to save memory) */
+				if (state == GTH_THUMBNAIL_STATE_LOADED) {
+					GIcon           *icon;
+					cairo_surface_t *image;
+
+#ifdef DEBUG_THUMBNAILER
+					g_print ("    REMOVE THUMBNAIL\n");
+#endif
+
+					icon = g_file_info_get_symbolic_icon (file_data->info);
+					image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
+					gth_file_store_queue_set (file_store,
+								  &file_list->priv->thumbnailer_state.current,
+								  GTH_FILE_STORE_THUMBNAIL_COLUMN, image,
+								  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
+								  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATED,
+								  -1);
+
+					cairo_surface_destroy (image);
+				}
+
 				/* requested action: create the thumbnail */
 				requested_action_performed = _thumbnail_created (state);
+			}
 
 			if (! requested_action_performed
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
@@ -1689,11 +1718,39 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 #endif
 
 			if (file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead) {
+#ifdef DEBUG_THUMBNAILER
+				g_print ("    REQUEST: LOAD\n");
+#endif
 				/* requested action: load the thumbnail */
 				requested_action_performed = _thumbnail_loaded (state);
-			else
+			}
+			else {
+#ifdef DEBUG_THUMBNAILER
+				g_print ("    REQUEST: CREATE\n");
+#endif
+				/* remove the thumbnail if set (to save memory) */
+				if (state == GTH_THUMBNAIL_STATE_LOADED) {
+					GIcon           *icon;
+					cairo_surface_t *image;
+
+#ifdef DEBUG_THUMBNAILER
+					g_print ("    REMOVE THUMBNAIL\n");
+#endif
+					icon = g_file_info_get_symbolic_icon (file_data->info);
+					image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
+					gth_file_store_queue_set (file_store,
+								  &file_list->priv->thumbnailer_state.current,
+								  GTH_FILE_STORE_THUMBNAIL_COLUMN, image,
+								  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
+								  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATED,
+								  -1);
+
+					cairo_surface_destroy (image);
+				}
+
 				/* requested action: create the thumbnail */
 				requested_action_performed = _thumbnail_created (state);
+			}
 
 			if (! requested_action_performed
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
