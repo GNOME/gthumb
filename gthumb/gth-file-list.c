@@ -35,7 +35,6 @@
 
 
 #define RESTART_LOADING_THUMBS_DELAY 1500
-#define N_VIEWAHEAD 500
 #define N_CREATEAHEAD 50000
 #define MAX_THUMBNAIL_LOADERS 4
 #define NO_FILE_MSG (N_("No file"))
@@ -114,6 +113,7 @@ typedef struct {
 	ThumbnailerPhase phase;
 	int              first_visible;
 	int              last_visible;
+	int              viewahead;
 	GtkTreeIter      current;
 	int              remaining;
 	int              completed;
@@ -1545,6 +1545,7 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 	case THUMBNAILER_PHASE_INITIALIZE:
 		file_list->priv->thumbnailer_state.first_visible = gth_file_view_get_first_visible (GTH_FILE_VIEW (file_list->priv->view));
 		file_list->priv->thumbnailer_state.last_visible = gth_file_view_get_last_visible (GTH_FILE_VIEW (file_list->priv->view));
+		file_list->priv->thumbnailer_state.viewahead = file_list->priv->thumbnailer_state.last_visible - file_list->priv->thumbnailer_state.first_visible + 1;
 
 		if ((file_list->priv->thumbnailer_state.first_visible < 0)
 		    || ! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (file_store),
@@ -1629,7 +1630,7 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			g_print ("    STATE: %s\n", StateName[state]);
 #endif
 
-			if (file_list->priv->thumbnailer_state.completed < N_VIEWAHEAD)
+			if (file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead) {
 				/* requested action: load the thumbnail */
 				requested_action_performed = _thumbnail_loaded (state);
 			else
@@ -1687,7 +1688,7 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			g_print ("    STATE: %s\n", StateName[state]);
 #endif
 
-			if (file_list->priv->thumbnailer_state.completed < N_VIEWAHEAD)
+			if (file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead) {
 				/* requested action: load the thumbnail */
 				requested_action_performed = _thumbnail_loaded (state);
 			else
@@ -1777,7 +1778,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	job->file_list = g_object_ref (file_list);
 	job->loader = gth_thumb_loader_copy (file_list->priv->thumb_loader);
 	job->cancellable = g_cancellable_new ();
-	job->update_in_view = file_list->priv->thumbnailer_state.completed < N_VIEWAHEAD;
+	job->update_in_view = file_list->priv->thumbnailer_state.completed < file_list->priv->thumbnailer_state.viewahead;
 	gtk_tree_model_get (GTK_TREE_MODEL (gth_file_list_get_model (file_list)),
 			    &file_list->priv->thumbnailer_state.current,
 			    GTH_FILE_STORE_FILE_DATA_COLUMN, &job->file_data,
