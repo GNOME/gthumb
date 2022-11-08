@@ -113,6 +113,8 @@ gth_file_view_get_model (GthFileView *self)
 	g_return_val_if_fail (GTH_IS_FILE_VIEW (self), NULL);
 
 	g_object_get (self, "model", &model, NULL);
+	if (model != NULL)
+		g_object_unref (model);
 
 	return model;
 }
