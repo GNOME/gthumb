@@ -114,6 +114,7 @@ struct _GthImageViewerPagePrivate {
 	GthFileData       *next_file_data[N_FORWARD_PRELOADERS];
 	GthFileData       *prev_file_data[N_BACKWARD_PRELOADERS];
 	gulong             drag_data_get_event;
+	GCancellable      *current_cancellable;
 };
 
 
@@ -246,7 +247,6 @@ _gth_image_viewer_page_load_with_preloader_step2 (GthImageViewerPage  *self,
 						  gpointer	       user_data)
 {
 	g_object_ref (self);
-
 	gth_image_preloader_load (self->priv->preloader,
 				  file_data,
 				  requested_size,
@@ -338,25 +338,55 @@ _gth_image_viewer_page_load_with_preloader_finish (GthImageViewerPage  *self)
 }
 
 
+typedef struct {
+	GthImageViewerPage *self;
+	GCancellable *cancellable;
+} LoadData;
+
+
+static LoadData *
+load_data_new (GthImageViewerPage *self)
+{
+	LoadData *load_data;
+
+	load_data = g_new0 (LoadData, 1);
+	load_data->self = g_object_ref (self);
+	load_data->cancellable = g_cancellable_new ();
+
+	return load_data;
+}
+
+
+static void
+load_data_free (LoadData *load_data)
+{
+	g_object_unref (load_data->self);
+	g_object_unref (load_data->cancellable);
+	g_free (load_data);
+}
+
+
 static void
 different_quality_ready_cb (GObject		*source_object,
 			    GAsyncResult	*result,
-			    gpointer	 	 user_data)
+			    gpointer		 user_data)
 {
-	GthImageViewerPage *self = user_data;
-	GthFileData	   *requested;
-	GthImage	   *image;
+	LoadData           *load_data = user_data;
+	GthImageViewerPage *self = load_data->self;
+	gboolean            is_active;
+	GthFileData	   *requested = NULL;
+	GthImage	   *image = NULL;
 	int		    requested_size;
 	int		    original_width;
 	int		    original_height;
 	GError		   *error = NULL;
-	cairo_surface_t    *s1 = NULL;
-	cairo_surface_t    *s2;
-	int                 w1, h1, w2, h2;
+	cairo_surface_t    *old_image;
+	cairo_surface_t    *new_image = NULL;
 	gboolean            got_better_quality;
 
-	if (! _gth_image_viewer_page_load_with_preloader_finish (self))
-		return;
+	if (self->priv->current_cancellable == load_data->cancellable)
+		self->priv->current_cancellable = NULL;
+	is_active = _gth_image_viewer_page_load_with_preloader_finish (self);
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -368,8 +398,12 @@ different_quality_ready_cb (GObject		*source_object,
 					       &error))
 	{
 		g_clear_error (&error);
+		load_data_free (load_data);
 		return;
 	}
+
+	if (!is_active)
+		goto clear_data;
 
 	if (! (self->priv->image_changed && requested == NULL) && ! _g_file_equal (requested->file, self->priv->file_data->file))
 		goto clear_data;
@@ -377,22 +411,22 @@ different_quality_ready_cb (GObject		*source_object,
 	if (image == NULL)
 		goto clear_data;
 
-	/* check whether the image is of different quality */
+	/* Check whether the image is of different quality. */
 
-	s1 = gth_image_get_cairo_surface (image);
-	if (s1 == NULL)
+	new_image = gth_image_get_cairo_surface (image);
+	if (new_image == NULL)
 		goto clear_data;
 
-	s2 = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
-	if (s2 == NULL) {
+	old_image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+	if (old_image == NULL) {
 		got_better_quality = TRUE;
 	}
 	else {
-		w1 = cairo_image_surface_get_width (s1);
-		h1 = cairo_image_surface_get_height (s1);
-		w2 = cairo_image_surface_get_width (s2);
-		h2 = cairo_image_surface_get_height (s2);
-		got_better_quality = ((w1 > w2) || (h1 > h2));
+		int old_w = cairo_image_surface_get_width (old_image);
+		int old_h = cairo_image_surface_get_height (old_image);
+		int new_w = cairo_image_surface_get_width (new_image);
+		int new_h = cairo_image_surface_get_height (new_image);
+		got_better_quality = ((new_w > old_w) || (new_h > old_h));
 	}
 
 	if (got_better_quality) {
@@ -407,11 +441,11 @@ different_quality_ready_cb (GObject		*source_object,
 
 clear_data:
 
-	if (s1 != NULL)
-		cairo_surface_destroy (s1);
+	cairo_surface_destroy (new_image);
 	_g_object_unref (requested);
 	_g_object_unref (image);
 	g_clear_error (&error);
+	load_data_free (load_data);
 
 	return;
 }
@@ -440,13 +474,17 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 typedef struct {
 	GthImageViewerPage *self;
 	GthFileData *file_data;
+	guint        update_id;
 } UpdateQualityData;
 
 
 static void
 update_quality_data_free (UpdateQualityData *data)
 {
+	if (data->update_id == data->self->priv->update_quality_id)
+		data->self->priv->update_quality_id = 0;
 	_g_object_unref (data->file_data);
+	_g_object_unref (data->self);
 	g_free (data);
 }
 
@@ -458,19 +496,10 @@ update_quality_cb (gpointer user_data)
 	GthImageViewerPage *self = data->self;
 	gboolean            file_changed;
 
-	if (! _gth_image_viewer_page_load_with_preloader_finish (self)) {
-		update_quality_data_free (data);
+	if (! _gth_image_viewer_page_load_with_preloader_finish (self))
 		return FALSE;
-	}
-
-	if (self->priv->update_quality_id != 0) {
-		g_source_remove (self->priv->update_quality_id);
-		self->priv->update_quality_id = 0;
-	}
 
 	file_changed = ! _g_file_equal (data->file_data->file, self->priv->file_data->file);
-	update_quality_data_free (data);
-
 	if (file_changed)
 		return FALSE;
 
@@ -480,18 +509,20 @@ update_quality_cb (gpointer user_data)
 	if (self->priv->viewer == NULL)
 		return FALSE;
 
-	if (self->priv->loading_image)
+	if (self->priv->loading_image || (self->priv->current_cancellable != NULL))
 		return FALSE;
 
 	if (! self->priv->image_changed && ! _g_mime_type_can_load_different_quality (gth_file_data_get_mime_type (self->priv->file_data)))
 		return FALSE;
 
+	LoadData *load_data = load_data_new (self);
+	self->priv->current_cancellable = load_data->cancellable;
 	_gth_image_viewer_page_load_with_preloader (self,
 						    self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
 						    _gth_image_preloader_get_requested_size_for_current_image (self),
-						    NULL,
+						    load_data->cancellable,
 						    different_quality_ready_cb,
-						    self);
+						    load_data);
 
 	return FALSE;
 }
@@ -503,6 +534,9 @@ update_image_quality_if_required (GthImageViewerPage *self)
 #ifndef ALWAYS_LOAD_ORIGINAL_SIZE
 	GthImage *image;
 
+	if (self->priv->update_quality_id != 0)
+		return;
+
 	if (self->priv->loading_image || gth_sidebar_tool_is_active (GTH_SIDEBAR (gth_browser_get_viewer_sidebar (self->priv->browser))))
 		return;
 
@@ -510,21 +544,18 @@ update_image_quality_if_required (GthImageViewerPage *self)
 	if ((image != NULL) && (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image)))
 		return;
 
-	if (self->priv->update_quality_id != 0) {
-		g_source_remove (self->priv->update_quality_id);
-		self->priv->update_quality_id = 0;
-	}
+	_g_object_ref (self);
 
 	UpdateQualityData *data;
-
 	data = g_new0 (UpdateQualityData, 1);
-	data->self = self;
+	data->self = _g_object_ref (self);
 	data->file_data = _g_object_ref (self->priv->file_data);
-
-	_g_object_ref (self);
-	self->priv->update_quality_id = g_timeout_add (UPDATE_QUALITY_DELAY,
-						       update_quality_cb,
-						       data);
+	data->update_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
+					      UPDATE_QUALITY_DELAY,
+					      update_quality_cb,
+					      data,
+					      (GDestroyNotify) update_quality_data_free);
+	self->priv->update_quality_id = data->update_id;
 #endif
 }
 
@@ -1285,9 +1316,15 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 		}
 	}
 
+	if (self->priv->current_cancellable != NULL) {
+		g_cancellable_cancel (self->priv->current_cancellable);
+		self->priv->current_cancellable = NULL;
+	}
+
 	_g_object_unref (self->priv->builder);
 	self->priv->builder = NULL;
 	_g_object_unref (self->priv->preloader);
+	gth_image_history_clear (self->priv->history);
 	self->priv->preloader = NULL;
 	self->priv->active = FALSE;
 
@@ -1333,17 +1370,21 @@ preloader_load_ready_cb (GObject	*source_object,
 			 GAsyncResult	*result,
 			 gpointer	 user_data)
 {
-	GthImageViewerPage *self = user_data;
-	GthFileData	   *requested;
-	GthImage	   *image;
+	LoadData           *load_data = user_data;
+	GthImageViewerPage *self = load_data->self;
+	gboolean            is_active;
+	GthFileData	   *requested = NULL;
+	GthImage	   *image = NULL;
 	int		    requested_size;
 	int		    original_width;
 	int		    original_height;
 	GError		   *error = NULL;
 
 	self->priv->loading_image = FALSE;
-	if (! _gth_image_viewer_page_load_with_preloader_finish (self))
-		return;
+	if (self->priv->current_cancellable == load_data->cancellable)
+		self->priv->current_cancellable = NULL;
+
+	is_active = _gth_image_viewer_page_load_with_preloader_finish (self);
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -1357,8 +1398,12 @@ preloader_load_ready_cb (GObject	*source_object,
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 			gth_image_viewer_page_file_loaded (self, FALSE);
 		g_clear_error (&error);
+		load_data_free (load_data);
 		return;
 	}
+
+	if (!is_active)
+		goto clear_data;
 
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		goto clear_data;
@@ -1420,14 +1465,13 @@ clear_data:
 	_g_object_unref (requested);
 	_g_object_unref (image);
 	g_clear_error (&error);
-
-	return;
+	load_data_free (load_data);
 }
 
 
 static void
 _gth_image_viewer_page_load (GthImageViewerPage *self,
-		             GthFileData        *file_data)
+			     GthFileData        *file_data)
 {
 	GthFileStore *file_store;
 	GtkTreeIter   iter;
@@ -1468,6 +1512,9 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
 	}
 
+	LoadData *load_data = load_data_new (self);
+	self->priv->current_cancellable = load_data->cancellable;
+
 	_gth_image_viewer_page_load_with_preloader (self,
 						    self->priv->file_data,
 #ifdef ALWAYS_LOAD_ORIGINAL_SIZE
@@ -1475,9 +1522,9 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 #else
 						    _gth_image_preloader_get_requested_size_for_next_images (self),
 #endif
-						    NULL,
+						    load_data->cancellable,
 						    preloader_load_ready_cb,
-						    self);
+						    load_data);
 }
 
 
@@ -2060,6 +2107,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 		self->priv->prev_file_data[i] = NULL;
 
 	self->priv->drag_data_get_event = 0;
+	self->priv->current_cancellable = NULL;
 
 	/* settings notifications */
 
@@ -2386,14 +2434,11 @@ original_image_ready_cb (GObject	*source_object,
 			 gpointer	 user_data)
 {
 	OriginalImageData *data = user_data;
+	gboolean           is_active;
 	GthImage          *image = NULL;
 	GError            *error = NULL;
 
-	if (! _gth_image_viewer_page_load_with_preloader_finish (data->viewer_page)) {
-		g_task_return_error (data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
-		get_original_data_free (data);
-		return;
-	}
+	is_active = _gth_image_viewer_page_load_with_preloader_finish (data->viewer_page);
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -2405,9 +2450,14 @@ original_image_ready_cb (GObject	*source_object,
 					       &error))
 	{
 		g_task_return_error (data->task, error);
+		get_original_data_free (data);
+		return;
 	}
-	else
+
+	if (is_active)
 		g_task_return_pointer (data->task, image, (GDestroyNotify) g_object_unref);
+	else
+		g_task_return_error (data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
 
 	get_original_data_free (data);
 }
