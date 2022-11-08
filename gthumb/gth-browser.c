@@ -6926,7 +6926,6 @@ typedef struct {
 	GthBrowser *browser;
 	DataFunc    done_func;
 	gpointer    user_data;
-	gulong      check_id;
 } CancelData;
 
 
@@ -6949,13 +6948,8 @@ check_cancellable_cb (gpointer user_data)
 	    && (browser->priv->task == NULL)
 	    && (browser->priv->viewer_tasks == NULL))
 	{
-		g_source_remove (cancel_data->check_id);
-		cancel_data->check_id = 0;
-
 		if (cancel_data->done_func != NULL)
 			cancel_data->done_func (cancel_data->user_data);
-		cancel_data_unref (cancel_data);
-
 		return FALSE;
 	}
 
@@ -7011,9 +7005,11 @@ _gth_browser_cancel (GthBrowser *browser,
 		gth_task_cancel (browser->priv->task);
 	}
 
-	cancel_data->check_id = g_timeout_add (CHECK_CANCELLABLE_INTERVAL,
-					       check_cancellable_cb,
-					       cancel_data);
+	g_timeout_add_full (G_PRIORITY_DEFAULT,
+			    CHECK_CANCELLABLE_INTERVAL,
+			    check_cancellable_cb,
+			    cancel_data,
+			    (GDestroyNotify) cancel_data_unref);
 }
 
 
