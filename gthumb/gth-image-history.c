@@ -326,11 +326,10 @@ gth_image_history_revert (GthImageHistory *history)
 
 	for (scan = history->priv->undo_history; scan; scan = scan->next) {
 		GthImageData *idata = scan->data;
-
-		if (idata->unsaved)
-			continue;
-
-		last_saved = gth_image_data_ref (idata);
+		if (!idata->unsaved) {
+			last_saved = gth_image_data_ref (idata);
+			break;
+		}
 	}
 
 	gth_image_history_clear (history);
