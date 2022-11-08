@@ -51,7 +51,7 @@ struct _GthImagePreloaderClass {
 
 GType               gth_image_preloader_get_type		 (void) G_GNUC_CONST;
 GthImagePreloader * gth_image_preloader_new			 (void);
-void                gth_image_preloader_set_out_profile		 (GthImagePreloader		 *loader,
+void                gth_image_preloader_set_out_profile	 (GthImagePreloader		 *loader,
 								  GthICCProfile			 *profile);
 void                gth_image_preloader_load			 (GthImagePreloader		 *self,
 								  GthFileData			 *requested,
@@ -61,16 +61,16 @@ void                gth_image_preloader_load			 (GthImagePreloader		 *self,
 								  gpointer			  user_data,
 								  int				  n_files,
 								  ...);
-gboolean            gth_image_preloader_load_finish    		 (GthImagePreloader		 *self,
-							  	  GAsyncResult			 *result,
-							  	  GthFileData			**requested,
-							  	  GthImage			**image,
-							  	  int				 *requested_size,
-							  	  int				 *original_width,
-							  	  int				 *original_height,
-							  	  GError			**error);
+gboolean            gth_image_preloader_load_finish		 (GthImagePreloader		 *self,
+								  GAsyncResult			 *result,
+								  GthFileData			**requested,
+								  GthImage			**image,
+								  int				 *requested_size,
+								  int				 *original_width,
+								  int				 *original_height,
+								  GError			**error);
 void                gth_image_preloader_set_modified_image	 (GthImagePreloader		 *self,
-								  GthImage		 	 *image);
+								  GthImage			 *image);
 cairo_surface_t *   gth_image_preloader_get_modified_image	 (GthImagePreloader		 *self);
 void		    gth_image_preloader_clear_cache		 (GthImagePreloader		 *self);
 
