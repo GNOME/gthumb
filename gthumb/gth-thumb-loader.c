@@ -596,6 +596,7 @@ _gth_thumb_loader_save_to_cache (GthThumbLoader  *self,
 							gth_file_data_get_mtime (file_data));
 
 	g_object_unref (pixbuf);
+	g_free (uri);
 
 	return TRUE;
 }
