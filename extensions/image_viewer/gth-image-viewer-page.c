@@ -246,7 +246,6 @@ _gth_image_viewer_page_load_with_preloader_step2 (GthImageViewerPage  *self,
 						  GAsyncReadyCallback  callback,
 						  gpointer	       user_data)
 {
-	g_object_ref (self);
 	gth_image_preloader_load (self->priv->preloader,
 				  file_data,
 				  requested_size,
@@ -328,16 +327,6 @@ _gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
 }
 
 
-static gboolean
-_gth_image_viewer_page_load_with_preloader_finish (GthImageViewerPage  *self)
-{
-	gboolean active = self->priv->active;
-	g_object_unref (self);
-
-	return active;
-}
-
-
 typedef struct {
 	GthImageViewerPage *self;
 	GCancellable *cancellable;
@@ -373,7 +362,6 @@ different_quality_ready_cb (GObject		*source_object,
 {
 	LoadData           *load_data = user_data;
 	GthImageViewerPage *self = load_data->self;
-	gboolean            is_active;
 	GthFileData	   *requested = NULL;
 	GthImage	   *image = NULL;
 	int		    requested_size;
@@ -386,7 +374,6 @@ different_quality_ready_cb (GObject		*source_object,
 
 	if (self->priv->current_cancellable == load_data->cancellable)
 		self->priv->current_cancellable = NULL;
-	is_active = _gth_image_viewer_page_load_with_preloader_finish (self);
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -402,7 +389,7 @@ different_quality_ready_cb (GObject		*source_object,
 		return;
 	}
 
-	if (!is_active)
+	if (! self->priv->active)
 		goto clear_data;
 
 	if (! (self->priv->image_changed && requested == NULL) && ! _g_file_equal (requested->file, self->priv->file_data->file))
@@ -496,8 +483,8 @@ update_quality_cb (gpointer user_data)
 	GthImageViewerPage *self = data->self;
 	gboolean            file_changed;
 
-	if (! _gth_image_viewer_page_load_with_preloader_finish (self))
-		return FALSE;
+	if (! self->priv->active)
+		return G_SOURCE_REMOVE;
 
 	file_changed = ! _g_file_equal (data->file_data->file, self->priv->file_data->file);
 	if (file_changed)
@@ -534,9 +521,6 @@ update_image_quality_if_required (GthImageViewerPage *self)
 #ifndef ALWAYS_LOAD_ORIGINAL_SIZE
 	GthImage *image;
 
-	if (self->priv->update_quality_id != 0)
-		return;
-
 	if (self->priv->loading_image || gth_sidebar_tool_is_active (GTH_SIDEBAR (gth_browser_get_viewer_sidebar (self->priv->browser))))
 		return;
 
@@ -544,7 +528,10 @@ update_image_quality_if_required (GthImageViewerPage *self)
 	if ((image != NULL) && (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image)))
 		return;
 
-	_g_object_ref (self);
+	if (self->priv->update_quality_id != 0) {
+		g_source_remove (self->priv->update_quality_id);
+		self->priv->update_quality_id = 0;
+	}
 
 	UpdateQualityData *data;
 	data = g_new0 (UpdateQualityData, 1);
@@ -1372,7 +1359,6 @@ preloader_load_ready_cb (GObject	*source_object,
 {
 	LoadData           *load_data = user_data;
 	GthImageViewerPage *self = load_data->self;
-	gboolean            is_active;
 	GthFileData	   *requested = NULL;
 	GthImage	   *image = NULL;
 	int		    requested_size;
@@ -1383,8 +1369,6 @@ preloader_load_ready_cb (GObject	*source_object,
 	self->priv->loading_image = FALSE;
 	if (self->priv->current_cancellable == load_data->cancellable)
 		self->priv->current_cancellable = NULL;
-
-	is_active = _gth_image_viewer_page_load_with_preloader_finish (self);
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -1402,7 +1386,7 @@ preloader_load_ready_cb (GObject	*source_object,
 		return;
 	}
 
-	if (!is_active)
+	if (!self->priv->active)
 		goto clear_data;
 
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
@@ -1511,6 +1495,9 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 
 		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
 	}
+
+	if (self->priv->current_cancellable != NULL)
+		g_cancellable_cancel (self->priv->current_cancellable);
 
 	LoadData *load_data = load_data_new (self);
 	self->priv->current_cancellable = load_data->cancellable;
@@ -2434,11 +2421,8 @@ original_image_ready_cb (GObject	*source_object,
 			 gpointer	 user_data)
 {
 	OriginalImageData *data = user_data;
-	gboolean           is_active;
 	GthImage          *image = NULL;
 	GError            *error = NULL;
-
-	is_active = _gth_image_viewer_page_load_with_preloader_finish (data->viewer_page);
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -2454,7 +2438,7 @@ original_image_ready_cb (GObject	*source_object,
 		return;
 	}
 
-	if (is_active)
+	if (data->viewer_page->priv->active)
 		g_task_return_pointer (data->task, image, (GDestroyNotify) g_object_unref);
 	else
 		g_task_return_error (data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
