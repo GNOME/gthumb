@@ -33,7 +33,6 @@
 
 
 #undef DEBUG_PRELOADER
-#define LOAD_NEXT_FILE_DELAY 100
 #define CACHE_MAX_SIZE 10
 
 
