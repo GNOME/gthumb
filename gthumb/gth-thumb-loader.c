@@ -340,6 +340,7 @@ gth_thumb_loader_set_max_file_size (GthThumbLoader *self,
 
 
 typedef struct {
+	int                 ref;
 	GthThumbLoader     *thumb_loader;
 	GthFileData        *file_data;
 	int                 requested_size;
@@ -361,6 +362,7 @@ load_data_new (GthFileData *file_data,
 	LoadData *load_data;
 
 	load_data = g_new0 (LoadData, 1);
+	load_data->ref = 1;
 	load_data->file_data = g_object_ref (file_data);
 	load_data->requested_size = requested_size;
 
@@ -368,9 +370,24 @@ load_data_new (GthFileData *file_data,
 }
 
 
+static LoadData *
+load_data_ref (LoadData *load_data)
+{
+	g_return_val_if_fail (load_data != NULL, NULL);
+	load_data->ref++;
+	return load_data;
+}
+
+
 static void
 load_data_unref (LoadData *load_data)
 {
+	g_return_if_fail (load_data != NULL);
+
+	load_data->ref--;
+	if (load_data->ref > 0)
+		return;
+
 	g_object_unref (load_data->thumb_loader);
 	g_object_unref (load_data->file_data);
 	_g_object_unref (load_data->task);
@@ -657,9 +674,10 @@ failed_to_load_original_image (GthThumbLoader *self,
 	char *uri;
 
 	uri = g_file_get_uri (load_data->file_data->file);
-	gnome_desktop_thumbnail_factory_create_failed_thumbnail (self->priv->thumb_factory,
-								 uri,
-								 gth_file_data_get_mtime (load_data->file_data));
+	gnome_desktop_thumbnail_factory_create_failed_thumbnail (
+		self->priv->thumb_factory,
+		uri,
+		gth_file_data_get_mtime (load_data->file_data));
 	g_task_return_error (load_data->task, g_error_new_literal (GTH_ERROR, 0, "failed to generate the thumbnail"));
 
 	g_free (uri);
@@ -710,7 +728,6 @@ watch_thumbnailer_cb (GPid     pid,
 {
 	LoadData       *load_data = user_data;
 	GthThumbLoader *self = load_data->thumb_loader;
-	GdkPixbuf      *pixbuf;
 
 	if (load_data->thumbnailer_timeout != 0) {
 		g_source_remove (load_data->thumbnailer_timeout);
@@ -732,30 +749,28 @@ watch_thumbnailer_cb (GPid     pid,
 			g_free (load_data->thumbnailer_tmpfile);
 			load_data->thumbnailer_tmpfile = NULL;
 		}
-
 		g_task_return_error (load_data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "script cancelled"));
-		load_data_unref (load_data);
 		return;
 	}
 
-	pixbuf = NULL;
-	if (status == 0)
-		pixbuf = gnome_desktop_thumbnail_factory_load_from_tempfile (self->priv->thumb_factory,
-									     &load_data->thumbnailer_tmpfile);
+	if (status == 0) {
+		GdkPixbuf *pixbuf = gnome_desktop_thumbnail_factory_load_from_tempfile (
+			self->priv->thumb_factory,
+			&load_data->thumbnailer_tmpfile);
 
-	if (pixbuf != NULL) {
-		cairo_surface_t *surface;
+		if (pixbuf != NULL) {
+			cairo_surface_t *surface;
 
-		surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
-		original_image_loaded_correctly (self, load_data, surface, 0, 0);
+			surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
+			original_image_loaded_correctly (self, load_data, surface, 0, 0);
 
-		cairo_surface_destroy (surface);
-		g_object_unref (pixbuf);
+			cairo_surface_destroy (surface);
+			g_object_unref (pixbuf);
+			return;
+		}
 	}
-	else
-		failed_to_load_original_image (self, load_data);
 
-	load_data_unref (load_data);
+	failed_to_load_original_image (self, load_data);
 }
 
 
@@ -767,29 +782,44 @@ load_with_system_thumbnailer (GthThumbLoader *self,
 	GError *error = NULL;
 
 	uri = g_file_get_uri (load_data->file_data->file);
-	if (gnome_desktop_thumbnail_factory_generate_from_script (self->priv->thumb_factory,
-								  uri,
-								  gth_file_data_get_mime_type (load_data->file_data),
-								  &load_data->thumbnailer_pid,
-								  &load_data->thumbnailer_tmpfile,
-								  &error))
+	if (gnome_desktop_thumbnail_factory_generate_from_script (
+		    self->priv->thumb_factory,
+		    uri,
+		    gth_file_data_get_mime_type (load_data->file_data),
+		    &load_data->thumbnailer_pid,
+		    &load_data->thumbnailer_tmpfile,
+		    &error))
 	{
-		load_data->thumbnailer_watch = g_child_watch_add (load_data->thumbnailer_pid,
-								  watch_thumbnailer_cb,
-								  load_data);
-		load_data->thumbnailer_timeout = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
-								kill_thumbnailer_cb,
-								load_data);
-		load_data->cancellable_watch = g_timeout_add (CHECK_CANCELLABLE_DELAY,
-							      check_cancellable_cb,
-							      load_data);
+		load_data_ref (load_data);
+		load_data->thumbnailer_watch = g_child_watch_add_full (
+			G_PRIORITY_DEFAULT_IDLE,
+			load_data->thumbnailer_pid,
+			watch_thumbnailer_cb,
+			load_data,
+			(GDestroyNotify) load_data_unref);
+
+		load_data_ref (load_data);
+		load_data->thumbnailer_timeout = g_timeout_add_full (
+			G_PRIORITY_DEFAULT,
+			MAX_THUMBNAILER_LIFETIME,
+			kill_thumbnailer_cb,
+			load_data,
+			(GDestroyNotify) load_data_unref);
+
+		load_data_ref (load_data);
+		load_data->cancellable_watch = g_timeout_add_full (
+			G_PRIORITY_DEFAULT,
+			CHECK_CANCELLABLE_DELAY,
+			check_cancellable_cb,
+			load_data,
+			(GDestroyNotify) load_data_unref);
 	}
 	else {
 		g_clear_error (&error);
 		failed_to_load_original_image (self, load_data);
-		load_data_unref (load_data);
 	}
 
+	load_data_unref (load_data);
 	g_free (uri);
 }
 
