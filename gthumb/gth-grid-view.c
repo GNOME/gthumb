@@ -1306,8 +1306,6 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	if (image == NULL)
 		return;
 
-	cairo_surface_reference (image);
-
 	cairo_save (cr);
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_save (style_context);
@@ -1419,8 +1417,6 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 	gtk_style_context_restore (style_context);
 	cairo_restore (cr);
-
-	cairo_surface_destroy (image);
 }
 
 
