@@ -488,19 +488,19 @@ update_quality_cb (gpointer user_data)
 
 	file_changed = ! _g_file_equal (data->file_data->file, self->priv->file_data->file);
 	if (file_changed)
-		return FALSE;
+		return G_SOURCE_REMOVE;
 
 	if (! self->priv->active)
-		return FALSE;
+		return G_SOURCE_REMOVE;
 
 	if (self->priv->viewer == NULL)
-		return FALSE;
+		return G_SOURCE_REMOVE;
 
 	if (self->priv->loading_image || (self->priv->current_cancellable != NULL))
-		return FALSE;
+		return G_SOURCE_REMOVE;
 
 	if (! self->priv->image_changed && ! _g_mime_type_can_load_different_quality (gth_file_data_get_mime_type (self->priv->file_data)))
-		return FALSE;
+		return G_SOURCE_REMOVE;
 
 	LoadData *load_data = load_data_new (self);
 	self->priv->current_cancellable = load_data->cancellable;
@@ -511,7 +511,7 @@ update_quality_cb (gpointer user_data)
 						    different_quality_ready_cb,
 						    load_data);
 
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 
