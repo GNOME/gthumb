@@ -515,12 +515,12 @@ image_loader_ready_cb (GObject      *source_object,
 #ifdef DEBUG_PRELOADER
 		g_print (" --> cancelled [1] %s\n", g_file_get_uri (GTH_FILE_DATA (load_data->requested_file->data)->file));
 #endif
-		load_data_free (load_data);
 		if (error != NULL)
 			g_error_free (error);
-		_g_object_unref (image);
 		if (!request->finalized)
 			_gth_image_preloader_request_cancelled (self, request);
+		_g_object_unref (image);
+		load_data_free (load_data);
 		return;
 	}
 
