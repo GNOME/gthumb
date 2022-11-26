@@ -391,6 +391,9 @@ extensions/gstreamer_tools/gth-metadata-provider-gstreamer.h
 extensions/gstreamer_tools/main.c
 extensions/gstreamer_tools/preferences.h
 extensions/gstreamer_tools/shortcuts.h
+extensions/gstreamer_tools/video-thumbnailer.c
+extensions/gstreamer_utils/gstreamer-thumbnail.c
+extensions/gstreamer_utils/gstreamer-thumbnail.h
 extensions/gstreamer_utils/gstreamer-utils.c
 extensions/gstreamer_utils/gstreamer-utils.h
 extensions/gstreamer_utils/gstreamer_utils.extension.desktop.in.in
