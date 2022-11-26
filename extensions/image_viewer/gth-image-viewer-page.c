@@ -40,8 +40,8 @@
 #define STEP_ANIMATION_BUTTON 5
 #define TRANSPARENCY_STYLE_BUTTON 6
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
-#define N_FORWARD_PRELOADERS 2
-#define N_BACKWARD_PRELOADERS 2
+#define N_FORWARD_PRELOADERS 1
+#define N_BACKWARD_PRELOADERS 1
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -254,9 +254,7 @@ _gth_image_viewer_page_load_with_preloader_step2 (GthImageViewerPage  *self,
 				  user_data,
 				  N_FORWARD_PRELOADERS + N_BACKWARD_PRELOADERS,
 				  self->priv->next_file_data[0],
-				  self->priv->next_file_data[1],
-				  self->priv->prev_file_data[0],
-				  self->priv->prev_file_data[1]);
+				  self->priv->prev_file_data[0]);
 }
 
 

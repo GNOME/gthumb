@@ -33,7 +33,7 @@
 
 
 #undef DEBUG_PRELOADER
-#define CACHE_MAX_SIZE 10
+#define CACHE_MAX_SIZE 5
 
 
 enum {
