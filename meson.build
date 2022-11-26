@@ -257,7 +257,7 @@ if get_option('buildtype').contains('debug')
 endif
 if get_option('run-in-place')
   config_data.set('RUN_IN_PLACE', 1)
-  config_data.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root()))
+  config_data.set_quoted('PRIVEXECDIR', join_paths(meson.build_root()))
 else
   config_data.set_quoted('PRIVEXECDIR', privexecdir)
 endif
