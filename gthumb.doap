@@ -4,7 +4,7 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">gthumb</name>
+  <name xml:lang="en">gThumb</name>
   <shortdesc xml:lang="en">Image viewer and browser</shortdesc>
   <description>
  * gThumb is an image browser
