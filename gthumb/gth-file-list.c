@@ -209,11 +209,19 @@ gth_file_list_op_free (GthFileListOp *op)
 
 
 static void
+_gth_file_list_thumbs_completed (GthFileList *file_list)
+{
+	file_list->priv->loading_thumbs = FALSE;
+}
+
+
+static void
 _gth_file_list_clear_queue (GthFileList *file_list)
 {
 	if (file_list->priv->restart_thumb_update != 0) {
 		g_source_remove (file_list->priv->restart_thumb_update);
 		file_list->priv->restart_thumb_update = 0;
+		_gth_file_list_thumbs_completed (file_list);
 	}
 
 	g_list_foreach (file_list->priv->queue, (GFunc) gth_file_list_op_free, NULL);
@@ -425,13 +433,6 @@ start_update_next_thumb (GthFileList *file_list, gboolean even_when_loading_thum
 	if (file_list->priv->restart_thumb_update != 0)
 		g_source_remove (file_list->priv->restart_thumb_update);
 	file_list->priv->restart_thumb_update = g_idle_add (restart_thumb_update_cb, file_list);
-}
-
-
-static void
-_gth_file_list_thumbs_completed (GthFileList *file_list)
-{
-	file_list->priv->loading_thumbs = FALSE;
 }
 
 
