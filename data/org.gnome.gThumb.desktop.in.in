@@ -13,11 +13,7 @@ MimeType=image/bmp;image/jpeg;image/gif;image/png;image/tiff;image/x-bmp;image/x
 StartupNotify=true
 Terminal=false
 Type=Application
-X-GNOME-Bugzilla-Bugzilla=GNOME
-X-GNOME-Bugzilla-Product=gthumb
-X-GNOME-Bugzilla-Component=general
 X-GNOME-DocPath=gthumb/gthumb.xml
-X-GNOME-Bugzilla-Version=@VERSION@
 Actions=new-window
 
 [Desktop Action new-window]
