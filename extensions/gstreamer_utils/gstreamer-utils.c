@@ -873,19 +873,11 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 				gth_image_set_cairo_surface (image, surface);
 			cairo_surface_destroy (surface);
 
-			GError *local_error = NULL;
-			if (!g_file_delete (tmp_file, NULL, &local_error)) {
-				g_warning ("%s", local_error->message);
-				g_error_free (local_error);
-			}
-
-			local_error = NULL;
-			if (!g_file_delete (tmp_dir, NULL, &local_error)) {
-				g_warning ("%s", local_error->message);
-				g_error_free (local_error);
-			}
+			g_file_delete (tmp_file, NULL, NULL);
 		}
 	}
+
+	g_file_delete (tmp_dir, NULL, NULL);
 
 	if ((cancellable != NULL) && (id != 0))
 		g_cancellable_disconnect (cancellable, id);
