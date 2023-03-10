@@ -78,7 +78,7 @@ gstreamer_generate_thumbnail (GFile   *file,
 	thumbnail_position = duration / 3;
 	if (! gst_element_seek_simple (playbin,
 				       GST_FORMAT_TIME,
-				       GST_SEEK_FLAG_KEY_UNIT | GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+				       GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
 				       thumbnail_position))
 	{
 		g_set_error_literal (error,
