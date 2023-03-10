@@ -793,6 +793,21 @@ _gst_playbin_get_current_frame (GstElement  *playbin,
 }
 
 
+typedef struct {
+	GSubprocess *proc;
+} ProcData;
+
+
+static void
+thumbnailer_cancelled_cb (GCancellable *cancellable,
+			  gpointer      user_data)
+{
+	ProcData *data = user_data;
+	if (data->proc != NULL)
+		g_subprocess_force_exit (data->proc);
+}
+
+
 GthImage *
 gstreamer_thumbnail_generator (GInputStream  *istream,
 			       GthFileData   *file_data,
@@ -814,7 +829,6 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 	char          *size;
 	GStrvBuilder  *builder;
 	char         **argv;
-	char          *tmp_path;
 
 	image = gth_image_new ();
 
@@ -841,22 +855,42 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 
 	//g_print ("command: '%s'\n", g_strjoinv (" ", argv));
 
-	tmp_path = g_file_get_path (tmp_dir);
-	if (g_spawn_sync (tmp_path, argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, NULL, NULL, NULL, error)) {
-		cairo_surface_t *surface = cairo_image_surface_create_from_png (output);
-		if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
-			gth_image_set_cairo_surface (image, surface);
-		cairo_surface_destroy (surface);
+	ProcData proc_data;
+	proc_data.proc = g_subprocess_newv ((const gchar * const *) argv, G_SUBPROCESS_FLAGS_NONE, error);
+
+	gulong id = 0;
+	if (cancellable != NULL)
+		id = g_cancellable_connect (cancellable,
+					    G_CALLBACK (thumbnailer_cancelled_cb),
+					    &proc_data,
+					    NULL);
+
+	if (proc_data.proc != NULL) {
+		g_subprocess_wait_check (proc_data.proc, NULL, error);
+		if (g_subprocess_get_if_exited (proc_data.proc)) {
+			cairo_surface_t *surface = cairo_image_surface_create_from_png (output);
+			if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
+				gth_image_set_cairo_surface (image, surface);
+			cairo_surface_destroy (surface);
+
+			GError *local_error = NULL;
+			if (!g_file_delete (tmp_file, NULL, &local_error)) {
+				g_warning ("%s", local_error->message);
+				g_error_free (local_error);
+			}
+
+			local_error = NULL;
+			if (!g_file_delete (tmp_dir, NULL, &local_error)) {
+				g_warning ("%s", local_error->message);
+				g_error_free (local_error);
+			}
+		}
 	}
 
-	g_file_delete (tmp_file, NULL, NULL);
-	GError *local_error = NULL;
-	if (!g_file_delete (tmp_dir, NULL, &local_error)) {
-		g_warning ("%s", local_error->message);
-		g_error_free (local_error);
-	}
+	if ((cancellable != NULL) && (id != 0))
+		g_cancellable_disconnect (cancellable, id);
 
-	g_free (tmp_path);
+	_g_object_unref (proc_data.proc);
 	g_strfreev (argv);
 	g_strv_builder_unref (builder);
 	g_free (size);

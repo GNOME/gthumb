@@ -119,6 +119,28 @@ gth_thumb_loader_init (GthThumbLoader *self)
 }
 
 
+typedef struct {
+	guint event_id;
+	GCancellable *cancellable;
+	GthFileData *file_data;
+	gboolean timed_out;
+} InternalThumbnailer;
+
+
+static gboolean
+cancel_internal_thumbnailer_cb (gpointer user_data)
+{
+	InternalThumbnailer *data = user_data;
+	if (data->cancellable != NULL) {
+		g_print ("    THUMBNAILER TIMEOUT = %s\n", g_file_get_uri (data->file_data->file));
+		g_cancellable_cancel (data->cancellable);
+	}
+	data->event_id = 0;
+	data->timed_out = TRUE;
+	return G_SOURCE_REMOVE;
+}
+
+
 static GthImage *
 generate_thumbnail (GInputStream  *istream,
 		    GthFileData   *file_data,
@@ -187,7 +209,14 @@ generate_thumbnail (GInputStream  *istream,
 		 * priority to the internal loaders. */
 
 		thumbnailer = gth_main_get_image_loader_func (mime_type, GTH_IMAGE_FORMAT_CAIRO_SURFACE);
-		if (thumbnailer != NULL)
+		if (thumbnailer != NULL) {
+			InternalThumbnailer internal_thumbnailer;
+			internal_thumbnailer.file_data = file_data;
+			internal_thumbnailer.cancellable = cancellable;
+			internal_thumbnailer.timed_out = FALSE;
+			internal_thumbnailer.event_id = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
+								       cancel_internal_thumbnailer_cb,
+								       &internal_thumbnailer);
 			image = thumbnailer (istream,
 					     file_data,
 					     self->priv->cache_max_size,
@@ -197,10 +226,18 @@ generate_thumbnail (GInputStream  *istream,
 					     NULL,
 					     cancellable,
 					     error);
+
+			if (internal_thumbnailer.timed_out && (cancellable != NULL))
+				g_cancellable_reset (cancellable);
+			if (internal_thumbnailer.event_id != 0)
+				g_source_remove (internal_thumbnailer.event_id);
+		}
 	}
 
-	if ((image == NULL) && (error != NULL))
-		*error = g_error_new_literal (GTH_ERROR, 0, "Could not generate the thumbnail");
+	if (((image == NULL) || gth_image_get_is_null (image)) && (error != NULL)) {
+		g_clear_error (error);
+		g_set_error_literal (error, GTH_ERROR, 0, "Could not generate the thumbnail.");
+	}
 
 	g_free (uri);
 
