@@ -52,15 +52,15 @@ int main (int argc, char *argv[])
 	context = g_option_context_new ("- generate a thumbnail for a video using gstreamer");
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
 	if (!g_option_context_parse (context, &argc, &argv, &error)) {
-		g_print ("Option parsing failed: %s\n", error->message);
+		g_warning ("Option parsing failed: %s\n", error->message);
 		return 1;
 	}
 	if ((filenames == NULL) || (filenames[INPUT_FILE] == NULL)) {
-		g_print ("Video file not specified.\n");
+		g_warning ("Video file not specified.\n");
 		return 2;
 	}
 	if (filenames[OUTPUT_FILE] == NULL) {
-		g_print ("Thumbnail file not specified.\n");
+		g_warning ("Thumbnail file not specified.\n");
 		return 3;
 	}
 
@@ -68,13 +68,13 @@ int main (int argc, char *argv[])
 
 	GFile *file = g_file_new_for_commandline_arg (filenames[INPUT_FILE]);
 	if (file == NULL) {
-		g_print ("Invalid filename: '%s'\n", filenames[INPUT_FILE]);
+		g_warning ("Invalid filename: '%s'\n", filenames[INPUT_FILE]);
 		return 4;
 	}
 
-	GdkPixbuf *thumbnail = gstreamer_generate_thumbnail (file, NULL);
+	GdkPixbuf *thumbnail = gstreamer_generate_thumbnail (file, &error);
 	if (thumbnail == NULL) {
-		g_print ("Could not generate the thumbail for '%s'\n", g_file_get_uri (file));
+		g_warning ("Could not generate the thumbail for %s: %s\n", g_file_get_uri (file), error->message);
 		return 5;
 	}
 
@@ -86,14 +86,14 @@ int main (int argc, char *argv[])
 	scale_keeping_ratio (&width, &height, thumbnail_size, thumbnail_size, FALSE);
 	cairo_surface_t *scaled = _cairo_image_surface_scale (surface, width, height, SCALE_FILTER_BEST, NULL);
 	if (scaled == NULL) {
-		g_print ("Could not scale the thumbail to %d\n", thumbnail_size);
+		g_warning ("Could not scale the thumbail to %d\n", thumbnail_size);
 		return 6;
 	}
 
 	/* Save the thumbnail. */
 
 	if (cairo_surface_write_to_png (scaled, filenames[OUTPUT_FILE]) != CAIRO_STATUS_SUCCESS) {
-		g_print ("Could not save the thumbail to '%s'.\n", filenames[OUTPUT_FILE]);
+		g_warning ("Could not save the thumbail to '%s'.\n", filenames[OUTPUT_FILE]);
 		return 7;
 	}
 

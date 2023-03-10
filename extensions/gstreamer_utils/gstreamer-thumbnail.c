@@ -149,9 +149,6 @@ gstreamer_generate_thumbnail (GFile   *file,
 	}
 
  error:
-	if ((error != NULL) && (*error != NULL))
-		g_warning ("%s", (*error)->message);
-
 	if ((pixbuf == NULL) && (sample != NULL))
 		gst_sample_unref (sample);
 

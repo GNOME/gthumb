@@ -132,7 +132,7 @@ cancel_internal_thumbnailer_cb (gpointer user_data)
 {
 	InternalThumbnailer *data = user_data;
 	if (data->cancellable != NULL) {
-		g_print ("    THUMBNAILER TIMEOUT = %s\n", g_file_get_uri (data->file_data->file));
+		g_warning ("THUMBNAILER TIMEOUT for %s\n", g_file_get_uri (data->file_data->file));
 		g_cancellable_cancel (data->cancellable);
 	}
 	data->event_id = 0;
