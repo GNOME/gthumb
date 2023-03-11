@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2022-09-06 13:18+0000\n"
-"PO-Revision-Date: 2023-03-11 14:26+0000\n"
+"PO-Revision-Date: 2023-03-11 15:27+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -1642,10 +1642,9 @@ msgid "example"
 msgstr "dæmi"
 
 #: extensions/example/src/example.extension.desktop.in.in:4
-#, fuzzy
 #| msgid "example: %s"
 msgid "What example does"
-msgstr "dæmi: %s"
+msgstr "Hvað dæmi gerir"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
@@ -4088,10 +4087,9 @@ msgid "Re_verse Order"
 msgstr "Öfu_g röð"
 
 #: extensions/rename_series/data/ui/rename-series.ui:226
-#, fuzzy
 #| msgid "leave the oldest duplicates"
 msgid "Revert to the last used template"
-msgstr "skilja eftir elstu tvítökin"
+msgstr "Endurstilla á síðast notaða sniðmátið"
 
 #: extensions/rename_series/data/ui/rename-series.ui:265
 msgid "_Preview:"
