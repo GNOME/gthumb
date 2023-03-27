@@ -1,21 +1,21 @@
 # Swedish messages for gThumb help 
-# Copyright © 2006-2022 Free Software Foundation, Inc.
+# Copyright © 2006-2023 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009
 # Josef Andersson <josef.andersson@fripost.org>, 2015.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2020, 2022.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2020, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2021-09-26 12:38+0000\n"
-"PO-Revision-Date: 2022-02-07 19:38+0100\n"
+"POT-Creation-Date: 2023-02-12 21:38+0000\n"
+"PO-Revision-Date: 2023-03-27 14:35+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -81,7 +81,7 @@ msgstr ""
 "Ångra och gör om-funktioner finns fram till det att fotot är sparat. För att "
 "komma åt redigeringsverktygen, öppna en bild och klicka på knappen "
 "<gui>Redigera fil</gui> i verktygsfältet (palettikonen) eller tryck "
-"<keyseq><key>e</key></keyseq>."
+"<keyseq><key>E</key></keyseq>."
 
 #. (itstool) path: section/title
 #: C/index.page:42
@@ -314,8 +314,8 @@ msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
 msgstr ""
-"Det här är en sammanställning av standard datum/tidskoder som kan användas i "
-"formatsträngar:"
+"Det här är en sammanställning av standardkoder för datum och tid som kan "
+"användas i formatsträngar:"
 
 #. (itstool) path: table/title
 #: C/strftime.page:14
@@ -418,7 +418,7 @@ msgstr "Timmen som ett decimaltal i 24-timmarsklocka (00 till 23)."
 #. (itstool) path: td/p
 #: C/strftime.page:156
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
-msgstr "Timmen som ett decimaltal med 12-timmarsklocka (01-12)."
+msgstr "Timmen som ett decimaltal i 12-timmarsklocka (01 till 12)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:165
@@ -642,7 +642,7 @@ msgid ""
 msgstr ""
 "<app>gThumb</app> stöder de vanligaste grafiska formaten inklusive JPEG, "
 "GIF, TIF och PNG. <app>gThumb</app> kommer också att visa mindre kända "
-"bildtyper om stödbibliotek installeras, inklusive TGA, ICO, BMP, XPM och "
+"bildtyper om stödbibliotek installeras, inklusive TGA, ICO, BMP, XPM med "
 "flera."
 
 #. (itstool) path: page/p
@@ -698,12 +698,12 @@ msgstr ""
 #: C/introduction.page:34
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"https://wiki.gnome.org/Apps/gthumb"
-"\">https://wiki.gnome.org/Apps/gthumb</link>."
+"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
+"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
 "Ytterligare information om dessa tillägg och allmänt om <app>gThumb</app> "
-"finns tillgängligt på <link href=\"https://wiki.gnome.org/Apps/gthumb"
-"\">https://wiki.gnome.org/Apps/gthumb</link>."
+"finns tillgängligt på <link href=\"https://wiki.gnome.org/Apps/"
+"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -765,7 +765,7 @@ msgid ""
 msgstr ""
 "Verktygsfältet innehåller en mindre uppsättning kommandon som du kan komma "
 "åt från menyraden. Speciellt innehåller verktygsknappen funktioner för "
-"satsvisbearbetning av flera bilder."
+"satsvis bearbetning av flera bilder."
 
 #. (itstool) path: item/title
 #: C/browser.page:31
@@ -822,7 +822,8 @@ msgstr "Ordna-knappen"
 msgid ""
 "The Organize button, just above the browser view, allows you to group images "
 "into catalogs."
-msgstr "Ordna-knappen, ovan bläddrarvyn låter dig gruppera bilder till album."
+msgstr ""
+"Ordna-knappen ovanför bläddrarvyn låter dig gruppera bilder till album."
 
 #. (itstool) path: item/title
 #: C/browser.page:57
@@ -1094,6 +1095,7 @@ msgstr ""
 "använda <app>mplayer</app>, <app>totem</app> eller andra filmvisare för att "
 "skapa miniatyrbilder."
 
+# TODO: Gnome->GNOME
 #. (itstool) path: page/p
 #: C/thumbnails.page:37
 msgid ""
@@ -1107,7 +1109,7 @@ msgid ""
 "settings greatly."
 msgstr ""
 "<app>gThumb</app> kommer att spara miniatyrbilder till en systemcache för "
-"att dela dem med andra program. Som standard rensar Gnome-system bort "
+"att dela dem med andra program. Som standard rensar GNOME-system bort "
 "cachade miniatyrbilder när de är äldre än 180 dagar eller när "
 "miniatyrbildscachen överskrider 512 MB. Tekniskt kunniga användare kan "
 "utforska dessa inställningar med <app>dconf-editor</app>. Se speciellt "
@@ -1193,7 +1195,7 @@ msgid ""
 msgstr ""
 "Namnmallen är helt enkelt ett mönster som används för att byta namn på alla "
 "valda bilder. Du kan även använda vissa specialtecken för att göra att de "
-"nya namnen skiljer sig från varandra (essentiellt om du byter namn på mer än "
+"nya namnen skiljer sig från varandra (nödvändigt om du byter namn på mer än "
 "en bild, och valfritt om du byter namn på en enstaka bild):"
 
 #. (itstool) path: td/p
@@ -1287,7 +1289,7 @@ msgstr ""
 "Den här symbolen kommer att ersättas med filändringsdatum. Formateringen av "
 "detta datum (och valfritt, tid) kan specificeras genom att lägga till en "
 "standardformateringskod. Exempelvis skulle ”%M{%Y-%m-%d, %T}” ersättas med "
-"ett datum och tid som  ”2010-04-01, 15:02:01”."
+"ett datum och tid som ”2010-04-01, 15:02:01”."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:98
@@ -1552,7 +1554,7 @@ msgstr ""
 "Rotationerna som är möjliga i redigeringsläget utförs på bilden i minnet. De "
 "är inte direkta filoperationer. För jpeg betyder detta att de inte är "
 "förlustfria operationer - bilden kommer att försämras en aning när den "
-"omkodas och sparas. Men, <app>gThumb</app> erbjuder verktyg för förlustfri "
+"omkodas och sparas. <app>gThumb</app> erbjuder dock verktyg för förlustfri "
 "rotation. Se <link xref=\"gthumb-batch-rotate\"/>."
 
 #. (itstool) path: page/title
@@ -1607,8 +1609,8 @@ msgid ""
 "simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
 msgstr ""
 "<app>gThumb</app> erbjuder också ett verktyg för satsvis bearbetning för "
-"ändra storlek på flera bilder samtidigt. Se <link xref=\"gthumb-batch-resize"
-"\"/>."
+"ändra storlek på flera bilder samtidigt. Se <link xref=\"gthumb-batch-"
+"resize\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-redeye.page:6
@@ -1638,15 +1640,16 @@ msgid ""
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
 "reddish tinge. This tool could use improvement - if you are fiendishly "
-"clever, love matrix algebra and open source software, please <link href="
-"\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
+"clever, love matrix algebra and open source software, please <link "
+"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</"
+"link>"
 msgstr ""
-"Detta verktyg fungerar bäst när det finns en hög färgkonstrast mellan det "
-"röda ögat och omgivande ansikte. Det fungerar inte bra för \"orange ögon\" "
-"som ibland kan ses i foton på barn, eller om omgivande hud har en rödaktig "
-"ton. Detta verktyg kan förbättras - om du är smart, älskar matrisalgebra och "
-"öppen källkod, <link href=\"https://wiki.gnome.org/Apps/gthumb/development"
-"\">skicka in en programfix!</link>"
+"Detta verktyg fungerar bäst när det finns en hög färgkontrast mellan det "
+"röda ögat och omgivande ansikte. Det fungerar inte bra för ”orange ögon” som "
+"ibland kan ses i foton på barn, eller om omgivande hud har en rödaktig ton. "
+"Detta verktyg kan förbättras - om du är smart, älskar matrisalgebra och "
+"öppen källkod, <link href=\"https://wiki.gnome.org/Apps/gthumb/"
+"development\">skicka in en programfix!</link>"
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1688,10 +1691,10 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/extensions.page:20
 msgid ""
-"If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
-"link> for development information. An example extension is provided in the "
-"source code, which you can base your own extension on."
+"If you would like to write your own extension, please visit <link "
+"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+"Gthumb</link> for development information. An example extension is provided "
+"in the source code, which you can base your own extension on."
 msgstr ""
 "Om du vill skriva dina egna tillägg, besök <link href=\"https://wiki.gnome."
 "org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</link> för "
@@ -1712,7 +1715,7 @@ msgid ""
 msgstr ""
 "Om du har markerade filer i bläddraren eller en bild öppnad i visaren kan du "
 "öppna dem i <app>GNU:s bildmanipuleringsprogram (GIMP)</app> genom att "
-"trycka <key>g</key>."
+"trycka <key>G</key>."
 
 #. (itstool) path: page/p
 #: C/gimp.page:10
@@ -1793,7 +1796,7 @@ msgid ""
 "current image in fullscreen mode. (In the browser mode, you can also double-"
 "click with the middle mouse button.)"
 msgstr ""
-"Att trycka på <key>f</key> i bläddrar- eller visningslägena kommer att visa "
+"Att trycka på <key>F</key> i bläddrar- eller visningslägena kommer att visa "
 "aktuell bild i helskärmsläge. (I bläddrarläget kan du också dubbelklicka med "
 "mittenmusknappen.)"
 
@@ -1803,7 +1806,7 @@ msgid ""
 "Moving the mouse will activate a popup control panel briefly. This can be "
 "used to navigate to the next or previous image, or change zoom levels."
 msgstr ""
-"Att flytta på musen kommer snabbt att aktivera en poppupp-kontroll. Den kan "
+"Att flytta på musen kommer snabbt att aktivera en poppuppkontroll. Den kan "
 "användas för att navigera till nästa eller föregående bild eller att ändra "
 "zoomnivåer."
 
@@ -1835,7 +1838,7 @@ msgstr ""
 #: C/fullscreen.page:27
 msgid "To exit the fullscreen mode, press <key>f</key> or <key>Escape</key>."
 msgstr ""
-"För att avsluta helskärmsläge, tryck <key>f</key> eller <key>Escape</key>."
+"För att avsluta helskärmsläge, tryck <key>F</key> eller <key>Escape</key>."
 
 #. (itstool) path: page/title
 #: C/sorting.page:7
@@ -1951,7 +1954,7 @@ msgid ""
 "keyseq>."
 msgstr ""
 "För att skriva ut aktuell bild i visarläget, använd <guiseq><gui>Arkiv</"
-"gui><gui>Skriv ut</gui></guiseq> eller <keyseq><key>Ctrl</key><key>p</key></"
+"gui><gui>Skriv ut</gui></guiseq> eller <keyseq><key>Ctrl</key><key>P</key></"
 "keyseq>."
 
 #. (itstool) path: page/p
@@ -1963,7 +1966,7 @@ msgid ""
 msgstr ""
 "För att skriva ut en eller flera bilder från bläddrarläget, välj de önskade "
 "bilderna och använd sedan <guiseq><gui>Arkiv</gui><gui>Skriv ut</gui></"
-"guiseq> eller <keyseq><key>Ctrl</key><key>p</key></keyseq>."
+"guiseq> eller <keyseq><key>Ctrl</key><key>P</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/printing.page:18
@@ -2040,10 +2043,10 @@ msgid ""
 "The optical disk writing process will then commence, or the ISO file will be "
 "written, completing the process."
 msgstr ""
-"Nästa dialog kommer att välja destinationsdisken eller ISO-filen att spara. "
-"När du är redo att slutföra processen, klicka <gui>Skapa bild</gui>. "
-"Skrivprocessen för den optiska disken kommer då att påbörjas, eller att ISO-"
-"filen kommer att skriva vilket färdigställer processen."
+"Nästa dialog kommer att välja måldisken eller ISO-filen att spara. När du är "
+"redo att slutföra processen, klicka <gui>Skapa bild</gui>. Skrivprocessen "
+"för den optiska disken kommer då att påbörjas, eller att ISO-filen kommer "
+"att skrivas vilket färdigställer processen."
 
 #. (itstool) path: page/title
 #: C/sharing-social.page:6
@@ -2058,7 +2061,7 @@ msgid ""
 "Flickr, Picasa, and Photobucket are enabled."
 msgstr ""
 "gThumb kommer med ett antal tillägg för att skicka upp foton till diverse "
-"olika webbplatser för ”sociala media”. Som standard går det att skicka upp "
+"olika webbplatser för ”sociala medier”. Som standard går det att skicka upp "
 "till Facebook, Flickr, Picasa och Photobucket."
 
 #. (itstool) path: page/p
@@ -2070,7 +2073,7 @@ msgid ""
 msgstr ""
 "För att skicka upp en serie av foton, välj bilderna i bläddrarvyn och klicka "
 "på knappen <gui>Dela</gui> i verktygsfältet. Välj passande webbplats från "
-"meny som visas."
+"menyn som visas."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:17
@@ -2085,8 +2088,8 @@ msgstr ""
 "Du kan frågas efter ytterligare information specifik för målwebbplatsen, som "
 "ett albumnamn. Du kan också tillfrågas om ditt användarnamn och lösenord för "
 "webbplatsen. Det kan bli nödvändigt för gThumb för att öppna en webbläsare "
-"där du har färdigställt begärda autentiseringsteg. När du väl har "
-"färdigställt de begärda autentiseringstegen i bläddraren, återvänd till "
+"där du har färdigställt begärda autentiseringssteg. När du väl har "
+"färdigställt de begärda autentiseringsstegen i bläddraren, återvänd till "
 "gThumb och fortsätt att skicka upp."
 
 #. (itstool) path: page/p
@@ -2097,8 +2100,8 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
 msgstr ""
 "Om du inte ser den förväntade webbplatsen för uppskickning i menyn "
-"<gui>Dela</gui> kontrollera att förväntade exporttillägg är aktiverade i "
-"<guiseq><gui>Redigera</gui><gui>Tillägg</gui></guiseq>."
+"<gui>Dela</gui> får du kontrollera att förväntade exporttillägg är "
+"aktiverade i <guiseq><gui>Redigera</gui><gui>Tillägg</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:31
@@ -2116,6 +2119,7 @@ msgstr ""
 msgid "Desktop Wallpaper"
 msgstr "Skrivbordsbakgrund"
 
+# TODO: GNOME
 #. (itstool) path: page/p
 #: C/wallpaper.page:7
 msgid ""
@@ -2127,7 +2131,7 @@ msgid ""
 msgstr ""
 "För att ange en bild som systemets skrivbordsbakgrund, högerklicka på bilden "
 "och välj <guiseq><gui>Ange som skrivbordsbakgrund</gui></guiseq> från "
-"poppupp-menyn. Skrivbordsbakgrunden kommer att ändras och Gnomes "
+"poppuppmenyn. Skrivbordsbakgrunden kommer att ändras och GNOMEs "
 "utseendeinställningsdialog kommer att visas. Du kan använda denna dialog för "
 "att göra justeringar till bakgrundsinställningar (positionering, sträckning, "
 "sida-vid-sida med mera)."
@@ -2159,6 +2163,7 @@ msgstr ""
 "För att flytta eller omarrangera bokmärken i en annan ordning använd "
 "kommandot <guiseq><gui>Bokmärken</gui><gui>Redigera bokmärken</gui></guiseq>."
 
+# TODO: GNOME
 #. (itstool) path: page/p
 #: C/bookmarks.page:16
 msgid ""
@@ -2168,7 +2173,7 @@ msgid ""
 msgstr ""
 "<guiseq><gui>Bokmärken</gui><gui>Systembokmärken</gui></guiseq> ger tillgång "
 "till systembokmärkena som har definierats i <app>Nautilus</app> eller "
-"filväljardialogen i de flesta Gnome-program."
+"filväljardialogen i de flesta GNOME-program."
 
 #. (itstool) path: page/title
 #: C/import.page:8
@@ -2314,18 +2319,18 @@ msgstr ""
 "En variation av standarddatumformaten är tillgängliga (exempelvis <gui>år-"
 "månad</gui>). Kryssrutan <gui>som en enkel undermapp</gui> kontrollerar "
 "huruvida en ”djup” eller ”ytlig” hierarki av filer skapas (exempelvis med "
-"<gui>år-månad</gui>, du kan ha år-undermappar med månadsundermappar under "
-"dem, eller alla undermappar kan vara på samma nivå i filsystemet, med året "
-"och namnet som mappnamn.)"
+"<gui>år-månad</gui>, du kan ha årsundermappar med månadsundermappar under "
+"dem, eller så kan alla undermappar vara på samma nivå i filsystemet, med "
+"året och namnet som mappnamn.)"
 
 #. (itstool) path: page/p
 #: C/import.page:61
 msgid ""
 "It is not necessary to use the predefined date formats. If you select "
 "<gui>custom format</gui>, standard date codes can be used. Click on the help "
-"icon to the right of the custom format field for a list of format codes. \"%E"
-"\" is a special code that will embed the <gui>Event</gui> name defined in "
-"the main import dialog."
+"icon to the right of the custom format field for a list of format codes. "
+"\"%E\" is a special code that will embed the <gui>Event</gui> name defined "
+"in the main import dialog."
 msgstr ""
 "Det är inte nödvändigt att använda fördefinierade datumformat. Om du "
 "använder <gui>anpassade format</gui> kan standarddatumkoder användas. Klicka "
@@ -2348,7 +2353,7 @@ msgid ""
 msgstr ""
 "Om du använder automatisk undermappsnamngivning kommer fältet "
 "<gui>Destination</gui> i huvudimportdialogen att visa den automatiska delen "
-"av mappen i rött. (För datumbaserade format kan tillfällig data visas i den "
+"av mappen i rött. (För datumbaserade format kan tillfälliga data visas i den "
 "röda delen.)"
 
 #. (itstool) path: figure/title
@@ -2431,7 +2436,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/slideshow.page:30
 msgid "You can pause or un-pause the slideshow by pressing <key>p</key>."
-msgstr "Du kan pausa eller fortsätta bildspelet genom att trycka <key>p</key>."
+msgstr "Du kan pausa eller fortsätta bildspelet genom att trycka <key>P</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:32
@@ -2527,12 +2532,12 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:4
 msgid "Creative Commons Attribution-Share Alike 3.0 Unported License"
-msgstr "Creative Commons Attribution-Share Alike 3.0 Unported License"
+msgstr "Creative Commons Attribution-Share Alike 3.0 Unported"
 
 #. (itstool) path: license/p
 #: C/legal.xml:3
 msgid "This work is licensed under a <_:link-1/>."
-msgstr "Detta verk är licenserat under en <_:link-1/>."
+msgstr "Detta verk är licenserat under licensen <_:link-1/>."
 
 #. (itstool) path: license/p
 #: C/legal.xml:6
@@ -2541,9 +2546,9 @@ msgid ""
 "modify, and distribute the example code contained in this document under the "
 "terms of your choosing, without restriction."
 msgstr ""
-"Som ett speciellt undantag ger dig upphovsrättsinnehavarna dig rätten att "
-"kopiera, ändra och distribuera exempelkoden i detta dokument på det sätt du "
-"väljer, utan restriktioner."
+"Som ett speciellt undantag ger upphovsrättsinnehavarna dig rätten att "
+"kopiera, ändra och distribuera exempelkoden i detta dokument under de "
+"villkor du väljer, utan restriktioner."
 
 #~ msgid "%a"
 #~ msgstr "%a"
@@ -3014,8 +3019,3 @@ msgstr ""
 
 #~ msgid "Add the current location to the bookmarks."
 #~ msgstr "Lägg till aktuell plats till bokmärken."
-
-#, fuzzy
-#~| msgid "Enhance"
-#~ msgid "Enhance colors."
-#~ msgstr "Förbättra"
