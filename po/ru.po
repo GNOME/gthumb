@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb trunk\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2022-11-12 11:15+0000\n"
-"PO-Revision-Date: 2022-11-13 20:12+1000\n"
-"Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
+"POT-Creation-Date: 2023-04-09 05:52+0000\n"
+"PO-Revision-Date: 2023-04-09 13:43+0300\n"
+"Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
-msgstr "Просмотрщик изображений gThumb"
+msgstr "Приложение просмотра изображений gThumb"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:9
 #: data/org.gnome.gThumb.desktop.in.in:6
@@ -40,8 +40,8 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb программа для просмотра, редактирования и каталогизации. Она "
-"разработана для использования в среде GNOME 3."
+"gThumb приложение для просмотра, редактирования и каталогизации. Оно "
+"разработано для использования в среде GNOME 3."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
@@ -50,7 +50,7 @@ msgid ""
 "is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
-"Как программа просмотра gThumb позволяет просматривать обычные изображения: "
+"Как приложение просмотра gThumb позволяет просматривать обычные изображения: "
 "BMP, JPEG, GIF (включая анимацию), PNG, TIFF, TGA и RAW. Также "
 "поддерживается отображение встроенных в файл данных: EXIF, IPTC и XMP."
 
@@ -76,7 +76,7 @@ msgstr ""
 "Как обозреватель gThumb отображает миниатюры сохранённых на диске "
 "изображений, позволяет осуществлять обычные операции файлового менеджера, "
 "такие как: копирование, перемещение и удаление файлов и папок. В дополнение "
-"программа предоставляет набор инструментов: трансформация JPEG без потери "
+"приложение предоставляет набор инструментов: трансформация JPEG без потери "
 "качества, изменение размера изображения, конвертирование форматов, слайд-"
 "шоу, установка изображения в качестве фона рабочего стола и многое другое."
 
@@ -158,7 +158,7 @@ msgstr "Просмотр изображений"
 msgid "Image;Viewer;"
 msgstr "Изображение; Обозреватель;"
 
-#: data/org.gnome.gThumb.desktop.in.in:25
+#: data/org.gnome.gThumb.desktop.in.in:21
 #: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Новое окно"
@@ -187,7 +187,7 @@ msgstr "Открывать файлы в полноэкранном режиме
 
 #: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:355
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
+#: extensions/gstreamer_tools/main.c:42 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "Другое"
@@ -676,7 +676,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:414
 #: extensions/contact_sheet/data/ui/image-wall.ui:216
-#: extensions/image_viewer/gth-image-viewer-page.c:1703
+#: extensions/image_viewer/gth-image-viewer-page.c:1735
 #: extensions/webalbums/data/ui/web-album-exporter.ui:391
 msgid "Saving"
 msgstr "Сохранение"
@@ -773,8 +773,8 @@ msgid "Rename"
 msgstr "Переименовать"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4780
-#: gthumb/gth-browser.c:4892 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4781
+#: gthumb/gth-browser.c:4893 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Свойства"
 
@@ -1640,7 +1640,7 @@ msgstr "Чтение файлов"
 
 #: extensions/example/src/example.extension.desktop.in.in:3
 msgid "example"
-msgstr "Пример"
+msgstr "пример"
 
 #: extensions/example/src/example.extension.desktop.in.in:4
 msgid "What example does"
@@ -1696,7 +1696,7 @@ msgid "State/Province:"
 msgstr "Область/район:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2093 gthumb/str-utils.c:641
+#: gthumb/glib-utils.c:2114 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(неверное значение)"
 
@@ -1776,7 +1776,7 @@ msgstr "Введите имя папки:"
 #: extensions/file_manager/callbacks.c:566
 #: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5818 gthumb/gth-browser.c:5861
+#: gthumb/gth-browser.c:5819 gthumb/gth-browser.c:5862
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Не удалось выполнить операцию"
@@ -2429,7 +2429,7 @@ msgstr "Введите имя предустановки:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1632
+#: extensions/image_viewer/gth-image-viewer-page.c:1664
 #: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Не удалось сохранить файл"
@@ -2906,7 +2906,7 @@ msgstr "_Авторизация…"
 #: extensions/flicker_utils/flickr-service.c:566
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr "Для отправки фотографий на %s требуется авторизация"
+msgstr "gThumb требует вашей авторизации для загрузки фотографий в %s"
 
 #: extensions/flicker_utils/flickr-service.c:567
 #, c-format
@@ -2959,8 +2959,9 @@ msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Снимок экрана"
 
-#: extensions/gstreamer_tools/actions.c:137
-#: extensions/gstreamer_tools/actions.c:148
+#: extensions/gstreamer_tools/actions.c:157
+#: extensions/gstreamer_tools/actions.c:169
+#: extensions/gstreamer_tools/actions.c:410
 msgid "Could not take a screenshot"
 msgstr "Не удалось сделать снимок экрана"
 
@@ -2985,7 +2986,7 @@ msgid "Play slower"
 msgstr "Замедлить воспроизведение"
 
 #: extensions/gstreamer_tools/callbacks.c:37
-#: extensions/image_viewer/gth-image-viewer-page.c:1189
+#: extensions/image_viewer/gth-image-viewer-page.c:1205
 msgid "Next frame"
 msgstr "Следующий кадр"
 
@@ -3048,8 +3049,8 @@ msgid "_Screenshots location:"
 msgstr "Расположение снимков экрана:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
-#: extensions/image_viewer/gth-image-viewer-page.c:1182
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:629
+#: extensions/image_viewer/gth-image-viewer-page.c:1198
 msgid "Play"
 msgstr "Воспроизвести"
 
@@ -3127,90 +3128,95 @@ msgstr "Поддержка звука и видео"
 msgid "Play audio and video files."
 msgstr "Воспроизвести звуковые и видео файлы."
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:117
+#: extensions/image_viewer/gth-image-viewer-page.c:84
+msgid "Copy Image"
+msgstr "Копировать изображение"
+
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:602
 msgid "Playing video"
 msgstr "Воспроизведение видео"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:615
 msgid "Pause"
 msgstr "Пауза"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1127
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1136
 msgid "Take a screenshot"
 msgstr "Сделать снимок экрана"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1134
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1143
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
 msgstr "Подогнать под размеры окна"
 
-#: extensions/gstreamer_tools/main.c:34
+#: extensions/gstreamer_tools/main.c:35
 msgid "Audio/Video Player"
 msgstr "Проигрыватель аудио или видео"
 
-#: extensions/gstreamer_tools/main.c:39 gthumb/gth-main-default-tests.c:314
+#: extensions/gstreamer_tools/main.c:40 gthumb/gth-main-default-tests.c:314
 msgid "Video"
 msgstr "Видео"
 
-#: extensions/gstreamer_tools/main.c:40 gthumb/gth-main-default-tests.c:321
+#: extensions/gstreamer_tools/main.c:41 gthumb/gth-main-default-tests.c:321
 msgid "Audio"
 msgstr "Аудио"
 
-#: extensions/gstreamer_tools/main.c:47
+#: extensions/gstreamer_tools/main.c:48
 msgid "Artist"
 msgstr "Исполнитель"
 
-#: extensions/gstreamer_tools/main.c:48
+#: extensions/gstreamer_tools/main.c:49
 #: extensions/webalbums/data/ui/web-album-exporter.ui:227
 msgid "Album"
 msgstr "Альбом"
 
-#: extensions/gstreamer_tools/main.c:49
+#: extensions/gstreamer_tools/main.c:50
 msgid "Bitrate"
 msgstr "Битовая частота"
 
-#: extensions/gstreamer_tools/main.c:50
+#: extensions/gstreamer_tools/main.c:51
 msgid "Encoder"
 msgstr "Кодировщик"
 
-#: extensions/gstreamer_tools/main.c:52 extensions/gstreamer_tools/main.c:57
+#: extensions/gstreamer_tools/main.c:53 extensions/gstreamer_tools/main.c:58
 msgid "Codec"
 msgstr "Кодек"
 
-#: extensions/gstreamer_tools/main.c:53
+#: extensions/gstreamer_tools/main.c:54
 msgid "Framerate"
 msgstr "Кадр/с"
 
-#: extensions/gstreamer_tools/main.c:54
+#: extensions/gstreamer_tools/main.c:55
 #: extensions/image_print/data/ui/print-layout.ui:859
 msgid "Width"
 msgstr "Ширина"
 
-#: extensions/gstreamer_tools/main.c:55
+#: extensions/gstreamer_tools/main.c:56
 #: extensions/image_print/data/ui/print-layout.ui:875
 msgid "Height"
 msgstr "Высота"
 
-#: extensions/gstreamer_tools/main.c:58
+#: extensions/gstreamer_tools/main.c:59
 msgid "Channels"
 msgstr "Каналы"
 
-#: extensions/gstreamer_tools/main.c:59
+#: extensions/gstreamer_tools/main.c:60
 msgid "Sample rate"
 msgstr "Частота дискретизации"
 
-#: extensions/gstreamer_utils/gstreamer-utils.c:369
+#: extensions/gstreamer_utils/gstreamer-utils.c:394
 msgid "Stereo"
 msgstr "Стерео"
 
-#: extensions/gstreamer_utils/gstreamer-utils.c:369
+#: extensions/gstreamer_utils/gstreamer-utils.c:394
 msgid "Mono"
 msgstr "Моно"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1865
+#: extensions/gstreamer_utils/gstreamer-utils.c:427
+#: extensions/image_viewer/gth-image-viewer-page.c:1897
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
 #: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
@@ -3348,7 +3354,7 @@ msgstr "Изображения"
 
 #: extensions/image_print/gth-image-print-job.c:1890
 #: gthumb/gth-image-loader.c:258 gthumb/gth-image-loader.c:390
-#: gthumb/gth-image-utils.c:117 gthumb/gth-image-utils.c:123
+#: gthumb/gth-image-utils.c:62 gthumb/gth-image-utils.c:68
 msgid "No suitable loader available for this file type"
 msgstr "Для этого типа файла подходящий загрузчик отсутствует"
 
@@ -3524,7 +3530,7 @@ msgid "After loading an image:"
 msgstr "После загрузки изображения:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1139
+#: extensions/image_viewer/gth-image-viewer-page.c:1155
 msgid "Set to actual size"
 msgstr "Не использовать масштабирование"
 
@@ -3533,7 +3539,7 @@ msgid "Keep previous zoom"
 msgstr "Использовать предыдущий масштаб"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1146
+#: extensions/image_viewer/gth-image-viewer-page.c:1162
 msgid "Fit to window if larger"
 msgstr "Подогнать под размеры окна, если больше"
 
@@ -3630,27 +3636,23 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Гистограмма"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
-msgid "Copy Image"
-msgstr "Копировать изображение"
-
 #: extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "Вставить изображение"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1174
+#: extensions/image_viewer/gth-image-viewer-page.c:1190
 msgid "Apply the embedded color profile"
 msgstr "Применить встроенный цветовой профиль"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1196
+#: extensions/image_viewer/gth-image-viewer-page.c:1212
 msgid "Transparency"
 msgstr "Прозрачность"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1804
+#: extensions/image_viewer/gth-image-viewer-page.c:1836
 msgid "Save Image"
 msgstr "Сохранить изображение"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2528
+#: extensions/image_viewer/gth-image-viewer-page.c:2560
 msgid "Loading the original image"
 msgstr "Загрузка исходного изображения"
 
@@ -3811,7 +3813,7 @@ msgstr "Команды"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:34
 msgid "Quoted text"
-msgstr "Цитировать текст"
+msgstr "Цитируемый текст"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:35
 msgid "File URI"
@@ -3842,7 +3844,7 @@ msgstr "Путь к папке"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
 msgid "Ask a value"
-msgstr "Запросить вводимое значение"
+msgstr "Запросить значение"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:43
 #: extensions/rename_series/dlg-rename-series.c:62
@@ -3910,7 +3912,7 @@ msgstr "_Учётные записи:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Загрузка…"
 
@@ -4560,8 +4562,8 @@ msgid "Create static web albums."
 msgstr "Создать статические веб-альбомы."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6860 gthumb/gth-browser.c:6879
-#: gthumb/gth-browser.c:6903 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6861 gthumb/gth-browser.c:6880
+#: gthumb/gth-browser.c:6904 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Не удалось загрузить положение «%s»"
@@ -4735,7 +4737,7 @@ msgstr "Перемещение файлов в корзину"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2069
+#: gthumb/glib-utils.c:2090
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4747,7 +4749,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2078
+#: gthumb/glib-utils.c:2099
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4787,7 +4789,7 @@ msgstr "[ФАЙЛ…] [КАТАЛОГ…]"
 
 #: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
-msgstr "— программа просмотра изображений"
+msgstr "— приложение просмотра изображений"
 
 #: gthumb/gth-browser-actions-callbacks.c:101
 msgid ""
@@ -4821,7 +4823,7 @@ msgstr ""
 
 #: gthumb/gth-browser-actions-callbacks.c:128
 msgid "An image viewer and browser for GNOME."
-msgstr "Программа просмотра изображений для GNOME."
+msgstr "Приложение просмотра изображений для GNOME."
 
 #: gthumb/gth-browser-actions-callbacks.c:131
 msgid "translator-credits"
@@ -4839,7 +4841,7 @@ msgstr "Комбинации клавиш"
 
 #: gthumb/gth-browser-actions-entries.h:100
 msgid "Quit"
-msgstr "Выйти"
+msgstr "Закрыть"
 
 #: gthumb/gth-browser-actions-entries.h:103
 msgid "Show browser"
@@ -4853,8 +4855,8 @@ msgstr "Закрыть окно"
 msgid "Open location"
 msgstr "Открыть местоположение"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4795
-#: gthumb/gth-browser.c:4813 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4796
+#: gthumb/gth-browser.c:4814 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Полноэкранный режим"
@@ -4974,53 +4976,53 @@ msgstr "Если не сохранить изменения, они будут �
 msgid "Do _Not Save"
 msgstr "_Не сохранять"
 
-#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4821
+#: gthumb/gth-browser.c:2525 gthumb/gth-browser.c:4822
 msgid "Accept"
 msgstr "Принять"
 
-#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2525 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Закрыть"
 
-#: gthumb/gth-browser.c:3067
+#: gthumb/gth-browser.c:3068
 msgid "Could not change name"
 msgstr "Не удалось изменить имя"
 
-#: gthumb/gth-browser.c:3561
+#: gthumb/gth-browser.c:3562
 msgid "Modified"
 msgstr "Изменено"
 
-#: gthumb/gth-browser.c:4743
+#: gthumb/gth-browser.c:4744
 msgid "Go to the previous visited location"
 msgstr "Перейти к предыдущему посещённому местоположению"
 
-#: gthumb/gth-browser.c:4749
+#: gthumb/gth-browser.c:4750
 msgid "Go to the next visited location"
 msgstr "Перейти к следующему посещённому местоположению"
 
-#: gthumb/gth-browser.c:4757
+#: gthumb/gth-browser.c:4758
 msgid "History"
 msgstr "История"
 
-#: gthumb/gth-browser.c:4771
+#: gthumb/gth-browser.c:4772
 msgid "View the folders"
 msgstr "Просмотр папок"
 
-#: gthumb/gth-browser.c:4786
+#: gthumb/gth-browser.c:4787
 msgid "Edit file"
 msgstr "Изменить файл"
 
-#: gthumb/gth-browser.c:4877 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4878 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Операции"
 
-#: gthumb/gth-browser.c:6861
+#: gthumb/gth-browser.c:6862
 #, c-format
 msgid "File type not supported"
 msgstr "Тип файла не поддерживается"
 
-#: gthumb/gth-browser.c:6904
+#: gthumb/gth-browser.c:6905
 #, c-format
 msgid "No suitable module found"
 msgstr "Подходящий модуль не найден"
@@ -5087,7 +5089,7 @@ msgstr "файлы"
 #: gthumb/gth-filter-editor-dialog.c:180 gthumb/gth-filter.c:43
 #: gthumb/gth-test-simple.c:78
 msgid "kB"
-msgstr "КБ"
+msgstr "Кб"
 
 #: gthumb/gth-filter-editor-dialog.c:181 gthumb/gth-filter.c:44
 #: gthumb/gth-test-simple.c:79
@@ -5593,14 +5595,11 @@ msgstr "Сортировать по…"
 
 #: gthumb/resources/gears-menu.ui:57
 msgid "_About gThumb"
-msgstr "_О программе gThumb"
+msgstr "_О приложении"
 
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Удалить историю"
-
-#~ msgid "Original extension"
-#~ msgstr "Исходное расширение"
 
 #~ msgid "48"
 #~ msgstr "48"
@@ -5628,6 +5627,207 @@ msgstr "_Удалить историю"
 
 #~ msgid "256"
 #~ msgstr "256"
+
+#~ msgid "New enumerator digit"
+#~ msgstr "Новый цифровой счётчик"
+
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "_Альбом:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Добавить новый альбом"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Масштабировать изображения, если их размер превышает"
+
+#~ msgid "Private"
+#~ msgstr "Личное"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Видимость:"
+
+#~ msgid "_Album:"
+#~ msgstr "_Альбом:"
+
+#~ msgid "New Album"
+#~ msgstr "Новый альбом"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Экспортировать в Facebook"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Отправить изображения в Facebook"
+
+#~ msgid "--∶--"
+#~ msgstr "--∶--"
+
+#~ msgid "as _single subfolder"
+#~ msgstr "как _одиночная подпапка"
+
+#~ msgid "The year"
+#~ msgstr "Год"
+
+#~ msgid "The month"
+#~ msgstr "Месяц"
+
+#~ msgid "The hour"
+#~ msgstr "Час"
+
+#~ msgid "The minutes"
+#~ msgstr "Минуты"
+
+#~ msgid "The seconds"
+#~ msgstr "Секунды"
+
+#, c-format
+#~ msgid "example: %s"
+#~ msgstr "пример: %s"
+
+#~ msgid "year-month-day"
+#~ msgstr "год-месяц-день"
+
+#~ msgid "year-month"
+#~ msgstr "год-месяц"
+
+#~ msgid "year"
+#~ msgstr "год"
+
+#~ msgid "custom format"
+#~ msgstr "другой формат"
+
+#~ msgid "The file uri"
+#~ msgstr "Адрес (URI) файла"
+
+#~ msgid "The file path"
+#~ msgstr "Путь к файлу"
+
+#~ msgid "The file basename"
+#~ msgstr "Базовое имя файла"
+
+#~ msgid "The parent folder path"
+#~ msgstr "Путь к родительской папке"
+
+#, c-format
+#~ msgid "%ask{ message }{ default value }"
+#~ msgstr "%ask{ сообщение }{ значение по умолчанию }"
+
+#, c-format
+#~ msgid "%attr{ attribute name }"
+#~ msgstr "%attr{ имя атрибута }"
+
+#~ msgid "A file attribute"
+#~ msgstr "Атрибут файла"
+
+#~ msgid "%N"
+#~ msgstr "%N"
+
+#, c-format
+#~ msgid "%E"
+#~ msgstr "%E"
+
+#, c-format
+#~ msgid "%quote{ text }"
+#~ msgstr "%quote{ текст }"
+
+#~ msgid "The current date and time"
+#~ msgstr "Текущая дата и время"
+
+#~ msgid "(Empty)"
+#~ msgstr "(Пусто)"
+
+#~ msgid "Empty"
+#~ msgstr "Пусто"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "Веб-альбом Picasa…"
+
+#~ msgid "_Albums:"
+#~ msgstr "_Альбомы:"
+
+#~ msgid "Used"
+#~ msgstr "Использовано"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Оставшиеся фотографии"
+
+#~ msgid "Public"
+#~ msgstr "Открытый"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Не удалось получить список альбомов"
+
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Экспортировать в веб-альбом Picasa"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Импортировать из веб-альбома Picasa"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Веб-альбомы Picasa"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Отправить изображения в веб-альбомы Picasa"
+
+#~ msgid "format:"
+#~ msgstr "формат:"
+
+#~ msgid "%M{ format }"
+#~ msgstr "%M{ формат }"
+
+#, c-format
+#~ msgid "%A{ identifier }"
+#~ msgstr "%A{ идентификатор }"
+
+#~ msgid "The original filename"
+#~ msgstr "Исходное имя файла"
+
+#~ msgid "The original extension"
+#~ msgstr "Исходное расширение"
+
+#~ msgid "The original enumerator"
+#~ msgstr "Исходный счётчик"
+
+#~ msgid "The modification date"
+#~ msgstr "Дата изменения"
+
+#~ msgid "The digitalization date"
+#~ msgstr "Дата оцифровки"
+
+#~ msgid "Original extension"
+#~ msgstr "Исходное расширение"
+
+#~ msgid "Could not save the template"
+#~ msgstr "Не удалось сохранить шаблон"
+
+#~ msgid "%P"
+#~ msgstr "%P"
+
+#~ msgid "The current image number"
+#~ msgstr "Номер текущего изображения"
+
+#~ msgid "The total number of images"
+#~ msgstr "Всего изображений"
+
+#~ msgid "The file comment"
+#~ msgstr "Комментарий к файлу"
 
 #~ msgid "brasero"
 #~ msgstr "brasero"
@@ -5677,9 +5877,6 @@ msgstr "_Удалить историю"
 #~ msgid "A_dd and Close"
 #~ msgstr "_Добавить и закрыть"
 
-#~ msgid "New enumerator digit"
-#~ msgstr "Новый цифровой счётчик"
-
 #~ msgid "%s Metadata"
 #~ msgstr "Метаданные %s"
 
@@ -5695,53 +5892,8 @@ msgstr "_Удалить историю"
 #~ msgid "Extension example."
 #~ msgstr "Пример расширения."
 
-#~ msgid "720 x 720"
-#~ msgstr "720 x 720"
-
-#~ msgid "1024 x 1024"
-#~ msgstr "1024 x 1024"
-
-#~ msgid "1280 x 1280"
-#~ msgstr "1280 x 1280"
-
-#~ msgid "1600 x 1600"
-#~ msgstr "1600 x 1600"
-
-#~ msgid "2048 x 2048"
-#~ msgstr "2048 x 2048"
-
-#~ msgid "A_lbum:"
-#~ msgstr "_Альбом:"
-
-#~ msgid "Add a new album"
-#~ msgstr "Добавить новый альбом"
-
-#~ msgid "Resize the images if larger than this size"
-#~ msgstr "Масштабировать изображения, если их размер превышает"
-
-#~ msgid "Private"
-#~ msgstr "Личное"
-
-#~ msgid "_Visibility:"
-#~ msgstr "_Видимость:"
-
-#~ msgid "_Album:"
-#~ msgstr "_Альбом:"
-
-#~ msgid "New Album"
-#~ msgstr "Новый альбом"
-
-#~ msgid "Export to Facebook"
-#~ msgstr "Экспортировать в Facebook"
-
 #~ msgid "Import from Facebook"
 #~ msgstr "Импортировать из Facebook"
-
-#~ msgid "Facebook"
-#~ msgstr "Facebook"
-
-#~ msgid "Upload images to Facebook"
-#~ msgstr "Отправить изображения в Facebook"
 
 #~ msgid "5:4"
 #~ msgstr "5:4"
@@ -5754,63 +5906,6 @@ msgstr "_Удалить историю"
 
 #~ msgid "--:--"
 #~ msgstr "--:--"
-
-#~ msgid "as _single subfolder"
-#~ msgstr "как _одиночная подпапка"
-
-#~ msgid "The year"
-#~ msgstr "Год"
-
-#~ msgid "The month"
-#~ msgstr "Месяц"
-
-#~ msgid "The hour"
-#~ msgstr "Час"
-
-#~ msgid "The minutes"
-#~ msgstr "Минуты"
-
-#~ msgid "The seconds"
-#~ msgstr "Секунды"
-
-#~ msgid "year-month-day"
-#~ msgstr "год-месяц-день"
-
-#~ msgid "year-month"
-#~ msgstr "год-месяц"
-
-#~ msgid "year"
-#~ msgstr "год"
-
-#~ msgid "custom format"
-#~ msgstr "другой формат"
-
-#~ msgid "The file uri"
-#~ msgstr "Адрес (URI) файла"
-
-#~ msgid "The file path"
-#~ msgstr "Путь к файлу"
-
-#~ msgid "The file basename"
-#~ msgstr "Базовое имя файла"
-
-#~ msgid "%ask{ message }{ default value }"
-#~ msgstr "%ask{ сообщение }{ значение по умолчанию }"
-
-#~ msgid "%attr{ attribute name }"
-#~ msgstr "%attr{ имя атрибута }"
-
-#~ msgid "A file attribute"
-#~ msgstr "Атрибут файла"
-
-#~ msgid "%N"
-#~ msgstr "%N"
-
-#~ msgid "%E"
-#~ msgstr "%E"
-
-#~ msgid "%quote{ text }"
-#~ msgstr "%quote{ текст }"
 
 #~ msgid "none"
 #~ msgstr "нет"
@@ -5880,80 +5975,14 @@ msgstr "_Удалить историю"
 #~ msgid "Upload images to PhotoBucket"
 #~ msgstr "Отправляет изображения на PhotoBucket"
 
-#~ msgid "(Empty)"
-#~ msgstr "(Пусто)"
-
-#~ msgid "Empty"
-#~ msgstr "Пусто"
-
-#~ msgid "_Picasa Web Album…"
-#~ msgstr "Веб-альбом Picasa…"
-
-#~ msgid "_Albums:"
-#~ msgstr "_Альбомы:"
-
-#~ msgid "Public"
-#~ msgstr "Открытый"
-
-#~ msgid "Could not get the album list"
-#~ msgstr "Не удалось получить список альбомов"
-
-#~ msgid "Export to Picasa Web Albums"
-#~ msgstr "Экспортировать в веб-альбом Picasa"
-
-#~ msgid "Import from Picasa Web Album"
-#~ msgstr "Импортировать из веб-альбома Picasa"
-
-#~ msgid "Picasa Web Albums"
-#~ msgstr "Веб-альбомы Picasa"
-
-#~ msgid "Upload images to Picasa Web Albums"
-#~ msgstr "Отправить изображения в веб-альбомы Picasa"
-
-#~ msgid "format:"
-#~ msgstr "формат:"
-
-#~ msgid "%M{ format }"
-#~ msgstr "%M{ формат }"
-
-#~ msgid "%A{ identifier }"
-#~ msgstr "%A{ идентификатор }"
-
-#~ msgid "The original filename"
-#~ msgstr "Исходное имя файла"
-
-#~ msgid "The original extension"
-#~ msgstr "Исходное расширение"
-
-#~ msgid "The original enumerator"
-#~ msgstr "Исходный счётчик"
-
-#~ msgid "The modification date"
-#~ msgstr "Дата изменения"
-
-#~ msgid "The digitalization date"
-#~ msgstr "Дата оцифровки"
-
-#~ msgid "Could not save the template"
-#~ msgstr "Не удалось сохранить шаблон"
-
 #~ msgid "Slideshow"
 #~ msgstr "Слайд-шоу"
 
 #~ msgid "View images as a slideshow."
 #~ msgstr "Просмотр в режиме слайд-шоу."
 
-#~ msgid "%P"
-#~ msgstr "%P"
-
-#~ msgid "The file comment"
-#~ msgstr "Комментарий к файлу"
-
 #~ msgid "Details"
 #~ msgstr "Подробности"
 
 #~ msgid "New _Window"
 #~ msgstr "_Новое окно"
-
-#~ msgid "_About"
-#~ msgstr "_О программе"
