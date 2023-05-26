@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2023-01-25 20:12+0000\n"
-"PO-Revision-Date: 2023-02-11 01:36+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2023-04-14 22:45+0000\n"
+"PO-Revision-Date: 2023-05-12 14:29+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnometurk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-POOTLE-MTIME: 1423290220.000000\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -161,7 +161,7 @@ msgstr "Resim Görüntüleyici"
 msgid "Image;Viewer;"
 msgstr "Resim;Görüntüleyici;"
 
-#: data/org.gnome.gThumb.desktop.in.in:25
+#: data/org.gnome.gThumb.desktop.in.in:21
 #: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Yeni Pencere"
@@ -867,7 +867,7 @@ msgstr "Tümünü Seç"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:295
 msgid "Select None"
-msgstr "Hiçbirini Seçme"
+msgstr "Hiçbirini Seçme"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:330
 msgid "Catalog _Preview:"
@@ -2904,7 +2904,7 @@ msgstr "_Yetkilendir…"
 #: extensions/flicker_utils/flickr-service.c:566
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr "gThumb %s servisine fotoğraf yüklemek için yetkinizi ister"
+msgstr "gThumb %s hizmetine fotoğraf yüklemek için yetkinizi ister"
 
 #: extensions/flicker_utils/flickr-service.c:567
 #, c-format
@@ -2913,7 +2913,7 @@ msgid ""
 "photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Web tarayıcınızı açmak ve %s servisine fotoğraf yükleyecek gthumb’ı "
+"Web tarayıcınızı açmak ve %s hizmetine fotoğraf yükleyecek gthumb’ı "
 "yetkilendirmek için “Yetkilendir” seçeneğini tıklayın. Bitirdiğinizde "
 "yetkilendirme işlemini tamamlamak için bu pencereye dönün."
 
@@ -3163,7 +3163,7 @@ msgstr "Ses"
 
 #: extensions/gstreamer_tools/main.c:48
 msgid "Artist"
-msgstr "Sanatçı"
+msgstr "Sanatçı"
 
 #: extensions/gstreamer_tools/main.c:49
 #: extensions/webalbums/data/ui/web-album-exporter.ui:227
@@ -3909,7 +3909,7 @@ msgstr "H_esaplar:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:566 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Yükleniyor…"
 
@@ -4939,7 +4939,7 @@ msgstr "Tümünü seç"
 
 #: gthumb/gth-browser-actions-entries.h:132
 msgid "Select none"
-msgstr "Hiçbirini seçme"
+msgstr "Hiçbirini seçme"
 
 #: gthumb/gth-browser-actions-entries.h:134 gthumb/gth-filterbar.c:526
 msgid "All"
