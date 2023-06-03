@@ -6907,6 +6907,7 @@ gth_browser_load_location (GthBrowser *browser,
 		g_clear_error (&error);
 
 		g_free (title);
+		return;
 	}
 
 	gth_file_source_read_metadata (data->file_source,
