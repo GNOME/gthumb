@@ -1153,7 +1153,7 @@ load_data_done (LoadData *load_data,
 	}
 
 	if (gth_action_changes_folder (load_data->action)
-		&& load_data->automatic)
+		&& (load_data->automatic || (browser->priv->location == NULL)))
 	{
 		GFile *parent;
 
