@@ -3,16 +3,8 @@ install_man('gthumb.1')
 
 # .desktop files
 
-desktop_data = configuration_data()
-desktop_data.set('VERSION', meson.project_version())
-desktop_in_file = configure_file(
-  input : 'org.gnome.gThumb.desktop.in.in',
-  output : 'org.gnome.gThumb.desktop.in',
-  configuration : desktop_data
-)
-
 i18n.merge_file(
-  input : desktop_in_file,
+  input : 'org.gnome.gThumb.desktop.in',
   output : 'org.gnome.gThumb.desktop',
   type : 'desktop',
   po_dir : po_dir,
@@ -20,14 +12,8 @@ i18n.merge_file(
   install_dir : join_paths(datadir, 'applications')
 )
 
-desktop_import_in_file = configure_file(
-  input : 'org.gnome.gThumb.Import.desktop.in.in',
-  output : 'org.gnome.gThumb.Import.desktop.in',
-  configuration : desktop_data
-)
-
 i18n.merge_file(
-  input : desktop_import_in_file,
+  input : 'org.gnome.gThumb.Import.desktop.in',
   output : 'org.gnome.gThumb.Import.desktop',
   type : 'desktop',
   po_dir : po_dir,
