@@ -2382,12 +2382,11 @@ hide_mouse_pointer_cb (gpointer data)
 
 	browser->priv->hide_mouse_timeout = 0;
 
-	/* do not hide the pointer if it's over a viewer control */
+	/* Do not hide the pointer if it's over a viewer control. */
 
 	if (browser->priv->keep_mouse_visible
 	    || pointer_on_control (hmdata, browser->priv->fixed_viewer_controls)
-	    || pointer_on_control (hmdata, browser->priv->viewer_controls)
-	    || pointer_on_widget (browser->priv->viewer_sidebar_container, hmdata->device))
+	    || pointer_on_control (hmdata, browser->priv->viewer_controls))
 	{
 		return FALSE;
 	}
