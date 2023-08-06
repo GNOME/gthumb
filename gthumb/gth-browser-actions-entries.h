@@ -85,6 +85,8 @@ static const GActionEntry gth_browser_actions[] = {
 
 	{ "set-filter", gth_browser_activate_set_filter, "s" },
 	{ "set-filter-all", gth_browser_activate_set_filter_all },
+
+	{ "folder-tree-sort-by", gth_browser_activate_folder_tree_sort_by },
 };
 
 

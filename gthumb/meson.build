@@ -178,6 +178,7 @@ source_files = files(
   'dlg-preferences-general.c',
   'dlg-preferences-shortcuts.c',
   'dlg-sort-order.c',
+  'dlg-sort-order-folder-tree.c',
   'dom.c',
   'gimp-op.c',
   'gio-utils.c',

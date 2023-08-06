@@ -594,6 +594,20 @@ _g_time_val_strftime (GTimeVal   *time_,
 }
 
 
+guint64
+_g_time_val_to_time (GTimeVal *time_)
+{
+	return ((guint64) (time_->tv_sec * G_USEC_PER_SEC)) + time_->tv_usec;
+}
+
+
+int
+_g_time_cmp (guint64 a, guint64 b)
+{
+	return (a == b) ? 0 : (a < b) ? -1 : 1;
+}
+
+
 /* Bookmark file utils */
 
 

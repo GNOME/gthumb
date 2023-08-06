@@ -180,6 +180,9 @@ char *		_g_time_val_to_exif_date	(GTimeVal	 *time_);
 char *		_g_time_val_to_xmp_date	(GTimeVal	 *time_);
 char *		_g_time_val_strftime		(GTimeVal	 *time_,
 						 const char	 *format);
+guint64		_g_time_val_to_time		(GTimeVal	 *time_);
+int		_g_time_cmp			(guint64	  a,
+						 guint64	  b);
 
 /* Bookmark file utils */
 

@@ -26,6 +26,11 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_FOLDER_TREE_SORT_NAME,
+	GTH_FOLDER_TREE_SORT_MODIFICATION_TIME,
+} GthFolderTreeSort;
+
 #define GTH_TYPE_FOLDER_TREE            (gth_folder_tree_get_type ())
 #define GTH_FOLDER_TREE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FOLDER_TREE, GthFolderTree))
 #define GTH_FOLDER_TREE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_FOLDER_TREE, GthFolderTreeClass))
@@ -109,13 +114,19 @@ GthFileData * gth_folder_tree_get_file           (GthFolderTree        *folder_t
 						  GtkTreePath          *path);
 GthFileData * gth_folder_tree_get_selected       (GthFolderTree        *folder_tree);
 GthFileData * gth_folder_tree_get_selected_or_parent
-					         (GthFolderTree        *folder_tree);
+						 (GthFolderTree        *folder_tree);
 void          gth_folder_tree_enable_drag_source (GthFolderTree        *self,
 						  GdkModifierType       start_button_mask,
 						  const GtkTargetEntry *targets,
 						  int                   n_targets,
 						  GdkDragAction         actions);
 void          gth_folder_tree_unset_drag_source  (GthFolderTree        *self);
+void          gth_folder_tree_set_sort_type      (GthFolderTree        *self,
+						  GthFolderTreeSort     sort_type,
+						  gboolean              inverse);
+void          gth_folder_tree_get_sort_type      (GthFolderTree        *self,
+						  GthFolderTreeSort    *sort_type,
+						  gboolean             *inverse);
 
 G_END_DECLS
 

@@ -61,6 +61,7 @@ enum {
 	COLUMN_NAME,
 	COLUMN_NO_CHILD,
 	COLUMN_LOADED,
+	COLUMN_TIME,
 	NUM_COLUMNS
 };
 
@@ -96,6 +97,8 @@ struct _GthFolderTreePrivate {
 	GtkTreeStore     *tree_store;
 	GtkCellRenderer  *text_renderer;
 	GtkTreePath      *hover_path;
+	GthFolderTreeSort sort_type;
+	gboolean          sort_inverse;
 
 	/* drag-and-drop */
 
@@ -949,34 +952,43 @@ column_name_compare_func (GtkTreeModel *model,
 			  GtkTreeIter  *b,
 			  gpointer      user_data)
 {
-	char       *key_a, *key_b;
-	int         order_a, order_b;
-	int         sec_order_a, sec_order_b;
-	PangoStyle  style_a, style_b;
-	gboolean    result;
+	GthFolderTree *folder_tree = user_data;
+	char          *key_a, *key_b;
+	int            order_a, order_b;
+	int            sec_order_a, sec_order_b;
+	PangoStyle     style_a, style_b;
+	guint64        time_a, time_b;
+	gboolean       result;
 
 	gtk_tree_model_get (model, a,
 			    COLUMN_SORT_KEY, &key_a,
 			    COLUMN_SORT_ORDER, &order_a,
 			    COLUMN_SECONDARY_SORT_ORDER, &sec_order_a,
 			    COLUMN_STYLE, &style_a,
+			    COLUMN_TIME, &time_a,
 			    -1);
 	gtk_tree_model_get (model, b,
 			    COLUMN_SORT_KEY, &key_b,
 			    COLUMN_SORT_ORDER, &order_b,
 			    COLUMN_SECONDARY_SORT_ORDER, &sec_order_b,
 			    COLUMN_STYLE, &style_b,
+			    COLUMN_TIME, &time_b,
 			    -1);
 
 	if (order_a == order_b) {
 		if (style_a == style_b) {
-			result = strcmp (key_a, key_b);
+			if (folder_tree->priv->sort_type == GTH_FOLDER_TREE_SORT_MODIFICATION_TIME)
+				result = _g_time_cmp (time_a, time_b);
+			else
+				result = strcmp (key_a, key_b);
 			if (result == 0) {
 				if (sec_order_a < sec_order_b)
 					result = -1;
 				else if (sec_order_a > sec_order_b)
 					result = 1;
 			}
+			if (folder_tree->priv->sort_inverse && (result != 0))
+				result = -result;
 		}
 		else if (style_a == PANGO_STYLE_ITALIC)
 			result = -1;
@@ -1187,6 +1199,7 @@ _gth_folder_tree_add_empty_item (GthFolderTree *folder_tree,
 			    COLUMN_SORT_KEY, sort_key,
 			    COLUMN_SORT_ORDER, 0,
 			    COLUMN_SECONDARY_SORT_ORDER, 0,
+			    COLUMN_TIME, 0,
 			    -1);
 
 	g_free (sort_key);
@@ -1201,6 +1214,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 	const char *display_name;
 	const char *name_for_sorting;
 	char       *sort_key;
+	guint64     _time;
 
 	display_name = g_file_info_get_display_name (file_data->info);
 	if (display_name == NULL)
@@ -1211,6 +1225,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 		name_for_sorting = display_name;
 
 	sort_key = g_utf8_collate_key_for_filename (name_for_sorting, -1);
+	_time = _g_time_val_to_time (gth_file_data_get_modification_time (file_data));
 	gtk_tree_store_set (folder_tree->priv->tree_store, iter,
 			    COLUMN_STYLE, PANGO_STYLE_NORMAL,
 			    COLUMN_ICON, g_file_info_get_symbolic_icon (file_data->info),
@@ -1222,6 +1237,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 			    COLUMN_SECONDARY_SORT_ORDER, _g_file_info_get_secondary_sort_order (file_data->info),
 			    COLUMN_NO_CHILD, g_file_info_get_attribute_boolean (file_data->info, "gthumb::no-child"),
 			    COLUMN_LOADED, FALSE,
+			    COLUMN_TIME, _time,
 			    -1);
 
 	g_free (sort_key);
@@ -1358,9 +1374,12 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 							    G_TYPE_INT,
 							    G_TYPE_STRING,
 							    G_TYPE_BOOLEAN,
-							    G_TYPE_BOOLEAN);
+							    G_TYPE_BOOLEAN,
+							    G_TYPE_UINT64);
 	folder_tree->priv->text_renderer = NULL;
 	folder_tree->priv->hover_path = NULL;
+	folder_tree->priv->sort_type = GTH_FOLDER_TREE_SORT_NAME;
+	folder_tree->priv->sort_inverse = FALSE;
 
 	folder_tree->priv->drag_source_enabled = FALSE;
 	folder_tree->priv->drag_start_button_mask = 0;
@@ -1467,6 +1486,7 @@ gth_folder_tree_set_list (GthFolderTree *folder_tree,
 				    COLUMN_SORT_KEY, sort_key,
 				    COLUMN_SORT_ORDER, 0,
 				    COLUMN_SECONDARY_SORT_ORDER, 0,
+				    COLUMN_TIME, 0,
 				    -1);
 
 		g_object_unref (icon);
@@ -2265,4 +2285,28 @@ void
 gth_folder_tree_unset_drag_source (GthFolderTree *self)
 {
 	self->priv->drag_source_enabled = FALSE;
+}
+
+
+void
+gth_folder_tree_set_sort_type (GthFolderTree        *self,
+			       GthFolderTreeSort     sort_type,
+			       gboolean              inverse)
+{
+	self->priv->sort_type = sort_type;
+	self->priv->sort_inverse = inverse;
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_store), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_store), COLUMN_NAME, GTK_SORT_ASCENDING);
+}
+
+
+void
+gth_folder_tree_get_sort_type (GthFolderTree        *self,
+			       GthFolderTreeSort    *sort_type,
+			       gboolean             *inverse)
+{
+	if (sort_type != NULL)
+		*sort_type = self->priv->sort_type;
+	if (inverse != NULL)
+		*inverse = self->priv->sort_inverse;
 }

@@ -25,6 +25,7 @@
 #include "dlg-personalize-filters.h"
 #include "dlg-preferences.h"
 #include "dlg-sort-order.h"
+#include "dlg-sort-order-folder-tree.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
@@ -653,4 +654,13 @@ gth_browser_activate_set_filter_all (GSimpleAction *action,
 
 	filterbar = gth_browser_get_filterbar (browser);
 	gth_filterbar_set_show_all (GTH_FILTERBAR (filterbar));
+}
+
+
+void
+gth_browser_activate_folder_tree_sort_by (GSimpleAction *action,
+					  GVariant      *parameter,
+					  gpointer       user_data)
+{
+	dlg_sort_order_folder_tree (GTH_BROWSER (user_data));
 }

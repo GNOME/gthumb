@@ -12,6 +12,12 @@
     </section>
     <section id="edit-actions">
     </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Sort By…</attribute>
+        <attribute name="action">win.folder-tree-sort-by</attribute>
+      </item>
+    </section>
     <section id="folder-actions">
     </section>
     <section id="other-actions">

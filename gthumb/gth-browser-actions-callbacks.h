@@ -73,5 +73,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_unselect_all)
 DEF_ACTION_CALLBACK (gth_browser_activate_show_menu)
 DEF_ACTION_CALLBACK (gth_browser_activate_set_filter)
 DEF_ACTION_CALLBACK (gth_browser_activate_set_filter_all)
+DEF_ACTION_CALLBACK (gth_browser_activate_folder_tree_sort_by)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */
