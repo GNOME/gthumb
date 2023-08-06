@@ -42,6 +42,7 @@ data/ui/overwrite-dialog.ui
 data/ui/personalize-filters.ui
 data/ui/preferences.ui
 data/ui/shortcuts-preferences.ui
+data/ui/sort-order-folder-tree.ui
 data/ui/sort-order.ui
 data/ui/template-editor-dialog.ui
 extensions/23hq/23hq.extension.desktop.in.in
@@ -663,6 +664,8 @@ gthumb/dlg-preferences-shortcuts.c
 gthumb/dlg-preferences-shortcuts.h
 gthumb/dlg-preferences.c
 gthumb/dlg-preferences.h
+gthumb/dlg-sort-order-folder-tree.c
+gthumb/dlg-sort-order-folder-tree.h
 gthumb/dlg-sort-order.c
 gthumb/dlg-sort-order.h
 gthumb/dom.c
