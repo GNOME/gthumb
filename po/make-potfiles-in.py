@@ -12,6 +12,7 @@ valid_extensions = [
     '.gschema.xml',
     '.schemas.in',
     '.xml.in',
+    '.desktop.in',
     '.desktop.in.in',
     '.extension.in.in'
 ]
