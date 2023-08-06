@@ -82,6 +82,8 @@ G_BEGIN_DECLS
 #define PREF_FULLSCREEN_SIDEBAR		      "fullscreen-sidebar"
 #define PREF_VIEWER_SCROLL_ACTION             "scroll-action"
 #define PREF_BROWSER_FAVORITE_PROPERTIES      "favorite-properties"
+#define PREF_BROWSER_FOLDER_TREE_SORT_TYPE    "folder-tree-sort-type"
+#define PREF_BROWSER_FOLDER_TREE_SORT_INVERSE "folder-tree-sort-inverse"
 
 /* keys: add to catalog */
 

@@ -2157,6 +2157,22 @@ _gth_browser_close_final_step (gpointer user_data)
 			g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE, browser->priv->default_sort_inverse);
 		}
 
+		/* Folder tree sort type. */
+		{
+			GthFolderTreeSort sort_type;
+			gboolean          sort_inverse;
+
+			gth_folder_tree_get_sort_type (GTH_FOLDER_TREE (browser->priv->folder_tree),
+				&sort_type,
+				&sort_inverse);
+			g_settings_set_string (browser->priv->browser_settings,
+				PREF_BROWSER_FOLDER_TREE_SORT_TYPE,
+				_g_enum_type_get_value (GTH_TYPE_FOLDER_TREE_SORT, sort_type)->value_nick);
+			g_settings_set_boolean (browser->priv->browser_settings,
+				PREF_BROWSER_FOLDER_TREE_SORT_INVERSE,
+				sort_inverse);
+		}
+
 		gth_filterbar_save_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
 
 		_gth_browser_history_save (browser);
@@ -4943,6 +4959,10 @@ gth_browser_init (GthBrowser *browser)
 	gtk_widget_show (scrolled_window);
 
 	browser->priv->folder_tree = gth_folder_tree_new ("gthumb-vfs:///");
+	sort_type = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_FOLDER_TREE_SORT_TYPE);
+	gth_folder_tree_set_sort_type (GTH_FOLDER_TREE (browser->priv->folder_tree),
+		_g_enum_type_get_value_by_nick (GTH_TYPE_FOLDER_TREE_SORT, sort_type)->value,
+		g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FOLDER_TREE_SORT_INVERSE));
 	gtk_widget_show (browser->priv->folder_tree);
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), browser->priv->folder_tree);
