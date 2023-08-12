@@ -233,6 +233,7 @@ common_deps = [
   dependency('gmodule-2.0'),
   dependency('gio-unix-2.0'),
   dependency('gtk+-3.0', version : gtk_version),
+  dependency('x11'),
   dependency('libpng'),
   dependency('zlib'),
   dependency('gsettings-desktop-schemas')
