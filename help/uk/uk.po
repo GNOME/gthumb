@@ -2,12 +2,12 @@
 # Copyright (C) 2020 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2020-07-19 10:09+0000\n"
-"PO-Revision-Date: 2020-07-19 13:31+0300\n"
+"POT-Creation-Date: 2023-08-13 10:08+0000\n"
+"PO-Revision-Date: 2023-08-13 13:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -16,40 +16,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.07.70\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#. (itstool) path: credit/name
+#. (itstool) path: info/title
+#: C/index.page:6
+#| msgid "gThumb Help"
+msgctxt "link:trail"
+msgid "gThumb Help"
+msgstr "Довідка з gThumb"
+
+#. (itstool) path: info/title
 #: C/index.page:7
+#| msgid "gThumb Help"
+msgctxt "link"
+msgid "gThumb Help"
+msgstr "Довідка з gThumb"
+
+#. (itstool) path: info/title
+#: C/index.page:8
+#| msgid "gThumb Help"
+msgctxt "text"
+msgid "gThumb Help"
+msgstr "Довідка з gThumb"
+
+#. (itstool) path: credit/name
+#: C/index.page:11
 msgid "Paolo Bacchilega"
 msgstr "Paolo Bacchilega"
 
 #. (itstool) path: credit/name
-#: C/index.page:12
+#: C/index.page:16
 msgid "Michael J. Chudobiak"
 msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
-#: C/index.page:20
-msgid "gThumb Help"
-msgstr "Довідка з gThumb"
+#: C/index.page:24
+#| msgid "gThumb Help"
+msgid "<_:media-1/> gThumb Help"
+msgstr "<_:media-1/> Довідка з gThumb"
 
 #. (itstool) path: section/title
-#: C/index.page:23
+#: C/index.page:30
 msgid "Welcome"
 msgstr "Вітаємо"
 
 #. (itstool) path: section/title
-#: C/index.page:27
+#: C/index.page:34
 msgid "File Management"
 msgstr "Керування файлами"
 
 #. (itstool) path: section/title
-#: C/index.page:31
+#: C/index.page:38
 msgid "Editing Mode"
 msgstr "Режим редагування"
 
@@ -58,7 +80,7 @@ msgstr "Режим редагування"
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
+#: C/index.page:40 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
 #: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
 msgctxt "_"
 msgid ""
@@ -67,7 +89,7 @@ msgstr ""
 "external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: section/p
-#: C/index.page:32
+#: C/index.page:39
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
 "Numerous editing tools are provided for touching-up individual photos. Undo "
@@ -84,12 +106,12 @@ msgstr ""
 "key></keyseq>."
 
 #. (itstool) path: section/title
-#: C/index.page:42
+#: C/index.page:49
 msgid "Batch Tools"
 msgstr "Інструменти пакетної обробки"
 
 #. (itstool) path: section/p
-#: C/index.page:43
+#: C/index.page:50
 msgid ""
 "Batch tools are provided to modify multiple images simultaneously. Changes "
 "are written immediately, and are not undoable."
@@ -99,32 +121,32 @@ msgstr ""
 "буде скасувати."
 
 #. (itstool) path: section/title
-#: C/index.page:49
+#: C/index.page:56
 msgid "Slideshows"
 msgstr "Покази слайдів"
 
 #. (itstool) path: section/title
-#: C/index.page:53
+#: C/index.page:60
 msgid "Importing"
 msgstr "Імпортування"
 
 #. (itstool) path: section/title
-#: C/index.page:57
+#: C/index.page:64
 msgid "Sharing"
 msgstr "Оприлюднення"
 
 #. (itstool) path: section/title
-#: C/index.page:61
+#: C/index.page:68
 msgid "Organizing"
 msgstr "Упорядковування"
 
 #. (itstool) path: section/title
-#: C/index.page:65
+#: C/index.page:72
 msgid "Other Tools"
 msgstr "Інші інструменти"
 
 #. (itstool) path: section/title
-#: C/index.page:69
+#: C/index.page:76
 msgid "Reference"
 msgstr "Довідник"
 
@@ -499,7 +521,8 @@ msgstr ""
 #: C/strftime.page:255
 msgid ""
 "The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
-msgstr "Кількість секунд від початку епохи, тобто від 1970-01-01 00:00:00 UTC."
+msgstr ""
+"Кількість секунд від початку епохи, тобто від 1970-01-01 00:00:00 UTC."
 
 #. (itstool) path: td/p
 #: C/strftime.page:264
@@ -713,12 +736,12 @@ msgstr ""
 #: C/introduction.page:34
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"https://wiki.gnome.org/Apps/gthumb"
-"\">https://wiki.gnome.org/Apps/gthumb</link>."
+"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
+"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
 "Докладніші відомості щодо цих розширень та щодо <app>gThumb</app> загалом "
-"можна знайти на сторінці <link href=\"https://wiki.gnome.org/Apps/gthumb"
-"\">https://wiki.gnome.org/Apps/gthumb</link>."
+"можна знайти на сторінці <link href=\"https://wiki.gnome.org/Apps/"
+"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -1242,12 +1265,6 @@ msgstr "<key>#</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:37
-#| msgid ""
-#| "This symbol will be replaced with the value of a counter that increments "
-#| "itself by 1 passing from one image to another. If you specify this "
-#| "symbols in sequence you'll get leading zeros if the counter value has a "
-#| "lesser number of digits, for example ### will produce the sequence: 001, "
-#| "002, 003, etc.."
 msgid ""
 "This symbol will be replaced with the value of a counter that increments "
 "itself by 1 passing from one image to another. If you specify this symbol in "
@@ -1601,8 +1618,8 @@ msgstr ""
 "безпосередні дії з файлом. Для зображень jpeg це означає, що виконуються дії "
 "без втрати якості, — якість зображення дещо погіршиться під час повторного "
 "кодування та зберігання. Втім, у <app>gThumb</app> передбачено засоби для "
-"обертання зображення без втрати якості. Див. <link xref=\"gthumb-batch-rotate"
-"\"/>."
+"обертання зображення без втрати якості. Див. <link xref=\"gthumb-batch-"
+"rotate\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-resize-crop.page:6
@@ -1688,8 +1705,9 @@ msgid ""
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
 "reddish tinge. This tool could use improvement - if you are fiendishly "
-"clever, love matrix algebra and open source software, please <link href="
-"\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
+"clever, love matrix algebra and open source software, please <link "
+"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</"
+"link>"
 msgstr ""
 "Цей інструмент працює найкращим чином там, де є висока контрастність між "
 "«червоними» очима та навколишньою областю обличчя. Результати можуть бути "
@@ -1697,8 +1715,8 @@ msgstr ""
 "дитячих фотографіях, або якщо шкіра обличчя має червоний відтінок. Роботу "
 "цього інструмента може бути удосконалено — якщо ви тямите на цьому, "
 "полюбляєте матричну алгебру та програмне забезпечення із відкритим кодом, "
-"будь ласка <link href=\"https://wiki.gnome.org/Apps/gthumb/development"
-"\">надсилайте латки!</link>"
+"будь ласка <link href=\"https://wiki.gnome.org/Apps/gthumb/"
+"development\">надсилайте латки!</link>"
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1744,10 +1762,10 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/extensions.page:20
 msgid ""
-"If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
-"link> for development information. An example extension is provided in the "
-"source code, which you can base your own extension on."
+"If you would like to write your own extension, please visit <link "
+"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+"Gthumb</link> for development information. An example extension is provided "
+"in the source code, which you can base your own extension on."
 msgstr ""
 "Якщо ви хочете написати власне розширення, будь ласка, відвідайте сторінку "
 "<link href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/"
@@ -1887,7 +1905,8 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/fullscreen.page:24
 msgid "This can be used to implement a manually-controlled slideshow."
-msgstr "Цим можна скористатися для реалізації керованого вручну показу слайдів"
+msgstr ""
+"Цим можна скористатися для реалізації керованого вручну показу слайдів"
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:27
@@ -2070,7 +2089,8 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/printing.page:34
 msgid "When you are ready to print, press the <gui>Print</gui> button."
-msgstr "Коли ви будете готові до друку, натисніть кнопку <gui>Друкувати</gui>."
+msgstr ""
+"Коли ви будете готові до друку, натисніть кнопку <gui>Друкувати</gui>."
 
 #. (itstool) path: page/title
 #: C/sharing-disc.page:6
@@ -2376,17 +2396,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/import.page:52
-#| msgid ""
-#| "You can select either the <gui>File Date</gui> or the <gui>Current Date</"
-#| "gui> to use as the basis for subfolder naming. (The <gui>File Date</gui> "
-#| "examines the dates embedded in the file metadata to determine when the "
-#| "photo was taken.) A variety of standard date formats are available "
-#| "(<gui>year-month</gui> for example). The <gui>as single subfolder</gui> "
-#| "checkbox controls whether a \"deep\" or \"shallow\" hierarchy of files is "
-#| "made (for example, with <gui>year-month</gui>, you can have year "
-#| "subfolders with month subfolders under them, or all subfolders can be at "
-#| "the same level in the filesystem, with the year and name both the folder "
-#| "name."
 msgid ""
 "You can select either the <gui>File Date</gui> or the <gui>Current Date</"
 "gui> to use as the basis for subfolder naming. (The <gui>File Date</gui> "
@@ -2413,9 +2422,9 @@ msgstr ""
 msgid ""
 "It is not necessary to use the predefined date formats. If you select "
 "<gui>custom format</gui>, standard date codes can be used. Click on the help "
-"icon to the right of the custom format field for a list of format codes. \"%E"
-"\" is a special code that will embed the <gui>Event</gui> name defined in "
-"the main import dialog."
+"icon to the right of the custom format field for a list of format codes. "
+"\"%E\" is a special code that will embed the <gui>Event</gui> name defined "
+"in the main import dialog."
 msgstr ""
 "Використання попередньо визначених форматів дат не є обов'язковим. Якщо ви "
 "виберете <gui>інший формат</gui>, ви зможете скористатися стандартними "
