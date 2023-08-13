@@ -1,7 +1,11 @@
-<page xmlns="http://projectmallard.org/1.0/" type="guide"
-id="index">
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="index">
 
   <info>
+    <title type="link" role="trail">gThumb Help</title>
+    <title type="link">gThumb Help</title>
+    <title type="text">gThumb Help</title>
 
     <credit type="author">
       <name>Paolo Bacchilega</name>
@@ -17,7 +21,10 @@ id="index">
 
   </info>
 
-  <title>gThumb Help</title>
+  <title>
+    <media type="image" width="48px" height="48px" its:translate="no"
+    src="figures/gThumb.svg" /> gThumb Help
+  </title>
 
   <section id="welcome" style="2column">
     <title>Welcome</title>
