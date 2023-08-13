@@ -4429,6 +4429,11 @@ filters_changed_cb (GthMonitor *monitor,
 }
 
 
+gboolean
+gth_browser_file_tool_key_press_cb (GthBrowser  *browser,
+				    GdkEventKey *event);
+
+
 static gboolean
 browser_key_press_cb (GthBrowser  *browser,
 		      GdkEventKey *event)
@@ -4439,6 +4444,8 @@ browser_key_press_cb (GthBrowser  *browser,
 	case GTH_BROWSER_PAGE_VIEWER:
 		if (! _gth_browser_file_tool_is_active (browser))
 			return gth_browser_viewer_key_press_cb (browser, event);
+		else
+			return gth_browser_file_tool_key_press_cb (browser, event);
 		break;
 
 	case GTH_BROWSER_PAGE_BROWSER:
@@ -6085,6 +6092,29 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 
 	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
 						  GTH_SHORTCUT_CONTEXT_VIEWER,
+						  gth_viewer_page_get_shortcut_context (browser->priv->viewer_page),
+						  event->keyval,
+						  event->state);
+
+	if (! activated && gtk_widget_get_realized (browser->priv->file_list))
+		activated = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
+
+	return activated;
+}
+
+
+gboolean
+gth_browser_file_tool_key_press_cb (GthBrowser  *browser,
+				    GdkEventKey *event)
+{
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (!gth_viewer_page_has_focus (browser->priv->viewer_page))
+		return FALSE;
+
+	gboolean activated;
+	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
+						  GTH_SHORTCUT_CONTEXT_EDITOR, // _FILE_TOOL
 						  gth_viewer_page_get_shortcut_context (browser->priv->viewer_page),
 						  event->keyval,
 						  event->state);

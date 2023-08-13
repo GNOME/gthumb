@@ -56,6 +56,8 @@ static const GthShortcut shortcuts[] = {
 	{ "scroll-page-down", N_("Scroll down fast"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Shift>Down" },
 
 	{ "scroll-to-center", N_("Scroll to center"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Alt>Down" },
+
+	{ "apply-editor-changes", NULL, GTH_SHORTCUT_CONTEXT_EDITOR, GTH_SHORTCUT_CATEGORY_HIDDEN, "Return" },
 };
 
 

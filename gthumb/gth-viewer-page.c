@@ -110,6 +110,13 @@ void
 gth_viewer_page_focus (GthViewerPage  *self)
 {
 	GTH_VIEWER_PAGE_GET_INTERFACE (self)->focus (self);
+
+}
+
+gboolean
+gth_viewer_page_has_focus (GthViewerPage  *self)
+{
+	return GTH_VIEWER_PAGE_GET_INTERFACE (self)->has_focus (self);
 }
 
 

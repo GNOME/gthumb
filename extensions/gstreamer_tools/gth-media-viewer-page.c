@@ -1518,6 +1518,22 @@ gth_media_viewer_page_real_focus (GthViewerPage *base)
 }
 
 
+static gboolean
+gth_media_viewer_page_real_has_focus (GthViewerPage *base)
+{
+	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
+	GtkWidget          *widget;
+
+	widget = NULL;
+	if (self->priv->has_video)
+		widget = self->priv->video_area;
+	else if (self->priv->has_audio)
+		widget = self->priv->audio_area;
+
+	return gtk_widget_has_focus (widget);
+}
+
+
 static void
 gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 				       gboolean       active)
@@ -1663,6 +1679,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->can_view = gth_media_viewer_page_real_can_view;
 	iface->view = gth_media_viewer_page_real_view;
 	iface->focus = gth_media_viewer_page_real_focus;
+	iface->has_focus = gth_media_viewer_page_real_has_focus;
 	iface->fullscreen = gth_media_viewer_page_real_fullscreen;
 	iface->show_pointer = gth_media_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_media_viewer_page_real_update_sensitivity;

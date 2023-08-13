@@ -246,6 +246,13 @@ gth_file_viewer_page_real_focus (GthViewerPage *base)
 }
 
 
+static gboolean
+gth_file_viewer_page_real_has_focus (GthViewerPage *base)
+{
+	return FALSE;
+}
+
+
 static void
 gth_file_viewer_page_real_fullscreen (GthViewerPage *base,
 				      gboolean       active)
@@ -319,6 +326,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->can_view = gth_file_viewer_page_real_can_view;
 	iface->view = gth_file_viewer_page_real_view;
 	iface->focus = gth_file_viewer_page_real_focus;
+	iface->has_focus = gth_file_viewer_page_real_has_focus;
 	iface->fullscreen = gth_file_viewer_page_real_fullscreen;
 	iface->show_pointer = gth_file_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_file_viewer_page_real_update_sensitivity;
