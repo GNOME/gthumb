@@ -3118,8 +3118,10 @@ toolbox_options_visibility_cb (GthToolbox *toolbox,
 		browser->priv->pointer_visible = FALSE;
 
 		file_tool = gth_toolbox_get_active_tool (toolbox);
-		if (file_tool != NULL)
+		if (file_tool != NULL) {
 			gth_file_tool_populate_headerbar (GTH_FILE_TOOL (file_tool), browser);
+			gth_viewer_page_focus (browser->priv->viewer_page);
+		}
 	}
 	else {
 		if (browser->priv->pointer_visible) {
