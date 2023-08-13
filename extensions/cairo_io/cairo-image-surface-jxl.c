@@ -224,6 +224,8 @@ _cairo_image_surface_create_from_jxl(GInputStream  *istream,
 				*original_width = width;
 			if (original_height != NULL)
 				*original_height = height;
+			if (loaded_original != NULL)
+				*loaded_original = TRUE;
 
 			surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
 			surface_data = _cairo_image_surface_flush_and_get_data(surface);
