@@ -7173,6 +7173,7 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
+	_gth_browser_set_statusbar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_STATUSBAR_VISIBLE));
 
 	if (! gth_sidebar_tool_is_active (GTH_SIDEBAR (browser->priv->file_properties)))
 		browser->priv->fullscreen_state.sidebar = browser->priv->viewer_sidebar;
