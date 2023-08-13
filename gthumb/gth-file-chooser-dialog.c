@@ -271,6 +271,7 @@ _gth_file_chooser_change_format_options (GthFileChooserDialog *self,
 	gtk_container_set_border_width (GTK_CONTAINER (control), 15);
 	gtk_widget_show (control);
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), control);
+	gtk_widget_grab_default (gtk_dialog_get_widget_for_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK));
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
 	if (result)
