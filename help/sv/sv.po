@@ -7,15 +7,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2023-02-12 21:38+0000\n"
-"PO-Revision-Date: 2023-03-27 14:35+0200\n"
+"POT-Creation-Date: 2023-08-13 10:08+0000\n"
+"PO-Revision-Date: 2023-08-13 21:46+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -24,33 +24,52 @@ msgstr ""
 "Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009\n"
 "Josef Andersson <josef.andersson@fripost.org>, 2015"
 
-#. (itstool) path: credit/name
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link:trail"
+msgid "gThumb Help"
+msgstr "Hjälp för gThumb"
+
+#. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "gThumb Help"
+msgstr "Hjälp för gThumb"
+
+#. (itstool) path: info/title
+#: C/index.page:8
+msgctxt "text"
+msgid "gThumb Help"
+msgstr "Hjälp för gThumb"
+
+#. (itstool) path: credit/name
+#: C/index.page:11
 msgid "Paolo Bacchilega"
 msgstr "Paolo Bacchilega"
 
 #. (itstool) path: credit/name
-#: C/index.page:12
+#: C/index.page:16
 msgid "Michael J. Chudobiak"
 msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
-#: C/index.page:20
-msgid "gThumb Help"
-msgstr "gThumb hjälp"
+#: C/index.page:24
+#| msgid "gThumb Help"
+msgid "<_:media-1/> gThumb Help"
+msgstr "<_:media-1/> Hjälp för gThumb"
 
 #. (itstool) path: section/title
-#: C/index.page:23
+#: C/index.page:30
 msgid "Welcome"
 msgstr "Välkommen"
 
 #. (itstool) path: section/title
-#: C/index.page:27
+#: C/index.page:34
 msgid "File Management"
 msgstr "Filhantering"
 
 #. (itstool) path: section/title
-#: C/index.page:31
+#: C/index.page:38
 msgid "Editing Mode"
 msgstr "Redigerarläge"
 
@@ -59,7 +78,7 @@ msgstr "Redigerarläge"
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
+#: C/index.page:40 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
 #: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
 msgctxt "_"
 msgid ""
@@ -68,7 +87,7 @@ msgstr ""
 "external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: section/p
-#: C/index.page:32
+#: C/index.page:39
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
 "Numerous editing tools are provided for touching-up individual photos. Undo "
@@ -84,12 +103,12 @@ msgstr ""
 "<keyseq><key>E</key></keyseq>."
 
 #. (itstool) path: section/title
-#: C/index.page:42
+#: C/index.page:49
 msgid "Batch Tools"
 msgstr "Verktyg för satsvis bearbetning"
 
 #. (itstool) path: section/p
-#: C/index.page:43
+#: C/index.page:50
 msgid ""
 "Batch tools are provided to modify multiple images simultaneously. Changes "
 "are written immediately, and are not undoable."
@@ -98,32 +117,32 @@ msgstr ""
 "bilder samtidigt. Ändringar skrivs omedelbart och kan inte ångras."
 
 #. (itstool) path: section/title
-#: C/index.page:49
+#: C/index.page:56
 msgid "Slideshows"
 msgstr "Bildspel"
 
 #. (itstool) path: section/title
-#: C/index.page:53
+#: C/index.page:60
 msgid "Importing"
 msgstr "Att importera"
 
 #. (itstool) path: section/title
-#: C/index.page:57
+#: C/index.page:64
 msgid "Sharing"
 msgstr "Att dela"
 
 #. (itstool) path: section/title
-#: C/index.page:61
+#: C/index.page:68
 msgid "Organizing"
 msgstr "Att ordna"
 
 #. (itstool) path: section/title
-#: C/index.page:65
+#: C/index.page:72
 msgid "Other Tools"
 msgstr "Andra verktyg"
 
 #. (itstool) path: section/title
-#: C/index.page:69
+#: C/index.page:76
 msgid "Reference"
 msgstr "Referens"
 
