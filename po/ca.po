@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2022-09-06 13:18+0000\n"
-"PO-Revision-Date: 2022-09-09 08:36+0100\n"
+"PO-Revision-Date: 2023-08-20 08:36+0100\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
 "Language: ca\n"
@@ -474,7 +474,7 @@ msgstr "Afegeix a la compatibilitat amb les adreces d'interès."
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:7
 msgid "_Add Bookmark"
-msgstr "_Afegeix a la llista d'adreces d'interès"
+msgstr "_Afegeix una adreça d'interès"
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:11
 msgid "_Edit Bookmarks…"
