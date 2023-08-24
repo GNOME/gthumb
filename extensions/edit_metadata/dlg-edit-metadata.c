@@ -139,7 +139,7 @@ saver_completed_cb (GthTask  *task,
 
 	if (data->close_dialog)
 		close_dialog (data);
-	else
+	else if (gth_window_get_current_page (GTH_WINDOW (data->browser)) == GTH_BROWSER_PAGE_VIEWER)
 		gth_browser_show_next_image (data->browser, FALSE, FALSE);
 
 	dialog_data_unref (data);
@@ -246,7 +246,8 @@ loader_completed_cb (GthTask  *task,
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
-	gtk_window_present (GTK_WINDOW (data->dialog));
+	if (data->never_shown || (gth_window_get_current_page (GTH_WINDOW (data->browser)) == GTH_BROWSER_PAGE_VIEWER))
+		gtk_window_present (GTK_WINDOW (data->dialog));
 
 	data->never_shown = FALSE;
 

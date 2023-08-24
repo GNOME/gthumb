@@ -117,7 +117,5 @@ edit_metadata__gth_browser_selection_changed_cb (GthBrowser *browser,
 	gboolean sensitive;
 
 	sensitive = (n_selected > 0);
-	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-metadata"), "enabled", sensitive, NULL);
-	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-tags"), "enabled", sensitive, NULL);
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "delete-metadata"), "enabled", sensitive, NULL);
 }
