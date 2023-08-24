@@ -97,8 +97,10 @@ gth_shortcut_set_accelerator (GthShortcut *shortcut,
 	modifiers = 0;
 
 	if ((shortcut->context & GTH_SHORTCUT_CONTEXT_DOC) == 0) {
-		if (accelerator != NULL)
+		if (accelerator != NULL) {
 			gtk_accelerator_parse (accelerator, &keyval, &modifiers);
+			keyval = gth_shortcut_normalize_keycode (keyval);
+		}
 		gth_shortcut_set_key (shortcut, keyval, modifiers);
 	}
 	else {
@@ -239,6 +241,78 @@ gth_shortcut_array_find_by_action (GPtrArray  *shortcuts_v,
 	return NULL;
 }
 
+guint
+gth_shortcut_normalize_keycode (guint keycode)
+{
+	switch (keycode) {
+	case GDK_KEY_KP_Page_Up:
+		keycode = GDK_KEY_Page_Up;
+		break;
+
+	case GDK_KEY_KP_Page_Down:
+		keycode = GDK_KEY_Page_Down;
+		break;
+
+	case GDK_KEY_KP_Begin:
+		keycode = GDK_KEY_Begin;
+		break;
+
+	case GDK_KEY_KP_End:
+		keycode = GDK_KEY_End;
+		break;
+
+	case GDK_KEY_KP_Subtract:
+		keycode = GDK_KEY_minus;
+		break;
+
+	case GDK_KEY_KP_Add:
+		keycode = GDK_KEY_plus;
+		break;
+
+	case GDK_KEY_KP_Divide:
+		keycode = GDK_KEY_slash;
+		break;
+
+	case GDK_KEY_KP_Multiply:
+		keycode = GDK_KEY_asterisk;
+		break;
+
+	case GDK_KEY_KP_Decimal:
+		keycode = GDK_KEY_decimalpoint;
+		break;
+
+	case GDK_KEY_KP_Left:
+		keycode = GDK_KEY_Left;
+		break;
+
+	case GDK_KEY_KP_Right:
+		keycode = GDK_KEY_Right;
+		break;
+
+	case GDK_KEY_KP_Up:
+		keycode = GDK_KEY_Up;
+		break;
+
+	case GDK_KEY_KP_Down:
+		keycode = GDK_KEY_Down;
+		break;
+
+	case GDK_KEY_KP_Enter:
+		keycode = GDK_KEY_Return;
+		break;
+
+	case GDK_KEY_KP_Insert:
+		keycode = GDK_KEY_Insert;
+		break;
+
+	case GDK_KEY_KP_Delete:
+		keycode = GDK_KEY_Delete;
+		break;
+	}
+
+	return keycode;
+}
+
 
 gboolean
 gth_shortcut_valid (guint           keycode,
@@ -247,10 +321,11 @@ gth_shortcut_valid (guint           keycode,
 	switch (keycode) {
 	case GDK_KEY_Escape:
 	case GDK_KEY_Tab:
+	case GDK_KEY_KP_Tab:
 		return FALSE;
 
 	/* These shortcuts are valid for us but gtk_accelerator_valid
-	 * considers them not valid, hence the are added here
+	 * considers them not valid, hence they are added here
 	 * explicitly. */
 
 	case GDK_KEY_Left:

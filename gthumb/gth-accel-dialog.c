@@ -78,14 +78,16 @@ accel_dialog_keypress_cb (GtkWidget    *widget,
 			  gpointer      user_data)
 {
 	GthAccelDialog  *self = user_data;
+	guint            keycode;
 	GdkModifierType  modifiers;
 
 	if (event->keyval == GDK_KEY_Escape)
 		return FALSE;
 
+	keycode = gth_shortcut_normalize_keycode (event->keyval);
 	modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
-	if (gth_shortcut_valid (event->keyval, modifiers)) {
-		self->priv->keycode = event->keyval;
+	if (gth_shortcut_valid (keycode, modifiers)) {
+		self->priv->keycode = keycode;
 		self->priv->modifiers = modifiers;
 		self->priv->valid = TRUE;
 		gtk_dialog_response (GTK_DIALOG (self), GTK_RESPONSE_OK);

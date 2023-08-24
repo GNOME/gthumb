@@ -4442,6 +4442,8 @@ browser_key_press_cb (GthBrowser  *browser,
 {
 	GtkWidget *focus_widget;
 
+	event->keyval = gth_shortcut_normalize_keycode (event->keyval);
+
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_VIEWER:
 		if (! _gth_browser_file_tool_is_active (browser))

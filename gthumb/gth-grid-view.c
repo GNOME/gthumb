@@ -1751,6 +1751,8 @@ gth_grid_view_key_press (GtkWidget   *widget,
 		|| (event->keyval == GDK_KEY_Down)
 		|| (event->keyval == GDK_KEY_Page_Up)
 		|| (event->keyval == GDK_KEY_Page_Down)
+		|| (event->keyval == GDK_KEY_KP_Page_Up)
+		|| (event->keyval == GDK_KEY_KP_Page_Down)
 		|| (event->keyval == GDK_KEY_Home)
 		|| (event->keyval == GDK_KEY_End)))
 	{

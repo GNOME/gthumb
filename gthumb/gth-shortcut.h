@@ -82,6 +82,8 @@ GthShortcut * gth_shortcut_array_find_by_accel  (GPtrArray         *shortcuts_v,
 						 const char        *accelerator);
 GthShortcut * gth_shortcut_array_find_by_action (GPtrArray         *shortcuts_v,
 						 const char        *detailed_action);
+
+guint         gth_shortcut_normalize_keycode    (guint              keycode);
 gboolean      gth_shortcut_valid                (guint              keycode,
 						 GdkModifierType    modifiers);
 gboolean      gth_shortcuts_write_to_file       (GPtrArray         *shortcuts_v,
