@@ -4599,6 +4599,8 @@ gth_browser_init (GthBrowser *browser)
 			  G_CALLBACK (browser_key_press_cb),
 			  browser);
 
+	/* Back/forward buttons */
+
 	browser->priv->gesture = gtk_gesture_multi_press_new (GTK_WIDGET (browser));
 	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (browser->priv->gesture), 0);
 	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (browser->priv->gesture), GTK_PHASE_CAPTURE);
