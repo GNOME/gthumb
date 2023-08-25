@@ -604,8 +604,12 @@ update_overview_visibility (GthImageViewerPage *self)
 }
 
 
-#define MIN_ZOOM_LEVEL 0.3
-#define MAX_ZOOM_LEVEL 3.0
+#define MIN_ZOOM_LEVEL 0.05
+#define MAX_ZOOM_LEVEL 10.0
+#define RANGE_TO_ZOOM(x) (exp ((x) / 15.0 - M_E))
+#define MIN_RANGE_TO_ZOOM RANGE_TO_ZOOM(0.0)
+#define MAX_RANGE_TO_ZOOM RANGE_TO_ZOOM(100.0)
+#define ZOOM_TO_RANGE(x) ((log ((x)) + M_E) * 15.0)
 
 
 static void
@@ -616,7 +620,9 @@ zoom_scale_value_changed_cb (GtkScale *scale,
 	double              x, zoom;
 
 	x = gtk_range_get_value (GTK_RANGE (scale));
-	zoom = MIN_ZOOM_LEVEL + (x / 100.0 * (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL));
+	x = (RANGE_TO_ZOOM (x) - MIN_RANGE_TO_ZOOM) / (MAX_RANGE_TO_ZOOM - MIN_RANGE_TO_ZOOM);
+	zoom = MIN_ZOOM_LEVEL + (x * (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL));
+	zoom = CLAMP (zoom, MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
 	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->viewer), zoom);
 }
 
@@ -703,8 +709,11 @@ update_zoom_info (GthImageViewerPage *self)
 	GtkWidget *scale = _gtk_builder_get_widget (self->priv->builder, "zoom_level_scale");
 
 	_g_signal_handlers_block_by_data (scale, self);
-	x = (zoom - MIN_ZOOM_LEVEL) / (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) * 100.0;
-	gtk_range_set_value (GTK_RANGE (scale), CLAMP (x, 0, 100));
+	x = (zoom - MIN_ZOOM_LEVEL) / (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL);
+	x = x * (MAX_RANGE_TO_ZOOM - MIN_RANGE_TO_ZOOM) + MIN_RANGE_TO_ZOOM;
+	x = ZOOM_TO_RANGE (x);
+	x = CLAMP (x, 0, 100);
+	gtk_range_set_value (GTK_RANGE (scale), x);
 	_g_signal_handlers_unblock_by_data (scale, self);
 }
 
