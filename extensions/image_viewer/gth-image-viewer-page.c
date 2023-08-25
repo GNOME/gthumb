@@ -115,6 +115,7 @@ struct _GthImageViewerPagePrivate {
 	GthFileData       *prev_file_data[N_BACKWARD_PRELOADERS];
 	gulong             drag_data_get_event;
 	GCancellable      *current_cancellable;
+	GtkGesture        *gesture_zoom;
 };
 
 
@@ -758,6 +759,25 @@ viewer_popup_menu_cb (GtkWidget          *widget,
 }
 
 
+}
+
+
+static void
+viewer_gesture_scale_changed_cb (GtkGestureZoom *controller,
+				 double          scale,
+				 gpointer        user_data)
+{
+
+	GthImageViewerPage *self = user_data;
+	double zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
+
+	scale = (scale > 1.0) ? 1.0 + ((scale - 1.0) * 0.125) : 1.0 - ((1.0 - scale) * 0.125);
+	zoom = zoom * scale;
+	zoom = CLAMP (zoom, MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->viewer), zoom);
+}
+
+
 static gboolean
 viewer_scroll_event_cb (GtkWidget 	   *widget,
 		        GdkEventScroll     *event,
@@ -1253,6 +1273,11 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				"map_event",
 				G_CALLBACK (viewer_image_map_event_cb),
 				self);
+	self->priv->gesture_zoom = gtk_gesture_zoom_new (self->priv->viewer);
+	g_signal_connect (self->priv->gesture_zoom,
+			  "scale-changed",
+			  G_CALLBACK (viewer_gesture_scale_changed_cb),
+			  self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "realize",
 			  G_CALLBACK (viewer_realize_cb),
@@ -1316,10 +1341,12 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 	}
 
 	_g_object_unref (self->priv->builder);
-	self->priv->builder = NULL;
 	_g_object_unref (self->priv->preloader);
 	gth_image_history_clear (self->priv->history);
+	_g_object_unref (self->priv->gesture_zoom);
+	self->priv->builder = NULL;
 	self->priv->preloader = NULL;
+	self->priv->gesture_zoom = NULL;
 	self->priv->active = FALSE;
 
 	gth_browser_set_viewer_widget (self->priv->browser, NULL);
