@@ -4440,28 +4440,29 @@ static gboolean
 browser_key_press_cb (GthBrowser  *browser,
 		      GdkEventKey *event)
 {
-	GtkWidget *focus_widget;
+	gboolean result = FALSE;
 
 	event->keyval = gth_shortcut_normalize_keycode (event->keyval);
 
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_VIEWER:
 		if (! _gth_browser_file_tool_is_active (browser))
-			return gth_browser_viewer_key_press_cb (browser, event);
+			result = gth_browser_viewer_key_press_cb (browser, event);
 		else
-			return gth_browser_file_tool_key_press_cb (browser, event);
+			result = gth_browser_file_tool_key_press_cb (browser, event);
 		break;
 
 	case GTH_BROWSER_PAGE_BROWSER:
-		focus_widget = gtk_window_get_focus (GTK_WINDOW (browser));
+		GtkWidget *focus_widget = gtk_window_get_focus (GTK_WINDOW (browser));
 		if (! GTK_IS_ENTRY (focus_widget) && ! GTK_IS_TREE_VIEW (focus_widget))
-			return gth_browser_file_list_key_press_cb (browser, event);
+			result = gth_browser_file_list_key_press_cb (browser, event);
 		break;
 
 	default:
 		break;
 	}
-	return FALSE;
+
+	return result;
 }
 
 
