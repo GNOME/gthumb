@@ -45,6 +45,7 @@ static const GthShortcut shortcuts[] = {
 	{ "skip-back-small", N_("Go back 10 seconds"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Alt>Left" },
 	{ "skip-back-big", N_("Go back 1 minute"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Primary>Left" },
 	{ "skip-back-bigger", N_("Go back 5 minutes"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Primary><Alt>Left" },
+	{ "copy-frame", N_("Copy Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Ctrl><Shift>c" },
 
 };
 
