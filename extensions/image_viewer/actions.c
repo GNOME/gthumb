@@ -261,7 +261,7 @@ gth_browser_activate_paste_image (GSimpleAction	*action,
 	if (viewer_page == NULL)
 		return;
 
-	gth_image_viewer_page_paste_image (viewer_page);
+	gth_image_viewer_page_paste_image (viewer_page, NULL);
 }
 
 
@@ -544,3 +544,11 @@ gth_browser_activate_scroll_to_center (GSimpleAction	*action,
 	gth_image_viewer_scroll_to_center (image_viewer);
 }
 
+
+void
+gth_browser_activate_open_clipboard (GSimpleAction	*action,
+				     GVariant		*state,
+				     gpointer	 	 user_data)
+{
+	gth_browser_open_clipboard (GTH_BROWSER (user_data));
+}

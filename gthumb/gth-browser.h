@@ -251,6 +251,7 @@ gboolean         gth_browser_show_last_image        (GthBrowser       *browser,
 void             gth_browser_load_file              (GthBrowser       *browser,
 						     GthFileData      *file_data,
 						     gboolean          view);
+void             gth_browser_open_clipboard         (GthBrowser       *browser);
 void             gth_browser_update_title           (GthBrowser       *browser);
 void             gth_browser_update_sensitivity     (GthBrowser       *browser);
 void             gth_browser_update_extra_widget    (GthBrowser       *browser);

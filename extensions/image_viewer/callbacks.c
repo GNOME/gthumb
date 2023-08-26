@@ -24,8 +24,12 @@
 #include <glib/gi18n.h>
 #include <glib-object.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "callbacks.h"
 #include "shortcuts.h"
+
+
+#define BROWSER_DATA_KEY "image-viewer-browser-data"
 
 
 static const GthShortcut shortcuts[] = {
@@ -58,7 +62,54 @@ static const GthShortcut shortcuts[] = {
 	{ "scroll-to-center", N_("Scroll to center"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Alt>Down" },
 
 	{ "apply-editor-changes", NULL, GTH_SHORTCUT_CONTEXT_EDITOR, GTH_SHORTCUT_CATEGORY_HIDDEN, "Return" },
+
+	{ "open-clipboard", N_("Paste Image"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary><Shift>v" },
 };
+
+static const GActionEntry other_actions[] = {
+	{ "open-clipboard", gth_browser_activate_open_clipboard }
+};
+
+static const GthMenuEntry other_actions_entries[] = {
+	{ N_("Paste Image"), "win.open-clipboard" }
+};
+
+
+typedef struct {
+	gboolean can_paste;
+} BrowserData;
+
+
+static void
+browser_data_free (BrowserData *data)
+{
+	g_free (data);
+}
+
+
+static void
+update_open_clipboard_sensitivity (GthBrowser   *browser,
+				   GtkClipboard *clipboard)
+{
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	if (clipboard == NULL)
+		clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
+	data->can_paste = gtk_clipboard_wait_is_image_available (clipboard);
+	gth_window_enable_action (GTH_WINDOW (browser), "open-clipboard", data->can_paste);
+}
+
+
+static void
+clipboard_owner_change_cb (GtkClipboard *clipboard,
+			   GdkEvent     *event,
+			   gpointer      user_data)
+{
+	update_open_clipboard_sensitivity (GTH_BROWSER (user_data), clipboard);
+}
 
 
 void
@@ -70,4 +121,38 @@ image_viewer__gth_browser_construct_cb (GthBrowser *browser)
 					 GTH_SHORTCUT_VIEWER_CONTEXT_IMAGE,
 					 shortcuts,
 					 G_N_ELEMENTS (shortcuts));
+
+	g_action_map_add_action_entries (
+		G_ACTION_MAP (browser),
+		other_actions,
+		G_N_ELEMENTS (other_actions),
+		browser);
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser,
+		GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS),
+		other_actions_entries,
+		G_N_ELEMENTS (other_actions_entries));
+
+	BrowserData *data = g_new0 (BrowserData, 1);
+	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+
+	GtkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
+	g_signal_connect (clipboard,
+		"owner_change",
+		G_CALLBACK (clipboard_owner_change_cb),
+		browser);
+
+	update_open_clipboard_sensitivity (browser, clipboard);
+}
+
+
+void
+image_viewer__gth_browser_close_cb (GthBrowser *browser)
+{
+	g_return_if_fail (GTH_IS_BROWSER (browser));
+
+	GtkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
+	g_signal_handlers_disconnect_by_func (
+		clipboard,
+		G_CALLBACK (clipboard_owner_change_cb),
+		browser);
 }

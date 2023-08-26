@@ -47,6 +47,7 @@ gthumb_extension_activate (void)
 	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_hook_add_callback ("dlg-preferences-construct", 10, G_CALLBACK (image_viewer__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 7, G_CALLBACK (image_viewer__gth_browser_construct_cb), NULL);
+	gth_hook_add_callback ("gth-browser-close", 7, G_CALLBACK (image_viewer__gth_browser_close_cb), NULL);
 }
 
 

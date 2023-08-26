@@ -64,7 +64,8 @@ void               gth_image_viewer_page_reset			(GthImageViewerPage	 *self);
 void               gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage	 *self);
 gboolean           gth_image_viewer_page_get_is_modified        (GthImageViewerPage	 *self);
 void               gth_image_viewer_page_copy_image		(GthImageViewerPage	 *self);
-void               gth_image_viewer_page_paste_image		(GthImageViewerPage	 *self);
+void               gth_image_viewer_page_paste_image		(GthImageViewerPage	 *self,
+								 GtkClipboard            *clipboard);
 void               gth_image_viewer_page_get_original		(GthImageViewerPage	 *self,
 								 GCancellable		 *cancellable,
 								 GAsyncReadyCallback	  ready_callback,

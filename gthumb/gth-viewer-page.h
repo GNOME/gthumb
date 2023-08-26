@@ -81,6 +81,11 @@ struct _GthViewerPageInterface {
 					  GdkEventScroll *event);
 
 	const char * (*shortcut_context) (GthViewerPage *self);
+	gboolean  (*can_open_clipboard)  (GthViewerPage *self,
+					  GdkAtom      *atoms,
+					  int           n_atoms);
+	void      (*open_clipboard)      (GthViewerPage *self,
+					  GtkClipboard  *clipboard);
 
 	/*< signals >*/
 
@@ -127,6 +132,11 @@ void         gth_viewer_page_file_loaded         (GthViewerPage  *self,
 						  gboolean        success);
 const char * gth_viewer_page_get_shortcut_context
 						 (GthViewerPage  *self);
+gboolean     gth_viewer_page_can_open_clipboard  (GthViewerPage  *self,
+						  GdkAtom        *atoms,
+						  int             n_atoms);
+void         gth_viewer_page_open_clipboard      (GthViewerPage  *self,
+						  GtkClipboard   *clipboard);
 
 G_END_DECLS
 

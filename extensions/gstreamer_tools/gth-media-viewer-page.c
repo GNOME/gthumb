@@ -1632,6 +1632,24 @@ gth_media_viewer_page_shortcut_context (GthViewerPage *base)
 }
 
 
+static gboolean
+gth_media_viewer_page_can_open_clipboard (GthViewerPage *base,
+					  GdkAtom       *atoms,
+					  int            n_atoms)
+
+{
+	return FALSE;
+}
+
+
+static void
+gth_media_viewer_page_open_clipboard (GthViewerPage *base,
+				      GtkClipboard *clipboard)
+{
+	// VOID
+}
+
+
 static void
 gth_media_viewer_page_finalize (GObject *obj)
 {
@@ -1689,6 +1707,8 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->revert = gth_media_viewer_page_real_revert;
 	iface->update_info = gth_media_viewer_page_real_update_info;
 	iface->shortcut_context = gth_media_viewer_page_shortcut_context;
+	iface->can_open_clipboard = gth_media_viewer_page_can_open_clipboard;
+	iface->open_clipboard = gth_media_viewer_page_open_clipboard;
 }
 
 

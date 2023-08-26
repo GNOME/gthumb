@@ -527,6 +527,9 @@ update_image_quality_if_required (GthImageViewerPage *self)
 	if ((image != NULL) && (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image)))
 		return;
 
+	if (self->priv->file_data == NULL)
+		return;
+
 	if (self->priv->update_quality_id != 0) {
 		g_source_remove (self->priv->update_quality_id);
 		self->priv->update_quality_id = 0;
@@ -756,9 +759,6 @@ viewer_popup_menu_cb (GtkWidget          *widget,
 {
 	gth_browser_file_menu_popup (self->priv->browser, NULL);
 	return TRUE;
-}
-
-
 }
 
 
@@ -2039,6 +2039,30 @@ gth_image_viewer_page_shortcut_context (GthViewerPage *base)
 }
 
 
+static gboolean
+gth_image_viewer_page_can_open_clipboard (GthViewerPage *base,
+					  GdkAtom       *atoms,
+					  gint           n_atoms)
+{
+	// TODO: check atoms
+	return TRUE;
+}
+
+
+static void
+gth_image_viewer_page_open_clipboard (GthViewerPage *base,
+				      GtkClipboard  *clipboard)
+{
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
+	GthFileData        *file_data = gth_browser_get_current_file (self->priv->browser);
+	if (file_data == NULL)
+		return;
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = gth_file_data_dup (file_data);
+	gth_image_viewer_page_paste_image (GTH_IMAGE_VIEWER_PAGE (base), clipboard);
+}
+
+
 static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
@@ -2103,6 +2127,8 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->zoom_from_scroll = gth_image_viewer_page_real_zoom_from_scroll;
 	iface->show_properties = gth_image_viewer_page_real_show_properties;
 	iface->shortcut_context = gth_image_viewer_page_shortcut_context;
+	iface->can_open_clipboard = gth_image_viewer_page_can_open_clipboard;
+	iface->open_clipboard = gth_image_viewer_page_open_clipboard;
 }
 
 
@@ -2413,11 +2439,11 @@ clipboard_image_received_cb (GtkClipboard *clipboard,
 
 
 void
-gth_image_viewer_page_paste_image (GthImageViewerPage *self)
+gth_image_viewer_page_paste_image (GthImageViewerPage *self,
+				   GtkClipboard       *clipboard)
 {
-	GtkClipboard *clipboard;
-
-	clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
+	if (clipboard == NULL)
+		clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
 	gtk_clipboard_request_image (clipboard,
 				     clipboard_image_received_cb,
 				     g_object_ref (self));

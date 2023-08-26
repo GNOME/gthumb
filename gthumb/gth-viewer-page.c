@@ -227,3 +227,20 @@ gth_viewer_page_get_shortcut_context (GthViewerPage  *self)
 	else
 		return NULL;
 }
+
+
+gboolean
+gth_viewer_page_can_open_clipboard  (GthViewerPage *self,
+				     GdkAtom       *atoms,
+				     int            n_atoms)
+{
+	return GTH_VIEWER_PAGE_GET_INTERFACE (self)->can_open_clipboard (self, atoms, n_atoms);
+}
+
+
+void
+gth_viewer_page_open_clipboard (GthViewerPage *self,
+				GtkClipboard  *clipboard)
+{
+	GTH_VIEWER_PAGE_GET_INTERFACE (self)->open_clipboard (self, clipboard);
+}

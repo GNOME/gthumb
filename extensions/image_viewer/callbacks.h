@@ -25,5 +25,6 @@
 #include <gthumb.h>
 
 void image_viewer__gth_browser_construct_cb (GthBrowser *browser);
+void image_viewer__gth_browser_close_cb (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */

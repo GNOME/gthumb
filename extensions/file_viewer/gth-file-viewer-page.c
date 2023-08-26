@@ -295,6 +295,24 @@ gth_file_viewer_page_real_update_info (GthViewerPage *base,
 }
 
 
+static gboolean
+gth_file_viewer_page_can_open_clipboard (GthViewerPage *base,
+					 GdkAtom       *atoms,
+					 int            n_atoms)
+
+{
+	return FALSE;
+}
+
+
+static void
+gth_file_viewer_page_open_clipboard (GthViewerPage *base,
+				     GtkClipboard *clipboard)
+{
+	// VOID
+}
+
+
 static void
 gth_file_viewer_page_finalize (GObject *obj)
 {
@@ -332,6 +350,8 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->update_sensitivity = gth_file_viewer_page_real_update_sensitivity;
 	iface->can_save = gth_file_viewer_page_real_can_save;
 	iface->update_info = gth_file_viewer_page_real_update_info;
+	iface->can_open_clipboard = gth_file_viewer_page_can_open_clipboard;
+	iface->open_clipboard = gth_file_viewer_page_open_clipboard;
 }
 
 

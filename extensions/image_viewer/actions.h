@@ -53,5 +53,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_scroll_page_right)
 DEF_ACTION_CALLBACK (gth_browser_activate_scroll_page_up)
 DEF_ACTION_CALLBACK (gth_browser_activate_scroll_page_down)
 DEF_ACTION_CALLBACK (gth_browser_activate_scroll_to_center)
+DEF_ACTION_CALLBACK (gth_browser_activate_open_clipboard)
 
 #endif /* ACTIONS_H */

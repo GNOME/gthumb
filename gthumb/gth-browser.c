@@ -6755,6 +6755,103 @@ gth_browser_load_file (GthBrowser  *browser,
 }
 
 
+static void
+clipboard_targets_received_cb (GtkClipboard *clipboard,
+			       GdkAtom      *atoms,
+			       int           n_atoms,
+			       gpointer      user_data)
+{
+	GthBrowser *browser = user_data;
+	GList      *scan;
+
+	if (browser->priv->viewer_pages == NULL)
+		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
+	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
+		GthViewerPage *registered_viewer_page = scan->data;
+		if (gth_viewer_page_can_open_clipboard (registered_viewer_page, atoms, n_atoms)) {
+			_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
+			if (browser->priv->viewer_page != NULL) {
+				GFile     *folder;
+				GDateTime *timestamp;
+				char      *name;
+				GFile     *file;
+
+				if ((browser->priv->location != NULL) &&
+					(browser->priv->location_source != NULL) &&
+					GTH_IS_FILE_SOURCE_VFS (browser->priv->location_source))
+				{
+					folder = g_file_dup (browser->priv->location->file);
+				}
+				else {
+					folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_PICTURES));
+				}
+				timestamp = g_date_time_new_now_local ();
+				name = g_date_time_format (timestamp, "Clipboard %Y-%m-%d %H-%M-%S.png");
+				file = g_file_get_child (folder, name);
+				browser->priv->current_file = gth_file_data_new (file, NULL);
+				g_file_info_set_display_name (browser->priv->current_file->info, name);
+
+				gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+				gth_viewer_page_open_clipboard (browser->priv->viewer_page, clipboard);
+
+				/*if ((browser->priv->location == NULL) ||
+					!g_file_equal (folder, browser->priv->location->file))
+				{
+					_gth_browser_load (browser, folder, NULL, NULL, 0, GTH_ACTION_GO_TO, FALSE);
+				}
+				*/
+
+				g_free (name);
+				g_object_unref (file);
+				g_date_time_unref (timestamp);
+				g_object_unref (folder);
+				break;
+			}
+		}
+	}
+
+	g_object_unref (browser);
+}
+
+
+static void
+_gth_browser_open_clipboard (GthBrowser *browser)
+{
+	GtkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
+	if (clipboard == NULL)
+		return;
+	gtk_clipboard_request_targets (clipboard,
+				       clipboard_targets_received_cb,
+				       g_object_ref (browser));
+}
+
+
+static void
+open_clipboard__file_saved_cb (GthBrowser *browser,
+			       gboolean    cancelled,
+			       gpointer    user_data)
+{
+	if (!cancelled)
+		_gth_browser_open_clipboard (browser);
+}
+
+
+void
+gth_browser_open_clipboard (GthBrowser *browser)
+{
+	if (g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE)
+	    && gth_browser_get_file_modified (browser))
+	{
+		gth_browser_ask_whether_to_save (browser,
+						 open_clipboard__file_saved_cb,
+						 NULL);
+	}
+	else {
+		_gth_browser_open_clipboard (browser);
+	}
+}
+
+
 void
 gth_browser_show_file_properties (GthBrowser *browser)
 {
