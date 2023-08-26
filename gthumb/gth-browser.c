@@ -5368,6 +5368,38 @@ gth_browser_new (GFile *location,
 	return (GtkWidget*) browser;
 }
 
+static void
+_gth_browser_open_clipboard (GthBrowser *browser);
+
+
+static void
+_gth_browser_construct_open_clipboard (gpointer user_data)
+{
+	GthBrowser *browser = user_data;
+
+	browser->priv->construct_step2_event = 0;
+
+	_gth_browser_update_entry_point_list (browser);
+	_gth_browser_monitor_entry_points (browser);
+
+	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
+	gth_hook_invoke ("gth-browser-selection-changed", browser, 0);
+
+	_gth_browser_open_clipboard (browser);
+}
+
+
+GtkWidget *
+gth_browser_new_open_clipboard (void)
+{
+	GthBrowser *browser;
+
+	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER, NULL);
+	browser->priv->construct_step2_event = call_when_idle (_gth_browser_construct_open_clipboard, browser);
+
+	return (GtkWidget*) browser;
+}
+
 
 GFile *
 gth_browser_get_location (GthBrowser *browser)
@@ -6763,6 +6795,13 @@ clipboard_targets_received_cb (GtkClipboard *clipboard,
 {
 	GthBrowser *browser = user_data;
 	GList      *scan;
+
+	if ((browser->priv->viewer_page != NULL) &&
+		!gth_viewer_page_can_open_clipboard (browser->priv->viewer_page, atoms, n_atoms))
+	{
+		gtk_window_present (GTK_WINDOW (gth_browser_new_open_clipboard ()));
+		return;
+	}
 
 	if (browser->priv->viewer_pages == NULL)
 		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
