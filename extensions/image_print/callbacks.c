@@ -64,11 +64,3 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 				  shortcuts,
 				  G_N_ELEMENTS (shortcuts));
 }
-
-
-void
-ip__gth_browser_selection_changed_cb (GthBrowser *browser,
-				      int         n_selected)
-{
-	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "print"), "enabled", n_selected > 0, NULL);
-}

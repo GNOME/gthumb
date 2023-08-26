@@ -33,27 +33,32 @@ gth_browser_activate_print (GSimpleAction *action,
 			    GVariant      *parameter,
 			    gpointer       user_data)
 {
-	GthBrowser *browser = GTH_BROWSER (user_data);
-	GList      *items;
-	GList      *file_list;
+	GthBrowser       *browser = GTH_BROWSER (user_data);
+	GList            *items;
+	GList            *file_list;
+	cairo_surface_t  *current_image;
+	GthViewerPage    *viewer_page;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	if (file_list != NULL) {
-		cairo_surface_t  *current_image;
-		GthViewerPage    *viewer_page;
+
+	current_image = NULL;
+	viewer_page = gth_browser_get_viewer_page (browser);
+	if ((gth_main_extension_is_active ("image_viewer"))
+	    && (viewer_page != NULL)
+	    && GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)
+	    && gth_image_viewer_page_get_is_modified (GTH_IMAGE_VIEWER_PAGE (viewer_page)))
+	{
+		current_image = gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	}
+
+	if ((file_list != NULL) || (current_image != NULL)) {
 		GthImagePrintJob *print_job;
 		GError           *error = NULL;
 
-		current_image = NULL;
-		viewer_page = gth_browser_get_viewer_page (browser);
-		if ((gth_main_extension_is_active ("image_viewer"))
-		    && (viewer_page != NULL)
-		    && GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)
-		    && gth_image_viewer_page_get_is_modified (GTH_IMAGE_VIEWER_PAGE (viewer_page)))
-		{
-			current_image = gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-		}
+		if (file_list == NULL)
+			file_list = g_list_prepend (NULL, g_object_ref (gth_browser_get_current_file (browser)));
+
 		print_job = gth_image_print_job_new (file_list,
 						     gth_browser_get_current_file (browser),
 						     current_image,

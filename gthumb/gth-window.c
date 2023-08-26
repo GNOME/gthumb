@@ -322,9 +322,11 @@ _gth_window_add_css_provider (GtkWidget  *widget,
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
-	gtk_style_context_add_provider_for_screen (gtk_widget_get_screen (widget),
-						   GTK_STYLE_PROVIDER (css_provider),
-						   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+	if (screen != NULL)
+		gtk_style_context_add_provider_for_screen (screen,
+			GTK_STYLE_PROVIDER (css_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	g_object_unref (css_provider);
 	g_bytes_unref (bytes);

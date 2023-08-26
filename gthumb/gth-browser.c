@@ -6829,16 +6829,14 @@ clipboard_targets_received_cb (GtkClipboard *clipboard,
 				file = g_file_get_child (folder, name);
 				browser->priv->current_file = gth_file_data_new (file, NULL);
 				g_file_info_set_display_name (browser->priv->current_file->info, name);
+				g_file_info_set_edit_name (browser->priv->current_file->info, name);
 
 				gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 				gth_viewer_page_open_clipboard (browser->priv->viewer_page, clipboard);
 
-				/*if ((browser->priv->location == NULL) ||
-					!g_file_equal (folder, browser->priv->location->file))
-				{
+				if (browser->priv->location == NULL) {
 					_gth_browser_load (browser, folder, NULL, NULL, 0, GTH_ACTION_GO_TO, FALSE);
 				}
-				*/
 
 				g_free (name);
 				g_object_unref (file);

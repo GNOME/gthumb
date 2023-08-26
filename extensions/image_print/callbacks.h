@@ -25,7 +25,5 @@
 #include <gthumb.h>
 
 void ip__gth_browser_construct_cb          (GthBrowser *browser);
-void ip__gth_browser_selection_changed_cb  (GthBrowser *browser,
-					    int         n_selected);
 
 #endif /* CALLBACKS_H */
