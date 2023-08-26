@@ -664,3 +664,12 @@ gth_browser_activate_folder_tree_sort_by (GSimpleAction *action,
 {
 	dlg_sort_order_folder_tree (GTH_BROWSER (user_data));
 }
+
+
+void
+gth_browser_activate_open_clipboard (GSimpleAction	*action,
+				     GVariant		*state,
+				     gpointer	 	 user_data)
+{
+	gth_browser_open_clipboard (GTH_BROWSER (user_data));
+}

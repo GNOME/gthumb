@@ -543,12 +543,3 @@ gth_browser_activate_scroll_to_center (GSimpleAction	*action,
 	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
 	gth_image_viewer_scroll_to_center (image_viewer);
 }
-
-
-void
-gth_browser_activate_open_clipboard (GSimpleAction	*action,
-				     GVariant		*state,
-				     gpointer	 	 user_data)
-{
-	gth_browser_open_clipboard (GTH_BROWSER (user_data));
-}

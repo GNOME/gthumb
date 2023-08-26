@@ -87,6 +87,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "set-filter-all", gth_browser_activate_set_filter_all },
 
 	{ "folder-tree-sort-by", gth_browser_activate_folder_tree_sort_by },
+	{ "open-clipboard", gth_browser_activate_open_clipboard },
 };
 
 
@@ -194,6 +195,8 @@ static const GthShortcut gth_browser_shortcuts[] = {
 	{ "file-list-toggle-cursor-item", NULL, GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Primary>KP_space" },
 	{ "file-list-activate-cursor-item", NULL, GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "Return" },
 	{ "file-list-activate-cursor-item", NULL, GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "KP_Enter" },
+
+	{ "open-clipboard", N_("Paste Image"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary><Shift>v" },
 };
 
 

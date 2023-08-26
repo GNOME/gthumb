@@ -39,6 +39,10 @@
     <section id="folder-actions">
     </section>
     <section id="other-actions">
+      <item>
+        <attribute name="label" translatable="yes">Paste Image</attribute>
+        <attribute name="action">win.open-clipboard</attribute>
+      </item>
     </section>
     <section id="app-actions">
       <item>
