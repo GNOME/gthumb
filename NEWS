@@ -1,3 +1,37 @@
+Version 3.12.3
+~~~~~~~~~~~~~~
+Released: 2023-08-??
+
+Features:
+ * Added ability to open the image stored in the clipboard with Ctrl+Shift+V
+ * Added ability to sort folders by modification time from the context menu
+ * Media viewer: added ability to copy the current frame to the clipboard
+ * Tiff and TGA files: added support for transparency
+ * Image viewer: added support for the zoom gesture
+ * Drag&Drop: allow to copy pressing Shift (matthewmelvin)
+ * Image tools: allow to use Return to apply the changes
+ * Rename series: added special code to add the filename without extension
+ * Rename series: added ability to specify the current time
+ * Crop: added 1.91:1 to the list of predefined ratios
+ * Added an internal video thumbnailer
+ * Try to load the parent folder if the startup folder doesn't exist
+ * Make keypad keys equivalent to the non-keypad counterpart
+ * Improved usability when editing metadata in browser mode
+ * Zoom slider: set the zoom range from 5% to 1000%
+
+Bugfixes:
+ * Allow to compile without clutter-gtk
+ * Fixed build with exiv2 version 0.28 (Alex and Antonio Rojas)
+ * Fixed build with libraw 0.21
+ * Reduced memory usage by keeping in memory only the visible thumbnails
+ * Rename series: fixed date format not applied correctly; preview does not show example values
+ * Desktop background: fixed when using the dark color scheme
+ * Fixed memory leaks
+ * Fixed directory not loaded when cancelling the thumbnailer
+ * Help: Added gThumb icon (Sabri Ünal)
+ * TGA files displayed pixelated
+ * Status bar reappears after exiting from full screen
+
 Version 3.12.2
 ~~~~~~~~~~~~~~
 Released: 2022-04-03
