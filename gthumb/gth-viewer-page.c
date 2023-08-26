@@ -25,8 +25,8 @@
 
 
 enum {
-    FILE_LOADED,
-    LAST_SIGNAL
+	FILE_LOADED,
+	LAST_SIGNAL
 };
 
 static guint gth_viewer_page_signals[LAST_SIGNAL] = { 0 };
