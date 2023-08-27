@@ -5,7 +5,7 @@ Released: 2023-08-??
 Features:
  * Added ability to open the image stored in the clipboard with Ctrl+Shift+V
  * Added ability to sort folders by modification time from the context menu
- * Media viewer: added ability to copy the current frame to the clipboard
+ * Media viewer: added ability to copy the current frame to the clipboard with Ctrl+Shift+C
  * Tiff and TGA files: added support for transparency
  * Image viewer: added support for the zoom gesture
  * Drag&Drop: allow to copy pressing Shift (matthewmelvin)
