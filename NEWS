@@ -1,13 +1,13 @@
 Version 3.12.3
 ~~~~~~~~~~~~~~
-Released: 2023-08-??
+Released: 2023-08-27
 
 Features:
- * Added ability to open the image stored in the clipboard with Ctrl+Shift+V
+ * Added ability to open the image stored in the clipboard with Ctrl+Shift+V (!243)
  * Added ability to sort folders by modification time from the context menu
  * Media viewer: added ability to copy the current frame to the clipboard with Ctrl+Shift+C
  * Tiff and TGA files: added support for transparency
- * Image viewer: added support for the zoom gesture
+ * Image viewer: added support for the zoom gesture (!50)
  * Drag&Drop: allow to copy pressing Shift (matthewmelvin)
  * Image tools: allow to use Return to apply the changes
  * Rename series: added special code to add the filename without extension
@@ -15,12 +15,12 @@ Features:
  * Crop: added 1.91:1 to the list of predefined ratios
  * Added an internal video thumbnailer
  * Try to load the parent folder if the startup folder doesn't exist
- * Make keypad keys equivalent to the non-keypad counterpart
- * Improved usability when editing metadata in browser mode
+ * Make keypad keys equivalent to the non-keypad counterpart (!238) (!239)
+ * Improved usability when editing metadata in browser mode (!267)
  * Zoom slider: set the zoom range from 5% to 1000%
 
 Bugfixes:
- * Allow to compile without clutter-gtk
+ * Allow to compile without clutter-gtk (Matt Turner) (!222)
  * Fixed build with exiv2 version 0.28 (Alex and Antonio Rojas)
  * Fixed build with libraw 0.21
  * Reduced memory usage by keeping in memory only the visible thumbnails
@@ -31,6 +31,34 @@ Bugfixes:
  * Help: Added gThumb icon (Sabri Ünal)
  * TGA files displayed pixelated
  * Status bar reappears after exiting from full screen
+
+Translations:
+ * Basealt (Aleksandr Melman)
+ * Basque (Asier Sarasua Garmendia)
+ * Brazilian Portuguese (Enrico Nicoletto)
+ * catalan (Jordi Mas i Hernàndez)
+ * Chinese - China (Boyuan Yang)
+ * Croatian (gogo)
+ * Danish (Alan Mortensen)
+ * Deutsch (Jürgen Benvenuti)
+ * Finnish (Jiri Grönroos)
+ * French (Guillaume Bernard)
+ * Georgian (Temuri Doghonadze)
+ * German (Jürgen Benvenuti)
+ * Hebrew (Yosef Or Boczko)
+ * Hungarian (Balázs Úr)
+ * Icelandic (Sveinn í Felli)
+ * IE (OIS)
+ * Indonesian (Kukuh Syafaat) (Andika Triwidada)
+ * Lietuvių (Aurimas Černius)
+ * Polish (Piotr Drąg)
+ * Português (Hugo Carvalho)
+ * Serbian <српски (Мирослав Николић)
+ * Spanish - Spain (Daniel Mustieles García)
+ * Swedish (Anders Jonsson)
+ * Turkish (Sabri Ünal)
+ * Ukrainian (Yuri Chornoivan)
+ * čeština (Marek Černocký)
 
 Version 3.12.2
 ~~~~~~~~~~~~~~
