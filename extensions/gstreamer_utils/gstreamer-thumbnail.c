@@ -90,7 +90,14 @@ gstreamer_generate_thumbnail (GFile   *file,
 	gst_element_get_state (playbin, NULL, NULL, MAX_WAITING_TIME);
 
 	/* Get the sample. */
-	caps = gst_caps_new_simple ("video/x-raw", "format", G_TYPE_STRING, "RGB", NULL);
+	caps = gst_caps_new_full (
+		gst_structure_new ("video/x-raw",
+			"format", G_TYPE_STRING, "RGB",
+			NULL),
+		gst_structure_new ("video/x-raw",
+			"format", G_TYPE_STRING, "RGBA",
+			NULL),
+		NULL);
 	g_signal_emit_by_name (playbin, "convert-sample", caps, &sample);
 	if (sample == NULL) {
 		g_set_error_literal (error,
