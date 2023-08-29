@@ -4440,7 +4440,8 @@ static gboolean
 browser_key_press_cb (GthBrowser  *browser,
 		      GdkEventKey *event)
 {
-	gboolean result = FALSE;
+	gboolean   result = FALSE;
+	GtkWidget *focus_widget;
 
 	event->keyval = gth_shortcut_normalize_keycode (event->keyval);
 
@@ -4453,7 +4454,7 @@ browser_key_press_cb (GthBrowser  *browser,
 		break;
 
 	case GTH_BROWSER_PAGE_BROWSER:
-		GtkWidget *focus_widget = gtk_window_get_focus (GTK_WINDOW (browser));
+		focus_widget = gtk_window_get_focus (GTK_WINDOW (browser));
 		if (! GTK_IS_ENTRY (focus_widget) && ! GTK_IS_TREE_VIEW (focus_widget))
 			result = gth_browser_file_list_key_press_cb (browser, event);
 		break;
