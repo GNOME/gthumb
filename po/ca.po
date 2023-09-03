@@ -2325,7 +2325,7 @@ msgstr "Equalitza l'histograma amb la funció arrel quadrada"
 #: extensions/file_tools/gth-file-tool-crop.c:477
 #: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
-msgstr "Uniforma"
+msgstr "Uniforme"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:548
 msgid "Equalize the histogram using the linear function"
