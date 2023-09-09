@@ -827,8 +827,6 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 	GFile         *tmp_file;
 	char          *output;
 	char          *size;
-	GStrvBuilder  *builder;
-	char         **argv;
 
 	image = gth_image_new ();
 
@@ -845,14 +843,14 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 	output = g_file_get_path (tmp_file);
 	size = g_strdup_printf ("%d", requested_size);
 
-	builder = g_strv_builder_new ();
-	g_strv_builder_add (builder, command);
-	g_strv_builder_add (builder, "--size");
-	g_strv_builder_add (builder, size);
-	g_strv_builder_add (builder, input);
-	g_strv_builder_add (builder, output);
-	argv = g_strv_builder_end (builder);
-
+	char *argv[6];
+	int n = 0;
+	argv[n++] = command;
+	argv[n++] = "--size";
+	argv[n++] = size;
+	argv[n++] = input;
+	argv[n++] = output;
+	argv[n++] = NULL;
 	//g_print ("command: '%s'\n", g_strjoinv (" ", argv));
 
 	ProcData proc_data;
@@ -883,8 +881,6 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 		g_cancellable_disconnect (cancellable, id);
 
 	_g_object_unref (proc_data.proc);
-	g_strfreev (argv);
-	g_strv_builder_unref (builder);
 	g_free (size);
 	g_free (output);
 	g_object_unref (tmp_file);

@@ -36,7 +36,7 @@ static gchar **filenames = NULL;
 static GOptionEntry entries[] = {
 	{ "size", 's', 0, G_OPTION_ARG_INT, &thumbnail_size, "Thumbnail size (default 256)", "N" },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, "The video file and the thumbnail file", "VIDEO_URI THUMBNAIL_PATH" },
-	G_OPTION_ENTRY_NULL,
+	{ NULL },
 };
 
 
