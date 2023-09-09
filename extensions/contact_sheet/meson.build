@@ -9,7 +9,11 @@ header_files = [
   'preferences.h'
 ]
 
-enum_files = gnome.mkenums_simple('contact-sheet-enum-types', sources: header_files)
+enum_files = gnome.mkenums_simple(
+  'contact-sheet-enum-types',
+  sources: header_files,
+  body_prefix : '#include <config.h>',
+)
 
 source_files = files(
   'actions.c',

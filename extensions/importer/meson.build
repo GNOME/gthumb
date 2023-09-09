@@ -14,7 +14,11 @@ header_files = [
   'utils.h'
 ]
 
-enum_files = gnome.mkenums_simple('gth-import-enum-types', sources: header_files)
+enum_files = gnome.mkenums_simple(
+  'gth-import-enum-types',
+  sources: header_files,
+  body_prefix : '#include <config.h>',
+)
 
 importer_mod = shared_library('importer',
   sources : [ source_files, enum_files ],

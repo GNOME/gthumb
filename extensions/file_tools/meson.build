@@ -35,7 +35,11 @@ header_files = [
   'preferences.h'
 ]
 
-enum_files = gnome.mkenums_simple('file-tools-enum-types', sources: header_files)
+enum_files = gnome.mkenums_simple(
+  'file-tools-enum-types',
+  sources: header_files,
+  body_prefix : '#include <config.h>',
+)
 
 source_files = files(
   'actions.c',

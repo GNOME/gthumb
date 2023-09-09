@@ -30,7 +30,11 @@ if use_libheif
   source_files += files('cairo-image-surface-avif.c', 'gth-image-saver-avif.c')
 endif
 
-enum_files = gnome.mkenums_simple('cairo-io-enum-types', sources: [ 'preferences.h' ])
+enum_files = gnome.mkenums_simple(
+  'cairo-io-enum-types',
+  sources: [ 'preferences.h' ],
+  body_prefix : '#include <config.h>',
+)
 
 shared_library('cairo_io',
   sources : [ source_files, enum_files ],

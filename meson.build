@@ -242,6 +242,8 @@ common_deps = [
 # config.h
 
 config_data = configuration_data()
+config_data.set('GLIB_VERSION_MIN_REQUIRED', 'GLIB_VERSION_2_54')
+config_data.set('GLIB_VERSION_MAX_ALLOWED', 'GLIB_VERSION_2_54')
 config_data.set_quoted('GETTEXT_PACKAGE', gettext_package)
 config_data.set_quoted('PACKAGE_NAME', meson.project_name())
 config_data.set_quoted('PACKAGE_VERSION', meson.project_version())
@@ -331,9 +333,9 @@ config_inc = include_directories('.')
 
 # C/C++ args
 
-c_args = [ '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_54' ]
+c_args = []
 cpp_args = []
-if get_option('buildtype').contains('debug')
+if get_option('buildtype').contains('debug') or get_option('buildtype').contains('debugoptimized')
   warn_deprecated = get_option('warn-deprecated')
   test_c_args = [
     '-Wall',

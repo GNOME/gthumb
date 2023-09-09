@@ -127,6 +127,7 @@ enum_files = gnome.mkenums_simple('gth-enum-types',
   sources: files(public_header_files),
   install_header : true,
   install_dir : pkgincludedir,
+  body_prefix : '#include <config.h>',
 )
 
 marshal_files = gnome.genmarshal('gth-marshal',
