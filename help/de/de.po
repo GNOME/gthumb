@@ -1,13 +1,13 @@
 # German translation of the gThumb manual.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011, 2013, 2016.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2009, 2011.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb docs master\n"
-"POT-Creation-Date: 2022-08-10 07:24+0000\n"
-"PO-Revision-Date: 2022-11-01 11:49+0100\n"
+"POT-Creation-Date: 2023-08-24 14:38+0000\n"
+"PO-Revision-Date: 2023-09-13 18:37+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -24,35 +24,53 @@ msgstr ""
 "Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2016\n"
 "Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011, 2013, 2016, "
 "2017\n"
-"Jürgen Benvenuti <gastornis@posteo.org>, 2022"
+"Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link:trail"
+msgid "gThumb Help"
+msgstr "gThumb-Hilfe"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "link"
+msgid "gThumb Help"
+msgstr "gThumb-Hilfe"
+
+#. (itstool) path: info/title
+#: C/index.page:8
+msgctxt "text"
+msgid "gThumb Help"
+msgstr "gThumb-Hilfe"
 
 #. (itstool) path: credit/name
-#: C/index.page:7
+#: C/index.page:11
 msgid "Paolo Bacchilega"
 msgstr "Paolo Bacchilega"
 
 #. (itstool) path: credit/name
-#: C/index.page:12
+#: C/index.page:16
 msgid "Michael J. Chudobiak"
 msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
-#: C/index.page:20
-msgid "gThumb Help"
-msgstr "gThumb-Hilfe"
+#: C/index.page:24
+msgid "<_:media-1/> gThumb Help"
+msgstr "<_:media-1/> gThumb-Hilfe"
 
 #. (itstool) path: section/title
-#: C/index.page:23
+#: C/index.page:30
 msgid "Welcome"
 msgstr "Willkommen"
 
 #. (itstool) path: section/title
-#: C/index.page:27
+#: C/index.page:34
 msgid "File Management"
 msgstr "Dateiverwaltung"
 
 #. (itstool) path: section/title
-#: C/index.page:31
+#: C/index.page:38
 msgid "Editing Mode"
 msgstr "Bearbeitungsmodus"
 
@@ -61,7 +79,7 @@ msgstr "Bearbeitungsmodus"
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
+#: C/index.page:40 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
 #: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
 msgctxt "_"
 msgid ""
@@ -69,7 +87,7 @@ msgid ""
 msgstr "original"
 
 #. (itstool) path: section/p
-#: C/index.page:32
+#: C/index.page:39
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
 "Numerous editing tools are provided for touching-up individual photos. Undo "
@@ -86,12 +104,12 @@ msgstr ""
 "Palette) oder drücken Sie <keyseq><key>e</key></keyseq>."
 
 #. (itstool) path: section/title
-#: C/index.page:42
+#: C/index.page:49
 msgid "Batch Tools"
 msgstr "Werkzeuge zur Stapelverarbeitung"
 
 #. (itstool) path: section/p
-#: C/index.page:43
+#: C/index.page:50
 msgid ""
 "Batch tools are provided to modify multiple images simultaneously. Changes "
 "are written immediately, and are not undoable."
@@ -101,32 +119,32 @@ msgstr ""
 "auch rückgängig machen."
 
 #. (itstool) path: section/title
-#: C/index.page:49
+#: C/index.page:56
 msgid "Slideshows"
 msgstr "Dia-Vorführungen"
 
 #. (itstool) path: section/title
-#: C/index.page:53
+#: C/index.page:60
 msgid "Importing"
 msgstr "Importieren"
 
 #. (itstool) path: section/title
-#: C/index.page:57
+#: C/index.page:64
 msgid "Sharing"
 msgstr "Freigeben"
 
 #. (itstool) path: section/title
-#: C/index.page:61
+#: C/index.page:68
 msgid "Organizing"
 msgstr "Organisieren"
 
 #. (itstool) path: section/title
-#: C/index.page:65
+#: C/index.page:72
 msgid "Other Tools"
 msgstr "Weitere Werkzeuge"
 
 #. (itstool) path: section/title
-#: C/index.page:69
+#: C/index.page:76
 msgid "Reference"
 msgstr "Referenz"
 
