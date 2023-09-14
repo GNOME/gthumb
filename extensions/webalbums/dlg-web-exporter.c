@@ -43,6 +43,7 @@ static GthTemplateCode Image_Header_Special_Codes[] = {
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Current image number"), 'i', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Total number of images"), 'I', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original filename"), 'F', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Title"), 'T', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Comment"), 'C', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Current date"), 'D', 1 },
 };
