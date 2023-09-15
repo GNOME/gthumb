@@ -55,7 +55,7 @@
    + Find duplicated images.
   </description>
   <homepage rdf:resource="https://wiki.gnome.org/Apps/Gthumb" />
-  <mailing-list rdf:resource="https://mail.gnome.org/mailman/listinfo/gthumb-list" />
+  <support-forum rdf:resource="https://discourse.gnome.org/tag/gthumb" />
   <download-page rdf:resource="https://download.gnome.org/sources/gthumb/" />
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gthumb/issues/" />
   <programming-language>C</programming-language>
