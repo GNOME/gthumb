@@ -278,6 +278,9 @@ gboolean	_g_file_attributes_matches_any_v(const char	 *attributes,
 void		_g_file_info_swap_attributes	(GFileInfo	 *info,
 						 const char	 *attr1,
 						 const char	 *attr2);
+const char *	_g_file_info_get_edit_name	(GFileInfo	 *info);
+const char *	_g_file_info_get_content_type	(GFileInfo	 *info);
+gint32		_g_file_info_get_sort_order	(GFileInfo	 *info);
 void		_g_file_info_set_secondary_sort_order
 						(GFileInfo	 *info,
 						 gint32	  sort_order);

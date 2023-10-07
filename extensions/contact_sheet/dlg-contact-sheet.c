@@ -735,7 +735,7 @@ text_preview_cb (TemplateFlags   flags,
 		break;
 
 	case 'L':
-		g_string_append (result, g_file_info_get_edit_name (data->location->info));
+		g_string_append (result, _g_file_info_get_edit_name (data->location->info));
 		break;
 
 	default:

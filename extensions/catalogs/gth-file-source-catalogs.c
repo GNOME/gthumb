@@ -1072,7 +1072,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 
 	first_file = file_list->data;
 	if (g_file_has_uri_scheme (first_file, "catalog")) {
-		if (g_strcmp0 (g_file_info_get_content_type (destination->info), "gthumb/catalog") == 0) {
+		if (g_strcmp0 (_g_file_info_get_content_type (destination->info), "gthumb/catalog") == 0) {
 			CopyCatalogData *ccd;
 			const char      *msg;
 			GtkWidget       *d;

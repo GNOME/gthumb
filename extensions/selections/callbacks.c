@@ -351,7 +351,7 @@ selections__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 	char        *msg;
 
 	location_data = gth_browser_get_location_data (browser);
-	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/selection"))
+	if (! _g_content_type_is_a (_g_file_info_get_content_type (location_data->info), "gthumb/selection"))
 		return;
 
 	n_selection = g_file_info_get_attribute_int32 (location_data->info, "gthumb::n-selection");

@@ -100,7 +100,7 @@ search__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 	BrowserData *data;
 
 	location_data = gth_browser_get_location_data (browser);
-	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/search"))
+	if (! _g_content_type_is_a (_g_file_info_get_content_type (location_data->info), "gthumb/search"))
 		return;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
@@ -183,7 +183,7 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 	PangoAttrList *attrs;
 	GtkWidget     *search_editor;
 
-	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
+	if (! _g_content_type_is_a (_g_file_info_get_content_type (file_data->info), "gthumb/search"))
 		return;
 
 	if (! GTH_IS_SEARCH (catalog))
@@ -220,7 +220,7 @@ search__dlg_catalog_properties_save (GtkBuilder  *builder,
 {
 	GthSearch *search;
 
-	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
+	if (! _g_content_type_is_a (_g_file_info_get_content_type (file_data->info), "gthumb/search"))
 		return;
 
 	g_return_if_fail (GTH_IS_SEARCH (catalog));
@@ -241,7 +241,7 @@ search__dlg_catalog_properties_saved (GthBrowser  *browser,
 {
 	GthTask *task;
 
-	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
+	if (! _g_content_type_is_a (_g_file_info_get_content_type (file_data->info), "gthumb/search"))
 		return;
 
 	/* Search only if the search parameters changed */

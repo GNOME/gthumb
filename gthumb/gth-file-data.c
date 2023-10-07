@@ -283,7 +283,12 @@ gth_file_data_get_filename_sort_key (GthFileData *self)
 time_t
 gth_file_data_get_mtime (GthFileData *self)
 {
-	g_file_info_get_modification_time (self->info, &self->priv->mtime);
+	if (g_file_info_has_attribute (self->info, "time::modified"))
+		g_file_info_get_modification_time (self->info, &self->priv->mtime);
+	else {
+		self->priv->mtime.tv_sec = 0;
+		self->priv->mtime.tv_usec = 0;
+	}
 	return (time_t) self->priv->mtime.tv_sec;
 }
 
@@ -291,7 +296,12 @@ gth_file_data_get_mtime (GthFileData *self)
 GTimeVal *
 gth_file_data_get_modification_time (GthFileData *self)
 {
-	g_file_info_get_modification_time (self->info, &self->priv->mtime);
+	if (g_file_info_has_attribute (self->info, "time::modified"))
+		g_file_info_get_modification_time (self->info, &self->priv->mtime);
+	else {
+		self->priv->mtime.tv_sec = 0;
+		self->priv->mtime.tv_usec = 0;
+	}
 	return &self->priv->mtime;
 }
 

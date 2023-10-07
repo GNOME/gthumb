@@ -374,7 +374,7 @@ text_renderer_editing_started_cb (GtkCellRenderer *cell,
 			    -1);
 
 	if (GTK_IS_ENTRY (editable))
-	      gtk_entry_set_text (GTK_ENTRY (editable), g_file_info_get_edit_name (file_data->info));
+	      gtk_entry_set_text (GTK_ENTRY (editable), _g_file_info_get_edit_name (file_data->info));
 
 	_g_object_unref (file_data);
 }
@@ -1220,7 +1220,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 	if (display_name == NULL)
 		return FALSE;
 
-	name_for_sorting = g_file_info_get_edit_name (file_data->info);
+	name_for_sorting = _g_file_info_get_edit_name (file_data->info);
 	if (name_for_sorting == NULL)
 		name_for_sorting = display_name;
 
@@ -1233,7 +1233,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 			    COLUMN_FILE_DATA, file_data,
 			    COLUMN_NAME, display_name,
 			    COLUMN_SORT_KEY, sort_key,
-			    COLUMN_SORT_ORDER, g_file_info_get_sort_order (file_data->info),
+			    COLUMN_SORT_ORDER, _g_file_info_get_sort_order (file_data->info),
 			    COLUMN_SECONDARY_SORT_ORDER, _g_file_info_get_secondary_sort_order (file_data->info),
 			    COLUMN_NO_CHILD, g_file_info_get_attribute_boolean (file_data->info, "gthumb::no-child"),
 			    COLUMN_LOADED, FALSE,
@@ -2002,7 +2002,7 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 			    &iter,
 			    COLUMN_FILE_DATA, &file_data,
 			    -1);
-	edit_name = g_file_info_get_edit_name (file_data->info);
+	edit_name = _g_file_info_get_edit_name (file_data->info);
 	if (edit_name == NULL)
 		edit_name = g_file_info_get_display_name (file_data->info);
 	if (edit_name != NULL)

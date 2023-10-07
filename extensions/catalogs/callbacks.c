@@ -291,13 +291,13 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 		gth_window_enable_action (GTH_WINDOW (browser), "remove-catalog", sensitive);
 
 		sensitive = ((folder != NULL)
-			     && (_g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/library")
-				 || _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/catalog")
-				 || _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/search"))
+			     && (_g_content_type_is_a (_g_file_info_get_content_type (folder->info), "gthumb/library")
+				 || _g_content_type_is_a (_g_file_info_get_content_type (folder->info), "gthumb/catalog")
+				 || _g_content_type_is_a (_g_file_info_get_content_type (folder->info), "gthumb/search"))
 			     && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME));
 		gth_window_enable_action (GTH_WINDOW (browser), "rename-catalog", sensitive);
 
-		sensitive = (folder != NULL) && (! _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/library"));
+		sensitive = (folder != NULL) && (! _g_content_type_is_a (_g_file_info_get_content_type (folder->info), "gthumb/library"));
 		gth_window_enable_action (GTH_WINDOW (browser), "catalog-properties", sensitive);
 	}
 	else {
@@ -369,7 +369,7 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 
 	location_data = gth_browser_get_location_data (browser);
 	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))
-	    && ! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/library"))
+	    && ! _g_content_type_is_a (_g_file_info_get_content_type (location_data->info), "gthumb/library"))
 	{
 		if (data->properties_button == NULL) {
 			data->properties_button = gtk_button_new ();

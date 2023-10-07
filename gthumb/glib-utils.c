@@ -1340,7 +1340,7 @@ _g_file_query_mime_type (GFile    *file,
 		g_clear_error (&err);
 	}
 	else {
-		result = _g_str_get_static (g_content_type_get_mime_type (g_file_info_get_content_type (info)));
+		result = _g_str_get_static (g_content_type_get_mime_type (_g_file_info_get_content_type (info)));
 		g_object_unref (info);
 	}
 
@@ -1694,6 +1694,39 @@ _g_file_info_swap_attributes (GFileInfo  *info,
 	_g_file_attribute_value_free (value2);
 }
 
+
+const char *
+_g_file_info_get_edit_name (GFileInfo *info)
+{
+	const char *result = NULL;
+	if (g_file_info_has_attribute (info, "standard::edit-name"))
+		result = g_file_info_get_attribute_string (info, "standard::edit-name");
+	else if (g_file_info_has_attribute (info, "standard::display-name"))
+		result = g_file_info_get_attribute_string (info, "standard::display-name");
+	else if (g_file_info_has_attribute (info, "standard::name"))
+		result = g_file_info_get_attribute_string (info, "standard::name");
+	return result;
+}
+
+
+const char *
+_g_file_info_get_content_type (GFileInfo *info)
+{
+	const char *result = NULL;
+	if (g_file_info_has_attribute (info, "standard::content-type"))
+		result = g_file_info_get_content_type (info);
+	return result;
+}
+
+
+gint32
+_g_file_info_get_sort_order (GFileInfo *info)
+{
+	int sort_order = 0;
+	if (g_file_info_has_attribute (info, "standard::sort-order"))
+		sort_order = g_file_info_get_sort_order (info);
+	return sort_order;
+}
 
 void
 _g_file_info_set_secondary_sort_order (GFileInfo  *info,

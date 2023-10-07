@@ -207,7 +207,7 @@ info_ready_cb (GList    *files,
 
 		icon = (GIcon*) g_file_info_get_attribute_object (self->priv->source_data->info, "preview::icon");
 		if (icon == NULL)
-			icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->source_data->info));
+			icon = g_content_type_get_icon (_g_file_info_get_content_type (self->priv->source_data->info));
 		pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, _gtk_widget_get_icon_theme (GTK_WIDGET (self)));
 		if (pixbuf != NULL) {
 			gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), pixbuf, -1, -1);
@@ -255,7 +255,7 @@ info_ready_cb (GList    *files,
 
 	icon = (GIcon*) g_file_info_get_attribute_object (self->priv->destination_data->info, "preview::icon");
 	if (icon == NULL)
-		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->destination_data->info));
+		icon = g_content_type_get_icon (_g_file_info_get_content_type (self->priv->destination_data->info));
 	pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, _gtk_widget_get_icon_theme (GTK_WIDGET (self)));
 	if (pixbuf != NULL) {
 		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), pixbuf, -1, -1);

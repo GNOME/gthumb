@@ -1886,7 +1886,7 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 
 	uri = g_file_get_uri (self->priv->file_data->file);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_sel), g_file_info_get_edit_name (self->priv->file_data->info));
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_sel), _g_file_info_get_edit_name (self->priv->file_data->info));
 
 	data = g_new0 (SaveAsData, 1);
 	data->self = self;
