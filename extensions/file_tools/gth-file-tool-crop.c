@@ -455,6 +455,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 				     _("16∶10"),
 				     _("16∶9 (DVD)"),
 				     _("1.85∶1"),
+				     _("1.91∶1"),
 				     _("2.39∶1"),
 				     _("Other…"),
 				     NULL);
