@@ -1,3 +1,18 @@
+Version 3.12.4
+~~~~~~~~~~~~~~
+Released: 2023-10-10
+
+Bugfixes:
+ * Crop: lost the custom sizing for Aspect Ratio "Other" (!298)
+ * Do not use symbols not available in glib 2.54.0 (!294)
+ * Build failed (!292)
+
+Translations:
+ * Belarusian (Yuras Shumovich)
+ * Catalan (Jordi Mas i Hernàndez)
+ * Deutsch (Jürgen Benvenuti)
+ * Hungarian (Balázs Úr)
+
 Version 3.12.3
 ~~~~~~~~~~~~~~
 Released: 2023-08-27
