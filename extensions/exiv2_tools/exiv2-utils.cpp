@@ -1159,7 +1159,16 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	char        **attributes;
 	int           i;
 
-	image->clearMetadata();
+	/* Preserve the ICC profile if the image was not modified. */
+	if (g_file_info_get_attribute_boolean (info, "gth::file::image-changed"))
+		image->clearIccProfile();
+	else
+		image->readMetadata();
+	image->clearExifData();
+	image->clearIptcData();
+	image->clearXmpPacket();
+	image->clearXmpData();
+	image->clearComment();
 
 	// EXIF Data
 
@@ -1560,7 +1569,13 @@ exiv2_clear_metadata (void   **buffer,
 		}
 
 		try {
-			image->clearMetadata();
+			/* Read the metadata to preserve the ICC Profile. */
+			image->readMetadata();
+			image->clearExifData();
+			image->clearIptcData();
+			image->clearXmpPacket();
+			image->clearXmpData();
+			image->clearComment();
 			image->writeMetadata();
 		}
 #if EXIV2_TEST_VERSION(0,28,0)
