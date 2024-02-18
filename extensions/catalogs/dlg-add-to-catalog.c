@@ -170,8 +170,9 @@ catalog_save_done_cb (void     **buffer,
 		if (add_data->dialog != NULL)
 			gtk_widget_destroy (add_data->dialog);
 	}
-	else
+	else if (gth_window_get_current_page (GTH_WINDOW (add_data->browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		gth_browser_show_next_image (add_data->browser, FALSE, FALSE);
+	}
 
 	add_data_unref (add_data);
 }
