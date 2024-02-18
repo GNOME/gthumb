@@ -1,3 +1,19 @@
+Version 3.12.5
+~~~~~~~~~~~~~~
+Released: 2024-02-18
+
+Bugfixes:
+ * Add to catalog: show the next image only when in viewer mode (!313)
+ * jxl: added support for version 0.9.0 (Timo Gurr) (!306)
+ * Commenting a picture deletes its Color Profile tag. This only
+   happened when the 'Store metadata inside files if possible' option
+   was active. (!293)
+
+Translations:
+ * Chinese/Traditional (Cheng-Chia Tseng)
+ * Turkish (Sabri Ünal)
+ * čeština (Daniel Rusek)
+
 Version 3.12.4
 ~~~~~~~~~~~~~~
 Released: 2023-10-10
