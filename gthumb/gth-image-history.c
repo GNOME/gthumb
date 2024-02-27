@@ -179,14 +179,12 @@ add_image_to_list (GList           *list,
 		   int              requested_size,
 		   gboolean         unsaved)
 {
-	if (g_list_length (list) > MAX_UNDO_HISTORY_LEN) {
-		GList *last;
-
-		last = g_list_nth (list, MAX_UNDO_HISTORY_LEN - 1);
+	while (g_list_length (list) > MAX_UNDO_HISTORY_LEN) {
+		GList *last = g_list_last (list);
 		if (last->prev != NULL) {
 			last->prev->next = NULL;
-			gth_image_data_list_free (last);
 		}
+		gth_image_data_list_free (last);
 	}
 
 	if (image == NULL)
