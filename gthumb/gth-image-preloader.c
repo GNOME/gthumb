@@ -485,6 +485,17 @@ _gth_image_preloader_request_cancelled (GthImagePreloader *self,
 }
 
 
+#ifdef DEBUG_PRELOADER
+static char *
+get_requested_file_uri (GthFileData *file_data)
+{
+	if (file_data == NULL)
+		return "MODIFIED IMAGE";
+	return g_file_get_uri (file_data->file);
+}
+#endif
+
+
 static void
 image_loader_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
@@ -516,7 +527,7 @@ image_loader_ready_cb (GObject      *source_object,
 	    || (self->priv->requests->data != request))
 	{
 #ifdef DEBUG_PRELOADER
-		g_print (" --> cancelled [1] %s\n", g_file_get_uri (GTH_FILE_DATA (load_data->requested_file->data)->file));
+		g_print (" --> cancelled [1] %s\n", get_requested_file_uri (load_data->requested_file->data));
 #endif
 		if (error != NULL)
 			g_error_free (error);
@@ -569,7 +580,7 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 							    request->requested_size);
 	if (cache_data != NULL) {
 #ifdef DEBUG_PRELOADER
-	g_print ("cache same size %s @%d\n", g_file_get_uri (requested_file->file), request->requested_size);
+	g_print ("cache same size %s @%d\n", get_requested_file_uri (requested_file), request->requested_size);
 #endif
 		_gth_image_preloader_request_completed (self, request, cache_data);
 		return;
@@ -582,7 +593,7 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 							      request->requested_size);
 	if (cache_data != NULL) {
 #ifdef DEBUG_PRELOADER
-		g_print ("cache bigger size %s @%d\n", g_file_get_uri (requested_file->file), request->requested_size);
+		g_print ("cache bigger size %s @%d\n", get_requested_file_uri (requested_file), request->requested_size);
 #endif
 		_gth_image_preloader_request_completed (self, request, cache_data);
 		return;
@@ -602,7 +613,7 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 	ignore_requested_size = (request->requested_size > 0) && ! g_file_is_native (requested_file->file);
 
 #ifdef DEBUG_PRELOADER
-	g_print ("load %s @%d\n", g_file_get_uri (requested_file->file), ignore_requested_size ? -1 : request->requested_size);
+	g_print ("load %s @%d\n", get_requested_file_uri (requested_file), ignore_requested_size ? -1 : request->requested_size);
 #endif
 
 	request->loading = TRUE;
@@ -695,7 +706,7 @@ gth_image_preloader_load (GthImagePreloader	 *self,
 
 #ifdef DEBUG_PRELOADER
 	if (requested != NULL)
-		g_print ("request %s @%d\n", g_file_get_uri (requested->file), requested_size);
+		g_print ("request %s @%d\n", get_requested_file_uri (requested), requested_size);
 	else
 		g_print ("request modified image @%d\n", requested_size);
 #endif
