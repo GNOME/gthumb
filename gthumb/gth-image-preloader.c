@@ -434,6 +434,10 @@ _gth_image_preloader_add_to_cache (GthImagePreloader *self,
 	if (g_queue_get_length (self->priv->cache) >= CACHE_MAX_SIZE) {
 		while (g_queue_get_length (self->priv->cache) >= CACHE_MAX_SIZE / 2) {
 			CacheData *oldest = g_queue_pop_tail (self->priv->cache);
+			if (oldest->file_data == GTH_MODIFIED_IMAGE) {
+				// Do not delete the modified image.
+				g_queue_push_head (self->priv->cache, cache_data_ref (oldest));
+			}
 			cache_data_unref (oldest);
 		}
 	}
