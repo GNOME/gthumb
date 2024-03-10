@@ -31,7 +31,7 @@
 #define OUTPUT_FILE 1
 
 
-static int thumbnail_size = DEFAULT_THUMBNAIL_SIZE;
+static int thumbnail_size = 0;
 static gchar **filenames = NULL;
 static GOptionEntry entries[] = {
 	{ "size", 's', 0, G_OPTION_ARG_INT, &thumbnail_size, "Thumbnail size (default 256)", "N" },
@@ -63,6 +63,9 @@ int main (int argc, char *argv[])
 		g_warning ("Thumbnail file not specified.\n");
 		return 3;
 	}
+
+	if (thumbnail_size <= 0)
+		thumbnail_size = DEFAULT_THUMBNAIL_SIZE;
 
 	/* Generate the thumbnail. */
 
