@@ -297,6 +297,10 @@ text_preview_cb (TemplateFlags   flags,
 		_g_string_append_markup_escaped (result, "%s", _("Comment"));
 		break;
 
+	case 'T':
+		_g_string_append_markup_escaped (result, "%s", _("Title"));
+		break;
+
 	case 'L':
 		_g_string_append_markup_escaped (result, "%s", _g_file_info_get_edit_name (data->location->info));
 		break;
