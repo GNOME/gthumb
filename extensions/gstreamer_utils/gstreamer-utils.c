@@ -830,6 +830,9 @@ gstreamer_thumbnail_generator (GInputStream  *istream,
 
 	image = gth_image_new ();
 
+	if (file_data == NULL)
+		return image;
+
 #ifdef RUN_IN_PLACE
 	dir = g_build_filename (PRIVEXECDIR, "extensions", "gstreamer_tools", NULL);
 #else
