@@ -1,3 +1,18 @@
+Version 3.12.6
+~~~~~~~~~~~~~~
+Released: 2024-03-10
+
+Features:
+ * WebAlbums: allow Exif image title to be used. (Linas Vepstas)
+
+Bugfixes:
+ * Fixed 'could not perform operation' when editing a modified image.
+ * Video thumbnailer: use the default thumbnail size if invalid. (Linas Vepstas)
+ * Video thumbnailer: avoid a null pointer dereference and crash. (Linas Vepstas)
+
+Translations:
+ * Slovenian (Martin Srebotnjak)
+
 Version 3.12.5
 ~~~~~~~~~~~~~~
 Released: 2024-02-18
