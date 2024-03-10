@@ -1047,6 +1047,14 @@ header_footer_eval_cb (TemplateFlags   flags,
 		}
 		break;
 
+	case 'T':
+		link = g_list_nth (self->priv->file_list, self->priv->image);
+		if (link != NULL) {
+			ImageData *idata = link->data;
+			text = gth_file_data_get_attribute_as_string (idata->file_data, "general::title");
+		}
+		break;
+
 	case 'L':
 		g_string_append (result, _g_file_info_get_edit_name (self->priv->location->info));
 		break;
