@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2023-12-12 12:05+0000\n"
-"PO-Revision-Date: 2024-03-07 20:13+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
+"POT-Creation-Date: 2024-03-07 19:14+0000\n"
+"PO-Revision-Date: 2024-04-22 16:49+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -52,17 +52,15 @@ msgstr ""
 "vdelanih v slike, kot so EXIF, IPTC in XMP."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:22
-#, fuzzy
 msgid ""
 "As an image editor gThumb allows to scale, rotate and crop the images; "
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"Kot urejevalnik slik gThumb omogoča merjenje, vrtenje in obrezovanje slik; "
-"Spremenite nasičenost, lahkotnost, kontrast in druge barvne transformacije."
+"Urejevalnik slik gThumb omogoča merjenje, vrtenje in obrezovanje slik; "
+"spremenite nasičenost, svetlost, kontrast in druge barvne preoblikovanja."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:27
-#, fuzzy
 msgid ""
 "As an image browser gThumb shows the thumbnails of the images saved on your "
 "disk, allows to perform the common operations of a file manager such as "
@@ -71,15 +69,14 @@ msgid ""
 "format conversion; slideshow; setting an image as desktop background and "
 "several others."
 msgstr ""
-"Kot brskalnik slik gThumb prikazuje sličice slik, shranjenih na vašem disku, "
-"omogoča izvajanje skupnih operacij upravitelja datotek, kot so kopiranje, "
-"premikanje in brisanje datotek in map. Poleg tega obstaja vrsta orodij, "
-"specifičnih za sliko, kot so transformacije JPEG brez izgub; spreminjanje "
-"velikosti slike; pretvorba formata; diaprojekcija; Nastavitev slike kot "
-"ozadja namizja in več drugih."
+"gThumb kot brskalnik prikazuje ogledne sličice slik, shranjenih na vašem "
+"disku, omogoča izvajanje skupnih operacij upravitelja datotek, kot so "
+"kopiranje, premikanje in brisanje datotek in map. Poleg tega obstaja vrsta "
+"orodij, specifičnih za slike, kot so preoblikovanja JPEG brez izgub; "
+"spreminjanje velikosti slike; pretvorba zapisa; diaprojekcija; nastavitev "
+"slike kot ozadja namizja in še več drugih."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
-#, fuzzy
 msgid ""
 "As an image organizer gThumb allows to add comments and other metadata to "
 "images; organize images in catalogs and catalogs in libraries; search for "
@@ -87,13 +84,13 @@ msgid ""
 msgstr ""
 "Kot organizator slik gThumb omogoča dodajanje komentarjev in drugih "
 "metapodatkov slikam; organiziranje slik v katalogih in katalogih v "
-"knjižnicah; Poiščite slike in shranite rezultat kot katalog."
+"knjižnicah; iskanje slik in shranjevanje rezultatov kot kataloga."
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:50
 msgid "Browser mode"
 msgstr "Način brskalnika"
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:54
 msgid "Viewer mode"
 msgstr "Način pregledovalnika"
 
@@ -255,9 +252,8 @@ msgstr "Ime _filtra:"
 
 #: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:21
 #, fuzzy
-#| msgid "_Match"
 msgid "_Match:"
-msgstr "_Skladanje"
+msgstr "_Skladanje/_Ujemanje:"
 
 #: data/ui/filter-editor.ui:106 extensions/search/data/ui/search-editor.ui:95
 msgid "Rules:"
@@ -693,8 +689,8 @@ msgid "Saving"
 msgstr "Shranjevanje"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:376
-#: extensions/catalogs/dlg-add-to-catalog.c:541
+#: extensions/catalogs/dlg-add-to-catalog.c:377
+#: extensions/catalogs/dlg-add-to-catalog.c:542
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:295
@@ -704,8 +700,8 @@ msgid "No name specified"
 msgstr "Ime ni določeno"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:383
-#: extensions/catalogs/dlg-add-to-catalog.c:548
+#: extensions/catalogs/dlg-add-to-catalog.c:384
+#: extensions/catalogs/dlg-add-to-catalog.c:549
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1952
@@ -714,8 +710,8 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Neveljavno ime. V imenu so nedovoljeni znaki: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:440
-#: extensions/catalogs/dlg-add-to-catalog.c:597
+#: extensions/catalogs/dlg-add-to-catalog.c:441
+#: extensions/catalogs/dlg-add-to-catalog.c:598
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -726,13 +722,13 @@ msgid "New catalog"
 msgstr "Nov katalog"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:462
+#: extensions/catalogs/dlg-add-to-catalog.c:463
 msgid "Enter the catalog name:"
 msgstr "Ime kataloga:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:464
-#: extensions/catalogs/dlg-add-to-catalog.c:623
+#: extensions/catalogs/dlg-add-to-catalog.c:465
+#: extensions/catalogs/dlg-add-to-catalog.c:624
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "Ustva_ri"
@@ -742,7 +738,7 @@ msgid "New library"
 msgstr "Nova knjižnica"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:621
+#: extensions/catalogs/dlg-add-to-catalog.c:622
 msgid "Enter the library name:"
 msgstr "Ime knjižnice:"
 
@@ -821,12 +817,12 @@ msgid "C_atalogs:"
 msgstr "_Katalogi:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
-#: extensions/catalogs/dlg-add-to-catalog.c:620
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "New Library"
 msgstr "Nova knjižnica"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
-#: extensions/catalogs/dlg-add-to-catalog.c:461
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "New Catalog"
 msgstr "Nov katalog"
 
@@ -907,20 +903,20 @@ msgstr "Posamezne"
 msgid "Could not add the files to the catalog"
 msgstr "Datotek ni mogoče dodati v katalog"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:319
+#: extensions/catalogs/dlg-add-to-catalog.c:320
 #: extensions/search/gth-search-task.c:396
 msgid "Could not create the catalog"
 msgstr "Kataloga ni mogoče ustvariti"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:687
+#: extensions/catalogs/dlg-add-to-catalog.c:688
 msgid "Add to Catalog"
 msgstr "Dodaj v katalog"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:710
+#: extensions/catalogs/dlg-add-to-catalog.c:711
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:714
+#: extensions/catalogs/dlg-add-to-catalog.c:715
 #: extensions/edit_metadata/dlg-edit-metadata.c:348
 msgid "Keep the dialog open"
 msgstr "Ohrani pogovorno okno odprto"
@@ -1657,9 +1653,8 @@ msgstr "primer"
 
 #: extensions/example/src/example.extension.desktop.in.in:4
 #, fuzzy
-#| msgid "example: %s"
 msgid "What example does"
-msgstr "primer: %s"
+msgstr "Kaj naredi primer"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
@@ -1918,14 +1913,14 @@ msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Ali želite kopirati »%s« v »%s«?"
 
 #: extensions/file_manager/callbacks.c:1025
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Ali želite povlečene datoteke premakniti v »%s«?"
 
 #: extensions/file_manager/callbacks.c:1027
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
-msgstr "Ali želite kopirati vlečene datoteke v »%s«?"
+msgstr "Ali želite povlečene datoteke kopirati v »%s«?"
 
 #: extensions/file_manager/callbacks.c:1035
 msgid "_Copy"
@@ -2307,9 +2302,9 @@ msgid "Stretch"
 msgstr "Raztegni"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:538
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Stretch the histogram after trimming 0.5% from both ends"
-msgstr "Histogram raztegnite po obrezovanju 0,5% z obeh koncev"
+msgstr "Raztegnite histogram po obrezovanju 0,5 % z obeh koncev"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize"
@@ -2485,8 +2480,9 @@ msgstr "Prst"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:544
+#, fuzzy
 msgid "Desert"
-msgstr ""
+msgstr "Puščavska"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:592
@@ -2510,8 +2506,9 @@ msgstr "Češnja"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:784
+#, fuzzy
 msgid "Vintage"
-msgstr ""
+msgstr "Vintage"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:906
@@ -2520,8 +2517,9 @@ msgstr "Zabrisani robovi"
 
 #. Translators: this is the name of an image filter that produces darker edges
 #: extensions/file_tools/gth-file-tool-effects.c:941
+#, fuzzy
 msgid "Vignette"
-msgstr ""
+msgstr "Vinjetiranje"
 
 #: extensions/file_tools/gth-file-tool-flip.c:91
 msgid "Flip the image vertically"
@@ -2544,8 +2542,9 @@ msgid "Grayscale"
 msgstr "Sivine"
 
 #: extensions/file_tools/gth-file-tool-lomo.c:183
+#, fuzzy
 msgid "Lomo"
-msgstr ""
+msgstr "Lomo"
 
 #: extensions/file_tools/gth-file-tool-mirror.c:91
 msgid "Mirror the image horizontally"
@@ -2928,16 +2927,12 @@ msgstr "Program gThumb zahteva potrditev za pošiljanje fotografij na %s."
 
 #: extensions/flicker_utils/flickr-service.c:567
 #, fuzzy, c-format
-#| msgid ""
-#| "Click 'Authorize' to open your web browser and authorize gthumb to upload "
-#| "photos to %s. When you're finished, return to this window to complete the "
-#| "authorization."
 msgid ""
 "Click “Authorize” to open your web browser and authorize gthumb to upload "
 "photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Kliknite 'Pooblasti' za odprtje spletnega brskalnika in pooblastite gthumb "
+"Kliknite »Pooblasti« za odprtje spletnega brskalnika in pooblastite gthumb "
 "za pošiljanje fotografij na %s. Ko boste končali, se vrnite v to okno za "
 "dokončanje pooblastitve."
 
@@ -3073,10 +3068,8 @@ msgid "Use hardware acceleration"
 msgstr "Uporabi strojno pospeševanje"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:35
-#, fuzzy
-#| msgid "Screenshots"
 msgid "_Screenshots location:"
-msgstr "Zajete slike"
+msgstr "Mesto zajetih _slik:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:629
@@ -3093,10 +3086,8 @@ msgid "Faster"
 msgstr "Hitreje"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:94
-#, fuzzy
-#| msgid "_Restart when finished"
 msgid "Restart when finished"
-msgstr "Znova _predvajaj po koncu predvajanja"
+msgstr "Znova zaženi po koncu predvajanja"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:130
 msgid "Time:"
@@ -3355,8 +3346,6 @@ msgid "Select Footer Font"
 msgstr "Izbor pisave noge"
 
 #: extensions/image_print/gth-image-print-job.c:40
-#, fuzzy
-#| msgid "The total number of files"
 msgid "Total number of files"
 msgstr "Skupno število datotek"
 
@@ -3485,10 +3474,8 @@ msgid "Zoom 300%"
 msgstr "Približaj na 300 %"
 
 #: extensions/image_viewer/callbacks.c:42
-#, fuzzy
-#| msgid "Zoom to fit width"
 msgid "Zoom to fit"
-msgstr "Prilagodi velikost širini"
+msgstr "Prilagodi oknu"
 
 #: extensions/image_viewer/callbacks.c:43
 #, fuzzy
@@ -3533,37 +3520,43 @@ msgstr "Drsenje v levo"
 
 #: extensions/image_viewer/callbacks.c:53
 #, fuzzy
-#| msgid "Slide from right"
 msgid "Scroll right"
-msgstr "Zdrsni z desne"
+msgstr "Drsenje v desno"
 
 #: extensions/image_viewer/callbacks.c:54
+#, fuzzy
 msgid "Scroll up"
-msgstr ""
+msgstr "Drsi navzgor"
 
 #: extensions/image_viewer/callbacks.c:55
+#, fuzzy
 msgid "Scroll down"
-msgstr ""
+msgstr "Drsi navzdol"
 
 #: extensions/image_viewer/callbacks.c:57
+#, fuzzy
 msgid "Scroll left fast"
-msgstr ""
+msgstr "Drsi hitro v levo"
 
 #: extensions/image_viewer/callbacks.c:58
+#, fuzzy
 msgid "Scroll right fast"
-msgstr ""
+msgstr "Drsi hitro v desno"
 
 #: extensions/image_viewer/callbacks.c:59
+#, fuzzy
 msgid "Scroll up fast"
-msgstr ""
+msgstr "Drsi hitro navzgor"
 
 #: extensions/image_viewer/callbacks.c:60
+#, fuzzy
 msgid "Scroll down fast"
-msgstr ""
+msgstr "Drsi hitro navzdol"
 
 #: extensions/image_viewer/callbacks.c:62
+#, fuzzy
 msgid "Scroll to center"
-msgstr ""
+msgstr "Drsi na sredino"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:20
 msgid "After loading an image:"
@@ -3704,15 +3697,13 @@ msgid "JPEG XL container"
 msgstr "Vsebnik JPEG XL"
 
 #: extensions/image_viewer/gth-metadata-provider-image.c:215
-#| msgid "JPEG"
 msgid "JPEG XL"
 msgstr "JPEG XL"
 
 #: extensions/image_viewer/main.c:36
 #, fuzzy
-#| msgid "Save Image"
 msgid "Scroll Image"
-msgstr "Shrani sliko"
+msgstr "Pomikanje po sliki"
 
 #: extensions/image_viewer/main.c:37
 msgid "Image Editor"
@@ -4262,10 +4253,8 @@ msgid "Add another location"
 msgstr "Dodaj novo mesto"
 
 #: extensions/search/gth-search-task.c:113
-#, fuzzy
-#| msgid "No file imported"
 msgid "No file found"
-msgstr "Nobena datoteka ni bila uvožena"
+msgstr "Ni najdene datoteke"
 
 #: extensions/search/gth-search-task.c:191
 #, c-format
@@ -5222,8 +5211,9 @@ msgstr "Bajti"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
+#, fuzzy
 msgid "Modified Date & Time"
-msgstr ""
+msgstr "Datum in ura spremembe"
 
 #: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
@@ -5270,8 +5260,9 @@ msgid "Color Profile"
 msgstr "Barvni profil"
 
 #: gthumb/gth-main-default-metadata.c:61
+#, fuzzy
 msgid "General Date & Time"
-msgstr ""
+msgstr "Splošni datum in čas"
 
 #: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
@@ -5422,8 +5413,9 @@ msgstr "Družina"
 
 #. Translators: The space character not the Astronomy space.
 #: gthumb/gth-template-editor-dialog.c:424
+#, fuzzy
 msgid "Space"
-msgstr ""
+msgstr "Presledek"
 
 #: gthumb/gth-template-selector.c:35
 msgid "Year"
@@ -5443,16 +5435,14 @@ msgstr "Ura"
 
 #: gthumb/gth-template-selector.c:39
 #, fuzzy
-#| msgid "minutes"
 msgid "Minute"
-msgstr "minute"
+msgstr "minuta"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
 #, fuzzy
-#| msgid "seconds"
 msgid "Second"
-msgstr "sekund"
+msgstr "sekunda"
 
 #: gthumb/gth-test-aspect-ratio.c:67 gthumb/gth-test-simple.c:57
 msgid "is lower than"
