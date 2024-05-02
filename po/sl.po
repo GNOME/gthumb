@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2024-03-07 19:14+0000\n"
-"PO-Revision-Date: 2024-04-22 16:49+0200\n"
+"POT-Creation-Date: 2024-04-22 14:50+0000\n"
+"PO-Revision-Date: 2024-05-02 12:32+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -251,9 +251,8 @@ msgid "Filter _Name:"
 msgstr "Ime _filtra:"
 
 #: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:21
-#, fuzzy
 msgid "_Match:"
-msgstr "_Skladanje/_Ujemanje:"
+msgstr "_Ujemanje:"
 
 #: data/ui/filter-editor.ui:106 extensions/search/data/ui/search-editor.ui:95
 msgid "Rules:"
@@ -828,7 +827,7 @@ msgstr "Nov katalog"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:103
 #: extensions/file_manager/actions.c:766
-#: extensions/webalbums/gth-web-exporter.c:1820
+#: extensions/webalbums/gth-web-exporter.c:1828
 msgid "_View the destination"
 msgstr "_Pogled cilja"
 
@@ -1122,12 +1121,14 @@ msgstr "Možnosti"
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
 #: extensions/edit_metadata/gth-edit-comment-dialog.c:124
-#: extensions/webalbums/dlg-web-exporter.c:46
-#: extensions/webalbums/dlg-web-exporter.c:296 gthumb/gth-file-comment.c:136
+#: extensions/webalbums/dlg-web-exporter.c:47
+#: extensions/webalbums/dlg-web-exporter.c:297 gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Opomba"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
+#: extensions/comments/main.c:43 extensions/webalbums/dlg-web-exporter.c:46
+#: extensions/webalbums/dlg-web-exporter.c:301
+#: gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Naslov"
 
@@ -1404,7 +1405,7 @@ msgstr "Števec"
 #: extensions/list_tools/gth-script-editor-dialog.c:41
 #: extensions/rename_series/dlg-rename-series.c:61
 #: extensions/webalbums/dlg-web-exporter.c:38
-#: extensions/webalbums/dlg-web-exporter.c:47
+#: extensions/webalbums/dlg-web-exporter.c:48
 msgid "Current date"
 msgstr "Trenutni datum"
 
@@ -1444,8 +1445,8 @@ msgstr "Teme ni mogoče izbrisati"
 #: extensions/image_print/gth-image-print-job.c:1303
 #: extensions/importer/gth-import-preferences-dialog.c:325
 #: extensions/rename_series/dlg-rename-series.c:821
-#: extensions/webalbums/dlg-web-exporter.c:323
-#: extensions/webalbums/dlg-web-exporter.c:364
+#: extensions/webalbums/dlg-web-exporter.c:328
+#: extensions/webalbums/dlg-web-exporter.c:369
 #: gthumb/gth-template-selector.c:357
 msgid "Edit Template"
 msgstr "Uredi predlogo"
@@ -1652,7 +1653,6 @@ msgid "example"
 msgstr "primer"
 
 #: extensions/example/src/example.extension.desktop.in.in:4
-#, fuzzy
 msgid "What example does"
 msgstr "Kaj naredi primer"
 
@@ -2480,7 +2480,6 @@ msgstr "Prst"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:544
-#, fuzzy
 msgid "Desert"
 msgstr "Puščavska"
 
@@ -2506,9 +2505,8 @@ msgstr "Češnja"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:784
-#, fuzzy
 msgid "Vintage"
-msgstr "Vintage"
+msgstr "Starodobno"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:906
@@ -2517,7 +2515,6 @@ msgstr "Zabrisani robovi"
 
 #. Translators: this is the name of an image filter that produces darker edges
 #: extensions/file_tools/gth-file-tool-effects.c:941
-#, fuzzy
 msgid "Vignette"
 msgstr "Vinjetiranje"
 
@@ -2542,7 +2539,6 @@ msgid "Grayscale"
 msgstr "Sivine"
 
 #: extensions/file_tools/gth-file-tool-lomo.c:183
-#, fuzzy
 msgid "Lomo"
 msgstr "Lomo"
 
@@ -2837,7 +2833,7 @@ msgid "Files successfully uploaded to the server."
 msgstr "Datoteke so bile uspešno poslane na strežnik."
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1819
+#: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_Open in the Browser"
 msgstr "_Odpri v brskalniku"
 
@@ -2926,7 +2922,7 @@ msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "Program gThumb zahteva potrditev za pošiljanje fotografij na %s."
 
 #: extensions/flicker_utils/flickr-service.c:567
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Click “Authorize” to open your web browser and authorize gthumb to upload "
 "photos to %s. When you’re finished, return to this window to complete the "
@@ -3237,7 +3233,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1944
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
+#: extensions/webalbums/gth-web-exporter.c:2435 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3383,7 +3379,7 @@ msgid "Loading “%s”"
 msgstr "Poteka nalaganje »%s«"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
-#: extensions/webalbums/gth-web-exporter.c:2707
+#: extensions/webalbums/gth-web-exporter.c:2715
 msgid "Loading images"
 msgstr "Nalaganje slik"
 
@@ -3405,8 +3401,8 @@ msgstr "Ponastavi usmerjenost EXIF"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
-#: extensions/webalbums/gth-web-exporter.c:2319
-#: extensions/webalbums/gth-web-exporter.c:2404
+#: extensions/webalbums/gth-web-exporter.c:2327
+#: extensions/webalbums/gth-web-exporter.c:2412
 msgid "Saving images"
 msgstr "Shranjevanje slik"
 
@@ -3478,8 +3474,6 @@ msgid "Zoom to fit"
 msgstr "Prilagodi oknu"
 
 #: extensions/image_viewer/callbacks.c:43
-#, fuzzy
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit if larger"
 msgstr "Prilagodi velikost širini, če je večja"
 
@@ -3488,20 +3482,14 @@ msgid "Zoom to fit width"
 msgstr "Prilagodi velikost širini"
 
 #: extensions/image_viewer/callbacks.c:45
-#, fuzzy
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit width if larger"
 msgstr "Prilagodi velikost širini, če je večja"
 
 #: extensions/image_viewer/callbacks.c:46
-#, fuzzy
-#| msgid "Zoom to fit width"
 msgid "Zoom to fit height"
 msgstr "Prilagodi velikost širini"
 
 #: extensions/image_viewer/callbacks.c:47
-#, fuzzy
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit height if larger"
 msgstr "Prilagodi velikost širini, če je večja"
 
@@ -3514,49 +3502,40 @@ msgid "Redo edit"
 msgstr "Ponovno uveljavi urejanje"
 
 #: extensions/image_viewer/callbacks.c:52
-#, fuzzy
 msgid "Scroll left"
 msgstr "Drsenje v levo"
 
 #: extensions/image_viewer/callbacks.c:53
-#, fuzzy
 msgid "Scroll right"
 msgstr "Drsenje v desno"
 
 #: extensions/image_viewer/callbacks.c:54
-#, fuzzy
 msgid "Scroll up"
-msgstr "Drsi navzgor"
+msgstr "Drsenje navzgor"
 
 #: extensions/image_viewer/callbacks.c:55
-#, fuzzy
 msgid "Scroll down"
-msgstr "Drsi navzdol"
+msgstr "Drsenje navzdol"
 
 #: extensions/image_viewer/callbacks.c:57
-#, fuzzy
 msgid "Scroll left fast"
-msgstr "Drsi hitro v levo"
+msgstr "Drsenje hitro v levo"
 
 #: extensions/image_viewer/callbacks.c:58
-#, fuzzy
 msgid "Scroll right fast"
-msgstr "Drsi hitro v desno"
+msgstr "Drsenje hitro v desno"
 
 #: extensions/image_viewer/callbacks.c:59
-#, fuzzy
 msgid "Scroll up fast"
-msgstr "Drsi hitro navzgor"
+msgstr "Drsenje hitro navzgor"
 
 #: extensions/image_viewer/callbacks.c:60
-#, fuzzy
 msgid "Scroll down fast"
-msgstr "Drsi hitro navzdol"
+msgstr "Drsenje hitro navzdol"
 
 #: extensions/image_viewer/callbacks.c:62
-#, fuzzy
 msgid "Scroll to center"
-msgstr "Drsi na sredino"
+msgstr "Drsenje na sredino"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:20
 msgid "After loading an image:"
@@ -3633,10 +3612,8 @@ msgstr "Bela"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
-#, fuzzy
-#| msgid "Grayscale"
 msgid "Gray"
-msgstr "Sivine"
+msgstr "Siva"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:298
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:42
@@ -3701,9 +3678,8 @@ msgid "JPEG XL"
 msgstr "JPEG XL"
 
 #: extensions/image_viewer/main.c:36
-#, fuzzy
 msgid "Scroll Image"
-msgstr "Pomikanje po sliki"
+msgstr "Drsenje po sliki"
 
 #: extensions/image_viewer/main.c:37
 msgid "Image Editor"
@@ -4549,7 +4525,7 @@ msgstr "Skupno število slik"
 msgid "Original filename"
 msgstr "Izvirno ime datoteke"
 
-#: extensions/webalbums/dlg-web-exporter.c:531
+#: extensions/webalbums/dlg-web-exporter.c:536
 msgid "Web Album"
 msgstr "Spletni album"
 
@@ -4559,36 +4535,36 @@ msgstr "Spletni album"
 msgid "Malformed command"
 msgstr "Slabo oblikovan ukaz"
 
-#: extensions/webalbums/gth-web-exporter.c:1780
+#: extensions/webalbums/gth-web-exporter.c:1788
 msgid "Could not show the destination"
 msgstr "Ni mogoče pokazati cilja"
 
-#: extensions/webalbums/gth-web-exporter.c:1816
+#: extensions/webalbums/gth-web-exporter.c:1824
 msgid "The album has been created successfully."
 msgstr "Album je bil uspešno ustvarjen."
 
-#: extensions/webalbums/gth-web-exporter.c:2085
-#: extensions/webalbums/gth-web-exporter.c:2113
+#: extensions/webalbums/gth-web-exporter.c:2093
+#: extensions/webalbums/gth-web-exporter.c:2121
 msgid "Saving thumbnails"
 msgstr "Shranjevanje sličic"
 
-#: extensions/webalbums/gth-web-exporter.c:2141
+#: extensions/webalbums/gth-web-exporter.c:2149
 msgid "Saving HTML pages: Images"
 msgstr "Shranjevanje strani HTML: slike"
 
-#: extensions/webalbums/gth-web-exporter.c:2199
+#: extensions/webalbums/gth-web-exporter.c:2207
 msgid "Saving HTML pages: Indexes"
 msgstr "Shranjevanje strani HTML: kazala"
 
-#: extensions/webalbums/gth-web-exporter.c:2484
+#: extensions/webalbums/gth-web-exporter.c:2492
 msgid "Copying original images"
 msgstr "Kopiranje izvirnih slik"
 
-#: extensions/webalbums/gth-web-exporter.c:2955
+#: extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Ni mogoče najti mape slogov"
 
-#: extensions/webalbums/gth-web-exporter.c:2993
+#: extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Začasne mape ni mogoče ustvariti"
 
@@ -5211,7 +5187,6 @@ msgstr "Bajti"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#, fuzzy
 msgid "Modified Date & Time"
 msgstr "Datum in ura spremembe"
 
@@ -5260,9 +5235,8 @@ msgid "Color Profile"
 msgstr "Barvni profil"
 
 #: gthumb/gth-main-default-metadata.c:61
-#, fuzzy
 msgid "General Date & Time"
-msgstr "Splošni datum in čas"
+msgstr "Splošni datum in ura"
 
 #: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
@@ -5413,7 +5387,6 @@ msgstr "Družina"
 
 #. Translators: The space character not the Astronomy space.
 #: gthumb/gth-template-editor-dialog.c:424
-#, fuzzy
 msgid "Space"
 msgstr "Presledek"
 
@@ -5434,13 +5407,11 @@ msgid "Hour"
 msgstr "Ura"
 
 #: gthumb/gth-template-selector.c:39
-#, fuzzy
 msgid "Minute"
 msgstr "minuta"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
-#, fuzzy
 msgid "Second"
 msgstr "sekunda"
 
