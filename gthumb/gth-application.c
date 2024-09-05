@@ -98,12 +98,14 @@ gth_application_init (GthApplication *app)
 {
 	GDesktopAppInfo *app_info;
 
+	g_set_prgname ("org.gnome.gThumb");
+
 	app_info = g_desktop_app_info_new ("org.gnome.gThumb.desktop");
 	if (app_info == NULL) {
 		/* manually set name and icon */
 
 		g_set_application_name (_("gThumb"));
-		gtk_window_set_default_icon_name ("gthumb");
+		gtk_window_set_default_icon_name ("org.gnome.gThumb");
 
 		return;
 	}
