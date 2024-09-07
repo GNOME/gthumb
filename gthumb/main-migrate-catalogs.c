@@ -308,12 +308,13 @@ migration_for_each_file (GFile     *file,
 				sscanf (line, "%d", &date_scope);
 
 				if ((date > 0) && (date_scope >= 1) && (date_scope <= 3)) {
+					time_t	     date_as_time = date;
 					struct tm   *tm;
 					GthDateTime *dt;
 					char        *exif_date;
 					char        *op;
 
-					tm = localtime (&date);
+					tm = localtime (&date_as_time);
 					dt = gth_datetime_new ();
 					gth_datetime_from_struct_tm (dt, tm);
 					exif_date = gth_datetime_to_exif_date (dt);
