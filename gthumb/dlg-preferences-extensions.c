@@ -364,24 +364,29 @@ extension_switch_activated_cb (GObject    *gobject,
 	GError                  *error = NULL;
 
 	if (gtk_switch_get_active (GTK_SWITCH (gobject))) {
-		if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error))
+		if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error)) {
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser_data->dialog), _("Could not activate the extension"), error);
+
+			g_clear_error (&error);
+
+			/* reset to the previous state */
+			call_when_idle (change_switch_state, gobject);
+		}
 		else
 			browser_data->enabled_disabled_cardinality_changed = TRUE;
 	}
 	else {
-		if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error))
+		if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error)) {
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser_data->dialog), _("Could not deactivate the extension"), error);
+
+			g_clear_error (&error);
+
+			/* reset to the previous state */
+			call_when_idle (change_switch_state, gobject);
+		}
 		else
 			browser_data->enabled_disabled_cardinality_changed = TRUE;
 	}
-
-	if (error != NULL) {
-		/* reset to the previous state */
-		call_when_idle (change_switch_state, gobject);
-	}
-
-	g_clear_error (&error);
 }
 
 
