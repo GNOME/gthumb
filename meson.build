@@ -1,7 +1,7 @@
 project('gthumb', ['c', 'cpp'],
   license : 'GPL2+',
   version : '3.12.6',
-  meson_version : '>=0.43'
+  meson_version : '>=0.48'
 )
 
 glib_version = '>=2.54.0'
