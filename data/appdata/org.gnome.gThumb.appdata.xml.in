@@ -44,6 +44,7 @@
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gthumb/-/issues</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gthumb/</url>
   <url type="translate">https://l10n.gnome.org/module/gthumb/</url>
+  <url type="help">https://help.gnome.org/users/gthumb/stable/</url>
   <screenshots>
     <screenshot type="default">
       <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
