@@ -168,7 +168,10 @@ else
 endif
 
 if get_option('libjxl')
-  libjxl_deps = [ dependency('libjxl', version : libjxl_version, required : false), dependency('libjxl_threads', version : libjxl_version, required : false) ]
+  libjxl_deps = [
+    dependency('libjxl', version : libjxl_version, required : false),
+    dependency('libjxl_threads', version : libjxl_version, required : false)
+  ]
   use_libjxl = libjxl_deps[0].found()
 else
   use_libjxl = false
