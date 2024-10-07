@@ -30,6 +30,8 @@
 #include "preferences.h"
 
 #define MAX_ATTEMPTS 1024
+#define SCREENSHOT_TYPE "image/jpeg"
+#define SCREENSHOT_DEFAULT_EXTENSION "jpeg"
 
 
 /* -- gth_browser_activate_video_screenshot -- */
@@ -83,8 +85,9 @@ save_screenshot_task_completed_cb (GthTask  *task,
 
 
 static GFile *
-get_screenshot_file (SaveData  *save_data,
-		     GError   **error)
+get_screenshot_file (SaveData    *save_data,
+		     const char  *extension,
+		     GError     **error)
 {
 	GFile       *file = NULL;
 	char        *uri;
@@ -104,7 +107,7 @@ get_screenshot_file (SaveData  *save_data,
 		char  *display_name;
 		GFile *proposed_file;
 
-		display_name = g_strdup_printf ("%s-%02d.jpeg", prefix, attempt);
+		display_name = g_strdup_printf ("%s-%02d.%s", prefix, attempt, extension);
 		proposed_file = g_file_get_child_for_display_name (folder, display_name, NULL);
 		if ((proposed_file != NULL) && ! g_file_query_exists (proposed_file, NULL))
 			file = g_object_ref (proposed_file);
@@ -134,9 +137,11 @@ gth_browser_activate_video_screenshot (GSimpleAction	*action,
 	GstElement		*playbin;
 	SaveData		*save_data;
 	GdkPixbuf		*pixbuf;
+	GthImageSaver		*saver;
+	const char		*extension = NULL;
 	GFile			*file;
 	GError			*error = NULL;
-	GthTask		*task;
+	GthTask			*task;
 
 	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 	playbin = gth_media_viewer_page_get_playbin (page);
@@ -164,7 +169,16 @@ gth_browser_activate_video_screenshot (GSimpleAction	*action,
 
 	/* save the image */
 
-	file = get_screenshot_file (save_data, &error);
+	saver = gth_main_get_image_saver (SCREENSHOT_TYPE);
+	if (saver != NULL) {
+		extension = gth_image_saver_get_default_ext (saver);
+	}
+	if (extension == NULL) {
+		extension = SCREENSHOT_DEFAULT_EXTENSION;
+	}
+	file = get_screenshot_file (save_data, extension, &error);
+	_g_object_unref (saver);
+
 	if (file == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not take a screenshot"), error);
 		save_date_free (save_data);
@@ -173,9 +187,9 @@ gth_browser_activate_video_screenshot (GSimpleAction	*action,
 	}
 
 	save_data->file_data = gth_file_data_new (file, NULL);
-	gth_file_data_set_mime_type (save_data->file_data, "image/jpeg");
+	gth_file_data_set_mime_type (save_data->file_data, SCREENSHOT_TYPE);
 	task = gth_save_image_task_new (save_data->image,
-					"image/jpeg",
+					SCREENSHOT_TYPE,
 					save_data->file_data,
 					GTH_OVERWRITE_RESPONSE_YES);
 	g_signal_connect (task,
