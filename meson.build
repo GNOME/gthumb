@@ -158,8 +158,11 @@ else
 endif
 
 if get_option('libwebp')
-  libwebp_dep = dependency('libwebp', version : libwebp_version, required : false)
-  use_libwebp = libwebp_dep.found()
+  libwebp_dep = [
+    dependency('libwebp', version : libwebp_version, required : false),
+    dependency('libwebpdemux', version : libwebp_version, required : false)
+  ]
+  use_libwebp = libwebp_dep[0].found()
 else
   use_libwebp = false
 endif

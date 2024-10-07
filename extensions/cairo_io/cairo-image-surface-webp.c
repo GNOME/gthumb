@@ -22,6 +22,10 @@
 #include <config.h>
 #include <glib.h>
 #include <webp/decode.h>
+#include <webp/demux.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
 #include <gthumb.h>
 #include "cairo-image-surface-webp.h"
 
@@ -31,7 +35,7 @@
 
 GthImage *
 _cairo_image_surface_create_from_webp (GInputStream  *istream,
-		       	       	       GthFileData   *file_data,
+				       GthFileData   *file_data,
 				       int            requested_size,
 				       int           *original_width,
 				       int           *original_height,
@@ -70,6 +74,28 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 		g_free (buffer);
 		return image;
 	}
+
+#if HAVE_LCMS2
+	// Read the ICC profile.
+	WebPData webp_data = { .bytes = (uint8_t*) buffer, .size = (size_t) bytes_read };
+	WebPDemuxState demux_state;
+	WebPDemuxer* demux = WebPDemuxPartial (&webp_data, &demux_state);
+	if ((demux_state == WEBP_DEMUX_PARSED_HEADER) || (demux_state == WEBP_DEMUX_DONE)) {
+		uint32_t flags = WebPDemuxGetI (demux, WEBP_FF_FORMAT_FLAGS);
+		if (flags & ICCP_FLAG) {
+			WebPChunkIterator chunk_iter;
+			WebPDemuxGetChunk (demux, "ICCP", 1, &chunk_iter);
+			GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
+				cmsOpenProfileFromMem (chunk_iter.chunk.bytes,chunk_iter.chunk.size));
+			if (profile != NULL) {
+				gth_image_set_icc_profile (image, profile);
+				g_object_unref (profile);
+			}
+			WebPDemuxReleaseChunkIterator (&chunk_iter);
+		}
+	}
+	WebPDemuxDelete (demux);
+#endif
 
 	width = config.input.width;
 	height = config.input.height;
