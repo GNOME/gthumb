@@ -103,7 +103,7 @@ More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
 
 ## Download
 
-  Source archives available at <http://ftp.gnome.org/pub/GNOME/sources/gthumb>.
+  Source archives available at <https://download.gnome.org/sources/gthumb/>.
 
   Clone the Git repository:
 
