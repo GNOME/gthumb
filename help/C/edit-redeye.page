@@ -18,8 +18,6 @@ id="gthumb-edit-red-eye">
   <p>This tool works best when there is a high color contrast between the
   red eye and the surrounding facial area. It does not work well for
   "orange eye" sometimes seen in photos of children, or if the surrounding
-  skin has a reddish tinge. This tool could use improvement - if you
-  are fiendishly clever, love matrix algebra and open source software, please
-  <link href="https://wiki.gnome.org/Apps/gthumb/development">submit a patch!</link></p>
+  skin has a reddish tinge.</p>
 
 </page>

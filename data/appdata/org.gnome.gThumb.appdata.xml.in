@@ -40,7 +40,7 @@
   </description>
 
   <launchable type="desktop-id">org.gnome.gThumb.desktop</launchable>
-  <url type="homepage">https://wiki.gnome.org/Apps/Gthumb</url>
+  <url type="homepage">https://gitlab.gnome.org/GNOME/gthumb/</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gthumb/-/issues</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gthumb/</url>
   <url type="translate">https://l10n.gnome.org/module/gthumb/</url>

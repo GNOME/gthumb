@@ -132,7 +132,7 @@ gth_browser_activate_about (GSimpleAction *action,
 			       "translator-credits", _("translator-credits"),
 			       "license", license_text,
 			       "wrap-license", TRUE,
-			       "website", "https://wiki.gnome.org/Apps/Gthumb",
+			       "website", "https://gitlab.gnome.org/GNOME/gthumb/",
 			       (logo != NULL ? "logo" : NULL), logo,
 			       NULL);
 

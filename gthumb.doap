@@ -54,7 +54,7 @@
    + JPEG lossless transformations.
    + Find duplicated images.
   </description>
-  <homepage rdf:resource="https://wiki.gnome.org/Apps/Gthumb" />
+  <homepage rdf:resource="https://gitlab.gnome.org/GNOME/gthumb/" />
   <support-forum rdf:resource="https://discourse.gnome.org/tag/gthumb" />
   <download-page rdf:resource="https://download.gnome.org/sources/gthumb/" />
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gthumb/issues/" />

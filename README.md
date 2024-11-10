@@ -1,7 +1,7 @@
 # gThumb
 
 An image viewer and browser utility for the GNOME environment.
-More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
+More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
 
 ![Image](https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png)
 
@@ -60,8 +60,6 @@ More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
   are implemented as extensions and are supplied with the standard
   distribution. Users may write (and share) additional extensions.
 
-  See <https://wiki.gnome.org/Apps/Gthumb/extensions> for details.
-
 ## Licensing
 
   This program is released under the terms of the GNU General Public
@@ -115,6 +113,3 @@ More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
     meson build
     ninja -C build
     sudo ninja -C build install
-
-   More development information is available at
-   <https://wiki.gnome.org/Apps/Gthumb/development>.
