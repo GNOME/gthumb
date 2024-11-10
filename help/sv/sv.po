@@ -1,28 +1,30 @@
 # Swedish messages for gThumb help 
-# Copyright © 2006-2023 Free Software Foundation, Inc.
+# Copyright © 2006-2024 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009
 # Josef Andersson <josef.andersson@fripost.org>, 2015.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2020, 2022, 2023.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2020, 2022, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2023-08-13 10:08+0000\n"
-"PO-Revision-Date: 2023-08-13 21:46+0200\n"
+"POT-Creation-Date: 2024-11-10 08:14+0000\n"
+"PO-Revision-Date: 2024-11-11 00:05+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009\n"
-"Josef Andersson <josef.andersson@fripost.org>, 2015"
+"Josef Andersson <josef.andersson@fripost.org>, 2015\n"
+"Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2020, 2022, "
+"2023, 2024"
 
 #. (itstool) path: info/title
 #: C/index.page:6
@@ -54,7 +56,6 @@ msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
 #: C/index.page:24
-#| msgid "gThumb Help"
 msgid "<_:media-1/> gThumb Help"
 msgstr "<_:media-1/> Hjälp för gThumb"
 
@@ -717,12 +718,12 @@ msgstr ""
 #: C/introduction.page:34
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
-"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
+"generally, is available at <link href=\"https://gitlab.gnome.org/GNOME/"
+"gthumb\">https://gitlab.gnome.org/GNOME/gthumb</link>."
 msgstr ""
 "Ytterligare information om dessa tillägg och allmänt om <app>gThumb</app> "
-"finns tillgängligt på <link href=\"https://wiki.gnome.org/Apps/"
-"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
+"finns tillgängligt på <link href=\"https://gitlab.gnome.org/GNOME/"
+"gthumb\">https://gitlab.gnome.org/GNOME/gthumb</link>."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -1658,17 +1659,11 @@ msgid ""
 "This tool works best when there is a high color contrast between the red eye "
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
-"reddish tinge. This tool could use improvement - if you are fiendishly "
-"clever, love matrix algebra and open source software, please <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</"
-"link>"
+"reddish tinge."
 msgstr ""
 "Detta verktyg fungerar bäst när det finns en hög färgkontrast mellan det "
 "röda ögat och omgivande ansikte. Det fungerar inte bra för ”orange ögon” som "
-"ibland kan ses i foton på barn, eller om omgivande hud har en rödaktig ton. "
-"Detta verktyg kan förbättras - om du är smart, älskar matrisalgebra och "
-"öppen källkod, <link href=\"https://wiki.gnome.org/Apps/gthumb/"
-"development\">skicka in en programfix!</link>"
+"ibland kan ses i foton på barn, eller om omgivande hud har en rödaktig ton."
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1711,12 +1706,12 @@ msgstr ""
 #: C/extensions.page:20
 msgid ""
 "If you would like to write your own extension, please visit <link "
-"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
-"Gthumb</link> for development information. An example extension is provided "
-"in the source code, which you can base your own extension on."
+"href=\"https://gitlab.gnome.org/GNOME/gthumb\">https://gitlab.gnome.org/"
+"GNOME/gthumb</link> for development information. An example extension is "
+"provided in the source code, which you can base your own extension on."
 msgstr ""
-"Om du vill skriva dina egna tillägg, besök <link href=\"https://wiki.gnome."
-"org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</link> för "
+"Om du vill skriva dina egna tillägg, besök <link href=\"https://gitlab.gnome."
+"org/GNOME/gthumb\">https://gitlab.gnome.org/GNOME/gthumb</link> för "
 "utvecklingsinformation. Ett exempeltillägg ges i källkoden vilket du kan "
 "basera egna tillägg på."
 
@@ -2278,8 +2273,8 @@ msgid ""
 msgstr ""
 "Ett händelsenamn kan valfritt associeras med fotona. Händelsenamnet kan "
 "användas för att generera ett automatisk undermappsnamn (möjligen "
-"inbegripande ett datum) som beskrivs nedan. Till exempel, om basmålmappen är "
-"”/bilder” och du anger ”Fest-FSF” i <gui>Händelse</gui>-fältet kan du "
+"inbegripande ett datum) som beskrivs nedan. Till exempel, om basmålmappen "
+"är ”/bilder” och du anger ”Fest-FSF” i <gui>Händelse</gui>-fältet kan du "
 "konfigurera generering av automatiska undermappar som ”/bilder/2015-10-01, "
 "Fest-FSF”."
 
