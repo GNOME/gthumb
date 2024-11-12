@@ -2,12 +2,12 @@
 # Copyright (C) 2020 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2023-08-13 10:08+0000\n"
-"PO-Revision-Date: 2023-08-13 13:33+0300\n"
+"POT-Creation-Date: 2024-11-10 08:14+0000\n"
+"PO-Revision-Date: 2024-11-12 19:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -25,21 +25,18 @@ msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-#| msgid "gThumb Help"
 msgctxt "link:trail"
 msgid "gThumb Help"
 msgstr "Довідка з gThumb"
 
 #. (itstool) path: info/title
 #: C/index.page:7
-#| msgid "gThumb Help"
 msgctxt "link"
 msgid "gThumb Help"
 msgstr "Довідка з gThumb"
 
 #. (itstool) path: info/title
 #: C/index.page:8
-#| msgid "gThumb Help"
 msgctxt "text"
 msgid "gThumb Help"
 msgstr "Довідка з gThumb"
@@ -56,7 +53,6 @@ msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
 #: C/index.page:24
-#| msgid "gThumb Help"
 msgid "<_:media-1/> gThumb Help"
 msgstr "<_:media-1/> Довідка з gThumb"
 
@@ -734,14 +730,18 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/introduction.page:34
+#| msgid ""
+#| "More information about these extensions, and about <app>gThumb</app> "
+#| "generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
+#| "gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
-"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
+"generally, is available at <link href=\"https://gitlab.gnome.org/GNOME/"
+"gthumb\">https://gitlab.gnome.org/GNOME/gthumb</link>."
 msgstr ""
 "Докладніші відомості щодо цих розширень та щодо <app>gThumb</app> загалом "
-"можна знайти на сторінці <link href=\"https://wiki.gnome.org/Apps/"
-"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
+"можна знайти на сторінці <link href=\"https://gitlab.gnome.org/GNOME/"
+"gthumb\">https://gitlab.gnome.org/GNOME/gthumb</link>."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -1700,23 +1700,24 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/edit-redeye.page:18
+#| msgid ""
+#| "This tool works best when there is a high color contrast between the red "
+#| "eye and the surrounding facial area. It does not work well for \"orange "
+#| "eye\" sometimes seen in photos of children, or if the surrounding skin "
+#| "has a reddish tinge. This tool could use improvement - if you are "
+#| "fiendishly clever, love matrix algebra and open source software, please "
+#| "<link href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a "
+#| "patch!</link>"
 msgid ""
 "This tool works best when there is a high color contrast between the red eye "
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
-"reddish tinge. This tool could use improvement - if you are fiendishly "
-"clever, love matrix algebra and open source software, please <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</"
-"link>"
+"reddish tinge."
 msgstr ""
 "Цей інструмент працює найкращим чином там, де є висока контрастність між "
 "«червоними» очима та навколишньою областю обличчя. Результати можуть бути "
 "незадовільними для «помаранчевих» очей, які іноді можна спостерігати на "
-"дитячих фотографіях, або якщо шкіра обличчя має червоний відтінок. Роботу "
-"цього інструмента може бути удосконалено — якщо ви тямите на цьому, "
-"полюбляєте матричну алгебру та програмне забезпечення із відкритим кодом, "
-"будь ласка <link href=\"https://wiki.gnome.org/Apps/gthumb/"
-"development\">надсилайте латки!</link>"
+"дитячих фотографіях, або якщо шкіра обличчя має червоний відтінок."
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1761,15 +1762,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/extensions.page:20
+#| msgid ""
+#| "If you would like to write your own extension, please visit <link "
+#| "href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+#| "Gthumb</link> for development information. An example extension is "
+#| "provided in the source code, which you can base your own extension on."
 msgid ""
 "If you would like to write your own extension, please visit <link "
-"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
-"Gthumb</link> for development information. An example extension is provided "
-"in the source code, which you can base your own extension on."
+"href=\"https://gitlab.gnome.org/GNOME/gthumb\">https://gitlab.gnome.org/"
+"GNOME/gthumb</link> for development information. An example extension is "
+"provided in the source code, which you can base your own extension on."
 msgstr ""
 "Якщо ви хочете написати власне розширення, будь ласка, відвідайте сторінку "
-"<link href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/"
-"Apps/Gthumb</link>, де наведено дані для розробників. Приклад розширення "
+"<link href=\"https://gitlab.gnome.org/GNOME/gthumb\""
+">https://gitlab.gnome.org/"
+"GNOME/gthumb</link>, де наведено дані для розробників. Приклад розширення "
 "можна знайти у початковому коді програми. Ви можете скористатися ним для "
 "написання власного розширення."
 
