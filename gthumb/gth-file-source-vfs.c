@@ -202,8 +202,8 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 		char      *name;
 		GFileInfo *info;
 
-		if (! g_volume_can_mount (volume))
-			continue;
+		//if (! g_volume_can_mount (volume))
+		//	continue;
 
 		mount = g_volume_get_mount (volume);
 		if (mount != NULL) {
