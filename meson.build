@@ -270,6 +270,9 @@ if get_option('run-in-place')
 else
   config_data.set_quoted('PRIVEXECDIR', privexecdir)
 endif
+if get_option('flatpak-build')
+  config_data.set('FLATPAK_BUILD', 1)
+endif
 if use_exiv2
   config_data.set('HAVE_EXIV2', 1)
 endif

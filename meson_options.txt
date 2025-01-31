@@ -105,3 +105,9 @@ option('tarball-appdata',
   value : false,
   description: 'Only merge translations, as tarball appdata already has release notes'
 )
+
+option('flatpak-build',
+  type : 'boolean',
+  value : false,
+  description: 'True when building the flatpak package'
+)

@@ -168,37 +168,34 @@ update_system_bookmark_list_ready (GObject      *source_object,
 static void
 _gth_browser_update_system_bookmark_list (GthBrowser *browser)
 {
-	BrowserData         *browser_data;
-	GFile               *bookmark_file;
-	GFileInputStream    *input_stream;
-	UpdateBookmarksData *data;
-
-	browser_data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	BrowserData *browser_data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	g_return_if_fail (browser_data != NULL);
 
 	g_menu_remove_all (browser_data->system_bookmarks_menu);
 
-	/* give priority to XDG_CONFIG_HOME/gtk-3.0/bookmarks if not found
-	 * try the old ~/.gtk-bookmarks */
+	// Give priority to ~/.config/gtk-3.0/bookmarks if not found
+	// try the old ~/.gtk-bookmarks
 
+	GFile *home = g_file_new_for_path (g_get_home_dir ());
+	GFile *bookmark_file;
+#ifdef FLATPAK_BUILD
+	bookmark_file = _g_file_get_child (home, ".config", "gtk-3.0", "bookmarks", NULL);
+#else
 	bookmark_file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, "gtk-3.0", "bookmarks", NULL);
+#endif
 	if (! g_file_query_exists (bookmark_file, NULL)) {
-		char *path;
-
 		g_object_unref (bookmark_file);
-		path = g_build_filename (g_get_home_dir (), ".gtk-bookmarks", NULL);
-		bookmark_file = g_file_new_for_path (path);
-
-		g_free (path);
+		bookmark_file = _g_file_get_child (home, ".gtk-bookmarks", NULL);
 	}
 
-	input_stream = g_file_read (bookmark_file, NULL, NULL);
+	GFileInputStream *input_stream = g_file_read (bookmark_file, NULL, NULL);
 	g_object_unref (bookmark_file);
+	g_object_unref (home);
 
 	if (input_stream == NULL)
 		return;
 
-	data = g_new0 (UpdateBookmarksData, 1);
+	UpdateBookmarksData *data = g_new0 (UpdateBookmarksData, 1);
 	data->browser = g_object_ref (browser);
 	data->stream = (GInputStream*) input_stream;
 	data->file_content = g_string_new ("");
