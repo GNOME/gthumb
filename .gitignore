@@ -2,6 +2,7 @@
 .autotools
 .externalToolBuilders/
 .cproject
+.flatpak-builder
 .project
 .pydevproject
 .settings/
@@ -9,5 +10,6 @@
 build/
 build.sh
 _build/
+make.sh
 po/gthumb.pot
 Release

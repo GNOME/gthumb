@@ -1,0 +1,117 @@
+id: org.gnome.gThumb
+runtime: org.gnome.Platform
+runtime-version: master
+sdk: org.gnome.Sdk
+command: gthumb
+tags:
+  - nightly
+  - upstream-maintained
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=all
+  - --filesystem=host
+  - --filesystem=/mnt
+  - --filesystem=xdg-run/gvfsd
+  - --talk-name=org.gtk.vfs.*
+  - --talk-name=org.gtk.MountOperationHandler
+cleanup:
+  - '*.a'
+  - '*.la'
+  - '/bin/cd-*'
+  - '/bin/colormgr'
+  - '/bin/exiv2'
+  - '/bin/gusbcmd'
+  - '/bin/4channels'
+  - '/bin/dcraw_emu'
+  - '/bin/dcraw_half'
+  - '/bin/half_mt'
+  - '/bin/mem_image'
+  - '/bin/multirender_test'
+  - '/bin/postprocessing_benchmark'
+  - '/bin/raw-identify'
+  - '/bin/rawtextdump'
+  - '/bin/simple_dcraw'
+  - '/bin/unprocessed_raw'
+  - '/include'
+  - '/lib/cmake'
+  - '/lib/girepository-1.0'
+  - '/lib/pkgconfig'
+  - '/share/aclocal'
+modules:
+  - name: libraw
+    buildsystem: simple
+    build-commands:
+      - autoreconf --install
+      - ./configure --prefix=/app
+      - make
+      - make install
+    sources:
+      - type: git
+        url: https://github.com/LibRaw/LibRaw.git
+        tag: 0.21.3
+  - name: libusb
+    buildsystem: autotools
+    sources:
+      - type: git
+        url: https://github.com/libusb/libusb.git
+        tag: v1.0.27
+  - name: libgusb
+    buildsystem: meson
+    config-opts:
+      - -Dtests=false
+      - -Ddocs=false
+      - -Dumockdev=disabled
+    sources:
+      - type: git
+        url: https://github.com/hughsie/libgusb.git
+        tag: 0.4.9
+  - name: colord
+    buildsystem: meson
+    config-opts:
+      - -Ddaemon=false
+      - -Dsession_example=false
+      - -Dbash_completion=false
+      - -Dudev_rules=false
+      - -Dsystemd=false
+      - -Dlibcolordcompat=true
+      - -Dtests=false
+      - -Dman=false
+      - -Ddocs=false
+    sources:
+      - type: git
+        url: https://github.com/hughsie/colord.git
+        tag: 1.4.7
+  - name: libinih
+    buildsystem: meson
+    sources:
+      - type: git
+        url: https://github.com/benhoyt/inih.git
+        tag: r58
+  - name: exiv2
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_SKIP_RPATH=ON
+      - -DEXIV2_BUILD_SAMPLES=OFF
+      - -DEXIV2_BUILD_UNIT_TESTS=OFF
+      - -DEXIV2_ENABLE_VIDEO=ON
+      - -DEXIV2_ENABLE_NLS=ON
+      - -DEXIV2_ENABLE_XMP=ON
+      - -DEXIV2_ENABLE_CURL=ON
+      - -DEXIV2_ENABLE_WEBREADY=ON
+      - -DEXIV2_ENABLE_BMFF=ON
+    sources:
+     - type: git
+       url: https://github.com/Exiv2/exiv2.git
+       tag: v0.28.3
+  - name: gthumb
+    buildsystem: meson
+    config-opts:
+      - -Dwarn-deprecated=false
+      - -Dflatpak-build=true
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/gthumb.git
