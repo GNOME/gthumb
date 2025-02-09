@@ -1,3 +1,28 @@
+Version 3.12.7
+~~~~~~~~~~~~~~
+Released: 2025-02-09
+
+Features:
+ * WebP: read the ICC profile if available
+ * WebP: save the EXIF data
+ * Video screenshot: use the configured jpeg extension for the file
+
+Bugfixes:
+ * Preferences dialog: same dialog shown endlessy (Balló György)
+ * Bookmarks: fixed loading system bookmarks with the flatpak version
+ * migrate-catalogs: properly use time_t for localtime (Pino Toscano)
+ * Removed references to wiki.gnome.org pages (!332)
+ * Appdata: Fix developer id (Daniel Rusek)
+
+Translations:
+ * Hungarian (Balázs Úr)
+ * Romanian (Daniel Șerbănescu)
+ * Slovak (Jose Riha)
+ * Slovenian (Martin Srebotnjak)
+ * RU (Ser82-png)
+ * Swedish (Anders Jonsson)
+ * Ukrainian (Yuri Chornoivan)
+
 Version 3.12.6
 ~~~~~~~~~~~~~~
 Released: 2024-03-10
