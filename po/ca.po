@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2022-09-06 13:18+0000\n"
-"PO-Revision-Date: 2023-08-20 08:36+0100\n"
+"PO-Revision-Date: 2025-03-02 08:36+0100\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
 "Language: ca\n"
@@ -2495,7 +2495,7 @@ msgstr "Àrtic"
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:640
 msgid "Mangos"
-msgstr "Mànecs"
+msgstr "Mangos"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:688
@@ -3953,7 +3953,7 @@ msgstr "S'està demanant l'autorització"
 
 #: extensions/oauth/web-service.c:810
 msgid "Getting account information"
-msgstr "S'està important la informació del compte"
+msgstr "S'està obtenint la informació del compte"
 
 #: extensions/photo_importer/actions.c:71
 #: extensions/photo_importer/dlg-photo-importer.c:619
@@ -4802,7 +4802,7 @@ msgstr "[FITXER…] [DIRECTORI…]"
 
 #: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
-msgstr "— navegador i visualitzador de fitxers"
+msgstr "— Navegador i visualitzador d'imatges"
 
 #: gthumb/gth-browser-actions-callbacks.c:101
 msgid ""
