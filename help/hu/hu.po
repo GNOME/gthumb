@@ -1,13 +1,13 @@
 # Hungarian translation for gthumb help.
-# Copyright (C) 2015, 2016, 2019, 2021, 2023 Free Software Foundation, Inc.
+# Copyright (C) 2015, 2016, 2019, 2021, 2023, 2025 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
-# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2019, 2021, 2023.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2019, 2021, 2023, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2023-08-24 14:38+0000\n"
-"PO-Revision-Date: 2023-09-13 00:17+0200\n"
+"POT-Creation-Date: 2025-02-13 02:02+0000\n"
+"PO-Revision-Date: 2025-03-05 21:34+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -15,30 +15,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Úr Balázs <ur.balazs at fsf dot hu>, 2015, 2016, 2019, 2021, 2023."
+msgstr "Úr Balázs <ur.balazs at fsf dot hu>, 2015, 2016, 2019, 2021, 2023, 2025."
 
 #. (itstool) path: info/title
 #: C/index.page:6
-#| msgid "gThumb Help"
 msgctxt "link:trail"
 msgid "gThumb Help"
 msgstr "gThumb súgó"
 
 #. (itstool) path: info/title
 #: C/index.page:7
-#| msgid "gThumb Help"
 msgctxt "link"
 msgid "gThumb Help"
 msgstr "gThumb súgó"
 
 #. (itstool) path: info/title
 #: C/index.page:8
-#| msgid "gThumb Help"
 msgctxt "text"
 msgid "gThumb Help"
 msgstr "gThumb súgó"
@@ -55,7 +52,6 @@ msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
 #: C/index.page:24
-#| msgid "gThumb Help"
 msgid "<_:media-1/> gThumb Help"
 msgstr "<_:media-1/> gThumb súgó"
 
@@ -730,14 +726,18 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/introduction.page:34
+#| msgid ""
+#| "More information about these extensions, and about <app>gThumb</app> "
+#| "generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
+#| "gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
-"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
+"generally, is available at <link href=\"https://gitlab.gnome.org/GNOME/"
+"gthumb\">https://gitlab.gnome.org/GNOME/gthumb</link>."
 msgstr ""
-"Ezen kiterjesztésekről és általában a <app>gThumb</app> programról további "
-"információk érhetők el a <link href=\"https://wiki.gnome.org/Apps/"
-"gthumb\">https://wiki.gnome.org/Apps/gthumb</link> címen."
+"Ezen kiterjesztésekről és általában a <app>gThumb</app> programról további"
+" információk érhetők el a <link href=\"https://gitlab.gnome.org/GNOME/gthumb\""
+">https://gitlab.gnome.org/GNOME/gthumb</link> címen."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -1682,22 +1682,24 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/edit-redeye.page:18
+#| msgid ""
+#| "This tool works best when there is a high color contrast between the red "
+#| "eye and the surrounding facial area. It does not work well for \"orange "
+#| "eye\" sometimes seen in photos of children, or if the surrounding skin "
+#| "has a reddish tinge. This tool could use improvement - if you are "
+#| "fiendishly clever, love matrix algebra and open source software, please "
+#| "<link href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a "
+#| "patch!</link>"
 msgid ""
 "This tool works best when there is a high color contrast between the red eye "
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
-"reddish tinge. This tool could use improvement - if you are fiendishly "
-"clever, love matrix algebra and open source software, please <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</"
-"link>"
+"reddish tinge."
 msgstr ""
 "Ez az eszköz akkor működik a legjobban, amikor nagy színkontraszt van a "
 "vörös szem és a környező arcterület között. Nem működik túl jól a gyermekek "
 "fényképein néha látható „narancs szemnél”, vagy ha a környező bőrnek vöröses "
-"árnyalata van. Ez az eszköz javításokra szorulna - ha ördögien ügyes, "
-"valamint szereti a mátrix algebrát és a nyílt forrású szoftvereket, akkor "
-"<link href=\"https://wiki.gnome.org/Apps/gthumb/development\">küldjön egy "
-"javítást!</link>"
+"árnyalata van."
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1742,17 +1744,22 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/extensions.page:20
+#| msgid ""
+#| "If you would like to write your own extension, please visit <link "
+#| "href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+#| "Gthumb</link> for development information. An example extension is "
+#| "provided in the source code, which you can base your own extension on."
 msgid ""
 "If you would like to write your own extension, please visit <link "
-"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
-"Gthumb</link> for development information. An example extension is provided "
-"in the source code, which you can base your own extension on."
+"href=\"https://gitlab.gnome.org/GNOME/gthumb\">https://gitlab.gnome.org/"
+"GNOME/gthumb</link> for development information. An example extension is "
+"provided in the source code, which you can base your own extension on."
 msgstr ""
-"Ha saját kiterjesztést szeretne írni, akkor látogassa meg a <link "
-"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
-"Gthumb</link> oldalt a fejlesztői információkért. Egy példakiterjesztés "
-"biztosítva van a forráskódban, amely a saját kiterjesztése alapjául "
-"szolgálhat."
+"Ha saját kiterjesztést szeretne írni, akkor látogassa meg a <link"
+" href=\"https://gitlab.gnome.org/GNOME/gthumb\""
+">https://gitlab.gnome.org/GNOME/gthumb</link> oldalt a fejlesztői"
+" információkért. Egy példakiterjesztés biztosítva van a forráskódban, amely a"
+" saját kiterjesztése alapjául szolgálhat."
 
 #. (itstool) path: page/title
 #: C/gimp.page:6
@@ -2631,3 +2638,4 @@ msgstr ""
 "Speciális kivételként a szerzői jog tulajdonosai az Ön által választott "
 "tetszőleges feltételek mellett, korlátozás nélkül engedélyezik a "
 "dokumentumban található példakódok másolását, módosítását és terjesztését."
+
