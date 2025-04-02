@@ -123,6 +123,16 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 	guint     offset, number_of_tags, tagnum;
 	int       remaining_tags;
 
+	remaining_tags = 0;
+	if (flags & _JPEG_INFO_EXIF_ORIENTATION)
+		remaining_tags += 1;
+	if (flags & _JPEG_INFO_EXIF_COLORIMETRY)
+		remaining_tags += 3;
+	if (flags & _JPEG_INFO_EXIF_COLOR_SPACE)
+		remaining_tags += 1;
+	if (remaining_tags == 0)
+		return TRUE;
+
 	/* Length includes itself, so must be at least 2 */
 	/* Following Exif data length must be at least 6 */
 
@@ -192,6 +202,8 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 		offset = (exif_data[5] << 8) + exif_data[4];
 	}
 
+read_ifd:
+
 	if (offset > length - 2) /* check end of data segment */
 		return FALSE;
 
@@ -208,16 +220,8 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 
 	/* Search the tags in IFD0 */
 
-	remaining_tags = 0;
-	if (flags & _JPEG_INFO_EXIF_ORIENTATION)
-		remaining_tags += 1;
-	if (flags & _JPEG_INFO_EXIF_COLORIMETRY)
-		remaining_tags += 3;
-	if (flags & _JPEG_INFO_EXIF_COLOR_SPACE)
-		remaining_tags += 1;
-
 	for (;;) {
-		if (offset > length - 12) /* check end of data segment */
+		if (offset > length - 12) /* check end of data segment (entry size is 12) */
 			return FALSE;
 
 		/* Get Tag number */
@@ -226,6 +230,8 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 			tagnum = (exif_data[offset] << 8) + exif_data[offset+1];
 		else
 			tagnum = (exif_data[offset+1] << 8) + exif_data[offset];
+
+		//g_print ("  TAGNUM: 0x%0x\n", tagnum);
 
 		if ((flags & _JPEG_INFO_EXIF_ORIENTATION) && (tagnum == 0x0112)) { /* Orientation */
 			int orientation;
@@ -264,15 +270,21 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 			int value;
 
 			if (big_endian) {
-				if (exif_data[offset + 8] != 0)
+				if (exif_data[offset + 6] != 0)
 					return FALSE;
-				value = exif_data[offset + 9];
+				if (exif_data[offset + 7] != 0)
+					return FALSE;
+				value = (exif_data[offset + 8] << 8) + exif_data[offset + 9];
 			}
 			else {
-				if (exif_data[offset + 9] != 0)
+				if (exif_data[offset + 6] != 0)
 					return FALSE;
-				value = exif_data[offset + 8];
+				if (exif_data[offset + 7] != 0)
+					return FALSE;
+				value = (exif_data[offset + 9] << 8) + exif_data[offset + 8];
 			}
+
+			//g_print ("  COLORSPACE: %d\n", value);
 
 			if (value == 1)
 				data->color_space = GTH_COLOR_SPACE_SRGB;
@@ -288,10 +300,54 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 		if (remaining_tags == 0)
 			break;
 
-		if (--number_of_tags == 0)
-			return FALSE;
+		// ExifOffset
+		if (tagnum == 0x8769) {
+			if (big_endian) {
+				if (exif_data[offset+6] != 0)
+					return FALSE;
+				if (exif_data[offset+7] != 0)
+					return FALSE;
+				offset = (exif_data[offset + 8] << 8) + exif_data[offset + 9];
+			}
+			else {
+				if (exif_data[offset + 6] != 0)
+					return FALSE;
+				if (exif_data[offset + 7] != 0)
+					return FALSE;
+				offset = (exif_data[offset + 9] << 8) + exif_data[offset + 8];
+			}
+			//g_print ("  EXIFOFFSET: %u\n", offset);
+			if (offset > 0) {
+				goto read_ifd;
+			}
+			else {
+				return FALSE;
+			}
+		}
 
 		offset += 12;
+		if (--number_of_tags == 0) {
+			// Offset to IFD1
+			//if (big_endian) {
+			//	if (exif_data[offset] != 0)
+			//		return FALSE;
+			//	if (exif_data[offset+1] != 0)
+			//		return FALSE;
+			//	offset = (exif_data[offset+2] << 8) + exif_data[offset+3];
+			//}
+			//else {
+			//	if (exif_data[offset] != 0)
+			//		return FALSE;
+			//	if (exif_data[offset+1] != 0)
+			//		return FALSE;
+			//	offset = (exif_data[offset+3] << 8) + exif_data[offset+2];
+			//}
+			//if (offset > 0) {
+			//	g_print ("  NEW OFFSET: %u\n", offset);
+			//	goto read_ifd;
+			//}
+			return FALSE;
+		}
 	}
 
 	return TRUE;
