@@ -215,8 +215,12 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
 		}
 		else if (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE) {
-			if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB)
+			if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB) {
 				profile = gth_icc_profile_new_srgb ();
+			}
+			else if (jpeg_info.color_space == GTH_COLOR_SPACE_ADOBERGB) {
+				profile = gth_icc_profile_new_adobergb ();
+			}
 		}
 
 		if (profile != NULL) {

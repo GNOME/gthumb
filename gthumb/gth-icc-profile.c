@@ -192,6 +192,45 @@ gth_icc_profile_new_srgb (void)
 	id = g_strdup ("standard://srgb");
 	cms_profile = (GthCMSProfile) cmsCreate_sRGBProfile ();
 	icc_profile = gth_icc_profile_new (id, cms_profile);
+	icc_profile->priv->description = g_strdup ("sRGB");
+
+	g_free (id);
+
+	return icc_profile;
+
+#else
+
+	return NULL;
+
+#endif
+}
+
+GthICCProfile *
+gth_icc_profile_new_adobergb (void)
+{
+#ifdef HAVE_LCMS2
+
+	char          *id;
+	GthCMSProfile  cms_profile;
+	GthICCProfile *icc_profile;
+
+	// Voodoo numbers taken from:
+	// https://github.com/ellelstone/elles_icc_profiles/blob/master/code/make-elles-profiles.c
+	// Released under the GNU GPL v2 or later.
+	cmsCIExyY d65_srgb_adobe_specs = { 0.3127, 0.3290, 1.0 };
+	cmsCIExyYTRIPLE adobe_primaries_prequantized = {
+		{ 0.639996511, 0.329996864, 1.0 },
+		{ 0.210005295, 0.710004866, 1.0 },
+		{ 0.149997606, 0.060003644, 1.0 }
+	};
+	cmsToneCurve *tonecurve = cmsBuildGamma (NULL, 2.19921875);
+	cmsToneCurve *curve[3];
+	curve[0] = curve[1] = curve[2] = tonecurve;
+
+	id = g_strdup ("standard://adobergb-comp");
+	cms_profile = (GthCMSProfile) cmsCreateRGBProfile (&d65_srgb_adobe_specs, &adobe_primaries_prequantized, curve);
+	icc_profile = gth_icc_profile_new (id, cms_profile);
+	icc_profile->priv->description = g_strdup ("Adobe RGB compatible");
 
 	g_free (id);
 
@@ -249,11 +288,11 @@ gth_icc_profile_get_id (GthICCProfile *self)
 }
 
 
-char *
+const char *
 gth_icc_profile_get_description	(GthICCProfile *self)
 {
 	if (self->priv->description != NULL)
-		return g_strdup (self->priv->description);
+		return self->priv->description;
 
 #ifdef HAVE_LCMS2
 
@@ -262,7 +301,6 @@ gth_icc_profile_get_description	(GthICCProfile *self)
 	const int        buffer_size = 128;
 	wchar_t          buffer[buffer_size];
 	cmsUInt32Number  size;
-	char            *result;
 
 	color_profile = g_string_new ("");
 	hProfile = (cmsHPROFILE) gth_icc_profile_get_profile (self);
@@ -272,13 +310,13 @@ gth_icc_profile_get_description	(GthICCProfile *self)
 			g_string_append_c (color_profile, buffer[i]);
 	}
 
-	result = NULL;
-	if (color_profile->len > 0)
-		result = _g_utf8_try_from_any (color_profile->str);
+	if (color_profile->len > 0) {
+		self->priv->description = _g_utf8_try_from_any (color_profile->str);
+	}
 
 	g_string_free (color_profile, TRUE);
 
-	return result;
+	return self->priv->description;
 
 #else
 

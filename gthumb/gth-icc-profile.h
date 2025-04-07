@@ -80,9 +80,11 @@ GType			gth_icc_profile_get_type	(void);
 GthICCProfile *		gth_icc_profile_new		(const char	 *id,
 						 	 GthCMSProfile	  profile);
 GthICCProfile *		gth_icc_profile_new_srgb	(void);
-GthICCProfile *	gth_icc_profile_new_srgb_with_gamma	(double gamma);
+GthICCProfile *		gth_icc_profile_new_adobergb	(void);
+GthICCProfile *		gth_icc_profile_new_srgb_with_gamma
+							(double gamma);
 const char *		gth_icc_profile_get_id		(GthICCProfile	 *icc_profile);
-char *                  gth_icc_profile_get_description	(GthICCProfile	 *icc_profile);
+const char *            gth_icc_profile_get_description	(GthICCProfile	 *icc_profile);
 gboolean                gth_icc_profile_id_is_unknown   (const char      *id);
 GthCMSProfile		gth_icc_profile_get_profile	(GthICCProfile	 *icc_profile);
 gboolean		gth_icc_profile_equal		(GthICCProfile	 *a,

@@ -1464,13 +1464,11 @@ preloader_load_ready_cb (GObject	*source_object,
 
 		profile = gth_image_get_icc_profile (image);
 		if (profile != NULL) {
-			char *desc = gth_icc_profile_get_description (profile);
-
+			const char *desc = gth_icc_profile_get_description (profile);
 			if (desc != NULL) {
 				g_file_info_set_attribute_string (self->priv->updated_info,
 								  "Loaded::Image::ColorProfile",
 								  desc);
-				g_free (desc);
 			}
 		}
 	}

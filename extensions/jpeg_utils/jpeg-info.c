@@ -123,13 +123,21 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 	guint     offset, number_of_tags, tagnum;
 	int       remaining_tags;
 
+	//g_print ("> _jpeg_exif_tags_from_app1_segment\n");
+
 	remaining_tags = 0;
-	if (flags & _JPEG_INFO_EXIF_ORIENTATION)
+	if (flags & _JPEG_INFO_EXIF_ORIENTATION) {
 		remaining_tags += 1;
-	if (flags & _JPEG_INFO_EXIF_COLORIMETRY)
+		//g_print ("> CHECK EXIF ORIENTATION\n");
+	}
+	if (flags & _JPEG_INFO_EXIF_COLORIMETRY) {
 		remaining_tags += 3;
-	if (flags & _JPEG_INFO_EXIF_COLOR_SPACE)
+		//g_print ("> CHECK EXIF COLORIMETRY\n");
+	}
+	if (flags & _JPEG_INFO_EXIF_COLOR_SPACE) {
 		remaining_tags += 1;
+		//g_print ("> CHECK EXIF COLOR_SPACE\n");
+	}
 	if (remaining_tags == 0)
 		return TRUE;
 
@@ -204,6 +212,8 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 
 read_ifd:
 
+	//g_print ("\n");
+	//g_print ("  OFFSET: %d, LENGTH: %d\n", offset, length);
 	if (offset > length - 2) /* check end of data segment */
 		return FALSE;
 
@@ -221,8 +231,25 @@ read_ifd:
 	/* Search the tags in IFD0 */
 
 	for (;;) {
+		//g_print ("> OFFSET: %d\n", offset);
+
 		if (offset > length - 12) /* check end of data segment (entry size is 12) */
 			return FALSE;
+
+		//g_print ("  DATA: x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x\n",
+		//	exif_data[offset+0],
+		//	exif_data[offset+1],
+		//	exif_data[offset+2],
+		//	exif_data[offset+3],
+		//	exif_data[offset+4],
+		//	exif_data[offset+5],
+		//	exif_data[offset+6],
+		//	exif_data[offset+7],
+		//	exif_data[offset+8],
+		//	exif_data[offset+9],
+		//	exif_data[offset+10],
+		//	exif_data[offset+11]
+		//);
 
 		/* Get Tag number */
 
@@ -231,17 +258,37 @@ read_ifd:
 		else
 			tagnum = (exif_data[offset+1] << 8) + exif_data[offset];
 
-		//g_print ("  TAGNUM: 0x%0x\n", tagnum);
+		//g_print ("  TAGNUM: 0x%04x\n", tagnum);
 
 		if ((flags & _JPEG_INFO_EXIF_ORIENTATION) && (tagnum == 0x0112)) { /* Orientation */
 			int orientation;
 
 			if (big_endian) {
+				// Number of components: 1
+				if (exif_data[offset + 4] != 0)
+					return FALSE;
+				if (exif_data[offset + 5] != 0)
+					return FALSE;
+				if (exif_data[offset + 6] != 0)
+					return FALSE;
+				if (exif_data[offset + 7] != 1)
+					return FALSE;
+				// Value: 2 bytes
 				if (exif_data[offset + 8] != 0)
 					return FALSE;
 				orientation = exif_data[offset + 9];
 			}
 			else {
+				// Number of components: 1
+				if (exif_data[offset + 4] != 1)
+					return FALSE;
+				if (exif_data[offset + 5] != 0)
+					return FALSE;
+				if (exif_data[offset + 6] != 0)
+					return FALSE;
+				if (exif_data[offset + 7] != 0)
+					return FALSE;
+				// Value: 2 bytes
 				if (exif_data[offset + 9] != 0)
 					return FALSE;
 				orientation = exif_data[offset + 8];
@@ -266,55 +313,177 @@ read_ifd:
 			remaining_tags--;
 		}
 
+		if ((flags & _JPEG_INFO_EXIF_COLOR_SPACE) && (tagnum == 0x0001)) { /* InteropIndex */
+			int string_length;
+			int string_offset;
+			if (big_endian) {
+				// Format: 2 (string)
+				if (exif_data[offset + 2] != 0)
+					return FALSE;
+				if (exif_data[offset + 3] != 2)
+					return FALSE;
+				// String length: 4 bytes
+				string_length = (exif_data[offset + 4] << 24)
+					+ (exif_data[offset + 5] << 16)
+					+ (exif_data[offset + 6] << 8)
+					+ exif_data[offset + 7];
+				if (string_length <= 4) {
+					string_offset = offset + 8;
+				}
+				else {
+					// String offset: 4 bytes
+					string_offset = (exif_data[offset + 8] << 24)
+						+ (exif_data[offset + 9] << 16)
+						+ (exif_data[offset + 10] << 8)
+						+ exif_data[offset + 11];
+				}
+			}
+			else {
+				// Format: 2 (string)
+				if (exif_data[offset + 2] != 2)
+					return FALSE;
+				if (exif_data[offset + 3] != 0)
+					return FALSE;
+				// String length: 4 bytes
+				string_length = (exif_data[offset + 7] << 24)
+					+ (exif_data[offset + 6] << 16)
+					+ (exif_data[offset + 5] << 8)
+					+ exif_data[offset + 4];
+				if (string_length <= 4) {
+					string_offset = offset + 8;
+				}
+				else {
+					// String offset: 4 bytes
+					string_offset = (exif_data[offset + 11] << 24)
+						+ (exif_data[offset + 10] << 16)
+						+ (exif_data[offset + 9] << 8)
+						+ exif_data[offset + 8];
+				}
+			}
+			//g_print ("  string_offset: %d\n", string_offset);
+			//g_print ("  string_length: %d\n", string_length);
+			if ((string_offset >= 0)
+				&& (string_length >= 4)
+				&& (string_offset + string_length < length)
+				&& (exif_data[string_offset + string_length] == 0))
+			{
+				const char *string_data = (char *) exif_data + string_offset;
+				//g_print ("  InteropIndex: '%s'\n", string_data);
+				if (strncmp (string_data, "R03", 3) == 0) {
+					data->color_space = GTH_COLOR_SPACE_ADOBERGB;
+					//g_print ("  ADOBE RGB\n");
+					remaining_tags--;
+				}
+				else if (strncmp (string_data, "R98", 3) == 0) {
+					data->color_space = GTH_COLOR_SPACE_SRGB;
+					//g_print ("  SRGB\n");
+					remaining_tags--;
+				}
+				else {
+					data->color_space = GTH_COLOR_SPACE_UNKNOWN;
+					//g_print ("  UNKNOWN\n");
+				}
+				data->valid |= _JPEG_INFO_EXIF_COLOR_SPACE;
+			}
+		}
+
 		if ((flags & _JPEG_INFO_EXIF_COLOR_SPACE) && (tagnum == 0xA001)) { /* ColorSpace */
 			int value;
 
 			if (big_endian) {
+				// Number of components: 1
+				if (exif_data[offset + 4] != 0)
+					return FALSE;
+				if (exif_data[offset + 5] != 0)
+					return FALSE;
 				if (exif_data[offset + 6] != 0)
 					return FALSE;
-				if (exif_data[offset + 7] != 0)
+				if (exif_data[offset + 7] != 1)
 					return FALSE;
+				// Value: 2 bytes
 				value = (exif_data[offset + 8] << 8) + exif_data[offset + 9];
 			}
 			else {
+				// Number of components: 1
+				if (exif_data[offset + 4] != 1)
+					return FALSE;
+				if (exif_data[offset + 5] != 0)
+					return FALSE;
 				if (exif_data[offset + 6] != 0)
 					return FALSE;
 				if (exif_data[offset + 7] != 0)
 					return FALSE;
-				value = (exif_data[offset + 9] << 8) + exif_data[offset + 8];
+				// Value: 2 bytes
+				value = exif_data[offset + 8] + (exif_data[offset + 9] << 8);
 			}
 
-			//g_print ("  COLORSPACE: %d\n", value);
+			//g_print ("  COLORSPACE: %04x\n", value);
 
-			if (value == 1)
+			if (value == 1) {
 				data->color_space = GTH_COLOR_SPACE_SRGB;
-			else if (value == 0xFFFF)
+				remaining_tags--;
+			}
+			else if (value == 2) { // Not standard.
+				data->color_space = GTH_COLOR_SPACE_ADOBERGB;
+				remaining_tags--;
+			}
+			else if (value == 0xFFFF) {
 				data->color_space = GTH_COLOR_SPACE_UNCALIBRATED;
-			else
+			}
+			else {
 				data->color_space = GTH_COLOR_SPACE_UNKNOWN;
+			}
 			data->valid |= _JPEG_INFO_EXIF_COLOR_SPACE;
-
-			remaining_tags--;
 		}
 
 		if (remaining_tags == 0)
 			break;
 
-		// ExifOffset
-		if (tagnum == 0x8769) {
+		//g_print ("number_of_tags: %d\n", number_of_tags);
+
+		// ExifOffset or InteropOffset
+		if ((tagnum == 0x8769) || (tagnum == 0xA005)) {
 			if (big_endian) {
-				if (exif_data[offset+6] != 0)
+				// Data format: 4 (unsigned long)
+				if (exif_data[offset + 2] != 0)
 					return FALSE;
-				if (exif_data[offset+7] != 0)
+				if (exif_data[offset + 3] != 4)
 					return FALSE;
-				offset = (exif_data[offset + 8] << 8) + exif_data[offset + 9];
+				// Number of components: 1
+				if (exif_data[offset + 4] != 0)
+					return FALSE;
+				if (exif_data[offset + 5] != 0)
+					return FALSE;
+				if (exif_data[offset + 6] != 0)
+					return FALSE;
+				if (exif_data[offset + 7] != 1)
+					return FALSE;
+				// Offset: 4 bytes
+				offset = (exif_data[offset + 8] << 24)
+					+ (exif_data[offset + 9] << 16)
+					+ (exif_data[offset + 10] << 8)
+					+ exif_data[offset + 11];
 			}
 			else {
+				// Data format: 4 (unsigned long)
+				if (exif_data[offset + 2] != 4)
+					return FALSE;
+				if (exif_data[offset + 3] != 0)
+					return FALSE;
+				// Number of components: 1
+				if (exif_data[offset + 4] != 1)
+					return FALSE;
+				if (exif_data[offset + 5] != 0)
+					return FALSE;
 				if (exif_data[offset + 6] != 0)
 					return FALSE;
 				if (exif_data[offset + 7] != 0)
 					return FALSE;
-				offset = (exif_data[offset + 9] << 8) + exif_data[offset + 8];
+				// Offset: 4 bytes
+				offset = exif_data[offset + 8]
+					+ (exif_data[offset + 9] << 8)
+					+ (exif_data[offset + 10] << 16)
+					+ (exif_data[offset + 11] << 24);
 			}
 			//g_print ("  EXIFOFFSET: %u\n", offset);
 			if (offset > 0) {
@@ -327,25 +496,7 @@ read_ifd:
 
 		offset += 12;
 		if (--number_of_tags == 0) {
-			// Offset to IFD1
-			//if (big_endian) {
-			//	if (exif_data[offset] != 0)
-			//		return FALSE;
-			//	if (exif_data[offset+1] != 0)
-			//		return FALSE;
-			//	offset = (exif_data[offset+2] << 8) + exif_data[offset+3];
-			//}
-			//else {
-			//	if (exif_data[offset] != 0)
-			//		return FALSE;
-			//	if (exif_data[offset+1] != 0)
-			//		return FALSE;
-			//	offset = (exif_data[offset+3] << 8) + exif_data[offset+2];
-			//}
-			//if (offset > 0) {
-			//	g_print ("  NEW OFFSET: %u\n", offset);
-			//	goto read_ifd;
-			//}
+			// Offset to IFD1 (4 bytes) (ignored)
 			return FALSE;
 		}
 	}

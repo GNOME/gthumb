@@ -138,7 +138,8 @@ typedef enum /*< skip >*/ {
 typedef enum /*< skip >*/ {
 	GTH_COLOR_SPACE_UNKNOWN,
 	GTH_COLOR_SPACE_SRGB,
-	GTH_COLOR_SPACE_UNCALIBRATED
+	GTH_COLOR_SPACE_ADOBERGB,
+	GTH_COLOR_SPACE_UNCALIBRATED,
 } GthColorSpace;
 
 
