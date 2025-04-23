@@ -56,5 +56,9 @@ gboolean	_jpeg_info_get_from_buffer		(guchar			 *in_buffer,
 							 gsize			  in_buffer_size,
 							 JpegInfoFlags		  flags,
 							 JpegInfoData		 *data);
+gboolean	_read_exif_data_tags			(guchar			 *exif_data,
+							 gsize			  exif_data_size,
+							 JpegInfoFlags		  flags,
+							 JpegInfoData		 *data);
 
 #endif /* JPEG_INFO_H */

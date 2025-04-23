@@ -25,6 +25,7 @@
 #include <lcms2.h>
 #endif
 #include <gthumb.h>
+#include <extensions/jpeg_utils/jpeg-info.h> // For reading the color profile in EXIF data
 #include "cairo-image-surface-png.h"
 
 /* starting from libpng version 1.5 it is not possible
@@ -285,6 +286,8 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 		png_bytep      icc_data;
 		png_uint_32    icc_data_size;
 		double         gamma;
+		png_bytep      exif_data;
+		png_uint_32    exif_data_size;
 
 		if (png_get_sRGB (cairo_png_data->png_ptr,
 				  cairo_png_data->png_info_ptr,
@@ -308,7 +311,26 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 		{
 			profile = gth_icc_profile_new_srgb_with_gamma (1.0 / gamma);
 		}
-
+#ifdef PNG_eXIf_SUPPORTED
+		else if (png_get_eXIf_1 (cairo_png_data->png_ptr,
+					 cairo_png_data->png_info_ptr,
+					 &exif_data_size,
+					 &exif_data))
+		{
+			JpegInfoData jpeg_info;
+			_jpeg_info_data_init (&jpeg_info);
+			if (_read_exif_data_tags (exif_data, exif_data_size, _JPEG_INFO_EXIF_COLOR_SPACE, &jpeg_info)) {
+				if (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE) {
+					if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB) {
+						profile = gth_icc_profile_new_srgb ();
+					}
+					else if (jpeg_info.color_space == GTH_COLOR_SPACE_ADOBERGB) {
+						profile = gth_icc_profile_new_adobergb ();
+					}
+				}
+			}
+		}
+#endif
 		if (profile != NULL) {
 			gth_image_set_icc_profile (image, profile);
 			g_object_unref (profile);

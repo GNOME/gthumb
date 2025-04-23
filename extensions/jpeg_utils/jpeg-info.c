@@ -116,14 +116,45 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 				   JpegInfoFlags  flags,
 				   JpegInfoData	 *data)
 {
-	int       pos;
-	guint     length;
-	gboolean  big_endian;
-	guchar   *exif_data;
-	guint     offset, number_of_tags, tagnum;
-	int       remaining_tags;
-
 	//g_print ("> _jpeg_exif_tags_from_app1_segment\n");
+
+	/* Length includes itself, so must be at least 2 */
+	/* Following Exif data length must be at least 6 */
+
+	if (app1_segment_size < 6)
+		return FALSE;
+
+	/* Read Exif head, check for "Exif" */
+
+	int pos = 0;
+	if ((in_buffer[pos++] != 'E')
+	    || (in_buffer[pos++] != 'x')
+	    || (in_buffer[pos++] != 'i')
+	    || (in_buffer[pos++] != 'f')
+	    || (in_buffer[pos++] != 0)
+	    || (in_buffer[pos++] != 0))
+	{
+		return FALSE;
+	}
+
+	guchar *exif_data = in_buffer + pos;
+	gsize exif_data_size = app1_segment_size - pos;
+	return _read_exif_data_tags (exif_data, exif_data_size, flags, data);
+}
+
+gboolean
+_read_exif_data_tags (guchar		 *exif_data,
+		      gsize		  exif_data_size,
+		      JpegInfoFlags	  flags,
+		      JpegInfoData	 *data)
+{
+	gboolean big_endian;
+	guint    offset, number_of_tags, tagnum;
+	int      remaining_tags;
+
+	// Length of an IFD entry
+	if (exif_data_size < 12)
+		return FALSE;
 
 	remaining_tags = 0;
 	if (flags & _JPEG_INFO_EXIF_ORIENTATION) {
@@ -140,34 +171,6 @@ _jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
 	}
 	if (remaining_tags == 0)
 		return TRUE;
-
-	/* Length includes itself, so must be at least 2 */
-	/* Following Exif data length must be at least 6 */
-
-	length = app1_segment_size;
-	if (length < 6)
-		return FALSE;
-
-	pos = 0;
-
-	/* Read Exif head, check for "Exif" */
-
-	if ((in_buffer[pos++] != 'E')
-	    || (in_buffer[pos++] != 'x')
-	    || (in_buffer[pos++] != 'i')
-	    || (in_buffer[pos++] != 'f')
-	    || (in_buffer[pos++] != 0)
-	    || (in_buffer[pos++] != 0))
-	{
-		return FALSE;
-	}
-
-	/* Length of an IFD entry */
-
-	if (length < 12)
-		return FALSE;
-
-	exif_data = in_buffer + pos;
 
 	/* Discover byte order */
 
@@ -214,7 +217,7 @@ read_ifd:
 
 	//g_print ("\n");
 	//g_print ("  OFFSET: %d, LENGTH: %d\n", offset, length);
-	if (offset > length - 2) /* check end of data segment */
+	if (offset > (gssize) exif_data_size - 2) /* check end of data segment */
 		return FALSE;
 
 	/* Get the number of directory entries contained in this IFD */
@@ -233,7 +236,7 @@ read_ifd:
 	for (;;) {
 		//g_print ("> OFFSET: %d\n", offset);
 
-		if (offset > length - 12) /* check end of data segment (entry size is 12) */
+		if (offset > (gssize) exif_data_size - 12) /* check end of data segment (entry size is 12) */
 			return FALSE;
 
 		//g_print ("  DATA: x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x x%02x\n",
@@ -364,7 +367,7 @@ read_ifd:
 			//g_print ("  string_length: %d\n", string_length);
 			if ((string_offset >= 0)
 				&& (string_length >= 4)
-				&& (string_offset + string_length < length)
+				&& (string_offset + string_length < exif_data_size)
 				&& (exif_data[string_offset + string_length] == 0))
 			{
 				const char *string_data = (char *) exif_data + string_offset;
