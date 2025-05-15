@@ -19,7 +19,11 @@ add_project_arguments([
 ], language: 'c')
 
 sources = files(
+  'Application.vala',
   'Main.vala',
+  'Settings.vala',
+  'Uri.vala',
+  'Window.vala',
 )
 
 executable(
