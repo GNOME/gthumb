@@ -1,0 +1,6 @@
+const string GETTEXT_PACKAGE = @GETTEXT_PACKAGE@;
+const string LOCALEDIR = @LOCALEDIR@;
+const string DOMAIN = @DOMAIN@;
+const string G_LOG_DOMAIN = @G_LOG_DOMAIN@;
+const string VERSION = @VERSION@;
+const string PREFIX = @PREFIX@;

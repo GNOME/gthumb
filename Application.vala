@@ -1,70 +1,8 @@
-static bool arg_version = false;
-static bool arg_new_window = false;
-static bool arg_fullscreen = false;
-static bool arg_slideshow = false;
-static bool arg_import_photos = false;
-[CCode (array_length = false, array_null_terminated = true)]
-static string[]? remaining_args = null;
-
-const GLib.OptionEntry[] Options = {
-	{
-		"version",
-		'v',
-		OptionFlags.NONE,
-		OptionArg.NONE,
-		ref arg_version,
-		"Show the application version",
-		null
-	},
-	{
-		"new-window",
-		'n',
-		OptionFlags.NONE,
-		OptionArg.NONE,
-		ref arg_new_window,
-		"Open a new window",
-		null
-	},
-	{
-		"fullscreen",
-		'f',
-		OptionFlags.NONE,
-		OptionArg.NONE,
-		ref arg_fullscreen,
-		"Open a new window",
-		null
-	},
-	{
-		"slideshow",
-		's',
-		OptionFlags.NONE,
-		OptionArg.NONE,
-		ref arg_slideshow,
-		"Automatically start a presentation",
-		null
-	},
-	{
-		"import-photos",
-		'i',
-		OptionFlags.NONE,
-		OptionArg.NONE,
-		ref arg_import_photos,
-		"Automatically import digital camera photos",
-		null
-	},
-	{
-		GLib.OPTION_REMAINING,
-		0,
-		OptionFlags.NONE,
-		OptionArg.STRING_ARRAY,
-		ref remaining_args,
-		null,
-		"[FILE…] [DIRECTORY…]"
-	},
-	{ null }
-};
-
-public class Gth.Application : Gtk.Application {
+public class Gth.Application : Adw.Application {
+	public HashTable<string, Gth.TestInfo?> tests;
+	public GenericArray<Gth.TestInfo?> ordered_tests;
+	public HashTable<string, Gth.SortInfo?> sorters;
+	public Gth.FilterFile filter_file;
 	public bool restart;
 	public bool quitting;
 
@@ -76,20 +14,136 @@ public class Gth.Application : Gtk.Application {
 		);
 		restart = false;
 		quitting = false;
+
+		tests = new HashTable<string, Gth.TestInfo?>(str_hash, str_equal);
+		ordered_tests = new GenericArray<Gth.TestInfo?>();
+		register_test (typeof (Gth.TestFileTypeRegular));
+		register_test (typeof (Gth.TestFileTypeImage));
+		register_test (typeof (Gth.TestFileTypeJpeg));
+		register_test (typeof (Gth.TestFileTypeRaw));
+		register_test (typeof (Gth.TestFileTypeVideo));
+		register_test (typeof (Gth.TestFileTypeAudio));
+		register_test (typeof (Gth.TestFileTypeMedia));
+		register_test (typeof (Gth.TestFileTypeText));
+		register_test (typeof (Gth.TestFileName));
+		register_test (typeof (Gth.TestFileSize));
+		register_test (typeof (Gth.TestFileModifiedTime));
+		register_test (typeof (Gth.TestTimeOriginal));
+		register_test (typeof (Gth.TestTitleEmbedded));
+		register_test (typeof (Gth.TestDescriptionEmbedded));
+		register_test (typeof (Gth.TestRating));
+		register_test (typeof (Gth.TestTagEmbedded));
+		register_test (typeof (Gth.TestAspectRatio));
+
+		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
+		register_sorter ({ "file::name", _("file name"), "standard::display-name", SortFunc.cmp_basename });
+		register_sorter ({ "file::path", _("file path"), "standard::display-name", SortFunc.cmp_uri });
+		register_sorter ({ "file::size", _("file size"), "standard::size", SortFunc.cmp_size });
+		register_sorter ({ "file::mtime", _("file modified date"), "time::modified,time::modified-usec", SortFunc.cmp_modified_time });
+		register_sorter ({ "general::unsorted", _("no sorting"), "", null });
+		register_sorter ({ "general::dimensions", _("dimensions"), "frame::width,frame::height", SortFunc.cmp_frame_dimensions });
+		register_sorter ({ "frame::aspect-ratio", _("aspect ratio"), "frame::width,frame::height", SortFunc.cmp_aspect_ratio });
+	}
+
+	public void register_sorter (Gth.SortInfo sorter) {
+		sorters.insert (sorter.id, sorter);
+	}
+
+	public Gth.SortInfo? get_sorter_by_id (string id) {
+		return sorters[id];
+	}
+
+	public void register_test (GLib.Type test_type) {
+		var test = Object.new (test_type) as Gth.Test;
+		var test_info = Gth.TestInfo () {
+			id = test.id,
+			display_name = test.display_name,
+			test_type = test_type
+		};
+		tests.insert (test_info.id, test_info);
+		ordered_tests.add (test_info);
+	}
+
+	public Gth.TestInfo? get_test_by_id (string id) {
+		return tests[id];
 	}
 
 	public override void startup () {
 		base.startup ();
-		var gtk_settings = Gtk.Settings.get_default ();
-		gtk_settings.gtk_application_prefer_dark_theme = true;
+		init_settings ();
 	}
 
+	bool arg_version = false;
+	bool arg_new_window = false;
+	bool arg_fullscreen = false;
+	bool arg_slideshow = false;
+	bool arg_import_photos = false;
+	[CCode (array_length = false, array_null_terminated = true)]
+	string[]? remaining_args = null;
+
 	OptionContext get_command_line_option_context () {
-		var context = new OptionContext ("— Image browser and viewer");
+		GLib.OptionEntry[] option_entries = {
+			{
+				"version",
+				'v',
+				OptionFlags.NONE,
+				OptionArg.NONE,
+				ref arg_version,
+				N_("Show the application version"),
+				null
+			},
+			{
+				"new-window",
+				'n',
+				OptionFlags.NONE,
+				OptionArg.NONE,
+				ref arg_new_window,
+				N_("Open a new window"),
+				null
+			},
+			{
+				"fullscreen",
+				'f',
+				OptionFlags.NONE,
+				OptionArg.NONE,
+				ref arg_fullscreen,
+				N_("Open a new window"),
+				null
+			},
+			{
+				"slideshow",
+				's',
+				OptionFlags.NONE,
+				OptionArg.NONE,
+				ref arg_slideshow,
+				N_("Automatically start a presentation"),
+				null
+			},
+			{
+				"import-photos",
+				'i',
+				OptionFlags.NONE,
+				OptionArg.NONE,
+				ref arg_import_photos,
+				N_("Automatically import digital camera photos"),
+				null
+			},
+			{
+				GLib.OPTION_REMAINING,
+				0,
+				OptionFlags.NONE,
+				OptionArg.STRING_ARRAY,
+				ref remaining_args,
+				null,
+				N_("[FILE…] [DIRECTORY…]")
+			},
+			{ null }
+		};
+		var context = new OptionContext (_("— Image browser and viewer"));
 		context.set_help_enabled (true);
-		//context.set_translation_domain (GETTEXT_PACKAGE);
+		context.set_translation_domain (GETTEXT_PACKAGE);
 		context.set_ignore_unknown_options (true);
-		context.add_main_entries (Options, null);
+		context.add_main_entries (option_entries, null);
 
 		//static size_t initialized = false;
 		//if (Once.init_enter (ref initialized)) {
@@ -157,6 +211,13 @@ public class Gth.Application : Gtk.Application {
 		// At least a location was specified.
 		// TODO
 		return 0;
+	}
+
+	void init_settings () {
+		var gtk_settings = Gtk.Settings.get_default ();
+		gtk_settings.gtk_application_prefer_dark_theme = true;
+
+		filter_file = new Gth.FilterFile ();
 	}
 
 	void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
