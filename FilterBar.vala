@@ -7,16 +7,7 @@ public class Gth.FilterBar : Gtk.Box {
 		margin_start = CONTAINER_H_PADDING;
 		margin_end = CONTAINER_H_PADDING;
 
-		visible_filters = new GenericArray<Gth.Test>();
-		var no_filter = new Gth.Test ();
-		no_filter.id = "";
-		no_filter.display_name = _("All Files");
-		visible_filters.add (no_filter);
-		foreach (unowned var filter in app.filter_file.filters) {
-			if (filter.visible) {
-				visible_filters.add (filter.duplicate ());
-			}
-		}
+		visible_filters = app.get_visible_filters ();
 
 		// Label
 
@@ -28,10 +19,12 @@ public class Gth.FilterBar : Gtk.Box {
 		var filter_actions = new Menu ();
 
 		var filter_section = new Menu ();
-		foreach (unowned var filter in visible_filters) {
+		var iter = new ListModelIterator (visible_filters);
+		while (iter.next ()) {
+			unowned var filter = iter.get () as Gth.Test;
 			filter_section.append (filter.display_name, "win.set-filter('%s')".printf (filter.id));
 		}
-		// Translators: this is a verb. For example: Show images.
+		// Translators: this is a verb. For example: Show Images.
 		filter_actions.append_section (_("Show"), filter_section);
 
 		filter_section = new Menu ();
@@ -40,9 +33,10 @@ public class Gth.FilterBar : Gtk.Box {
 		filter_actions.append_section (null, filter_section);
 
 		filter_selector = new Gtk.MenuButton ();
+		filter_selector.always_show_arrow = true;
+		filter_selector.menu_model = filter_actions;
 		filter_label = new Gtk.Label ("");
 		filter_selector.child = filter_label;
-		filter_selector.set_menu_model (filter_actions);
 
 		// Test options container.
 
@@ -97,7 +91,7 @@ public class Gth.FilterBar : Gtk.Box {
 	}
 
 	void set_selected (int idx) {
-		var filter = visible_filters[idx];
+		var filter = visible_filters.get_item (idx) as Gth.Test;
 		if (filter == null)
 			return;
 
@@ -116,11 +110,12 @@ public class Gth.FilterBar : Gtk.Box {
 	}
 
 	bool find_filter_by_id (string test_id, out Test test, out int test_idx) {
-		for (var idx = 0; idx < visible_filters.length; idx++) {
-			var filter = visible_filters[idx];
+		var iter = new ListModelIterator (visible_filters);
+		while (iter.next ()) {
+			unowned var filter = iter.get () as Gth.Test;
 			if (filter.id == test_id) {
 				test = filter;
-				test_idx = idx;
+				test_idx = iter.index ();
 				return true;
 			}
 		}
@@ -132,5 +127,5 @@ public class Gth.FilterBar : Gtk.Box {
 	Gtk.MenuButton filter_selector;
 	Gtk.Box options_container;
 	Gtk.Label filter_label;
-	GenericArray<Gth.Test> visible_filters;
+	ListStore visible_filters;
 }

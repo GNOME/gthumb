@@ -37,16 +37,30 @@ config_file = configure_file(
   configuration : config
 )
 
+gnome = import('gnome')
+resources_files = gnome.compile_resources('resources',
+  'App.gresource.xml',
+  c_name: 'resources',
+  source_dir: [
+    'data/icons/actions',
+    'data/css',
+    'data/ui',
+  ],
+)
+
 source_files = files(
   'Application.vala',
   'DateTime.vala',
   'DefaultTests.vala',
+  'Dialogs/PersonalizeFilters.vala',
+  'Dialogs/FilterEditorPage.vala',
   'Dom.vala',
   'FileData.vala',
   'Files.vala',
   'Filter.vala',
   'FilterBar.vala',
   'FilterFile.vala',
+  'ListModelIterator.vala',
   'Main.vala',
   'Metadata.vala',
   'Settings.vala',
@@ -64,6 +78,7 @@ source_files = files(
   'Uri.vala',
   'UserDir.vala',
   'Util.vala',
+  'Widgets.vala',
   'Window.vala',
 )
 
@@ -71,6 +86,7 @@ executable(
   'thumb',
   sources: [
     config_file,
+    resources_files,
     source_files,
   ],
   dependencies: dependencies

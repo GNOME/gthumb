@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/app/gthumb/gthumb/icons/scalable/actions/">
+    <file preprocess="xml-stripblanks">edit-item-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">delete-item-symbolic.svg</file>
+  </gresource>
+  <!--gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
+  </gresource-->
+  <gresource prefix="/app/gthumb/gthumb/css">
+    <file>style.css</file>
+  </gresource>
+  <gresource prefix="/app/gthumb/gthumb/ui">
+    <file preprocess="xml-stripblanks">personalize-filters.ui</file>
+    <file preprocess="xml-stripblanks">filter-editor-page.ui</file>
+  </gresource>
+</gresources>

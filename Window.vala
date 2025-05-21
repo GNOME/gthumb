@@ -1,4 +1,4 @@
-public class Gth.Window : Gtk.ApplicationWindow {
+public class Gth.Window : Adw.ApplicationWindow {
 	public enum Page {
 		NONE = 0,
 		BROWSER,
@@ -13,8 +13,8 @@ public class Gth.Window : Gtk.ApplicationWindow {
 
 		var action = new SimpleAction ("edit-filters", null);
 		action.activate.connect (() => {
-			// TODO
-			stdout.printf ("=> edit-filters\n");
+			var dialog = new Gth.PersonalizeFilters ();
+			dialog.present (this);
 		});
 		action_group.add_action (action);
 
@@ -26,21 +26,28 @@ public class Gth.Window : Gtk.ApplicationWindow {
 		action_group.add_action (action);
 	}
 
+	HashTable<string, Gtk.Window> named_dialogs;
+
 	public Window (Gtk.Application _app, File location, File? file_to_select) {
 		Object (application: app);
 		browser_settings = new GLib.Settings (GTHUMB_BROWSER_SCHEMA);
+
+		named_dialogs = new HashTable<string, Gtk.Window>(str_hash, str_equal);
 		init_actions ();
-
-		// Headerbar
-
-		header_bar = new Gtk.HeaderBar ();
-		set_titlebar (header_bar);
 
 		// Content
 
+		var toolbar_view = new Adw.ToolbarView ();
+		content = toolbar_view;
+
+		var header_bar = new Adw.HeaderBar ();
+		toolbar_view.add_top_bar (header_bar);
+
+		// Pages
+
 		main_stack = new Gtk.Stack ();
 		main_stack.transition_type = Gtk.StackTransitionType.CROSSFADE;
-		child = main_stack;
+		toolbar_view.content = main_stack;
 
 		browser_page = build_browser_page ();
 		main_stack.add_child (browser_page);
@@ -62,6 +69,7 @@ public class Gth.Window : Gtk.ApplicationWindow {
 
 		// Load the location.
 
+		title = "Thumbnails";
 		Util.next_tick (() => {
 			filter_bar.load_active_filter ();
 			if (file_to_select != null)
@@ -95,6 +103,18 @@ public class Gth.Window : Gtk.ApplicationWindow {
 		update_sensitivity ();
 	}
 
+	public void set_named_dialog (string name, Gtk.Window dialog) {
+		dialog.close_request.connect (() => {
+			named_dialogs[name] = null;
+			return false;
+		});
+		named_dialogs[name] = dialog;
+	}
+
+	public Gtk.Window get_named_dialog (string name) {
+		return named_dialogs[name];
+	}
+
 	void update_title () {
 		// TODO
 		title = "gThumb";
@@ -119,7 +139,6 @@ public class Gth.Window : Gtk.ApplicationWindow {
 	}
 
 	GLib.Settings browser_settings;
-	Gtk.HeaderBar header_bar;
 	Gtk.Stack main_stack;
 	Gtk.Widget browser_page;
 	Gtk.Widget viewer_page;

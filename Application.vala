@@ -1,6 +1,6 @@
 public class Gth.Application : Adw.Application {
-	public HashTable<string, Gth.TestInfo?> tests;
-	public GenericArray<Gth.TestInfo?> ordered_tests;
+	public HashTable<string, Gth.Test> tests;
+	public ListStore ordered_tests;
 	public HashTable<string, Gth.SortInfo?> sorters;
 	public Gth.FilterFile filter_file;
 	public bool restart;
@@ -15,8 +15,8 @@ public class Gth.Application : Adw.Application {
 		restart = false;
 		quitting = false;
 
-		tests = new HashTable<string, Gth.TestInfo?>(str_hash, str_equal);
-		ordered_tests = new GenericArray<Gth.TestInfo?>();
+		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
+		ordered_tests = new ListStore (typeof (Gth.Test));
 		register_test (typeof (Gth.TestFileTypeRegular));
 		register_test (typeof (Gth.TestFileTypeImage));
 		register_test (typeof (Gth.TestFileTypeJpeg));
@@ -55,17 +55,48 @@ public class Gth.Application : Adw.Application {
 
 	public void register_test (GLib.Type test_type) {
 		var test = Object.new (test_type) as Gth.Test;
-		var test_info = Gth.TestInfo () {
-			id = test.id,
-			display_name = test.display_name,
-			test_type = test_type
-		};
-		tests.insert (test_info.id, test_info);
-		ordered_tests.add (test_info);
+		tests.insert (test.id, test);
+		ordered_tests.append (test);
 	}
 
-	public Gth.TestInfo? get_test_by_id (string id) {
+	public Gth.Test? get_test_by_id (string id) {
 		return tests[id];
+	}
+
+	public ListStore get_visible_filters () {
+		var filters = new ListStore (typeof (Gth.Test));
+
+		var no_filter = new Gth.Test ();
+		no_filter.id = "";
+		no_filter.display_name = _("All Files");
+		filters.append (no_filter);
+
+		var iter = new ListModelIterator (filter_file.filters);
+		while (iter.next ()) {
+			unowned var filter = iter.get () as Gth.Test;
+			if (filter.visible) {
+				filters.append (filter.duplicate ());
+			}
+		}
+		return filters;
+	}
+
+	public ListStore get_file_type_filters () {
+		var filters = new ListStore (typeof (Gth.Test));
+
+		//var no_filter = new Gth.Test ();
+		//no_filter.id = "";
+		//no_filter.display_name = _("All Files");
+		//filters.append (no_filter);
+
+		var iter = new ListModelIterator (ordered_tests);
+		while (iter.next ()) {
+			unowned var filter = iter.get () as Gth.Test;
+			if (filter.id.has_prefix ("file::type::")) {
+				filters.append (filter.duplicate ());
+			}
+		}
+		return filters;
 	}
 
 	public override void startup () {
@@ -214,8 +245,12 @@ public class Gth.Application : Adw.Application {
 	}
 
 	void init_settings () {
-		var gtk_settings = Gtk.Settings.get_default ();
-		gtk_settings.gtk_application_prefer_dark_theme = true;
+		var css_provider = new Gtk.CssProvider ();
+		Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+		css_provider.load_from_resource ("/app/gthumb/gthumb/css/style.css");
+
+		var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
+		icon_theme.add_resource_path ("/app/gthumb/gthumb/icons");
 
 		filter_file = new Gth.FilterFile ();
 	}

@@ -1,15 +1,17 @@
 public class Gth.FilterFile {
-	public GenericArray<Gth.Test> filters;
+	public ListStore filters;
 
 	public FilterFile () {
-		filters = new GenericArray<Gth.Test>();
+		filters = new ListStore (typeof (Gth.Test));
 		load ();
 	}
 
 	public int find_test (Test test) {
-		for (var i = 0; i < filters.length; i++) {
-			if (filters[i].id == test.id) {
-				return i;
+		var iter = new ListModelIterator (filters);
+		while (iter.next ()) {
+			var filter = iter.get () as Gth.Test;
+			if (filter.id == test.id) {
+				return iter.index ();
 			}
 		}
 		return -1;
@@ -22,26 +24,26 @@ public class Gth.FilterFile {
 	public void add (Test test) {
 		var idx = find_test (test);
 		if (idx >= 0) {
-			filters[idx] = test;
+			filters.insert (idx, test);
 		}
 		else {
-			filters.add (test);
+			filters.append (test);
 		}
 	}
 
 	public void remove (Test test) {
 		var idx = find_test (test);
 		if (idx >= 0) {
-			filters.remove_index (idx);
+			filters.remove (idx);
 		}
 	}
 
 	public void clear () {
-		filters = new GenericArray<Gth.Test>();
+		filters.remove_all ();
 	}
 
 	public bool load () {
-		filters = new GenericArray<Gth.Test>();
+		filters.remove_all ();
 		var file = Gth.UserDir.get_app_file (Gth.UserDirType.CONFIG, Gth.FileIntent.READ, FILTERS_FILE);
 		if (file == null) {
 			return false;
@@ -55,18 +57,16 @@ public class Gth.FilterFile {
 					if (node.tag_name == "filter") {
 						var filter = new Gth.Filter ();
 						filter.load_from_element (node);
-						filters.add (filter);
+						filters.append (filter);
 					}
 					else if (node.tag_name == "test") {
 						unowned var id = node.get_attribute ("id");
 						if (id != null) {
-							var test_info = app.get_test_by_id (id);
-							if (test_info != null) {
-								var test = Object.new (test_info.test_type) as Gth.Test;
-								if (test != null) {
-									test.load_from_element (node);
-									filters.add (test);
-								}
+							var registered_test = app.get_test_by_id (id);
+							if (registered_test != null) {
+								var test = Object.new (registered_test.get_type ()) as Gth.Test;
+								test.load_from_element (node);
+								filters.append (test);
 							}
 						}
 					}
@@ -92,7 +92,9 @@ public class Gth.FilterFile {
 		var doc = new Dom.Document ();
 		var root = new Dom.Element.with_attributes ("filters", "version", FILTER_FORMAT);
 		doc.append_child (root);
-		foreach (unowned var filter in filters) {
+		var iter = new ListModelIterator (filters);
+		while (iter.next ()) {
+			var filter = iter.get () as Gth.Test;
 			root.append_child (filter.create_element (doc));
 		}
 		return doc.to_xml ();

@@ -1,4 +1,5 @@
 const int HORIZONTAL_SPACING = 12; // pixels
+const int VERTICAL_SPACING = 12; // pixels
 const int CONTAINER_H_PADDING = 12; // pixels
 const int CONTAINER_V_PADDING = 12; // pixels
 const string FILTERS_FILE = "filters.xml";

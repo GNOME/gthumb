@@ -4,11 +4,8 @@ public class Gth.TestSelector : Gtk.Box {
 		spacing = HORIZONTAL_SPACING;
 
 		// Test selector
-		var names = new Gtk.StringList (null);
-		foreach (unowned var test_info in app.ordered_tests) {
-			names.append (test_info.display_name);
-		}
-		test_selector = new Gtk.DropDown (names, null);
+		var test_name_expr = new Gtk.PropertyExpression (typeof (Gth.Test), null, "display-name");
+		test_selector = new Gtk.DropDown (app.ordered_tests, test_name_expr);
 
 		// Test options container
 		options_container = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -20,10 +17,12 @@ public class Gth.TestSelector : Gtk.Box {
 	public void set_test (Test test) {
 		var test_idx = -1;
 		var idx = 0;
-		var test_type = test.get_class ().get_type ();
-		foreach (unowned var test_info in app.ordered_tests) {
-			if (test_type == test_info.test_type) {
-				test_idx = idx;
+		var test_id = test.id;
+		var iter = new ListModelIterator (app.ordered_tests);
+		while (iter.next ()) {
+			unowned var registered_test = iter.get () as Gth.Test;
+			if (test_id == registered_test.id) {
+				test_idx = iter.index ();
 				break;
 			}
 			idx++;

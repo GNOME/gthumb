@@ -100,13 +100,11 @@ public class Gth.TestChain : Gth.Test {
 			case "test":
 				unowned var id = child.get_attribute ("id");
 				if (id != null) {
-					var test_info = app.get_test_by_id (id);
-					if (test_info != null) {
-						var test = Object.new (test_info.test_type) as Gth.Test;
-						if (test != null) {
-							test.load_from_element (child);
-							tests.add (test);
-						}
+					var registered_test = app.get_test_by_id (id);
+					if (registered_test != null) {
+						var test = registered_test.duplicate ();
+						test.load_from_element (child);
+						tests.add (test);
 					}
 				}
 				break;
