@@ -8,6 +8,7 @@
     <property name="content_height">700</property>
     <child>
       <object class="AdwPreferencesPage">
+
         <!-- Group: main filter  -->
         <child>
           <object class="AdwPreferencesGroup">
@@ -41,7 +42,35 @@
             </property>
           </object>
         </child>
+
       </object>
     </child>
   </template>
+
+  <object class="GthFilterEditorPage" id="filter_page">
+    <signal name="cancelled" handler="on_cancel_filter" />
+    <signal name="save" handler="on_save_filter" />
+    <signal name="choose_rule_type" handler="on_choose_rule_type" />
+  </object>
+
+  <object class="AdwNavigationPage" id="rule_page">
+    <property name="title" translatable="yes">Add Rule</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup"  id="rule_types">
+                <property name="description" translatable="yes">Choose a rule to add to the filter</property>
+                <!-- Dynamic content -->
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </object>
 </interface>

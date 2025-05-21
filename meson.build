@@ -12,7 +12,7 @@ add_project_arguments([
   '--disable-warnings',
 ], language: 'vala')
 
-gettext_package = 'gthumb'
+gettext_package = 'Thumb'
 log_domain = 'Thumb'
 
 add_project_arguments([

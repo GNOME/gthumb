@@ -20,18 +20,14 @@ public class Gth.Filter : Gth.Test {
 	public string sort_name;
 	public Gtk.SortType sort_type;
 
-	Gth.TestChain _test;
-	public Gth.TestChain test {
-		get { return _test; }
-		set {
-			_test = value;
-			attributes = _test.attributes;
-		}
+	Gth.TestChain _tests;
+	public Gth.TestChain tests {
+		get { return _tests; }
 	}
 
-	public Filter () {
+	construct {
 		id = Strings.new_random (ID_LENGTH);
-		_test = null;
+		_tests = new TestChain ();
 		limit_type = LimitType.NONE;
 		limit = 0;
 		sort_name = null;
@@ -69,8 +65,8 @@ public class Gth.Filter : Gth.Test {
 		if (!visible) {
 			node.set_attribute ("display", "none");
 		}
-		if ((_test != null) && (_test.operation != Gth.TestChain.Operation.NONE)) {
-			node.append_child (_test.create_element (doc));
+		if (_tests.operation != Gth.TestChain.Operation.NONE) {
+			node.append_child (_tests.create_element (doc));
 		}
 		if (limit_type != LimitType.NONE) {
 			var limit_node = new Dom.Element ("limit");
@@ -91,8 +87,7 @@ public class Gth.Filter : Gth.Test {
 		foreach (unowned var child in node) {
 			switch (child.tag_name) {
 			case "tests":
-				_test = new TestChain ();
-				_test.load_from_element (child);
+				_tests.load_from_element (child);
 				break;
 
 			case "limit":

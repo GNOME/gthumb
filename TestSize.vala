@@ -1,6 +1,6 @@
 public class Gth.TestSize : Gth.Test {
-	public uint64 number { get; set; default = 0; }
-	public Test.Operation op { get; set; default = Test.Operation.EQUAL; }
+	public uint64 number { get; set; default = 1024 * 1024; }
+	public Test.Operation op { get; set; default = Test.Operation.LOWER; }
 	public bool negative { get; set; default = false; }
 
 	public virtual uint64 get_file_value (FileData file) {

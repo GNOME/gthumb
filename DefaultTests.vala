@@ -17,7 +17,7 @@ public class Gth.TestFileTypeRegular : Gth.TestFileType {
 public class Gth.TestFileTypeImage : Gth.TestFileType {
 	construct {
 		id = "file::type::is_image";
-		display_name = _("All Images");
+		display_name = _("Images");
 		attributes = null;
 	}
 
@@ -53,7 +53,7 @@ public class Gth.TestFileTypeRaw : Gth.TestFileType {
 public class Gth.TestFileTypeVideo : Gth.TestFileType {
 	construct {
 		id = "file::type::is_video";
-		display_name = _("Video Files");
+		display_name = _("Videos");
 		attributes = null;
 	}
 
@@ -104,7 +104,7 @@ public class Gth.TestFileTypeText : Gth.TestFileType {
 public class Gth.TestFileName : Gth.TestString {
 	construct {
 		id = "file::name";
-		display_name = _("Filename");
+		display_name = _("Name");
 		attributes = "standard::display-name";
 	}
 
@@ -116,7 +116,7 @@ public class Gth.TestFileName : Gth.TestString {
 public class Gth.TestFileSize : Gth.TestSize {
 	construct {
 		id = "file::size";
-		display_name = _("Size");
+		display_name = _("Bytes");
 		attributes = "gth::file::size";
 	}
 
@@ -128,7 +128,7 @@ public class Gth.TestFileSize : Gth.TestSize {
 public class Gth.TestFileModifiedTime : Gth.TestDate {
 	construct {
 		id = "file::mtime";
-		display_name = _("File modified date");
+		display_name = _("Modified");
 		attributes = "time::modified,time::modified-usec";
 	}
 
@@ -140,7 +140,7 @@ public class Gth.TestFileModifiedTime : Gth.TestDate {
 public class Gth.TestTimeOriginal : Gth.TestDate {
 	construct {
 		id = "Embedded::Photo::DateTimeOriginal";
-		display_name = _("Date photo was taken");
+		display_name = _("Created (Original)");
 		attributes = "Embedded::Photo::DateTimeOriginal";
 	}
 
@@ -152,7 +152,7 @@ public class Gth.TestTimeOriginal : Gth.TestDate {
 public class Gth.TestTitleEmbedded : Gth.TestString {
 	construct {
 		id = "general::title";
-		display_name = _("Title (embedded)");
+		display_name = _("Title (Embedded)");
 		attributes = "general::title";
 	}
 
@@ -164,7 +164,7 @@ public class Gth.TestTitleEmbedded : Gth.TestString {
 public class Gth.TestDescriptionEmbedded : Gth.TestString {
 	construct {
 		id = "general::description";
-		display_name = _("Description (embedded)");
+		display_name = _("Description (Embedded)");
 		attributes = "general::description";
 	}
 
@@ -188,7 +188,7 @@ public class Gth.TestRating : Gth.TestInt {
 public class Gth.TestTagEmbedded : Gth.Test {
 	construct {
 		id = "general::tags";
-		display_name = _("Tag (embedded)");
+		display_name = _("Tag (Embedded)");
 		attributes = "general::tags";
 	}
 }
@@ -196,7 +196,7 @@ public class Gth.TestTagEmbedded : Gth.Test {
 public class Gth.TestAspectRatio : Gth.Test {
 	construct {
 		id = "frame::aspect-ratio";
-		display_name = _("Aspect ratio");
+		display_name = _("Aspect Ratio");
 		attributes = "frame::width, frame::height";
 	}
 }

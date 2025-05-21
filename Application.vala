@@ -17,32 +17,32 @@ public class Gth.Application : Adw.Application {
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new ListStore (typeof (Gth.Test));
-		register_test (typeof (Gth.TestFileTypeRegular));
-		register_test (typeof (Gth.TestFileTypeImage));
-		register_test (typeof (Gth.TestFileTypeJpeg));
-		register_test (typeof (Gth.TestFileTypeRaw));
-		register_test (typeof (Gth.TestFileTypeVideo));
-		register_test (typeof (Gth.TestFileTypeAudio));
-		register_test (typeof (Gth.TestFileTypeMedia));
-		register_test (typeof (Gth.TestFileTypeText));
 		register_test (typeof (Gth.TestFileName));
 		register_test (typeof (Gth.TestFileSize));
 		register_test (typeof (Gth.TestFileModifiedTime));
+		register_test (typeof (Gth.TestFileTypeRegular));
+		register_test (typeof (Gth.TestFileTypeMedia));
+		register_test (typeof (Gth.TestFileTypeImage));
+		register_test (typeof (Gth.TestFileTypeVideo));
+		register_test (typeof (Gth.TestFileTypeAudio));
+		register_test (typeof (Gth.TestFileTypeJpeg));
+		register_test (typeof (Gth.TestFileTypeRaw));
+		//register_test (typeof (Gth.TestFileTypeText));
 		register_test (typeof (Gth.TestTimeOriginal));
 		register_test (typeof (Gth.TestTitleEmbedded));
 		register_test (typeof (Gth.TestDescriptionEmbedded));
-		register_test (typeof (Gth.TestRating));
 		register_test (typeof (Gth.TestTagEmbedded));
+		register_test (typeof (Gth.TestRating));
 		register_test (typeof (Gth.TestAspectRatio));
 
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
-		register_sorter ({ "file::name", _("file name"), "standard::display-name", SortFunc.cmp_basename });
-		register_sorter ({ "file::path", _("file path"), "standard::display-name", SortFunc.cmp_uri });
-		register_sorter ({ "file::size", _("file size"), "standard::size", SortFunc.cmp_size });
-		register_sorter ({ "file::mtime", _("file modified date"), "time::modified,time::modified-usec", SortFunc.cmp_modified_time });
-		register_sorter ({ "general::unsorted", _("no sorting"), "", null });
-		register_sorter ({ "general::dimensions", _("dimensions"), "frame::width,frame::height", SortFunc.cmp_frame_dimensions });
-		register_sorter ({ "frame::aspect-ratio", _("aspect ratio"), "frame::width,frame::height", SortFunc.cmp_aspect_ratio });
+		register_sorter ({ "file::name", _("Name"), "standard::display-name", SortFunc.cmp_basename });
+		register_sorter ({ "file::path", _("Path"), "standard::display-name", SortFunc.cmp_uri });
+		register_sorter ({ "file::size", _("Bytes"), "standard::size", SortFunc.cmp_size });
+		register_sorter ({ "file::mtime", _("Modified"), "time::modified,time::modified-usec", SortFunc.cmp_modified_time });
+		register_sorter ({ "general::unsorted", _("No Sorting"), "", null });
+		register_sorter ({ "general::dimensions", _("Pixels"), "frame::width,frame::height", SortFunc.cmp_frame_dimensions });
+		register_sorter ({ "frame::aspect-ratio", _("Aspect Ratio"), "frame::width,frame::height", SortFunc.cmp_aspect_ratio });
 	}
 
 	public void register_sorter (Gth.SortInfo sorter) {

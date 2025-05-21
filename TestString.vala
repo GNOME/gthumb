@@ -132,13 +132,13 @@ public class Gth.TestString : Gth.Test {
 	}
 
 	static const Test.OperationInfo[] Operations = {
-		{ N_("contains"), Test.Operation.CONTAINS, false },
-		{ N_("starts with"), Test.Operation.STARTS_WITH, false },
-		{ N_("ends with"), Test.Operation.ENDS_WITH, false },
-		{ N_("is"), Test.Operation.EQUAL, false },
-		{ N_("is not"), Test.Operation.EQUAL, true },
-		{ N_("does not contain"), Test.Operation.CONTAINS, true },
-		{ N_("matches"), Test.Operation.MATCHES, false }
+		{ N_("Contains"), Test.Operation.CONTAINS, false },
+		{ N_("Starts with"), Test.Operation.STARTS_WITH, false },
+		{ N_("Ends with"), Test.Operation.ENDS_WITH, false },
+		{ N_("Equal to"), Test.Operation.EQUAL, false },
+		{ N_("Not Equal to"), Test.Operation.EQUAL, true },
+		{ N_("Does not Contain"), Test.Operation.CONTAINS, true },
+		{ N_("Matches"), Test.Operation.MATCHES, false }
 	};
 
 	Gtk.DropDown operation;

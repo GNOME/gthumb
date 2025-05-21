@@ -16,32 +16,45 @@ public class Gth.TestChain : Gth.Test {
 	}
 
 	public Operation operation { get; set; default = Operation.NONE; }
-	public GenericArray<Gth.Test> tests;
+	public ListStore tests;
 
 	public TestChain (Operation _type = Operation.NONE) {
 		operation = _type;
-		tests = new GenericArray<Gth.Test>();
+		tests = new ListStore (typeof (Gth.Test));
 	}
 
 	public void add_test (Gth.Test test) {
 		test.visible = true;
-		tests.add (test);
+		tests.append (test);
+		update_attributes ();
+	}
 
-		// Add the test attributes to this test.
-		var new_attributes = new StringBuilder ();
-		if (!Strings.empty (attributes)) {
-			new_attributes.append (attributes);
+	public void remove_test (Gth.Test test) {
+		uint pos;
+		if (tests.find (test, out pos)) {
+			tests.remove (pos);
+			update_attributes ();
 		}
-		if (!Strings.empty (test.attributes)) {
-			if (new_attributes.len > 0)
-				new_attributes.append (",");
-			new_attributes.append (test.attributes);
+	}
+
+	void update_attributes () {
+		var new_attributes = new StringBuilder ();
+		var iter = new ListModelIterator (tests);
+		while (iter.next ()) {
+			unowned var test = iter.get () as Test;
+			if (!Strings.empty (test.attributes)) {
+				if (new_attributes.len > 0)
+					new_attributes.append (",");
+				new_attributes.append (test.attributes);
+			}
 		}
 		attributes = new_attributes.str;
 	}
 
 	public bool has_type_test () {
-		foreach (unowned var test in tests) {
+		var iter = new ListModelIterator (tests);
+		while (iter.next ()) {
+			unowned var test = iter.get ();
 			if (test is TestFileType)
 				return true;
 		}
@@ -52,7 +65,9 @@ public class Gth.TestChain : Gth.Test {
 		if (operation == Operation.NONE)
 			return false;
 		var result = (operation == Operation.INTERSECTION) ? true : false;
-		foreach (unowned var test in tests) {
+		var iter = new ListModelIterator (tests);
+		while (iter.next ()) {
+			unowned var test = iter.get () as Gth.Test;
 			if (test.match (file)) {
 				if (operation == Operation.UNION) {
 					result = true;
@@ -83,7 +98,9 @@ public class Gth.TestChain : Gth.Test {
 	public override Dom.Element create_element (Dom.Document doc) {
 		var node = new Dom.Element ("tests");
 		node.set_attribute ("match", operation.to_xml_attribute ());
-		foreach (unowned var test in tests) {
+		var iter = new ListModelIterator (tests);
+		while (iter.next ()) {
+			unowned var test = iter.get () as Gth.Test;
 			node.append_child (test.create_element (doc));
 		}
 		return node;
@@ -94,7 +111,7 @@ public class Gth.TestChain : Gth.Test {
 		if (match != null) {
 			operation = Operation.from_xml_attribute (match);
 		}
-		tests = new GenericArray<Gth.Test>();
+		tests.remove_all ();
 		foreach (unowned var child in node) {
 			switch (child.tag_name) {
 			case "test":
@@ -104,7 +121,7 @@ public class Gth.TestChain : Gth.Test {
 					if (registered_test != null) {
 						var test = registered_test.duplicate ();
 						test.load_from_element (child);
-						tests.add (test);
+						tests.append (test);
 					}
 				}
 				break;
@@ -112,7 +129,7 @@ public class Gth.TestChain : Gth.Test {
 			case "tests":
 				var subchain = new TestChain ();
 				subchain.load_from_element (child);
-				tests.add (subchain);
+				tests.append (subchain);
 				break;
 			}
 		}

@@ -1,6 +1,6 @@
 public class Gth.TestDate : Gth.Test {
 	public Gth.DateTime? date { get; set; default = null; }
-	public Test.Operation op { get; set; default = Test.Operation.EQUAL; }
+	public Test.Operation op { get; set; default = Test.Operation.BEFORE; }
 	public bool negative { get; set; default = false; }
 
 	public virtual Gth.DateTime? get_file_value (FileData file) {
@@ -102,10 +102,10 @@ public class Gth.TestDate : Gth.Test {
 	}
 
 	static const Test.OperationInfo[] DateOperations = {
-		{ N_("is before"), Test.Operation.BEFORE, false },
-		{ N_("is after"), Test.Operation.AFTER, false },
-		{ N_("is"), Test.Operation.EQUAL, false },
-		{ N_("is not"), Test.Operation.EQUAL, true }
+		{ N_("Before"), Test.Operation.BEFORE, false },
+		{ N_("After"), Test.Operation.AFTER, false },
+		{ N_("Equal to"), Test.Operation.EQUAL, false },
+		{ N_("Not Equal to"), Test.Operation.EQUAL, true }
 	};
 
 	Gtk.DropDown operation;

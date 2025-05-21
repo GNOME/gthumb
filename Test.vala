@@ -53,11 +53,11 @@ public class Gth.Test : Object {
 	}
 
 	public static const Test.OperationInfo[] Int_Operations = {
-		{ N_("is lower than"), Test.Operation.LOWER, false },
-		{ N_("is greater than"), Test.Operation.GREATER, false },
-		{ N_("is equal to"), Test.Operation.EQUAL, false },
-		{ N_("is greater than or equal to"), Test.Operation.LOWER, true },
-		{ N_("is lower than or equal to"), Test.Operation.GREATER, true }
+		{ N_("Lower than"), Test.Operation.LOWER, false },
+		{ N_("Greater than"), Test.Operation.GREATER, false },
+		{ N_("Equal to"), Test.Operation.EQUAL, false },
+		{ N_("Greater than or Equal to"), Test.Operation.LOWER, true },
+		{ N_("Lower than or Equal to"), Test.Operation.GREATER, true }
 	};
 
 	public struct SizeInfo {
@@ -115,6 +115,9 @@ public class Gth.Test : Object {
 	public virtual Dom.Element create_element (Dom.Document doc) {
 		var node = new Dom.Element ("test");
 		node.set_attribute("id", id);
+		if (!visible) {
+			node.set_attribute ("display", "none");
+		}
 		return node;
 	}
 

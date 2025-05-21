@@ -149,7 +149,7 @@ public class Util {
 		return new DateTime (new TimeZone.local (), year, month, day, hours, minutes, seconds);
 	}
 
-	public static int enum_index (string[] values, string? value) {
+	public static int enum_index (string[] values, string? value, int default = 0) {
 		if (value != null) {
 			for (var i = 0; i < values.length; i++) {
 				if (value == values[i]) {
@@ -157,6 +157,6 @@ public class Util {
 				}
 			}
 		}
-		return 0;
+		return default;
 	}
 }
