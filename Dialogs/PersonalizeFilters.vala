@@ -26,7 +26,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 		}
 
 		// Filter list
-		var filter_list = Widgets.new_list_box ();
+		var filter_list = Widgets.new_boxed_list ();
 		filter_list.bind_model (app.filter_file.filters, new_filter_row);
 		filters_group.add (filter_list);
 	}
@@ -48,7 +48,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 	[GtkCallback]
 	private void on_choose_rule_type (Gth.FilterEditorPage source) {
 		if (!rules_loaded) {
-			var test_list = Widgets.new_list_box ();
+			var test_list = Widgets.new_boxed_list ();
 			test_list.bind_model (app.ordered_tests, new_test_type_row);
 			rule_types.add (test_list);
 			rules_loaded = true;
