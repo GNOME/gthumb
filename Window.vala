@@ -128,6 +128,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		var expander = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		expander.vexpand = true;
+		expander.add_css_class ("deep-view");
 		box.append (expander);
 
 		filter_bar = new Gth.FilterBar ();
