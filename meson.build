@@ -1,4 +1,4 @@
-project('Thumb', 'vala', 'c')
+project('Thumbnails', 'vala', 'c')
 
 dependencies = [
   dependency('glib-2.0'),
@@ -12,8 +12,8 @@ add_project_arguments([
   '--disable-warnings',
 ], language: 'vala')
 
-gettext_package = 'Thumb'
-log_domain = 'Thumb'
+gettext_package = 'thumbnails'
+log_domain = 'Thumbnails'
 
 add_project_arguments([
   '-w',
@@ -84,7 +84,7 @@ source_files = files(
 )
 
 executable(
-  'thumb',
+  'thumbnails',
   sources: [
     config_file,
     resources_files,
