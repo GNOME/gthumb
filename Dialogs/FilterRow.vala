@@ -5,6 +5,7 @@ public class Gth.FilterRow : Adw.ActionRow {
 	[GtkChild] public Gtk.Switch visibility_switch;
 	[GtkChild] public Gtk.Button edit_button;
 	[GtkChild] public Gtk.Button delete_button;
+	[GtkChild] public Gtk.Box edit_buttons;
 
 	public signal void move_to_row (Gth.FilterRow row);
 	public signal void move_to_top ();
@@ -14,10 +15,7 @@ public class Gth.FilterRow : Adw.ActionRow {
 		filter = _filter;
 		title = filter.display_name;
 		filter.bind_property ("display_name", this, "title", BindingFlags.DEFAULT);
-		if (!(filter is Gth.Filter)) {
-			edit_button.visible = false;
-			delete_button.visible = false;
-		}
+		edit_buttons.visible = (filter is Gth.Filter);
 		visibility_switch.active = filter.visible;
 
 		if (as_icon_content)

@@ -95,7 +95,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 
 	public Filter? get_filter () throws Error {
 		// Name
-		filter.display_name = name_entry.get_text ();
+		filter.display_name = name_entry.get_text ().strip ();
 		if (Strings.empty (filter.display_name)) {
 			name_entry.grab_focus ();
 			throw new IOError.FAILED (_("Name is empty"));

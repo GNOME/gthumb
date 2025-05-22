@@ -11,18 +11,24 @@
       </object>
     </child>
     <child type="suffix">
-      <object class="GtkButton" id="edit_button">
-        <property name="icon-name">edit-item-symbolic</property>
-        <property name="valign">center</property>
-      </object>
-    </child>
-    <child type="suffix">
-      <object class="GtkButton" id="delete_button">
-        <property name="icon-name">delete-item-symbolic</property>
-        <property name="valign">center</property>
-        <style>
-          <class name="destructive-action"/>
-        </style>
+      <object class="GtkBox" id="edit_buttons">
+        <property name="margin-end">6</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkButton" id="edit_button">
+            <property name="icon-name">edit-item-symbolic</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="delete_button">
+            <property name="icon-name">delete-item-symbolic</property>
+            <property name="valign">center</property>
+            <style>
+              <class name="destructive-action"/>
+            </style>
+          </object>
+        </child>
       </object>
     </child>
     <child type="suffix">
