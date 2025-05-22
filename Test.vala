@@ -52,7 +52,7 @@ public class Gth.Test : Object {
 		bool negative;
 	}
 
-	public static const Test.OperationInfo[] Int_Operations = {
+	public const Test.OperationInfo[] Int_Operations = {
 		{ N_("Lower than"), Test.Operation.LOWER, false },
 		{ N_("Greater than"), Test.Operation.GREATER, false },
 		{ N_("Equal to"), Test.Operation.EQUAL, false },

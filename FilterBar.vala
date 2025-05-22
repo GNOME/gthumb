@@ -1,5 +1,9 @@
 public class Gth.FilterBar : Gtk.Box {
+	public Gth.Test filter;
+
 	public FilterBar () {
+		filter = null;
+
 		orientation = Gtk.Orientation.HORIZONTAL;
 		spacing = HORIZONTAL_SPACING;
 		margin_top = CONTAINER_V_PADDING;
@@ -10,10 +14,6 @@ public class Gth.FilterBar : Gtk.Box {
 		visible_filters = app.get_visible_filters ();
 		app.filter_file.changed.connect (() => {
 			update_filter_list ();
-			int test_idx;
-			if (find_filter_by_id ("", null, out test_idx)) {
-				set_selected (test_idx);
-			}
 		});
 
 		// Label
@@ -94,10 +94,11 @@ public class Gth.FilterBar : Gtk.Box {
 	}
 
 	void set_selected (int idx) {
-		var filter = visible_filters.get_item (idx) as Gth.Test;
-		if (filter == null)
+		var _filter = visible_filters.get_item (idx) as Gth.Test;
+		if (_filter == null)
 			return;
 
+		filter = _filter;
 		filter_label.set_text (filter.display_name);
 
 		var prev_options = options_container.get_first_child ();
@@ -128,13 +129,22 @@ public class Gth.FilterBar : Gtk.Box {
 	}
 
 	void update_filter_list () {
+		var selected_id = (filter != null) ? filter.id : null;
+		var selected_idx = -1;
 		filter_section.remove_all ();
 		visible_filters = app.get_visible_filters ();
 		var iter = new ListModelIterator (visible_filters);
 		while (iter.next ()) {
-			unowned var filter = iter.get () as Gth.Test;
-			filter_section.append (filter.display_name, "win.set-filter('%s')".printf (filter.id));
+			unowned var _filter = iter.get () as Gth.Test;
+			filter_section.append (_filter.display_name, "win.set-filter('%s')".printf (_filter.id));
+			if (_filter.id == selected_id) {
+				selected_idx = iter.index ();
+			}
 		}
+		if (selected_idx == -1) {
+			selected_id = "";
+		}
+		select_window_filter (selected_id);
 	}
 
 	Gtk.MenuButton filter_selector;

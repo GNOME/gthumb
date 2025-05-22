@@ -131,7 +131,7 @@ public class Gth.TestString : Gth.Test {
 		entry.grab_focus ();
 	}
 
-	static const Test.OperationInfo[] Operations = {
+	const Test.OperationInfo[] Operations = {
 		{ N_("Contains"), Test.Operation.CONTAINS, false },
 		{ N_("Starts with"), Test.Operation.STARTS_WITH, false },
 		{ N_("Ends with"), Test.Operation.ENDS_WITH, false },

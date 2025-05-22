@@ -52,11 +52,13 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		}
 		if (filter.limit_type == Gth.Filter.LimitType.FILES) {
 			limits_row.enable_expansion = true;
+			limits_row.expanded = true;
 			files_checkbox.active = true;
 			files_limit.value = filter.limit;
 		}
 		else if (filter.limit_type == Gth.Filter.LimitType.BYTES) {
 			limits_row.enable_expansion = true;
+			limits_row.expanded = true;
 			size_checkbox.active = true;
 
 			var idx = 0;

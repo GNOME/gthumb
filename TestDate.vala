@@ -101,7 +101,7 @@ public class Gth.TestDate : Gth.Test {
 		time_selector.focus ();
 	}
 
-	static const Test.OperationInfo[] DateOperations = {
+	const Test.OperationInfo[] DateOperations = {
 		{ N_("Before"), Test.Operation.BEFORE, false },
 		{ N_("After"), Test.Operation.AFTER, false },
 		{ N_("Equal to"), Test.Operation.EQUAL, false },
