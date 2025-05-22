@@ -66,8 +66,11 @@ public class Gth.Test : Object {
 	}
 
 	public const SizeInfo[] Unit_List = {
+		// Translators: short for kilobytes
 		{ N_("kB"), 1024 },
+		// Translators: short for megabytes
 		{ N_("MB"), 1024*1024 },
+		// Translators: short for gigabytes
 		{ N_("GB"), 1024*1024*1024 },
 	};
 

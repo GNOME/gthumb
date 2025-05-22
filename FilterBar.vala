@@ -8,6 +8,13 @@ public class Gth.FilterBar : Gtk.Box {
 		margin_end = CONTAINER_H_PADDING;
 
 		visible_filters = app.get_visible_filters ();
+		filters_changed_id = app.filter_file.changed.connect (() => {
+			update_filter_list ();
+			int test_idx;
+			if (find_filter_by_id ("", null, out test_idx)) {
+				set_selected (test_idx);
+			}
+		});
 
 		// Label
 
@@ -18,19 +25,15 @@ public class Gth.FilterBar : Gtk.Box {
 
 		var filter_actions = new Menu ();
 
-		var filter_section = new Menu ();
-		var iter = new ListModelIterator (visible_filters);
-		while (iter.next ()) {
-			unowned var filter = iter.get () as Gth.Test;
-			filter_section.append (filter.display_name, "win.set-filter('%s')".printf (filter.id));
-		}
+		filter_section = new Menu ();
+		update_filter_list ();
 		// Translators: this is a verb. For example: Show Images.
 		filter_actions.append_section (_("Show"), filter_section);
 
-		filter_section = new Menu ();
+		var personalize_section = new Menu ();
 		// Translators: the "Personalize filters" command.
-		filter_section.append (_("Personalize…"), "win.edit-filters");
-		filter_actions.append_section (null, filter_section);
+		personalize_section.append (_("Personalize…"), "win.edit-filters");
+		filter_actions.append_section (null, personalize_section);
 
 		filter_selector = new Gtk.MenuButton ();
 		filter_selector.always_show_arrow = true;
@@ -45,6 +48,13 @@ public class Gth.FilterBar : Gtk.Box {
 		//append (selector_label);
 		append (filter_selector);
 		append (options_container);
+	}
+
+	~FilterBar () {
+		if (filters_changed_id != 0) {
+			SignalHandler.disconnect (app.filter_file, filters_changed_id);
+			filters_changed_id = 0;
+		}
 	}
 
 	public void select_filter_by_id (string id) {
@@ -124,8 +134,20 @@ public class Gth.FilterBar : Gtk.Box {
 		return false;
 	}
 
+	void update_filter_list () {
+		filter_section.remove_all ();
+		visible_filters = app.get_visible_filters ();
+		var iter = new ListModelIterator (visible_filters);
+		while (iter.next ()) {
+			unowned var filter = iter.get () as Gth.Test;
+			filter_section.append (filter.display_name, "win.set-filter('%s')".printf (filter.id));
+		}
+	}
+
 	Gtk.MenuButton filter_selector;
 	Gtk.Box options_container;
 	Gtk.Label filter_label;
 	ListStore visible_filters;
+	Menu filter_section;
+	ulong filters_changed_id;
 }

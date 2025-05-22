@@ -12,6 +12,22 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		empty_row.sensitive = false;
 		empty_row.halign = Gtk.Align.CENTER;
 		test_list.set_placeholder (empty_row);
+
+		var sort_names = new Gtk.StringList (null);
+		foreach (unowned var info in Sort_Name) {
+			sort_names.append (info.display_name);
+		}
+		sort_name.model = sort_names;
+
+		var unit_names = new Gtk.StringList (null);
+		foreach (unowned var info in Test.Unit_List) {
+			unit_names.append (info.display_name);
+		}
+		size_unit.model = unit_names;
+	}
+
+	void update_visibility () {
+		match_operation_group.visible = (filter != null) && (filter.tests.tests.get_n_items () > 1);
 	}
 
 	public void set_filter (Gth.Filter? current_filter) {
@@ -20,18 +36,29 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		}
 		else {
 			filter = new Gth.Filter ();
+			filter.visible = true;
 		}
+
+		filter.tests.tests.items_changed.connect ((_position, _removed, _added) => {
+			update_visibility ();
+		});
+		update_visibility ();
+
 		name_entry.set_text (filter.display_name);
 		test_list.bind_model (filter.tests.tests, new_test_row);
-		if (filter.tests.operation == Gth.TestChain.Operation.INTERSECTION)
-			match_all.active = true;
-		else
+		if (filter.tests.operation == Gth.TestChain.Operation.UNION) {
 			match_any.active = true;
+		}
+		else {
+			match_all.active = true;
+		}
 		if (filter.limit_type == Gth.Filter.LimitType.FILES) {
+			limits_row.enable_expansion = true;
 			files_checkbox.active = true;
 			files_limit.value = filter.limit;
 		}
 		else if (filter.limit_type == Gth.Filter.LimitType.BYTES) {
+			limits_row.enable_expansion = true;
 			size_checkbox.active = true;
 
 			var idx = 0;
@@ -47,12 +74,13 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			}
 		}
 		else {
-			no_limit_checkbox.active = true;
+			limits_row.enable_expansion = false;
+			files_checkbox.active = true;
 			files_limit.value = 1;
 			size_limit.value = 1;
 			size_unit.selected = 1;
 		}
-		sort_name.selected = Util.enum_index (Sort_Name, filter.sort_name);
+		sort_name.selected = SortInfo.index_of (Sort_Name, filter.sort_name);
 		sort_type.selected = (filter.sort_type == Gtk.SortType.ASCENDING) ? 0 : 1;
 	}
 
@@ -88,20 +116,23 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 
 		// Match All / Match Any
 		filter.tests.operation = match_all.active ? Gth.TestChain.Operation.INTERSECTION : Gth.TestChain.Operation.UNION;
-		filter.limit_type = files_checkbox.active ? Gth.Filter.LimitType.FILES : size_checkbox.active ? Gth.Filter.LimitType.BYTES : Gth.Filter.LimitType.NONE;
-		if (filter.limit_type == Gth.Filter.LimitType.FILES) {
-			filter.limit = (int64) files_limit.value;
-		}
-		else if (filter.limit_type == Gth.Filter.LimitType.BYTES) {
-			filter.limit = ((int64) size_limit.value) * Unit_Size[size_unit.selected];
+		filter.limit_type = !limits_row.enable_expansion ? Gth.Filter.LimitType.NONE : files_checkbox.active ? Gth.Filter.LimitType.FILES : Gth.Filter.LimitType.BYTES;
+		if (filter.limit_type != Gth.Filter.LimitType.NONE) {
+			if (filter.limit_type == Gth.Filter.LimitType.FILES) {
+				filter.limit = (int64) files_limit.value;
+			}
+			else if (filter.limit_type == Gth.Filter.LimitType.BYTES) {
+				filter.limit = ((int64) size_limit.value) * Test.Unit_List[size_unit.selected].size;
+			}
+			filter.sort_name = Sort_Name[sort_name.selected].id;
+			filter.sort_type = Sort_Type[sort_type.selected];
 		}
 		else {
 			filter.limit = 0;
+			filter.sort_name = "";
 		}
-		filter.sort_name = Sort_Name[sort_name.selected];
-		filter.sort_type = Sort_Type[sort_type.selected];
 
-		return null;
+		return filter;
 	}
 
 	Gtk.Widget new_test_row (Object item) {
@@ -136,20 +167,31 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	}
 
 	[GtkCallback]
-	void on_add_rule (Adw.ButtonRow source) {
+	void on_add_rule (Gtk.Button source) {
 		choose_rule_type ();
 	}
 
-	const int64[] Unit_Size = {
-		1024,
-		1024 * 1024,
-		1024 * 1024 * 1024
-	};
+	struct SortInfo {
+		string id;
+		string display_name;
 
-	const string[] Sort_Name = {
-		"file::name",
-		"file::size",
-		"file::mtime",
+		public static int index_of (SortInfo[] list, string? id) {
+			if (id != null) {
+				var idx = 0;
+				foreach (unowned var info in list) {
+					if (info.id == id)
+						return idx;
+					idx++;
+				}
+			}
+			return 0;
+		}
+	}
+
+	const SortInfo[] Sort_Name = {
+		{ "file::name", N_("Name") },
+		{ "file::size", N_("Size") },
+		{ "file::mtime", N_("Modified") },
 	};
 
 	const Gtk.SortType[] Sort_Type = {
@@ -161,7 +203,6 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	[GtkChild] Gtk.ListBox test_list;
 	[GtkChild] Gtk.CheckButton match_all;
 	[GtkChild] Gtk.CheckButton match_any;
-	[GtkChild] Gtk.CheckButton no_limit_checkbox;
 	[GtkChild] Gtk.CheckButton files_checkbox;
 	[GtkChild] Gtk.CheckButton size_checkbox;
 	[GtkChild] Gtk.Adjustment files_limit;
@@ -169,4 +210,6 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	[GtkChild] Gtk.DropDown size_unit;
 	[GtkChild] Adw.ComboRow sort_name;
 	[GtkChild] Adw.ComboRow sort_type;
+	[GtkChild] Adw.PreferencesGroup match_operation_group;
+	[GtkChild] Adw.ExpanderRow limits_row;
 }

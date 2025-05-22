@@ -41,6 +41,21 @@
             <child>
               <object class="AdwPreferencesGroup" id="rules_group">
                 <property name="title" translatable="yes">Rules</property>
+                <property name="header-suffix">
+                  <object class="GtkButton">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <child>
+                      <object class="AdwButtonContent">
+                        <property name="icon-name">list-add-symbolic</property>
+                        <property name="label" translatable="yes">_Add</property>
+                        <property name="use-underline">true</property>
+                      </object>
+                    </child>
+                    <signal name="clicked" handler="on_add_rule" />
+                  </object>
+                </property>
                 <child>
                   <object class="GtkListBox" id="test_list">
                     <property name="selection-mode">none</property>
@@ -52,22 +67,9 @@
               </object>
             </child>
 
-            <!-- Group: add rule -->
-            <child>
-              <object class="AdwPreferencesGroup">
-                <child>
-                  <object class="AdwButtonRow">
-                    <property name="start-icon-name">list-add-symbolic</property>
-                    <property name="title" translatable="yes">Add Rule</property>
-                    <signal name="activated" handler="on_add_rule" />
-                  </object>
-                </child>
-              </object>
-            </child>
-
             <!-- Group: match all or any rule -->
             <child>
-              <object class="AdwPreferencesGroup">
+              <object class="AdwPreferencesGroup" id="match_operation_group">
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Match All the Rules</property>
@@ -97,105 +99,79 @@
             <!-- Group: limits -->
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">Limited number of files</property>
                 <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">No Limit</property>
-                    <property name="activatable-widget">no_limit_checkbox</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="no_limit_checkbox">
-                        <property name="active">true</property>
+                  <object class="AdwExpanderRow" id="limits_row">
+                    <property name="title" translatable="yes">Limited Content</property>
+                    <property name="subtitle" translatable="yes">Add files untils a limit is reached.</property>
+                    <property name="show-enable-switch">true</property>
+
+                    <child>
+                      <object class="AdwSpinRow">
+                        <property name="title" translatable="yes">Number of Files</property>
+                        <property name="climb-rate">1</property>
+                        <property name="activatable-widget">files_checkbox</property>
+                        <property name="adjustment">
+                          <object class="GtkAdjustment" id="files_limit">
+                            <property name="lower">1</property>
+                            <property name="upper">10000</property>
+                            <property name="step-increment">1</property>
+                            <property name="value">50</property>
+                          </object>
+                        </property>
+                        <child type="prefix">
+                          <object class="GtkCheckButton" id="files_checkbox">
+                            <property name="active">false</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwSpinRow">
-                    <property name="title" translatable="yes">Number of Files</property>
-                    <property name="climb-rate">1</property>
-                    <property name="activatable-widget">files_checkbox</property>
-                    <property name="adjustment">
-                      <object class="GtkAdjustment" id="files_limit">
-                        <property name="lower">1</property>
-                        <property name="upper">10000</property>
-                        <property name="step-increment">1</property>
-                        <property name="value">50</property>
-                      </object>
-                    </property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="files_checkbox">
-                        <property name="active">false</property>
-                        <property name="group">no_limit_checkbox</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwSpinRow">
-                    <property name="title" translatable="yes">Total Bytes</property>
-                    <property name="climb-rate">1</property>
-                    <property name="activatable-widget">size_checkbox</property>
-                    <property name="adjustment">
-                      <object class="GtkAdjustment" id="size_limit">
-                        <property name="lower">1</property>
-                        <property name="upper">10000</property>
-                        <property name="step-increment">1</property>
-                        <property name="value">1</property>
-                      </object>
-                    </property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="size_checkbox">
-                        <property name="active">false</property>
-                        <property name="group">no_limit_checkbox</property>
+                    <child>
+                      <object class="AdwSpinRow">
+                        <property name="title" translatable="yes">Total Size</property>
+                        <property name="climb-rate">1</property>
+                        <property name="activatable-widget">size_checkbox</property>
+                        <property name="adjustment">
+                          <object class="GtkAdjustment" id="size_limit">
+                            <property name="lower">1</property>
+                            <property name="upper">10000</property>
+                            <property name="step-increment">1</property>
+                            <property name="value">1</property>
+                          </object>
+                        </property>
+                        <child type="prefix">
+                          <object class="GtkCheckButton" id="size_checkbox">
+                            <property name="active">false</property>
+                            <property name="group">files_checkbox</property>
+                          </object>
+                        </child>
+                        <child type="suffix">
+                          <object class="GtkDropDown" id="size_unit">
+                            <property name="valign">center</property>
+                            <property name="margin-start">12</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                    <child type="suffix">
-                      <object class="GtkDropDown" id="size_unit">
-                        <property name="valign">3</property>
-                        <property name="margin-start">12</property>
+
+                    <child>
+                      <object class="AdwComboRow" id="sort_name">
+                        <property name="title" translatable="yes">Selected By</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwComboRow" id="sort_type">
+                        <property name="title" translatable="yes">Direction</property>
                         <property name="model">
-                          <object class="GtkStringList" id="units">
+                          <object class="GtkStringList" id="orders">
                             <items>
-                              <item>KB</item>
-                              <item>MB</item>
-                              <item>GB</item>
+                              <item translatable="yes">Ascending</item>
+                              <item translatable="yes">Descending</item>
                             </items>
                           </object>
                         </property>
                       </object>
                     </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">How to select the files to include</property>
-                <child>
-                  <object class="AdwComboRow" id="sort_name">
-                    <property name="title" translatable="yes">Selected By</property>
-                    <property name="model">
-                      <object class="GtkStringList" id="sort">
-                        <items>
-                          <item translatable="yes">Name</item>
-                          <item translatable="yes">Bytes</item>
-                          <item translatable="yes">Modified</item>
-                        </items>
-                      </object>
-                    </property>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwComboRow" id="sort_type">
-                    <property name="title" translatable="yes">Direction</property>
-                    <property name="model">
-                      <object class="GtkStringList" id="orders">
-                        <items>
-                          <item translatable="yes">Ascending</item>
-                          <item translatable="yes">Descending</item>
-                        </items>
-                      </object>
-                    </property>
+
                   </object>
                 </child>
               </object>

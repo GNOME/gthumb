@@ -116,7 +116,7 @@ public class Gth.TestFileName : Gth.TestString {
 public class Gth.TestFileSize : Gth.TestSize {
 	construct {
 		id = "file::size";
-		display_name = _("Bytes");
+		display_name = _("Size");
 		attributes = "gth::file::size";
 	}
 

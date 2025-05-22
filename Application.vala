@@ -1,4 +1,5 @@
 public class Gth.Application : Adw.Application {
+	public GLib.Settings browser_settings;
 	public HashTable<string, Gth.Test> tests;
 	public ListStore ordered_tests;
 	public HashTable<string, Gth.SortInfo?> sorters;
@@ -38,7 +39,7 @@ public class Gth.Application : Adw.Application {
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
 		register_sorter ({ "file::name", _("Name"), "standard::display-name", SortFunc.cmp_basename });
 		register_sorter ({ "file::path", _("Path"), "standard::display-name", SortFunc.cmp_uri });
-		register_sorter ({ "file::size", _("Bytes"), "standard::size", SortFunc.cmp_size });
+		register_sorter ({ "file::size", _("Size"), "standard::size", SortFunc.cmp_size });
 		register_sorter ({ "file::mtime", _("Modified"), "time::modified,time::modified-usec", SortFunc.cmp_modified_time });
 		register_sorter ({ "general::unsorted", _("No Sorting"), "", null });
 		register_sorter ({ "general::dimensions", _("Pixels"), "frame::width,frame::height", SortFunc.cmp_frame_dimensions });
@@ -63,12 +64,25 @@ public class Gth.Application : Adw.Application {
 		return tests[id];
 	}
 
+	public Gth.Test? get_general_filter () {
+		var filter_id = browser_settings.get_string (PREF_BROWSER_GENERAL_FILTER);
+		if (filter_id == null)
+			return null;
+		return get_test_by_id (filter_id);
+	}
+
 	public ListStore get_visible_filters () {
 		var filters = new ListStore (typeof (Gth.Test));
 
 		var no_filter = new Gth.Test ();
 		no_filter.id = "";
-		no_filter.display_name = _("All Files");
+		var general_filter = get_general_filter ();
+		if (general_filter != null) {
+			no_filter.display_name = general_filter.display_name;
+		}
+		else {
+			no_filter.display_name = _("All Files");
+		}
 		filters.append (no_filter);
 
 		var iter = new ListModelIterator (filter_file.filters);
@@ -232,9 +246,8 @@ public class Gth.Application : Adw.Application {
 
 		if (remaining_args == null) {
 			// No location specified.
-			var settings = new GLib.Settings (GTHUMB_BROWSER_SCHEMA);
-			var location = Gth.Settings.get_startup_location (settings);
-			var file_to_select = Gth.Settings.get_file (settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
+			var location = Gth.Settings.get_startup_location (browser_settings);
+			var file_to_select = Gth.Settings.get_file (browser_settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
 			open_window (location, file_to_select, true);
 			return 0;
 		}
@@ -252,14 +265,15 @@ public class Gth.Application : Adw.Application {
 		var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
 		icon_theme.add_resource_path ("/app/gthumb/gthumb/icons");
 
+		browser_settings = new GLib.Settings (GTHUMB_BROWSER_SCHEMA);
+
 		filter_file = new Gth.FilterFile ();
 	}
 
 	void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
 		var reuse_active_window = false;
 		if (!force_new_window) {
-			var settings = new GLib.Settings (GTHUMB_BROWSER_SCHEMA);
-			reuse_active_window = settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW);
+			reuse_active_window = browser_settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW);
 		}
 
 		Gth.Window window = null;

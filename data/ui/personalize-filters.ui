@@ -5,7 +5,7 @@
   <template class="GthPersonalizeFilters" parent="AdwPreferencesDialog">
     <property name="title" translatable="yes">Filters</property>
     <property name="content_width">700</property>
-    <property name="content_height">700</property>
+    <property name="content_height">710</property>
     <child>
       <object class="AdwPreferencesPage">
 
@@ -64,7 +64,7 @@
           <object class="AdwPreferencesPage">
             <child>
               <object class="AdwPreferencesGroup"  id="rule_types">
-                <property name="description" translatable="yes">Choose a rule to add to the filter</property>
+                <property name="description" translatable="yes">Choose a rule to add to the filter.</property>
                 <!-- Dynamic content -->
               </object>
             </child>

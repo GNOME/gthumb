@@ -30,7 +30,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public Window (Gtk.Application _app, File location, File? file_to_select) {
 		Object (application: app);
-		browser_settings = new GLib.Settings (GTHUMB_BROWSER_SCHEMA);
 
 		named_dialogs = new HashTable<string, Gtk.Window>(str_hash, str_equal);
 		init_actions ();
@@ -59,11 +58,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		// Restore the window size.
 
-		var width = browser_settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
-		var height = browser_settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
+		var width = app.browser_settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
+		var height = app.browser_settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
 		set_default_size (width, height);
 
-		if (browser_settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
+		if (app.browser_settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			maximize ();
 		}
 
@@ -138,7 +137,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return box;
 	}
 
-	GLib.Settings browser_settings;
 	Gtk.Stack main_stack;
 	Gtk.Widget browser_page;
 	Gtk.Widget viewer_page;

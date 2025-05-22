@@ -1,6 +1,10 @@
 public class Gth.FilterFile {
 	public ListStore filters;
 
+	public signal void changed () {
+		stdout.printf ("CHANGED FILTERS\n");
+	}
+
 	public FilterFile () {
 		filters = new ListStore (typeof (Gth.Test));
 		load ();
@@ -24,11 +28,13 @@ public class Gth.FilterFile {
 	public void add (Test test) {
 		var idx = find_test (test);
 		if (idx >= 0) {
+			filters.remove (idx);
 			filters.insert (idx, test);
 		}
 		else {
 			filters.append (test);
 		}
+		changed ();
 	}
 
 	public void remove (Test test) {
@@ -36,10 +42,12 @@ public class Gth.FilterFile {
 		if (idx >= 0) {
 			filters.remove (idx);
 		}
+		changed ();
 	}
 
 	public void clear () {
 		filters.remove_all ();
+		changed ();
 	}
 
 	public bool load () {
@@ -73,6 +81,7 @@ public class Gth.FilterFile {
 				}
 			}
 			loaded = true;
+			changed ();
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);

@@ -164,11 +164,20 @@ public class Gth.Filter : Gth.Test {
 	}
 
 	public override void update_from_options () throws Error {
-		// TODO
+		// void
 	}
 
 	public override void focus_options () {
 		spin_button.grab_focus ();
+	}
+
+	public void copy (Filter other) {
+		var original_id = id;
+		var doc = new Dom.Document ();
+		var node = other.create_element (doc);
+		doc.append_child (node);
+		load_from_element (node);
+		id = original_id;
 	}
 
 	int tot_files;
