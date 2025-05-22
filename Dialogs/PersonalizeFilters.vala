@@ -87,31 +87,36 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 		return row;
 	}
 
+	void move_row_to_position (Gth.FilterRow row, int target_pos) {
+		var source_pos = row.get_index ();
+		if ((target_pos >= 0) && (target_pos != source_pos)) {
+			app.filter_file.filters.remove (source_pos);
+			app.filter_file.filters.insert (target_pos, row.filter);
+			app.filter_file.changed ();
+		}
+	}
+
 	Gtk.Widget new_filter_row (Object item) {
 		var filter = item as Gth.Test;
 
 		var row = new Gth.FilterRow (filter);
 		row.move_to_row.connect ((source_row, target_row) => {
-			var source_pos = source_row.get_index ();
-			if (source_pos >= 0) {
-				var target_pos = target_row.get_index ();
-				if ((target_pos >= 0) && (target_pos != source_pos)) {
-					app.filter_file.filters.remove (source_pos);
-					app.filter_file.filters.insert (target_pos, filter);
-					app.filter_file.changed ();
-				}
-			}
+			move_row_to_position (source_row, target_row.get_index ());
+		});
+		row.move_to_top.connect ((source_row) => {
+			move_row_to_position (source_row, 0);
+		});
+		row.move_to_bottom.connect ((source_row) => {
+			var last_pos = (int) app.filter_file.filters.get_n_items () - 1;
+			move_row_to_position (source_row, last_pos);
 		});
 
-		if (row.edit_button != null) {
+		if (filter is Gth.Filter) {
 			row.edit_button.clicked.connect (() => {
 				current_filter = filter as Gth.Filter;
 				filter_page.set_filter (current_filter);
 				push_subpage (filter_page);
 			});
-		}
-
-		if (row.delete_button != null) {
 			row.delete_button.clicked.connect (() => {
 				app.filter_file.remove (filter);
 			});

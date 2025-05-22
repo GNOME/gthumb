@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adwaita" version="1.7.0"/>
+  <template class="GthFilterRow" parent="AdwActionRow">
+    <property name="activatable-widget">visibility_switch</property>
+    <child type="prefix">
+      <object class="GtkImage">
+        <property name="icon-name">list-drag-handle-symbolic</property>
+        <property name="opacity">0.5</property>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkButton" id="edit_button">
+        <property name="icon-name">edit-item-symbolic</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkButton" id="delete_button">
+        <property name="icon-name">delete-item-symbolic</property>
+        <property name="valign">center</property>
+        <style>
+          <class name="destructive-action"/>
+        </style>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkSwitch" id="visibility_switch">
+        <property name="valign">center</property>
+        <style>
+          <class name="destructive-action"/>
+        </style>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkMenuButton">
+        <property name="valign">center</property>
+        <property name="icon-name">view-more-symbolic</property>
+        <property name="menu-model">row-menu</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+  </template>
+
+  <menu id="row-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Move to Top</attribute>
+        <attribute name="action">row.move-to-top</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Move to Bottom</attribute>
+        <attribute name="action">row.move-to-bottom</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

@@ -1,42 +1,24 @@
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/filter-row.ui")]
 public class Gth.FilterRow : Adw.ActionRow {
-	public Gtk.Switch visibility_switch;
-	public Gtk.Button edit_button;
-	public Gtk.Button delete_button;
+	public Gth.Test filter;
+
+	[GtkChild] public Gtk.Switch visibility_switch;
+	[GtkChild] public Gtk.Button edit_button;
+	[GtkChild] public Gtk.Button delete_button;
 
 	public signal void move_to_row (Gth.FilterRow row);
+	public signal void move_to_top ();
+	public signal void move_to_bottom ();
 
-	public FilterRow (Test filter, bool as_icon_content = false) {
+	public FilterRow (Test _filter, bool as_icon_content = false) {
+		filter = _filter;
 		title = filter.display_name;
 		filter.bind_property ("display_name", this, "title", BindingFlags.DEFAULT);
-
-		var icon = new Gtk.Image.from_icon_name ("list-drag-handle-symbolic");
-		icon.opacity = 0.5;
-		add_prefix (icon);
-
-		if (filter is Gth.Filter) {
-			var buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-			buttons.margin_end = 12;
-			add_suffix (buttons);
-
-			edit_button = new Gtk.Button.from_icon_name ("edit-item-symbolic");
-			edit_button.valign = Gtk.Align.CENTER;
-			buttons.append (edit_button);
-
-			delete_button = new Gtk.Button.from_icon_name ("delete-item-symbolic");
-			delete_button.add_css_class ("destructive-action");
-			delete_button.valign = Gtk.Align.CENTER;
-			buttons.append (delete_button);
+		if (!(filter is Gth.Filter)) {
+			edit_button.visible = false;
+			delete_button.visible = false;
 		}
-		else {
-			edit_button = null;
-			delete_button = null;
-		}
-
-		visibility_switch = new Gtk.Switch ();
-		visibility_switch.valign = Gtk.Align.CENTER;
 		visibility_switch.active = filter.visible;
-		add_suffix (visibility_switch);
-		activatable_widget = visibility_switch;
 
 		if (as_icon_content)
 			return;
@@ -71,6 +53,21 @@ public class Gth.FilterRow : Adw.ActionRow {
 			return true;
 		});
 		add_controller (drop_target);
+
+		var action_group = new SimpleActionGroup ();
+		insert_action_group ("row", action_group);
+
+		var action = new SimpleAction ("move-to-top", null);
+		action.activate.connect ((_action, param) => {
+			move_to_top ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("move-to-bottom", null);
+		action.activate.connect ((_action, param) => {
+			move_to_bottom ();
+		});
+		action_group.add_action (action);
 	}
 
 	int hot_x;

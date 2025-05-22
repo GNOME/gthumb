@@ -16,5 +16,6 @@
   <gresource prefix="/app/gthumb/gthumb/ui">
     <file preprocess="xml-stripblanks">personalize-filters.ui</file>
     <file preprocess="xml-stripblanks">filter-editor-page.ui</file>
+    <file preprocess="xml-stripblanks">filter-row.ui</file>
   </gresource>
 </gresources>
