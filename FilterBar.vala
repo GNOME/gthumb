@@ -8,7 +8,7 @@ public class Gth.FilterBar : Gtk.Box {
 		margin_end = CONTAINER_H_PADDING;
 
 		visible_filters = app.get_visible_filters ();
-		filters_changed_id = app.filter_file.changed.connect (() => {
+		app.filter_file.changed.connect (() => {
 			update_filter_list ();
 			int test_idx;
 			if (find_filter_by_id ("", null, out test_idx)) {
@@ -48,13 +48,6 @@ public class Gth.FilterBar : Gtk.Box {
 		//append (selector_label);
 		append (filter_selector);
 		append (options_container);
-	}
-
-	~FilterBar () {
-		if (filters_changed_id != 0) {
-			SignalHandler.disconnect (app.filter_file, filters_changed_id);
-			filters_changed_id = 0;
-		}
 	}
 
 	public void select_filter_by_id (string id) {
@@ -149,5 +142,4 @@ public class Gth.FilterBar : Gtk.Box {
 	Gtk.Label filter_label;
 	ListStore visible_filters;
 	Menu filter_section;
-	ulong filters_changed_id;
 }

@@ -39,9 +39,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			filter.visible = true;
 		}
 
-		filter.tests.tests.items_changed.connect ((_position, _removed, _added) => {
-			update_visibility ();
-		});
+		filter.tests.tests.items_changed.connect (() => update_visibility ());
 		update_visibility ();
 
 		name_entry.set_text (filter.display_name);

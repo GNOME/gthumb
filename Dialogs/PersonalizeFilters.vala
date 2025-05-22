@@ -7,7 +7,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 		insert_action_group ("dialog", action_group);
 
 		var action = new SimpleAction ("add-rule", GLib.VariantType.STRING);
-		action.activate.connect ((param) => {
+		action.activate.connect ((_action, param) => {
 			pop_subpage ();
 			filter_page.add_rule (param.get_string ());
 		});
@@ -90,43 +90,34 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 	Gtk.Widget new_filter_row (Object item) {
 		var filter = item as Gth.Test;
 
-		var row = new Adw.ActionRow ();
-		row.title = filter.display_name;
-		filter.bind_property ("display_name", row, "title", BindingFlags.DEFAULT);
+		var row = new Gth.FilterRow (filter);
+		row.move_to_row.connect ((source_row, target_row) => {
+			var source_pos = source_row.get_index ();
+			if (source_pos >= 0) {
+				var target_pos = target_row.get_index ();
+				if ((target_pos >= 0) && (target_pos != source_pos)) {
+					app.filter_file.filters.remove (source_pos);
+					app.filter_file.filters.insert (target_pos, filter);
+					app.filter_file.changed ();
+				}
+			}
+		});
 
-		var drag_icon = new Gtk.Image.from_icon_name ("list-drag-handle-symbolic");
-		drag_icon.opacity = 0.5;
-		row.add_prefix (drag_icon);
-
-		if (filter is Gth.Filter) {
-			var buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-			buttons.margin_end = 12;
-			row.add_suffix (buttons);
-
-			var edit_button = new Gtk.Button.from_icon_name ("edit-item-symbolic");
-			edit_button.valign = Gtk.Align.CENTER;
-			edit_button.clicked.connect (() => {
+		if (row.edit_button != null) {
+			row.edit_button.clicked.connect (() => {
 				current_filter = filter as Gth.Filter;
 				filter_page.set_filter (current_filter);
 				push_subpage (filter_page);
 			});
-			buttons.append (edit_button);
-
-			var delete_button = new Gtk.Button.from_icon_name ("delete-item-symbolic");
-			delete_button.add_css_class ("destructive-action");
-			delete_button.valign = Gtk.Align.CENTER;
-			delete_button.clicked.connect (() => {
-				app.filter_file.remove (filter);
-			});
-			buttons.append (delete_button);
 		}
 
-		var visibility_switch = new Gtk.Switch ();
-		visibility_switch.valign = Gtk.Align.CENTER;
-		visibility_switch.active = filter.visible;
-		row.add_suffix (visibility_switch);
-		row.activatable_widget = visibility_switch;
-		visibility_switch.notify["active"].connect ((_obj, _prop) => {
+		if (row.delete_button != null) {
+			row.delete_button.clicked.connect (() => {
+				app.filter_file.remove (filter);
+			});
+		}
+
+		row.visibility_switch.notify["active"].connect ((_obj, _prop) => {
 			var local_switch = _obj as Gtk.Switch;
 			filter.visible = local_switch.active;
 			app.filter_file.changed ();

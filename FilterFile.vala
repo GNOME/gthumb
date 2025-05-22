@@ -1,9 +1,7 @@
 public class Gth.FilterFile {
 	public ListStore filters;
 
-	public signal void changed () {
-		stdout.printf ("CHANGED FILTERS\n");
-	}
+	public signal void changed ();
 
 	public FilterFile () {
 		filters = new ListStore (typeof (Gth.Test));
@@ -28,8 +26,7 @@ public class Gth.FilterFile {
 	public void add (Test test) {
 		var idx = find_test (test);
 		if (idx >= 0) {
-			filters.remove (idx);
-			filters.insert (idx, test);
+			filters.splice (idx, 1, { test });
 		}
 		else {
 			filters.append (test);
@@ -42,11 +39,6 @@ public class Gth.FilterFile {
 		if (idx >= 0) {
 			filters.remove (idx);
 		}
-		changed ();
-	}
-
-	public void clear () {
-		filters.remove_all ();
 		changed ();
 	}
 

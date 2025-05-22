@@ -54,6 +54,7 @@ source_files = files(
   'DefaultTests.vala',
   'Dialogs/PersonalizeFilters.vala',
   'Dialogs/FilterEditorPage.vala',
+  'Dialogs/FilterRow.vala',
   'Dom.vala',
   'FileData.vala',
   'Files.vala',
