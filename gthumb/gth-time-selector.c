@@ -414,6 +414,8 @@ gth_time_selector_construct (GthTimeSelector *self)
 	gtk_box_pack_start (GTK_BOX (self), time_box, FALSE, FALSE, 0);
 
 	self->priv->use_time_checkbutton = gtk_check_button_new ();
+	gtk_widget_set_margin_start (GTK_WIDGET (self->priv->use_time_checkbutton), 6);
+	gtk_widget_set_margin_end (GTK_WIDGET (self->priv->use_time_checkbutton), 6);
 	gtk_widget_show (self->priv->use_time_checkbutton);
 	gtk_box_pack_start (GTK_BOX (time_box), self->priv->use_time_checkbutton, FALSE, FALSE, 0);
 
