@@ -46,7 +46,8 @@ struct _GthImageNavigatorPrivate {
 	GtkWidget *vscrollbar;
 	GtkWidget *hscrollbar;
 	GtkWidget *navigator_event_area;
-	gpointer   popup;
+	GtkWidget *navigator_popover;
+	GtkWidget *overview;
 	gboolean   automatic_scrollbars;
 	gboolean   hscrollbar_visible;
 	gboolean   vscrollbar_visible;
@@ -79,6 +80,19 @@ _gth_image_navigator_set_viewer (GthImageNavigator *self,
 	g_object_notify (G_OBJECT (self), "viewer");
 }
 
+static void
+gth_image_navigator_finalize (GObject *object)
+{
+	GthImageNavigator *self;
+
+	g_return_if_fail (GTH_IS_IMAGE_NAVIGATOR (object));
+
+	self = GTH_IMAGE_NAVIGATOR (object);
+
+	gtk_widget_destroy (self->priv->overview);
+
+	G_OBJECT_CLASS (gth_image_navigator_parent_class)->finalize (object);
+}
 
 static void
 gth_image_navigator_set_property (GObject      *object,
@@ -249,6 +263,7 @@ gth_image_navigator_add (GtkContainer *container,
 
 	gtk_widget_set_parent (widget, GTK_WIDGET (container));
 	self->priv->viewer = widget;
+	gth_image_overview_set_viewer (GTH_IMAGE_OVERVIEW (self->priv->overview), GTH_IMAGE_VIEWER (self->priv->viewer));
 }
 
 
@@ -303,6 +318,7 @@ gth_image_navigator_class_init (GthImageNavigatorClass *klass)
 	GtkContainerClass *container_class;
 
 	object_class = (GObjectClass *) klass;
+	object_class->finalize = gth_image_navigator_finalize;
 	object_class->set_property = gth_image_navigator_set_property;
 	object_class->get_property = gth_image_navigator_get_property;
 
@@ -329,177 +345,13 @@ gth_image_navigator_class_init (GthImageNavigatorClass *klass)
 }
 
 
-/* -- NavigatorPopup -- */
-
-
-typedef struct {
-	GthImageViewer	*viewer;
-	GtkWidget       *navigator;
-	GtkWidget	*popup_win;
-	GtkWidget	*overview;
-	gulong           event_id;
-	gpointer        *weak_pointer;
-	double           x_root, y_root;
-	GdkRectangle     monitor;
-	gboolean         window_moved;
-} NavigatorPopup;
-
-
-static void
-navigator_popup_close (NavigatorPopup *nav_popup)
-{
-	if (nav_popup->event_id != 0) {
-		g_signal_handler_disconnect (nav_popup->popup_win, nav_popup->event_id);
-		nav_popup->event_id = 0;
-	}
-	gtk_widget_destroy (nav_popup->popup_win);
-	if (nav_popup->weak_pointer != NULL)
-		*nav_popup->weak_pointer = NULL;
-	g_free (nav_popup);
-}
-
-
-static int
-popup_window_event_cb (GtkWidget *widget,
-		       GdkEvent  *event,
-		       gpointer   data)
-{
-	NavigatorPopup *nav_popup = data;
-
-	switch (event->type) {
-	case GDK_BUTTON_RELEASE:
-		navigator_popup_close (nav_popup);
-		return TRUE;
-
-	case GDK_MOTION_NOTIFY:
-		gtk_widget_event (nav_popup->overview, event);
-		gtk_widget_queue_draw (nav_popup->navigator);
-		return FALSE;
-
-	case GDK_KEY_PRESS:
-		switch (event->key.keyval) {
-		case GDK_KEY_plus:
-		case GDK_KEY_minus:
-		case GDK_KEY_1:
-			switch (event->key.keyval) {
-			case GDK_KEY_plus:
-				gth_image_viewer_zoom_in (nav_popup->viewer);
-				break;
-			case GDK_KEY_minus:
-				gth_image_viewer_zoom_out (nav_popup->viewer);
-				break;
-			case GDK_KEY_1:
-				gth_image_viewer_set_zoom (nav_popup->viewer, 1.0);
-				break;
-			}
-			break;
-
-		case GDK_KEY_Escape:
-			navigator_popup_close (nav_popup);
-			break;
-
-		default:
-			break;
-		}
-		return TRUE;
-
-	default:
-		break;
-	}
-
-	return FALSE;
-}
-
-
-static void
-overview_size_allocate_cb (GtkWidget    *widget,
-			   GdkRectangle *allocation,
-			   gpointer      user_data)
-{
-	NavigatorPopup          *nav_popup = user_data;
-	gboolean                 has_preview;
-	int			 popup_x, popup_y;
-	int			 popup_width, popup_height;
-	cairo_rectangle_int_t	 visible_area;
-
-	if (nav_popup->window_moved)
-		return;
-
-	has_preview = gth_image_overview_has_preview (GTH_IMAGE_OVERVIEW (nav_popup->overview));
-
-	gth_image_overview_get_size (GTH_IMAGE_OVERVIEW (nav_popup->overview),
-				     &popup_width,
-				     &popup_height);
-
-	gth_image_overview_get_visible_area (GTH_IMAGE_OVERVIEW (nav_popup->overview),
-					     &visible_area.x,
-					     &visible_area.y,
-					     &visible_area.width,
-					     &visible_area.height);
-
-	popup_x = MIN (nav_popup->x_root - visible_area.x - POPUP_BORDER - visible_area.width / 2,
-			nav_popup->monitor.width - popup_width - POPUP_BORDER_2);
-	popup_y = MIN (nav_popup->y_root - visible_area.y - POPUP_BORDER - visible_area.height / 2,
-			nav_popup->monitor.height - popup_height - POPUP_BORDER_2);
-
-	gtk_window_move (GTK_WINDOW (nav_popup->popup_win),
-			 popup_x,
-			 popup_y);
-	nav_popup->window_moved = has_preview;
-}
-
-
 static void
 navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 					    GdkEventButton *event,
 					    gpointer        user_data)
 {
-	GthImageNavigator	*self = user_data;
-	NavigatorPopup		*nav_popup;
-	GtkWidget		*out_frame;
-	GtkWidget		*in_frame;
-
-	if ((self->priv->viewer == NULL) || gth_image_viewer_is_void (GTH_IMAGE_VIEWER (self->priv->viewer)))
-		return;
-	if (self->priv->popup != NULL)
-		return;
-
-	/* create the popup and its content */
-
-	self->priv->popup = nav_popup = g_new0 (NavigatorPopup, 1);
-	nav_popup->weak_pointer = &self->priv->popup;
-	nav_popup->navigator = GTK_WIDGET (self);
-	nav_popup->viewer = GTH_IMAGE_VIEWER (self->priv->viewer);
-	nav_popup->popup_win = gtk_window_new (GTK_WINDOW_POPUP);
-	nav_popup->event_id = g_signal_connect (G_OBJECT (nav_popup->popup_win),
-						"event",
-						G_CALLBACK (popup_window_event_cb),
-						nav_popup);
-	nav_popup->x_root = event->x_root;
-	nav_popup->y_root = event->y_root;
-	nav_popup->window_moved = FALSE;
-
-	out_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (out_frame), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (nav_popup->popup_win), out_frame);
-
-	in_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (in_frame), GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (out_frame), in_frame);
-
-	nav_popup->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gtk_container_add (GTK_CONTAINER (in_frame), nav_popup->overview);
-
-	/* show the popup */
-
-	_gtk_widget_get_monitor_geometry (widget, &nav_popup->monitor);
-	g_signal_connect (nav_popup->overview,
-			  "size-allocate",
-			  G_CALLBACK (overview_size_allocate_cb),
-			  nav_popup);
-	gtk_widget_show_all (nav_popup->popup_win);
-
-	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (nav_popup->overview), TRUE, event);
+	GthImageNavigator *self = user_data;
+	gtk_popover_popup (GTK_POPOVER (self->priv->navigator_popover));
 }
 
 
@@ -537,6 +389,12 @@ gth_image_navigator_init (GthImageNavigator *self)
 			  "button_press_event",
 			  G_CALLBACK (navigator_event_area_button_press_event_cb),
 			  self);
+
+	self->priv->navigator_popover = gtk_popover_new (self->priv->navigator_event_area);
+	gtk_popover_set_position (GTK_POPOVER (self->priv->navigator_popover), GTK_POS_BOTTOM);
+	self->priv->overview = gth_image_overview_new (NULL, FALSE);
+	gtk_widget_show (self->priv->overview);
+	gtk_container_add (GTK_CONTAINER (self->priv->navigator_popover), self->priv->overview);
 
 	gtk_widget_show (self->priv->hscrollbar);
 	gtk_widget_show (self->priv->vscrollbar);

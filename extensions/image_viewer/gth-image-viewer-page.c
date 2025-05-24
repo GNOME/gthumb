@@ -1301,7 +1301,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_show (self->priv->overview_revealer);
 	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_revealer);
 
-	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
+	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
 	gtk_widget_add_events (self->priv->overview, GDK_POINTER_MOTION_HINT_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gtk_widget_show (self->priv->overview);
 	gtk_container_add (GTK_CONTAINER (self->priv->overview_revealer), self->priv->overview);

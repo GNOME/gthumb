@@ -48,7 +48,10 @@ struct _GthImageOverviewClass {
 };
 
 GType		gth_image_overview_get_type		(void);
-GtkWidget *	gth_image_overview_new			(GthImageViewer		*viewer);
+GtkWidget *	gth_image_overview_new			(GthImageViewer		*viewer,
+							 gboolean		 draw_frame);
+void		gth_image_overview_set_viewer		(GthImageOverview       *self,
+							 GthImageViewer         *viewer);
 void            gth_image_overview_get_size         	(GthImageOverview	*viewer,
 							 int			*width,
 							 int			*height);
