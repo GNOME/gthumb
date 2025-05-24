@@ -42,7 +42,7 @@ struct _GthTimeSelectorPrivate {
 	GtkWidget   *date_entry;
 	GtkWidget   *calendar_button;
 	GtkWidget   *calendar;
-	GtkWidget   *calendar_popup;
+	GtkWidget   *calendar_popover;
 	GtkWidget   *use_time_checkbutton;
 	GtkWidget   *time_combo_box;
 	GtkWidget   *popup_box;
@@ -70,32 +70,10 @@ gth_time_selector_finalize (GObject *object)
 
 	self = GTH_TIME_SELECTOR (object);
 
-	gtk_widget_destroy (self->priv->calendar_popup);
+	//gtk_widget_destroy (self->priv->calendar_popup);
 	gth_datetime_free (self->priv->date_time);
 
 	G_OBJECT_CLASS (gth_time_selector_parent_class)->finalize (object);
-}
-
-
-static void
-_gth_time_selector_ungrab_devices (GthTimeSelector *self)
-{
-	if (self->priv->grab_device != NULL) {
-		gtk_device_grab_remove (self->priv->calendar_popup, self->priv->grab_device);
-		self->priv->grab_device = NULL;
-	}
-}
-
-
-static void
-gth_time_selector_unmap (GtkWidget *widget)
-{
-	GthTimeSelector *self;
-
-	self = GTH_TIME_SELECTOR (widget);
-	_gth_time_selector_ungrab_devices (self);
-
-	GTK_WIDGET_CLASS (gth_time_selector_parent_class)->unmap (widget);
 }
 
 
@@ -119,7 +97,6 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 	object_class->finalize = gth_time_selector_finalize;
 
 	widget_class = (GtkWidgetClass *) class;
-	widget_class->unmap = gth_time_selector_unmap;
 	widget_class->focus = gth_time_selector_real_focus;
 
 	gth_time_selector_signals[CHANGED] =
@@ -134,20 +111,6 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 }
 
 
-static gboolean
-_gth_time_selector_grab_broken_event (GtkWidget          *widget,
-				      GdkEventGrabBroken *event,
-				      gpointer            user_data)
-{
-	GthTimeSelector *self = user_data;
-
-	if (event->grab_window == NULL)
-		_gth_time_selector_ungrab_devices (self);
-
-	return TRUE;
-}
-
-
 static void
 gth_time_selector_init (GthTimeSelector *self)
 {
@@ -156,7 +119,7 @@ gth_time_selector_init (GthTimeSelector *self)
 	self->priv->date_entry = NULL;
 	self->priv->calendar_button = NULL;
 	self->priv->calendar = NULL;
-	self->priv->calendar_popup = NULL;
+	self->priv->calendar_popover = NULL;
 	self->priv->use_time_checkbutton = NULL;
 	self->priv->time_combo_box = NULL;
 	self->priv->popup_box = NULL;
@@ -167,71 +130,6 @@ gth_time_selector_init (GthTimeSelector *self)
 	self->priv->grab_device = NULL;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
-
-	g_signal_connect (self,
-			  "grab-broken-event",
-			  G_CALLBACK (_gth_time_selector_grab_broken_event),
-			  self);
-}
-
-
-static void
-hide_calendar_popup (GthTimeSelector *self)
-{
-	_gth_time_selector_ungrab_devices (self);
-
-	gtk_widget_hide (self->priv->calendar_popup);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), FALSE);
-}
-
-
-static void
-show_calendar_popup (GthTimeSelector *self)
-{
-	GtkRequisition         popup_req;
-	int                    x;
-	int                    y;
-	GtkAllocation          allocation;
-	int                    selector_height;
-	GdkRectangle           monitor;
-	GdkGrabStatus          grab_status;
-
-	gtk_widget_get_preferred_size (self->priv->popup_box, &popup_req, NULL);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), TRUE);
-
-	gdk_window_get_position (gtk_widget_get_window (GTK_WIDGET (self)), &x, &y);
-	gtk_widget_get_allocation (self->priv->date_entry, &allocation);
-	x += allocation.x;
-	y += allocation.y;
-	selector_height = allocation.height;
-
-	_gtk_widget_get_monitor_geometry (GTK_WIDGET (self), &monitor);
-	if (x < monitor.x)
-		x = monitor.x;
-	else if (x + popup_req.width > monitor.x + monitor.width)
-		x = monitor.x + monitor.width - popup_req.width;
-	if (y + selector_height + popup_req.height > monitor.y + monitor.height)
-		y = y - popup_req.height;
-	else
-		y = y + selector_height;
-
-	gtk_window_move (GTK_WINDOW (self->priv->calendar_popup), x, y);
-	gtk_widget_show (self->priv->calendar_popup);
-
-	self->priv->grab_device = gtk_get_current_event_device ();
-	grab_status = gdk_seat_grab (gdk_device_get_seat (self->priv->grab_device),
-				     gtk_widget_get_window (self->priv->calendar_popup),
-				     GDK_SEAT_CAPABILITY_KEYBOARD | GDK_SEAT_CAPABILITY_ALL_POINTING,
-				     TRUE,
-				     NULL,
-				     NULL,
-				     NULL,
-				     NULL);
-	if (grab_status == GDK_GRAB_SUCCESS) {
-		gtk_widget_grab_focus (self->priv->calendar);
-		gtk_device_grab_add (self->priv->calendar_popup, self->priv->grab_device, TRUE);
-	}
 }
 
 
@@ -242,9 +140,17 @@ calendar_button_toggled_cb (GtkToggleButton *button,
 	GthTimeSelector *self = user_data;
 
 	if (gtk_toggle_button_get_active (button))
-		show_calendar_popup (self);
+		gtk_popover_popup (GTK_POPOVER (self->priv->calendar_popover));
 	else
-		hide_calendar_popup (self);
+		gtk_popover_popdown (GTK_POPOVER (self->priv->calendar_popover));
+}
+
+static void
+calendar_popover_closed_cb (GtkPopover *popover,
+			    gpointer    user_data)
+{
+	GthTimeSelector *self = user_data;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), FALSE);
 }
 
 
@@ -340,7 +246,7 @@ today_button_clicked_cb (GtkButton *button,
 	g_date_set_time_val (self->priv->date_time->date, &timeval);
 	update_view_from_data (self);
 	gth_time_selector_changed (self);
-	hide_calendar_popup (self);
+	gtk_popover_popdown (GTK_POPOVER (self->priv->calendar_popover));
 }
 
 
@@ -362,7 +268,7 @@ now_button_clicked_cb (GtkButton *button,
 	gth_time_set_hms (self->priv->date_time->time, tm->tm_hour, tm->tm_min, tm->tm_sec, timeval.tv_usec);
 
 	update_view_from_data (self);
-	hide_calendar_popup (self);
+	gtk_popover_popdown (GTK_POPOVER (self->priv->calendar_popover));
 }
 
 
@@ -378,7 +284,7 @@ calendar_day_selected_double_click_cb (GtkCalendar *calendar,
 	g_date_set_dmy (self->priv->date_time->date, d, m + 1, y);
 	update_view_from_data (self);
 	gth_time_selector_changed (self);
-	hide_calendar_popup (self);
+	gtk_popover_popdown (GTK_POPOVER (self->priv->calendar_popover));
 
 	return FALSE;
 }
@@ -397,54 +303,6 @@ calendar_day_selected_cb (GtkCalendar *calendar,
 	g_date_set_dmy (self->priv->date_time->date, d, m + 1, y);
 	update_view_from_data (self);
 	gth_time_selector_changed (self);
-
-	return FALSE;
-}
-
-
-static gboolean
-calendar_popup_button_press_event_cb (GtkWidget      *widget,
-				      GdkEventButton *event,
-				      gpointer        user_data)
-{
-	GthTimeSelector       *self = user_data;
-	cairo_rectangle_int_t  popup_area;
-
-	gdk_window_get_geometry (gtk_widget_get_window (self->priv->calendar_popup),
-				 &popup_area.x,
-				 &popup_area.y,
-				 &popup_area.width,
-				 &popup_area.height);
-
-	/*g_print ("(%.0f, %.0f) <==> (%d, %d)[%d, %d]\n", event->x_root, event->y_root,  popup_area.x,  popup_area.y, popup_area.width, popup_area.height);*/
-
-	if ((event->x_root < popup_area.x)
-	    || (event->x_root > popup_area.x + popup_area.width)
-	    || (event->y_root < popup_area.y)
-	    || (event->y_root > popup_area.y + popup_area.height))
-	{
-		hide_calendar_popup (self);
-	}
-
-	return FALSE;
-}
-
-
-static gboolean
-calendar_popup_key_press_event_cb (GtkWidget   *widget,
-				   GdkEventKey *event,
-				   gpointer     user_data)
-{
-	GthTimeSelector *self = user_data;
-
-	switch (event->keyval) {
-	case GDK_KEY_Escape:
-		hide_calendar_popup (self);
-		break;
-
-	default:
-		break;
-	}
 
 	return FALSE;
 }
@@ -501,20 +359,16 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  G_CALLBACK (calendar_button_toggled_cb),
 			  self);
 
-	self->priv->calendar_popup = gtk_window_new (GTK_WINDOW_POPUP);
-	g_signal_connect (self->priv->calendar_popup,
-			  "button-press-event",
-			  G_CALLBACK (calendar_popup_button_press_event_cb),
-			  self);
-	g_signal_connect (self->priv->calendar_popup,
-			  "key-press-event",
-			  G_CALLBACK (calendar_popup_key_press_event_cb),
+	self->priv->calendar_popover = gtk_popover_new (self->priv->calendar_button);
+	g_signal_connect (self->priv->calendar_popover,
+			  "closed",
+			  G_CALLBACK (calendar_popover_closed_cb),
 			  self);
 
 	self->priv->popup_box = frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_widget_show (frame);
-	gtk_container_add (GTK_CONTAINER (self->priv->calendar_popup), frame);
+	gtk_container_add (GTK_CONTAINER (self->priv->calendar_popover), frame);
 
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 6);
