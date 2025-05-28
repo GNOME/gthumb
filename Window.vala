@@ -1,89 +1,190 @@
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/window.ui")]
 public class Gth.Window : Adw.ApplicationWindow {
+	public FileData folder = null;
+	public GenericList<FileData> all_children = null;
+	public GenericList<FileData> visible_files = null;
+	public FileSource folder_source = null;
+	public string sort_type = null;
+	public bool inverse_order = false;
+	public bool fast_file_type = false;
+	public bool show_hidden_files = false;
+	public int thumbnail_size;
+	public Gth.JobQueue jobs;
+
 	public enum Page {
 		NONE = 0,
 		BROWSER,
 		VIEWER,
 	}
 
-	SimpleActionGroup action_group;
-
-	void init_actions () {
-		action_group = new SimpleActionGroup ();
-		insert_action_group ("win", action_group);
-
-		var action = new SimpleAction ("edit-filters", null);
-		action.activate.connect (() => {
-			var dialog = new Gth.PersonalizeFilters ();
-			dialog.present (this);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("set-filter", GLib.VariantType.STRING, new Variant.string (""));
-		action.activate.connect ((_action, param) => {
-			_action.set_state (param);
-			filter_bar.select_filter_by_id (param.get_string ());
-		});
-		action_group.add_action (action);
-	}
-
-	HashTable<string, Gtk.Window> named_dialogs;
-
 	public Window (Gtk.Application _app, File location, File? file_to_select) {
 		Object (application: app);
 
 		named_dialogs = new HashTable<string, Gtk.Window>(str_hash, str_equal);
+		jobs = new Gth.JobQueue ();
+		visible_files = new GenericList<FileData>();
+		thumbnailer = new Thumbnailer ();
+
+		file_grid.model = new Gtk.MultiSelection (visible_files.model);
+		var file_item_factory = new Gtk.SignalListItemFactory ();
+		file_item_factory.setup.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = new Gth.FileListItem (thumbnail_size);
+		});
+		file_item_factory.teardown.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = null;
+		});
+		file_item_factory.bind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FileListItem;
+			if (file_item != null) {
+				var file_data = list_item.item as FileData;
+				if (file_data != null) {
+					file_item.bind (file_data);
+					add_binded_file (file_data, list_item.position);
+				}
+			}
+		});
+		file_item_factory.unbind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FileListItem;
+			if (file_item != null) {
+				file_item.unbind ();
+				var file_data = list_item.item as FileData;
+				if (file_data != null) {
+					remove_binded_file (file_data, list_item.position);
+				}
+			}
+		});
+		file_grid.factory = file_item_factory;
 		init_actions ();
-
-		// Content
-
-		var toolbar_view = new Adw.ToolbarView ();
-		content = toolbar_view;
-
-		var header_bar = new Adw.HeaderBar ();
-		toolbar_view.add_top_bar (header_bar);
-
-		// Pages
-
-		main_stack = new Gtk.Stack ();
-		main_stack.transition_type = Gtk.StackTransitionType.CROSSFADE;
-		toolbar_view.content = main_stack;
-
-		browser_page = build_browser_page ();
-		main_stack.add_child (browser_page);
-
-		viewer_page = new Gtk.Label ("VIEWER");
-		main_stack.add_child (viewer_page);
-
 		set_page (Page.BROWSER);
 
 		// Restore the window size.
-
 		var width = app.browser_settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
 		var height = app.browser_settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
 		set_default_size (width, height);
-
 		if (app.browser_settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			maximize ();
 		}
 
-		// Load the location.
+		// Browser settings.
+		sort_type = app.browser_settings.get_string (PREF_BROWSER_SORT_TYPE);
+		inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_SORT_INVERSE);
+		general_filter = app.get_general_filter ();
+		active_filter = app.get_last_active_filter ();
+		fast_file_type = app.browser_settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
+		show_hidden_files = app.browser_settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
+		thumbnail_size = app.browser_settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 
+		// Load the location.
 		title = "Thumbnails";
 		Util.next_tick (() => {
-			filter_bar.load_active_filter ();
-			if (file_to_select != null)
+			filter_bar.set_active_filter (active_filter);
+			if (file_to_select != null) {
 				go_to (location, file_to_select);
-			else
+			}
+			else {
 				load_location (location);
+			}
 		});
 	}
 
-	public void go_to (File location, File file_to_select) {
+	Gth.Job load_job = null;
+
+	async void load_folder (File location) throws Error {
+		var source = app.get_source_for_file (location);
+		if (source == null) {
+			throw new IOError.FAILED (_("File type not supported"));
+		}
+		if (load_job != null) {
+			load_job.cancel ();
+		}
+		thumbnailer.cancel ();
+		var local_job = new_job ("Load %s".printf (location.get_uri ()));
+		load_job = local_job;
+		try {
+			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
+			var children = yield source.list_children (location, get_list_attributes (true), local_job.cancellable);
+
+			folder = file_data;
+			folder_source = source;
+			all_children = children;
+
+			// Filter the files.
+			var visible_children = new GenericList<FileData>();
+			var filter = get_file_filter ();
+			var iter = filter.iterator (all_children);
+			while (iter.next ()) {
+				visible_children.model.append (iter.get ());
+			}
+
+			// Sort the files.
+			unowned var sort_info = app.get_sorter_by_id (sort_type);
+			if (sort_info == null) {
+				sort_info = app.get_sorter_by_id ("file::name");
+			}
+			if (sort_info.cmp_func != null) {
+				visible_children.model.sort ((a, b) => {
+					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+					if (inverse_order)
+						result *= -1;
+					return result;
+				});
+			}
+
+			// TODO source.monitor_directory (folder.file, true);
+
+			// Update the view model.
+			visible_files.model.remove_all ();
+			foreach (unowned var file in visible_children) {
+				visible_files.model.append (file);
+			}
+		}
+		catch (Error error) {
+			local_job.error = error;
+		}
+		local_job.done ();
+		if (load_job == local_job) {
+			load_job = null;
+		}
+		if (local_job.error != null) {
+			throw local_job.error;
+		}
+	}
+
+	public bool is_loading () {
+		return (load_job != null) && load_job.is_running ();
+	}
+
+	public void show_message (string message) {
+		// TODO
+	}
+
+	public void go_to (File location, File? file_to_select = null) {
 		stdout.printf ("go to '%s' (select: '%s')\n", location.get_uri (), file_to_select.get_uri ());
+		set_page (Page.BROWSER);
+		load_folder.begin (location, (_obj, res) => {
+			try {
+				load_folder.end (res);
+				if (file_to_select != null) {
+					// TODO
+				}
+			}
+			catch (Error error) {
+				show_message (error.message);
+			}
+		});
 	}
 
 	public void load_location (File location) {
 		stdout.printf ("load %s\n", location.get_uri ());
+	}
+
+	public void update_sort_order (string _sort_type, bool _inverse_order) {
+		sort_type = _sort_type;
+		inverse_order = _inverse_order;
 	}
 
 	public void set_page (Page page) {
@@ -114,6 +215,26 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return named_dialogs[name];
 	}
 
+	public Gth.Job new_job (string description, string? status = null) {
+		var job = app.new_job (description, status);
+		add_job (job);
+		return job;
+	}
+
+	public Gth.Job new_background_job (string description, string? status = null) {
+		var job = app.new_job (description, status, true);
+		add_job (job);
+		return job;
+	}
+
+	public void add_job (Gth.Job job) {
+		jobs.add_job (job);
+	}
+
+	public void cancel_jobs () {
+		jobs.cancel_all ();
+	}
+
 	void update_title () {
 		// TODO
 		title = "gThumb";
@@ -123,24 +244,142 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO
 	}
 
-	Gtk.Widget build_browser_page () {
-		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+	string list_attributes = null;
 
-		var expander = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-		expander.vexpand = true;
-		expander.add_css_class ("deep-view");
-		box.append (expander);
+	unowned string get_list_attributes (bool recalc) {
+		if (recalc) {
+			list_attributes = null;
+		}
+		if (list_attributes != null) {
+			return list_attributes;
+		}
 
-		filter_bar = new Gth.FilterBar ();
-		filter_bar.valign = Gtk.Align.END;
-		box.append (filter_bar);
+		var attributes = new StringBuilder ();
 
-		return box;
+		// Standard attributes.
+		if (fast_file_type) {
+			attributes.append (STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
+		}
+		else {
+			attributes.append (STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+		}
+
+		// Attributes required by the filter.
+		unowned var filter = get_file_filter ();
+		if (filter.has_attributes ()) {
+			attributes.append (",");
+			attributes.append (filter.attributes);
+		}
+
+		// Attributes required for sorting.
+		if (sort_type != null) {
+			var sort_info = app.get_sorter_by_id (sort_type);
+			if (sort_info != null) {
+				if (!Strings.empty (sort_info.required_attributes)) {
+					attributes.append (",");
+					attributes.append (sort_info.required_attributes);
+				}
+			}
+		}
+
+		// Attributes required for the thumbnail caption.
+		var thumbnail_caption = app.browser_settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
+		if (!Strings.empty (thumbnail_caption) && (thumbnail_caption != "none")) {
+			attributes.append (",");
+			attributes.append (thumbnail_caption);
+		}
+
+		// Other attributes. TODO
+		//attributes.append (",");
+		//attributes.append (GTH_ATTRIBUTE_EMBLEMS);
+
+		// Save in a variable to avoid recalculation.
+		list_attributes = attributes.str;
+		return list_attributes;
 	}
 
-	Gtk.Stack main_stack;
-	Gtk.Widget browser_page;
-	Gtk.Widget viewer_page;
-	Gth.FilterBar filter_bar;
+	Gth.Filter? file_filter = null;
+
+	public unowned Gth.Filter get_file_filter (bool recalc = false) {
+		if ((file_filter == null) || recalc)
+			file_filter = app.add_general_filter (active_filter);
+		return file_filter;
+	}
+
+	void add_binded_file (FileData file_data, uint pos) {
+		thumbnailer.add (file_data);
+	}
+
+	void remove_binded_file (FileData file_data, uint pos) {
+		thumbnailer.remove (file_data);
+		file_data.set_thumbnail (null);
+	}
+
+	void init_actions () {
+		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/app-menu.ui");
+		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
+
+		action_group = new SimpleActionGroup ();
+		insert_action_group ("win", action_group);
+
+		var action = new SimpleAction ("edit-filters", null);
+		action.activate.connect (() => {
+			var dialog = new Gth.EditFiltersDialog ();
+			dialog.present (this);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-filter", VariantType.STRING, new Variant.string (""));
+		action.activate.connect ((_action, param) => {
+			_action.set_state (param);
+			filter_bar.select_filter_by_id (param.get_string ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string (""));
+		action.activate.connect ((_action, param) => {
+			_action.set_state (param);
+			// TODO
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("sort-files", null);
+		action.activate.connect (() => {
+			var dialog = get_named_dialog ("sort-files");
+			if (dialog == null) {
+				dialog = new Gth.SortFilesDialog (this);
+				set_named_dialog ("sort-files", dialog);
+			}
+			dialog.present ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-sort-type", GLib.VariantType.STRING, new Variant.string (""));
+		action.activate.connect ((_action, param) => {
+			_action.set_state (param);
+			// TODO
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-sort-direction", GLib.VariantType.BOOLEAN, new Variant.boolean (true));
+		action.activate.connect ((_action, param) => {
+			_action.set_state (param);
+			// TODO
+		});
+		action_group.add_action (action);
+	}
+
+	[GtkChild] Gtk.Stack main_stack;
+	[GtkChild] Gtk.Widget browser_page;
+	[GtkChild] Gtk.Widget viewer_page;
+	[GtkChild] Gth.FilterBar filter_bar;
+	[GtkChild] Gtk.MenuButton app_menu_button;
+	[GtkChild] Gtk.GridView file_grid;
+
 	Page current_page = Page.NONE;
+	SimpleActionGroup action_group;
+	Gth.Test general_filter;
+	Gth.Test active_filter;
+	HashTable<string, Gtk.Window> named_dialogs;
+	Gth.Thumbnailer thumbnailer;
 }

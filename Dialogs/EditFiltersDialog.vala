@@ -1,6 +1,6 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/personalize-filters.ui")]
-public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
-	public PersonalizeFilters () {
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/edit-filters-dialog.ui")]
+public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
+	public EditFiltersDialog () {
 		current_filter = null;
 
 		var action_group = new SimpleActionGroup ();
@@ -16,10 +16,10 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 		// General filter
 		var general_filter_id = app.browser_settings.get_string (PREF_BROWSER_GENERAL_FILTER);
 		var filters = app.get_file_type_filters ();
-		var iter = new ListModelIterator (filters);
+		var iter = filters.iterator ();
 		var general_filter_pos = iter.find_first ((obj) => ((Gth.Test) obj).id == general_filter_id);
 
-		general_filter_row.model = filters;
+		general_filter_row.model = filters.model;
 		general_filter_row.expression = new Gtk.PropertyExpression (typeof (Gth.Test), null, "display-name");
 		if (general_filter_pos >= 0) {
 			general_filter_row.selected = general_filter_pos;
@@ -27,7 +27,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 
 		// Filter list
 		var filter_list = Widgets.new_boxed_list ();
-		filter_list.bind_model (app.filter_file.filters, new_filter_row);
+		filter_list.bind_model (app.filter_file.filters.model, new_filter_row);
 		filters_group.add (filter_list);
 	}
 
@@ -49,7 +49,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 	private void on_choose_rule_type (Gth.FilterEditorPage source) {
 		if (!rules_loaded) {
 			var test_list = Widgets.new_boxed_list ();
-			test_list.bind_model (app.ordered_tests, new_test_type_row);
+			test_list.bind_model (app.ordered_tests.model, new_test_type_row);
 			rule_types.add (test_list);
 			rules_loaded = true;
 		}
@@ -68,7 +68,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 		var test = general_filter_row.model.get_item (general_filter_row.selected) as Gth.Test;
 		if (test != null) {
 			app.browser_settings.set_string (PREF_BROWSER_GENERAL_FILTER, test.id);
-			app.filter_file.changed ();
+			activate_action_variant ("set-general-filter", new Variant.string (test.id));
 		}
 	}
 
@@ -90,8 +90,8 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 	void move_row_to_position (Gth.FilterRow row, int target_pos) {
 		var source_pos = row.get_index ();
 		if ((target_pos >= 0) && (target_pos != source_pos)) {
-			app.filter_file.filters.remove (source_pos);
-			app.filter_file.filters.insert (target_pos, row.filter);
+			app.filter_file.filters.model.remove (source_pos);
+			app.filter_file.filters.model.insert (target_pos, row.filter);
 			app.filter_file.changed ();
 		}
 	}
@@ -107,7 +107,7 @@ public class Gth.PersonalizeFilters : Adw.PreferencesDialog {
 			move_row_to_position (source_row, 0);
 		});
 		row.move_to_bottom.connect ((source_row) => {
-			var last_pos = (int) app.filter_file.filters.get_n_items () - 1;
+			var last_pos = (int) app.filter_file.filters.model.get_n_items () - 1;
 			move_row_to_position (source_row, last_pos);
 		});
 

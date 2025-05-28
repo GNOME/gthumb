@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adwaita" version="1.7.0"/>
+  <template class="GthFilterBar" parent="GtkBox">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">12</property>
+    <property name="margin_top">12</property>
+    <property name="margin_bottom">12</property>
+    <property name="margin_start">12</property>
+    <property name="margin_end">12</property>
+    <child>
+      <object class="GtkMenuButton" id="filter_selector">
+        <property name="always_show_arrow">true</property>
+        <child>
+          <object class="GtkLabel" id="filter_label" />
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="options_container">
+      </object>
+    </child>
+  </template>
+</interface>

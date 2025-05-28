@@ -6,7 +6,9 @@ public class Gth.Strings {
 
 	static HashTable<string, int> static_strings;
 
-	public static unowned string get_static (string str) {
+	public static unowned string? get_static (string? str) {
+		if (str == null)
+			return null;
 		if (static_strings == null) {
 			static_strings = new HashTable<string, int> (str_hash, str_equal);
 		}
@@ -45,5 +47,25 @@ public class Gth.Strings {
 			first = false;
 		}
 		return str.str;
+	}
+
+	public static bool starts_with (string str, string prefix, int prefix_len = -1) {
+		if (prefix_len == -1)
+			prefix_len = prefix.length;
+		int str_offset = 0;
+		unichar str_ch = 0;
+		int prefix_offset = 0;
+		unichar prefix_ch = 0;
+		while (str.get_next_char (ref str_offset, out str_ch)
+			&& prefix.get_next_char (ref prefix_offset, out prefix_ch))
+		{
+			if (str_ch != prefix_ch) {
+				return false;
+			}
+			if (prefix_offset >= prefix_len) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

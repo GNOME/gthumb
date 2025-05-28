@@ -76,6 +76,10 @@ public class Gth.DateTime {
 		return (time != null) ? time.format (format) : "";
 	}
 
+	public string to_string () {
+		return strftime ("%x %X");
+	}
+
 	public int compare (Gth.DateTime other) {
 		if (is_valid () && other.is_valid ()) {
 			if (date.year < other.date.year) {

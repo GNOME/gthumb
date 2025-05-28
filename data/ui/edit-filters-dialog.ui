@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthPersonalizeFilters" parent="AdwPreferencesDialog">
+  <template class="GthEditFiltersDialog" parent="AdwPreferencesDialog">
     <property name="title" translatable="yes">Filters</property>
     <property name="content_width">700</property>
     <property name="content_height">710</property>
@@ -63,7 +63,7 @@
         <property name="content">
           <object class="AdwPreferencesPage">
             <child>
-              <object class="AdwPreferencesGroup"  id="rule_types">
+              <object class="AdwPreferencesGroup" id="rule_types">
                 <property name="description" translatable="yes">Choose a rule to add to the filter.</property>
                 <!-- Dynamic content -->
               </object>

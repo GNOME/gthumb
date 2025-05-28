@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adwaita" version="1.7.0"/>
+  <template class="GthWindow" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">Thumbnails</property>
+    <property name="default_width">800</property>
+    <property name="default_height">800</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <child type="end">
+              <object class="GtkMenuButton" id="app_menu_button">
+                <property name="icon-name">open-menu-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkStack" id="main_stack">
+            <property name="transition_type">crossfade</property>
+            <child>
+              <object class="GtkBox" id="browser_page">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <child>
+                      <object class="GtkGridView" id="file_grid">
+                        <property name="enable_rubberband">true</property>
+                        <style>
+                          <class name="thumbnail-grid"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GthFilterBar" id="filter_bar">
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox" id="viewer_page">
+                <property name="orientation">vertical</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

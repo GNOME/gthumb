@@ -3,3 +3,15 @@ option('build-tests',
   value : false,
   description : 'Build tests'
 )
+
+option('lcms2',
+  type : 'boolean',
+  value : true,
+  description : 'Use lcms2 to get color management support'
+)
+
+option('colord',
+  type : 'boolean',
+  value : true,
+  description : 'Use colord to read the monitor color profile'
+)

@@ -14,8 +14,12 @@
     <file>style.css</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/ui">
-    <file preprocess="xml-stripblanks">personalize-filters.ui</file>
+    <file preprocess="xml-stripblanks">app-menu.ui</file>
+    <file preprocess="xml-stripblanks">filter-bar.ui</file>
     <file preprocess="xml-stripblanks">filter-editor-page.ui</file>
     <file preprocess="xml-stripblanks">filter-row.ui</file>
+    <file preprocess="xml-stripblanks">edit-filters-dialog.ui</file>
+    <file preprocess="xml-stripblanks">sort-files-dialog.ui</file>
+    <file preprocess="xml-stripblanks">window.ui</file>
   </gresource>
 </gresources>

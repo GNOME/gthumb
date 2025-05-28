@@ -1,0 +1,42 @@
+#ifndef LIB_TYPES_H
+#define LIB_TYPES_H
+
+// The GthTransform numeric values range from 1 to 8, corresponding to
+// the valid range of Exif orientation tags.  The name associated with each
+// numeric valid describes the data transformation required that will allow
+// the orientation value to be reset to "1" without changing the displayed
+// image.
+// GthTransform and ExifShort values are interchangeably in a number of
+// places.  The main difference is that ExifShort can have a value of zero,
+// corresponding to an error or an absence of an Exif orientation tag.
+// See bug 361913 for additional details.
+typedef enum {
+	GTH_TRANSFORM_NONE = 1,         // no transformation
+	GTH_TRANSFORM_FLIP_H,           // horizontal flip
+	GTH_TRANSFORM_ROTATE_180,       // 180-degree rotation
+	GTH_TRANSFORM_FLIP_V,           // vertical flip
+	GTH_TRANSFORM_TRANSPOSE,        // transpose across UL-to-LR axis (= rotate_90 + flip_h)
+	GTH_TRANSFORM_ROTATE_90,        // 90-degree clockwise rotation
+	GTH_TRANSFORM_TRANSVERSE,       // transpose across UR-to-LL axis (= rotate_90 + flip_v)
+	GTH_TRANSFORM_ROTATE_270        // 270-degree clockwise
+} GthTransform;
+
+typedef enum {
+	GTH_COLOR_SPACE_UNKNOWN,
+	GTH_COLOR_SPACE_SRGB,
+	GTH_COLOR_SPACE_ADOBERGB,
+	GTH_COLOR_SPACE_UNCALIBRATED,
+} GthColorSpace;
+
+typedef enum {
+	GTH_FORMAT_BGRA,
+	GTH_FORMAT_ARGB,
+} GthFormat;
+
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#define GTH_PIXEL_FORMAT GTH_FORMAT_BGRA
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+#define GTH_PIXEL_FORMAT GTH_FORMAT_ARGB
+#endif
+
+#endif /* LIB_TYPES_H */

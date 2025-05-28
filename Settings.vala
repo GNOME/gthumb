@@ -102,7 +102,7 @@ class Gth.Settings {
 		var uri = settings.get_string (key);
 		if (uri == null)
 			return null;
-		var home_uri = Gth.Uri.uri_from_path (Environment.get_home_dir ());
+		var home_uri = Util.uri_from_path (Environment.get_home_dir ());
 		uri = uri.replace ("file://~", home_uri);
 		return File.new_for_uri (uri);
 	}

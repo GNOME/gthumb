@@ -3,6 +3,38 @@ const int VERTICAL_SPACING = 12; // pixels
 const int CONTAINER_H_PADDING = 12; // pixels
 const int CONTAINER_V_PADDING = 12; // pixels
 const string FILTERS_FILE = "filters.xml";
+const string ACCESS_ATTRIBUTES = "access::*";
+const string STANDARD_ATTRIBUTES =
+	FileAttribute.STANDARD_TYPE + "," +
+	FileAttribute.STANDARD_IS_HIDDEN + "," +
+	FileAttribute.STANDARD_IS_BACKUP + "," +
+	FileAttribute.STANDARD_NAME + "," +
+	FileAttribute.STANDARD_DISPLAY_NAME + "," +
+	FileAttribute.STANDARD_EDIT_NAME + "," +
+	FileAttribute.STANDARD_ICON + "," +
+	FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
+	FileAttribute.STANDARD_SIZE + "," +
+	FileAttribute.TIME_CREATED + "," +
+	FileAttribute.TIME_CREATED_USEC + "," +
+	FileAttribute.TIME_MODIFIED_USEC + "," +
+	FileAttribute.TIME_MODIFIED_USEC + "," +
+	FileAttribute.THUMBNAIL_PATH + "," +
+	FileAttribute.THUMBNAIL_IS_VALID + "," +
+	FileAttribute.THUMBNAILING_FAILED + "," +
+	FileAttribute.THUMBNAIL_PATH_NORMAL + "," +
+	FileAttribute.THUMBNAIL_PATH_LARGE + "," +
+	FileAttribute.THUMBNAIL_PATH_XLARGE + "," +
+	FileAttribute.THUMBNAIL_PATH_XXLARGE + "," +
+	ACCESS_ATTRIBUTES;
+const string STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE =
+	STANDARD_ATTRIBUTES + "," +
+	FileAttribute.STANDARD_FAST_CONTENT_TYPE;
+const string STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE =
+	STANDARD_ATTRIBUTES + "," +
+	FileAttribute.STANDARD_FAST_CONTENT_TYPE + "," +
+	FileAttribute.STANDARD_CONTENT_TYPE;
+const string EMBLEMS_ATTRIBUTE = "gth::file::emblems";
+const string VOLUME_ATTRIBUTE = "gth::volume";
 
 public struct Gth.SortInfo {
 	string id;
@@ -17,6 +49,16 @@ public struct Gth.TestInfo {
 	GLib.Type test_type;
 }
 
+[Flags]
+public enum Gth.MetadataFlags {
+	HIDDEN,
+	ALLOW_IN_FILE_LIST,
+	ALLOW_IN_PROPERTIES_VIEW,
+	ALLOW_IN_PRINT,
+}
+
+public const Gth.MetadataFlags METADATA_ALLOW_EVERYWHERE = Gth.MetadataFlags.ALLOW_IN_FILE_LIST | Gth.MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | Gth.MetadataFlags.ALLOW_IN_PRINT;
+
 public struct Gth.MetadataInfo {
 	string id;
 	string display_name;
@@ -26,12 +68,10 @@ public struct Gth.MetadataInfo {
 	Gth.MetadataFlags flags;
 }
 
-[Flags]
-public enum Gth.MetadataFlags {
-	ALLOW_NOWHERE,
-	ALLOW_IN_FILE_LIST,
-	ALLOW_IN_PROPERTIES_VIEW,
-	ALLOW_IN_PRINT,
+public struct Gth.MetadataCategory {
+	string id;
+	string display_name;
+	int sort_order;
 }
 
 public delegate void Gth.IdleFunc ();

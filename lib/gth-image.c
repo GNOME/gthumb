@@ -1,0 +1,454 @@
+#include <config.h>
+#include <glib.h>
+#ifdef HAVE_LCMS2
+#include <lcms2.h>
+#endif /* HAVE_LCMS2 */
+#include "lib/gth-color-manager.h"
+#include "lib/gth-image.h"
+
+
+typedef enum {
+	METADATA_FLAG_NONE = 0,
+	METADATA_FLAG_HAS_ALPHA = 1 << 1,
+	METADATA_FLAG_ORIGINAL_SIZE = 1 << 2,
+	METADATA_FLAG_ORIGINAL_IMAGE_SIZE = 1 << 3,
+	METADATA_FLAG_ICC_PROFILE = 1 << 4,
+} MetadataFlags;
+
+
+struct _GthImagePrivate {
+	gchar *buffer;
+	gsize size;
+	int row_stride;
+	guint width;
+	guint height;
+	MetadataFlags metadata_flags;
+	gboolean has_alpha;
+	guint original_width;
+	guint original_height;
+	guint original_image_width;
+	guint original_image_height;
+	GthIccProfile *icc_profile;
+	GBytes *bytes;
+};
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImage,
+			 gth_image,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImage))
+
+
+static void
+_gth_image_free_data (GthImage *self)
+{
+	if (self->priv->buffer != NULL) {
+		g_free (self->priv->buffer);
+		self->priv->buffer = NULL;
+	}
+	if (self->priv->bytes != NULL) {
+		g_bytes_unref (self->priv->bytes);
+		self->priv->bytes = NULL;
+	}
+}
+
+
+static void
+_gth_image_free_icc_profile (GthImage *self)
+{
+	if (self->priv->icc_profile != NULL)
+		g_object_unref (self->priv->icc_profile);
+	self->priv->icc_profile = NULL;
+}
+
+
+static void
+gth_image_finalize (GObject *object)
+{
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GTH_IS_IMAGE (object));
+
+	_gth_image_free_data (GTH_IMAGE (object));
+	_gth_image_free_icc_profile (GTH_IMAGE (object));
+
+	/* Chain up */
+	G_OBJECT_CLASS (gth_image_parent_class)->finalize (object);
+}
+
+
+static gboolean
+base_get_is_zoomable (GthImage *self)
+{
+	return FALSE;
+}
+
+
+static gboolean
+base_set_zoom (GthImage *self,
+	       double    zoom,
+	       guint    *original_width,
+	       guint    *original_height)
+{
+	return FALSE;
+}
+
+
+static void
+gth_image_class_init (GthImageClass *klass)
+{
+	GObjectClass *gobject_class;
+
+	gobject_class = (GObjectClass*) klass;
+	gobject_class->finalize = gth_image_finalize;
+
+	klass->get_is_zoomable = base_get_is_zoomable;
+	klass->set_zoom = base_set_zoom;
+}
+
+
+static void
+gth_image_init (GthImage *self)
+{
+	self->priv = gth_image_get_instance_private (self);
+	self->priv->buffer = NULL;
+	self->priv->size = 0;
+	self->priv->row_stride = 0;
+	self->priv->width = 0;
+	self->priv->height = 0;
+	self->priv->metadata_flags = METADATA_FLAG_NONE;
+	self->priv->has_alpha = FALSE;
+	self->priv->original_width = 0;
+	self->priv->original_height = 0;
+	self->priv->icc_profile = NULL;
+	self->priv->bytes = NULL;
+}
+
+
+#define PIXEL_BYTES 4
+
+
+GthImage *
+gth_image_new (guint width, guint height)
+{
+	g_return_val_if_fail (width > 0, NULL);
+	g_return_val_if_fail (height > 0, NULL);
+
+	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
+	image->priv->row_stride = (int) (width * PIXEL_BYTES);
+	image->priv->size = (gsize) image->priv->row_stride * height;
+	// TODO: check the size
+	image->priv->buffer = g_malloc (image->priv->size);
+	// TODO: check if buffer is NULL
+	image->priv->width = width;
+	image->priv->height = height;
+	image->priv->bytes = g_bytes_new_static (image->priv->buffer, image->priv->size);
+	return image;
+}
+
+
+GthImage *
+gth_image_copy (GthImage *self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+
+	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
+	image->priv->buffer = g_memdup2 (self->priv->buffer, self->priv->size);
+	image->priv->size = self->priv->size;
+	image->priv->row_stride = self->priv->row_stride;
+	image->priv->width = self->priv->width;
+	image->priv->height = self->priv->height;
+	image->priv->bytes = g_bytes_new_static (self->priv->buffer, self->priv->size);
+
+	image->priv->metadata_flags = self->priv->metadata_flags;
+	if (self->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) {
+		image->priv->has_alpha = self->priv->has_alpha;
+	}
+	if (self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) {
+		image->priv->original_width = self->priv->original_width;
+		image->priv->original_height = self->priv->original_height;
+	}
+	if (self->priv->metadata_flags & METADATA_FLAG_ICC_PROFILE) {
+		gth_image_set_icc_profile (image, gth_image_get_icc_profile (self));
+	}
+	return image;
+}
+
+
+guchar*
+gth_image_get_pixels (GthImage	*self,
+		      gsize	*size,
+		      int	*row_stride)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	if (size != NULL)
+		*size = self->priv->size;
+	if (row_stride != NULL)
+		*row_stride = self->priv->row_stride;
+	return self->priv->buffer;
+}
+
+
+guint
+gth_image_get_width (GthImage	*self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
+	return self->priv->width;
+}
+
+
+guint
+gth_image_get_height (GthImage	*self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
+	return self->priv->height;
+}
+
+
+gsize
+gth_image_get_size (GthImage	*self)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	return self->priv->size;
+}
+
+
+void
+gth_image_set_has_alpha (GthImage	*self,
+			 gboolean	 has_alpha)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	self->priv->metadata_flags |= METADATA_FLAG_HAS_ALPHA;
+	self->priv->has_alpha = has_alpha;
+}
+
+
+gboolean
+gth_image_get_has_alpha (GthImage *self,
+			 gboolean *has_alpha)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	if ((self->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) == 0)
+		return FALSE;
+	if (has_alpha != NULL) {
+		*has_alpha = self->priv->has_alpha;
+	}
+	return TRUE;
+}
+
+
+void
+gth_image_set_original_size (GthImage	*self,
+			     guint	 width,
+			     guint	 height)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_SIZE;
+	self->priv->original_width = width;
+	self->priv->original_height = height;
+}
+
+
+gboolean
+gth_image_get_original_size (GthImage	*self,
+			     guint	*width,
+			     guint	*height)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) == 0)
+		return FALSE;
+	if (width != NULL) {
+		*width = self->priv->original_width;
+	}
+	if (height != NULL) {
+		*height = self->priv->original_height;
+	}
+	return TRUE;
+}
+
+
+// Size of the image the thumbnail refers to.
+void
+gth_image_set_original_image_size (GthImage	*self,
+				   guint	 width,
+				   guint	 height)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_IMAGE_SIZE;
+	self->priv->original_image_width = width;
+	self->priv->original_image_height = height;
+}
+
+
+gboolean
+gth_image_get_is_zoomable (GthImage *self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	return GTH_IMAGE_GET_CLASS (self)->get_is_zoomable (self);
+}
+
+
+gboolean
+gth_image_set_zoom (GthImage *self,
+		    double    zoom,
+		    guint    *original_width,
+		    guint    *original_height)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	return GTH_IMAGE_GET_CLASS (self)->set_zoom (self, zoom, original_width, original_height);
+}
+
+
+void
+gth_image_set_icc_profile (GthImage		*self,
+			   GthIccProfile	*profile)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	if (profile != NULL)
+		g_object_ref (profile);
+	_gth_image_free_icc_profile (self);
+	self->priv->icc_profile = profile;
+}
+
+
+GthIccProfile *
+gth_image_get_icc_profile (GthImage *self)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	return self->priv->icc_profile;
+}
+
+
+void
+gth_image_apply_icc_profile (GthImage		*self,
+			     GthColorManager	*color_manager,
+			     GthIccProfile	*out_profile,
+			     GCancellable	*cancellable)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+
+#if HAVE_LCMS2
+
+	if (out_profile == NULL)
+		return;
+
+	if (self->priv->buffer == NULL)
+		return;
+
+	if (self->priv->icc_profile == NULL)
+		return;
+
+	GthIccTransform *transform = gth_color_manager_get_transform (
+		color_manager,
+		self->priv->icc_profile,
+		out_profile
+	);
+
+	if (transform == NULL)
+		return;
+
+	cmsHTRANSFORM hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
+	const unsigned char *row_pointer = self->priv->buffer;
+	for (guint row = 0; row < self->priv->height; row++) {
+		if (g_cancellable_is_cancelled (cancellable))
+			break;
+		cmsDoTransform (hTransform, row_pointer, row_pointer, self->priv->width);
+		row_pointer += self->priv->row_stride;
+	}
+
+	g_object_unref (transform);
+
+#endif
+}
+
+
+/* -- gth_image_apply_icc_profile_async -- */
+
+
+typedef struct {
+	GthImage	*image;
+	GthColorManager *color_manager;
+	GthIccProfile	*out_profile;
+} ApplyProfileData;
+
+
+static void
+apply_profile_data_free (gpointer user_data)
+{
+	ApplyProfileData *apd = user_data;
+	g_object_unref (apd->image);
+	g_object_unref (apd->color_manager);
+	g_object_unref (apd->out_profile);
+	g_free (apd);
+}
+
+
+static void
+_gth_image_apply_icc_profile_thread (GTask		*task,
+				     gpointer		 source_object,
+				     gpointer		 task_data,
+				     GCancellable	*cancellable)
+{
+	ApplyProfileData *apd;
+
+	apd = g_task_get_task_data (task);
+	gth_image_apply_icc_profile (apd->image, apd->color_manager, apd->out_profile, cancellable);
+
+	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+		return;
+	}
+
+	g_task_return_boolean (task, TRUE);
+}
+
+
+void
+gth_image_apply_icc_profile_async (GthImage		*image,
+				   GthColorManager	*color_manager,
+				   GthIccProfile	*out_profile,
+				   GCancellable		*cancellable,
+				   GAsyncReadyCallback	 callback,
+				   gpointer		 user_data)
+{
+	g_return_if_fail (image != NULL);
+	g_return_if_fail (out_profile != NULL);
+
+	ApplyProfileData *apd = g_new (ApplyProfileData, 1);
+	apd->image = g_object_ref (image);
+	apd->color_manager = g_object_ref (color_manager);
+	apd->out_profile = g_object_ref (out_profile);
+
+	GTask *task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, apd, apply_profile_data_free);
+	g_task_run_in_thread (task, _gth_image_apply_icc_profile_thread);
+
+	g_object_unref (task);
+}
+
+
+gboolean
+gth_image_apply_icc_profile_finish (GAsyncResult	 *result,
+				    GError		**error)
+{
+	return g_task_propagate_boolean (G_TASK (result), error);
+}
+
+
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+#define MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
+#endif
+
+
+GdkTexture *
+gth_image_get_gdk_texture (GthImage *self)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	return gdk_memory_texture_new (
+		self->priv->width,
+		self->priv->height,
+		MEMORY_FORMAT,
+		self->priv->bytes,
+		(gsize) self->priv->row_stride);
+}

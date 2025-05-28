@@ -19,10 +19,14 @@ public class Gth.Filter : Gth.Test {
 	public int64 limit;
 	public string sort_name;
 	public Gtk.SortType sort_type;
-
-	Gth.TestChain _tests;
 	public Gth.TestChain tests {
-		get { return _tests; }
+		set {
+			_tests = value;
+			attributes = _tests.attributes;
+		}
+		get {
+			return _tests;
+		}
 	}
 
 	construct {
@@ -34,28 +38,12 @@ public class Gth.Filter : Gth.Test {
 		sort_type = Gtk.SortType.ASCENDING;
 	}
 
-	public override void set_files (GenericArray<FileData> _files) {
-		base.set_files (_files);
-		if ((limit_type != LimitType.NONE) && !Strings.empty (sort_name)) {
-			var sorter = app.get_sorter_by_id (sort_name);
-			if ((sorter != null) && (sorter.cmp_func != null)) {
-				files.sort (sorter.cmp_func);
-				if (sort_type == Gtk.SortType.DESCENDING) {
-					for (var i = 0; i < files.length / 2; i++) {
-						var j = files.length - 1 - i;
-						var tmp = files[i];
-						files[i] = files[j];
-						files[j] = tmp;
-					}
-				}
-			}
-		}
-		tot_files = 0;
-		tot_bytes = 0;
+	public override TestIterator iterator (GenericList<FileData> files) {
+		return new FilterIterator (this, files);
 	}
 
-	public virtual bool match (FileData file) {
-		return false;
+	public override bool match (FileData file) {
+		return (tests != null) ? tests.match (file) : true;
 	}
 
 	public override Dom.Element create_element (Dom.Document doc) {
@@ -180,10 +168,40 @@ public class Gth.Filter : Gth.Test {
 		id = original_id;
 	}
 
-	int tot_files;
-	int64 tot_bytes;
+	Gth.TestChain _tests;
 	Gtk.SpinButton spin_button;
 	Gtk.DropDown unit_selector;
 
 	const int ID_LENGTH = 8;
+}
+
+public class Gth.FilterIterator : Gth.TestIterator {
+	public FilterIterator (Filter _test, GenericList<FileData> _files) {
+		base (_test, _files);
+		filter = _test as Filter;
+		tot_files = 0;
+		tot_bytes = 0;
+	}
+
+	public new bool next () {
+		if (base.next () && (filter.limit_type != Filter.LimitType.NONE)) {
+			tot_files += 1;
+			tot_bytes += file.info.get_size ();
+			if (filter.limit_type == Filter.LimitType.FILES) {
+				if (tot_files > filter.limit) {
+					file = null;
+				}
+			}
+			else if (filter.limit_type == Filter.LimitType.BYTES) {
+				if (tot_bytes > filter.limit) {
+					file = null;
+				}
+			}
+		}
+		return file != null;
+	}
+
+	Filter filter;
+	int tot_files;
+	int64 tot_bytes;
 }

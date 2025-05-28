@@ -98,21 +98,8 @@ public class Gth.Test : Object {
 		// void
 	}
 
-	public virtual void set_files (GenericArray<FileData> _files) {
-		files = _files;
-		iterator = 0;
-	}
-
-	public FileData? get_next () {
-		if (files != null) {
-			while (iterator < files.length) {
-				unowned var file = files[iterator++];
-				if (match (file)) {
-					return file;
-				}
-			}
-		}
-		return null;
+	public virtual TestIterator iterator (GenericList<FileData> files) {
+		return new TestIterator (this, files);
 	}
 
 	public virtual Dom.Element create_element (Dom.Document doc) {
@@ -129,6 +116,13 @@ public class Gth.Test : Object {
 		visible = node.get_attribute ("display") != "none";
 	}
 
+	public void copy (Gth.Test other) {
+		var doc = new Dom.Document ();
+		var node = other.create_element (doc);
+		doc.append_child (node);
+		load_from_element (node);
+	}
+
 	public Gth.Test duplicate () {
 		var new_test = Object.new (this.get_class ().get_type ()) as Gth.Test;
 		var doc = new Dom.Document ();
@@ -138,5 +132,46 @@ public class Gth.Test : Object {
 		return new_test;
 	}
 
-	int iterator = 0;
+	public bool has_attributes () {
+		return !Strings.empty (attributes);
+	}
+
+	public string to_string () {
+		var doc = new Dom.Document ();
+		var node = create_element (doc);
+		doc.append_child (node);
+		return doc.to_xml ();
+	}
+}
+
+public class Gth.TestIterator {
+	public TestIterator (Test _test, GenericList<FileData> _files) {
+		test = _test;
+		files = _files;
+		file_index = 0;
+		file = null;
+	}
+
+	public unowned FileData? get () {
+		return file;
+	}
+
+	public bool next () {
+		while (true) {
+			file = files.model.get_item (file_index++) as FileData;
+			if ((file == null) || test.match (file)) {
+				break;
+			}
+		}
+		return file != null;
+	}
+
+	public int index () {
+		return file_index;
+	}
+
+	protected Test test;
+	protected GenericList<FileData> files;
+	protected int file_index;
+	protected FileData file;
 }

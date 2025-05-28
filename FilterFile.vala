@@ -1,17 +1,17 @@
 public class Gth.FilterFile {
-	public ListStore filters;
+	public GenericList<Gth.Test> filters;
 
 	public signal void changed ();
 
 	public FilterFile () {
-		filters = new ListStore (typeof (Gth.Test));
+		filters = new GenericList<Gth.Test>();
 		load ();
 	}
 
 	public int find_test (Test test) {
-		var iter = new ListModelIterator (filters);
+		var iter = filters.iterator ();
 		while (iter.next ()) {
-			var filter = iter.get () as Gth.Test;
+			var filter = iter.get ();
 			if (filter.id == test.id) {
 				return iter.index ();
 			}
@@ -26,10 +26,10 @@ public class Gth.FilterFile {
 	public void add (Test test) {
 		var idx = find_test (test);
 		if (idx >= 0) {
-			filters.splice (idx, 1, { test });
+			filters.model.splice (idx, 1, { test });
 		}
 		else {
-			filters.append (test);
+			filters.model.append (test);
 		}
 		changed ();
 	}
@@ -37,13 +37,13 @@ public class Gth.FilterFile {
 	public void remove (Test test) {
 		var idx = find_test (test);
 		if (idx >= 0) {
-			filters.remove (idx);
+			filters.model.remove (idx);
 		}
 		changed ();
 	}
 
 	public bool load () {
-		filters.remove_all ();
+		filters.model.remove_all ();
 		var file = Gth.UserDir.get_app_file (Gth.UserDirType.CONFIG, Gth.FileIntent.READ, FILTERS_FILE);
 		if (file == null) {
 			return false;
@@ -57,7 +57,7 @@ public class Gth.FilterFile {
 					if (node.tag_name == "filter") {
 						var filter = new Gth.Filter ();
 						filter.load_from_element (node);
-						filters.append (filter);
+						filters.model.append (filter);
 					}
 					else if (node.tag_name == "test") {
 						unowned var id = node.get_attribute ("id");
@@ -66,7 +66,7 @@ public class Gth.FilterFile {
 							if (registered_test != null) {
 								var test = Object.new (registered_test.get_type ()) as Gth.Test;
 								test.load_from_element (node);
-								filters.append (test);
+								filters.model.append (test);
 							}
 						}
 					}
@@ -93,9 +93,7 @@ public class Gth.FilterFile {
 		var doc = new Dom.Document ();
 		var root = new Dom.Element.with_attributes ("filters", "version", FILTER_FORMAT);
 		doc.append_child (root);
-		var iter = new ListModelIterator (filters);
-		while (iter.next ()) {
-			var filter = iter.get () as Gth.Test;
+		foreach (unowned var filter in filters) {
 			root.append_child (filter.create_element (doc));
 		}
 		return doc.to_xml ();

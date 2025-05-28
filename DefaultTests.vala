@@ -22,7 +22,7 @@ public class Gth.TestFileTypeImage : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return Util.content_type_is_image (file.info.get_content_type ());
+		return Util.content_type_is_image (file.get_content_type ());
 	}
 }
 
@@ -34,7 +34,7 @@ public class Gth.TestFileTypeJpeg : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return ContentType.equals (file.info.get_content_type (), "image/jpeg");
+		return ContentType.equals (file.get_content_type (), "image/jpeg");
 	}
 }
 
@@ -46,7 +46,7 @@ public class Gth.TestFileTypeRaw : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return Util.content_type_is_raw (file.info.get_content_type ());
+		return Util.content_type_is_raw (file.get_content_type ());
 	}
 }
 
@@ -58,7 +58,7 @@ public class Gth.TestFileTypeVideo : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return Util.content_type_is_video (file.info.get_content_type ());
+		return Util.content_type_is_video (file.get_content_type ());
 	}
 }
 
@@ -70,7 +70,7 @@ public class Gth.TestFileTypeAudio : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return Util.content_type_is_audio (file.info.get_content_type ());
+		return Util.content_type_is_audio (file.get_content_type ());
 	}
 }
 
@@ -82,7 +82,7 @@ public class Gth.TestFileTypeMedia : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		unowned var content_type = file.info.get_content_type ();
+		unowned var content_type = file.get_content_type ();
 		return Util.content_type_is_image (content_type)
 			 || Util.content_type_is_audio (content_type)
 			 || Util.content_type_is_video (content_type);
@@ -97,7 +97,7 @@ public class Gth.TestFileTypeText : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return ContentType.is_a (file.info.get_content_type (), "text/*");
+		return ContentType.is_a (file.get_content_type (), "text/*");
 	}
 }
 

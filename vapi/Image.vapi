@@ -1,0 +1,24 @@
+using GLib;
+
+namespace Gth {
+	[CCode (cheader_filename = "lib/gth-image.h", type_id = "gth_image_get_type ()")]
+	public class Image : Object {
+		public Image (uint width, uint height);
+		public Image copy ();
+		public unowned uint8[] get_pixels (out size_t size, out int row_stride);
+		public uint get_width ();
+		public uint get_height ();
+		public size_t get_size ();
+		public void set_has_alpha (bool has_alpha);
+		public bool get_has_alpha (out bool has_alpha);
+		public void set_original_size (uint width, uint height);
+		public bool get_original_size (out uint width, out uint height);
+		public virtual bool get_is_zoomable ();
+		public virtual bool set_zoom (double zoom, out uint original_width, out uint original_height);
+		public void set_icc_profile (IccProfile profile);
+		public unowned IccProfile? get_icc_profile ();
+		public void apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
+		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
+		public Gdk.Texture get_gdk_texture ();
+	}
+}

@@ -5,7 +5,7 @@ public class Gth.TestSelector : Gtk.Box {
 
 		// Test selector
 		var test_name_expr = new Gtk.PropertyExpression (typeof (Gth.Test), null, "display-name");
-		test_selector = new Gtk.DropDown (app.ordered_tests, test_name_expr);
+		test_selector = new Gtk.DropDown (app.ordered_tests.model, test_name_expr);
 
 		// Test options container
 		options_container = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -18,9 +18,9 @@ public class Gth.TestSelector : Gtk.Box {
 		var test_idx = -1;
 		var idx = 0;
 		var test_id = test.id;
-		var iter = new ListModelIterator (app.ordered_tests);
+		var iter = app.ordered_tests.iterator ();
 		while (iter.next ()) {
-			unowned var registered_test = iter.get () as Gth.Test;
+			unowned var registered_test = iter.get ();
 			if (test_id == registered_test.id) {
 				test_idx = iter.index ();
 				break;

@@ -27,7 +27,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	}
 
 	void update_visibility () {
-		match_operation_group.visible = (filter != null) && (filter.tests.tests.get_n_items () > 1);
+		match_operation_group.visible = (filter != null) && (filter.tests.tests.model.get_n_items () > 1);
 	}
 
 	public void set_filter (Gth.Filter? current_filter) {
@@ -39,11 +39,11 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			filter.visible = true;
 		}
 
-		filter.tests.tests.items_changed.connect (() => update_visibility ());
+		filter.tests.tests.model.items_changed.connect (() => update_visibility ());
 		update_visibility ();
 
 		name_entry.set_text (filter.display_name);
-		test_list.bind_model (filter.tests.tests, new_test_row);
+		test_list.bind_model (filter.tests.tests.model, new_test_row);
 		if (filter.tests.operation == Gth.TestChain.Operation.UNION) {
 			match_any.active = true;
 		}
@@ -88,7 +88,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		var registered_test = app.get_test_by_id (id);
 		if (registered_test != null) {
 			var new_test = registered_test.duplicate ();
-			filter.tests.add_test (new_test);
+			filter.tests.add (new_test);
 			new_test.focus_options ();
 		}
 	}
@@ -102,9 +102,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		}
 
 		// Tests
-		var iter = new ListModelIterator (filter.tests.tests);
-		while (iter.next ()) {
-			unowned var test = iter.get () as Test;
+		foreach (unowned var test in filter.tests.tests) {
 			try {
 				test.update_from_options ();
 			}
@@ -154,7 +152,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		delete_button.add_css_class ("flat");
 		delete_button.valign = Gtk.Align.CENTER;
 		delete_button.clicked.connect (() => {
-			filter.tests.remove_test (test);
+			filter.tests.remove (test);
 		});
 		row.add_suffix (delete_button);
 

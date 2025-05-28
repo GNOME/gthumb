@@ -1,4 +1,4 @@
-public class Util {
+public class Gth.Util {
 	public static uint next_tick (owned Gth.IdleFunc function, int priority = Priority.DEFAULT) {
 		return Timeout.add_full (priority, 0, () => {
 			function ();
@@ -60,7 +60,7 @@ public class Util {
 			|| (content_type == "image/x-tga");
 	}
 
-	public static DateTime? get_time_from_exif_date (string? exif_date) {
+	public static GLib.DateTime? get_time_from_exif_date (string? exif_date) {
 		if (exif_date == null)
 			return null;
 
@@ -146,7 +146,7 @@ public class Util {
 		if (chars[idx] != 0)
 			return null;
 
-		return new DateTime (new TimeZone.local (), year, month, day, hours, minutes, seconds);
+		return new GLib.DateTime (new TimeZone.local (), year, month, day, hours, minutes, seconds);
 	}
 
 	public static int enum_index (string[] values, string? value, int default = 0) {
@@ -158,5 +158,176 @@ public class Util {
 			}
 		}
 		return default;
+	}
+
+	public static string uri_from_path (string path) {
+		return "file://" + GLib.Uri.unescape_string (path, GLib.Uri.RESERVED_CHARS_ALLOWED_IN_PATH);
+	}
+
+	public static unowned string? get_uri_scheme (string uri_string) {
+		try {
+			var uri = GLib.Uri.parse (uri_string, UriFlags.PARSE_RELAXED);
+			unowned var scheme = uri.get_scheme ();
+			if (scheme == null)
+				return null;
+			return Strings.get_static (scheme);
+		}
+		catch (Error e) {
+			return null;
+		}
+	}
+
+	public static string concat_attributes (string? attributes, string? other_attributes) {
+		var result = new StringBuilder ("");
+		if (!Strings.empty (attributes)) {
+			result.append (attributes);
+		}
+		if (!Strings.empty (other_attributes)) {
+			if (result.len > 0)
+				result.append (",");
+			result.append (other_attributes);
+		}
+		return result.str;
+	}
+
+	public static bool attribute_matches_pattern (string attribute, string pattern) {
+		var pattern_end = pattern.index_of_char ('*');
+		if (pattern_end < 0) {
+			return attribute == pattern;
+		}
+		else {
+			return Strings.starts_with (attribute, pattern, pattern_end);
+		}
+	}
+
+	static bool attributes_match_patterns (string[] attribute_v, string[] pattern_v) {
+		foreach (unowned var attribute in attribute_v) {
+			foreach (unowned var pattern in pattern_v) {
+				if (Util.attribute_matches_pattern (attribute, pattern)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static bool attributes_match_any_pattern_v (string[] attribute_v, string[] pattern_v) {
+		return Util.attributes_match_patterns (attribute_v, pattern_v)
+			|| Util.attributes_match_patterns (pattern_v, attribute_v);
+	}
+
+	public static bool attributes_match_any_pattern (string attributes, string patterns) {
+		var attribute_v = attributes.split (",");
+		var pattern_v = patterns.split (",");
+		return attributes_match_any_pattern_v (attribute_v, pattern_v);
+	}
+
+	public static bool attributes_match_all_patterns (string attributes, string patterns) {
+		var matches_all = true;
+		var attributes_v = attributes.split (",");
+		var pattern_v = patterns.split (",");
+		foreach (unowned var attribute in attributes_v) {
+			var matches_mask = false;
+			foreach (unowned var pattern in pattern_v) {
+				if (Util.attribute_matches_pattern (attribute, pattern)) {
+					matches_mask = true;
+					break;
+				}
+			}
+			if (!matches_mask) {
+				matches_all = false;
+				break;
+			}
+		}
+		return matches_all;
+	}
+
+	public static string[] extract_metadata_attributes (string attributes) {
+		string[] result = {};
+		var matcher = new FileAttributeMatcher (attributes);
+		foreach (unowned var info in app.metadata_info_v) {
+			if (matcher.matches (info.id)) {
+				result += info.id;
+			}
+		}
+		return result;
+	}
+
+	const int BUFFER_SIZE_FOR_SNIFFING = 32;
+
+	static unowned string? get_mime_type_from_magic_numbers (uint8[] buffer, size_t content_size) {
+		for (var i = 0; i < MAGIC_IDS.length; i++) {
+			unowned var magic = MAGIC_IDS[i];
+			if (magic.offset + magic.length > content_size)
+				continue;
+			unowned uint8[] buffer_data = buffer[magic.offset:-1];
+			if (Posix.memcmp (buffer_data, magic.id.data, magic.length) == 0)
+				return magic.mime_type;
+		}
+		return null;
+	}
+
+	struct MagicInfo {
+		string mime_type;
+		uint offset;
+		uint length;
+		string id;
+	}
+
+	const MagicInfo[] MAGIC_IDS = {
+		// Some magic ids taken from magic/Magdir/archive from the file-4.21 tarball.
+		{ "image/png",  0,  8, "\x89PNG\x0d\x0a\x1a\x0a" },
+		{ "image/tiff", 0,  4, "MM\x00\x2a" },
+		{ "image/tiff", 0,  4, "II\x2a\x00" },
+		{ "image/gif",  0,  4, "GIF8" },
+		{ "image/jpeg", 0,  3, "\xff\xd8\xff" },
+		{ "image/webp", 8,  7, "WEBPVP8" },
+		{ "image/jxl",  0,  2, "\xff\x0a" },
+		{ "image/jxl",  0, 12, "\x00\x00\x00\x0cJXL\x20\x0d\x0a\x87\x0a" },
+	};
+
+	public static unowned string guess_content_type_from_stream (InputStream stream, File? file, Cancellable cancellable) {
+		var buffer = new uint8[BUFFER_SIZE_FOR_SNIFFING];
+		size_t content_size;
+		stream.read_all (buffer, out content_size, cancellable);
+		unowned var content_type = Util.get_mime_type_from_magic_numbers (buffer, content_size);
+		if (content_type == null) {
+			bool result_uncertain;
+			unowned var valid_data = buffer[0:content_size];
+			content_type = Strings.get_static (ContentType.guess (null, valid_data, out result_uncertain));
+			if (result_uncertain) {
+				content_type = null;
+			}
+			if ((content_type == null)
+				|| (content_type == "application/xml")
+				|| (content_type == "image/tiff"))
+			{
+				if (file != null) {
+					content_type = Util.guess_content_type_from_name (file.get_basename ());
+				}
+			}
+		}
+		if (stream is Seekable) {
+			var seekable = stream as Seekable;
+			seekable.seek (0, SeekType.SET, cancellable);
+		}
+		return content_type;
+	}
+
+	public static unowned string guess_content_type_from_name (string filename) {
+		// Types unknown to GLib
+		if (filename.has_suffix (".webp"))
+			return "image/webp";
+		if (filename.has_suffix (".jxl"))
+			return "image/jxl";
+		return Strings.get_static (ContentType.guess (filename, null, null));
+	}
+
+	public static int int_cmp (int x, int y) {
+		return (x < y) ? -1 : (x > y) ? 1 : 0;
+	}
+
+	public static int uint_cmp (uint x, uint y) {
+		return (x < y) ? -1 : (x > y) ? 1 : 0;
 	}
 }

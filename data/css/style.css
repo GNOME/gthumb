@@ -1,3 +1,8 @@
-.deep-view {
+.thumbnail-grid {
 	background: #111;
+	padding: 5px;
+}
+
+.thumbnail-grid > child {
+	margin: 5px;
 }

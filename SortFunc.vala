@@ -25,7 +25,9 @@ public class Gth.SortFunc {
 	}
 
 	public static int cmp_modified_time (Gth.FileData a, Gth.FileData b) {
-		return 0;
+		var time_a = a.get_modification_time ();
+		var time_b = b.get_modification_time ();
+		return time_a.compare (time_b);
 	}
 
 	public static int cmp_frame_dimensions (Gth.FileData a, Gth.FileData b) {

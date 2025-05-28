@@ -4,12 +4,6 @@ public class Gth.Metadata {
 		STRING_LIST,
 	}
 
-	public struct Category {
-		string id;
-		string display_name;
-		int sort_order;
-	}
-
 	public Type data_type;
 	public string id;
 	public string description;

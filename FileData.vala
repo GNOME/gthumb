@@ -1,4 +1,4 @@
-public class Gth.FileData {
+public class Gth.FileData : Object {
 	public File file;
 	public FileInfo info;
 
@@ -13,6 +13,14 @@ public class Gth.FileData {
 		unowned var static_mime_type = Strings.get_static (mime_type);
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, static_mime_type);
 		info.set_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE, static_mime_type);
+	}
+
+	public static uint hash (FileData file_data) {
+		return file_data.file.hash ();
+	}
+
+	public static bool equal (FileData file1, FileData file2) {
+		return file1.file.equal (file2.file);
 	}
 
 	string sort_key = null;
@@ -141,5 +149,32 @@ public class Gth.FileData {
 
 	public bool is_readable () {
 		return info.get_attribute_boolean (FileAttribute.ACCESS_CAN_READ);
+	}
+
+	public unowned string get_content_type () {
+		unowned var result = info.get_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE);
+		if (result == null) {
+			result = info.get_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE);
+		}
+		if (result == null) {
+			var guessed_type = Util.guess_content_type_from_name (file.get_basename ());
+			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, guessed_type);
+			result = guessed_type;
+		}
+		return Strings.get_static (result);
+	}
+
+	Gth.Image thumbnail_image = null;
+
+	public Gdk.Paintable? thumbnail_texture { get; set; default = null; }
+
+	public void set_thumbnail (Gth.Image? image) {
+		thumbnail_image = image;
+		if (thumbnail_image != null) {
+			thumbnail_texture = thumbnail_image.get_gdk_texture ();
+		}
+		else {
+			thumbnail_texture = null;
+		}
 	}
 }

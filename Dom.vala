@@ -218,7 +218,7 @@ public class Dom.Document : Dom.Element {
 	}
 
 	public void load_file (File file) throws Error {
-		load_xml (Gth.Files.load_content (file));
+		load_xml (Gth.Files.load_contents_as_string (file));
 	}
 
 	public void load_xml (string buffer) throws Error {
