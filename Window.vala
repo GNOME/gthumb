@@ -367,7 +367,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			Adw.show_about_dialog (this,
 				"application-name", "Thumbnails",
 				"application-icon", "app.gthumb.gthumb",
-				"version", VERSION,
+				"version", Config.VERSION,
 				"license-type", Gtk.License.GPL_2_0,
 				"translator-credits", _("translator-credits"),
 				"website", "https://gitlab.gnome.org/GNOME/gthumb/",

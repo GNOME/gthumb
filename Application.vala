@@ -449,7 +449,7 @@ public class Gth.Application : Adw.Application {
 		};
 		var context = new OptionContext (_("— Image browser and viewer"));
 		context.set_help_enabled (true);
-		context.set_translation_domain (GETTEXT_PACKAGE);
+		context.set_translation_domain (Config.GETTEXT_PACKAGE);
 		context.set_ignore_unknown_options (true);
 		context.add_main_entries (option_entries, null);
 
