@@ -359,7 +359,25 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
 
-		var action = new SimpleAction ("edit-filters", null);
+		var action = new SimpleAction ("about", null);
+		action.activate.connect (() => {
+			const string[] developers = {
+				"Paolo Bacchilega <paobac@src.gnome.org>",
+			};
+			Adw.show_about_dialog (this,
+				"application-name", "Thumbnails",
+				"application-icon", "app.gthumb.gthumb",
+				"version", VERSION,
+				"license-type", Gtk.License.GPL_2_0,
+				"translator-credits", _("translator-credits"),
+				"website", "https://gitlab.gnome.org/GNOME/gthumb/",
+				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/issues",
+				"developers", developers
+			);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-filters", null);
 		action.activate.connect (() => {
 			var dialog = new Gth.EditFiltersDialog ();
 			dialog.present (this);

@@ -9,8 +9,9 @@
     <file preprocess="xml-stripblanks">list-add-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-delete-symbolic.svg</file>
   </gresource>
-  <!--gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
-  </gresource-->
+  <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
+    <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
+  </gresource>
   <gresource prefix="/app/gthumb/gthumb/css">
     <file>style.css</file>
   </gresource>

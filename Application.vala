@@ -18,7 +18,7 @@ public class Gth.Application : Adw.Application {
 
 	public Application () {
 		Object (
-			application_id: "app.gthumb.gThumb",
+			application_id: "app.gthumb.gthumb",
 			register_session: true,
 			flags: ApplicationFlags.HANDLES_COMMAND_LINE
 		);
