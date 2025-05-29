@@ -28,6 +28,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		filter_bar.changed.connect (() => update_active_filter ());
 
 		file_grid.model = new Gtk.MultiSelection (visible_files.model);
+		file_grid.model.selection_changed.connect (() => {
+			update_selection_info ();
+		});
+
 		var file_item_factory = new Gtk.SignalListItemFactory ();
 		file_item_factory.setup.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
@@ -322,9 +326,30 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		// Update the view model.
 		visible_files.model.remove_all ();
+		var tot_files = 0;
+		uint64 tot_size = 0;
 		foreach (unowned var file in visible_children) {
 			visible_files.model.append (file);
+			tot_files++;
+			tot_size += file.info.get_size ();
 		}
+
+		status.set_list_info (tot_files, tot_size);
+	}
+
+	void update_selection_info () {
+		var tot_files = 0;
+		uint64 tot_size = 0;
+		var selected = file_grid.model.get_selection ();
+		for (int64 idx = 0; idx < selected.get_size (); idx++) {
+			var pos = selected.get_nth ((uint) idx);
+			var file = file_grid.model.get_item (pos) as FileData;
+			if (file != null) {
+				tot_files++;
+				tot_size += file.info.get_size ();
+			}
+		}
+		status.set_selection_info (tot_files, tot_size);
 	}
 
 	void init_actions () {

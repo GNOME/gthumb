@@ -106,7 +106,7 @@ public class Gth.Filter : Gth.Test {
 		spin_button.width_chars = 5;
 		spin_button.value = limit;
 
-		var label = new Gtk.Label.with_mnemonic (_("Files"));
+		var label = new Gtk.Label.with_mnemonic (_("Files:"));
 		label.mnemonic_widget = spin_button;
 
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
@@ -123,7 +123,7 @@ public class Gth.Filter : Gth.Test {
 		spin_button.width_chars = 5;
 		spin_button.value = limit;
 
-		var label = new Gtk.Label.with_mnemonic (_("Size"));
+		var label = new Gtk.Label.with_mnemonic (_("Size:"));
 		label.mnemonic_widget = spin_button;
 
 		// Size selector

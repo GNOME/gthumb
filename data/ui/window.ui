@@ -47,11 +47,12 @@
                     <property name="orientation">horizontal</property>
                     <child>
                       <object class="GthFilterBar" id="filter_bar">
-                        <property name="hexpand">true</property>
                       </object>
                     </child>
                     <child>
                       <object class="GthStatus" id="status">
+                        <property name="margin_start">24</property>
+                        <property name="margin_end">12</property>
                       </object>
                     </child>
                   </object>
