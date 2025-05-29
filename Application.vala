@@ -450,18 +450,11 @@ public class Gth.Application : Adw.Application {
 			},
 			{ null }
 		};
-		var context = new OptionContext (_("— Image browser and viewer"));
+		var context = new OptionContext (_("— Image Browser and Viewer"));
 		context.set_help_enabled (true);
 		context.set_translation_domain (Config.GETTEXT_PACKAGE);
 		context.set_ignore_unknown_options (true);
 		context.add_main_entries (option_entries, null);
-
-		//static size_t initialized = false;
-		//if (Once.init_enter (ref initialized)) {
-		//	context.add_group ();
-		//	Once.init_leave (ref initialized, true)
-		//}
-
 		return context;
 	}
 
