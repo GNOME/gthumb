@@ -92,7 +92,7 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 		if ((target_pos >= 0) && (target_pos != source_pos)) {
 			app.filter_file.filters.model.remove (source_pos);
 			app.filter_file.filters.model.insert (target_pos, row.filter);
-			app.filter_file.changed ();
+			app.filter_file.changed (null);
 		}
 	}
 
@@ -125,7 +125,7 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 		row.visibility_switch.notify["active"].connect ((_obj, _prop) => {
 			var local_switch = _obj as Gtk.Switch;
 			filter.visible = local_switch.active;
-			app.filter_file.changed ();
+			app.filter_file.changed (filter.id);
 		});
 
 		return row;
@@ -139,7 +139,7 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 			}
 			else {
 				current_filter.copy (filter);
-				app.filter_file.changed ();
+				app.filter_file.changed (filter.id);
 			}
 			return true;
 		}

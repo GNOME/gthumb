@@ -107,7 +107,7 @@
 
                     <child>
                       <object class="AdwSpinRow">
-                        <property name="title" translatable="yes">Number of Files</property>
+                        <property name="title" translatable="yes">Files</property>
                         <property name="climb-rate">1</property>
                         <property name="activatable-widget">files_checkbox</property>
                         <property name="adjustment">
@@ -127,7 +127,7 @@
                     </child>
                     <child>
                       <object class="AdwSpinRow">
-                        <property name="title" translatable="yes">Total Size</property>
+                        <property name="title" translatable="yes">Size</property>
                         <property name="climb-rate">1</property>
                         <property name="activatable-widget">size_checkbox</property>
                         <property name="adjustment">

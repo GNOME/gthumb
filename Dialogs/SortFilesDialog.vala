@@ -5,11 +5,12 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 		transient_for = window;
 
 		if (window.folder != null) {
-			sort_type = window.folder.info.get_attribute_string ("sort::type");
+			sort_name = window.folder.info.get_attribute_string ("sort::name");
 			inverse_order = window.folder.info.get_attribute_boolean ("sort::inverse");
 		}
-		else {
-			sort_type = window.sort_type;
+
+		if (sort_name == null) {
+			sort_name = window.sort_name;
 			inverse_order = window.inverse_order;
 		}
 
@@ -19,16 +20,19 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 			var row = new Adw.ActionRow ();
 			row.title = info.display_name;
 			var check_button = new Gtk.CheckButton ();
-			if (id == sort_type) {
+			if (id == sort_name) {
 				check_button.active = true;
 			}
-			check_button.toggled.connect (() => set_sort_type (id));
 			if (first_check_button == null) {
 				first_check_button = check_button;
 			}
 			else {
 				check_button.group = first_check_button;
 			}
+			check_button.toggled.connect (() => {
+				sort_name = id;
+				window.update_sort_order (sort_name, inverse_order);
+			});
 			row.add_prefix (check_button);
 			row.activatable_widget = check_button;
 
@@ -36,20 +40,14 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 		}
 
 		inverse_order_switch.active = inverse_order;
-	}
-
-	void set_sort_type (string id) {
-		sort_type = id;
-		window.update_sort_order (sort_type, inverse_order);
-	}
-
-	void activate_inverse_order (bool active) {
-		inverse_order = active;
-		window.update_sort_order (sort_type, inverse_order);
+		inverse_order_switch.notify["active"].connect (() => {
+			inverse_order = inverse_order_switch.active;
+			window.update_sort_order (sort_name, inverse_order);
+		});
 	}
 
 	weak Gth.Window window;
-	string sort_type;
+	string sort_name;
 	bool inverse_order;
 
 	[GtkChild] Adw.PreferencesGroup rule_types;

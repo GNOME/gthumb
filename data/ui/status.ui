@@ -2,19 +2,17 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthFilterBar" parent="GtkBox">
+  <template class="GthStatus" parent="GtkBox">
     <property name="orientation">horizontal</property>
     <property name="spacing">12</property>
     <child>
-      <object class="GtkMenuButton" id="filter_selector">
-        <property name="always_show_arrow">true</property>
-        <child>
-          <object class="GtkLabel" id="filter_label" />
-        </child>
+      <object class="GtkLabel" id="jobs">
+        <property name="visible">false</property>
       </object>
     </child>
     <child>
-      <object class="GtkBox" id="options_container">
+      <object class="AdwSpinner" id="spinner">
+        <property name="visible">false</property>
       </object>
     </child>
   </template>

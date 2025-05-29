@@ -7,12 +7,15 @@ public class Gth.FilterBar : Gtk.Box {
 	construct {
 		// Actions
 
-		var action_group = new SimpleActionGroup ();
+		action_group = new SimpleActionGroup ();
 		insert_action_group ("filterbar", action_group);
 
 		var action = new SimpleAction.stateful ("set-filter", GLib.VariantType.STRING, new Variant.string (""));
 		action.activate.connect ((_action, param) => {
-			select_filter_by_id (param.get_string ());
+			var id = param.get_string ();
+			if (select_filter_by_id (id)) {
+				changed ();
+			}
 		});
 		action_group.add_action (action);
 
@@ -33,20 +36,32 @@ public class Gth.FilterBar : Gtk.Box {
 
 		filter = null;
 		visible_filters = app.get_visible_filters ();
-		app.filter_file.changed.connect (() => {
-			update_filter_list ();
+		app.filter_file.changed.connect ((changed_id) => {
+			int current_filter_idx = -1;
+			update_filter_list (out current_filter_idx);
+			if (current_filter_idx == -1) {
+				// The current filter is no longer visible.
+				set_selected (0);
+				changed ();
+			}
+			else {
+				set_selected (current_filter_idx);
+				if (changed_id == filter.id) {
+					changed ();
+				}
+			}
 		});
 	}
 
-	public void select_filter_by_id (string id) {
+	public bool select_filter_by_id (string id) {
 		int test_idx;
-		if (find_filter_by_id (id, null, out test_idx)) {
-			set_selected (test_idx);
-		}
+		if (!find_filter_by_id (id, null, out test_idx))
+			return false;
+		return set_selected (test_idx);
 	}
 
 	public void set_active_filter (Gth.Test? filter) {
-		update_filter_list ();
+		update_filter_list (null);
 		Gth.Test test = null;
 		int test_idx = 0;
 		if ((filter != null) && find_filter_by_id (filter.id, out test, out test_idx)) {
@@ -59,13 +74,25 @@ public class Gth.FilterBar : Gtk.Box {
 		}
 	}
 
-	void set_selected (int idx) {
+	ulong options_changed_id = 0;
+
+	bool set_selected (int idx) {
 		var _filter = visible_filters.model.get_item (idx) as Gth.Test;
 		if (_filter == null)
-			return;
+			return false;
+
+		if ((filter != null) && (options_changed_id != 0)) {
+			filter.disconnect (options_changed_id);
+			options_changed_id = 0;
+		}
 
 		filter = _filter;
 		filter_label.set_text (filter.display_name);
+		options_changed_id = filter.options_changed.connect ((obj) => {
+			var test = obj as Test;
+			test.update_from_options ();
+			changed ();
+		});
 
 		var prev_options = options_container.get_first_child ();
 		if (prev_options != null) {
@@ -77,6 +104,10 @@ public class Gth.FilterBar : Gtk.Box {
 			options_container.append (filter_options);
 			filter.focus_options ();
 		}
+
+		action_group.change_action_state ("set-filter", new Variant.string (filter.id));
+
+		return true;
 	}
 
 	bool find_filter_by_id (string test_id, out Test test, out int test_idx) {
@@ -94,9 +125,9 @@ public class Gth.FilterBar : Gtk.Box {
 		return false;
 	}
 
-	void update_filter_list () {
+	void update_filter_list (out int selected_idx) {
+		selected_idx = -1;
 		var selected_id = (filter != null) ? filter.id : null;
-		var selected_idx = -1;
 		filter_submenu.remove_all ();
 		visible_filters = app.get_visible_filters ();
 		var iter = visible_filters.iterator ();
@@ -107,10 +138,6 @@ public class Gth.FilterBar : Gtk.Box {
 				selected_idx = iter.index ();
 			}
 		}
-		if (selected_idx == -1) {
-			selected_idx = 0;
-		}
-		set_selected (selected_idx);
 	}
 
 	[GtkChild] Gtk.MenuButton filter_selector;
@@ -118,4 +145,5 @@ public class Gth.FilterBar : Gtk.Box {
 	[GtkChild] Gtk.Label filter_label;
 	Menu filter_submenu;
 	GenericList<Gth.Test> visible_filters;
+	SimpleActionGroup action_group;
 }

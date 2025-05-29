@@ -1,34 +1,47 @@
 public class Gth.FileListItem : Gtk.Box {
-	const int V_SPACING = 10;
-	const int H_PADDING = 5;
 	int size;
+	const int V_SPACING = 6;
 
 	public FileListItem (int _size) {
 		size = _size;
 		orientation = Gtk.Orientation.VERTICAL;
-		spacing = V_SPACING;
 		width_request = size;
+		halign = Gtk.Align.FILL;
+		spacing = V_SPACING;
+		//add_css_class ("card");
+		add_css_class ("thumbnail-card");
 
 		image = new Gtk.Image ();
-		image.set_pixel_size (size - (V_SPACING * 2));
+		image.pixel_size = size;
+		image.width_request = size;
+		image.height_request = size;
+		image.halign = Gtk.Align.CENTER;
 		append (image);
 
-		label = new Gtk.Label ("");
-		label.ellipsize = Pango.EllipsizeMode.END;
-		label.halign = Gtk.Align.START;
-		label.margin_start = H_PADDING;
-		label.margin_end = H_PADDING;
-		append (label);
+		var labels = new Gtk.Box (Gtk.Orientation.VERTICAL, V_SPACING);
+		append (labels);
+
+		first_label = new Gtk.Label ("");
+		first_label.ellipsize = Pango.EllipsizeMode.END;
+		first_label.halign = Gtk.Align.START;
+		labels.append (first_label);
+
+		second_label = new Gtk.Label ("");
+		second_label.ellipsize = Pango.EllipsizeMode.END;
+		second_label.halign = Gtk.Align.START;
+		second_label.add_css_class ("dim-label");
+		labels.append (second_label);
 	}
 
 	public void bind (FileData file_data) {
-		label.set_text (file_data.info.get_display_name ());
+		first_label.set_text (file_data.info.get_display_name ());
+		second_label.set_text (file_data.info.get_attribute_string ("gth::file::display-size"));
 		var thumbnail = file_data.thumbnail_texture;
 		if (thumbnail != null) {
 			image.paintable = thumbnail;
 		}
 		else {
-			image.set_from_gicon (file_data.info.get_attribute_object (FileAttribute.STANDARD_ICON) as Icon);
+			image.clear ();
 		}
 		thumbnail_binding = file_data.bind_property (
 			"thumbnail-texture",
@@ -46,5 +59,6 @@ public class Gth.FileListItem : Gtk.Box {
 
 	Binding thumbnail_binding = null;
 	Gtk.Image image;
-	Gtk.Label label;
+	Gtk.Label first_label;
+	Gtk.Label second_label;
 }

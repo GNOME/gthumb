@@ -72,7 +72,7 @@ public class Gth.Thumbnailer {
 		}
 		var local_job = app.new_job ("Load thumbnail for %s".printf (thumbnail_file.file.get_uri ()));
 		thumbnail_job = local_job;
-		//thumbnail_file.set_loading_thumbnail ();
+		//thumbnail_file.set_thumbnail_loading ();
 		load_thumbnail.begin (thumbnail_file, local_job, (_obj, res) => {
 			try {
 				var thumbnail = load_thumbnail.end (res);

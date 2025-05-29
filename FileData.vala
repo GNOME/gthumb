@@ -40,7 +40,7 @@ public class Gth.FileData : Object {
 			mtime = new Gth.DateTime ();
 			var time = info.get_modification_date_time ();
 			if (time != null)
-				mtime.set_from_gtime (time);
+				mtime.set_from_gdatetime (time);
 			else
 				mtime.clear ();
 		}
@@ -54,7 +54,7 @@ public class Gth.FileData : Object {
 			ctime = new Gth.DateTime ();
 			var time = info.get_creation_date_time ();
 			if (time != null)
-				ctime.set_from_gtime (time);
+				ctime.set_from_gdatetime (time);
 			else
 				ctime.clear ();
 		}
@@ -97,7 +97,7 @@ public class Gth.FileData : Object {
 			if (metadata != null) {
 				var time = Util.get_time_from_exif_date (metadata.raw);
 				if (time != null)
-					embedded_otime.set_from_gtime (time);
+					embedded_otime.copy (time);
 				else
 					embedded_otime.clear ();
 			}
@@ -176,5 +176,15 @@ public class Gth.FileData : Object {
 		else {
 			thumbnail_texture = null;
 		}
+	}
+
+	public ThumbnailState thumbnail_state { get; set; default = ThumbnailState.ICON; }
+
+	public void set_thumbnail_loading () {
+		thumbnail_state = ThumbnailState.LOADING;
+	}
+
+	public void set_thumbnail_broken () {
+		thumbnail_state = ThumbnailState.BROKEN;
 	}
 }

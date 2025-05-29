@@ -75,3 +75,10 @@ public struct Gth.MetadataCategory {
 }
 
 public delegate void Gth.IdleFunc ();
+
+public enum Gth.ThumbnailState {
+	ICON,
+	LOADING,
+	BROKEN,
+	LOADED;
+}

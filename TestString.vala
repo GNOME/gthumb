@@ -105,13 +105,18 @@ public class Gth.TestString : Gth.Test {
 		// Entry
 		entry = new Gtk.Entry ();
 		entry.set_size_request (150, -1);
-		if (text != null)
+		if (text != null) {
 			entry.set_text (text);
+		}
 
 		// Horizontal Box
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
 		control.append (operation);
 		control.append (entry);
+
+		operation.notify["selected"].connect (() => options_changed ());
+		entry.changed.connect (() => options_changed ());
+
 		return control;
 	}
 
@@ -133,10 +138,10 @@ public class Gth.TestString : Gth.Test {
 
 	const Test.OperationInfo[] Operations = {
 		{ N_("Contains"), Test.Operation.CONTAINS, false },
-		{ N_("Starts with"), Test.Operation.STARTS_WITH, false },
-		{ N_("Ends with"), Test.Operation.ENDS_WITH, false },
-		{ N_("Equal to"), Test.Operation.EQUAL, false },
-		{ N_("Not Equal to"), Test.Operation.EQUAL, true },
+		{ N_("Starts With"), Test.Operation.STARTS_WITH, false },
+		{ N_("Ends With"), Test.Operation.ENDS_WITH, false },
+		{ N_("Equal To"), Test.Operation.EQUAL, false },
+		{ N_("Different From"), Test.Operation.EQUAL, true },
 		{ N_("Does not Contain"), Test.Operation.CONTAINS, true },
 		{ N_("Matches"), Test.Operation.MATCHES, false }
 	};

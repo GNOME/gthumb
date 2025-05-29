@@ -1,7 +1,7 @@
 public class Gth.FilterFile {
 	public GenericList<Gth.Test> filters;
 
-	public signal void changed ();
+	public signal void changed (string? changed_id);
 
 	public FilterFile () {
 		filters = new GenericList<Gth.Test>();
@@ -31,7 +31,7 @@ public class Gth.FilterFile {
 		else {
 			filters.model.append (test);
 		}
-		changed ();
+		changed (test.id);
 	}
 
 	public void remove (Test test) {
@@ -39,7 +39,7 @@ public class Gth.FilterFile {
 		if (idx >= 0) {
 			filters.model.remove (idx);
 		}
-		changed ();
+		changed (test.id);
 	}
 
 	public bool load () {
@@ -73,7 +73,7 @@ public class Gth.FilterFile {
 				}
 			}
 			loaded = true;
-			changed ();
+			changed (null);
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);

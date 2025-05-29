@@ -153,6 +153,7 @@ source_files = files(
   'Util.vala',
   'Widgets.vala',
   'Window.vala',
+  'Status.vala',
 )
 
 executable(

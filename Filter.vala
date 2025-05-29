@@ -18,7 +18,7 @@ public class Gth.Filter : Gth.Test {
 	public LimitType limit_type;
 	public int64 limit;
 	public string sort_name;
-	public Gtk.SortType sort_type;
+	public bool inverse_order;
 	public Gth.TestChain tests {
 		set {
 			_tests = value;
@@ -35,7 +35,7 @@ public class Gth.Filter : Gth.Test {
 		limit_type = LimitType.NONE;
 		limit = 0;
 		sort_name = null;
-		sort_type = Gtk.SortType.ASCENDING;
+		inverse_order = false;
 	}
 
 	public override TestIterator iterator (GenericList<FileData> files) {
@@ -61,7 +61,7 @@ public class Gth.Filter : Gth.Test {
 			limit_node.set_attribute ("type", limit_type.to_xml_attribute ());
 			limit_node.set_attribute ("value", limit.to_string ());
 			limit_node.set_attribute ("selected_by", sort_name);
-			limit_node.set_attribute ("direction", (sort_type == Gtk.SortType.ASCENDING) ? "ascending": "descending");
+			limit_node.set_attribute ("direction", inverse_order ? "descending" : "ascending");
 			node.append_child (limit_node);
 		}
 		return node;
@@ -82,7 +82,7 @@ public class Gth.Filter : Gth.Test {
 				limit_type = LimitType.from_xml_attribute (child.get_attribute ("type"));
 				child.get_attribute_as_int64 ("value", out limit);
 				sort_name = child.get_attribute ("selected_by");
-				sort_type = (child.get_attribute ("direction") == "ascending") ? Gtk.SortType.ASCENDING : Gtk.SortType.DESCENDING;
+				inverse_order = (child.get_attribute ("direction") == "descending");
 				break;
 			}
 		}
@@ -106,13 +106,15 @@ public class Gth.Filter : Gth.Test {
 		spin_button.width_chars = 5;
 		spin_button.value = limit;
 
-		var label = new Gtk.Label.with_mnemonic (_("_Limit to"));
+		var label = new Gtk.Label.with_mnemonic (_("Files"));
 		label.mnemonic_widget = spin_button;
 
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
 		control.append (label);
 		control.append (spin_button);
-		control.append (new Gtk.Label (_("files")));
+
+		spin_button.value_changed.connect (() => options_changed ());
+
 		return control;
 	}
 
@@ -121,7 +123,7 @@ public class Gth.Filter : Gth.Test {
 		spin_button.width_chars = 5;
 		spin_button.value = limit;
 
-		var label = new Gtk.Label.with_mnemonic (_("_Limit to"));
+		var label = new Gtk.Label.with_mnemonic (_("Size"));
 		label.mnemonic_widget = spin_button;
 
 		// Size selector
@@ -148,11 +150,27 @@ public class Gth.Filter : Gth.Test {
 		control.append (label);
 		control.append (spin_button);
 		control.append (unit_selector);
+
+		spin_button.value_changed.connect (() => options_changed ());
+		unit_selector.notify["selected"].connect (() => options_changed ());
+
 		return control;
 	}
 
 	public override void update_from_options () throws Error {
-		// void
+		switch (limit_type) {
+		case LimitType.FILES:
+			limit = (int64) spin_button.value;
+			break;
+
+		case LimitType.BYTES:
+			var selected_unit = Unit_List[unit_selector.get_selected ()].size;
+			limit = (int64) (spin_button.value * selected_unit);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	public override void focus_options () {
@@ -169,8 +187,8 @@ public class Gth.Filter : Gth.Test {
 	}
 
 	Gth.TestChain _tests;
-	Gtk.SpinButton spin_button;
-	Gtk.DropDown unit_selector;
+	Gtk.SpinButton spin_button = null;
+	Gtk.DropDown unit_selector = null;
 
 	const int ID_LENGTH = 8;
 }
@@ -181,9 +199,20 @@ public class Gth.FilterIterator : Gth.TestIterator {
 		filter = _test as Filter;
 		tot_files = 0;
 		tot_bytes = 0;
+		if (filter.limit_type != Filter.LimitType.NONE) {
+			unowned var sort_info = app.get_sorter_by_id (filter.sort_name);
+			if ((sort_info != null) && (sort_info.cmp_func != null)) {
+				files.model.sort ((a, b) => {
+					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+					if (filter.inverse_order)
+						result *= -1;
+					return result;
+				});
+			}
+		}
 	}
 
-	public new bool next () {
+	public override bool next () {
 		if (base.next () && (filter.limit_type != Filter.LimitType.NONE)) {
 			tot_files += 1;
 			tot_bytes += file.info.get_size ();

@@ -74,6 +74,10 @@ public class Gth.TestInt : Gth.Test {
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
 		control.append (operation);
 		control.append (spin_button);
+
+		operation.notify["selected"].connect (() => options_changed ());
+		spin_button.notify["value"].connect (() => options_changed ());
+
 		return control;
 	}
 

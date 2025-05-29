@@ -125,6 +125,18 @@ public class Gth.TestFileSize : Gth.TestSize {
 	}
 }
 
+public class Gth.TestFileCreatedTime : Gth.TestDate {
+	construct {
+		id = "file::ctime";
+		display_name = _("Created");
+		attributes = "time::created,time::created-usec";
+	}
+
+	public override Gth.DateTime? get_file_value (FileData file) {
+		return file.get_creation_time ();
+	}
+}
+
 public class Gth.TestFileModifiedTime : Gth.TestDate {
 	construct {
 		id = "file::mtime";

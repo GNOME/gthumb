@@ -60,7 +60,7 @@ public class Gth.Util {
 			|| (content_type == "image/x-tga");
 	}
 
-	public static GLib.DateTime? get_time_from_exif_date (string? exif_date) {
+	public static Gth.DateTime? get_time_from_exif_date (string? exif_date) {
 		if (exif_date == null)
 			return null;
 
@@ -122,11 +122,11 @@ public class Gth.Util {
 		if (chars[idx++] != ':')
 			return null;
 
-		var seconds = (double) parse_int (2);
+		var seconds = parse_int (2);
 		if ((seconds < 0) || (seconds > 59))
 			return null;
 
-		idx++;
+		double useconds = 0.0;
 		if ((chars[idx] == ',') || (chars[idx] == '.')) {
 			idx++;
 			var weight = 0.1;
@@ -134,7 +134,7 @@ public class Gth.Util {
 				if (!chars[idx].isdigit ()) {
 					break;
 				}
-				seconds += weight * (chars[idx] - '0');
+				useconds += weight * (chars[idx] - '0');
 				weight /= 10.0;
 				idx++;
 			}
@@ -146,7 +146,7 @@ public class Gth.Util {
 		if (chars[idx] != 0)
 			return null;
 
-		return new GLib.DateTime (new TimeZone.local (), year, month, day, hours, minutes, seconds);
+		return new Gth.DateTime.from_ymd_hms (year, month, day, hours, minutes, seconds, (int) (useconds * 1000000));
 	}
 
 	public static int enum_index (string[] values, string? value, int default = 0) {

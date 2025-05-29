@@ -81,7 +81,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			size_unit.selected = 1;
 		}
 		sort_name.selected = SortInfo.index_of (Sort_Name, filter.sort_name);
-		sort_type.selected = (filter.sort_type == Gtk.SortType.ASCENDING) ? 0 : 1;
+		sort_type.selected = filter.inverse_order ? 1 : 0;
 	}
 
 	public void add_rule (string id) {
@@ -123,7 +123,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 				filter.limit = ((int64) size_limit.value) * Test.Unit_List[size_unit.selected].size;
 			}
 			filter.sort_name = Sort_Name[sort_name.selected].id;
-			filter.sort_type = Sort_Type[sort_type.selected];
+			filter.inverse_order = (Sort_Type[sort_type.selected] == Gtk.SortType.DESCENDING);
 		}
 		else {
 			filter.limit = 0;

@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="adwaita" version="1.7.0"/>
   <template class="GthSortFilesDialog" parent="AdwApplicationWindow">
-    <property name="title" translatable="yes">Sort Order</property>
+    <property name="title" translatable="yes">Sort Files</property>
     <property name="default_width">500</property>
     <child>
       <object class="AdwToolbarView">

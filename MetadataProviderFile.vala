@@ -16,7 +16,7 @@ public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 		file_data.info.set_attribute_string ("gth::file::display-size",	formatted_size);
 
 		var time = file_data.get_modification_time ();
-		file_data.info.set_attribute_string ("gth::file::display-mtime", time.to_string ());
+		file_data.info.set_attribute_string ("gth::file::display-mtime", time.to_display_string ());
 
 		file_data.info.set_attribute_string ("gth::file::full-name", file_data.file.get_parse_name ());
 

@@ -1,6 +1,6 @@
 public class Gth.TestSize : Gth.Test {
 	public uint64 number { get; set; default = 1024 * 1024; }
-	public Test.Operation op { get; set; default = Test.Operation.LOWER; }
+	public Test.Operation op { get; set; default = Test.Operation.GREATER; }
 	public bool negative { get; set; default = false; }
 
 	public virtual uint64 get_file_value (FileData file) {
@@ -65,9 +65,9 @@ public class Gth.TestSize : Gth.Test {
 		operation_selector = new Gtk.DropDown (names, null);
 		operation_selector.set_selected (selected_operation_selector);
 
-		// Text entry
-		value_entry = new Gtk.Entry ();
-		value_entry.width_chars = 6;
+		// Value
+		spin_button = new Gtk.SpinButton.with_range (0, int.MAX, 1.0);
+		spin_button.width_chars = 5;
 
 		// Size selector
 		names = new Gtk.StringList (null);
@@ -81,8 +81,7 @@ public class Gth.TestSize : Gth.Test {
 					|| (number < Unit_List[idx + 1].size)))
 			{
 				selected_unit = idx;
-				var entry_value = "%.2f".printf (number / Unit_List[idx].size);
-				value_entry.set_text (entry_value);
+				spin_button.value = number / Unit_List[idx].size;
 				size_set = true;
 			}
 			idx++;
@@ -93,8 +92,13 @@ public class Gth.TestSize : Gth.Test {
 		// Horizontal Box
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
 		control.append (operation_selector);
-		control.append (value_entry);
+		control.append (spin_button);
 		control.append (unit_selector);
+
+		operation_selector.notify["selected"].connect (() => options_changed ());
+		spin_button.value_changed.connect (() => options_changed ());
+		unit_selector.notify["selected"].connect (() => options_changed ());
+
 		return control;
 	}
 
@@ -105,18 +109,15 @@ public class Gth.TestSize : Gth.Test {
 		unowned var op_info = Int_Operations[selected];
 		op = op_info.op;
 		negative = op_info.negative;
-		double entry_value;
-		if (double.try_parse (value_entry.get_text (), out entry_value, null)) {
-			var selected_unit = Unit_List[unit_selector.get_selected ()].size;
-			number = (uint64) (entry_value * selected_unit);
-		}
+		var selected_unit = Unit_List[unit_selector.get_selected ()].size;
+		number = (uint64) (spin_button.value * selected_unit);
 	}
 
 	public override void focus_options () {
-		value_entry.grab_focus ();
+		spin_button.grab_focus ();
 	}
 
 	Gtk.DropDown operation_selector;
-	Gtk.Entry value_entry;
+	Gtk.SpinButton spin_button;
 	Gtk.DropDown unit_selector;
 }

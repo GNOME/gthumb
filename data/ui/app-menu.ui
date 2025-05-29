@@ -3,7 +3,7 @@
   <menu id="app_menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Sort Order…</attribute>
+        <attribute name="label" translatable="yes">_Sort Files…</attribute>
         <attribute name="action">win.sort-files</attribute>
       </item>
     </section>

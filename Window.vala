@@ -4,7 +4,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public GenericList<FileData> all_children = null;
 	public GenericList<FileData> visible_files = null;
 	public FileSource folder_source = null;
-	public string sort_type = null;
+	public string sort_name = null;
 	public bool inverse_order = false;
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
@@ -24,6 +24,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer ();
+
+		filter_bar.changed.connect (() => update_active_filter ());
 
 		file_grid.model = new Gtk.MultiSelection (visible_files.model);
 		var file_item_factory = new Gtk.SignalListItemFactory ();
@@ -70,7 +72,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Browser settings.
-		sort_type = app.browser_settings.get_string (PREF_BROWSER_SORT_TYPE);
+		sort_name = app.browser_settings.get_string (PREF_BROWSER_SORT_TYPE);
 		inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_SORT_INVERSE);
 		general_filter = app.get_general_filter ();
 		active_filter = app.get_last_active_filter ();
@@ -111,36 +113,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 			folder = file_data;
 			folder_source = source;
 			all_children = children;
-
-			// Filter the files.
-			var visible_children = new GenericList<FileData>();
-			var filter = get_file_filter ();
-			var iter = filter.iterator (all_children);
-			while (iter.next ()) {
-				visible_children.model.append (iter.get ());
-			}
-
-			// Sort the files.
-			unowned var sort_info = app.get_sorter_by_id (sort_type);
-			if (sort_info == null) {
-				sort_info = app.get_sorter_by_id ("file::name");
-			}
-			if (sort_info.cmp_func != null) {
-				visible_children.model.sort ((a, b) => {
-					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (inverse_order)
-						result *= -1;
-					return result;
-				});
-			}
-
 			// TODO source.monitor_directory (folder.file, true);
-
-			// Update the view model.
-			visible_files.model.remove_all ();
-			foreach (unowned var file in visible_children) {
-				visible_files.model.append (file);
-			}
+			update_thumbnail_list ();
 		}
 		catch (Error error) {
 			local_job.error = error;
@@ -182,9 +156,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		stdout.printf ("load %s\n", location.get_uri ());
 	}
 
-	public void update_sort_order (string _sort_type, bool _inverse_order) {
-		sort_type = _sort_type;
+	public void update_sort_order (string _sort_name, bool _inverse_order) {
+		sort_name = _sort_name;
 		inverse_order = _inverse_order;
+		update_thumbnail_list ();
 	}
 
 	public void set_page (Page page) {
@@ -272,8 +247,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Attributes required for sorting.
-		if (sort_type != null) {
-			var sort_info = app.get_sorter_by_id (sort_type);
+		if (sort_name != null) {
+			var sort_info = app.get_sorter_by_id (sort_name);
 			if (sort_info != null) {
 				if (!Strings.empty (sort_info.required_attributes)) {
 					attributes.append (",");
@@ -313,6 +288,43 @@ public class Gth.Window : Adw.ApplicationWindow {
 	void remove_binded_file (FileData file_data, uint pos) {
 		thumbnailer.remove (file_data);
 		file_data.set_thumbnail (null);
+	}
+
+	void update_active_filter () {
+		active_filter = filter_bar.filter.duplicate ();
+		update_thumbnail_list ();
+	}
+
+	void update_thumbnail_list () {
+		// Filter the files.
+		var visible_children = new GenericList<FileData>();
+		var filter = get_file_filter (true);
+		var iter = filter.iterator (all_children);
+		while (iter.next ()) {
+			visible_children.model.append (iter.get ());
+		}
+
+		// Sort the files.
+		if ((sort_name != filter.sort_name) || (inverse_order != filter.inverse_order)) {
+			unowned var sort_info = app.get_sorter_by_id (sort_name);
+			if (sort_info == null) {
+				sort_info = app.get_sorter_by_id ("file::name");
+			}
+			if (sort_info.cmp_func != null) {
+				visible_children.model.sort ((a, b) => {
+					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+					if (inverse_order)
+						result *= -1;
+					return result;
+				});
+			}
+		}
+
+		// Update the view model.
+		visible_files.model.remove_all ();
+		foreach (unowned var file in visible_children) {
+			visible_files.model.append (file);
+		}
 	}
 
 	void init_actions () {
@@ -375,6 +387,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] Gth.FilterBar filter_bar;
 	[GtkChild] Gtk.MenuButton app_menu_button;
 	[GtkChild] Gtk.GridView file_grid;
+	[GtkChild] public Gth.Status status;
 
 	Page current_page = Page.NONE;
 	SimpleActionGroup action_group;

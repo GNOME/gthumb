@@ -30,6 +30,7 @@
                     <child>
                       <object class="GtkGridView" id="file_grid">
                         <property name="enable_rubberband">true</property>
+                        <property name="max_columns">15</property>
                         <style>
                           <class name="thumbnail-grid"/>
                         </style>
@@ -38,7 +39,21 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GthFilterBar" id="filter_bar">
+                  <object class="GtkBox">
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="GthFilterBar" id="filter_bar">
+                        <property name="hexpand">true</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GthStatus" id="status">
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

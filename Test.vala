@@ -53,11 +53,11 @@ public class Gth.Test : Object {
 	}
 
 	public const Test.OperationInfo[] Int_Operations = {
-		{ N_("Lower than"), Test.Operation.LOWER, false },
-		{ N_("Greater than"), Test.Operation.GREATER, false },
-		{ N_("Equal to"), Test.Operation.EQUAL, false },
-		{ N_("Greater than or Equal to"), Test.Operation.LOWER, true },
-		{ N_("Lower than or Equal to"), Test.Operation.GREATER, true }
+		{ N_("Greater Than"), Test.Operation.GREATER, false },
+		{ N_("Greater Than or Equal To"), Test.Operation.LOWER, true },
+		{ N_("Lower Than"), Test.Operation.LOWER, false },
+		{ N_("Lower Than or Equal To"), Test.Operation.GREATER, true },
+		{ N_("Equal To"), Test.Operation.EQUAL, false },
 	};
 
 	public struct SizeInfo {
@@ -69,9 +69,9 @@ public class Gth.Test : Object {
 		// Translators: short for kilobytes
 		{ N_("kB"), 1024 },
 		// Translators: short for megabytes
-		{ N_("MB"), 1024*1024 },
+		{ N_("MB"), 1024 * 1024 },
 		// Translators: short for gigabytes
-		{ N_("GB"), 1024*1024*1024 },
+		{ N_("GB"), 1024 * 1024 * 1024 },
 	};
 
 	public string id { get; set; default = ""; }
@@ -80,7 +80,7 @@ public class Gth.Test : Object {
 	public bool visible { get; set; default = false; }
 	public GenericArray<FileData> files = null;
 
-	public signal void changed ();
+	public signal void options_changed ();
 
 	public virtual bool match (FileData file) {
 		return false;
@@ -156,7 +156,7 @@ public class Gth.TestIterator {
 		return file;
 	}
 
-	public bool next () {
+	public virtual bool next () {
 		while (true) {
 			file = files.model.get_item (file_index++) as FileData;
 			if ((file == null) || test.match (file)) {

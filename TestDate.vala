@@ -12,7 +12,8 @@ public class Gth.TestDate : Gth.Test {
 		var value = get_file_value (file);
 		if ((date == null) || (value == null))
 			return false;
-		var result = date.compare (value);
+		//stdout.printf ("TEST: %s, FILE: %s (time valid: %s)\n", date.to_string (), value.to_string (), date.time.is_valid ().to_string ());
+		var result = /*date.time.is_valid () ? value.compare (date) :*/ value.date.compare (date.date);
 		switch (op) {
 		case Test.Operation.EQUAL:
 			matches = (result == 0);
@@ -26,6 +27,8 @@ public class Gth.TestDate : Gth.Test {
 		default:
 			break;
 		}
+		if (negative)
+			matches = !matches;
 		return matches;
 	}
 
@@ -75,13 +78,18 @@ public class Gth.TestDate : Gth.Test {
 
 		// Time selector
 		time_selector = new Gth.TimeSelector (Gth.TimeSelector.Mode.WITHOUT_TIME);
-		if (date != null)
+		if (date != null) {
 			time_selector.set_time (date);
+		}
 
 		// Horizontal Box
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
 		control.append (operation);
 		control.append (time_selector);
+
+		operation.notify["selected"].connect (() => options_changed ());
+		time_selector.changed.connect (() => options_changed ());
+
 		return control;
 	}
 
@@ -104,8 +112,8 @@ public class Gth.TestDate : Gth.Test {
 	const Test.OperationInfo[] DateOperations = {
 		{ N_("Before"), Test.Operation.BEFORE, false },
 		{ N_("After"), Test.Operation.AFTER, false },
-		{ N_("Equal to"), Test.Operation.EQUAL, false },
-		{ N_("Not Equal to"), Test.Operation.EQUAL, true }
+		{ N_("Equal To"), Test.Operation.EQUAL, false },
+		{ N_("Different From"), Test.Operation.EQUAL, true }
 	};
 
 	Gtk.DropDown operation;

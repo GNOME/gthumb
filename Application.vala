@@ -26,12 +26,16 @@ public class Gth.Application : Adw.Application {
 		quitting = false;
 
 		jobs = new Gth.JobQueue ();
+		jobs.size_changed.connect (() => {
+			foreach_window ((win) => win.status.set_n_jobs (jobs.size ()));
+		});
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();
 		register_test (typeof (Gth.TestFileName));
 		register_test (typeof (Gth.TestFileSize));
 		register_test (typeof (Gth.TestFileModifiedTime));
+		register_test (typeof (Gth.TestFileCreatedTime));
 		register_test (typeof (Gth.TestFileTypeRegular));
 		register_test (typeof (Gth.TestFileTypeMedia));
 		register_test (typeof (Gth.TestFileTypeImage));
@@ -71,7 +75,7 @@ public class Gth.Application : Adw.Application {
 		register_metadata_info ({ "gth::file::display-size", N_("Size"), "file", 2, null, METADATA_ALLOW_EVERYWHERE });
 		register_metadata_info ({ "standard::size", N_("Bytes"), "file", 3, null, METADATA_ALLOW_EVERYWHERE });
 		// Translators: the file modified time.
-		register_metadata_info ({ "gth::file::display-mtime", N_("Modified Date & Time"), "file", 4, null, METADATA_ALLOW_EVERYWHERE });
+		register_metadata_info ({ "gth::file::display-mtime", N_("Modified Date and Time"), "file", 4, null, METADATA_ALLOW_EVERYWHERE });
 		register_metadata_info ({ "standard::fast-content-type", N_("Type"), "file", 5, null, METADATA_ALLOW_EVERYWHERE });
 		register_metadata_info ({ "gth::file::is-modified", null, "file", 6, null, MetadataFlags.HIDDEN });
 		register_metadata_info ({ "gth::file::full-name", N_("Location"), "file", 7, null, MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
@@ -89,7 +93,7 @@ public class Gth.Application : Adw.Application {
 		register_metadata_info ({ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, null, METADATA_ALLOW_EVERYWHERE  });
 		register_metadata_info ({ "Loaded::Image::ColorProfile", N_("Color Profile"), "general", 19, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
 
-		register_metadata_info ({ "general::datetime", N_("General Date & Time"), "general", 20, null, METADATA_ALLOW_EVERYWHERE });
+		register_metadata_info ({ "general::datetime", N_("General Date and Time"), "general", 20, null, METADATA_ALLOW_EVERYWHERE });
 		register_metadata_info ({ "general::title", N_("Title"), "general", 21, null, METADATA_ALLOW_EVERYWHERE });
 		register_metadata_info ({ "general::location", N_("Place"), "general", 22, null, METADATA_ALLOW_EVERYWHERE });
 		register_metadata_info ({ "general::description", N_("Description"), "general", 23, null, MetadataFlags.ALLOW_IN_PRINT });
@@ -205,7 +209,8 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public Gth.Filter add_general_filter (Gth.Test? active_test) {
-		if (active_test == null) {
+		if ((active_test == null) || Strings.empty (active_test.id)) {
+			// The active test is not set, use the general filter.
 			var tests = new Gth.TestChain (TestChain.Operation.INTERSECTION);
 			tests.add (get_general_filter ());
 			var filter = new Gth.Filter ();
@@ -214,6 +219,8 @@ public class Gth.Application : Adw.Application {
 		}
 
 		if (active_test is Gth.Filter) {
+			// The active test is a filter, add the general filter to it if
+			// it doesn't contain a file type test.
 			var original_filter = active_test as Gth.Filter;
 			var filter = original_filter.duplicate () as Gth.Filter;
 			if (!original_filter.tests.contains_type_test ()) {
@@ -227,6 +234,8 @@ public class Gth.Application : Adw.Application {
 			return filter;
 		}
 
+		// The active test is a simple test, create a filter adding the general
+		// filter as well if the active test is not a file type test.
 		var filter = new Gth.Filter ();
 		var tests = new Gth.TestChain (TestChain.Operation.INTERSECTION);
 		if (!(active_test is TestFileType)) {
@@ -241,6 +250,7 @@ public class Gth.Application : Adw.Application {
 
 	public Gth.Test? get_last_active_filter () {
 		if (active_filter_loaded) {
+			// Reset the last filter only in the first window.
 			return null;
 		}
 		Gth.Test filter = null;
@@ -255,8 +265,11 @@ public class Gth.Application : Adw.Application {
 						var test = get_test_by_id (id);
 						if (test != null) {
 							filter = test.duplicate ();
-							filter.load_from_element (doc.first_child);
 						}
+						else {
+							filter = new Gth.Filter ();
+						}
+						filter.load_from_element (doc.first_child);
 					}
 				}
 			}
@@ -360,6 +373,14 @@ public class Gth.Application : Adw.Application {
 		return new_job (description, status, true);
 	}
 
+	public void foreach_window (Gth.WindowFunc func) {
+		foreach (var w in get_windows ()) {
+			var win = w as Gth.Window;
+			if (win != null)
+				func (win);
+		}
+	}
+
 	bool arg_version = false;
 	bool arg_new_window = false;
 	bool arg_fullscreen = false;
@@ -442,6 +463,9 @@ public class Gth.Application : Adw.Application {
 	}
 
 	void init_settings () {
+		var style_manager = Adw.StyleManager.get_default ();
+		style_manager.color_scheme = Adw.ColorScheme.FORCE_DARK;
+
 		var css_provider = new Gtk.CssProvider ();
 		Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		css_provider.load_from_resource ("/app/gthumb/gthumb/css/style.css");
@@ -480,3 +504,5 @@ public class Gth.Application : Adw.Application {
 		}
 	}
 }
+
+public delegate void Gth.WindowFunc (Gth.Window win);
