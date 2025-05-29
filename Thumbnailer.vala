@@ -32,13 +32,14 @@ public class Gth.Thumbnailer {
 	public bool load_from_cache;
 	public bool save_to_cache;
 
-	public Thumbnailer () {
+	public Thumbnailer (ImageLoader _loader) {
 		size = Size.LARGE;
 		load_from_cache = true;
 		save_to_cache = true;
 		queue = new Queue<FileData>();
 		thumbnail_file = null;
 		thumbnail_job = null;
+		loader = _loader;
 	}
 
 	public void add (FileData file) {
@@ -145,14 +146,11 @@ public class Gth.Thumbnailer {
 		if (path == null) {
 			throw new IOError.FAILED ("Thumbnail path not available");
 		}
-		var loader = new ImageLoader ();
-		return yield loader.load_from_file (File.new_for_path (path), cancellable);
+		return yield loader.load_from_file (File.new_for_path (path), cancellable, size.to_pixels ());
 	}
 
 	async Gth.Image? generate_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
-		var loader = new ImageLoader ();
-		loader.requested_size = size.to_pixels ();
-		var image = yield loader.load_from_file (file_data.file, cancellable);
+		var image = yield loader.load_from_file (file_data.file, cancellable, size.to_pixels ());
 		//return yield image.resize_if_larger (size.to_pixels (), cancellable);
 		return image;
 	}
@@ -168,4 +166,5 @@ public class Gth.Thumbnailer {
 	Queue<FileData> queue;
 	FileData thumbnail_file;
 	Gth.Job thumbnail_job;
+	ImageLoader loader;
 }

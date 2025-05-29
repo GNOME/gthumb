@@ -23,7 +23,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		named_dialogs = new HashTable<string, Gtk.Window>(str_hash, str_equal);
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
-		thumbnailer = new Thumbnailer ();
+		thumbnailer = new Thumbnailer (app.image_loader);
 
 		filter_bar.changed.connect (() => update_active_filter ());
 

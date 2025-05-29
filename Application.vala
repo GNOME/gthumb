@@ -15,6 +15,7 @@ public class Gth.Application : Adw.Application {
 	public Gth.JobQueue jobs;
 	public bool restart;
 	public bool quitting;
+	public ImageLoader image_loader;
 
 	public Application () {
 		Object (
@@ -117,6 +118,8 @@ public class Gth.Application : Adw.Application {
 
 		image_loaders = new HashTable<string, Gth.ImageLoaderFunc>(str_hash, str_equal);
 		register_image_loader ("image/png", load_png);
+
+		image_loader = new ImageLoader (get_workers (MAX_LOADERS));
 	}
 
 	public override void startup () {
@@ -503,6 +506,19 @@ public class Gth.Application : Adw.Application {
 			window.present ();
 		}
 	}
+
+	uint get_workers (int max_workers) {
+		// 1 processors -> 1 thread
+		// 2 processors -> 1 thread
+		// 3 processors -> 1 thread
+		// 4 processors -> 2 threads
+		// 5 processors -> 3 threads
+		// 6 processors -> 3 threads
+		var n_proc = (int) GLib.get_num_processors () - 2;
+		return n_proc.clamp (1, max_workers);
+	}
+
+	const int MAX_LOADERS = 3;
 }
 
 public delegate void Gth.WindowFunc (Gth.Window win);
