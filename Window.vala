@@ -119,6 +119,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			all_children = children;
 			// TODO source.monitor_directory (folder.file, true);
 			update_thumbnail_list ();
+			update_title ();
 		}
 		catch (Error error) {
 			local_job.error = error;
@@ -215,8 +216,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void update_title () {
-		// TODO
-		title = "gThumb";
+		if (folder != null) {
+			title = folder.info.get_display_name ();
+		}
+		else {
+			title = "Thumbnails";
+		}
 	}
 
 	void update_sensitivity () {
@@ -335,6 +340,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		status.set_list_info (tot_files, tot_size);
+		folder_stack.set_visible_child ((tot_files == 0) ? empty_folder : non_empty_folder);
 	}
 
 	void update_selection_info () {
@@ -431,6 +437,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] Gtk.MenuButton app_menu_button;
 	[GtkChild] Gtk.GridView file_grid;
 	[GtkChild] public Gth.Status status;
+	[GtkChild] Gtk.Stack folder_stack;
+	[GtkChild] Gtk.Widget non_empty_folder;
+	[GtkChild] Gtk.Widget empty_folder;
 
 	Page current_page = Page.NONE;
 	SimpleActionGroup action_group;
