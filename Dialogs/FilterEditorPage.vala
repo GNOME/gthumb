@@ -197,17 +197,17 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		Gtk.SortType.DESCENDING,
 	};
 
-	[GtkChild] Adw.EntryRow name_entry;
-	[GtkChild] Gtk.ListBox test_list;
-	[GtkChild] Gtk.CheckButton match_all;
-	[GtkChild] Gtk.CheckButton match_any;
-	[GtkChild] Gtk.CheckButton files_checkbox;
-	[GtkChild] Gtk.CheckButton size_checkbox;
-	[GtkChild] Gtk.Adjustment files_limit;
-	[GtkChild] Gtk.Adjustment size_limit;
-	[GtkChild] Gtk.DropDown size_unit;
-	[GtkChild] Adw.ComboRow sort_name;
-	[GtkChild] Adw.ComboRow sort_type;
-	[GtkChild] Adw.PreferencesGroup match_operation_group;
-	[GtkChild] Adw.ExpanderRow limits_row;
+	[GtkChild] unowned Adw.EntryRow name_entry;
+	[GtkChild] unowned Gtk.ListBox test_list;
+	[GtkChild] unowned Gtk.CheckButton match_all;
+	[GtkChild] unowned Gtk.CheckButton match_any;
+	[GtkChild] unowned Gtk.CheckButton files_checkbox;
+	[GtkChild] unowned Gtk.CheckButton size_checkbox;
+	[GtkChild] unowned Gtk.Adjustment files_limit;
+	[GtkChild] unowned Gtk.Adjustment size_limit;
+	[GtkChild] unowned Gtk.DropDown size_unit;
+	[GtkChild] unowned Adw.ComboRow sort_name;
+	[GtkChild] unowned Adw.ComboRow sort_type;
+	[GtkChild] unowned Adw.PreferencesGroup match_operation_group;
+	[GtkChild] unowned Adw.ExpanderRow limits_row;
 }

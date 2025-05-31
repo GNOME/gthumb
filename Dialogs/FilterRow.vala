@@ -2,10 +2,10 @@
 public class Gth.FilterRow : Adw.ActionRow {
 	public Gth.Test filter;
 
-	[GtkChild] public Gtk.Switch visibility_switch;
-	[GtkChild] public Gtk.Button edit_button;
-	[GtkChild] public Gtk.Button delete_button;
-	[GtkChild] public Gtk.Box edit_buttons;
+	[GtkChild] public unowned Gtk.Switch visibility_switch;
+	[GtkChild] public unowned Gtk.Button edit_button;
+	[GtkChild] public unowned Gtk.Button delete_button;
+	[GtkChild] public unowned Gtk.Box edit_buttons;
 
 	public signal void move_to_row (Gth.FilterRow row);
 	public signal void move_to_top ();

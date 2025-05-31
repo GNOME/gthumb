@@ -430,16 +430,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action_group.add_action (action);
 	}
 
-	[GtkChild] Gtk.Stack main_stack;
-	[GtkChild] Gtk.Widget browser_page;
-	[GtkChild] Gtk.Widget viewer_page;
-	[GtkChild] Gth.FilterBar filter_bar;
-	[GtkChild] Gtk.MenuButton app_menu_button;
-	[GtkChild] Gtk.GridView file_grid;
-	[GtkChild] public Gth.Status status;
-	[GtkChild] Gtk.Stack folder_stack;
-	[GtkChild] Gtk.Widget non_empty_folder;
-	[GtkChild] Gtk.Widget empty_folder;
+	[GtkChild] unowned Adw.OverlaySplitView browser_view;
+	[GtkChild] unowned Gth.FilterBar filter_bar;
+	[GtkChild] unowned Gtk.MenuButton app_menu_button;
+	[GtkChild] unowned Gtk.MenuButton bookmarks_button;
+	[GtkChild] unowned Gtk.GridView file_grid;
+	[GtkChild] public unowned Gth.Status status;
+	[GtkChild] unowned Gtk.Stack folder_stack;
+	[GtkChild] unowned Gtk.Widget non_empty_folder;
+	[GtkChild] unowned Gtk.Widget empty_folder;
+	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 
 	Page current_page = Page.NONE;
 	SimpleActionGroup action_group;

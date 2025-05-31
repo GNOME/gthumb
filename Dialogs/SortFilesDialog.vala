@@ -50,6 +50,6 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 	string sort_name;
 	bool inverse_order;
 
-	[GtkChild] Adw.PreferencesGroup rule_types;
-	[GtkChild] Adw.SwitchRow inverse_order_switch;
+	[GtkChild] unowned Adw.PreferencesGroup rule_types;
+	[GtkChild] unowned Adw.SwitchRow inverse_order_switch;
 }

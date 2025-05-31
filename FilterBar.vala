@@ -140,9 +140,9 @@ public class Gth.FilterBar : Gtk.Box {
 		}
 	}
 
-	[GtkChild] Gtk.MenuButton filter_selector;
-	[GtkChild] Gtk.Box options_container;
-	[GtkChild] Gtk.Label filter_label;
+	[GtkChild] unowned Gtk.MenuButton filter_selector;
+	[GtkChild] unowned Gtk.Box options_container;
+	[GtkChild] unowned Gtk.Label filter_label;
 	Menu filter_submenu;
 	GenericList<Gth.Test> visible_filters;
 	SimpleActionGroup action_group;

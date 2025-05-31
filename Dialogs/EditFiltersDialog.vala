@@ -151,9 +151,9 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 
 	Gth.Filter current_filter;
 
-	[GtkChild] private Adw.ComboRow general_filter_row;
-	[GtkChild] private Adw.PreferencesGroup filters_group;
-	[GtkChild] private Gth.FilterEditorPage filter_page;
-	[GtkChild] private Adw.NavigationPage rule_page;
-	[GtkChild] private Adw.PreferencesGroup rule_types;
+	[GtkChild] unowned Adw.ComboRow general_filter_row;
+	[GtkChild] unowned Adw.PreferencesGroup filters_group;
+	[GtkChild] unowned Gth.FilterEditorPage filter_page;
+	[GtkChild] unowned Adw.NavigationPage rule_page;
+	[GtkChild] unowned Adw.PreferencesGroup rule_types;
 }

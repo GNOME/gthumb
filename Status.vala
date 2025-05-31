@@ -17,11 +17,10 @@ public class Gth.Status : Gtk.Box {
 		selection_info.visible = files > 0;
 	}
 
-	[GtkChild] Gtk.Label jobs;
-	[GtkChild] Gtk.Label total_files;
-	[GtkChild] Gtk.Label total_size;
-	[GtkChild] Gtk.Label selected_files;
-	[GtkChild] Gtk.Label selected_size;
-	[GtkChild] Gtk.Box selection_info;
-	[GtkChild] Adw.Spinner spinner;
+	[GtkChild] unowned Gtk.Label total_files;
+	[GtkChild] unowned Gtk.Label total_size;
+	[GtkChild] unowned Gtk.Label selected_files;
+	[GtkChild] unowned Gtk.Label selected_size;
+	[GtkChild] unowned Gtk.Box selection_info;
+	[GtkChild] unowned Adw.Spinner spinner;
 }
