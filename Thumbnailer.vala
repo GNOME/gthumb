@@ -28,70 +28,67 @@ public class Gth.Thumbnailer {
 		};
 	}
 
-	public Size size;
+	public uint requested_size;
+	public Size cache_size;
 	public bool load_from_cache;
 	public bool save_to_cache;
 
 	public Thumbnailer (ImageLoader _loader) {
-		size = Size.LARGE;
+		cache_size = Size.LARGE;
 		load_from_cache = true;
 		save_to_cache = true;
-		queue = new Queue<FileData>();
-		thumbnail_file = null;
-		thumbnail_job = null;
+		file_queue = new Queue<FileData>();
+		job_queue = new GenericArray<ThumbnailJob>();
 		loader = _loader;
 	}
 
 	public void add (FileData file) {
-		queue.push_tail (file);
+		if (file.thumbnail_state == ThumbnailState.LOADED) {
+			return;
+		}
+		file_queue.push_tail (file);
 		load_next_thumbnail ();
 	}
 
 	public void remove (FileData file) {
-		if (file == thumbnail_file) {
-			if (thumbnail_job != null) {
-				thumbnail_job.cancel ();
+		foreach (unowned var thumbnail_job in job_queue) {
+			if (file == thumbnail_job.file) {
+				thumbnail_job.job.cancel ();
 			}
 		}
-		queue.remove (file);
+		file_queue.remove (file);
 	}
 
 	public void cancel () {
-		if (thumbnail_job != null) {
-			thumbnail_job.cancel ();
+		foreach (unowned var thumbnail_job in job_queue) {
+			thumbnail_job.job.cancel ();
 		}
-		queue.clear ();
+		file_queue.clear ();
 	}
 
 	void load_next_thumbnail () {
-		if (thumbnail_job != null) {
+		if (job_queue.length >= loader.n_workers) {
 			return;
 		}
-		thumbnail_file = queue.pop_head ();
-		if (thumbnail_file == null) {
+		var file = file_queue.pop_head ();
+		if (file == null) {
 			return;
 		}
-		var local_job = app.new_job ("Load thumbnail for %s".printf (thumbnail_file.file.get_uri ()));
-		thumbnail_job = local_job;
-		//thumbnail_file.set_thumbnail_loading ();
-		load_thumbnail.begin (thumbnail_file, local_job, (_obj, res) => {
+		var thumbnail_job = new ThumbnailJob (file);
+		job_queue.add (thumbnail_job);
+		load_thumbnail.begin (thumbnail_job.file, thumbnail_job.job, (_obj, res) => {
 			try {
 				var thumbnail = load_thumbnail.end (res);
-				thumbnail_file.set_thumbnail (thumbnail);
+				thumbnail_job.file.set_thumbnail (thumbnail);
 			}
 			catch (Error error) {
-				if (!local_job.is_cancelled ()) {
-					//thumbnail_file.set_broken_thumbnail ();
-				}
 				stdout.printf ("  ERROR: %s\n", error.message);
 			}
-			local_job.done ();
-			if (thumbnail_job == local_job) {
-				thumbnail_job = null;
-				thumbnail_file = null;
-				load_next_thumbnail ();
-			}
+			thumbnail_job.job.done ();
+			job_queue.remove (thumbnail_job);
+			load_next_thumbnail ();
 		});
+		load_next_thumbnail ();
 	}
 
 	async Gth.Image? load_thumbnail (FileData file_data, Job job) throws Error {
@@ -134,7 +131,7 @@ public class Gth.Thumbnailer {
 	}
 
 	unowned string get_thumbnail_path (FileData file_data) {
-		unowned var path = file_data.info.get_attribute_byte_string (size.to_file_attribute ());
+		unowned var path = file_data.info.get_attribute_byte_string (cache_size.to_file_attribute ());
 		if (path == null) {
 			path = file_data.info.get_attribute_byte_string (FileAttribute.THUMBNAIL_PATH);
 		}
@@ -146,13 +143,14 @@ public class Gth.Thumbnailer {
 		if (path == null) {
 			throw new IOError.FAILED ("Thumbnail path not available");
 		}
-		return yield loader.load_from_file (File.new_for_path (path), cancellable, size.to_pixels ());
+		var image = yield loader.load_from_file (File.new_for_path (path), cancellable);
+		var resized = yield image.resize_if_larger_async (requested_size, ScaleFilter.GOOD, cancellable);
+		return resized;
 	}
 
 	async Gth.Image? generate_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
-		var image = yield loader.load_from_file (file_data.file, cancellable, size.to_pixels ());
-		//return yield image.resize_if_larger (size.to_pixels (), cancellable);
-		return image;
+		var image = yield loader.load_from_file (file_data.file, cancellable, cache_size.to_pixels ());
+		return yield image.resize_if_larger_async (requested_size, ScaleFilter.GOOD, cancellable);
 	}
 
 	async void save_thumbnail_to_cache (FileData file_data, Gth.Image image, Cancellable cancellable) throws Error {
@@ -163,8 +161,17 @@ public class Gth.Thumbnailer {
 		// TODO
 	}
 
-	Queue<FileData> queue;
-	FileData thumbnail_file;
-	Gth.Job thumbnail_job;
+	class ThumbnailJob {
+		public FileData file;
+		public Gth.Job job;
+
+		public ThumbnailJob (FileData _file) {
+			file = _file;
+			job = app.new_job ("Load thumbnail for %s".printf (file.file.get_uri ()));
+		}
+	}
+
+	Queue<FileData> file_queue;
+	GenericArray<ThumbnailJob> job_queue;
 	ImageLoader loader;
 }

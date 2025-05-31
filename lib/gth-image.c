@@ -147,30 +147,49 @@ gth_image_new (guint width, guint height)
 
 
 GthImage *
-gth_image_copy (GthImage *self)
+gth_image_dup (GthImage *self)
 {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
-	image->priv->buffer = g_memdup2 (self->priv->buffer, self->priv->size);
-	image->priv->size = self->priv->size;
-	image->priv->row_stride = self->priv->row_stride;
-	image->priv->width = self->priv->width;
-	image->priv->height = self->priv->height;
-	image->priv->bytes = g_bytes_new_static (self->priv->buffer, self->priv->size);
+	gth_image_copy_pixels (self, image);
+	gth_image_copy_metadata (self, image);
 
-	image->priv->metadata_flags = self->priv->metadata_flags;
-	if (self->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) {
-		image->priv->has_alpha = self->priv->has_alpha;
-	}
-	if (self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) {
-		image->priv->original_width = self->priv->original_width;
-		image->priv->original_height = self->priv->original_height;
-	}
-	if (self->priv->metadata_flags & METADATA_FLAG_ICC_PROFILE) {
-		gth_image_set_icc_profile (image, gth_image_get_icc_profile (self));
-	}
 	return image;
+}
+
+
+void
+gth_image_copy_pixels (GthImage	*src,
+		       GthImage	*dest)
+{
+	dest->priv->buffer = g_memdup2 (src->priv->buffer, src->priv->size);
+	dest->priv->size = src->priv->size;
+	dest->priv->row_stride = src->priv->row_stride;
+	dest->priv->width = src->priv->width;
+	dest->priv->height = src->priv->height;
+	dest->priv->bytes = g_bytes_new_static (dest->priv->buffer, dest->priv->size);
+}
+
+
+void
+gth_image_copy_metadata (GthImage	*src,
+			 GthImage	*dest)
+{
+	g_return_if_fail (GTH_IS_IMAGE (src));
+	g_return_if_fail (GTH_IS_IMAGE (dest));
+
+	dest->priv->metadata_flags = src->priv->metadata_flags;
+	if (src->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) {
+		dest->priv->has_alpha = src->priv->has_alpha;
+	}
+	if (src->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) {
+		dest->priv->original_width = src->priv->original_width;
+		dest->priv->original_height = src->priv->original_height;
+	}
+	if (src->priv->metadata_flags & METADATA_FLAG_ICC_PROFILE) {
+		gth_image_set_icc_profile (dest, gth_image_get_icc_profile (src));
+	}
 }
 
 
@@ -266,6 +285,16 @@ gth_image_get_original_size (GthImage	*self,
 }
 
 
+gboolean
+gth_image_has_original_size (GthImage *self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) == 0)
+		return FALSE;
+	return TRUE;
+}
+
+
 // Size of the image the thumbnail refers to.
 void
 gth_image_set_original_image_size (GthImage	*self,
@@ -276,6 +305,24 @@ gth_image_set_original_image_size (GthImage	*self,
 	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_IMAGE_SIZE;
 	self->priv->original_image_width = width;
 	self->priv->original_image_height = height;
+}
+
+
+gboolean
+gth_image_get_original_image_size (GthImage	*self,
+				   guint	*width,
+				   guint	*height)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_IMAGE_SIZE) == 0)
+		return FALSE;
+	if (width != NULL) {
+		*width = self->priv->original_image_width;
+	}
+	if (height != NULL) {
+		*height = self->priv->original_image_height;
+	}
+	return TRUE;
 }
 
 
@@ -295,6 +342,26 @@ gth_image_set_zoom (GthImage *self,
 {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	return GTH_IMAGE_GET_CLASS (self)->set_zoom (self, zoom, original_width, original_height);
+}
+
+
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+#define MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
+#endif
+
+
+GdkTexture *
+gth_image_get_gdk_texture (GthImage *self)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	return gdk_memory_texture_new (
+		self->priv->width,
+		self->priv->height,
+		MEMORY_FORMAT,
+		self->priv->bytes,
+		(gsize) self->priv->row_stride);
 }
 
 
@@ -427,28 +494,9 @@ gth_image_apply_icc_profile_async (GthImage		*image,
 
 
 gboolean
-gth_image_apply_icc_profile_finish (GAsyncResult	 *result,
+gth_image_apply_icc_profile_finish (GthImage		*self,
+				    GAsyncResult	*result,
 				    GError		**error)
 {
 	return g_task_propagate_boolean (G_TASK (result), error);
-}
-
-
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
-#elif G_BYTE_ORDER == G_BIG_ENDIAN
-#define MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
-#endif
-
-
-GdkTexture *
-gth_image_get_gdk_texture (GthImage *self)
-{
-	g_return_if_fail (GTH_IS_IMAGE (self));
-	return gdk_memory_texture_new (
-		self->priv->width,
-		self->priv->height,
-		MEMORY_FORMAT,
-		self->priv->bytes,
-		(gsize) self->priv->row_stride);
 }

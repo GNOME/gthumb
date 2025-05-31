@@ -16,6 +16,7 @@ public class Gth.Application : Adw.Application {
 	public bool restart;
 	public bool quitting;
 	public ImageLoader image_loader;
+	public ColorManager color_manager;
 
 	public Application () {
 		Object (
@@ -120,6 +121,7 @@ public class Gth.Application : Adw.Application {
 		register_image_loader ("image/png", load_png);
 
 		image_loader = new ImageLoader (get_workers (MAX_LOADERS));
+		color_manager = new ColorManager ();
 	}
 
 	public override void startup () {

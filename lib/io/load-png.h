@@ -1,7 +1,7 @@
 #ifndef LOAD_PNG_H
 #define LOAD_PNG_H
 
-#include <gtk/gtk.h>
+#include "lib/lib.h"
 #include "lib/gth-image.h"
 
 G_BEGIN_DECLS

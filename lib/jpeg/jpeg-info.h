@@ -1,7 +1,7 @@
 #ifndef JPEG_INFO_H
 #define JPEG_INFO_H
 
-#include <lib/lib.h>
+#include "lib/lib.h"
 
 #define JPEG_SEGMENT_MAX_SIZE (64 * 1024)
 

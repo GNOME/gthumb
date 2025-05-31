@@ -397,21 +397,23 @@ gth_icc_transform_new_from_profiles (GthIccProfile *from_profile,
 				     GthIccProfile *to_profile)
 {
 #if HAVE_LCMS2
-	GthIccTransform *transform = NULL;
-	GthCmsTransform  cms_transform;
 
-	cms_transform = (GthCmsTransform) cmsCreateTransform ((cmsHPROFILE) gth_icc_profile_get_profile (from_profile),
-							      _LCMS2_CAIRO_FORMAT,
-							      (cmsHPROFILE) gth_icc_profile_get_profile (to_profile),
-							      _LCMS2_CAIRO_FORMAT,
-							      INTENT_PERCEPTUAL,
-							      0);
-	if (cms_transform != NULL)
-		transform = gth_icc_transform_new (cms_transform);
+	GthCmsTransform cms_transform = (GthCmsTransform) cmsCreateTransform (
+		(cmsHPROFILE) gth_icc_profile_get_profile (from_profile),
+		_LCMS2_CAIRO_FORMAT,
+		(cmsHPROFILE) gth_icc_profile_get_profile (to_profile),
+		_LCMS2_CAIRO_FORMAT,
+		INTENT_PERCEPTUAL,
+		0
+	);
+	if (cms_transform == NULL)
+		return NULL;
+	return gth_icc_transform_new (cms_transform);
 
-	return transform;
 #else
+
 	return NULL;
+
 #endif
 }
 

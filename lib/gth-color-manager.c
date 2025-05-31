@@ -467,8 +467,11 @@ gth_color_manager_get_transform (GthColorManager *self,
 #if HAVE_LCMS2
 
 	GthIccTransform *transform = NULL;
+	static GMutex cache_mutex;
 
 	g_return_val_if_fail (self != NULL, NULL);
+
+	g_mutex_lock (&cache_mutex);
 
 	char *transform_id = create_transform_id_for_cache (in_profile, out_profile);
 	if (transform_id != NULL) {
@@ -497,6 +500,9 @@ gth_color_manager_get_transform (GthColorManager *self,
 	else {
 		transform = gth_icc_transform_new_from_profiles (in_profile, out_profile);
 	}
+
+	g_mutex_unlock (&cache_mutex);
+
 	return transform;
 
 #else

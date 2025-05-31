@@ -6,6 +6,7 @@
 #include <gio/gio.h>
 #include "lib/gth-color-manager.h"
 #include "lib/gth-icc-profile.h"
+#include "lib/lib.h"
 
 G_BEGIN_DECLS
 
@@ -38,7 +39,11 @@ struct _GthImageClass {
 GType		gth_image_get_type			(void);
 GthImage *	gth_image_new				(guint			 width,
 							 guint			 height);
-GthImage *	gth_image_copy				(GthImage		*image);
+GthImage *	gth_image_dup				(GthImage		*image);
+void		gth_image_copy_pixels			(GthImage		*src,
+							 GthImage		*dest);
+void		gth_image_copy_metadata			(GthImage		*src,
+							 GthImage		*dest);
 guchar*		gth_image_get_pixels			(GthImage		*image,
 							 gsize			*size,
 							 int			*row_stride);
@@ -55,14 +60,19 @@ void		gth_image_set_original_size		(GthImage		*image,
 gboolean	gth_image_get_original_size		(GthImage		*image,
 							 guint			*width,
 							 guint			*height);
+gboolean	gth_image_has_original_size		(GthImage		*image);
 void		gth_image_set_original_image_size	(GthImage		*image,
 							 guint			 width,
 							 guint			 height);
+gboolean	gth_image_get_original_image_size	(GthImage		*image,
+							 guint			*width,
+							 guint			*height);
 gboolean	gth_image_get_is_zoomable		(GthImage		*image);
 gboolean	gth_image_set_zoom			(GthImage		*image,
 							 double			 zoom,
 							 guint			*original_width,
 							 guint			*original_height);
+GdkTexture *	gth_image_get_gdk_texture		(GthImage		*image);
 void		gth_image_set_icc_profile		(GthImage		*image,
 							 GthIccProfile		*profile);
 GthIccProfile *	gth_image_get_icc_profile		(GthImage		*image);
@@ -76,10 +86,22 @@ void		gth_image_apply_icc_profile_async	(GthImage		*image,
 							 GCancellable		*cancellable,
 							 GAsyncReadyCallback	 callback,
 							 gpointer		 user_data);
-gboolean	gth_image_apply_icc_profile_finish	(GAsyncResult		*result,
+gboolean	gth_image_apply_icc_profile_finish	(GthImage		*image,
+							 GAsyncResult		*result,
 							 GError			**error);
-
-GdkTexture *	gth_image_get_gdk_texture		(GthImage		*image);
+GthImage *	gth_image_resize_if_larger		(GthImage		*image,
+							 guint			 size,
+							 GthScaleFilter		 quality,
+							 GCancellable		*cancellable);
+void		gth_image_resize_if_larger_async	(GthImage		*image,
+							 guint			 size,
+							 GthScaleFilter		 quality,
+							 GCancellable		*cancellable,
+							 GAsyncReadyCallback	 callback,
+							 gpointer		 user_data);
+GthImage *	gth_image_resize_if_larger_finish	(GthImage		*image,
+							 GAsyncResult		*result,
+							 GError			**error);
 
 G_END_DECLS
 

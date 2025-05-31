@@ -6,5 +6,6 @@
 #include <gio/gio.h>
 #include "lib/types.h"
 #include "lib/pixel.h"
+#include "lib/util.h"
 
 #endif /* LIB_LIB_H */

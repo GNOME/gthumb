@@ -1,5 +1,6 @@
 using GLib;
 
+[CCode (cheader_filename = "lib/types.h")]
 public enum Gth.Transform {
 	NONE = 1,
 	FLIP_H,
@@ -11,6 +12,7 @@ public enum Gth.Transform {
 	ROTATE_270
 }
 
+[CCode (cheader_filename = "lib/types.h")]
 public enum Gth.ColorSpace {
 	UNKNOWN,
 	SRGB,
@@ -18,6 +20,7 @@ public enum Gth.ColorSpace {
 	UNCALIBRATED,
 }
 
+[CCode (cheader_filename = "lib/types.h")]
 public enum Gth.Format {
 	RGBA,
 	ABGR;
@@ -32,4 +35,19 @@ public enum Gth.Format {
 	// };
 }
 
+[CCode (cheader_filename = "lib/types.h")]
 public const Gth.Format GTH_PIXEL_FORMAT;
+
+[CCode (cheader_filename = "lib/types.h")]
+public enum Gth.ScaleFilter {
+	POINT,
+	BOX,
+	TRIANGLE,
+	CUBIC,
+	LANCZOS2,
+	LANCZOS3,
+	MITCHELL_NETRAVALI,
+	FAST,
+	BEST,
+	GOOD,
+}

@@ -95,7 +95,9 @@ lib_files = files(
   'lib/gth-color-manager.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
+  'lib/gth-image-resize.c',
   'lib/pixel.c',
+  'lib/util.c',
   'lib/io/load-png.c',
   'lib/jpeg/jpeg-info.c',
 )
