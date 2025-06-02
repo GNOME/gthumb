@@ -21,3 +21,9 @@ option('libwebp',
   value : true,
   description : 'Use libwebp to load WebP images'
 )
+
+option('librsvg',
+  type : 'boolean',
+  value : true,
+  description : 'Use librsvg to load SVG images'
+)

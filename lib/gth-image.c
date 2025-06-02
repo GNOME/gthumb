@@ -40,9 +40,7 @@ G_DEFINE_TYPE_WITH_CODE (GthImage,
 			 G_ADD_PRIVATE (GthImage))
 
 
-static void
-_gth_image_free_data (GthImage *self)
-{
+static void _gth_image_free_data (GthImage *self) {
 	if (self->priv->buffer != NULL) {
 		g_free (self->priv->buffer);
 		self->priv->buffer = NULL;
@@ -54,18 +52,15 @@ _gth_image_free_data (GthImage *self)
 }
 
 
-static void
-_gth_image_free_icc_profile (GthImage *self)
-{
-	if (self->priv->icc_profile != NULL)
+static void _gth_image_free_icc_profile (GthImage *self) {
+	if (self->priv->icc_profile != NULL) {
 		g_object_unref (self->priv->icc_profile);
-	self->priv->icc_profile = NULL;
+		self->priv->icc_profile = NULL;
+	}
 }
 
 
-static void
-gth_image_finalize (GObject *object)
-{
+static void gth_image_finalize (GObject *object) {
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_IMAGE (object));
 
@@ -81,39 +76,26 @@ gth_image_finalize (GObject *object)
 }
 
 
-static gboolean
-base_get_is_zoomable (GthImage *self)
-{
+static gboolean base_get_can_scale (GthImage *self) {
 	return FALSE;
 }
 
 
-static gboolean
-base_set_zoom (GthImage *self,
-	       double    zoom,
-	       guint    *original_width,
-	       guint    *original_height)
-{
-	return FALSE;
+static GthImage * base_scale (GthImage *self, double factor) {
+	return NULL;
 }
 
 
-static void
-gth_image_class_init (GthImageClass *klass)
-{
-	GObjectClass *gobject_class;
-
-	gobject_class = (GObjectClass*) klass;
+static void gth_image_class_init (GthImageClass *klass) {
+	GObjectClass *gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_image_finalize;
 
-	klass->get_is_zoomable = base_get_is_zoomable;
-	klass->set_zoom = base_set_zoom;
+	klass->get_can_scale = base_get_can_scale;
+	klass->scale = base_scale;
 }
 
 
-static void
-gth_image_init (GthImage *self)
-{
+static void gth_image_init (GthImage *self) {
 	self->priv = gth_image_get_instance_private (self);
 	self->priv->buffer = NULL;
 	self->priv->size = 0;
@@ -133,28 +115,33 @@ gth_image_init (GthImage *self)
 #define PIXEL_BYTES 4
 
 
-GthImage *
-gth_image_new (guint width, guint height)
-{
+GthImage * gth_image_new (guint width, guint height) {
 	g_return_val_if_fail (width > 0, NULL);
 	g_return_val_if_fail (height > 0, NULL);
-
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
-	image->priv->row_stride = (int) (width * PIXEL_BYTES);
-	image->priv->size = (gsize) image->priv->row_stride * height;
-	// TODO: check the size
-	image->priv->buffer = g_malloc (image->priv->size);
-	// TODO: check if buffer is NULL
-	image->priv->width = width;
-	image->priv->height = height;
-	image->priv->bytes = g_bytes_new_static (image->priv->buffer, image->priv->size);
+	gth_image_init_pixels (image, width, height);
 	return image;
 }
 
 
-GthImage *
-gth_image_dup (GthImage *self)
-{
+void gth_image_init_pixels (GthImage *self, guint width, guint height) {
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_if_fail (width > 0);
+	g_return_if_fail (height > 0);
+	g_return_if_fail (self->priv->buffer == NULL);
+
+	self->priv->row_stride = (int) (width * PIXEL_BYTES);
+	self->priv->size = (gsize) self->priv->row_stride * height;
+	// TODO: check the size
+	self->priv->buffer = g_malloc (self->priv->size);
+	// TODO: check if buffer is NULL
+	self->priv->width = width;
+	self->priv->height = height;
+	self->priv->bytes = g_bytes_new_static (self->priv->buffer, self->priv->size);
+}
+
+
+GthImage * gth_image_dup (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
@@ -165,10 +152,7 @@ gth_image_dup (GthImage *self)
 }
 
 
-void
-gth_image_copy_pixels (GthImage	*src,
-		       GthImage	*dest)
-{
+void gth_image_copy_pixels (GthImage *src, GthImage *dest) {
 	dest->priv->buffer = g_memdup2 (src->priv->buffer, src->priv->size);
 	dest->priv->size = src->priv->size;
 	dest->priv->row_stride = src->priv->row_stride;
@@ -178,10 +162,7 @@ gth_image_copy_pixels (GthImage	*src,
 }
 
 
-void
-gth_image_copy_metadata (GthImage	*src,
-			 GthImage	*dest)
-{
+void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 	g_return_if_fail (GTH_IS_IMAGE (src));
 	g_return_if_fail (GTH_IS_IMAGE (dest));
 
@@ -199,11 +180,7 @@ gth_image_copy_metadata (GthImage	*src,
 }
 
 
-guchar*
-gth_image_get_pixels (GthImage	*self,
-		      gsize	*size,
-		      int	*row_stride)
-{
+guchar* gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	if (size != NULL)
 		*size = self->priv->size;
@@ -213,44 +190,50 @@ gth_image_get_pixels (GthImage	*self,
 }
 
 
-guint
-gth_image_get_width (GthImage	*self)
-{
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+#define MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
+#endif
+
+
+GdkTexture * gth_image_get_gdk_texture (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	return gdk_memory_texture_new (
+		self->priv->width,
+		self->priv->height,
+		MEMORY_FORMAT,
+		self->priv->bytes,
+		(gsize) self->priv->row_stride);
+}
+
+
+guint gth_image_get_width (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
 	return self->priv->width;
 }
 
 
-guint
-gth_image_get_height (GthImage	*self)
-{
+guint gth_image_get_height (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
 	return self->priv->height;
 }
 
 
-gsize
-gth_image_get_size (GthImage	*self)
-{
+gsize gth_image_get_size (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
 	return self->priv->size;
 }
 
 
-void
-gth_image_set_has_alpha (GthImage	*self,
-			 gboolean	 has_alpha)
-{
+void gth_image_set_has_alpha (GthImage *self, gboolean has_alpha) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	self->priv->metadata_flags |= METADATA_FLAG_HAS_ALPHA;
 	self->priv->has_alpha = has_alpha;
 }
 
 
-gboolean
-gth_image_get_has_alpha (GthImage *self,
-			 gboolean *has_alpha)
-{
+gboolean gth_image_get_has_alpha (GthImage *self, gboolean *has_alpha) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if ((self->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) == 0) {
 		if (has_alpha != NULL) {
@@ -265,11 +248,7 @@ gth_image_get_has_alpha (GthImage *self,
 }
 
 
-void
-gth_image_set_original_size (GthImage	*self,
-			     guint	 width,
-			     guint	 height)
-{
+void gth_image_set_original_size (GthImage *self, guint width, guint height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_SIZE;
 	self->priv->original_width = width;
@@ -277,11 +256,7 @@ gth_image_set_original_size (GthImage	*self,
 }
 
 
-gboolean
-gth_image_get_original_size (GthImage	*self,
-			     guint	*width,
-			     guint	*height)
-{
+gboolean gth_image_get_original_size (GthImage *self, guint *width, guint *height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) == 0)
 		return FALSE;
@@ -295,20 +270,14 @@ gth_image_get_original_size (GthImage	*self,
 }
 
 
-gboolean
-gth_image_has_original_size (GthImage *self)
-{
+gboolean gth_image_has_original_size (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	return (self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) != 0;
 }
 
 
 // Size of the image the thumbnail refers to.
-void
-gth_image_set_original_image_size (GthImage	*self,
-				   guint	 width,
-				   guint	 height)
-{
+void gth_image_set_original_image_size (GthImage *self, guint width, guint height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_IMAGE_SIZE;
 	self->priv->original_image_width = width;
@@ -316,11 +285,7 @@ gth_image_set_original_image_size (GthImage	*self,
 }
 
 
-gboolean
-gth_image_get_original_image_size (GthImage	*self,
-				   guint	*width,
-				   guint	*height)
-{
+gboolean gth_image_get_original_image_size (GthImage *self, guint *width, guint *height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_IMAGE_SIZE) == 0)
 		return FALSE;
@@ -334,11 +299,7 @@ gth_image_get_original_image_size (GthImage	*self,
 }
 
 
-void
-gth_image_set_attribute	(GthImage	*self,
-			 const char 	*key,
-			 const char 	*value)
-{
+void gth_image_set_attribute (GthImage *self, const char *key, const char *value) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	if (self->priv->attributes == NULL) {
 		self->priv->attributes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
@@ -347,10 +308,7 @@ gth_image_set_attribute	(GthImage	*self,
 }
 
 
-const char *
-gth_image_get_attribute	(GthImage	*self,
-			 const char 	*key)
-{
+const char * gth_image_get_attribute (GthImage *self, const char *key) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	if (self->priv->attributes == NULL)
 		return NULL;
@@ -358,57 +316,24 @@ gth_image_get_attribute	(GthImage	*self,
 }
 
 
-GHashTable *
-gth_image_get_attributes (GthImage *self)
-{
+GHashTable * gth_image_get_attributes (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return self->priv->attributes;
 }
 
 
-gboolean
-gth_image_get_is_zoomable (GthImage *self)
-{
+gboolean gth_image_get_can_scale (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	return GTH_IMAGE_GET_CLASS (self)->get_is_zoomable (self);
+	return GTH_IMAGE_GET_CLASS (self)->get_can_scale (self);
 }
 
 
-gboolean
-gth_image_set_zoom (GthImage *self,
-		    double    zoom,
-		    guint    *original_width,
-		    guint    *original_height)
-{
+GthImage* gth_image_scale (GthImage *self, double zoom) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	return GTH_IMAGE_GET_CLASS (self)->set_zoom (self, zoom, original_width, original_height);
+	return GTH_IMAGE_GET_CLASS (self)->scale (self, zoom);
 }
 
-
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
-#elif G_BYTE_ORDER == G_BIG_ENDIAN
-#define MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
-#endif
-
-
-GdkTexture *
-gth_image_get_gdk_texture (GthImage *self)
-{
-	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
-	return gdk_memory_texture_new (
-		self->priv->width,
-		self->priv->height,
-		MEMORY_FORMAT,
-		self->priv->bytes,
-		(gsize) self->priv->row_stride);
-}
-
-
-void
-gth_image_set_icc_profile (GthImage		*self,
-			   GthIccProfile	*profile)
-{
+void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	if (profile != NULL)
 		g_object_ref (profile);
@@ -417,19 +342,16 @@ gth_image_set_icc_profile (GthImage		*self,
 }
 
 
-GthIccProfile *
-gth_image_get_icc_profile (GthImage *self)
-{
+GthIccProfile * gth_image_get_icc_profile (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return self->priv->icc_profile;
 }
 
 
-void
-gth_image_apply_icc_profile (GthImage		*self,
-			     GthColorManager	*color_manager,
-			     GthIccProfile	*out_profile,
-			     GCancellable	*cancellable)
+void gth_image_apply_icc_profile (GthImage *self,
+	GthColorManager *color_manager,
+	GthIccProfile *out_profile,
+	GCancellable *cancellable)
 {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 
@@ -468,19 +390,17 @@ gth_image_apply_icc_profile (GthImage		*self,
 }
 
 
-/* -- gth_image_apply_icc_profile_async -- */
+// -- gth_image_apply_icc_profile_async --
 
 
 typedef struct {
-	GthImage	*image;
+	GthImage *image;
 	GthColorManager *color_manager;
-	GthIccProfile	*out_profile;
+	GthIccProfile *out_profile;
 } ApplyProfileData;
 
 
-static void
-apply_profile_data_free (gpointer user_data)
-{
+static void apply_profile_data_free (gpointer user_data) {
 	ApplyProfileData *apd = user_data;
 	g_object_unref (apd->image);
 	g_object_unref (apd->color_manager);
@@ -489,15 +409,12 @@ apply_profile_data_free (gpointer user_data)
 }
 
 
-static void
-_gth_image_apply_icc_profile_thread (GTask		*task,
-				     gpointer		 source_object,
-				     gpointer		 task_data,
-				     GCancellable	*cancellable)
+static void _gth_image_apply_icc_profile_thread (GTask *task,
+	gpointer source_object,
+	gpointer task_data,
+	GCancellable *cancellable)
 {
-	ApplyProfileData *apd;
-
-	apd = g_task_get_task_data (task);
+	ApplyProfileData *apd = g_task_get_task_data (task);
 	gth_image_apply_icc_profile (apd->image, apd->color_manager, apd->out_profile, cancellable);
 
 	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
@@ -509,13 +426,12 @@ _gth_image_apply_icc_profile_thread (GTask		*task,
 }
 
 
-void
-gth_image_apply_icc_profile_async (GthImage		*image,
-				   GthColorManager	*color_manager,
-				   GthIccProfile	*out_profile,
-				   GCancellable		*cancellable,
-				   GAsyncReadyCallback	 callback,
-				   gpointer		 user_data)
+void gth_image_apply_icc_profile_async (GthImage *image,
+	GthColorManager *color_manager,
+	GthIccProfile *out_profile,
+	GCancellable *cancellable,
+	GAsyncReadyCallback callback,
+	gpointer user_data)
 {
 	g_return_if_fail (image != NULL);
 	g_return_if_fail (out_profile != NULL);
@@ -533,10 +449,9 @@ gth_image_apply_icc_profile_async (GthImage		*image,
 }
 
 
-gboolean
-gth_image_apply_icc_profile_finish (GthImage		*self,
-				    GAsyncResult	*result,
-				    GError		**error)
+gboolean gth_image_apply_icc_profile_finish (GthImage *self,
+	GAsyncResult *result,
+	GError **error)
 {
 	return g_task_propagate_boolean (G_TASK (result), error);
 }

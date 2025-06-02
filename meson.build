@@ -12,6 +12,7 @@ gtk_version = '>=4.18.5'
 lcms2_version = '>=2.6'
 png_version = '>=1.6'
 libwebp_version = '>=0.2.0'
+librsvg_version = '>=2.34.0'
 
 c_comp = meson.get_compiler('c')
 vala_comp = meson.get_compiler('vala')
@@ -48,18 +49,6 @@ libjpeg_dep = [
   c_comp.find_library('jpeg')
 ]
 
-# libwebp
-
-if get_option('libwebp')
-  libwebp_dep = [
-    dependency('libwebp', version : libwebp_version, required : false),
-    dependency('libwebpdemux', version : libwebp_version, required : false)
-  ]
-  use_libwebp = libwebp_dep[0].found()
-else
-  use_libwebp = false
-endif
-
 code = '''#include <stdio.h>
 #include <jpeglib.h>
 #if JPEG_LIB_VERSION < 80
@@ -77,6 +66,27 @@ have_progressive_jpeg = c_comp.has_function(
   dependencies : libjpeg_dep
 )
 
+# libwebp
+
+if get_option('libwebp')
+  libwebp_dep = [
+    dependency('libwebp', version : libwebp_version, required : false),
+    dependency('libwebpdemux', version : libwebp_version, required : false)
+  ]
+  use_libwebp = libwebp_dep[0].found()
+else
+  use_libwebp = false
+endif
+
+# librsvg
+
+if get_option('librsvg')
+  librsvg_dep = dependency('librsvg-2.0', version : librsvg_version, required : false)
+  use_librsvg = librsvg_dep.found()
+else
+  use_librsvg = false
+endif
+
 dependencies = [
   dependency('threads'),
   c_comp.find_library('m', required: false),
@@ -90,6 +100,7 @@ dependencies = [
   use_lcms2 ? lcms2_dep : [],
   use_colord ? colord_dep : [],
   use_libwebp ? libwebp_dep : [],
+  use_librsvg ? librsvg_dep : [],
 ]
 
 gettext_package = 'thumbnails'
@@ -142,6 +153,7 @@ lib_files = files(
   'lib/gth-image-resize.c',
   'lib/io/load-jpeg.c',
   'lib/io/load-png.c',
+  'lib/io/load-svg.c',
   'lib/io/load-webp.c',
   'lib/io/save-png.c',
   'lib/jpeg/jmemorysrc.c',
@@ -250,6 +262,7 @@ summary(
     'libjpeg 8': have_libjpeg_80,
     'progressive jpeg': have_progressive_jpeg,
     'libwebp': use_libwebp,
+    'librsvg': use_librsvg,
   },
   section: 'Configuration summary:',
 )

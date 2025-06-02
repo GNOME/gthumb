@@ -18,8 +18,8 @@ namespace Gth {
 		public bool get_original_image_size (out uint width, out uint height);
 		public void set_attribute (string key, string value);
 		public unowned string get_attribute (string key);
-		public virtual bool get_is_zoomable ();
-		public virtual bool set_zoom (double zoom, out uint original_width, out uint original_height);
+		public virtual bool get_can_scale ();
+		public virtual Image scale (double factor);
 		public Gdk.Texture get_gdk_texture ();
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();

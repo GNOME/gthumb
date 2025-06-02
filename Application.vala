@@ -125,6 +125,7 @@ public class Gth.Application : Adw.Application {
 		register_image_loader ("image/png", load_png);
 		register_image_loader ("image/jpeg", load_jpeg);
 		register_image_loader ("image/webp", load_webp);
+		register_image_loader ("image/svg+xml", load_svg);
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png);
