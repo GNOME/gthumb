@@ -16,6 +16,8 @@ namespace Gth {
 		public void set_original_size (uint width, uint height);
 		public bool get_original_size (out uint width, out uint height);
 		public bool get_original_image_size (out uint width, out uint height);
+		public void set_attribute (string key, string value);
+		public unowned string get_attribute (string key);
 		public virtual bool get_is_zoomable ();
 		public virtual bool set_zoom (double zoom, out uint original_width, out uint original_height);
 		public Gdk.Texture get_gdk_texture ();
@@ -23,7 +25,7 @@ namespace Gth {
 		public unowned IccProfile? get_icc_profile ();
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
-		public Image? resize_if_larger (uint size, ScaleFilter quality, Cancellable cancellable);
-		public async Image? resize_if_larger_async (uint size, ScaleFilter quality, Cancellable cancellable) throws Error;
+		public Image? resize (uint size, ScaleFilter quality, Cancellable cancellable);
+		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 	}
 }

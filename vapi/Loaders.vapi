@@ -2,3 +2,12 @@ using GLib;
 
 [CCode (cheader_filename = "lib/io/load-png.h")]
 public Gth.Image load_png (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
+
+[CCode (cheader_filename = "lib/io/load-png.h")]
+public HashTable<string, string> load_png_attributes (Bytes bytes) throws Error;
+
+[CCode (cheader_filename = "lib/io/load-jpeg.h")]
+public Gth.Image load_jpeg (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
+
+[CCode (cheader_filename = "lib/io/load-webp.h")]
+public Gth.Image load_webp (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;

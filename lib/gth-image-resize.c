@@ -290,16 +290,23 @@ out:
 
 
 GthImage *
-gth_image_resize_if_larger (GthImage		*image,
-			    guint		 size,
-			    GthScaleFilter	 quality,
-			    GCancellable	*cancellable)
+gth_image_resize (GthImage		*image,
+		  guint			 size,
+		  GthResizeFlags	 flags,
+		  GthScaleFilter	 quality,
+		  GCancellable		*cancellable)
 {
 	guint original_width = gth_image_get_width (image);
 	guint original_height = gth_image_get_height (image);
 	guint scaled_width = original_width;
 	guint scaled_height = original_height;
-	if (!scale_if_larger (&scaled_width, &scaled_height, size)) {
+	if (!scale_keeping_ratio (
+		&scaled_width,
+		&scaled_height,
+		size,
+		size,
+		(flags & GTH_RESIZE_UPSCALE) != 0))
+	{
 		//return gth_image_dup (image);
 		return g_object_ref (image);
 	}
@@ -339,6 +346,7 @@ gth_image_resize_if_larger (GthImage		*image,
 typedef struct {
 	GthImage *original;
 	guint size;
+	GthResizeFlags flags;
 	GthScaleFilter quality;
 } ResizeData;
 
@@ -346,6 +354,7 @@ typedef struct {
 static ResizeData *
 resize_data_new (GthImage	*image,
 		 guint		 size,
+		 GthResizeFlags	 flags,
 		 GthScaleFilter	 quality)
 {
 	ResizeData *resize_data;
@@ -353,6 +362,7 @@ resize_data_new (GthImage	*image,
 	resize_data = g_new0 (ResizeData, 1);
 	resize_data->original = g_object_ref (image);
 	resize_data->size = size;
+	resize_data->flags = flags;
 	resize_data->quality = quality;
 
 	return resize_data;
@@ -374,9 +384,10 @@ resize_image_thread (GTask		*task,
 		     GCancellable	*cancellable)
 {
 	ResizeData *resize_data = g_task_get_task_data (task);
-	GthImage *resized_image = gth_image_resize_if_larger (
+	GthImage *resized_image = gth_image_resize (
 		resize_data->original,
 		resize_data->size,
+		resize_data->flags,
 		resize_data->quality,
 		cancellable);
 
@@ -396,17 +407,18 @@ resize_image_thread (GTask		*task,
 
 
 void
-gth_image_resize_if_larger_async (GthImage		*image,
-				  guint			 size,
-				  GthScaleFilter	 quality,
-				  GCancellable		*cancellable,
-				  GAsyncReadyCallback	 callback,
-				  gpointer		 user_data)
+gth_image_resize_async (GthImage		*image,
+			guint			 size,
+			GthResizeFlags		 flags,
+			GthScaleFilter		 quality,
+			GCancellable		*cancellable,
+			GAsyncReadyCallback	 callback,
+			gpointer		 user_data)
 {
 	GTask *task = g_task_new (NULL, cancellable, callback, user_data);
 	g_task_set_task_data (
 		task,
-		resize_data_new (image,	size, quality),
+		resize_data_new (image,	size, flags, quality),
 		(GDestroyNotify) resize_data_free);
 	g_task_run_in_thread (task, resize_image_thread);
 	g_object_unref (task);
@@ -414,9 +426,9 @@ gth_image_resize_if_larger_async (GthImage		*image,
 
 
 GthImage *
-gth_image_resize_if_larger_finish (GthImage	 *self,
-				   GAsyncResult	 *result,
-				   GError	**error)
+gth_image_resize_finish (GthImage	 *self,
+			 GAsyncResult	 *result,
+			 GError		**error)
 {
 	return g_task_propagate_pointer (G_TASK (result), error);
 }

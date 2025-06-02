@@ -286,10 +286,15 @@ public class Gth.Util {
 		{ "image/jxl",  0, 12, "\x00\x00\x00\x0cJXL\x20\x0d\x0a\x87\x0a" },
 	};
 
-	public static unowned string guess_content_type_from_stream (InputStream stream, File? file, Cancellable cancellable) {
+	public static unowned string? guess_content_type_from_stream (InputStream stream, File? file, Cancellable cancellable) {
 		var buffer = new uint8[BUFFER_SIZE_FOR_SNIFFING];
 		size_t content_size;
-		stream.read_all (buffer, out content_size, cancellable);
+		try {
+			stream.read_all (buffer, out content_size, cancellable);
+		}
+		catch (Error error) {
+			return null;
+		}
 		unowned var content_type = Util.get_mime_type_from_magic_numbers (buffer, content_size);
 		if (content_type == null) {
 			bool result_uncertain;
@@ -306,10 +311,6 @@ public class Gth.Util {
 					content_type = Util.guess_content_type_from_name (file.get_basename ());
 				}
 			}
-		}
-		if (stream is Seekable) {
-			var seekable = stream as Seekable;
-			seekable.seek (0, SeekType.SET, cancellable);
 		}
 		return content_type;
 	}
@@ -329,5 +330,11 @@ public class Gth.Util {
 
 	public static int uint_cmp (uint x, uint y) {
 		return (x < y) ? -1 : (x > y) ? 1 : 0;
+	}
+
+	public static bool toggle_state (SimpleAction action) {
+		var new_state = !action.get_state ().get_boolean ();
+		action.set_state (new Variant.boolean (new_state));
+		return new_state;
 	}
 }

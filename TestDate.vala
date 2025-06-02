@@ -106,7 +106,7 @@ public class Gth.TestDate : Gth.Test {
 	}
 
 	public override void focus_options () {
-		time_selector.focus ();
+		time_selector.focus_options ();
 	}
 
 	const Test.OperationInfo[] DateOperations = {

@@ -721,7 +721,7 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 
 
 gboolean
-_jpeg_info_get_from_buffer (guchar		 *in_buffer,
+_jpeg_info_get_from_buffer (const guchar	 *in_buffer,
 			    gsize		  in_buffer_size,
 			    JpegInfoFlags	  flags,
 			    JpegInfoData	 *data)

@@ -7,18 +7,7 @@
 #include "lib/gth-icc-profile.h"
 #include "load-png.h"
 
-// Starting from libpng version 1.5 it is not possible
-// to access inside the PNG struct directly
 #define PNG_SETJMP(ptr) setjmp(png_jmpbuf(ptr))
-
-#ifdef PNG_LIBPNG_VER
-#if PNG_LIBPNG_VER < 10400
-#ifdef PNG_SETJMP
-#undef PNG_SETJMP
-#endif
-#define PNG_SETJMP(ptr) setjmp(ptr->jmpbuf)
-#endif
-#endif
 
 typedef struct {
 	GBytes *bytes;
@@ -38,28 +27,28 @@ loader_data_destroy (LoaderData *loader_data)
 	g_bytes_unref (loader_data->bytes);
 	if (loader_data->image != NULL)
 		g_object_unref (loader_data->image);
-	g_free (loader_data);
 }
 
 
 static void
-gerror_error_func (png_structp     png_ptr,
-		   png_const_charp message)
+error_func (png_structp     png_ptr,
+	    png_const_charp message)
 {
 	GError ***error_p = png_get_error_ptr (png_ptr);
-	GError  **error = *error_p;
+	GError **error = *error_p;
 
-	if (error != NULL) {
-		*error = g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "%s", message);
+	if ((error != NULL) && (*error == NULL)) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, message);
 	}
+	longjmp (png_jmpbuf(png_ptr), 1);
 }
 
 
 static void
-gerror_warning_func (png_structp     png_ptr,
-		     png_const_charp message)
+warning_func (png_structp     png_ptr,
+	      png_const_charp message)
 {
-	// We don't care about warnings.
+	// Ignored
 }
 
 
@@ -69,6 +58,15 @@ read_buffer_func (png_structp png_ptr,
 		  png_size_t  size)
 {
 	LoaderData *loader_data = png_get_io_ptr (png_ptr);
+
+	if ((loader_data->cancellable != NULL)
+		&& g_cancellable_is_cancelled (loader_data->cancellable))
+	{
+		g_set_error_literal (loader_data->error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
+		png_error (png_ptr, "Cancelled");
+		return;
+	}
+
 	gsize max_size;
 	gconstpointer bytes = g_bytes_get_data (loader_data->bytes, &max_size);
 	if (loader_data->bytes_offset + size > max_size) {
@@ -103,34 +101,21 @@ transform_to_argb32_format_func (png_structp   png,
 }
 
 
-GthImage *
-load_png (GBytes	 *bytes,
-	  guint		  requested_size,
-	  GCancellable	 *cancellable,
-	  GError	**error)
-{
-	if (bytes == NULL) {
-		g_set_error_literal (error,
-			G_IO_ERROR,
-			G_IO_ERROR_FAILED,
-			"Buffer is null");
-		return NULL;
-	}
-
-	LoaderData *loader_data = g_new0 (LoaderData, 1);
-	loader_data->bytes = g_bytes_ref (bytes);
-	loader_data->cancellable = cancellable;
-	loader_data->bytes_offset = 0;
-	loader_data->image = NULL;
-	loader_data->error = error;
-	loader_data->png_ptr = png_create_read_struct (
+GHashTable* load_png_attributes (GBytes *bytes, GError **error) {
+	LoaderData loader_data;
+	loader_data.bytes = g_bytes_ref (bytes);
+	loader_data.cancellable = NULL;
+	loader_data.bytes_offset = 0;
+	loader_data.image = NULL;
+	loader_data.error = error;
+	loader_data.png_ptr = png_create_read_struct (
 		PNG_LIBPNG_VER_STRING,
-		&loader_data->error,
-		gerror_error_func,
-		gerror_warning_func);
+		&loader_data.error,
+		error_func,
+		warning_func);
 
-	if (loader_data->png_ptr == NULL) {
-		loader_data_destroy (loader_data);
+	if (loader_data.png_ptr == NULL) {
+		loader_data_destroy (&loader_data);
 		g_set_error_literal (error,
 			G_IO_ERROR,
 			G_IO_ERROR_FAILED,
@@ -138,9 +123,9 @@ load_png (GBytes	 *bytes,
 		return NULL;
 	}
 
-	loader_data->png_info_ptr = png_create_info_struct (loader_data->png_ptr);
-	if (loader_data->png_info_ptr == NULL) {
-		loader_data_destroy (loader_data);
+	loader_data.png_info_ptr = png_create_info_struct (loader_data.png_ptr);
+	if (loader_data.png_info_ptr == NULL) {
+		loader_data_destroy (&loader_data);
 		g_set_error_literal (error,
 			G_IO_ERROR,
 			G_IO_ERROR_FAILED,
@@ -148,23 +133,89 @@ load_png (GBytes	 *bytes,
 		return NULL;
 	}
 
-	if (PNG_SETJMP (loader_data->png_ptr)) {
-		loader_data_destroy (loader_data);
+	if (PNG_SETJMP (loader_data.png_ptr)) {
+		loader_data_destroy (&loader_data);
 		return NULL;
 	}
 
-	png_set_read_fn (loader_data->png_ptr, loader_data, read_buffer_func);
+	png_set_read_fn (loader_data.png_ptr, &loader_data, read_buffer_func);
+	png_read_info (loader_data.png_ptr, loader_data.png_info_ptr);
+
+	GHashTable *attributes = g_hash_table_new_full (
+		g_str_hash,
+		g_str_equal,
+		g_free,
+		g_free);
+
+	png_textp text_ptr;
+	int num_texts;
+	if (png_get_text (loader_data.png_ptr,
+		loader_data.png_info_ptr,
+		&text_ptr,
+		&num_texts))
+	{
+		for (int i = 0; i < num_texts; i++) {
+			g_hash_table_insert (
+				attributes,
+				g_strdup (text_ptr[i].key),
+				g_strdup (text_ptr[i].text));
+		}
+	}
+
+	loader_data_destroy (&loader_data);
+	return attributes;
+}
+
+
+GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellable, GError **error) {
+	LoaderData loader_data;
+	loader_data.bytes = g_bytes_ref (bytes);
+	loader_data.cancellable = cancellable;
+	loader_data.bytes_offset = 0;
+	loader_data.image = NULL;
+	loader_data.error = error;
+	loader_data.png_ptr = png_create_read_struct (
+		PNG_LIBPNG_VER_STRING,
+		&loader_data.error,
+		error_func,
+		warning_func);
+
+	if (loader_data.png_ptr == NULL) {
+		loader_data_destroy (&loader_data);
+		g_set_error_literal (error,
+			G_IO_ERROR,
+			G_IO_ERROR_FAILED,
+			"Could not create the png struct");
+		return NULL;
+	}
+
+	loader_data.png_info_ptr = png_create_info_struct (loader_data.png_ptr);
+	if (loader_data.png_info_ptr == NULL) {
+		loader_data_destroy (&loader_data);
+		g_set_error_literal (error,
+			G_IO_ERROR,
+			G_IO_ERROR_FAILED,
+			"Could not create the png info struct");
+		return NULL;
+	}
+
+	if (PNG_SETJMP (loader_data.png_ptr)) {
+		loader_data_destroy (&loader_data);
+		return NULL;
+	}
+
+	png_set_read_fn (loader_data.png_ptr, &loader_data, read_buffer_func);
 #ifndef HAVE_LCMS2
-	png_set_gamma (loader_data->png_ptr, PNG_DEFAULT_sRGB, PNG_DEFAULT_sRGB);
+	png_set_gamma (loader_data.png_ptr, PNG_DEFAULT_sRGB, PNG_DEFAULT_sRGB);
 #endif
-	png_read_info (loader_data->png_ptr, loader_data->png_info_ptr);
+	png_read_info (loader_data.png_ptr, loader_data.png_info_ptr);
 
 	png_uint_32 width, height;
 	int bit_depth, color_type, interlace_type;
 
 	png_get_IHDR (
-		loader_data->png_ptr,
-		loader_data->png_info_ptr,
+		loader_data.png_ptr,
+		loader_data.png_info_ptr,
 		&width,
 		&height,
 		&bit_depth,
@@ -173,67 +224,66 @@ load_png (GBytes	 *bytes,
 		NULL,
 		NULL);
 
-	loader_data->image = gth_image_new (width, height);
-	if (loader_data->image == NULL) {
+	loader_data.image = gth_image_new (width, height);
+	if (loader_data.image == NULL) {
 		g_set_error_literal (error,
 			G_IO_ERROR,
 			G_IO_ERROR_FAILED,
 			"Not enough memory?");
-		loader_data_destroy (loader_data);
+		loader_data_destroy (&loader_data);
 		return NULL;
 	}
-	gth_image_set_has_alpha (loader_data->image, (color_type & PNG_COLOR_MASK_ALPHA) || (color_type & PNG_COLOR_MASK_PALETTE));
-	gth_image_set_original_size (loader_data->image, width, height);
+	gth_image_set_has_alpha (loader_data.image, (color_type & PNG_COLOR_MASK_ALPHA) || (color_type & PNG_COLOR_MASK_PALETTE));
+	gth_image_set_original_size (loader_data.image, width, height);
 
 	// Set the data transformations.
 
-	png_set_strip_16 (loader_data->png_ptr);
+	png_set_strip_16 (loader_data.png_ptr);
 
-	png_set_packing (loader_data->png_ptr);
+	png_set_packing (loader_data.png_ptr);
 
 	if (color_type == PNG_COLOR_TYPE_PALETTE) {
-		png_set_palette_to_rgb (loader_data->png_ptr);
+		png_set_palette_to_rgb (loader_data.png_ptr);
 	}
 
 	if ((color_type == PNG_COLOR_TYPE_GRAY) && (bit_depth < 8)) {
-		png_set_expand_gray_1_2_4_to_8 (loader_data->png_ptr);
+		png_set_expand_gray_1_2_4_to_8 (loader_data.png_ptr);
 	}
 
-	if (png_get_valid (loader_data->png_ptr, loader_data->png_info_ptr, PNG_INFO_tRNS)) {
-	      png_set_tRNS_to_alpha (loader_data->png_ptr);
+	if (png_get_valid (loader_data.png_ptr, loader_data.png_info_ptr, PNG_INFO_tRNS)) {
+	      png_set_tRNS_to_alpha (loader_data.png_ptr);
 	}
 
-	png_set_filler (loader_data->png_ptr, 0xff, PNG_FILLER_AFTER);
+	png_set_filler (loader_data.png_ptr, 0xff, PNG_FILLER_AFTER);
 
 	if ((color_type == PNG_COLOR_TYPE_GRAY) || (color_type == PNG_COLOR_TYPE_GRAY_ALPHA)) {
-		png_set_gray_to_rgb (loader_data->png_ptr);
+		png_set_gray_to_rgb (loader_data.png_ptr);
 	}
 
 	if (interlace_type != PNG_INTERLACE_NONE) {
-		png_set_interlace_handling (loader_data->png_ptr);
+		png_set_interlace_handling (loader_data.png_ptr);
 	}
 
-	png_set_read_user_transform_fn (loader_data->png_ptr, transform_to_argb32_format_func);
+	png_set_read_user_transform_fn (loader_data.png_ptr, transform_to_argb32_format_func);
 
-	png_read_update_info (loader_data->png_ptr, loader_data->png_info_ptr);
+	png_read_update_info (loader_data.png_ptr, loader_data.png_info_ptr);
 
 	// Read the image.
 
 	int row_stride;
-	guchar *surface_row = gth_image_get_pixels (loader_data->image, NULL, &row_stride);
+	guchar *surface_row = gth_image_get_pixels (loader_data.image, NULL, &row_stride);
 	png_bytep *row_pointers = g_new (png_bytep, height);
 	for (int row = 0; row < height; row++) {
 		row_pointers[row] = surface_row;
 		surface_row += row_stride;
 	}
-	png_read_image (loader_data->png_ptr, row_pointers);
-	png_read_end (loader_data->png_ptr, loader_data->png_info_ptr);
+	png_read_image (loader_data.png_ptr, row_pointers);
+	png_read_end (loader_data.png_ptr, loader_data.png_info_ptr);
 
 	png_textp text_ptr;
 	int num_texts;
-
-	if (png_get_text (loader_data->png_ptr,
-		loader_data->png_info_ptr,
+	if (png_get_text (loader_data.png_ptr,
+		loader_data.png_info_ptr,
 		&text_ptr,
 		&num_texts))
 	{
@@ -246,7 +296,7 @@ load_png (GBytes	 *bytes,
 			else if (strcmp (text_ptr[i].key, "Thumb::Image::Height") == 0) {
 				original_image_height = atoi (text_ptr[i].text);
 			}
-			gth_image_set_original_image_size (loader_data->image,
+			gth_image_set_original_image_size (loader_data.image,
 				original_image_width,
 				original_image_height);
 		}
@@ -266,14 +316,14 @@ load_png (GBytes	 *bytes,
 		png_bytep      exif_data;
 		png_uint_32    exif_data_size;
 
-		if (png_get_sRGB (loader_data->png_ptr,
-				  loader_data->png_info_ptr,
+		if (png_get_sRGB (loader_data.png_ptr,
+				  loader_data.png_info_ptr,
 				  &intent) == PNG_INFO_sRGB)
 		{
 			profile = gth_icc_profile_new_srgb ();
 		}
-		else if (png_get_iCCP (loader_data->png_ptr,
-				       loader_data->png_info_ptr,
+		else if (png_get_iCCP (loader_data.png_ptr,
+				       loader_data.png_info_ptr,
 				       &name,
 				       &compression_type,
 				       &icc_data,
@@ -284,15 +334,15 @@ load_png (GBytes	 *bytes,
 					cmsOpenProfileFromMem (icc_data, icc_data_size));
 			}
 		}
-		else if (png_get_gAMA (loader_data->png_ptr,
-				       loader_data->png_info_ptr,
+		else if (png_get_gAMA (loader_data.png_ptr,
+				       loader_data.png_info_ptr,
 				       &gamma))
 		{
 			profile = gth_icc_profile_new_srgb_with_gamma (1.0 / gamma);
 		}
 #ifdef PNG_eXIf_SUPPORTED
-		else if (png_get_eXIf_1 (loader_data->png_ptr,
-					 loader_data->png_info_ptr,
+		else if (png_get_eXIf_1 (loader_data.png_ptr,
+					 loader_data.png_info_ptr,
 					 &exif_data_size,
 					 &exif_data))
 		{
@@ -311,13 +361,13 @@ load_png (GBytes	 *bytes,
 		}
 #endif
 		if (profile != NULL) {
-			gth_image_set_icc_profile (loader_data->image, profile);
+			gth_image_set_icc_profile (loader_data.image, profile);
 			g_object_unref (profile);
 		}
 	}
 #endif
 
-	GthImage *result = g_object_ref (loader_data->image);
-	loader_data_destroy (loader_data);
+	GthImage *result = g_object_ref (loader_data.image);
+	loader_data_destroy (&loader_data);
 	return result;
 }

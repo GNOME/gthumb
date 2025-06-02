@@ -18,13 +18,6 @@ const string STANDARD_ATTRIBUTES =
 	FileAttribute.TIME_CREATED_USEC + "," +
 	FileAttribute.TIME_MODIFIED_USEC + "," +
 	FileAttribute.TIME_MODIFIED_USEC + "," +
-	FileAttribute.THUMBNAIL_PATH + "," +
-	FileAttribute.THUMBNAIL_IS_VALID + "," +
-	FileAttribute.THUMBNAILING_FAILED + "," +
-	FileAttribute.THUMBNAIL_PATH_NORMAL + "," +
-	FileAttribute.THUMBNAIL_PATH_LARGE + "," +
-	FileAttribute.THUMBNAIL_PATH_XLARGE + "," +
-	FileAttribute.THUMBNAIL_PATH_XXLARGE + "," +
 	ACCESS_ATTRIBUTES;
 const string STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE =
 	STANDARD_ATTRIBUTES + "," +

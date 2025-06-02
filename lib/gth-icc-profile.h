@@ -2,6 +2,7 @@
 #define GTH_ICC_PROFILE_H
 
 #include <glib.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

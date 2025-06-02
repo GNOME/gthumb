@@ -8,6 +8,11 @@
     <file preprocess="xml-stripblanks">filter-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-add-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-delete-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">pin-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">user-bookmarks-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">starred-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">non-starred-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">clock-alt-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -17,6 +22,7 @@
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/ui">
     <file preprocess="xml-stripblanks">app-menu.ui</file>
+    <file preprocess="xml-stripblanks">bookmarks-menu.ui</file>
     <file preprocess="xml-stripblanks">edit-filters-dialog.ui</file>
     <file preprocess="xml-stripblanks">filter-bar.ui</file>
     <file preprocess="xml-stripblanks">filter-editor-page.ui</file>

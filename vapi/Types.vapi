@@ -51,3 +51,11 @@ public enum Gth.ScaleFilter {
 	BEST,
 	GOOD,
 }
+
+[CCode (cheader_filename = "lib/types.h", cprefix = "GTH_RESIZE_", has_type_id = false)]
+[Flags]
+public enum Gth.ResizeFlags {
+	DEFAULT,
+	IGNORE_RATIO,
+	UPSCALE
+}

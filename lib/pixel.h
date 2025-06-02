@@ -3,6 +3,7 @@
 
 #include <glib.h>
 
+#define PIXEL_BYTES 4
 #define CLAMP_TEMP(x, min, max) (temp = (x), CLAMP (temp, min, max))
 #define PIXEL_CLAMP(x) CLAMP_TEMP (x, 0, 255)
 
@@ -33,5 +34,7 @@
 	(((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue))
 
 guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a);
+void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width);
+void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width);
 
 #endif /* LIB_PIXEL_H */

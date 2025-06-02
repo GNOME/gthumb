@@ -7,21 +7,143 @@
     <property name="default_width">800</property>
     <property name="default_height">800</property>
     <child>
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar">
-            <child type="end">
-              <object class="GtkMenuButton" id="app_menu_button">
-                <property name="icon-name">open-menu-symbolic</property>
+      <object class="AdwOverlaySplitView" id="browser_view">
+        <property name="collapsed">true</property>
+        <property name="sidebar">
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="title-widget">
+                  <object class="AdwWindowTitle">
+                    <property name="title">Thumbnails</property>
+                  </object>
+                </property>
+                <child type="start">
+                  <object class="GtkToggleButton">
+                    <property name="icon-name">sidebar-show-symbolic</property>
+                    <property name="action-name">win.show-sidebar</property>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkToggleButton">
+                    <property name="icon-name">pin-symbolic</property>
+                    <property name="action-name">win.pin-sidebar</property>
+                  </object>
+                </child>
               </object>
             </child>
+            <property name="content">
+              <object class="AdwStatusPage">
+                <property name="title">TODO</property>
+              </object>
+            </property>
           </object>
-        </child>
+        </property>
         <property name="content">
-          <object class="GtkStack" id="main_stack">
-            <property name="transition_type">crossfade</property>
-            <child>
-              <object class="GtkBox" id="browser_page">
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="title-widget">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="AdwWindowTitle">
+                        <property name="title" bind-source="GthWindow" bind-property="title" />
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <child type="start">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="GtkToggleButton" id="show_sidebar_button">
+                        <property name="icon-name">sidebar-show-symbolic</property>
+                        <property name="action-name">win.show-sidebar</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparator">
+                        <property name="orientation">horizontal</property>
+                        <style>
+                          <class name="spacer"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="action-name">win.go-previous</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">go-next-symbolic</property>
+                        <property name="action-name">win.go-next</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparator">
+                        <property name="orientation">horizontal</property>
+                        <style>
+                          <class name="spacer"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton">
+                        <property name="icon-name">clock-alt-symbolic</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">user-home-symbolic</property>
+                        <property name="action-name">win.go-home</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton" id="bookmarks_button">
+                        <property name="icon-name">starred-symbolic</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparator">
+                        <property name="orientation">horizontal</property>
+                        <style>
+                          <class name="spacer"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">edit-find-symbolic</property>
+                        <property name="action-name">win.find-files</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparator">
+                        <property name="orientation">horizontal</property>
+                        <style>
+                          <class name="spacer"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton" id="app_menu_button">
+                        <property name="icon-name">open-menu-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="GtkBox">
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkStack" id="folder_stack">
@@ -37,6 +159,7 @@
                               <object class="GtkGridView" id="file_grid">
                                 <property name="enable_rubberband">true</property>
                                 <property name="max_columns">15</property>
+                                <property name="vscroll_policy">minimum</property>
                                 <style>
                                   <class name="thumbnail-grid"/>
                                   <class name="deeper-view"/>
@@ -60,10 +183,10 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="status_bar">
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
-                    <property name="margin_start">12</property>
-                    <property name="margin_end">12</property>
+                    <property name="margin_top">6</property>
+                    <property name="margin_bottom">6</property>
+                    <property name="margin_start">6</property>
+                    <property name="margin_end">6</property>
                     <property name="orientation">horizontal</property>
                     <child>
                       <object class="GthFilterBar" id="filter_bar">
@@ -78,12 +201,7 @@
                   </object>
                 </child>
               </object>
-            </child>
-            <child>
-              <object class="GtkBox" id="viewer_page">
-                <property name="orientation">vertical</property>
-              </object>
-            </child>
+            </property>
           </object>
         </property>
       </object>

@@ -11,9 +11,12 @@ glib_version = '>=2.84.2'
 gtk_version = '>=4.18.5'
 lcms2_version = '>=2.6'
 png_version = '>=1.6'
+libwebp_version = '>=0.2.0'
 
 c_comp = meson.get_compiler('c')
 vala_comp = meson.get_compiler('vala')
+
+# lcms2
 
 if get_option('lcms2')
   lcms2_dep = dependency('lcms2',
@@ -25,6 +28,8 @@ else
   use_lcms2 = false
 endif
 
+# colord
+
 if get_option('colord')
   colord_dep = dependency('colord',
     version: colord_version,
@@ -35,6 +40,43 @@ else
   use_colord = false
 endif
 
+# libjpeg
+
+libjpeg_dep = [
+  dependency('zlib'),
+  c_comp.find_library('m'),
+  c_comp.find_library('jpeg')
+]
+
+# libwebp
+
+if get_option('libwebp')
+  libwebp_dep = [
+    dependency('libwebp', version : libwebp_version, required : false),
+    dependency('libwebpdemux', version : libwebp_version, required : false)
+  ]
+  use_libwebp = libwebp_dep[0].found()
+else
+  use_libwebp = false
+endif
+
+code = '''#include <stdio.h>
+#include <jpeglib.h>
+#if JPEG_LIB_VERSION < 80
+#error "wrong version"
+#endif
+int main(int c, char**v) { return 0; }'''
+have_libjpeg_80 = c_comp.compiles(
+  code,
+  name : 'libjpeg version is 8 or greater',
+  dependencies : libjpeg_dep
+)
+have_progressive_jpeg = c_comp.has_function(
+  'jpeg_simple_progression',
+  prefix : '#include <stdio.h>\n#include<jpeglib.h>',
+  dependencies : libjpeg_dep
+)
+
 dependencies = [
   dependency('threads'),
   c_comp.find_library('m', required: false),
@@ -44,8 +86,10 @@ dependencies = [
   dependency('gtk4', version: gtk_version),
   dependency('libadwaita-1', version: adwaita_version),
   dependency('libpng', version: png_version),
+  libjpeg_dep,
   use_lcms2 ? lcms2_dep : [],
   use_colord ? colord_dep : [],
+  use_libwebp ? libwebp_dep : [],
 ]
 
 gettext_package = 'thumbnails'
@@ -96,10 +140,14 @@ lib_files = files(
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
   'lib/gth-image-resize.c',
+  'lib/io/load-jpeg.c',
+  'lib/io/load-png.c',
+  'lib/io/load-webp.c',
+  'lib/io/save-png.c',
+  'lib/jpeg/jmemorysrc.c',
+  'lib/jpeg/jpeg-info.c',
   'lib/pixel.c',
   'lib/util.c',
-  'lib/io/load-png.c',
-  'lib/jpeg/jpeg-info.c',
 )
 
 vapi_files = files(
@@ -109,6 +157,7 @@ vapi_files = files(
   'vapi/IccTransform.vapi',
   'vapi/Image.vapi',
   'vapi/Loaders.vapi',
+  'vapi/Savers.vapi',
   'vapi/Types.vapi',
 )
 
@@ -121,6 +170,7 @@ source_files = files(
   'Dialogs/FilterRow.vala',
   'Dialogs/SortFilesDialog.vala',
   'Dom.vala',
+  'Factory.vala',
   'FileData.vala',
   'FileListItem.vala',
   'FileSource.vala',
@@ -133,6 +183,7 @@ source_files = files(
   'Filter.vala',
   'GenericList.vala',
   'ImageLoader.vala',
+  'ImageSaver.vala',
   'Job.vala',
   'Job.vala',
   'Main.vala',
@@ -141,6 +192,7 @@ source_files = files(
   'Metadata.vala',
   'Settings.vala',
   'SortFunc.vala',
+  'Status.vala',
   'Strings.vala',
   'TestChain.vala',
   'TestDate.vala',
@@ -149,6 +201,7 @@ source_files = files(
   'TestSize.vala',
   'TestString.vala',
   'Test.vala',
+  'ThumbLoader.vala',
   'Thumbnailer.vala',
   'TimeSelector.vala',
   'Types.vala',
@@ -156,7 +209,6 @@ source_files = files(
   'Util.vala',
   'Widgets.vala',
   'Window.vala',
-  'Status.vala',
 )
 
 executable(
@@ -187,3 +239,17 @@ if get_option('build-tests')
 endif
 
 subdir('po')
+
+# Summary
+
+summary(
+  {
+    'prefix': prefix,
+    'lcms2': use_lcms2,
+    'colord': use_colord,
+    'libjpeg 8': have_libjpeg_80,
+    'progressive jpeg': have_progressive_jpeg,
+    'libwebp': use_libwebp,
+  },
+  section: 'Configuration summary:',
+)

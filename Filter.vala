@@ -177,12 +177,9 @@ public class Gth.Filter : Gth.Test {
 		spin_button.grab_focus ();
 	}
 
-	public void copy (Filter other) {
+	public override void copy (Gth.Test other) {
 		var original_id = id;
-		var doc = new Dom.Document ();
-		var node = other.create_element (doc);
-		doc.append_child (node);
-		load_from_element (node);
+		base.copy (other);
 		id = original_id;
 	}
 

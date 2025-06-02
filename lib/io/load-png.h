@@ -6,10 +6,8 @@
 
 G_BEGIN_DECLS
 
-GthImage * load_png (GBytes		 *buffer,
-		     guint		  requested_size,
-		     GCancellable	 *cancellable,
-		     GError		**error);
+GthImage* load_png (GBytes *buffer, guint requested_size, GCancellable *cancellable, GError **error);
+GHashTable* load_png_attributes (GBytes *bytes, GError **error);
 
 G_END_DECLS
 

@@ -46,7 +46,7 @@ public class Gth.TestSelector : Gtk.Box {
 		return current_test;
 	}
 
-	public void focus () {
+	public void focus_options () {
 		if (current_test != null)
 			current_test.focus_options ();
 	}

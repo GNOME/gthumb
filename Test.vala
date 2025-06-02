@@ -116,7 +116,7 @@ public class Gth.Test : Object {
 		visible = node.get_attribute ("display") != "none";
 	}
 
-	public void copy (Gth.Test other) {
+	public virtual void copy (Gth.Test other) {
 		var doc = new Dom.Document ();
 		var node = other.create_element (doc);
 		doc.append_child (node);

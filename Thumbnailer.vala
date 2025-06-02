@@ -5,26 +5,26 @@ public class Gth.Thumbnailer {
 		XLARGE,
 		XXLARGE;
 
-		public unowned string to_file_attribute () {
-			return FILE_ATTRIBUTE[this];
-		}
-
 		public uint to_pixels () {
 			return PIXELS[this];
 		}
 
-		const string[] FILE_ATTRIBUTE = {
-			FileAttribute.THUMBNAIL_PATH_NORMAL,
-			FileAttribute.THUMBNAIL_PATH_LARGE,
-			FileAttribute.THUMBNAIL_PATH_XLARGE,
-			FileAttribute.THUMBNAIL_PATH_XXLARGE,
-		};
+		public unowned string get_subdir () {
+			return SUBDIR[this];
+		}
 
 		const uint[] PIXELS = {
 			128,
 			256,
 			384,
 			512
+		};
+
+		const string[] SUBDIR = {
+			"normal",
+			"large",
+			"x-large",
+			"xx-large",
 		};
 	}
 
@@ -33,13 +33,12 @@ public class Gth.Thumbnailer {
 	public bool load_from_cache;
 	public bool save_to_cache;
 
-	public Thumbnailer (ImageLoader _loader) {
+	public Thumbnailer () {
 		cache_size = Size.LARGE;
 		load_from_cache = true;
 		save_to_cache = true;
 		file_queue = new Queue<FileData>();
 		job_queue = new GenericArray<ThumbnailJob>();
-		loader = _loader;
 	}
 
 	public void add (FileData file) {
@@ -60,14 +59,18 @@ public class Gth.Thumbnailer {
 	}
 
 	public void cancel () {
-		foreach (unowned var thumbnail_job in job_queue) {
+		var local_queue = new GenericArray<ThumbnailJob>();
+		foreach (unowned var job in job_queue) {
+			local_queue.add (job);
+		}
+		foreach (unowned var thumbnail_job in local_queue) {
 			thumbnail_job.job.cancel ();
 		}
 		file_queue.clear ();
 	}
 
 	void load_next_thumbnail () {
-		if (job_queue.length >= loader.n_workers) {
+		if (job_queue.length >= app.thumb_loader.factory.n_workers) {
 			return;
 		}
 		var file = file_queue.pop_head ();
@@ -82,7 +85,7 @@ public class Gth.Thumbnailer {
 				thumbnail_job.file.set_thumbnail (thumbnail);
 			}
 			catch (Error error) {
-				stdout.printf ("  ERROR: %s\n", error.message);
+				//stdout.printf ("> LOAD THUMBNAIL ERROR: %s\n", error.message);
 			}
 			thumbnail_job.job.done ();
 			job_queue.remove (thumbnail_job);
@@ -94,35 +97,18 @@ public class Gth.Thumbnailer {
 	async Gth.Image? load_thumbnail (FileData file_data, Job job) throws Error {
 		Gth.Image thumbnail = null;
 		if (load_from_cache) {
-			try {
-				thumbnail = yield load_thumbnail_from_cache (file_data, job.cancellable);
-			}
-			catch (Error error) {
-				// Ignore errors.
-			}
-			if (job.is_cancelled ()) {
-				throw new IOError.CANCELLED ("Cancelled");
-			}
+			thumbnail = yield load_thumbnail_from_cache (file_data, job.cancellable);
 		}
 		if (thumbnail == null) {
-			try {
+			var	valid_failed = yield has_valid_failed_thumbnail (file_data, job.cancellable);
+			if (!valid_failed) {
 				thumbnail = yield generate_thumbnail (file_data, job.cancellable);
 				if (save_to_cache) {
-					try {
+					if (thumbnail != null) {
 						yield save_thumbnail_to_cache (file_data, thumbnail, job.cancellable);
 					}
-					catch (Error error) {
-						// Ignore errors.
-					}
-				}
-			}
-			catch (Error error) {
-				if (save_to_cache) {
-					try {
+					else {
 						yield save_failed_thumbnail_to_cache (file_data, job.cancellable);
-					}
-					catch (Error error) {
-						// Ignore errors.
 					}
 				}
 			}
@@ -130,35 +116,136 @@ public class Gth.Thumbnailer {
 		return thumbnail;
 	}
 
-	unowned string get_thumbnail_path (FileData file_data) {
-		unowned var path = file_data.info.get_attribute_byte_string (cache_size.to_file_attribute ());
-		if (path == null) {
-			path = file_data.info.get_attribute_byte_string (FileAttribute.THUMBNAIL_PATH);
-		}
-		return path;
-	}
-
 	async Gth.Image? load_thumbnail_from_cache (FileData file_data, Cancellable cancellable) throws Error {
-		unowned var path = get_thumbnail_path (file_data);
-		if (path == null) {
-			throw new IOError.FAILED ("Thumbnail path not available");
+		try {
+			var thumbnail_file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.READ, cancellable);
+			var thumbnail = yield app.thumb_loader.load_if_valid (thumbnail_file, file_data, cancellable);
+			return yield thumbnail.resize_async (requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 		}
-		var image = yield loader.load_from_file (File.new_for_path (path), cancellable);
-		var resized = yield image.resize_if_larger_async (requested_size, ScaleFilter.GOOD, cancellable);
-		return resized;
+		catch (Error error) {
+			//stdout.printf ("> load_thumbnail_from_cache: %s\n", error.message);
+			if (error is IOError.CANCELLED)
+				throw error;
+			return null;
+		}
 	}
 
 	async Gth.Image? generate_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
-		var image = yield loader.load_from_file (file_data.file, cancellable, cache_size.to_pixels ());
-		return yield image.resize_if_larger_async (requested_size, ScaleFilter.GOOD, cancellable);
+		try {
+			var image = yield app.image_loader.load_file (file_data.file, cancellable, cache_size.to_pixels ());
+			var resized = yield image.resize_async (requested_size, ResizeFlags.UPSCALE, ScaleFilter.GOOD, cancellable);
+			set_file_attributes_to_image (resized, file_data);
+			resized.set_attribute ("Thumb::Image::Width", "%u".printf (image.get_width ()));
+			resized.set_attribute ("Thumb::Image::Height", "%u".printf (image.get_height ()));
+			return resized;
+		}
+		catch (Error error) {
+			//stdout.printf ("> generate_thumbnail: %s\n", error.message);
+			if (error is IOError.CANCELLED)
+				throw error;
+			return null;
+		}
 	}
 
-	async void save_thumbnail_to_cache (FileData file_data, Gth.Image image, Cancellable cancellable) throws Error {
-		// TODO
+	async void save_thumbnail_to_cache (FileData file_data, Gth.Image thumbnail, Cancellable cancellable) throws Error {
+		try {
+			var thumbnail_file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.WRITE, cancellable);
+			yield app.image_saver.save_to_file (thumbnail_file, "image/png", thumbnail, cancellable);
+		}
+		catch (Error error) {
+			//stdout.printf ("> save_thumbnail_to_cache: %s\n", error.message);
+			if (error is IOError.CANCELLED)
+				throw error;
+		}
 	}
 
 	async void save_failed_thumbnail_to_cache (FileData file_data, Cancellable cancellable) throws Error {
-		// TODO
+		try {
+			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (file_data.file, FileIntent.WRITE);
+			var thumbnail = new Gth.Image (1, 1);
+			set_file_attributes_to_image (thumbnail, file_data);
+			yield app.image_saver.save_to_file (thumbnail_file, "image/png", thumbnail, cancellable);
+		}
+		catch (Error error) {
+			//stdout.printf ("> save_failed_thumbnail_to_cache: %s\n", error.message);
+			if (error is IOError.CANCELLED)
+				throw error;
+		}
+	}
+
+	async bool has_valid_failed_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
+		try {
+			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (file_data.file, FileIntent.READ);
+			var stream = yield thumbnail_file.read_async (Priority.DEFAULT, cancellable);
+			var bytes = yield Files.read_all_async (stream, cancellable);
+			return valid_thumbnail_for_file (bytes, file_data, cancellable);
+		}
+		catch (Error error) {
+			//stdout.printf ("> has_valid_failed_thumbnail: %s\n", error.message);
+			if (error is IOError.CANCELLED)
+				throw error;
+			return false;
+		}
+	}
+
+	public static bool valid_thumbnail_for_file (Bytes bytes, FileData file_data, Cancellable cancellable) {
+		try {
+			var attributes = load_png_attributes (bytes);
+			if (attributes["Thumb::URI"] != file_data.file.get_uri ()) {
+				//stdout.printf ("  valid_thumbnail_for_file[1] %s <=> %s\n",
+				//	attributes["Thumb::URI"],
+				//	file_data.file.get_uri ());
+				return false;
+			}
+			unowned var embedded_mtime_value = attributes["Thumb::MTime"];
+			if (embedded_mtime_value == null) {
+				//stdout.printf ("  valid_thumbnail_for_file[2]\n");
+				return false;
+			}
+			int64 embedded_mtime;
+			if (!int64.try_parse (embedded_mtime_value, out embedded_mtime, null, 10)) {
+				//stdout.printf ("  valid_thumbnail_for_file[3]\n");
+				return false;
+			}
+			var datetime = file_data.info.get_modification_date_time ();
+			if (datetime == null) {
+				//stdout.printf ("  valid_thumbnail_for_file[4]\n");
+				return false;
+			}
+			return embedded_mtime == datetime.to_unix ();
+		}
+		catch (Error error) {
+			//stdout.printf ("LOAD PNG ERROR: %s\n", error.message);
+			return false;
+		}
+	}
+
+	static void set_file_attributes_to_image (Gth.Image image, FileData file_data) {
+		image.set_attribute ("Thumb::URI", file_data.file.get_uri ());
+		var datetime = file_data.info.get_modification_date_time ();
+		if (datetime != null) {
+			image.set_attribute ("Thumb::MTime", ("%" + int64.FORMAT).printf (datetime.to_unix ()));
+		}
+		image.set_attribute ("Software", "app.gthumb.Thumbnails");
+	}
+
+	static File get_thumbnail_file (File file, Size size, FileIntent intent, Cancellable cancellable) throws Error {
+		var dir = Files.build_directory (intent, Environment.get_user_cache_dir (),
+			"thumbnails", size.get_subdir ());
+		return dir.get_child (Thumbnailer.get_thumbnail_basename (file));
+	}
+
+	static File get_failed_thumbnail_file (File file, FileIntent intent) {
+		var dir = Files.build_directory (intent, Environment.get_user_cache_dir (),
+			"thumbnails", "fail", "gnome-thumbnail-factory");
+		return dir.get_child (Thumbnailer.get_thumbnail_basename (file));
+	}
+
+	static string get_thumbnail_basename (File file) {
+		var checksum = new Checksum (ChecksumType.MD5);
+		var uri = file.get_uri ();
+		checksum.update (uri.data, uri.length);
+		return checksum.get_string () + ".png";
 	}
 
 	class ThumbnailJob {
@@ -173,5 +260,4 @@ public class Gth.Thumbnailer {
 
 	Queue<FileData> file_queue;
 	GenericArray<ThumbnailJob> job_queue;
-	ImageLoader loader;
 }

@@ -17,7 +17,7 @@ typedef enum {
 
 
 struct _GthImagePrivate {
-	gchar *buffer;
+	guchar *buffer;
 	gsize size;
 	int row_stride;
 	guint width;
@@ -30,6 +30,7 @@ struct _GthImagePrivate {
 	guint original_image_height;
 	GthIccProfile *icc_profile;
 	GBytes *bytes;
+	GHashTable *attributes;
 };
 
 
@@ -68,8 +69,12 @@ gth_image_finalize (GObject *object)
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_IMAGE (object));
 
-	_gth_image_free_data (GTH_IMAGE (object));
-	_gth_image_free_icc_profile (GTH_IMAGE (object));
+	GthImage *self = GTH_IMAGE (object);
+	_gth_image_free_data (self);
+	_gth_image_free_icc_profile (self);
+	if (self->priv->attributes != NULL) {
+		g_hash_table_unref (self->priv->attributes);
+	}
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_image_parent_class)->finalize (object);
@@ -121,6 +126,7 @@ gth_image_init (GthImage *self)
 	self->priv->original_height = 0;
 	self->priv->icc_profile = NULL;
 	self->priv->bytes = NULL;
+	self->priv->attributes = NULL;
 }
 
 
@@ -226,7 +232,7 @@ gth_image_get_height (GthImage	*self)
 gsize
 gth_image_get_size (GthImage	*self)
 {
-	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
 	return self->priv->size;
 }
 
@@ -246,8 +252,12 @@ gth_image_get_has_alpha (GthImage *self,
 			 gboolean *has_alpha)
 {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	if ((self->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) == 0)
+	if ((self->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) == 0) {
+		if (has_alpha != NULL) {
+			*has_alpha = FALSE;
+		}
 		return FALSE;
+	}
 	if (has_alpha != NULL) {
 		*has_alpha = self->priv->has_alpha;
 	}
@@ -289,9 +299,7 @@ gboolean
 gth_image_has_original_size (GthImage *self)
 {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) == 0)
-		return FALSE;
-	return TRUE;
+	return (self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) != 0;
 }
 
 
@@ -326,6 +334,38 @@ gth_image_get_original_image_size (GthImage	*self,
 }
 
 
+void
+gth_image_set_attribute	(GthImage	*self,
+			 const char 	*key,
+			 const char 	*value)
+{
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	if (self->priv->attributes == NULL) {
+		self->priv->attributes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	}
+	g_hash_table_insert (self->priv->attributes, g_strdup (key), g_strdup (value));
+}
+
+
+const char *
+gth_image_get_attribute	(GthImage	*self,
+			 const char 	*key)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	if (self->priv->attributes == NULL)
+		return NULL;
+	return g_hash_table_lookup (self->priv->attributes, key);
+}
+
+
+GHashTable *
+gth_image_get_attributes (GthImage *self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	return self->priv->attributes;
+}
+
+
 gboolean
 gth_image_get_is_zoomable (GthImage *self)
 {
@@ -340,7 +380,7 @@ gth_image_set_zoom (GthImage *self,
 		    guint    *original_width,
 		    guint    *original_height)
 {
-	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	return GTH_IMAGE_GET_CLASS (self)->set_zoom (self, zoom, original_width, original_height);
 }
 
@@ -355,7 +395,7 @@ gth_image_set_zoom (GthImage *self,
 GdkTexture *
 gth_image_get_gdk_texture (GthImage *self)
 {
-	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return gdk_memory_texture_new (
 		self->priv->width,
 		self->priv->height,
@@ -380,7 +420,7 @@ gth_image_set_icc_profile (GthImage		*self,
 GthIccProfile *
 gth_image_get_icc_profile (GthImage *self)
 {
-	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return self->priv->icc_profile;
 }
 

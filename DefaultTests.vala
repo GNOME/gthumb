@@ -1,3 +1,15 @@
+public class Gth.TestVisible : Gth.Test {
+	construct {
+		id = "file::is_visible";
+		display_name = _("Visible Files");
+		attributes = FileAttribute.STANDARD_IS_HIDDEN;
+	}
+
+	public override bool match (FileData file) {
+		return file.info.get_is_hidden () == false;
+	}
+}
+
 public class Gth.TestFileType : Gth.Test {
 	// void
 }
@@ -108,7 +120,7 @@ public class Gth.TestFileName : Gth.TestString {
 		attributes = "standard::display-name";
 	}
 
-	public override string get_file_value (FileData file) {
+	public override string? get_file_value (FileData file) {
 		return file.info.get_display_name ();
 	}
 }
@@ -168,7 +180,7 @@ public class Gth.TestTitleEmbedded : Gth.TestString {
 		attributes = "general::title";
 	}
 
-	public override string get_file_value (FileData file) {
+	public override string? get_file_value (FileData file) {
 		return file.get_embedded_title ();
 	}
 }
@@ -180,7 +192,7 @@ public class Gth.TestDescriptionEmbedded : Gth.TestString {
 		attributes = "general::description";
 	}
 
-	public override string get_file_value (FileData file) {
+	public override string? get_file_value (FileData file) {
 		return file.get_embedded_description ();
 	}
 }

@@ -15,3 +15,9 @@ option('colord',
   value : true,
   description : 'Use colord to read the monitor color profile'
 )
+
+option('libwebp',
+  type : 'boolean',
+  value : true,
+  description : 'Use libwebp to load WebP images'
+)

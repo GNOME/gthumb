@@ -11,7 +11,7 @@ public class Gth.TestString : Gth.Test {
 	public Test.Operation op { get; set; default = Test.Operation.CONTAINS; }
 	public bool negative { get; set; default = false; }
 
-	public virtual string get_file_value (FileData file) {
+	public virtual string? get_file_value (FileData file) {
 		return null;
 	}
 
@@ -56,6 +56,9 @@ public class Gth.TestString : Gth.Test {
 				pattern = new PatternSpec (text);
 			}
 			matches = pattern.match_string (value);
+			break;
+
+		default:
 			break;
 		}
 		return matches;

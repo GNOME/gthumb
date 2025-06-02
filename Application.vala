@@ -10,12 +10,15 @@ public class Gth.Application : Adw.Application {
 	public HashTable<string, Gth.MetadataCategory?> metadata_categories;
 	public HashTable<string, Gth.MetadataInfo?> metadata_info;
 	public GenericArray<Gth.MetadataInfo?> metadata_info_v;
-	public HashTable<string, Gth.ImageLoaderFunc> image_loaders;
+	public HashTable<string, Gth.LoadFunc> loaders;
+	public HashTable<string, Gth.SaveFunc> savers;
 	public Gth.FilterFile filter_file;
 	public Gth.JobQueue jobs;
 	public bool restart;
 	public bool quitting;
 	public ImageLoader image_loader;
+	public ThumbLoader thumb_loader;
+	public ImageSaver image_saver;
 	public ColorManager color_manager;
 
 	public Application () {
@@ -52,6 +55,7 @@ public class Gth.Application : Adw.Application {
 		register_test (typeof (Gth.TestTagEmbedded));
 		register_test (typeof (Gth.TestRating));
 		register_test (typeof (Gth.TestAspectRatio));
+		register_test (typeof (Gth.TestVisible));
 
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
 		ordered_sorters = new GenericArray<string>();
@@ -117,10 +121,18 @@ public class Gth.Application : Adw.Application {
 		metadata_providers = new GenericArray<MetadataProvider>();
 		register_metadata_provider (typeof (MetadataProviderFile));
 
-		image_loaders = new HashTable<string, Gth.ImageLoaderFunc>(str_hash, str_equal);
+		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
 		register_image_loader ("image/png", load_png);
+		register_image_loader ("image/jpeg", load_jpeg);
+		register_image_loader ("image/webp", load_webp);
 
-		image_loader = new ImageLoader (get_workers (MAX_LOADERS));
+		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
+		register_image_saver ("image/png", save_png);
+
+		io_factory = new Work.Factory (get_workers (MAX_IO_WORKERS));
+		image_loader = new ImageLoader (io_factory);
+		thumb_loader = new ThumbLoader (io_factory);
+		image_saver = new ImageSaver (io_factory);
 		color_manager = new ColorManager ();
 	}
 
@@ -347,12 +359,20 @@ public class Gth.Application : Adw.Application {
 		return Object.new (source_type) as FileSource;
 	}
 
-	public void register_image_loader (string content_type, ImageLoaderFunc func) {
-		image_loaders.set (content_type, func);
+	public void register_image_loader (string content_type, LoadFunc func) {
+		loaders.set (content_type, func);
 	}
 
-	public ImageLoaderFunc? get_image_loader (string content_type) {
-		return image_loaders.get (content_type);
+	public LoadFunc? get_load_func (string content_type) {
+		return loaders.get (content_type);
+	}
+
+	public void register_image_saver (string content_type, SaveFunc func) {
+		savers.set (content_type, func);
+	}
+
+	public SaveFunc? get_save_func (string content_type) {
+		return savers.get (content_type);
 	}
 
 	public void register_metadata_provider (GLib.Type provider_type) {
@@ -490,11 +510,8 @@ public class Gth.Application : Adw.Application {
 		if (window == null) {
 			window = new Gth.Window (this, location, file_to_select);
 		}
-		else if (file_to_select != null) {
-			window.go_to (location, file_to_select);
-		}
 		else {
-			window.load_location (location);
+			window.load_location (location, file_to_select);
 		}
 
 		if (!arg_slideshow) {
@@ -505,15 +522,16 @@ public class Gth.Application : Adw.Application {
 	uint get_workers (int max_workers) {
 		// 1 processors -> 1 thread
 		// 2 processors -> 1 thread
-		// 3 processors -> 1 thread
-		// 4 processors -> 2 threads
+		// 3 processors -> 2 thread
+		// 4 processors -> 3 threads
 		// 5 processors -> 3 threads
 		// 6 processors -> 3 threads
-		var n_proc = (int) GLib.get_num_processors () - 2;
+		var n_proc = (int) GLib.get_num_processors () - 1;
 		return n_proc.clamp (1, max_workers);
 	}
 
-	const int MAX_LOADERS = 3;
+	const int MAX_IO_WORKERS = 3;
+	Work.Factory io_factory;
 }
 
 public delegate void Gth.WindowFunc (Gth.Window win);

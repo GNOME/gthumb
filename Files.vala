@@ -3,6 +3,24 @@ public class Gth.Files {
 		return File.new_for_path (Environment.get_home_dir ());
 	}
 
+	public static File? build_directory (Gth.FileIntent intent, ...) {
+		var list = va_list ();
+		string? child = list.arg ();
+		File directory = File.new_for_path (child);
+		if ((intent == Gth.FileIntent.WRITE) && !Files.make_directory (directory))
+			return null;
+		while (true) {
+			child = list.arg ();
+			if (child == null)
+				break;
+			directory = directory.get_child (child);
+			if ((intent == Gth.FileIntent.WRITE) && !Files.make_directory (directory)) {
+				return null;
+			}
+		}
+		return directory;
+	}
+
 	public static bool make_directory (File dir) {
 		try {
 			dir.make_directory ();
@@ -55,7 +73,8 @@ public class Gth.Files {
 		var buffer = new uint8[BUFFER_SIZE];
 		while (true) {
 			size_t size;
-			if (!yield stream.read_all_async (buffer, Priority.DEFAULT, cancellable, out size))
+			yield stream.read_all_async (buffer, Priority.DEFAULT, cancellable, out size);
+			if (size == 0)
 				break;
 			unowned var valid_bytes = buffer[0:size];
 			result.append (valid_bytes);
@@ -74,4 +93,9 @@ public class Gth.Files {
 		stream.write_all (content.data, null, cancellable);
 		stream.close (cancellable);
 	}
+}
+
+public enum Gth.FileIntent {
+	READ,
+	WRITE,
 }

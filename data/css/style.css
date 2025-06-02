@@ -16,3 +16,7 @@
 	border-radius: 9px;
 	border: 1px solid var(--border-color);
 }
+
+.thumbnail-icon {
+	color: #ffffff33;
+}

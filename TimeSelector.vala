@@ -75,7 +75,7 @@ public class Gth.TimeSelector : Gtk.Box {
 		return datetime;
 	}
 
-	public void focus () {
+	public void focus_options () {
 		date_entry.grab_focus ();
 	}
 

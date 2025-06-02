@@ -15,7 +15,6 @@ public class Gth.FileSourceVfs : FileSource {
 		ForEachChildFunc child_func) throws Error
 	{
 		var required_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
-		var visited = new HashTable<string, string>(str_hash, str_equal);
 		var metadata_attributes_v = Util.extract_metadata_attributes (required_attributes);
 
 		var info = yield parent.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);

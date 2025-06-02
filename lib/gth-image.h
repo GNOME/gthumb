@@ -67,6 +67,12 @@ void		gth_image_set_original_image_size	(GthImage		*image,
 gboolean	gth_image_get_original_image_size	(GthImage		*image,
 							 guint			*width,
 							 guint			*height);
+void		gth_image_set_attribute			(GthImage		*image,
+							 const char 		*key,
+							 const char 		*value);
+const char *	gth_image_get_attribute			(GthImage		*image,
+							 const char 		*key);
+GHashTable *    gth_image_get_attributes		(GthImage		*image);
 gboolean	gth_image_get_is_zoomable		(GthImage		*image);
 gboolean	gth_image_set_zoom			(GthImage		*image,
 							 double			 zoom,
@@ -89,17 +95,19 @@ void		gth_image_apply_icc_profile_async	(GthImage		*image,
 gboolean	gth_image_apply_icc_profile_finish	(GthImage		*image,
 							 GAsyncResult		*result,
 							 GError			**error);
-GthImage *	gth_image_resize_if_larger		(GthImage		*image,
+GthImage *	gth_image_resize			(GthImage		*image,
 							 guint			 size,
+							 GthResizeFlags		 flags,
 							 GthScaleFilter		 quality,
 							 GCancellable		*cancellable);
-void		gth_image_resize_if_larger_async	(GthImage		*image,
+void		gth_image_resize_async			(GthImage		*image,
 							 guint			 size,
+							 GthResizeFlags		 flags,
 							 GthScaleFilter		 quality,
 							 GCancellable		*cancellable,
 							 GAsyncReadyCallback	 callback,
 							 gpointer		 user_data);
-GthImage *	gth_image_resize_if_larger_finish	(GthImage		*image,
+GthImage *	gth_image_resize_finish			(GthImage		*image,
 							 GAsyncResult		*result,
 							 GError			**error);
 

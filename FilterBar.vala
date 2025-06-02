@@ -89,9 +89,14 @@ public class Gth.FilterBar : Gtk.Box {
 		filter = _filter;
 		filter_label.set_text (filter.display_name);
 		options_changed_id = filter.options_changed.connect ((obj) => {
-			var test = obj as Test;
-			test.update_from_options ();
-			changed ();
+			try {
+				var test = obj as Test;
+				test.update_from_options ();
+				changed ();
+			}
+			catch (Error error) {
+				// TODO: show error.
+			}
 		});
 
 		var prev_options = options_container.get_first_child ();

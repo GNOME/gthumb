@@ -45,8 +45,3 @@ public enum Gth.UserDirType {
 	CACHE,
 	DATA
 }
-
-public enum Gth.FileIntent {
-	READ,
-	WRITE,
-}

@@ -1,8 +1,8 @@
 #include "lib/pixel.h"
 
+
 guint32
-pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a)
-{
+pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
 	int temp;
 
 	temp = (a * r) + 0x80;
@@ -16,3 +16,50 @@ pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a)
 
 	return RGBA_TO_PIXEL (r, g, b, a);
 }
+
+
+#define PIXEL_TO_RGBA(pixel, red, green, blue, alpha) \
+	G_STMT_START { \
+		alpha = pixel[PIXEL_ALPHA]; \
+		if (alpha == 0xff) { \
+			red = pixel[PIXEL_RED]; \
+			green = pixel[PIXEL_GREEN]; \
+			blue = pixel[PIXEL_BLUE]; \
+		} \
+		else { \
+			double factor = (double) 0xff / alpha; \
+			red = PIXEL_CLAMP (factor * pixel[PIXEL_RED]); \
+			green = PIXEL_CLAMP (factor * pixel[PIXEL_GREEN]); \
+			blue = PIXEL_CLAMP (factor * pixel[PIXEL_BLUE]); \
+		} \
+	} G_STMT_END
+
+
+void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
+	int temp;
+	for (guint x = 0; x < width; x++) {
+		PIXEL_TO_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
+		src += 4;
+		dest += 4;
+	}
+}
+
+
+#define PIXEL_TO_RGB(pixel, red, green, blue) \
+	G_STMT_START { \
+		red = pixel[PIXEL_RED]; \
+		green = pixel[PIXEL_GREEN]; \
+		blue = pixel[PIXEL_BLUE]; \
+	} G_STMT_END
+
+
+void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
+	for (guint x = 0; x < width; x++) {
+		PIXEL_TO_RGB (src, dest[0], dest[1], dest[2]);
+		src += 4;
+		dest += 3;
+	}
+}
+
+#undef PIXEL_TO_RGBA
+#undef PIXEL_TO_RGB

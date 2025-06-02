@@ -31,7 +31,7 @@ gboolean	_jpeg_info_get_from_stream	(GInputStream	 *stream,
 						 JpegInfoData	 *data,
 						 GCancellable	 *cancellable,
 						 GError		**error);
-gboolean	_jpeg_info_get_from_buffer	(guchar		 *in_buffer,
+gboolean	_jpeg_info_get_from_buffer	(const guchar	 *in_buffer,
 						 gsize		  in_buffer_size,
 						 JpegInfoFlags	  flags,
 						 JpegInfoData	 *data);

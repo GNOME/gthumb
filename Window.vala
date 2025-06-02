@@ -8,6 +8,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public bool inverse_order = false;
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
+	public bool sidebar_visible = false;
+	public bool sidebar_pinned = false;
 	public int thumbnail_size;
 	public Gth.JobQueue jobs;
 
@@ -20,16 +22,22 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public Window (Gtk.Application _app, File location, File? file_to_select) {
 		Object (application: app);
 
-		named_dialogs = new HashTable<string, Gtk.Window>(str_hash, str_equal);
+		named_dialogs = new HashTable<string, Gtk.Window?>(str_hash, str_equal);
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
-		thumbnailer = new Thumbnailer (app.image_loader);
+		thumbnailer = new Thumbnailer ();
 
 		filter_bar.changed.connect (() => update_active_filter ());
 
 		file_grid.model = new Gtk.MultiSelection (visible_files.model);
 		file_grid.model.selection_changed.connect (() => {
 			update_selection_info ();
+		});
+
+		browser_view.notify["show-sidebar"].connect (() => {
+			sidebar_visible = browser_view.show_sidebar;
+			action_group.change_action_state ("show-sidebar", new Variant.boolean (sidebar_visible));
+			show_sidebar_button.visible = !sidebar_visible;
 		});
 
 		var file_item_factory = new Gtk.SignalListItemFactory ();
@@ -48,7 +56,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 				var file_data = list_item.item as FileData;
 				if (file_data != null) {
 					file_item.bind (file_data);
-					add_binded_file (file_data, list_item.position);
+					thumbnailer.requested_size = (uint) thumbnail_size;
+					thumbnailer.add (file_data);
 				}
 			}
 		});
@@ -59,13 +68,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 				file_item.unbind ();
 				var file_data = list_item.item as FileData;
 				if (file_data != null) {
-					remove_binded_file (file_data, list_item.position);
+					thumbnailer.remove (file_data);
+					file_data.set_thumbnail (null);
 				}
 			}
 		});
 		file_grid.factory = file_item_factory;
-		init_actions ();
-		set_page (Page.BROWSER);
 
 		// Restore the window size.
 		var width = app.browser_settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
@@ -84,16 +92,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		show_hidden_files = app.browser_settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
 		thumbnail_size = app.browser_settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 
+		init_actions ();
+		set_page (Page.BROWSER);
+
 		// Load the location.
 		title = "Thumbnails";
 		Util.next_tick (() => {
 			filter_bar.set_active_filter (active_filter);
-			if (file_to_select != null) {
-				go_to (location, file_to_select);
-			}
-			else {
-				load_location (location);
-			}
+			load_location (location, file_to_select);
 		});
 	}
 
@@ -141,8 +147,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO
 	}
 
-	public void go_to (File location, File? file_to_select = null) {
-		stdout.printf ("go to '%s' (select: '%s')\n", location.get_uri (), file_to_select.get_uri ());
+	public void load_location (File location, File? file_to_select = null) {
 		set_page (Page.BROWSER);
 		load_folder.begin (location, (_obj, res) => {
 			try {
@@ -157,10 +162,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 	}
 
-	public void load_location (File location) {
-		stdout.printf ("load %s\n", location.get_uri ());
-	}
-
 	public void update_sort_order (string _sort_name, bool _inverse_order) {
 		sort_name = _sort_name;
 		inverse_order = _inverse_order;
@@ -171,14 +172,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (page == current_page)
 			return;
 		current_page = page;
-		switch (current_page) {
+		/*switch (current_page) {
 		case Page.BROWSER:
 			main_stack.set_visible_child (browser_page);
 			break;
 		case Page.VIEWER:
 			main_stack.set_visible_child (viewer_page);
 			break;
-		}
+		}*/
 		update_title ();
 		update_sensitivity ();
 	}
@@ -285,18 +286,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 	Gth.Filter? file_filter = null;
 
 	public unowned Gth.Filter get_file_filter (bool recalc = false) {
-		if ((file_filter == null) || recalc)
+		if ((file_filter == null) || recalc) {
 			file_filter = app.add_general_filter (active_filter);
+			if (!show_hidden_files) {
+				file_filter.tests.add (new Gth.TestVisible ());
+			}
+		}
 		return file_filter;
-	}
-
-	void add_binded_file (FileData file_data, uint pos) {
-		thumbnailer.add (file_data);
-	}
-
-	void remove_binded_file (FileData file_data, uint pos) {
-		thumbnailer.remove (file_data);
-		file_data.set_thumbnail (null);
 	}
 
 	void update_active_filter () {
@@ -362,6 +358,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/app-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/bookmarks-menu.ui");
+		bookmarks_button.menu_model = builder.get_object ("bookmarks_menu") as MenuModel;
+
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
 
@@ -390,14 +389,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-filter", VariantType.STRING, new Variant.string (""));
+		action = new SimpleAction.stateful ("set-filter", VariantType.STRING, new Variant.string ((active_filter != null) ? active_filter.id : ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			filter_bar.select_filter_by_id (param.get_string ());
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string (""));
+		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string ((general_filter != null) ? general_filter.id : ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
@@ -415,16 +414,55 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-sort-type", GLib.VariantType.STRING, new Variant.string (""));
+		action = new SimpleAction.stateful ("set-sort-name", GLib.VariantType.STRING, new Variant.string (sort_name ?? ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-sort-direction", GLib.VariantType.BOOLEAN, new Variant.boolean (true));
+		action = new SimpleAction.stateful ("set-inverse-order", GLib.VariantType.BOOLEAN, new Variant.boolean (inverse_order));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
+			// TODO
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("new-window", null);
+		action.activate.connect (() => {
+			var window = new Gth.Window (app, folder.file, null);
+			window.present ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("show-hidden-files", null, new Variant.boolean (show_hidden_files));
+		action.activate.connect ((_action, param) => {
+			show_hidden_files = Util.toggle_state (_action);
+			update_thumbnail_list ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("show-sidebar", null, new Variant.boolean (sidebar_visible));
+		action.activate.connect ((_action, param) => {
+			sidebar_visible = Util.toggle_state (_action);
+			browser_view.show_sidebar = sidebar_visible;
+			show_sidebar_button.visible = !sidebar_visible;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("pin-sidebar", null, new Variant.boolean (sidebar_pinned));
+		action.activate.connect ((_action, param) => {
+			sidebar_pinned = Util.toggle_state (_action);
+			browser_view.collapsed = !sidebar_pinned;
+			if (browser_view.collapsed) {
+				browser_view.show_sidebar = true;
+			}
+			show_sidebar_button.visible = !sidebar_visible;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("go-home", null);
+		action.activate.connect ((_action, param) => {
 			// TODO
 		});
 		action_group.add_action (action);
@@ -445,6 +483,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	SimpleActionGroup action_group;
 	Gth.Test general_filter;
 	Gth.Test active_filter;
-	HashTable<string, Gtk.Window> named_dialogs;
+	HashTable<string, Gtk.Window?> named_dialogs;
 	Gth.Thumbnailer thumbnailer;
 }
