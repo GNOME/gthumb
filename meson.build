@@ -206,7 +206,7 @@ source_files = files(
   'SortFunc.vala',
   'Status.vala',
   'Strings.vala',
-  'TestChain.vala',
+  'TestExpr.vala',
   'TestDate.vala',
   'TestInt.vala',
   'TestSelector.vala',

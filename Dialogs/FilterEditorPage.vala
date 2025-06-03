@@ -44,7 +44,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 
 		name_entry.set_text (filter.display_name);
 		test_list.bind_model (filter.tests.tests.model, new_test_row);
-		if (filter.tests.operation == Gth.TestChain.Operation.UNION) {
+		if (filter.tests.operation == TestExpr.Operation.UNION) {
 			match_any.active = true;
 		}
 		else {
@@ -113,7 +113,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		}
 
 		// Match All / Match Any
-		filter.tests.operation = match_all.active ? Gth.TestChain.Operation.INTERSECTION : Gth.TestChain.Operation.UNION;
+		filter.tests.operation = match_all.active ? TestExpr.Operation.INTERSECTION : TestExpr.Operation.UNION;
 		filter.limit_type = !limits_row.enable_expansion ? Gth.Filter.LimitType.NONE : files_checkbox.active ? Gth.Filter.LimitType.FILES : Gth.Filter.LimitType.BYTES;
 		if (filter.limit_type != Gth.Filter.LimitType.NONE) {
 			if (filter.limit_type == Gth.Filter.LimitType.FILES) {

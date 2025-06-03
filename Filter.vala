@@ -19,7 +19,7 @@ public class Gth.Filter : Gth.Test {
 	public int64 limit;
 	public string sort_name;
 	public bool inverse_order;
-	public Gth.TestChain tests {
+	public Gth.TestExpr tests {
 		set {
 			_tests = value;
 			attributes = _tests.attributes;
@@ -31,7 +31,7 @@ public class Gth.Filter : Gth.Test {
 
 	construct {
 		id = Strings.new_random (ID_LENGTH);
-		_tests = new TestChain ();
+		_tests = new TestExpr ();
 		limit_type = LimitType.NONE;
 		limit = 0;
 		sort_name = null;
@@ -53,7 +53,7 @@ public class Gth.Filter : Gth.Test {
 		if (!visible) {
 			node.set_attribute ("display", "none");
 		}
-		if (_tests.operation != Gth.TestChain.Operation.NONE) {
+		if (_tests.operation != TestExpr.Operation.NONE) {
 			node.append_child (_tests.create_element (doc));
 		}
 		if (limit_type != LimitType.NONE) {
@@ -183,7 +183,7 @@ public class Gth.Filter : Gth.Test {
 		id = original_id;
 	}
 
-	Gth.TestChain _tests;
+	Gth.TestExpr _tests;
 	Gtk.SpinButton spin_button = null;
 	Gtk.DropDown unit_selector = null;
 

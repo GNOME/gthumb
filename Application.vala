@@ -229,7 +229,7 @@ public class Gth.Application : Adw.Application {
 	public Gth.Filter add_general_filter (Gth.Test? active_test) {
 		if ((active_test == null) || Strings.empty (active_test.id)) {
 			// The active test is not set, use the general filter.
-			var tests = new Gth.TestChain (TestChain.Operation.INTERSECTION);
+			var tests = new Gth.TestExpr (TestExpr.Operation.INTERSECTION);
 			tests.add (get_general_filter ());
 			var filter = new Gth.Filter ();
 			filter.tests = tests;
@@ -242,7 +242,7 @@ public class Gth.Application : Adw.Application {
 			var original_filter = active_test as Gth.Filter;
 			var filter = original_filter.duplicate () as Gth.Filter;
 			if (!original_filter.tests.contains_type_test ()) {
-				var tests = new Gth.TestChain (TestChain.Operation.INTERSECTION);
+				var tests = new Gth.TestExpr (TestExpr.Operation.INTERSECTION);
 				if (!original_filter.tests.is_empty ()) {
 					tests.add (original_filter.tests);
 				}
@@ -255,7 +255,7 @@ public class Gth.Application : Adw.Application {
 		// The active test is a simple test, create a filter adding the general
 		// filter as well if the active test is not a file type test.
 		var filter = new Gth.Filter ();
-		var tests = new Gth.TestChain (TestChain.Operation.INTERSECTION);
+		var tests = new Gth.TestExpr (TestExpr.Operation.INTERSECTION);
 		if (!(active_test is TestFileType)) {
 			tests.add (get_general_filter ());
 		}

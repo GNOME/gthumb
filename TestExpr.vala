@@ -1,4 +1,4 @@
-public class Gth.TestChain : Gth.Test {
+public class Gth.TestExpr : Gth.Test {
 	public enum Operation {
 		NONE,
 		INTERSECTION,
@@ -18,7 +18,7 @@ public class Gth.TestChain : Gth.Test {
 	public Operation operation { get; set; default = Operation.NONE; }
 	public GenericList<Gth.Test> tests;
 
-	public TestChain (Operation _type = Operation.NONE) {
+	public TestExpr (Operation _type = Operation.NONE) {
 		operation = _type;
 		tests = new GenericList<Gth.Test>();
 	}
@@ -123,7 +123,7 @@ public class Gth.TestChain : Gth.Test {
 				break;
 
 			case "tests":
-				var subchain = new TestChain ();
+				var subchain = new TestExpr ();
 				subchain.load_from_element (child);
 				tests.model.append (subchain);
 				break;
