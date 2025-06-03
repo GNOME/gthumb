@@ -62,4 +62,9 @@ typedef enum {
 	GTH_RESIZE_UPSCALE = 1 << 2,
 } GthResizeFlags;
 
+typedef enum {
+	GTH_FILL_START,
+	GTH_FILL_END,
+} GthFill;
+
 #endif /* LIB_TYPES_H */

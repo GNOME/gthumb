@@ -190,6 +190,18 @@ guchar* gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride) {
 }
 
 
+guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	if (row_stride != NULL)
+		*row_stride = self->priv->row_stride;
+	if (width != NULL)
+		*width = self->priv->width;
+	if (height != NULL)
+		*height = self->priv->height;
+	return self->priv->buffer;
+}
+
+
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 #define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
 #elif G_BYTE_ORDER == G_BIG_ENDIAN

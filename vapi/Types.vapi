@@ -59,3 +59,9 @@ public enum Gth.ResizeFlags {
 	IGNORE_RATIO,
 	UPSCALE
 }
+
+[CCode (cheader_filename = "lib/types.h", has_type_id = false)]
+public enum Gth.Fill {
+	START,
+	END
+}

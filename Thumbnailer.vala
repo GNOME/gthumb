@@ -113,8 +113,20 @@ public class Gth.Thumbnailer {
 				}
 			}
 		}
+		if ((thumbnail != null) && (Util.content_type_is_video (file_data.get_content_type ()))) {
+			if (filmholes == null) {
+				var bytes = GLib.resources_lookup_data ("/app/gthumb/gthumb/icons/filmholes.png", ResourceLookupFlags.NONE);
+				filmholes = load_png (bytes, 0, job.cancellable);
+			}
+			if (filmholes != null) {
+				thumbnail.fill_vertical (filmholes, Fill.START);
+				thumbnail.fill_vertical (filmholes, Fill.END);
+			}
+		}
 		return thumbnail;
 	}
+
+	Gth.Image filmholes = null;
 
 	async Gth.Image? load_thumbnail_from_cache (FileData file_data, Cancellable cancellable) throws Error {
 		try {

@@ -9,24 +9,24 @@
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
 
-#define PIXEL_RED   2
-#define PIXEL_GREEN 1
 #define PIXEL_BLUE  0
+#define PIXEL_GREEN 1
+#define PIXEL_RED   2
 #define PIXEL_ALPHA 3
 
 #elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
 
+#define PIXEL_ALPHA 0
 #define PIXEL_RED   1
 #define PIXEL_GREEN 2
 #define PIXEL_BLUE  3
-#define PIXEL_ALPHA 0
 
 #else /* PDP endianness: RABG */
 
 #define PIXEL_RED   0
-#define PIXEL_GREEN 3
-#define PIXEL_BLUE  2
 #define PIXEL_ALPHA 1
+#define PIXEL_BLUE  2
+#define PIXEL_GREEN 3
 
 #endif
 

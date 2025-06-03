@@ -139,17 +139,19 @@ resources_files = gnome.compile_resources('resources',
   'App.gresource.xml',
   c_name: 'resources',
   source_dir: [
+    'data/icons/private/',
     'data/icons/private/actions',
     'data/icons/public/hicolor/scalable/apps',
     'data/css',
     'data/ui',
-  ],
+  ]
 )
 
 lib_files = files(
   'lib/gth-color-manager.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
+  'lib/gth-image-edit.c',
   'lib/gth-image-resize.c',
   'lib/io/load-jpeg.c',
   'lib/io/load-png.c',

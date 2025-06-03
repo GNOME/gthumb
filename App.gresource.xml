@@ -17,6 +17,9 @@
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
   </gresource>
+  <gresource prefix="/app/gthumb/gthumb/icons/">
+    <file>filmholes.png</file>
+  </gresource>
   <gresource prefix="/app/gthumb/gthumb/css">
     <file>style.css</file>
   </gresource>

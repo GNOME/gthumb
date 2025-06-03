@@ -7,7 +7,8 @@ namespace Gth {
 		public Image dup ();
 		public void copy_metadata (Image destination);
 		public void copy_pixels (Image destination);
-		public unowned uint8[] get_pixels (out size_t size, out int row_stride);
+		[CCode (array_length_cname = "size", array_length_type = "size_t", array_length_pos = 1.1)]
+		public unowned uint8[] get_pixels (out int row_stride);
 		public uint get_width ();
 		public uint get_height ();
 		public size_t get_size ();
@@ -27,5 +28,6 @@ namespace Gth {
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
 		public Image? resize (uint size, ScaleFilter quality, Cancellable cancellable);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
+		public void fill_vertical (Image pattern, Fill fill);
 	}
 }

@@ -41,6 +41,7 @@ void gth_image_copy_pixels (GthImage *src, GthImage *dest);
 void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride);
 GdkTexture * gth_image_get_gdk_texture (GthImage *self);
+guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height);
 
 // Properties
 guint gth_image_get_width (GthImage *self);
@@ -90,6 +91,10 @@ void gth_image_resize_async (GthImage *self,
 	GAsyncReadyCallback callback, gpointer user_data);
 GthImage * gth_image_resize_finish (GthImage *self, GAsyncResult *result,
 	GError **error);
+
+// Edit
+
+void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
 
 G_END_DECLS
 

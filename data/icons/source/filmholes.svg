@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="23.154013"
+   height="26.756266"
+   viewBox="0 0 21.72516 25.105115"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="filmholes.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   inkscape:export-filename="../private/filmholes.png"
+   inkscape:export-xdpi="55.98"
+   inkscape:export-ydpi="55.98"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="26.359208"
+     inkscape:cx="8.6876661"
+     inkscape:cy="16.066492"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0.01407091,0.02849524)">
+    <path
+       id="rect1"
+       style="opacity:0.60422269;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.262745"
+       d="M -0.01407091 -0.02849524 L -0.01407091 25.076239 L 21.711356 25.076239 L 21.711356 -0.02849524 L -0.01407091 -0.02849524 z M 7.1880317 4.0325377 L 14.509253 4.0325377 C 15.129537 4.0325377 15.628969 4.53197 15.628969 5.1522539 L 15.628969 8.3702926 C 15.628969 8.9905765 15.129537 9.4900088 14.509253 9.4900088 L 7.1880317 9.4900088 C 6.5677479 9.4900088 6.0683155 8.9905765 6.0683155 8.3702926 L 6.0683155 5.1522539 C 6.0683155 4.53197 6.5677479 4.0325377 7.1880317 4.0325377 z M 7.1880317 16.776411 L 14.509253 16.776411 C 15.129537 16.776411 15.628969 17.275843 15.628969 17.896127 L 15.628969 21.114166 C 15.628969 21.73445 15.129537 22.233882 14.509253 22.233882 L 7.1880317 22.233882 C 6.5677479 22.233882 6.0683155 21.73445 6.0683155 21.114166 L 6.0683155 17.896127 C 6.0683155 17.275843 6.5677479 16.776411 7.1880317 16.776411 z " />
+    <rect
+       style="opacity:0.669864;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.939761;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.262745"
+       id="rect6"
+       width="9.5591164"
+       height="5.456727"
+       x="6.0689511"
+       y="4.0328212"
+       ry="1.119646" />
+    <rect
+       style="opacity:0.669864;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.939761;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.262745"
+       id="rect8"
+       width="9.5591164"
+       height="5.456727"
+       x="6.0689511"
+       y="16.776283"
+       ry="1.119646" />
+  </g>
+</svg>
