@@ -43,7 +43,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var file_item_factory = new Gtk.SignalListItemFactory ();
 		file_item_factory.setup.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FileListItem (thumbnail_size);
+			list_item.child = new Gth.FileListItem (thumbnail_size, thumbnail_attributes_v);
 		});
 		file_item_factory.teardown.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
@@ -230,6 +230,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	string list_attributes = null;
+	string[] thumbnail_attributes_v = {};
 
 	unowned string get_list_attributes (bool recalc) {
 		if (recalc) {
@@ -272,6 +273,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (!Strings.empty (thumbnail_caption) && (thumbnail_caption != "none")) {
 			attributes.append (",");
 			attributes.append (thumbnail_caption);
+			thumbnail_attributes_v = thumbnail_caption.split (",");
+		}
+		else {
+			thumbnail_attributes_v = {};
 		}
 
 		// Other attributes. TODO

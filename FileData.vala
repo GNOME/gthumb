@@ -147,6 +147,20 @@ public class Gth.FileData : Object {
 		return embedded_rating;
 	}
 
+	public string get_attribute_as_string (string id) {
+		string value = null;
+		switch (info.get_attribute_type (id)) {
+		case FileAttributeType.OBJECT:
+			// TODO
+			value = info.get_attribute_as_string (id);
+			break;
+		default:
+			value = info.get_attribute_as_string (id);
+			break;
+		}
+		return value;
+	}
+
 	public bool is_readable () {
 		return info.get_attribute_boolean (FileAttribute.ACCESS_CAN_READ);
 	}

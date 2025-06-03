@@ -1,9 +1,11 @@
 public class Gth.FileListItem : Gtk.Box {
+	public unowned string[] attributes_v;
 	int size;
 	const int V_SPACING = 6;
 
-	public FileListItem (int _size) {
+	public FileListItem (int _size, string[] _attributes_v) {
 		size = _size;
+		attributes_v = _attributes_v;
 		orientation = Gtk.Orientation.VERTICAL;
 		halign = Gtk.Align.FILL;
 		spacing = V_SPACING;
@@ -45,12 +47,19 @@ public class Gth.FileListItem : Gtk.Box {
 		second_label.halign = Gtk.Align.START;
 		second_label.add_css_class ("dim-label");
 		labels.append (second_label);
+
+		first_label.visible = attributes_v.length > 0;
+		second_label.visible = attributes_v.length > 1;
 	}
 
 	public void bind (FileData _file_data) {
 		file_data = _file_data;
-		first_label.set_text (file_data.info.get_display_name ());
-		second_label.set_text (file_data.info.get_attribute_string ("gth::file::display-size"));
+		if (attributes_v.length > 0) {
+			first_label.set_text (file_data.get_attribute_as_string (attributes_v[0]));
+		}
+		if (attributes_v.length > 1) {
+			second_label.set_text (file_data.get_attribute_as_string (attributes_v[1]));
+		}
 		update_preview ();
 		thumbnail_texture_id = file_data.notify["thumbnail-texture"].connect ((obj) => {
 			update_preview ();
