@@ -1,3 +1,4 @@
+#include <config.h>
 #include <math.h>
 #include "lib/gth-image.h"
 #include "lib/types.h"

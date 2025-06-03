@@ -112,9 +112,6 @@ static void gth_image_init (GthImage *self) {
 }
 
 
-#define PIXEL_BYTES 4
-
-
 GthImage * gth_image_new (guint width, guint height) {
 	g_return_val_if_fail (width > 0, NULL);
 	g_return_val_if_fail (height > 0, NULL);

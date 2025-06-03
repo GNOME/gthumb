@@ -121,6 +121,8 @@ add_project_arguments([
   '-DLOCALEDIR="@0@"'.format(join_paths(prefix, get_option('localedir'))),
 ], language: 'c')
 
+vector_ops = (c_comp.get_id() == 'gcc') and (c_comp.version().version_compare('>=4.0.7'))
+
 config = configuration_data()
 config.set_quoted('GETTEXT_PACKAGE', gettext_package)
 config.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
@@ -128,6 +130,9 @@ config.set_quoted('DOMAIN', meson.project_name ())
 config.set_quoted('G_LOG_DOMAIN', log_domain)
 config.set_quoted('VERSION', meson.project_version())
 config.set_quoted('PREFIX', get_option('prefix'))
+if vector_ops
+  config.set('HAVE_VECTOR_OPERATIONS', 1)
+endif
 
 config_file = configure_file(
   output : 'config.h',
@@ -265,6 +270,7 @@ summary(
     'progressive jpeg': have_progressive_jpeg,
     'libwebp': use_libwebp,
     'librsvg': use_librsvg,
+    'vector_ops': vector_ops,
   },
   section: 'Configuration summary:',
 )
