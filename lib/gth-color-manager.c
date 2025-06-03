@@ -180,7 +180,7 @@ profile_buffer_ready_cb (GObject	*source_object,
 		char *uri = g_file_get_uri (data->icc_file);
 		gsize size;
 		gpointer buffer = g_bytes_unref_to_data (bytes, &size);
-		GthIccProfile *profile = gth_icc_profile_new (uri, (GthCMSProfile) cmsOpenProfileFromMem (buffer, size));
+		GthIccProfile *profile = gth_icc_profile_new (uri, (GthCmsProfile) cmsOpenProfileFromMem (buffer, size));
 		_gth_color_manager_add_profile (data->color_manager, data->cache_id, profile);
 		g_task_return_pointer (task, g_object_ref (profile), g_object_unref);
 

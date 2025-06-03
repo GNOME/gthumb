@@ -266,6 +266,19 @@ gth_icc_profile_get_id (GthIccProfile *self)
 }
 
 
+static char *
+_g_utf8_try_from_any (const char *str) {
+	if (str == NULL)
+		return NULL;
+	char *utf8_str;
+	if (! g_utf8_validate (str, -1, NULL))
+		utf8_str = g_locale_to_utf8 (str, -1, NULL, NULL, NULL);
+	else
+		utf8_str = g_strdup (str);
+	return utf8_str;
+}
+
+
 const char *
 gth_icc_profile_get_description	(GthIccProfile *self)
 {
@@ -274,18 +287,15 @@ gth_icc_profile_get_description	(GthIccProfile *self)
 
 #ifdef HAVE_LCMS2
 
-	GString         *color_profile;
-	cmsHPROFILE      hProfile;
-	const int        buffer_size = 128;
-	wchar_t          buffer[buffer_size];
-	cmsUInt32Number  size;
-
-	color_profile = g_string_new ("");
-	hProfile = (cmsHPROFILE) gth_icc_profile_get_profile (self);
-	size = cmsGetProfileInfo (hProfile, cmsInfoDescription, "en", "US", (wchar_t *) buffer, buffer_size);
+	GString *color_profile = g_string_new ("");
+	cmsHPROFILE hProfile = (cmsHPROFILE) gth_icc_profile_get_profile (self);
+	const int buffer_size = 128;
+	wchar_t buffer[buffer_size];
+	cmsUInt32Number size = cmsGetProfileInfo (hProfile, cmsInfoDescription, "en", "US", (wchar_t *) buffer, buffer_size);
 	if (size > 0) {
-		for (int i = 0; (i < size) && (buffer[i] != 0); i++)
+		for (int i = 0; (i < size) && (buffer[i] != 0); i++) {
 			g_string_append_c (color_profile, buffer[i]);
+		}
 	}
 
 	if (color_profile->len > 0) {

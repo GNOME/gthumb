@@ -27,3 +27,9 @@ option('librsvg',
   value : true,
   description : 'Use librsvg to load SVG images'
 )
+
+option('gstreamer',
+  type : 'boolean',
+  value : true,
+  description : 'Use gstreamer to play multimedia files and to view the metadata'
+)

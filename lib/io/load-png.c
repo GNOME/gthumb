@@ -306,7 +306,7 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 
 #if HAVE_LCMS2
 	{
-		GthICCProfile *profile = NULL;
+		GthIccProfile *profile = NULL;
 		int            intent;
 		png_charp      name;
 		int            compression_type;

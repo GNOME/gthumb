@@ -6,13 +6,14 @@ project('Thumbnails',
 )
 
 adwaita_version = '>=1.7.3'
-colord_version = '>=1.3'
 glib_version = '>=2.84.2'
 gtk_version = '>=4.18.5'
 lcms2_version = '>=2.6'
+colord_version = '>=1.3'
 png_version = '>=1.6'
 libwebp_version = '>=0.2.0'
 librsvg_version = '>=2.34.0'
+gstreamer_version = '>=1.26.0'
 
 c_comp = meson.get_compiler('c')
 vala_comp = meson.get_compiler('vala')
@@ -57,21 +58,21 @@ code = '''#include <stdio.h>
 int main(int c, char**v) { return 0; }'''
 have_libjpeg_80 = c_comp.compiles(
   code,
-  name : 'libjpeg version is 8 or greater',
-  dependencies : libjpeg_dep
+  name: 'libjpeg version is 8 or greater',
+  dependencies: libjpeg_dep
 )
 have_progressive_jpeg = c_comp.has_function(
   'jpeg_simple_progression',
-  prefix : '#include <stdio.h>\n#include<jpeglib.h>',
-  dependencies : libjpeg_dep
+  prefix: '#include <stdio.h>\n#include<jpeglib.h>',
+  dependencies: libjpeg_dep
 )
 
 # libwebp
 
 if get_option('libwebp')
   libwebp_dep = [
-    dependency('libwebp', version : libwebp_version, required : false),
-    dependency('libwebpdemux', version : libwebp_version, required : false)
+    dependency('libwebp', version: libwebp_version, required: false),
+    dependency('libwebpdemux', version: libwebp_version, required: false)
   ]
   use_libwebp = libwebp_dep[0].found()
 else
@@ -81,10 +82,35 @@ endif
 # librsvg
 
 if get_option('librsvg')
-  librsvg_dep = dependency('librsvg-2.0', version : librsvg_version, required : false)
+  librsvg_dep = dependency('librsvg-2.0', version: librsvg_version, required: false)
   use_librsvg = librsvg_dep.found()
 else
   use_librsvg = false
+endif
+
+# gstreamer
+
+if get_option('gstreamer')
+  gstreamer_dep = dependency('gstreamer-1.0',
+    version: gstreamer_version,
+    required: false
+  )
+  gstreamer_plugins_base_dep = dependency('gstreamer-plugins-base-1.0',
+    version: gstreamer_version,
+    required: false
+  )
+  gstreamer_video_dep = dependency('gstreamer-video-1.0',
+    version: gstreamer_version,
+    required: false
+  )
+  gstreamer_deps = [
+    gstreamer_dep,
+    gstreamer_plugins_base_dep,
+    gstreamer_video_dep
+  ]
+  use_gstreamer = gstreamer_dep.found() and gstreamer_plugins_base_dep.found() and gstreamer_video_dep.found()
+else
+  use_gstreamer = false
 endif
 
 dependencies = [
@@ -101,6 +127,7 @@ dependencies = [
   use_colord ? colord_dep : [],
   use_libwebp ? libwebp_dep : [],
   use_librsvg ? librsvg_dep : [],
+  use_gstreamer ? gstreamer_deps : [],
 ]
 
 gettext_package = 'thumbnails'
@@ -133,6 +160,27 @@ config.set_quoted('PREFIX', get_option('prefix'))
 if vector_ops
   config.set('HAVE_VECTOR_OPERATIONS', 1)
 endif
+if have_progressive_jpeg
+  config.set('HAVE_PROGRESSIVE_JPEG', 1)
+endif
+if use_lcms2
+  config.set('HAVE_LCMS2', 1)
+endif
+if use_colord
+  config.set('HAVE_COLORD', 1)
+endif
+if use_libwebp
+  config.set('HAVE_LIBWEBP', 1)
+  add_project_arguments(['-D', 'HAVE_LIBWEBP'], language: 'vala')
+endif
+if use_librsvg
+  config.set('HAVE_LIBRSVG', 1)
+  add_project_arguments(['-D', 'HAVE_LIBRSVG'], language: 'vala')
+endif
+if use_gstreamer
+  config.set('HAVE_GSTREAMER', 1)
+  add_project_arguments(['-D', 'HAVE_GSTREAMER'], language: 'vala')
+endif
 
 config_file = configure_file(
   output : 'config.h',
@@ -160,14 +208,18 @@ lib_files = files(
   'lib/gth-image-resize.c',
   'lib/io/load-jpeg.c',
   'lib/io/load-png.c',
-  'lib/io/load-svg.c',
-  'lib/io/load-webp.c',
   'lib/io/save-png.c',
   'lib/jpeg/jmemorysrc.c',
   'lib/jpeg/jpeg-info.c',
   'lib/pixel.c',
   'lib/util.c',
 )
+if use_libwebp
+  lib_files += ('lib/io/load-webp.c')
+endif
+if use_librsvg
+  lib_files += ('lib/io/load-svg.c')
+endif
 
 vapi_files = files(
   'vapi/ColorManager.vapi',
@@ -264,13 +316,14 @@ subdir('po')
 summary(
   {
     'prefix': prefix,
+    'libjpeg 8': have_libjpeg_80,
+    'prog jpeg': have_progressive_jpeg,
+    'vector ops': vector_ops,
     'lcms2': use_lcms2,
     'colord': use_colord,
-    'libjpeg 8': have_libjpeg_80,
-    'progressive jpeg': have_progressive_jpeg,
     'libwebp': use_libwebp,
     'librsvg': use_librsvg,
-    'vector_ops': vector_ops,
+    'gstreamer': use_gstreamer,
   },
   section: 'Configuration summary:',
 )
