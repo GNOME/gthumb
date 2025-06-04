@@ -86,7 +86,7 @@ public class Gth.Files {
 		return ByteArray.free_to_bytes (result);
 	}
 
-	public static async Bytes read_all_async (InputStream stream, Cancellable? cancellable = null) throws Error {
+	public static async Bytes read_all_async (InputStream stream, Cancellable? cancellable = null, bool add_zero = false) throws Error {
 		var result = new ByteArray ();
 		var buffer = new uint8[BUFFER_SIZE];
 		while (true) {
@@ -97,12 +97,24 @@ public class Gth.Files {
 			unowned var valid_bytes = buffer[0:size];
 			result.append (valid_bytes);
 		}
+		if (add_zero) {
+			result.append (ZERO); // Add null to terminate the string.
+		}
 		return ByteArray.free_to_bytes (result);
 	}
 
-	public static string load_contents_as_string (File file, Cancellable? cancellable = null) throws Error {
+	public static Bytes load_file (File file, Cancellable? cancellable = null) throws Error {
 		var stream = file.read (cancellable);
-		var bytes = Files.read_all (stream, cancellable, true);
+		return Files.read_all (stream, cancellable, true);
+	}
+
+	public static async Bytes load_file_async (File file, Cancellable? cancellable = null, bool add_zero = false) throws Error {
+		var stream = yield file.read_async (Priority.DEFAULT, cancellable);
+		return yield Files.read_all_async (stream, cancellable, add_zero);
+	}
+
+	public static async string load_contents_async (File file, Cancellable? cancellable = null) throws Error {
+		var bytes = yield Files.load_file_async (file, cancellable, true);
 		return (string) Bytes.unref_to_data (bytes);
 	}
 

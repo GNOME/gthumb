@@ -68,4 +68,8 @@ public class Gth.Strings {
 		}
 		return false;
 	}
+
+	public static unowned string unowned_substring (string str, int offset) {
+		return (string) str.data[offset:-1];
+	}
 }

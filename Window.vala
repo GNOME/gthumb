@@ -26,7 +26,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer ();
-		history = new FileHistory (this);
+		history = new WindowHistory (this);
+		bookmarks = new WindowBookmarks (this);
 
 		filter_bar.changed.connect (() => update_active_filter ());
 
@@ -99,9 +100,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// Load the location.
 		title = "Thumbnails";
 		Util.next_tick (() => {
-			if (app.one_window ())
-				history.load_from_file ();
 			filter_bar.set_active_filter (active_filter);
+			if (app.one_window ()) {
+				history.restore_from_file ();
+			}
+			bookmarks.load_from_file.begin ();
 			load_location (location, LoadAction.LOAD, file_to_select);
 		});
 	}
@@ -371,6 +374,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/bookmarks-menu.ui");
 		bookmarks_button.menu_model = builder.get_object ("bookmarks_menu") as MenuModel;
+		bookmarks.menu = builder.get_object ("app-bookmarks") as Menu;
+		bookmarks.system_menu = builder.get_object ("system-bookmarks") as Menu;
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/history-menu.ui");
 		history_button.menu_model = builder.get_object ("history_menu") as MenuModel;
@@ -476,15 +481,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("go-home", null);
+		action = new SimpleAction ("load-home", null);
 		action.activate.connect ((_action, param) => {
 			load_location (Files.get_home_dir ()); // TODO: use the prefereces location
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("go-to-history-position", VariantType.INT16, new Variant.int16 ((int16) history.current));
+		action = new SimpleAction.stateful ("load-history-position", VariantType.INT16, new Variant.int16 ((int16) history.current));
 		action.activate.connect ((_action, param) => {
-			history.go_to (param.get_int16 ());
+			history.load (param.get_int16 ());
 		});
 		action_group.add_action (action);
 
@@ -501,6 +506,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("load-next", null);
 		action.activate.connect ((_action, param) => {
 			history.load_next ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("load-location", VariantType.STRING);
+		action.activate.connect ((_action, param) => {
+			load_location (File.new_for_uri (param.get_string ()));
 		});
 		action_group.add_action (action);
 	}
@@ -523,206 +534,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	Gth.Test active_filter;
 	HashTable<string, Gtk.Window?> named_dialogs;
 	Gth.Thumbnailer thumbnailer;
-	Gth.FileHistory history;
-}
-
-class Gth.FileHistory {
-	public GenericArray<File> files;
-	public int current;
-	public Menu menu;
-	public weak Window window;
-
-	public FileHistory (Window _window) {
-		window = _window;
-		files = new GenericArray<File>();
-		current = -1;
-		menu = null;
-	}
-
-	public bool can_go_backward () {
-		return (files.length > 0) && (current > 0);
-	}
-
-	public bool can_go_forward () {
-		return (files.length > 0) && (current < files.length - 1);
-	}
-
-	public void print () {
-		stdout.printf ("HISTORY:\n");
-		var idx = 0;
-		foreach (unowned var file in files) {
-			stdout.printf ("  %s%s\n", (idx == current) ? "*" : " ", file.get_uri ());
-			idx++;
-		}
-	}
-
-	public void update_menu () {
-		menu.remove_all ();
-		var idx = 0;
-		foreach (unowned var file in files) {
-			var item = menu_item_for_file (file);
-			item.set_action_and_target_value ("win.go-to-history-position", new Variant.int16 (idx));
-			menu.append_item (item);
-			if (current == idx) {
-				var action = window.action_group.lookup_action ("go-to-history-position");
-				if (action != null) {
-					action.change_state (new Variant.int16 (idx));
-				}
-			}
-			idx++;
-		}
-		update_sensitivity ();
-	}
-
-	public void add (File file) {
-		if ((current != -1) && file.equal (files[current]))
-			return;
-		for (var idx = 0; idx < current; idx++) {
-			files.remove_index (0);
-		}
-		files.insert (0, file);
-		current = 0;
-		update_menu ();
-	}
-
-	public File? get (int index) {
-		return files[index];
-	}
-
-	public void clear () {
-		files.length = 0;
-		current = -1;
-		if (window.folder != null) {
-			add (window.folder.file);
-		}
-		update_menu ();
-	}
-
-	public void go_to (int idx) {
-		if (!set_current (idx))
-			return;
-		var location = files[idx];
-		if (location == null)
-			return;
-		window.load_location (location, LoadAction.LOAD_FROM_HISTORY);
-	}
-
-	public void load_previous () {
-		if (can_go_backward ()) {
-			go_to (current - 1);
-		}
-	}
-
-	public void load_next () {
-		if (can_go_forward ()) {
-			go_to (current + 1);
-		}
-	}
-
-	const int MAX_HISTORY_LENGTH = 15;
-
-	public void save_to_file () {
-		var settings = Util.get_settings_if_schema_installed ("org.gnome.desktop.privacy");
-		if (settings == null)
-			return;
-
-		var save_history = settings.get_boolean ("remember-recent-files");
-		if (!save_history) {
-			try {
-				var bookmarks_file = get_history_file (FileIntent.READ);
-				bookmarks_file.delete ();
-			}
-			catch (Error error) {
-				// Ignored.
-			}
-		}
-
-		var bookmarks_file = get_history_file (FileIntent.WRITE);
-		if (bookmarks_file == null)
-			return;
-
-		try {
-			var bookmarks = new BookmarkFile ();
-			var idx = 0;
-			foreach (unowned var file in files) {
-				var uri = file.get_uri ();
-				bookmarks.set_is_private (uri, true);
-				bookmarks.add_application (uri, null, null);
-				idx++;
-				if (idx >= MAX_HISTORY_LENGTH) {
-					break;
-				}
-			}
-			bookmarks.to_file (bookmarks_file.get_path ());
-		}
-		catch (Error error) {
-			// Ignored.
-		}
-	}
-
-	public void load_from_file () {
-		var settings = Util.get_settings_if_schema_installed ("org.gnome.desktop.privacy");
-		if (settings == null)
-			return;
-
-		var load_history = settings.get_boolean ("remember-recent-files");
-		if (!load_history)
-			return;
-
-		try {
-			var bookmarks = new BookmarkFile ();
-			var bookmarks_file = get_history_file (FileIntent.READ);
-			bookmarks.load_from_file (bookmarks_file.get_path ());
-			var idx = 0;
-			var uris = bookmarks.get_uris ();
-			foreach (unowned var uri in uris) {
-				stdout.printf ("uri: %s\n", uri);
-				files.add (File.new_for_uri (uri));
-				idx++;
-				if (idx >= MAX_HISTORY_LENGTH) {
-					break;
-				}
-			}
-			set_current (0);
-			update_menu ();
-		}
-		catch (Error error) {
-			// Ignored.
-		}
-	}
-
-	bool set_current (int idx) {
-		var action = window.action_group.lookup_action ("go-to-history-position");
-		if (action == null)
-			return false;
-		action.change_state (new Variant.int16 ((int16) idx));
-		current = idx;
-		update_sensitivity ();
-		return true;
-	}
-
-	File? get_history_file (FileIntent intent) {
-		var dir = UserDir.get_directory (intent, DirType.CONFIG, APP_DIR);
-		return (dir != null) ? dir.get_child (HISTORY_FILE) : null;
-	}
-
-	MenuItem menu_item_for_file (File file) {
-		var file_source = app.get_source_for_file (file);
-		var info = file_source.get_display_info (file);
-		var item = new MenuItem (null, null);
-		item.set_label (info.get_display_name ());
-		item.set_icon (info.get_symbolic_icon ());
-		return item;
-	}
-
-	void update_sensitivity () {
-		var action = window.action_group.lookup_action ("load-next") as SimpleAction;
-		if (action != null) {
-			action.set_enabled (can_go_forward ());
-		}
-		action = window.action_group.lookup_action ("load-previous") as SimpleAction;
-		if (action != null) {
-			action.set_enabled (can_go_backward ());
-		}
-	}
+	Gth.WindowHistory history;
+	Gth.WindowBookmarks bookmarks;
 }

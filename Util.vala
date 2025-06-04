@@ -349,4 +349,13 @@ public class Gth.Util {
 
 		return new GLib.Settings (schema_id);
 	}
+
+	public static MenuItem menu_item_for_file (File file, string? custom_name = null) {
+		var file_source = app.get_source_for_file (file);
+		var info = file_source.get_display_info (file);
+		var item = new MenuItem (null, null);
+		item.set_label (!Strings.empty (custom_name) ? custom_name : info.get_display_name ());
+		item.set_icon (info.get_symbolic_icon ());
+		return item;
+	}
 }

@@ -14,9 +14,9 @@
     <submenu id="system-bookmarks">
       <attribute name="label" translatable="yes">_System Bookmarks</attribute>
     </submenu>
-    <section id="entry-points">
+    <section id="roots">
     </section>
-    <section id="bookmarks">
+    <section id="app-bookmarks">
     </section>
   </menu>
 </interface>

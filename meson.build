@@ -280,6 +280,8 @@ source_files = files(
   'Util.vala',
   'Widgets.vala',
   'Window.vala',
+  'WindowBookmarks.vala',
+  'WindowHistory.vala',
 )
 
 executable(

@@ -112,7 +112,7 @@
                         <child>
                           <object class="GtkButton">
                             <property name="icon-name">user-home-symbolic</property>
-                            <property name="action-name">win.go-home</property>
+                            <property name="action-name">win.load-home</property>
                           </object>
                         </child>
                         <child>

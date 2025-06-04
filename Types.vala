@@ -1,10 +1,13 @@
 const string APP_DIR = "gthumb";
 const string HISTORY_FILE = "history.xbel";
+const string BOOKMARKS_FILE = "bookmarks.xbel";
+const string FILTERS_FILE = "filters.xml";
+
 const int HORIZONTAL_SPACING = 12; // pixels
 const int VERTICAL_SPACING = 12; // pixels
 const int CONTAINER_H_PADDING = 12; // pixels
 const int CONTAINER_V_PADDING = 12; // pixels
-const string FILTERS_FILE = "filters.xml";
+
 const string ACCESS_ATTRIBUTES = "access::*";
 const string STANDARD_ATTRIBUTES =
 	FileAttribute.STANDARD_TYPE + "," +

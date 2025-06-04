@@ -96,7 +96,10 @@ public class Gth.FileSourceVfs : FileSource {
 
 	public override FileInfo get_display_info (File file) {
 		var info = new FileInfo ();
-		info.set_display_name (file.get_basename ());
+		var name = file.get_basename ();
+		if (name == null)
+			name = file.get_uri ();
+		info.set_display_name (name);
 		var uri = file.get_uri ();
 		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
 		info.set_symbolic_icon (icon);
