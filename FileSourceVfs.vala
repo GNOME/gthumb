@@ -93,4 +93,14 @@ public class Gth.FileSourceVfs : FileSource {
 	public override void monitor_directory (File file, bool activate) {
 		// TODO
 	}
+
+	public override FileInfo get_display_info (File file) {
+		var info = new FileInfo ();
+		info.set_display_name (file.get_basename ());
+		var uri = file.get_uri ();
+		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
+		info.set_symbolic_icon (icon);
+		info.set_icon (icon);
+		return info;
+	}
 }

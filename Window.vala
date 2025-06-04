@@ -26,6 +26,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer ();
+		history = new FileHistory (this);
 
 		filter_bar.changed.connect (() => update_active_filter ());
 
@@ -99,13 +100,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		title = "Thumbnails";
 		Util.next_tick (() => {
 			filter_bar.set_active_filter (active_filter);
-			load_location (location, file_to_select);
+			load_location (location, LoadAction.LOAD, file_to_select);
 		});
 	}
 
 	Gth.Job load_job = null;
 
-	async void load_folder (File location) throws Error {
+	async void load_folder (File location, LoadAction load_action) throws Error {
 		var source = app.get_source_for_file (location);
 		if (source == null) {
 			throw new IOError.FAILED (_("File type not supported"));
@@ -126,6 +127,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			// TODO source.monitor_directory (folder.file, true);
 			update_thumbnail_list ();
 			update_title ();
+			if (load_action != LoadAction.LOAD_FROM_HISTORY) {
+				history.add (folder.file);
+			}
 		}
 		catch (Error error) {
 			local_job.error = error;
@@ -147,9 +151,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO
 	}
 
-	public void load_location (File location, File? file_to_select = null) {
+	public void load_location (File location, LoadAction load_action = LoadAction.LOAD, File? file_to_select = null) {
 		set_page (Page.BROWSER);
-		load_folder.begin (location, (_obj, res) => {
+		load_folder.begin (location, load_action, (_obj, res) => {
 			try {
 				load_folder.end (res);
 				if (file_to_select != null) {
@@ -366,6 +370,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/bookmarks-menu.ui");
 		bookmarks_button.menu_model = builder.get_object ("bookmarks_menu") as MenuModel;
 
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/history-menu.ui");
+		history_button.menu_model = builder.get_object ("history_menu") as MenuModel;
+		history.menu = builder.get_object ("history_entries") as Menu;
+
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
 
@@ -468,7 +476,29 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("go-home", null);
 		action.activate.connect ((_action, param) => {
-			// TODO
+			load_location (Files.get_home_dir ()); // TODO: use the prefereces location
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("go-to-history-position", VariantType.INT16, new Variant.int16 ((int16) history.current));
+		action.activate.connect ((_action, param) => {
+			history.go_to (param.get_int16 ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete-history", null);
+		action.activate.connect ((_action, param) => history.clear ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("load-previous", null);
+		action.activate.connect ((_action, param) => {
+			history.load_previous ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("load-next", null);
+		action.activate.connect ((_action, param) => {
+			history.load_next ();
 		});
 		action_group.add_action (action);
 	}
@@ -477,6 +507,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] unowned Gtk.MenuButton bookmarks_button;
+	[GtkChild] unowned Gtk.MenuButton history_button;
 	[GtkChild] unowned Gtk.GridView file_grid;
 	[GtkChild] public unowned Gth.Status status;
 	[GtkChild] unowned Gtk.Stack folder_stack;
@@ -485,9 +516,128 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 
 	Page current_page = Page.NONE;
-	SimpleActionGroup action_group;
+	public SimpleActionGroup action_group;
 	Gth.Test general_filter;
 	Gth.Test active_filter;
 	HashTable<string, Gtk.Window?> named_dialogs;
 	Gth.Thumbnailer thumbnailer;
+	Gth.FileHistory history;
+}
+
+class Gth.FileHistory {
+	public GenericArray<File> files;
+	public int current;
+	public Menu menu;
+	public weak Window window;
+
+	public FileHistory (Window _window) {
+		window = _window;
+		files = new GenericArray<File>();
+		current = -1;
+		menu = null;
+	}
+
+	public bool can_go_backward () {
+		return (files.length > 0) && (current > 0);
+	}
+
+	public bool can_go_forward () {
+		return (files.length > 0) && (current < files.length - 1);
+	}
+
+	public void print () {
+		stdout.printf ("HISTORY:\n");
+		var idx = 0;
+		foreach (unowned var file in files) {
+			stdout.printf ("  %s%s\n", (idx == current) ? "*" : " ", file.get_uri ());
+			idx++;
+		}
+	}
+
+	MenuItem menu_item_for_file (File file) {
+		var file_source = app.get_source_for_file (file);
+		var info = file_source.get_display_info (file);
+		var item = new MenuItem (null, null);
+		item.set_label (info.get_display_name ());
+		item.set_icon (info.get_symbolic_icon ());
+		return item;
+	}
+
+	public void update_menu () {
+		menu.remove_all ();
+		var idx = 0;
+		foreach (unowned var file in files) {
+			var item = menu_item_for_file (file);
+			item.set_action_and_target_value ("win.go-to-history-position", new Variant.int16 (idx));
+			menu.append_item (item);
+			if (current == idx) {
+				var action = window.action_group.lookup_action ("go-to-history-position");
+				if (action != null) {
+					action.change_state (new Variant.int16 (idx));
+				}
+			}
+			idx++;
+		}
+		update_sensitivity ();
+	}
+
+	public void add (File file) {
+		if ((current != -1) && file.equal (files[current]))
+			return;
+		for (var idx = files.length - 1; idx > current; idx--) {
+			files.remove_index (idx);
+		}
+		files.add (file);
+		current = files.length - 1;
+		update_menu ();
+	}
+
+	public File? get (int index) {
+		return files[index];
+	}
+
+	public void clear () {
+		files.length = 0;
+		current = -1;
+		if (window.folder != null) {
+			add (window.folder.file);
+		}
+		update_menu ();
+	}
+
+	public void go_to (int idx) {
+		var action = window.action_group.lookup_action ("go-to-history-position");
+		if (action == null)
+			return;
+		var location = files[idx];
+		if (location == null)
+			return;
+		action.change_state (new Variant.int16 ((int16) idx));
+		current = idx;
+		window.load_location (location, LoadAction.LOAD_FROM_HISTORY);
+		update_sensitivity ();
+	}
+
+	public void load_previous () {
+		if (can_go_backward ()) {
+			go_to (current - 1);
+		}
+	}
+
+	public void load_next () {
+		if (can_go_forward ()) {
+			go_to (current + 1);
+		}
+	}
+
+	void update_sensitivity () {
+		var action = window.action_group.lookup_action ("load-next") as SimpleAction;
+		if (action != null) {
+			action.set_enabled (can_go_forward ());
+		}
+		action = window.action_group.lookup_action ("load-previous") as SimpleAction;
+		if (action != null) {
+			action.set_enabled (can_go_backward ());
+		}
+	}
 }

@@ -516,7 +516,7 @@ public class Gth.Application : Adw.Application {
 			window = new Gth.Window (this, location, file_to_select);
 		}
 		else {
-			window.load_location (location, file_to_select);
+			window.load_location (location, LoadAction.LOAD, file_to_select);
 		}
 
 		if (!arg_slideshow) {

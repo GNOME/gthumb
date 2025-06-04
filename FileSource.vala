@@ -14,7 +14,7 @@ public abstract class Gth.FileSource : Object {
 		string? attributes,
 		Cancellable cancellable) throws Error
 	{
-		stdout.printf ("LIST CHILDREN %s: ATTRIBUTES: %s\n", parent.get_uri (), attributes);
+		//stdout.printf ("LIST CHILDREN %s: ATTRIBUTES: %s\n", parent.get_uri (), attributes);
 		var list = new GenericList<Gth.FileData>();
 		yield foreach_child (parent, ForEachFlags.FOLLOW_LINKS, attributes, cancellable, (file_data) => {
 			switch (file_data.info.get_file_type ()) {
@@ -37,6 +37,8 @@ public abstract class Gth.FileSource : Object {
 	) throws Error;
 
 	public abstract void monitor_directory (File file, bool activate);
+
+	public abstract FileInfo get_display_info (File file);
 }
 
 [Flags]

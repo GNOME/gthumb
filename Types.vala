@@ -75,3 +75,8 @@ public enum Gth.ThumbnailState {
 	BROKEN,
 	LOADED;
 }
+
+public enum Gth.LoadAction {
+	LOAD,
+	LOAD_FROM_HISTORY,
+}

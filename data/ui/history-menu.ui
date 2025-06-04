@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="thumbnails">
+  <menu id="history_menu">
+    <section id="history_entries">
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Delete</attribute>
+        <attribute name="action">win.delete-history</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

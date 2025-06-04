@@ -73,13 +73,13 @@
                     <child>
                       <object class="GtkButton">
                         <property name="icon-name">go-previous-symbolic</property>
-                        <property name="action-name">win.go-previous</property>
+                        <property name="action-name">win.load-previous</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkButton">
                         <property name="icon-name">go-next-symbolic</property>
-                        <property name="action-name">win.go-next</property>
+                        <property name="action-name">win.load-next</property>
                       </object>
                     </child>
                     <child>
@@ -91,7 +91,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuButton">
+                      <object class="GtkMenuButton" id="history_button">
                         <property name="icon-name">clock-alt-symbolic</property>
                       </object>
                     </child>

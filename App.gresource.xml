@@ -26,6 +26,7 @@
   <gresource prefix="/app/gthumb/gthumb/ui">
     <file preprocess="xml-stripblanks">app-menu.ui</file>
     <file preprocess="xml-stripblanks">bookmarks-menu.ui</file>
+    <file preprocess="xml-stripblanks">history-menu.ui</file>
     <file preprocess="xml-stripblanks">edit-filters-dialog.ui</file>
     <file preprocess="xml-stripblanks">filter-bar.ui</file>
     <file preprocess="xml-stripblanks">filter-editor-page.ui</file>
