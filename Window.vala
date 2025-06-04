@@ -409,13 +409,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-filter", VariantType.STRING, new Variant.string ((active_filter != null) ? active_filter.id : ""));
-		action.activate.connect ((_action, param) => {
-			_action.set_state (param);
-			filter_bar.select_filter_by_id (param.get_string ());
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string ((general_filter != null) ? general_filter.id : ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);

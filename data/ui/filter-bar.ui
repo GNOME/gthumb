@@ -17,5 +17,14 @@
       <object class="GtkBox" id="options_container">
       </object>
     </child>
+    <child>
+      <object class="GtkButton" id="reset_filter">
+        <property name="action-name">filterbar.reset-filter</property>
+        <property name="icon-name">window-close-symbolic</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
   </template>
 </interface>
