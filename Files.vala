@@ -3,22 +3,40 @@ public class Gth.Files {
 		return File.new_for_path (Environment.get_home_dir ());
 	}
 
-	public static File? build_directory (Gth.FileIntent intent, ...) {
-		var list = va_list ();
-		string? child = list.arg ();
-		File directory = File.new_for_path (child);
+	public static File? build_directory_v (Gth.FileIntent intent, File basedir, string[] children) {
+		var directory = basedir;
 		if ((intent == Gth.FileIntent.WRITE) && !Files.make_directory (directory))
 			return null;
-		while (true) {
-			child = list.arg ();
-			if (child == null)
-				break;
+		foreach (unowned var child in children) {
 			directory = directory.get_child (child);
 			if ((intent == Gth.FileIntent.WRITE) && !Files.make_directory (directory)) {
 				return null;
 			}
 		}
 		return directory;
+	}
+
+	public static File? build_directory (Gth.FileIntent intent, File basedir, ...) {
+		var array = new GenericArray<string> ();
+		var list = va_list ();
+		while (true) {
+			string child = list.arg ();
+			if (child == null)
+				break;
+			array.add (child);
+		}
+		var children = array.steal ();
+		return Files.build_directory_v (intent, basedir, children);
+	}
+
+	public static bool is_directory (File file) {
+		try {
+			var info = file.query_info (FileAttribute.STANDARD_TYPE, FileQueryInfoFlags.NONE);
+			return info.get_file_type () == FileType.DIRECTORY;
+		}
+		catch (Error error) {
+			return false;
+		}
 	}
 
 	public static bool make_directory (File dir) {

@@ -337,4 +337,16 @@ public class Gth.Util {
 		action.set_state (new Variant.boolean (new_state));
 		return new_state;
 	}
+
+	public static GLib.Settings? get_settings_if_schema_installed (string schema_id) {
+		var source = SettingsSchemaSource.get_default ();
+		if (source == null)
+			return null;
+
+		var schema = source.lookup (schema_id, true);
+		if (schema == null)
+			return null;
+
+		return new GLib.Settings (schema_id);
+	}
 }

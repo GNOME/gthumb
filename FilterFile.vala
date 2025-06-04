@@ -44,7 +44,7 @@ public class Gth.FilterFile {
 
 	public bool load () {
 		filters.model.remove_all ();
-		var file = Gth.UserDir.get_app_file (Gth.UserDirType.CONFIG, Gth.FileIntent.READ, FILTERS_FILE);
+		var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, FILTERS_FILE);
 		if (file == null) {
 			return false;
 		}
@@ -85,7 +85,7 @@ public class Gth.FilterFile {
 	const string FILTER_FORMAT = "1.0";
 
 	public void save () throws Error {
-		var file = Gth.UserDir.get_app_file (Gth.UserDirType.CONFIG, Gth.FileIntent.WRITE, FILTERS_FILE);
+		var file = Gth.UserDir.get_config_file (Gth.FileIntent.WRITE, FILTERS_FILE);
 		Files.save_content (file, to_xml ());
 	}
 

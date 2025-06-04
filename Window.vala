@@ -99,6 +99,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// Load the location.
 		title = "Thumbnails";
 		Util.next_tick (() => {
+			if (app.one_window ())
+				history.load_from_file ();
 			filter_bar.set_active_filter (active_filter);
 			load_location (location, LoadAction.LOAD, file_to_select);
 		});
@@ -554,15 +556,6 @@ class Gth.FileHistory {
 		}
 	}
 
-	MenuItem menu_item_for_file (File file) {
-		var file_source = app.get_source_for_file (file);
-		var info = file_source.get_display_info (file);
-		var item = new MenuItem (null, null);
-		item.set_label (info.get_display_name ());
-		item.set_icon (info.get_symbolic_icon ());
-		return item;
-	}
-
 	public void update_menu () {
 		menu.remove_all ();
 		var idx = 0;
@@ -584,11 +577,11 @@ class Gth.FileHistory {
 	public void add (File file) {
 		if ((current != -1) && file.equal (files[current]))
 			return;
-		for (var idx = files.length - 1; idx > current; idx--) {
-			files.remove_index (idx);
+		for (var idx = 0; idx < current; idx++) {
+			files.remove_index (0);
 		}
-		files.add (file);
-		current = files.length - 1;
+		files.insert (0, file);
+		current = 0;
 		update_menu ();
 	}
 
@@ -606,16 +599,12 @@ class Gth.FileHistory {
 	}
 
 	public void go_to (int idx) {
-		var action = window.action_group.lookup_action ("go-to-history-position");
-		if (action == null)
+		if (!set_current (idx))
 			return;
 		var location = files[idx];
 		if (location == null)
 			return;
-		action.change_state (new Variant.int16 ((int16) idx));
-		current = idx;
 		window.load_location (location, LoadAction.LOAD_FROM_HISTORY);
-		update_sensitivity ();
 	}
 
 	public void load_previous () {
@@ -628,6 +617,102 @@ class Gth.FileHistory {
 		if (can_go_forward ()) {
 			go_to (current + 1);
 		}
+	}
+
+	const int MAX_HISTORY_LENGTH = 15;
+
+	public void save_to_file () {
+		var settings = Util.get_settings_if_schema_installed ("org.gnome.desktop.privacy");
+		if (settings == null)
+			return;
+
+		var save_history = settings.get_boolean ("remember-recent-files");
+		if (!save_history) {
+			try {
+				var bookmarks_file = get_history_file (FileIntent.READ);
+				bookmarks_file.delete ();
+			}
+			catch (Error error) {
+				// Ignored.
+			}
+		}
+
+		var bookmarks_file = get_history_file (FileIntent.WRITE);
+		if (bookmarks_file == null)
+			return;
+
+		try {
+			var bookmarks = new BookmarkFile ();
+			var idx = 0;
+			foreach (unowned var file in files) {
+				var uri = file.get_uri ();
+				bookmarks.set_is_private (uri, true);
+				bookmarks.add_application (uri, null, null);
+				idx++;
+				if (idx >= MAX_HISTORY_LENGTH) {
+					break;
+				}
+			}
+			bookmarks.to_file (bookmarks_file.get_path ());
+		}
+		catch (Error error) {
+			// Ignored.
+		}
+	}
+
+	public void load_from_file () {
+		var settings = Util.get_settings_if_schema_installed ("org.gnome.desktop.privacy");
+		if (settings == null)
+			return;
+
+		var load_history = settings.get_boolean ("remember-recent-files");
+		if (!load_history)
+			return;
+
+		try {
+			var bookmarks = new BookmarkFile ();
+			var bookmarks_file = get_history_file (FileIntent.READ);
+			bookmarks.load_from_file (bookmarks_file.get_path ());
+			var idx = 0;
+			var uris = bookmarks.get_uris ();
+			foreach (unowned var uri in uris) {
+				stdout.printf ("uri: %s\n", uri);
+				files.add (File.new_for_uri (uri));
+				idx++;
+				if (idx >= MAX_HISTORY_LENGTH) {
+					break;
+				}
+			}
+			set_current (0);
+			update_menu ();
+		}
+		catch (Error error) {
+			// Ignored.
+		}
+	}
+
+	bool set_current (int idx) {
+		var action = window.action_group.lookup_action ("go-to-history-position");
+		if (action == null)
+			return false;
+		action.change_state (new Variant.int16 ((int16) idx));
+		current = idx;
+		update_sensitivity ();
+		return true;
+	}
+
+	File? get_history_file (FileIntent intent) {
+		var dir = UserDir.get_directory (intent, DirType.CONFIG, APP_DIR);
+		return (dir != null) ? dir.get_child (HISTORY_FILE) : null;
+	}
+
+	MenuItem menu_item_for_file (File file) {
+		var file_source = app.get_source_for_file (file);
+		var info = file_source.get_display_info (file);
+		var item = new MenuItem (null, null);
+		item.set_label (info.get_display_name ());
+		item.set_icon (info.get_symbolic_icon ());
+		return item;
 	}
 
 	void update_sensitivity () {

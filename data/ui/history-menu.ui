@@ -5,7 +5,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Delete</attribute>
+        <attribute name="label" translatable="yes">_Delete History</attribute>
         <attribute name="action">win.delete-history</attribute>
       </item>
     </section>

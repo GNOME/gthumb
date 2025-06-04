@@ -1,3 +1,5 @@
+const string APP_DIR = "gthumb";
+const string HISTORY_FILE = "history.xbel";
 const int HORIZONTAL_SPACING = 12; // pixels
 const int VERTICAL_SPACING = 12; // pixels
 const int CONTAINER_H_PADDING = 12; // pixels

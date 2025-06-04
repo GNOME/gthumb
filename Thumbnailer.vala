@@ -242,13 +242,16 @@ public class Gth.Thumbnailer {
 	}
 
 	static File get_thumbnail_file (File file, Size size, FileIntent intent, Cancellable cancellable) throws Error {
-		var dir = Files.build_directory (intent, Environment.get_user_cache_dir (),
-			"thumbnails", size.get_subdir ());
+		var dir = Files.build_directory (intent,
+			File.new_for_path (Environment.get_user_cache_dir ()),
+			"thumbnails",
+			size.get_subdir ());
 		return dir.get_child (Thumbnailer.get_thumbnail_basename (file));
 	}
 
 	static File get_failed_thumbnail_file (File file, FileIntent intent) {
-		var dir = Files.build_directory (intent, Environment.get_user_cache_dir (),
+		var dir = Files.build_directory (intent,
+			File.new_for_path (Environment.get_user_cache_dir ()),
 			"thumbnails", "fail", "gnome-thumbnail-factory");
 		return dir.get_child (Thumbnailer.get_thumbnail_basename (file));
 	}

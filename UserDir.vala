@@ -1,46 +1,40 @@
 public class Gth.UserDir {
-	public static File? get_dir (UserDirType type) {
-		File? dir = null;
+	public static File? get_directory_v (Gth.FileIntent intent, Gth.DirType type, string[] children) {
+		File? directory = null;
 		switch (type) {
-		case UserDirType.CONFIG:
-			dir = File.new_for_path (GLib.Environment.get_user_config_dir ());
+		case Gth.DirType.CONFIG:
+			directory = File.new_for_path (GLib.Environment.get_user_config_dir ());
 			break;
-		case UserDirType.CACHE:
-			dir = File.new_for_path (GLib.Environment.get_user_cache_dir ());
+		case Gth.DirType.CACHE:
+			directory = File.new_for_path (GLib.Environment.get_user_cache_dir ());
 			break;
-		case UserDirType.DATA:
-			dir = File.new_for_path (GLib.Environment.get_user_data_dir ());
+		case Gth.DirType.DATA:
+			directory = File.new_for_path (GLib.Environment.get_user_data_dir ());
 			break;
 		}
-		return dir;
+		return (directory != null) ? Files.build_directory_v (intent, directory, children) : null;
 	}
 
-	public static File? get_app_dir (UserDirType type) {
-		var base_dir = UserDir.get_dir (type);
-		return (base_dir != null) ? base_dir.get_child ("gthumb") : null;
-	}
-
-	public static File? get_app_file (UserDirType type, FileIntent intent, ...) {
-		File app_dir = UserDir.get_app_dir (type);
-		if (app_dir == null)
-			return null;
-		if ((intent == FileIntent.WRITE) && !Files.ensure_directory_exists (app_dir))
-			return null;
-		var result = app_dir;
+	public static File? get_directory (Gth.FileIntent intent, Gth.DirType type, ...) {
+		var array = new GenericArray<string> ();
 		var list = va_list ();
 		while (true) {
-			string? child = list.arg ();
+			string child = list.arg ();
 			if (child == null)
 				break;
-			if ((intent == FileIntent.WRITE) && !Files.make_directory (result))
-				return null;
-			result = result.get_child (child);
+			array.add (child);
 		}
-		return result;
+		var children = array.steal ();
+		return get_directory_v (intent, type, children);
+	}
+
+	public static File? get_config_file (Gth.FileIntent intent, string filename) {
+		var dir = UserDir.get_directory (intent, DirType.CONFIG, APP_DIR);
+		return (dir != null) ? dir.get_child (filename) : null;
 	}
 }
 
-public enum Gth.UserDirType {
+public enum Gth.DirType {
 	CONFIG,
 	CACHE,
 	DATA

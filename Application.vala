@@ -276,7 +276,7 @@ public class Gth.Application : Adw.Application {
 			return null;
 		}
 		Gth.Test filter = null;
-		var file = Gth.UserDir.get_app_file (Gth.UserDirType.CONFIG, Gth.FileIntent.READ, "active_filter.xml");
+		var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, "active_filter.xml");
 		if (file != null) {
 			try {
 				var doc = new Dom.Document ();
@@ -409,6 +409,11 @@ public class Gth.Application : Adw.Application {
 			if (win != null)
 				func (win);
 		}
+	}
+
+	public bool one_window () {
+		unowned var list = get_windows ();
+		return (list == null) || (list.next == null);
 	}
 
 	bool arg_version = false;
