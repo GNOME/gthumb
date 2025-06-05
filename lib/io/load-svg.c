@@ -79,8 +79,15 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 		height = (guint) ceil (iheight);
 	}
 	else {
-		//g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "rsvg_handle_get_intrinsic_size_in_pixels failed");
-		//return NULL;
+		gboolean has_viewbox;
+		RsvgRectangle viewbox;
+		rsvg_handle_get_intrinsic_dimensions (rsvg,
+			NULL, NULL, NULL, NULL,
+			&has_viewbox, &viewbox);
+		if (has_viewbox) {
+			width = (guint) ceil (viewbox.width);
+			height = (guint) ceil (viewbox.height);
+		}
 	}
 
 	GthImageSvg *image = (GthImageSvg *) g_object_new (gth_image_svg_get_type (), NULL);
@@ -91,7 +98,7 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	cairo_t *cr = cairo_create (surface);
-	//cairo_scale (cr, image->scale_factor, image->scale_factor);
+	cairo_scale (cr, 1.0 / image->scale_factor, 1.0 / image->scale_factor);
 	RsvgRectangle viewport = {
 		.x = 0.0,
 		.y = 0.0,

@@ -145,7 +145,7 @@ public class Gth.Thumbnailer {
 	async Gth.Image? generate_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, cancellable, cache_size.to_pixels ());
-			var resized = yield image.resize_async (requested_size, ResizeFlags.UPSCALE, ScaleFilter.GOOD, cancellable);
+			var resized = yield image.resize_async (requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 			set_file_attributes_to_image (resized, file_data);
 			resized.set_attribute ("Thumb::Image::Width", "%u".printf (image.get_width ()));
 			resized.set_attribute ("Thumb::Image::Height", "%u".printf (image.get_height ()));
