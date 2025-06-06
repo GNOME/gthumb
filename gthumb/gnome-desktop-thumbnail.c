@@ -1616,6 +1616,11 @@ read_png_options (const char *thumbnail_filename)
 		return options;
 	}
 
+	if (setjmp(png_jmpbuf(png_ptr))) {
+		png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
+		return options;
+	}
+
 	f = fopen (thumbnail_filename, "r");
 	if (f == NULL) {
 		png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
