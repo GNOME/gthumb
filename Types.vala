@@ -21,7 +21,7 @@ const string STANDARD_ATTRIBUTES =
 	FileAttribute.STANDARD_SIZE + "," +
 	FileAttribute.TIME_CREATED + "," +
 	FileAttribute.TIME_CREATED_USEC + "," +
-	FileAttribute.TIME_MODIFIED_USEC + "," +
+	FileAttribute.TIME_MODIFIED + "," +
 	FileAttribute.TIME_MODIFIED_USEC + "," +
 	ACCESS_ATTRIBUTES;
 const string STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE =
@@ -82,6 +82,15 @@ public enum Gth.ThumbnailState {
 }
 
 public enum Gth.LoadAction {
-	LOAD,
-	LOAD_FROM_HISTORY,
+	OPEN,
+	OPEN_FROM_HISTORY,
+	OPEN_SUBFOLDER;
+
+	public bool changes_current_folder () {
+		return this <= OPEN_SUBFOLDER;
+	}
+
+	public bool changes_root () {
+		return this <= OPEN_FROM_HISTORY;
+	}
 }

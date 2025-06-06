@@ -1,17 +1,23 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/window.ui")]
 public class Gth.Window : Adw.ApplicationWindow {
-	public FileData folder = null;
+	public FileData current_root = null;
+	public FileData current_folder = null;
 	public GenericList<FileData> all_children = null;
 	public GenericList<FileData> visible_files = null;
+	public GenericList<FileData> visible_folders = null;
+	public GenericList<FileData> roots = null;
 	public FileSource folder_source = null;
 	public string sort_name = null;
 	public bool inverse_order = false;
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
+	public bool show_hidden_folders = false;
 	public bool sidebar_visible = false;
 	public bool sidebar_pinned = false;
 	public int thumbnail_size;
 	public Gth.JobQueue jobs;
+	public string folder_sort_name = null;
+	public bool folder_inverse_order = false;
 
 	public enum Page {
 		NONE = 0,
@@ -25,57 +31,25 @@ public class Gth.Window : Adw.ApplicationWindow {
 		named_dialogs = new HashTable<string, Gtk.Window?>(str_hash, str_equal);
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
+		visible_folders = new GenericList<FileData>();
+		roots = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer ();
 		history = new WindowHistory (this);
 		bookmarks = new WindowBookmarks (this);
+		action_group = new SimpleActionGroup ();
+		insert_action_group ("win", action_group);
+
+		init_folder_tree ();
+		init_file_grid ();
+		init_actions ();
 
 		filter_bar.changed.connect (() => update_active_filter ());
-
-		file_grid.model = new Gtk.MultiSelection (visible_files.model);
-		file_grid.model.selection_changed.connect (() => {
-			update_selection_info ();
-		});
 
 		browser_view.notify["show-sidebar"].connect (() => {
 			sidebar_visible = browser_view.show_sidebar;
 			action_group.change_action_state ("show-sidebar", new Variant.boolean (sidebar_visible));
 			show_sidebar_button.visible = !sidebar_visible;
 		});
-
-		var file_item_factory = new Gtk.SignalListItemFactory ();
-		file_item_factory.setup.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FileListItem (thumbnail_size, thumbnail_attributes_v);
-		});
-		file_item_factory.teardown.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			list_item.child = null;
-		});
-		file_item_factory.bind.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			var file_item = list_item.child as Gth.FileListItem;
-			if (file_item != null) {
-				var file_data = list_item.item as FileData;
-				if (file_data != null) {
-					file_item.bind (file_data);
-					thumbnailer.requested_size = (uint) thumbnail_size;
-					thumbnailer.add (file_data);
-				}
-			}
-		});
-		file_item_factory.unbind.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			var file_item = list_item.child as Gth.FileListItem;
-			if (file_item != null) {
-				file_item.unbind ();
-				var file_data = list_item.item as FileData;
-				if (file_data != null) {
-					thumbnailer.remove (file_data);
-					file_data.set_thumbnail (null);
-				}
-			}
-		});
-		file_grid.factory = file_item_factory;
 
 		// Restore the window size.
 		var width = app.browser_settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
@@ -93,9 +67,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		fast_file_type = app.browser_settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
 		show_hidden_files = app.browser_settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
 		thumbnail_size = app.browser_settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
+		folder_sort_name = app.browser_settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE);
+		folder_inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE);
 
-		init_actions ();
 		set_page (Page.BROWSER);
+		set_sidebar_pinned (true);
 
 		// Load the location.
 		title = "Thumbnails";
@@ -105,8 +81,52 @@ public class Gth.Window : Adw.ApplicationWindow {
 				history.restore_from_file ();
 			}
 			bookmarks.load_from_file.begin ();
-			load_location (location, LoadAction.LOAD, file_to_select);
+			open_location (location, LoadAction.OPEN, file_to_select);
 		});
+	}
+
+	public Gth.Job list_subfolders (FileData file_data) {
+		var source = app.get_source_for_file (file_data.file);
+		if (source == null) {
+			throw new IOError.FAILED (_("File type not supported"));
+		}
+		var local_job = new_job ("List Folders");
+		source.list_children.begin (file_data.file, STANDARD_ATTRIBUTES, local_job.cancellable, (_obj, res) => {
+			try {
+				var all_children = source.list_children.end (res);
+
+				// Filter the folders
+				var visibile_folders = new GenericList<FileData> ();
+				foreach (unowned var file in all_children) {
+					if (file.info.get_file_type () == FileType.DIRECTORY) {
+						if (show_hidden_folders || !file.info.get_is_hidden ()) {
+							visibile_folders.model.append (file);
+						}
+					}
+				}
+
+				// Sort the folders
+				unowned var sort_info = app.get_folder_sorter_by_id (folder_sort_name);
+				visibile_folders.model.sort ((a, b) => {
+					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+					if (folder_inverse_order)
+						result *= -1;
+					return result;
+				});
+
+				// Update file_data
+				var file_model = file_data.get_children_model ();
+				foreach (unowned var file in visibile_folders) {
+					file_model.model.append (file);
+				}
+
+				file_data.children_loaded = true;
+			}
+			catch (Error error) {
+			}
+			local_job.done ();
+		});
+		return local_job;
 	}
 
 	Gth.Job load_job = null;
@@ -126,14 +146,25 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
 			var children = yield source.list_children (location, get_list_attributes (true), local_job.cancellable);
 
-			folder = file_data;
-			folder_source = source;
-			all_children = children;
-			// TODO source.monitor_directory (folder.file, true);
-			update_thumbnail_list ();
-			update_title ();
-			if (load_action != LoadAction.LOAD_FROM_HISTORY) {
-				history.add (folder.file);
+			if (load_action.changes_root ()) {
+				current_root = file_data;
+			}
+
+			if (load_action.changes_current_folder ()) {
+				current_folder = file_data;
+				folder_source = source;
+				all_children = children;
+				update_thumbnail_list ();
+				update_title ();
+				// TODO source.monitor_directory (current_folder.file, true);
+			}
+
+			if (load_action.changes_root ()) {
+				update_folder_list ();
+			}
+
+			if (load_action != LoadAction.OPEN_FROM_HISTORY) {
+				history.add (current_folder.file);
 			}
 		}
 		catch (Error error) {
@@ -156,7 +187,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO
 	}
 
-	public void load_location (File location, LoadAction load_action = LoadAction.LOAD, File? file_to_select = null) {
+	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
 		set_page (Page.BROWSER);
 		load_folder.begin (location, load_action, (_obj, res) => {
 			try {
@@ -164,6 +195,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 				if (file_to_select != null) {
 					// TODO
 				}
+			}
+			catch (Error error) {
+				show_message (error.message);
+			}
+		});
+	}
+
+	public void load_subfolder (File location) {
+		load_folder.begin (location, LoadAction.OPEN_SUBFOLDER, (_obj, res) => {
+			try {
+				load_folder.end (res);
+				// TODO
 			}
 			catch (Error error) {
 				show_message (error.message);
@@ -226,8 +269,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void update_title () {
-		if (folder != null) {
-			title = folder.info.get_display_name ();
+		if (current_folder != null) {
+			title = current_folder.info.get_display_name ();
 		}
 		else {
 			title = "Thumbnails";
@@ -314,6 +357,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_thumbnail_list ();
 	}
 
+	void update_folder_list () {
+		roots.model.remove_all ();
+
+		visible_folders.model.remove_all ();
+		foreach (unowned var file in all_children) {
+			if (file.info.get_file_type () == FileType.DIRECTORY) {
+				if (show_hidden_folders || !file.info.get_is_hidden ()) {
+					visible_folders.model.append (file);
+				}
+			}
+		}
+
+		roots.model.append (current_root);
+	}
+
 	void update_thumbnail_list () {
 		// Filter the files.
 		var visible_children = new GenericList<FileData>();
@@ -376,13 +434,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		bookmarks_button.menu_model = builder.get_object ("bookmarks_menu") as MenuModel;
 		bookmarks.menu = builder.get_object ("app-bookmarks") as Menu;
 		bookmarks.system_menu = builder.get_object ("system-bookmarks") as Menu;
+		bookmarks.roots_menu = builder.get_object ("roots") as Menu;
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/history-menu.ui");
 		history_button.menu_model = builder.get_object ("history_menu") as MenuModel;
 		history.menu = builder.get_object ("history_entries") as Menu;
-
-		action_group = new SimpleActionGroup ();
-		insert_action_group ("win", action_group);
 
 		var action = new SimpleAction ("about", null);
 		action.activate.connect (() => {
@@ -443,7 +499,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("new-window", null);
 		action.activate.connect (() => {
-			var window = new Gth.Window (app, folder.file, null);
+			var window = new Gth.Window (app, current_folder.file, null);
 			window.present ();
 		});
 		action_group.add_action (action);
@@ -465,18 +521,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction.stateful ("pin-sidebar", null, new Variant.boolean (sidebar_pinned));
 		action.activate.connect ((_action, param) => {
-			sidebar_pinned = Util.toggle_state (_action);
-			browser_view.collapsed = !sidebar_pinned;
-			if (browser_view.collapsed) {
-				browser_view.show_sidebar = true;
-			}
-			show_sidebar_button.visible = !sidebar_visible;
+			set_sidebar_pinned (Util.toggle_state (_action));
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-home", null);
 		action.activate.connect ((_action, param) => {
-			load_location (Files.get_home_dir ()); // TODO: use the prefereces location
+			open_location (Files.get_home ()); // TODO: use the preferences location
 		});
 		action_group.add_action (action);
 
@@ -504,9 +555,125 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("load-location", VariantType.STRING);
 		action.activate.connect ((_action, param) => {
-			load_location (File.new_for_uri (param.get_string ()));
+			open_location (File.new_for_uri (param.get_string ()));
 		});
 		action_group.add_action (action);
+	}
+
+	Gtk.SingleSelection tree_selection_model = null;
+
+	void init_folder_tree () {
+		var tree_model = new Gtk.TreeListModel (roots.model, false, false, (obj) => {
+			var file_data = obj as Gth.FileData;
+			if (file_data != null) {
+				return file_data.get_children_model ().model;
+			}
+			return null;
+		});
+
+		tree_selection_model = new Gtk.SingleSelection (tree_model);
+		tree_selection_model.notify["selected"].connect ((obj, _param) => {
+			var local_model = obj as Gtk.SingleSelection;
+			var row = tree_selection_model.selected_item as Gtk.TreeListRow;
+			if (row != null) {
+				var file_data = row.item as Gth.FileData;
+				if (!FileData.equal (file_data, current_folder)) {
+					load_subfolder (file_data.file);
+					row.expanded = true;
+				}
+				else {
+					row.expanded = true;
+				}
+			}
+		});
+		folder_tree.model = tree_selection_model;
+
+		var factory = new Gtk.SignalListItemFactory ();
+		factory.setup.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = new Gth.FolderTreeItem (this);
+		});
+		factory.teardown.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = null;
+		});
+		factory.bind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FolderTreeItem;
+			if (file_item != null) {
+				var row = list_item.item as Gtk.TreeListRow;
+				if (row != null) {
+					var file_data = row.item as Gth.FileData;
+					if (file_data != null) {
+						file_item.bind (row, file_data);
+					}
+				}
+			}
+		});
+		factory.unbind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FolderTreeItem;
+			if (file_item != null) {
+				file_item.unbind ();
+			}
+		});
+		folder_tree.factory = factory;
+
+		folder_tree.activate.connect ((position) => {
+			stdout.printf ("ACTIVATE %u\n", position);
+		});
+	}
+
+	void init_file_grid () {
+		file_grid.model = new Gtk.MultiSelection (visible_files.model);
+		file_grid.model.selection_changed.connect (() => {
+			update_selection_info ();
+		});
+
+		var factory = new Gtk.SignalListItemFactory ();
+		factory.setup.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = new Gth.FileListItem (thumbnail_size, thumbnail_attributes_v);
+		});
+		factory.teardown.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = null;
+		});
+		factory.bind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FileListItem;
+			if (file_item != null) {
+				var file_data = list_item.item as FileData;
+				if (file_data != null) {
+					file_item.bind (file_data);
+					thumbnailer.requested_size = (uint) thumbnail_size;
+					thumbnailer.add (file_data);
+				}
+			}
+		});
+		factory.unbind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FileListItem;
+			if (file_item != null) {
+				file_item.unbind ();
+				var file_data = list_item.item as FileData;
+				if (file_data != null) {
+					thumbnailer.remove (file_data);
+					file_data.set_thumbnail (null);
+				}
+			}
+		});
+		file_grid.factory = factory;
+	}
+
+	void set_sidebar_pinned (bool value) {
+		sidebar_pinned = value;
+		browser_view.collapsed = !sidebar_pinned;
+		if (browser_view.collapsed) {
+			browser_view.show_sidebar = true;
+		}
+		show_sidebar_button.visible = !sidebar_visible;
+		action_group.change_action_state ("pin-sidebar", new Variant.boolean (sidebar_pinned));
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView browser_view;
@@ -515,6 +682,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.MenuButton bookmarks_button;
 	[GtkChild] unowned Gtk.MenuButton history_button;
 	[GtkChild] unowned Gtk.GridView file_grid;
+	[GtkChild] unowned Gtk.ListView folder_tree;
 	[GtkChild] public unowned Gth.Status status;
 	[GtkChild] unowned Gtk.Stack folder_stack;
 	[GtkChild] unowned Gtk.Widget non_empty_folder;
@@ -522,7 +690,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 
 	Page current_page = Page.NONE;
-	public SimpleActionGroup action_group;
+	public SimpleActionGroup action_group = null;
 	Gth.Test general_filter;
 	Gth.Test active_filter;
 	HashTable<string, Gtk.Window?> named_dialogs;

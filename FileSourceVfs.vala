@@ -26,7 +26,7 @@ public class Gth.FileSourceVfs : FileSource {
 
 		while (queue.length > 0) {
 			var folder_data = queue.pop_head ();
-			var action = child_func (folder_data);
+			var action = child_func (folder_data, true);
 			if (action == ForEachAction.SKIP) {
 				continue;
 			}
@@ -42,7 +42,7 @@ public class Gth.FileSourceVfs : FileSource {
 			while ((info = enumerator.next_file (cancellable)) != null) {
 				var child = enumerator.get_child (info);
 				var child_data = new Gth.FileData (child, info);
-				var child_action = child_func (child_data);
+				var child_action = child_func (child_data, false);
 				if (child_action == ForEachAction.STOP) {
 					action = ForEachAction.STOP;
 					break;
@@ -104,6 +104,52 @@ public class Gth.FileSourceVfs : FileSource {
 		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
 		info.set_symbolic_icon (icon);
 		info.set_icon (icon);
+		return info;
+	}
+
+	public override async GenericArray<FileData>? get_roots (Cancellable cancellable) {
+		var roots = new GenericArray<FileData>();
+		yield add_root (roots, Files.get_home (), cancellable);
+		yield add_root (roots, Files.get_special_dir (UserDirectory.PICTURES), cancellable);
+		yield add_root (roots, Files.get_special_dir (UserDirectory.VIDEOS), cancellable);
+		yield add_root (roots, Files.get_special_dir (UserDirectory.DOWNLOAD), cancellable);
+		yield add_root (roots, File.new_for_uri ("file:///"), cancellable);
+		return roots;
+	}
+
+	const string ROOT_ATTRIBUTES = "standard::name," +
+		"standard::type," +
+		"standard::display-name," +
+		"standard::icon," +
+		"standard::symbolic-icon," +
+		"access::*";
+
+	async void add_root (GenericArray<FileData> roots, File file, Cancellable cancellable) {
+		if (file == null) {
+			return;
+		}
+		var file_data = new FileData (file);
+		if (roots.find_with_equal_func (file_data, FileData.equal, null)) {
+			return;
+		}
+		try {
+			file_data.info = yield query_file_info (file, ROOT_ATTRIBUTES, cancellable);
+			roots.add (file_data);
+		}
+		catch (Error error) {
+			// Ignore.
+		}
+	}
+
+	public override async FileInfo query_file_info (File file, string attributes, Cancellable cancellable) throws Error {
+		var info = yield file.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+		if (file.equal (Files.get_root ())) {
+			info.set_display_name (_("Computer"));
+			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
+		}
+		else if (file.equal (Files.get_home ())) {
+			info.set_display_name (_("Home Folder"));
+		}
 		return info;
 	}
 }

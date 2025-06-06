@@ -16,14 +16,16 @@ public abstract class Gth.FileSource : Object {
 	{
 		//stdout.printf ("LIST CHILDREN %s: ATTRIBUTES: %s\n", parent.get_uri (), attributes);
 		var list = new GenericList<Gth.FileData>();
-		yield foreach_child (parent, ForEachFlags.FOLLOW_LINKS, attributes, cancellable, (file_data) => {
-			switch (file_data.info.get_file_type ()) {
-			case FileType.DIRECTORY, FileType.REGULAR:
-				list.model.append (file_data);
-				break;
-			default:
-				// Ignored
-				break;
+		yield foreach_child (parent, ForEachFlags.FOLLOW_LINKS, attributes, cancellable, (file_data, is_parent) => {
+			if (!is_parent) {
+				switch (file_data.info.get_file_type ()) {
+				case FileType.DIRECTORY, FileType.REGULAR:
+					list.model.append (file_data);
+					break;
+				default:
+					// Ignored
+					break;
+				}
 			}
 			return ForEachAction.CONTINUE;
 		});
@@ -39,6 +41,10 @@ public abstract class Gth.FileSource : Object {
 	public abstract void monitor_directory (File file, bool activate);
 
 	public abstract FileInfo get_display_info (File file);
+
+	public abstract async GenericArray<FileData>? get_roots (Cancellable cancellable);
+
+	public abstract async FileInfo query_file_info (File file, string attributes, Cancellable cancellable) throws Error;
 }
 
 [Flags]
@@ -54,4 +60,4 @@ public enum Gth.ForEachAction {
 	STOP;
 }
 
-public delegate Gth.ForEachAction Gth.ForEachChildFunc (Gth.FileData child);
+public delegate Gth.ForEachAction Gth.ForEachChildFunc (Gth.FileData child, bool is_parent);

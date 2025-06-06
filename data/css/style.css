@@ -20,3 +20,8 @@
 .thumbnail-icon {
 	color: #ffffff33;
 }
+
+.sidebar-header {
+	border-bottom: 1px solid var(--border-color);
+	padding: 6px;
+}

@@ -56,8 +56,8 @@ class Gth.WindowHistory {
 	public void clear () {
 		files.length = 0;
 		current = -1;
-		if (window.folder != null) {
-			add (window.folder.file);
+		if (window.current_folder != null) {
+			add (window.current_folder.file);
 		}
 		update_menu ();
 	}
@@ -68,7 +68,7 @@ class Gth.WindowHistory {
 		var location = files[idx];
 		if (location == null)
 			return;
-		window.load_location (location, LoadAction.LOAD_FROM_HISTORY);
+		window.open_location (location, LoadAction.OPEN_FROM_HISTORY);
 	}
 
 	public void load_previous () {

@@ -2,6 +2,7 @@ class Gth.WindowBookmarks {
 	public weak Window window;
 	public Menu menu;
 	public Menu system_menu;
+	public Menu roots_menu;
 
 	public WindowBookmarks (Window _window) {
 		window = _window;
@@ -10,6 +11,7 @@ class Gth.WindowBookmarks {
 	public async void load_from_file () {
 		yield load_app_bookmarks ();
 		yield load_system_bookmarks ();
+		yield update_root_list ();
 	}
 
 	public async void load_app_bookmarks () {
@@ -40,7 +42,7 @@ class Gth.WindowBookmarks {
 	public async void load_system_bookmarks () {
 		system_menu.remove_all ();
 #if FLATPAK_BUILD
-		var path = Path.build_filename (g_get_home_dir (), ".config", "gtk-3.0", "bookmarks");
+		var path = Path.build_filename (g_get_home (), ".config", "gtk-3.0", "bookmarks");
 		var bookmarks_file = File.new_for_path (path);
 #else
 		var bookmarks_dir = UserDir.get_directory (FileIntent.READ, DirType.CONFIG, "gtk-3.0");
@@ -66,5 +68,17 @@ class Gth.WindowBookmarks {
 			// local_job.error = error;
 		}
 		local_job.done ();
+	}
+
+	public async void update_root_list () {
+		var roots = yield app.get_roots ();
+		foreach (unowned var file_data in roots) {
+			var uri = file_data.file.get_uri ();
+			var menu_item = new MenuItem (null, null);
+			menu_item.set_label (file_data.info.get_display_name ());
+			menu_item.set_icon (file_data.info.get_symbolic_icon ());
+			menu_item.set_action_and_target_value ("win.load-location", new Variant.string (uri));
+			roots_menu.append_item (menu_item);
+		}
 	}
 }

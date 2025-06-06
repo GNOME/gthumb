@@ -282,6 +282,7 @@ source_files = files(
   'Window.vala',
   'WindowBookmarks.vala',
   'WindowHistory.vala',
+  'FolderTreeItem.vala',
 )
 
 executable(

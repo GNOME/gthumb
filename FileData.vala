@@ -1,15 +1,18 @@
 public class Gth.FileData : Object {
 	public File file;
 	public FileInfo info;
+	public GenericList<FileData> children;
+	public bool children_loaded;
 
 	public FileData (File _file, FileInfo? _info = null) {
 		file = _file;
 		info = (_info != null) ? _info : new FileInfo ();
+		children = null;
+		children_loaded = false;
 	}
 
 	public FileData.for_uri (string uri, string mime_type) {
-		file = File.new_for_uri (uri);
-		info = new FileInfo ();
+		this (File.new_for_uri (uri), new FileInfo ());
 		unowned var static_mime_type = Strings.get_static (mime_type);
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, static_mime_type);
 		info.set_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE, static_mime_type);
@@ -202,5 +205,12 @@ public class Gth.FileData : Object {
 
 	public void set_thumbnail_broken () {
 		thumbnail_state = ThumbnailState.BROKEN;
+	}
+
+	public GenericList<FileData> get_children_model () {
+		if (children == null) {
+			children = new GenericList<FileData>();
+		}
+		return children;
 	}
 }

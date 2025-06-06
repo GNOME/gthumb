@@ -1,6 +1,25 @@
 public class Gth.Files {
-	public static File get_home_dir () {
-		return File.new_for_path (Environment.get_home_dir ());
+	static File home = null;
+
+	public static File get_home () {
+		if (home == null) {
+			home = File.new_for_path (Environment.get_home_dir ());
+		}
+		return home;
+	}
+
+	static File root = null;
+
+	public static File get_root () {
+		if (root == null) {
+			root = File.new_for_uri ("file:///");
+		}
+		return root;
+	}
+
+	public static File? get_special_dir (UserDirectory directory) {
+		var path = Environment.get_user_special_dir (directory);
+		return (path != null) ? File.new_for_path (path) : null;
 	}
 
 	public static File? build_directory_v (Gth.FileIntent intent, File basedir, string[] children) {

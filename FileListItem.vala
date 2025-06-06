@@ -35,15 +35,18 @@ public class Gth.FileListItem : Gtk.Box {
 		fixed_size.append (icon);
 
 		var labels = new Gtk.Box (Gtk.Orientation.VERTICAL, V_SPACING);
+		labels.halign = Gtk.Align.CENTER;
 		append (labels);
 
-		first_label = new Gtk.Label ("");
-		first_label.ellipsize = Pango.EllipsizeMode.MIDDLE;
+		first_label = new Gtk.Inscription ("");
+		first_label.set_size_request (size, -1);
+		first_label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 		first_label.halign = Gtk.Align.START;
 		labels.append (first_label);
 
-		second_label = new Gtk.Label ("");
-		second_label.ellipsize = Pango.EllipsizeMode.MIDDLE;
+		second_label = new Gtk.Inscription ("");
+		second_label.set_size_request (size, -1);
+		second_label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 		second_label.halign = Gtk.Align.START;
 		second_label.add_css_class ("dim-label");
 		labels.append (second_label);
@@ -100,6 +103,6 @@ public class Gth.FileListItem : Gtk.Box {
 	FileData file_data;
 	Gtk.Picture preview;
 	Gtk.Image icon;
-	Gtk.Label first_label;
-	Gtk.Label second_label;
+	Gtk.Inscription first_label;
+	Gtk.Inscription second_label;
 }

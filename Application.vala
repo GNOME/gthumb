@@ -213,6 +213,10 @@ public class Gth.Application : Adw.Application {
 		return (id != null) ? sorters[id] : null;
 	}
 
+	public unowned Gth.SortInfo? get_folder_sorter_by_id (string? id) {
+		return get_sorter_by_id ((id == "modification-time") ? "file::mtime" : "file::name");
+	}
+
 	public void register_test (GLib.Type test_type) {
 		var test = Object.new (test_type) as Gth.Test;
 		tests.insert (test.id, test);
@@ -416,6 +420,26 @@ public class Gth.Application : Adw.Application {
 		return (list == null) || (list.next == null);
 	}
 
+	const int MAX_ROOTS_PER_SOURCE = 1000;
+
+	public async GenericArray<FileData> get_roots () {
+		var job = new_job ("Get Roots");
+		var roots = new GenericArray<FileData>();
+		var sort_order = 0;
+		foreach (unowned var source in file_sources) {
+			var source_roots = yield source.get_roots (job.cancellable);
+			if (source_roots == null)
+				continue;
+			foreach (unowned var root in source_roots) {
+				root.info.set_sort_order (sort_order++);
+				roots.add (root);
+			}
+			sort_order += MAX_ROOTS_PER_SOURCE;
+		}
+		job.done ();
+		return roots;
+	}
+
 	bool arg_version = false;
 	bool arg_new_window = false;
 	bool arg_fullscreen = false;
@@ -521,7 +545,7 @@ public class Gth.Application : Adw.Application {
 			window = new Gth.Window (this, location, file_to_select);
 		}
 		else {
-			window.load_location (location, LoadAction.LOAD, file_to_select);
+			window.open_location (location, LoadAction.OPEN, file_to_select);
 		}
 
 		if (!arg_slideshow) {
