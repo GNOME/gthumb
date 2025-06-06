@@ -49,12 +49,9 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 				 const char          *attributes,
 				 GCancellable        *cancellable)
 {
-	GFileAttributeMatcher *matcher;
-	char                  *value;
-	GTimeVal              *timeval_p;
-	const char            *value_s;
-
-	matcher = g_file_attribute_matcher_new (attributes);
+	char       *value;
+	GTimeVal   *timeval_p;
+	const char *value_s;
 
 	value = g_format_size (g_file_info_get_size (file_data->info));
 	g_file_info_set_attribute_string (file_data->info, "gth::file::display-size", value);
@@ -72,8 +69,6 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 	value_s = _g_str_get_static (_g_file_info_get_content_type (file_data->info));
 	if (value_s != NULL)
 		g_file_info_set_attribute_string (file_data->info, "gth::file::content-type", value_s);
-
-	g_file_attribute_matcher_unref (matcher);
 }
 
 
