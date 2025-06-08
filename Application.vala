@@ -69,6 +69,7 @@ public class Gth.Application : Adw.Application {
 
 		file_sources = new GenericArray<FileSource>();
 		register_source (typeof (Gth.FileSourceVfs));
+		register_source (typeof (Gth.FileSourceCatalogs));
 
 		ordered_metadata_categories = new GenericArray<string>();
 		metadata_categories = new HashTable<string, Gth.MetadataCategory?>(str_hash, str_equal);
@@ -344,22 +345,14 @@ public class Gth.Application : Adw.Application {
 		file_sources.add (source);
 	}
 
-	public unowned string? get_source_scheme (string uri) {
-		foreach (unowned var source in file_sources) {
-			if (source.supports_scheme (uri)) {
-				return Util.get_uri_scheme (uri);
-			}
-		}
-		return "file";
-	}
-
 	public inline FileSource get_source_for_file (File file) {
 		return get_source_for_uri (file.get_uri ());
 	}
 
 	public FileSource get_source_for_uri (string uri) {
 		var source_type = typeof (FileSourceVfs);
-		foreach (unowned var source in file_sources) {
+		for (var idx = file_sources.length - 1; idx >= 0; idx--) {
+			unowned var source = file_sources[idx];
 			if (source.supports_scheme (uri)) {
 				source_type = source.get_class ().get_type ();
 				break;
@@ -423,7 +416,7 @@ public class Gth.Application : Adw.Application {
 	const int MAX_ROOTS_PER_SOURCE = 1000;
 
 	public async GenericArray<FileData> get_roots () {
-		var job = new_job ("Get Roots");
+		var job = new_job ("Get roots");
 		var roots = new GenericArray<FileData>();
 		var sort_order = 0;
 		foreach (unowned var source in file_sources) {

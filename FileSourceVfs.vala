@@ -4,8 +4,37 @@ public class Gth.FileSourceVfs : FileSource {
 		return true;
 	}
 
-	const string REQUIRED_ATTRIBUTES = "standard::name,standard::type,standard::is-hidden,standard::is-backup,id::file";
-	const string GIO_ATTRIBUTES = "standard::*,etag::*,id::*,access::*,mountable::*,time::*,unix::*,dos::*,owner::*,thumbnail::*,filesystem::*,gvfs::*,xattr::*,xattr-sys::*,selinux::*";
+	public override async GenericArray<FileData>? get_roots (Cancellable cancellable) {
+		var roots = new GenericArray<FileData>();
+		yield add_root (roots, Files.get_home (), cancellable);
+		yield add_root (roots, Files.get_special_dir (UserDirectory.PICTURES), cancellable);
+		yield add_root (roots, Files.get_special_dir (UserDirectory.VIDEOS), cancellable);
+		yield add_root (roots, Files.get_special_dir (UserDirectory.DOWNLOAD), cancellable);
+		yield add_root (roots, File.new_for_uri ("file:///"), cancellable);
+		return roots;
+	}
+
+	public override FileInfo get_display_info (File file) {
+		var info = new FileInfo ();
+		var name = file.get_basename ();
+		if (name == null)
+			name = file.get_uri ();
+		info.set_display_name (name);
+		var uri = file.get_uri ();
+		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
+		info.set_symbolic_icon (icon);
+		info.set_icon (icon);
+		return info;
+	}
+
+	const string REQUIRED_ATTRIBUTES =
+		FileAttribute.STANDARD_TYPE + "," +
+		FileAttribute.STANDARD_IS_HIDDEN + "," +
+		FileAttribute.STANDARD_IS_BACKUP + "," +
+		FileAttribute.STANDARD_NAME + "," +
+		FileAttribute.STANDARD_DISPLAY_NAME + "," +
+		FileAttribute.STANDARD_EDIT_NAME + "," +
+		FileAttribute.ID_FILE;
 
 	public override async void foreach_child (
 		File parent,
@@ -72,12 +101,23 @@ public class Gth.FileSourceVfs : FileSource {
 		string? requested_attributes,
 		Cancellable cancellable) throws Error
 	{
-		var attributes = (requested_attributes == "*") ? "*" : Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
+		var attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
 		var info = yield file.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+		if (file.equal (Files.get_root ())) {
+			info.set_display_name (_("Computer"));
+			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
+		}
+		else if (file.equal (Files.get_home ())) {
+			info.set_display_name (_("Home Folder"));
+		}
 		var file_data = new Gth.FileData (file, info);
 		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);
 		read_metadata_attributes (file_data, metadata_attributes_v, cancellable);
 		return file_data;
+	}
+
+	public override void monitor_directory (File file, bool activate) {
+		// TODO
 	}
 
 	void read_metadata_attributes (FileData file_data, string[] metadata_attributes_v, Cancellable cancellable) {
@@ -90,66 +130,28 @@ public class Gth.FileSourceVfs : FileSource {
 		}
 	}
 
-	public override void monitor_directory (File file, bool activate) {
-		// TODO
-	}
-
-	public override FileInfo get_display_info (File file) {
-		var info = new FileInfo ();
-		var name = file.get_basename ();
-		if (name == null)
-			name = file.get_uri ();
-		info.set_display_name (name);
-		var uri = file.get_uri ();
-		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
-		info.set_symbolic_icon (icon);
-		info.set_icon (icon);
-		return info;
-	}
-
-	public override async GenericArray<FileData>? get_roots (Cancellable cancellable) {
-		var roots = new GenericArray<FileData>();
-		yield add_root (roots, Files.get_home (), cancellable);
-		yield add_root (roots, Files.get_special_dir (UserDirectory.PICTURES), cancellable);
-		yield add_root (roots, Files.get_special_dir (UserDirectory.VIDEOS), cancellable);
-		yield add_root (roots, Files.get_special_dir (UserDirectory.DOWNLOAD), cancellable);
-		yield add_root (roots, File.new_for_uri ("file:///"), cancellable);
-		return roots;
-	}
-
-	const string ROOT_ATTRIBUTES = "standard::name," +
-		"standard::type," +
-		"standard::display-name," +
-		"standard::icon," +
-		"standard::symbolic-icon," +
-		"access::*";
+	const string ROOT_ATTRIBUTES =
+		FileAttribute.STANDARD_TYPE + "," +
+		FileAttribute.STANDARD_NAME + "," +
+		FileAttribute.STANDARD_DISPLAY_NAME + "," +
+		FileAttribute.STANDARD_ICON + "," +
+		FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
+		ACCESS_ATTRIBUTES;
 
 	async void add_root (GenericArray<FileData> roots, File file, Cancellable cancellable) {
 		if (file == null) {
 			return;
 		}
-		var file_data = new FileData (file);
-		if (roots.find_with_equal_func (file_data, FileData.equal, null)) {
-			return;
+		foreach (unowned var root in roots) {
+			if (root.file.equal (file))
+				return;
 		}
 		try {
-			file_data.info = yield query_file_info (file, ROOT_ATTRIBUTES, cancellable);
+			var file_data = yield read_metadata (file, ROOT_ATTRIBUTES, cancellable);
 			roots.add (file_data);
 		}
 		catch (Error error) {
 			// Ignore.
 		}
-	}
-
-	public override async FileInfo query_file_info (File file, string attributes, Cancellable cancellable) throws Error {
-		var info = yield file.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
-		if (file.equal (Files.get_root ())) {
-			info.set_display_name (_("Computer"));
-			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
-		}
-		else if (file.equal (Files.get_home ())) {
-			info.set_display_name (_("Home Folder"));
-		}
-		return info;
 	}
 }

@@ -127,6 +127,12 @@ public class Gth.Files {
 		return Files.read_all (stream, cancellable, true);
 	}
 
+	public static string load_contents (File file, Cancellable? cancellable = null) throws Error {
+		var stream = file.read (cancellable);
+		var bytes = Files.read_all (stream, cancellable, true);
+		return (string) Bytes.unref_to_data (bytes);
+	}
+
 	public static async Bytes load_file_async (File file, Cancellable? cancellable = null, bool add_zero = false) throws Error {
 		var stream = yield file.read_async (Priority.DEFAULT, cancellable);
 		return yield Files.read_all_async (stream, cancellable, add_zero);

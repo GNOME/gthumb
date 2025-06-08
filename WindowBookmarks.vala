@@ -16,7 +16,7 @@ class Gth.WindowBookmarks {
 
 	public async void load_app_bookmarks () {
 		menu.remove_all ();
-		var local_job = window.new_job ("Load Bookmarks");
+		var local_job = window.new_job ("Load bookmarks");
 		try {
 			var bookmarks_file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
 			var bytes = yield Files.load_file_async (bookmarks_file, local_job.cancellable);
@@ -48,7 +48,7 @@ class Gth.WindowBookmarks {
 		var bookmarks_dir = UserDir.get_directory (FileIntent.READ, DirType.CONFIG, "gtk-3.0");
 		var bookmarks_file = bookmarks_dir.get_child ("bookmarks");
 #endif
-		var local_job = window.new_job ("Load System Bookmarks");
+		var local_job = window.new_job ("Load system bookmarks");
 		try {
 			var contents = yield Files.load_contents_async (bookmarks_file, local_job.cancellable);
 			var lines = contents.split ("\n");

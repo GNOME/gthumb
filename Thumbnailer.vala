@@ -269,7 +269,7 @@ public class Gth.Thumbnailer {
 
 		public ThumbnailJob (FileData _file) {
 			file = _file;
-			job = app.new_job ("Load Thumbnail for %s".printf (file.file.get_uri ()));
+			job = app.new_job ("Load thumbnail for %s".printf (file.file.get_uri ()));
 		}
 	}
 

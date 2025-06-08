@@ -99,6 +99,12 @@ public class Dom.Element : InitiallyUnowned {
 		attributes.insert (name, value);
 	}
 
+	public virtual unowned string? get_inner_text () {
+		if (first_child is TextNode)
+			return first_child.get_inner_text ();
+		return null;
+	}
+
 	const int TAB_WIDTH = 2;
 
 	public static void append_attribute (StringBuilder str, string value) {
@@ -203,6 +209,10 @@ public class Dom.TextNode : Dom.Element {
 	public TextNode (string _data) {
 		base ("#text");
 		data = _data;
+	}
+
+	public override unowned string? get_inner_text () {
+		return data;
 	}
 
 	public override void append_xml (StringBuilder str, int level) {

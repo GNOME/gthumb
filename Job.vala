@@ -51,13 +51,13 @@ public class Gth.Job : Object {
 			progress = 1.0f;
 		}
 		terminated = true;
-		/*stdout.printf ("  JOB TERMINATED [%p] [%s] (state: %s) (seconds: %d): %s\n",
-			this,
-			time_terminated.format ("%H:%M:%S"),
-			state.to_string (),
-			seconds (),
-			description
-		);*/
+		//stdout.printf ("  JOB TERMINATED [%p] [%s] (state: %s) (seconds: %d): %s\n",
+		//	this,
+		//	time_terminated.format ("%H:%M:%S"),
+		//	state.to_string (),
+		//	seconds (),
+		//	description
+		//);
 	}
 
 	public void set_cancelled () {
@@ -105,11 +105,11 @@ public class Gth.JobQueue : Object {
 		job.description = description;
 		job.status = status;
 		job.background = background;
-		/*stdout.printf ("  NEW JOB [%p] [%s]: %s%s\n",
-			job,
-			job.time_started.format ("%H:%M:%S"),
-			job.description,
-			job.background ? " (background)" : "");*/
+		//stdout.printf ("  NEW JOB [%p] [%s]: %s%s\n",
+		//	job,
+		//	job.time_started.format ("%H:%M:%S"),
+		//	job.description,
+		//	job.background ? " (background)" : "");
 		add_job (job);
 		return job;
 	}

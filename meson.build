@@ -253,6 +253,7 @@ source_files = files(
   'FilterFile.vala',
   'Filter.vala',
   'GenericList.vala',
+  'GenericTree.vala',
   'ImageLoader.vala',
   'ImageSaver.vala',
   'Job.vala',
@@ -283,6 +284,9 @@ source_files = files(
   'WindowBookmarks.vala',
   'WindowHistory.vala',
   'FolderTreeItem.vala',
+  'Catalog.vala',
+  'CatalogSearch.vala',
+  'FileSourceCatalogs.vala',
 )
 
 executable(

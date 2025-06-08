@@ -178,6 +178,8 @@ public class Gth.Util {
 	}
 
 	public static string concat_attributes (string? attributes, string? other_attributes) {
+		if ((attributes == "*") || (other_attributes == "*"))
+			return "*";
 		var result = new StringBuilder ("");
 		if (!Strings.empty (attributes)) {
 			result.append (attributes);
@@ -357,5 +359,12 @@ public class Gth.Util {
 		item.set_label (!Strings.empty (custom_name) ? custom_name : info.get_display_name ());
 		item.set_icon (info.get_symbolic_icon ());
 		return item;
+	}
+
+	public static string remove_extension (string filename) {
+		var ext_idx = filename.last_index_of_char ('.');
+		if (ext_idx < 0)
+			return filename;
+		return filename.substring (0, ext_idx);
 	}
 }

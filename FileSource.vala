@@ -1,6 +1,10 @@
 public abstract class Gth.FileSource : Object {
 	public abstract bool supports_scheme (string uri);
 
+	public abstract async GenericArray<FileData>? get_roots (Cancellable cancellable);
+
+	public abstract FileInfo get_display_info (File file);
+
 	public abstract async void foreach_child (
 		File parent,
 		ForEachFlags flags,
@@ -8,6 +12,14 @@ public abstract class Gth.FileSource : Object {
 		Cancellable cancellable,
 		ForEachChildFunc child_func
 	) throws Error;
+
+	public abstract async Gth.FileData read_metadata (
+		File file,
+		string? attributes,
+		Cancellable cancellable
+	) throws Error;
+
+	public abstract void monitor_directory (File file, bool activate);
 
 	public async GenericList<Gth.FileData> list_children (
 		File parent,
@@ -31,20 +43,6 @@ public abstract class Gth.FileSource : Object {
 		});
 		return list;
 	}
-
-	public abstract async Gth.FileData read_metadata (
-		File file,
-		string? attributes,
-		Cancellable cancellable
-	) throws Error;
-
-	public abstract void monitor_directory (File file, bool activate);
-
-	public abstract FileInfo get_display_info (File file);
-
-	public abstract async GenericArray<FileData>? get_roots (Cancellable cancellable);
-
-	public abstract async FileInfo query_file_info (File file, string attributes, Cancellable cancellable) throws Error;
 }
 
 [Flags]

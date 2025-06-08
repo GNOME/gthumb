@@ -191,6 +191,10 @@ public struct Gth.Date {
 			&& (day <= MAX_DAY);
 	}
 
+	public uint to_sort_order () {
+		return is_valid () ? year * 1000 + month * 100 + day : 0;
+	}
+
 	public string to_string () {
 		if (!is_valid ()) {
 			return "0000-00-00";

@@ -5,6 +5,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 	public FolderTreeItem (Gth.Window _window) {
 		window = _window;
 		job = null;
+		row_expended_id = 0;
 
 		expander = new Gtk.TreeExpander ();
 		expander.margin_start = ROW_H_PADDING;
@@ -46,12 +47,15 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		label.set_text (file_data.info.get_display_name ());
 		icon.set_from_gicon (file_data.info.get_symbolic_icon ());
 		expander.list_row = row;
-		//if (!file_data.children_loaded ()) {
-			job = window.list_subfolders (file_data);
-		//}
+		row_expended_id = row.notify["expanded"].connect ((obj, _spec) => {
+			if (expander.list_row.expanded && !file_data.children_loaded) {
+				job = window.list_subfolders (file_data);
+			}
+		});
 	}
 
 	public void unbind () {
+		expander.list_row.disconnect (row_expended_id);
 		expander.list_row = null;
 		if (job != null) {
 			job.cancel ();
@@ -65,4 +69,5 @@ public class Gth.FolderTreeItem : Gtk.Box {
 	Gtk.Image icon;
 	Gtk.Label label;
 	Gth.Job job;
+	ulong row_expended_id;
 }

@@ -5,12 +5,12 @@ public class Gth.GenericList<T> {
 		model = new ListStore (typeof (T));
 	}
 
-	public GenericIterator<T> iterator () {
-		return new GenericIterator<T> (this);
+	public Iterator<T> iterator () {
+		return new Iterator<T> (this);
 	}
 
-	public class GenericIterator<T> {
-		public GenericIterator (GenericList<T> _list) {
+	public class Iterator<T> {
+		public Iterator (GenericList<T> _list) {
 			list = _list;
 			idx = -1;
 			item = null;

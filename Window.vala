@@ -2,9 +2,9 @@
 public class Gth.Window : Adw.ApplicationWindow {
 	public FileData current_root = null;
 	public FileData current_folder = null;
-	public GenericList<FileData> all_children = null;
+	public GenericList<FileData> current_children = null;
 	public GenericList<FileData> visible_files = null;
-	public GenericList<FileData> visible_folders = null;
+	public GenericList<FileData> root_children = null;
 	public GenericList<FileData> roots = null;
 	public FileSource folder_source = null;
 	public string sort_name = null;
@@ -31,7 +31,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		named_dialogs = new HashTable<string, Gtk.Window?>(str_hash, str_equal);
 		jobs = new Gth.JobQueue ();
 		visible_files = new GenericList<FileData>();
-		visible_folders = new GenericList<FileData>();
+		root_children = new GenericList<FileData>();
 		roots = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer ();
 		history = new WindowHistory (this);
@@ -85,42 +85,59 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 	}
 
-	public Gth.Job list_subfolders (FileData file_data) {
+	void set_file_data_children (FileData file_data, GenericList<FileData> all_children) {
+		// Filter the folders
+		var folders = new GenericList<FileData> ();
+		foreach (unowned var file in all_children) {
+			if (file.info.get_file_type () == FileType.DIRECTORY) {
+				if (show_hidden_folders || !file.info.get_is_hidden ()) {
+					folders.model.append (file);
+				}
+			}
+		}
+
+		// Sort the folders
+		unowned var sort_info = app.get_folder_sorter_by_id (folder_sort_name);
+		folders.model.sort ((a, b) => {
+			var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+			if (folder_inverse_order)
+				result *= -1;
+			return result;
+		});
+
+		// Update file_data
+		var file_model = file_data.get_children_model ();
+		file_model.model.remove_all ();
+		foreach (unowned var file in folders) {
+			file_model.model.append (file);
+		}
+		file_data.children_loaded = true;
+	}
+
+	public Gth.Job? list_subfolders (FileData file_data) {
+		if ((loading_folder != null) && file_data.file.equal (loading_folder)) {
+			return null;
+		}
+
+		if (FileData.equal (file_data, current_root)) {
+			set_file_data_children (file_data, root_children);
+			return null;
+		}
+
+		if (FileData.equal (file_data, current_folder)) {
+			set_file_data_children (file_data, current_children);
+			return null;
+		}
+
 		var source = app.get_source_for_file (file_data.file);
 		if (source == null) {
 			throw new IOError.FAILED (_("File type not supported"));
 		}
-		var local_job = new_job ("List Folders");
+		var local_job = new_job ("List subfolders for %s".printf (file_data.file.get_uri ()));
 		source.list_children.begin (file_data.file, STANDARD_ATTRIBUTES, local_job.cancellable, (_obj, res) => {
 			try {
 				var all_children = source.list_children.end (res);
-
-				// Filter the folders
-				var visibile_folders = new GenericList<FileData> ();
-				foreach (unowned var file in all_children) {
-					if (file.info.get_file_type () == FileType.DIRECTORY) {
-						if (show_hidden_folders || !file.info.get_is_hidden ()) {
-							visibile_folders.model.append (file);
-						}
-					}
-				}
-
-				// Sort the folders
-				unowned var sort_info = app.get_folder_sorter_by_id (folder_sort_name);
-				visibile_folders.model.sort ((a, b) => {
-					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (folder_inverse_order)
-						result *= -1;
-					return result;
-				});
-
-				// Update file_data
-				var file_model = file_data.get_children_model ();
-				foreach (unowned var file in visibile_folders) {
-					file_model.model.append (file);
-				}
-
-				file_data.children_loaded = true;
+				set_file_data_children (file_data, all_children);
 			}
 			catch (Error error) {
 			}
@@ -129,6 +146,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return local_job;
 	}
 
+	File loading_folder = null;
 	Gth.Job load_job = null;
 
 	async void load_folder (File location, LoadAction load_action) throws Error {
@@ -140,8 +158,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			load_job.cancel ();
 		}
 		thumbnailer.cancel ();
-		var local_job = new_job ("Load %s".printf (location.get_uri ()));
+		var local_job = new_job ("Load folder %s".printf (location.get_uri ()));
 		load_job = local_job;
+		loading_folder = location;
 		try {
 			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
 			var children = yield source.list_children (location, get_list_attributes (true), local_job.cancellable);
@@ -151,16 +170,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 
 			if (load_action.changes_current_folder ()) {
-				current_folder = file_data;
 				folder_source = source;
-				all_children = children;
+				current_folder = file_data;
+				current_children = children;
 				update_thumbnail_list ();
 				update_title ();
 				// TODO source.monitor_directory (current_folder.file, true);
 			}
 
 			if (load_action.changes_root ()) {
-				update_folder_list ();
+				update_folder_tree ();
+			}
+
+			var folder_in_tree = find_folder_in_tree (current_folder.file);
+			if (folder_in_tree != null) {
+				set_file_data_children (folder_in_tree, children);
 			}
 
 			if (load_action != LoadAction.OPEN_FROM_HISTORY) {
@@ -168,6 +192,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 		}
 		catch (Error error) {
+			stdout.printf ("ERROR: %s\n", error.message);
 			local_job.error = error;
 		}
 		local_job.done ();
@@ -357,14 +382,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_thumbnail_list ();
 	}
 
-	void update_folder_list () {
+	void update_folder_tree () {
 		roots.model.remove_all ();
 
-		visible_folders.model.remove_all ();
-		foreach (unowned var file in all_children) {
+		root_children.model.remove_all ();
+		foreach (unowned var file in current_children) {
 			if (file.info.get_file_type () == FileType.DIRECTORY) {
 				if (show_hidden_folders || !file.info.get_is_hidden ()) {
-					visible_folders.model.append (file);
+					root_children.model.append (file);
 				}
 			}
 		}
@@ -376,7 +401,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// Filter the files.
 		var visible_children = new GenericList<FileData>();
 		var filter = get_file_filter (true);
-		var iter = filter.iterator (all_children);
+		var iter = filter.iterator (current_children);
 		while (iter.next ()) {
 			visible_children.model.append (iter.get ());
 		}
@@ -560,10 +585,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action_group.add_action (action);
 	}
 
+	Gtk.TreeListModel tree_model = null;
 	Gtk.SingleSelection tree_selection_model = null;
 
 	void init_folder_tree () {
-		var tree_model = new Gtk.TreeListModel (roots.model, false, false, (obj) => {
+		tree_model = new Gtk.TreeListModel (roots.model, false, false, (obj) => {
 			var file_data = obj as Gth.FileData;
 			if (file_data != null) {
 				return file_data.get_children_model ().model;
@@ -674,6 +700,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 		show_sidebar_button.visible = !sidebar_visible;
 		action_group.change_action_state ("pin-sidebar", new Variant.boolean (sidebar_pinned));
+	}
+
+	Gth.FileData? find_folder_in_tree (File file) {
+		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
+		while (iter.next ()) {
+			var row = iter.get ();
+			var file_data = row.item as Gth.FileData;
+			if ((file_data != null) && (file_data.file.equal (file))) {
+				return file_data;
+			}
+		}
+		return null;
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView browser_view;
