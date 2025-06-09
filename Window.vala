@@ -272,6 +272,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				current_children = children;
 				update_thumbnail_list ();
 				update_title ();
+				update_load_sensitivity ();
 				// TODO source.monitor_directory (current_folder.file, true);
 			}
 
@@ -425,6 +426,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	void update_sensitivity () {
 		// TODO
+	}
+
+	void update_load_sensitivity () {
+		var action = action_group.lookup_action ("load-parent") as SimpleAction;
+		if (action != null) {
+			File parent = null;
+			if (current_folder != null) {
+				parent = current_folder.file.get_parent ();
+			}
+			action.set_enabled (parent != null);
+		}
 	}
 
 	string list_attributes = null;
@@ -722,6 +734,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("load-next", null);
 		action.activate.connect ((_action, param) => {
 			history.load_next ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("load-parent", null);
+		action.activate.connect ((_action, param) => {
+			if (current_folder != null) {
+				var parent = current_folder.file.get_parent ();
+				if (parent != null) {
+					open_location (parent);
+				}
+			}
 		});
 		action_group.add_action (action);
 
