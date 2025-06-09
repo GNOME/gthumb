@@ -44,6 +44,9 @@ class Gth.WindowHistory {
 		for (var idx = 0; idx < current; idx++) {
 			files.remove_index (0);
 		}
+		while (files.length >= MAX_HISTORY_LENGTH) {
+			files.remove_index (files.length - 1);
+		}
 		files.insert (0, file);
 		current = 0;
 		update_menu ();
