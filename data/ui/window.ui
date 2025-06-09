@@ -176,37 +176,41 @@
               <object class="GtkBox">
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkStack" id="folder_stack">
-                    <property name="vexpand">true</property>
+                  <object class="AdwToastOverlay" id="browser_toast_overlay">
                     <child>
-                      <object class="GtkBox" id="non_empty_folder">
-                        <property name="orientation">vertical</property>
+                      <object class="GtkStack" id="folder_stack">
+                        <property name="vexpand">true</property>
                         <child>
-                          <object class="GtkScrolledWindow">
-                            <property name="hexpand">true</property>
-                            <property name="vexpand">true</property>
+                          <object class="GtkBox" id="non_empty_folder">
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkGridView" id="file_grid">
-                                <property name="enable_rubberband">true</property>
-                                <property name="max_columns">15</property>
-                                <property name="vscroll_policy">minimum</property>
-                                <style>
-                                  <class name="thumbnail-grid"/>
-                                  <class name="deeper-view"/>
-                                </style>
+                              <object class="GtkScrolledWindow">
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <child>
+                                  <object class="GtkGridView" id="file_grid">
+                                    <property name="enable_rubberband">true</property>
+                                    <property name="max_columns">15</property>
+                                    <property name="vscroll_policy">minimum</property>
+                                    <style>
+                                      <class name="thumbnail-grid"/>
+                                      <class name="deeper-view"/>
+                                    </style>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>
                         </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwStatusPage" id="empty_folder">
-                        <property name="icon-name">folder-symbolic</property>
-                        <property name="title" translatable="true">No File</property>
-                        <style>
-                          <class name="deeper-view"/>
-                        </style>
+                        <child>
+                          <object class="AdwStatusPage" id="empty_folder">
+                            <property name="icon-name">folder-symbolic</property>
+                            <property name="title" translatable="true">No File</property>
+                            <style>
+                              <class name="deeper-view"/>
+                            </style>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

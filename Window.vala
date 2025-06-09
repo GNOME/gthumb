@@ -309,7 +309,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void show_message (string message) {
-		// TODO
+		browser_toast_overlay.add_toast (new Adw.Toast (message));
 	}
 
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
@@ -893,6 +893,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
+	[GtkChild] unowned Adw.ToastOverlay browser_toast_overlay;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;
