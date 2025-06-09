@@ -570,6 +570,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		status.set_list_info (tot_files, tot_size);
 		folder_stack.set_visible_child ((tot_files == 0) ? empty_folder : non_empty_folder);
+
+		status.set_selection_info (0, 0);
 	}
 
 	void update_selection_info () {
