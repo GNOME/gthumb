@@ -11,6 +11,69 @@ public class Gth.FileSourceVfs : FileSource {
 		yield add_root (roots, Files.get_special_dir (UserDirectory.VIDEOS), cancellable);
 		yield add_root (roots, Files.get_special_dir (UserDirectory.DOWNLOAD), cancellable);
 		yield add_root (roots, File.new_for_uri ("file:///"), cancellable);
+
+		var monitor = VolumeMonitor.get ();
+		var mounts = monitor.get_mounts ();
+		foreach (var mount in mounts) {
+			if (mount.is_shadowed ()) {
+				continue;
+			}
+			var file = mount.get_root ();
+			if (file_is_present (roots, file)) {
+				continue;
+			}
+			var info = new FileInfo ();
+			info.set_file_type (FileType.DIRECTORY);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_READ, true);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE, false);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_DELETE, false);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_TRASH, false);
+			info.set_symbolic_icon (mount.get_symbolic_icon ());
+			var name = mount.get_name ();
+			var drive = mount.get_drive ();
+			if (drive != null) {
+				name = "%s: %s".printf (drive.get_name (), name);
+			}
+			info.set_display_name (name);
+			info.set_name (name);
+			roots.add (new Gth.FileData (file, info));
+		}
+
+		// Not mounted mountable volumes.
+		var volumes = monitor.get_volumes ();
+		foreach (var volume in volumes) {
+			var mount = volume.get_mount ();
+			if (mount != null) {
+				// Already mounted, ignore.
+				continue;
+			}
+
+			var file = volume.get_activation_root ();
+			if (file == null) {
+				var device = volume.get_identifier (VolumeIdentifier.UNIX_DEVICE);
+				if (device == null)
+					continue;
+				file = File.new_for_path (device);
+			}
+
+			if (file_is_present (roots, file)) {
+				// Already mounted, ignore.
+				continue;
+			}
+
+			var info = new FileInfo ();
+			info.set_file_type (FileType.MOUNTABLE);
+			info.set_attribute_object (VOLUME_ATTRIBUTE, volume);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_READ, true);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE, false);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_DELETE, false);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_TRASH, false);
+			info.set_symbolic_icon (volume.get_symbolic_icon ());
+			info.set_display_name (volume.get_name ());
+			info.set_name (volume.get_name ());
+			roots.add (new Gth.FileData (file, info));
+		}
+
 		return roots;
 	}
 
@@ -142,9 +205,8 @@ public class Gth.FileSourceVfs : FileSource {
 		if (file == null) {
 			return;
 		}
-		foreach (unowned var root in roots) {
-			if (root.file.equal (file))
-				return;
+		if (file_is_present (roots, file)) {
+			return;
 		}
 		try {
 			var file_data = yield read_metadata (file, ROOT_ATTRIBUTES, cancellable);
@@ -153,5 +215,13 @@ public class Gth.FileSourceVfs : FileSource {
 		catch (Error error) {
 			// Ignore.
 		}
+	}
+
+	bool file_is_present (GenericArray<FileData> roots, File file) {
+		foreach (unowned var root in roots) {
+			if (root.file.equal (file))
+				return true;
+		}
+		return false;
 	}
 }

@@ -201,15 +201,52 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var local_job = new_job ("Load folder %s".printf (location.get_uri ()));
 		load_job = local_job;
 		try {
+			// Mount the location if required.
+			Gth.FileData nearest_root = null;
+			if (load_action.changes_root () && (load_action != LoadAction.OPEN_AS_ROOT)) {
+				nearest_root = Util.get_nearest_parent (location, bookmarks.roots);
+				//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
+
+				var try_again = false;
+				if (nearest_root == null) {
+					// Mount the enclosing volume.
+					var mount_op = new Gtk.MountOperation (this);
+					yield location.mount_enclosing_volume (0, mount_op, local_job.cancellable);
+					try_again = true;
+				}
+				else if (nearest_root.info.get_file_type () == FileType.MOUNTABLE) {
+					var volume = nearest_root.info.get_attribute_object (VOLUME_ATTRIBUTE) as Volume;
+					if (volume != null) {
+						var mount_op = new Gtk.MountOperation (this);
+						yield volume.mount (0, mount_op, local_job.cancellable);
+						var mount = volume.get_mount ();
+						if (mount == null) {
+							throw new IOError.NOT_MOUNTED (_("Location not available"));
+						}
+					}
+					else {
+						var mount_op = new Gtk.MountOperation (this);
+						yield nearest_root.file.mount_mountable (0, mount_op, local_job.cancellable);
+					}
+					try_again = true;
+				}
+				if (try_again) {
+					yield bookmarks.update_root_list ();
+					nearest_root = Util.get_nearest_parent (location, bookmarks.roots);
+					if ((nearest_root == null) || (nearest_root.info.get_file_type () == FileType.MOUNTABLE)) {
+						throw new IOError.NOT_MOUNTED (_("Location not available"));
+					}
+				}
+			}
+
 			// Load the requested location.
 			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
 			var children = yield source.list_children (location, get_list_attributes (true), local_job.cancellable);
 
-			var location_is_root = false;
 			if (load_action.changes_root ()) {
-				var nearest_root = (load_action == LoadAction.OPEN_AS_ROOT) ? file_data : Util.get_nearest_parent (location, bookmarks.roots);
-				//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
-
+				if (load_action == LoadAction.OPEN_AS_ROOT) {
+					nearest_root = file_data;
+				}
 				current_parents = new Queue<File>();
 				var parent = location;
 				while (parent != null) {
@@ -222,7 +259,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 				if (location.equal (nearest_root.file)) {
 					current_root = file_data;
-					location_is_root = true;
 				}
 				else {
 					var root = current_parents.peek_head ();
