@@ -559,6 +559,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Update the view model.
+		var grid_model = file_grid.model;
+		file_grid.model = null;
 		visible_files.model.remove_all ();
 		var tot_files = 0;
 		uint64 tot_size = 0;
@@ -567,6 +569,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			tot_files++;
 			tot_size += file.info.get_size ();
 		}
+		file_grid.model = grid_model;
 
 		status.set_list_info (tot_files, tot_size);
 		folder_stack.set_visible_child ((tot_files == 0) ? empty_folder : non_empty_folder);
