@@ -19,6 +19,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public string folder_sort_name = null;
 	public bool folder_inverse_order = false;
 
+	Queue<File> current_parents;
+
 	public enum Page {
 		NONE = 0,
 		BROWSER,
@@ -38,6 +40,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		bookmarks = new WindowBookmarks (this);
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
+		current_parents = null;
 
 		init_folder_tree ();
 		init_file_grid ();
@@ -80,8 +83,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if (app.one_window ()) {
 				history.restore_from_file ();
 			}
-			bookmarks.load_from_file.begin ();
-			open_location (location, LoadAction.OPEN, file_to_select);
+			bookmarks.load_from_file.begin ((_obj, res) => {
+				bookmarks.load_from_file.end (res);
+				open_location (location, LoadAction.OPEN, file_to_select);
+			});
 		});
 	}
 
@@ -112,17 +117,45 @@ public class Gth.Window : Adw.ApplicationWindow {
 			file_model.model.append (file);
 		}
 		file_data.children_loaded = true;
+
+		// Continue building the folder tree.
+		//stdout.printf ("set_file_data_children: '%s'\n", file_data.file.get_uri ());
+		if (current_parents != null) {
+			var top_parent = current_parents.peek_head ();
+			//stdout.printf ("  top_parent: '%s'\n", top_parent.get_uri ());
+			if (top_parent.equal (file_data.file)) {
+				current_parents.pop_head ();
+				var next_parent = current_parents.peek_head ();
+				if (next_parent == null) {
+					select_current_folder ();
+				}
+				else if ((current_folder != null) && (current_folder.file.equal (next_parent))) {
+					current_parents.pop_head ();
+					select_current_folder ();
+				}
+				else {
+					var next_parent_row = find_file_row_in_tree (next_parent);
+					if (next_parent_row != null) {
+						next_parent_row.expanded = true;
+					}
+				}
+			}
+		}
+	}
+
+	void select_current_folder () {
+		if (current_folder == null)
+			return;
+		int position;
+		var current_row = find_file_row_in_tree (current_folder.file, out position);
+		//stdout.printf ("CURRENT FOLDER POS: %d\n", position);
+		if (position >= 0) {
+			tree_selection_model.set_selected ((uint) position);
+		}
 	}
 
 	public Gth.Job? list_subfolders (FileData file_data) {
-		if ((loading_folder != null) && file_data.file.equal (loading_folder)) {
-			return null;
-		}
-
-		if (FileData.equal (file_data, current_root)) {
-			set_file_data_children (file_data, root_children);
-			return null;
-		}
+		//stdout.printf ("> LIST SUBFOLDERS %s\n", file_data.file.get_uri ());
 
 		if (FileData.equal (file_data, current_folder)) {
 			set_file_data_children (file_data, current_children);
@@ -146,7 +179,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return local_job;
 	}
 
-	File loading_folder = null;
 	Gth.Job load_job = null;
 
 	async void load_folder (File location, LoadAction load_action) throws Error {
@@ -158,15 +190,37 @@ public class Gth.Window : Adw.ApplicationWindow {
 			load_job.cancel ();
 		}
 		thumbnailer.cancel ();
+
 		var local_job = new_job ("Load folder %s".printf (location.get_uri ()));
 		load_job = local_job;
-		loading_folder = location;
 		try {
+			// Load the requested location.
 			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
 			var children = yield source.list_children (location, get_list_attributes (true), local_job.cancellable);
 
+			var location_is_root = false;
 			if (load_action.changes_root ()) {
-				current_root = file_data;
+				var nearest_root = Util.get_nearest_parent (location, bookmarks.roots);
+				stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
+
+				current_parents = new Queue<File>();
+				var parent = location;
+				while (parent != null) {
+					stdout.printf (">> add parent: %s\n", parent.get_uri ());
+					current_parents.push_head (parent);
+					if (parent.equal (nearest_root.file)) {
+						break;
+					}
+					parent = parent.get_parent ();
+				}
+				if (location.equal (nearest_root.file)) {
+					current_root = file_data;
+					location_is_root = true;
+				}
+				else {
+					var root = current_parents.peek_head ();
+					current_root = yield source.read_metadata (root, "*", local_job.cancellable);
+				}
 			}
 
 			if (load_action.changes_current_folder ()) {
@@ -178,17 +232,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 				// TODO source.monitor_directory (current_folder.file, true);
 			}
 
-			if (load_action.changes_root ()) {
-				update_folder_tree ();
-			}
-
-			var folder_in_tree = find_folder_in_tree (current_folder.file);
-			if (folder_in_tree != null) {
-				set_file_data_children (folder_in_tree, children);
-			}
-
 			if (load_action != LoadAction.OPEN_FROM_HISTORY) {
 				history.add (current_folder.file);
+			}
+
+			if (load_action.changes_root ()) {
+				update_folder_tree ();
 			}
 		}
 		catch (Error error) {
@@ -384,7 +433,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	void update_folder_tree () {
 		roots.model.remove_all ();
-
 		root_children.model.remove_all ();
 		foreach (unowned var file in current_children) {
 			if (file.info.get_file_type () == FileType.DIRECTORY) {
@@ -393,8 +441,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 			}
 		}
-
 		roots.model.append (current_root);
+
+		var root_row = find_file_row_in_tree (current_root.file);
+		if (root_row != null) {
+			root_row.expanded = true;
+		}
 	}
 
 	void update_thumbnail_list () {
@@ -598,7 +650,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 
 		tree_selection_model = new Gtk.SingleSelection (tree_model);
+		tree_selection_model.autoselect = false;
 		tree_selection_model.notify["selected"].connect ((obj, _param) => {
+			if ((current_parents != null) && !current_parents.is_empty ()) {
+				// Ignore selection changes when still building the tree.
+				return;
+			}
 			var local_model = obj as Gtk.SingleSelection;
 			var row = tree_selection_model.selected_item as Gtk.TreeListRow;
 			if (row != null) {
@@ -702,16 +759,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action_group.change_action_state ("pin-sidebar", new Variant.boolean (sidebar_pinned));
 	}
 
-	Gth.FileData? find_folder_in_tree (File file) {
+	Gtk.TreeListRow? find_file_row_in_tree (File file, out int position = null) {
 		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
 		while (iter.next ()) {
 			var row = iter.get ();
 			var file_data = row.item as Gth.FileData;
 			if ((file_data != null) && (file_data.file.equal (file))) {
-				return file_data;
+				position = iter.index ();
+				return row;
 			}
 		}
+		position = -1;
 		return null;
+	}
+
+	Gth.FileData? find_folder_in_tree (File file) {
+		var row = find_file_row_in_tree (file);
+		return (row != null) ? row.item as Gth.FileData : null;
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView browser_view;

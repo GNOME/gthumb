@@ -3,9 +3,11 @@ class Gth.WindowBookmarks {
 	public Menu menu;
 	public Menu system_menu;
 	public Menu roots_menu;
+	public GenericArray<FileData> roots;
 
 	public WindowBookmarks (Window _window) {
 		window = _window;
+		roots = new GenericArray<FileData> ();
 	}
 
 	public async void load_from_file () {
@@ -71,7 +73,7 @@ class Gth.WindowBookmarks {
 	}
 
 	public async void update_root_list () {
-		var roots = yield app.get_roots ();
+		roots = yield app.get_roots ();
 		foreach (unowned var file_data in roots) {
 			var uri = file_data.file.get_uri ();
 			var menu_item = new MenuItem (null, null);

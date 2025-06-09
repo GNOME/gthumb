@@ -91,7 +91,6 @@ public class Gth.Catalog {
 
 			case "name":
 				name = child.get_inner_text ();
-				stdout.printf ("child.tag_name: %s\n", name);
 				break;
 			}
 		}

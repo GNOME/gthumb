@@ -48,7 +48,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		icon.set_from_gicon (file_data.info.get_symbolic_icon ());
 		expander.list_row = row;
 		row_expended_id = row.notify["expanded"].connect ((obj, _spec) => {
-			if (expander.list_row.expanded && !file_data.children_loaded) {
+			if (expander.list_row.expanded) {
 				job = window.list_subfolders (file_data);
 			}
 		});

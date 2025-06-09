@@ -367,4 +367,25 @@ public class Gth.Util {
 			return filename;
 		return filename.substring (0, ext_idx);
 	}
+
+	public static Gth.FileData? get_nearest_parent (File file, GenericArray<FileData> locations) {
+		Gth.FileData nearest_parent = null;
+		var file_uri = Uri.parse (file.get_uri (), UriFlags.PARSE_RELAXED);
+		var file_path = file_uri.get_path ();
+		var max_length = 0;
+		foreach (unowned var location in locations) {
+			var location_uri = Uri.parse (location.file.get_uri (), UriFlags.PARSE_RELAXED);
+			if (location_uri.get_scheme () == file_uri.get_scheme ()) {
+				var location_path = location_uri.get_path ();
+				if (file_path.has_prefix (location_path)) {
+					var len = location_path.length;
+					if (len > max_length) {
+						nearest_parent = location;
+						max_length = len;
+					}
+				}
+			}
+		}
+		return nearest_parent;
+	}
 }
