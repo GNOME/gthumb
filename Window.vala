@@ -152,7 +152,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var current_row = find_file_row_in_tree (current_folder.file, out position);
 		//stdout.printf ("CURRENT FOLDER POS: %d\n", position);
 		if (position >= 0) {
-			tree_selection_model.set_selected ((uint) position);
+			folder_tree.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT, null);
 		}
 	}
 
@@ -619,7 +619,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("load-home", null);
 		action.activate.connect ((_action, param) => {
-			open_location (Files.get_home ()); // TODO: use the preferences location
+			File home = null;
+			if (app.browser_settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
+				var uri = app.browser_settings.get_string (PREF_BROWSER_STARTUP_LOCATION);
+				var full_uri = Files.expand_home_uri (uri);
+				home = File.new_for_uri (full_uri);
+			}
+			open_location ((home != null) ? home : Files.get_home ());
 		});
 		action_group.add_action (action);
 

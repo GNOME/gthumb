@@ -21,8 +21,8 @@ const string PREF_DATA_MIGRATION_CATALOGS_2_10 = "catalogs-2-10";
 // Browser
 
 const string PREF_BROWSER_GO_TO_LAST_LOCATION = "go-to-last-location";
-const string PREF_BROWSER_USE_LOCATIOn = "use-startup-location";
-const string PREF_BROWSER_LOCATIOn = "startup-location";
+const string PREF_BROWSER_USE_STARTUP_LOCATION = "use-startup-location";
+const string PREF_BROWSER_STARTUP_LOCATION = "startup-location";
 const string PREF_BROWSER_STARTUP_CURRENT_FILE = "startup-current-file";
 const string PREF_BROWSER_GENERAL_FILTER = "general-filter";
 const string PREF_BROWSER_SHOW_HIDDEN_FILES = "show-hidden-files";
@@ -81,10 +81,10 @@ const string GNOME_DESKTOP_INTERFACE_SCHEMA = "org.gnome.desktop.interface";
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {
 		File location = null;
-		if (settings.get_boolean (PREF_BROWSER_USE_LOCATIOn)
+		if (settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)
 			|| settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION))
 		{
-			location = Gth.Settings.get_file (settings, PREF_BROWSER_LOCATIOn);
+			location = Gth.Settings.get_file (settings, PREF_BROWSER_STARTUP_LOCATION);
 			if (location == null) {
 				var path = Environment.get_user_special_dir (UserDirectory.PICTURES);
 				if (path != null) {

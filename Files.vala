@@ -8,6 +8,13 @@ public class Gth.Files {
 		return home;
 	}
 
+	public static string expand_home_uri (string uri) {
+		if (!uri.has_prefix ("file://~"))
+			return uri;
+		var gome = Files.get_home ();
+		return uri.replace ("file://~", home.get_uri ());
+	}
+
 	static File root = null;
 
 	public static File get_root () {
