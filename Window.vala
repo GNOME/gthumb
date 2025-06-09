@@ -192,6 +192,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 			load_job.cancel ();
 		}
 		thumbnailer.cancel ();
+		if (load_action.changes_root ()) {
+			if (current_parents != null) {
+				current_parents.clear ();
+			}
+		}
 
 		var local_job = new_job ("Load folder %s".printf (location.get_uri ()));
 		load_job = local_job;
@@ -202,7 +207,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 			var location_is_root = false;
 			if (load_action.changes_root ()) {
-				var nearest_root = Util.get_nearest_parent (location, bookmarks.roots);
+				var nearest_root = (load_action == LoadAction.OPEN_AS_ROOT) ? file_data : Util.get_nearest_parent (location, bookmarks.roots);
 				//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
 
 				current_parents = new Queue<File>();
@@ -240,6 +245,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 			if (load_action.changes_root ()) {
 				update_folder_tree ();
+				if (current_root.file.get_uri ().has_prefix ("catalog:")) {
+					catalog_button.active = true;
+					vfs_button.active = false;
+				}
+				else {
+					catalog_button.active = false;
+					vfs_button.active = true;
+				}
 			}
 		}
 		catch (Error error) {
@@ -610,6 +623,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("load-catalog-home", null);
+		action.activate.connect ((_action, param) => {
+			open_location (File.new_for_uri ("catalog:///"));
+		});
+		action_group.add_action (action);
+
 		action = new SimpleAction.stateful ("load-history-position", VariantType.INT16, new Variant.int16 ((int16) history.current));
 		action.activate.connect ((_action, param) => {
 			history.load (param.get_int16 ());
@@ -705,7 +724,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		folder_tree.factory = factory;
 
 		folder_tree.activate.connect ((position) => {
-			stdout.printf ("ACTIVATE %u\n", position);
+			var row = tree_model.get_row (position);
+			if (row != null) {
+				var file_data = row.item as Gth.FileData;
+				if (file_data != null) {
+					load_folder (file_data.file, LoadAction.OPEN_AS_ROOT);
+				}
+			}
 		});
 	}
 
@@ -792,6 +817,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Widget non_empty_folder;
 	[GtkChild] unowned Gtk.Widget empty_folder;
 	[GtkChild] unowned Gtk.Widget show_sidebar_button;
+	[GtkChild] unowned Gtk.ToggleButton vfs_button;
+	[GtkChild] unowned Gtk.ToggleButton catalog_button;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;

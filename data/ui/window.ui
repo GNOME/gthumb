@@ -56,23 +56,23 @@
                         <class name="sidebar-header"/>
                       </style>
                       <child>
-                        <object class="GtkToggleButton">
+                        <object class="GtkToggleButton" id="vfs_button">
                           <property name="hexpand">true</property>
-                          <property name="active">true</property>
                           <style>
                             <class name="flat"/>
                           </style>
                           <property name="icon-name">folder-symbolic</property>
+                          <property name="action-name">win.load-home</property>
                         </object>
                       </child>
                       <child>
-                        <object class="GtkButton">
+                        <object class="GtkToggleButton" id="catalog_button">
                           <property name="hexpand">true</property>
                           <style>
                             <class name="flat"/>
                           </style>
-                          <property name="icon-name">user-home-symbolic</property>
-                          <property name="action-name">win.load-home</property>
+                          <property name="icon-name">library-symbolic</property>
+                          <property name="action-name">win.load-catalog-home</property>
                         </object>
                       </child>
                       <child>

@@ -83,6 +83,7 @@ public enum Gth.ThumbnailState {
 
 public enum Gth.LoadAction {
 	OPEN,
+	OPEN_AS_ROOT,
 	OPEN_FROM_HISTORY,
 	OPEN_SUBFOLDER;
 

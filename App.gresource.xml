@@ -8,6 +8,7 @@
     <file preprocess="xml-stripblanks">edit-item-symbolic.svg</file>
     <file preprocess="xml-stripblanks">empty-symbolic.svg</file>
     <file preprocess="xml-stripblanks">filter-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">folder-symbolic.svg</file>
     <file preprocess="xml-stripblanks">library-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-add-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-delete-symbolic.svg</file>
