@@ -240,6 +240,7 @@ source_files = files(
   'Dialogs/FilterEditorPage.vala',
   'Dialogs/FilterRow.vala',
   'Dialogs/SortFilesDialog.vala',
+  'Dialogs/SortFoldersDialog.vala',
   'Dom.vala',
   'Factory.vala',
   'FileData.vala',

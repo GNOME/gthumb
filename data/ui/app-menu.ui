@@ -13,6 +13,10 @@
         <attribute name="action">win.sort-files</attribute>
       </item>
       <item>
+        <attribute name="label" translatable="yes">_Sort Folders…</attribute>
+        <attribute name="action">win.sort-folders</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">_Hidden Files</attribute>
         <attribute name="action">win.show-hidden-files</attribute>
       </item>

@@ -2,8 +2,8 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthSortFilesDialog" parent="AdwApplicationWindow">
-    <property name="title" translatable="yes">Sort Files</property>
+  <template class="GthSortFoldersDialog" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">Sort Folders</property>
     <property name="default_width">500</property>
     <property name="resizable">false</property>
     <child>

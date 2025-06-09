@@ -309,6 +309,27 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_thumbnail_list ();
 	}
 
+	public void update_folder_sort_order (string _sort_name, bool _inverse_order) {
+		folder_sort_name = _sort_name;
+		folder_inverse_order = _inverse_order;
+		unowned var sort_info = app.get_folder_sorter_by_id (folder_sort_name);
+		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
+		while (iter.next ()) {
+			var row = iter.get ();
+			var file_data = row.item as Gth.FileData;
+			if (file_data != null) {
+				var file_model = file_data.get_children_model ();
+				file_model.model.sort ((a, b) => {
+					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+					if (folder_inverse_order)
+						result *= -1;
+					return result;
+				});
+			}
+		}
+		select_current_folder ();
+	}
+
 	public void set_page (Page page) {
 		if (page == current_page)
 			return;
@@ -586,6 +607,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("sort-folders", null);
+		action.activate.connect (() => {
+			var dialog = get_named_dialog ("sort-folders");
+			if (dialog == null) {
+				dialog = new Gth.SortFoldersDialog (this);
+				set_named_dialog ("sort-folders", dialog);
+			}
+			dialog.present ();
 		});
 		action_group.add_action (action);
 
