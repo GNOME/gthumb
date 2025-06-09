@@ -57,16 +57,21 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		var gio_source = new FileSourceVfs ();
 		while (queue.length > 0) {
 			var folder_data = queue.pop_head ();
+			//stdout.printf ("> FOLDER DATA: %s\n", folder_data.file.get_uri ());
 			var action = child_func (folder_data, true);
 			if (action == ForEachAction.SKIP) {
+				//stdout.printf ("  SKIP\n");
 				continue;
 			}
 			if (action == ForEachAction.STOP) {
+				//stdout.printf ("  STOP\n");
 				break;
 			}
 			switch (folder_data.info.get_file_type ()) {
 			case FileType.DIRECTORY:
-				var enumerator = yield folder_data.file.enumerate_children_async (
+				var gio_folder = Catalog.to_gio_file (folder_data.file);
+				//stdout.printf ("  DIRECTORY %s\n", gio_folder.get_uri ());
+				var enumerator = yield gio_folder.enumerate_children_async (
 					STANDARD_ATTRIBUTES,
 					(ForEachFlags.FOLLOW_LINKS in flags) ? FileQueryInfoFlags.NONE : FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
 					Priority.DEFAULT,
@@ -76,17 +81,34 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					if (info.get_is_hidden ()) {
 						continue;
 					}
-					var child = enumerator.get_child (info);
+					var gio_child = enumerator.get_child (info);
+					var child = Catalog.from_gio_file (gio_child);
+					if (child == null) {
+						continue;
+					}
+					//stdout.printf ("  CHILD: %s\n", child.get_uri ());
 					var child_data = new Gth.FileData (child, info);
 					switch (child_data.info.get_file_type ()) {
 					case FileType.DIRECTORY:
+						Catalog.update_file_info_for_library (child_data.file, child_data.info);
 						if (ForEachFlags.RECURSIVE in flags) {
 							queue.push_tail (child_data);
+						}
+						else {
+							action = child_func (child_data, false);
 						}
 						break;
 
 					case FileType.REGULAR:
-						action = child_func (child_data, false);
+						try {
+							var data = yield Files.load_contents_async (gio_child, cancellable);
+							var catalog = Catalog.new_from_data (data);
+							catalog.update_file_info (child_data.file, child_data.info);
+							action = child_func (child_data, false);
+						}
+						catch (Error error) {
+							//stdout.printf ("ERROR: %s\n", error.message);
+						}
 						break;
 
 					default:

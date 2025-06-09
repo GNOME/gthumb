@@ -53,6 +53,18 @@ public class Gth.Catalog {
 		}
 	}
 
+	public static File? from_gio_file (File file) {
+		var base_dir = Catalog.get_base_dir ();
+		var base_uri = base_dir.get_uri ();
+		var file_uri = file.get_uri ();
+		if (!file_uri.has_prefix (base_uri)) {
+			return null;
+		}
+		var catalog_uri = "catalog://" + file_uri.substring (base_uri.length);
+		//stdout.printf ("  '%s' => '%s'\n", file_uri, catalog_uri);
+		return File.new_for_uri (catalog_uri);
+	}
+
 	public static File get_base_dir () {
 		return UserDir.get_directory (FileIntent.READ, DirType.DATA, APP_DIR, "catalogs");
 	}

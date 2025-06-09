@@ -120,10 +120,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		// Continue building the folder tree.
 		//stdout.printf ("set_file_data_children: '%s'\n", file_data.file.get_uri ());
+		//stdout.printf ("  current_parents: %p\n", current_parents);
 		if (current_parents != null) {
 			var top_parent = current_parents.peek_head ();
-			//stdout.printf ("  top_parent: '%s'\n", top_parent.get_uri ());
-			if (top_parent.equal (file_data.file)) {
+			//stdout.printf ("  top_parent: %s\n", (top_parent != null) ? top_parent.get_uri () : "(null)");
+			if ((top_parent != null) && top_parent.equal (file_data.file)) {
 				current_parents.pop_head ();
 				var next_parent = current_parents.peek_head ();
 				if (next_parent == null) {
@@ -134,6 +135,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 					select_current_folder ();
 				}
 				else {
+					//stdout.printf ("  next_parent: '%s'\n", next_parent.get_uri ());
 					var next_parent_row = find_file_row_in_tree (next_parent);
 					if (next_parent_row != null) {
 						next_parent_row.expanded = true;
@@ -201,12 +203,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var location_is_root = false;
 			if (load_action.changes_root ()) {
 				var nearest_root = Util.get_nearest_parent (location, bookmarks.roots);
-				stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
+				//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
 
 				current_parents = new Queue<File>();
 				var parent = location;
 				while (parent != null) {
-					stdout.printf (">> add parent: %s\n", parent.get_uri ());
+					//stdout.printf (">> add parent: %s\n", parent.get_uri ());
 					current_parents.push_head (parent);
 					if (parent.equal (nearest_root.file)) {
 						break;
