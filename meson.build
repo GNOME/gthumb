@@ -315,6 +315,7 @@ source_files = files(
   'WindowHistory.vala',
   'Window.vala',
   'PropertyFile.vala',
+  'PropertyMetadata.vala',
   'PropertyView.vala',
   'PropertySidebar.vala',
 )

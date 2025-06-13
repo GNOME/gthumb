@@ -72,15 +72,15 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 		});
 	}
 
-	public unowned string get_name () {
-		return show_details ? "all-properties" : "properties";
+	public virtual unowned string get_name () {
+		return "properties";
 	}
 
-	public unowned string get_title () {
-		return _("Properties");
+	public virtual unowned string get_title () {
+		return _("File Properties");
 	}
 
-	public unowned string get_icon () {
+	public virtual unowned string get_icon () {
 		return "document-properties-symbolic";
 	}
 
@@ -105,6 +105,17 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 			}
 			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
 				continue;
+			}
+			if (info.id.has_prefix ("Exif")
+				|| info.id.has_prefix ("Iptc")
+				|| info.id.has_prefix ("Xmp"))
+			{
+				if (!show_details)
+					continue;
+			}
+			else {
+				if (show_details)
+					continue;
 			}
 			var value = file_data.get_attribute_as_string (info.id);
 			if (Strings.empty (value)) {

@@ -18,6 +18,7 @@
     <file preprocess="xml-stripblanks">search-symbolic.svg</file>
     <file preprocess="xml-stripblanks">starred-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-bookmarks-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">tag-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

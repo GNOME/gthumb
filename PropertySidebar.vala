@@ -14,6 +14,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 		action_group.add_action (action);
 
 		add_page (new Gth.PropertyFile ());
+		add_page (new Gth.PropertyMetadata ());
 		set_page ("properties");
 	}
 
