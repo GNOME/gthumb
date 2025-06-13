@@ -62,7 +62,8 @@
                             <class name="flat"/>
                           </style>
                           <property name="icon-name">folder-symbolic</property>
-                          <property name="action-name">win.load-home</property>
+                          <property name="action-name">win.show-folders</property>
+                          <property name="tooltip-text">Folders</property>
                         </object>
                       </child>
                       <child>
@@ -72,25 +73,8 @@
                             <class name="flat"/>
                           </style>
                           <property name="icon-name">library-symbolic</property>
-                          <property name="action-name">win.load-catalog-home</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkMenuButton" id="bookmarks_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">user-bookmarks-symbolic</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkMenuButton" id="history_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">clock-alt-symbolic</property>
+                          <property name="action-name">win.show-catalogs</property>
+                          <property name="tooltip-text">Catalogs</property>
                         </object>
                       </child>
                       <child>
@@ -100,7 +84,44 @@
                             <class name="flat"/>
                           </style>
                           <property name="icon-name">info-outline-symbolic</property>
-                          <property name="action-name">win.toggle-file-info</property>
+                          <property name="action-name">win.show-properties</property>
+                          <property name="tooltip-text">File Properties</property>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="GtkSeparator">
+                          <property name="orientation">horizontal</property>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="GtkButton">
+                          <property name="hexpand">true</property>
+                          <style>
+                            <class name="flat"/>
+                          </style>
+                          <property name="icon-name">user-home-symbolic</property>
+                          <property name="action-name">win.load-home</property>
+                          <property name="tooltip-text">Home Folder</property>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="GtkMenuButton" id="bookmarks_button">
+                          <property name="hexpand">true</property>
+                          <style>
+                            <class name="flat"/>
+                          </style>
+                          <property name="icon-name">user-bookmarks-symbolic</property>
+                          <property name="tooltip-text">Bookmarks</property>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="GtkMenuButton" id="history_button">
+                          <property name="hexpand">true</property>
+                          <style>
+                            <class name="flat"/>
+                          </style>
+                          <property name="icon-name">clock-alt-symbolic</property>
+                          <property name="tooltip-text">History</property>
                         </object>
                       </child>
                     </object>
@@ -141,13 +162,8 @@
                   <class name="deeper-view"/>
                 </style>
                 <property name="title-widget">
-                  <object class="GtkBox">
-                    <property name="orientation">horizontal</property>
-                    <child>
-                      <object class="AdwWindowTitle">
-                        <property name="title" bind-source="GthWindow" bind-property="title" />
-                      </object>
-                    </child>
+                  <object class="GtkMenuButton" id="location_button">
+                    <property name="menu-model">location_menu</property>
                   </object>
                 </property>
                 <child type="start">
@@ -174,12 +190,12 @@
                             <property name="action-name">win.load-next</property>
                           </object>
                         </child>
-                        <child>
+                        <!--child>
                           <object class="GtkButton">
                             <property name="icon-name">go-up-symbolic</property>
                             <property name="action-name">win.load-parent</property>
                           </object>
-                        </child>
+                        </child-->
                       </object>
                     </child>
                   </object>
@@ -268,4 +284,7 @@
       </object>
     </child>
   </template>
+
+  <menu id="location_menu">
+  </menu>
 </interface>

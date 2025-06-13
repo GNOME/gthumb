@@ -87,7 +87,18 @@ public class Gth.FileSourceVfs : FileSource {
 		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
 		info.set_symbolic_icon (icon);
 		info.set_icon (icon);
+		//update_special_location_info (file, info);
 		return info;
+	}
+
+	void update_special_location_info (File file, FileInfo info) {
+		if (file.equal (Files.get_root ())) {
+			info.set_display_name (_("Computer"));
+			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
+		}
+		else if (file.equal (Files.get_home ())) {
+			info.set_display_name (_("User Home"));
+		}
 	}
 
 	const string REQUIRED_ATTRIBUTES =
@@ -166,13 +177,7 @@ public class Gth.FileSourceVfs : FileSource {
 	{
 		var attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
 		var info = yield file.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
-		if (file.equal (Files.get_root ())) {
-			info.set_display_name (_("Computer"));
-			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
-		}
-		else if (file.equal (Files.get_home ())) {
-			info.set_display_name (_("Home Folder"));
-		}
+		update_special_location_info (file, info);
 		var file_data = new Gth.FileData (file, info);
 		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);
 		read_metadata_attributes (file_data, metadata_attributes_v, cancellable);

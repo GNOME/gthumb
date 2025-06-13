@@ -283,12 +283,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 					last_folder = current_folder.file;
 				}
 				// TODO source.monitor_directory (current_folder.file, true);
+				update_selection_info ();
+				update_location_menu ();
 			}
 
 			if (load_action != LoadAction.OPEN_FROM_HISTORY) {
 				history.add (current_folder.file);
 			}
-
 			if (load_action.changes_root ()) {
 				update_folder_tree ();
 			}
@@ -330,6 +331,19 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (error.message);
 			}
 		});
+	}
+
+	public void open_home () {
+		File home = null;
+		if (app.browser_settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
+			var uri = app.browser_settings.get_string (PREF_BROWSER_STARTUP_LOCATION);
+			var full_uri = Files.expand_home_uri (uri);
+			home = File.new_for_uri (full_uri);
+		}
+		if (home == null) {
+			home = Files.get_home ();
+		}
+		open_location (home);
 	}
 
 	public void load_subfolder (File location) {
@@ -459,13 +473,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void update_load_sensitivity () {
-		var action = action_group.lookup_action ("load-parent") as SimpleAction;
+		File parent = null;
+		if (current_folder != null) {
+			parent = current_folder.file.get_parent ();
+		}
+		enable_action ("load-parent", parent != null);
+	}
+
+	void enable_action (string name, bool enabled) {
+		var action = action_group.lookup_action (name) as SimpleAction;
 		if (action != null) {
-			File parent = null;
-			if (current_folder != null) {
-				parent = current_folder.file.get_parent ();
-			}
-			action.set_enabled (parent != null);
+			action.set_enabled (enabled);
 		}
 	}
 
@@ -607,6 +625,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 		status.set_selection_info (0, 0);
 	}
 
+	void update_location_menu () {
+		var location_menu = location_button.menu_model as Menu;
+		location_menu.remove_all ();
+		if (current_folder == null)
+			return;
+		var location = current_folder.file;
+		while (location != null) {
+			var item = Util.menu_item_for_file (location);
+			item.set_action_and_target_value ("win.load-location", new Variant.string (location.get_uri ()));
+			location_menu.append_item (item);
+			location = location.get_parent ();
+		}
+		location_button.label = current_folder.info.get_display_name ();
+	}
+
 	void update_selection_info () {
 		weak Gth.FileData selected_file = null;
 		var tot_files = 0;
@@ -640,6 +673,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		else {
 			property_sidebar.set_file (null);
 		}
+		enable_action ("show-properties", (tot_files == 1));
 	}
 
 	void init_actions () {
@@ -754,6 +788,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("load-home", null);
 		action.activate.connect ((_action, param) => {
+			open_home ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("show-folders", null);
+		action.activate.connect ((_action, param) => {
 			if ((sidebar_state == SidebarState.PROPERTIES)
 				&& !current_folder.file.has_uri_scheme ("catalog"))
 			{
@@ -763,21 +803,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if (sidebar_state == SidebarState.FILES) {
 				return;
 			}
-			if (last_folder == null) {
-				if (app.browser_settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
-					var uri = app.browser_settings.get_string (PREF_BROWSER_STARTUP_LOCATION);
-					var full_uri = Files.expand_home_uri (uri);
-					last_folder = File.new_for_uri (full_uri);
-				}
-				if (last_folder == null) {
-					last_folder = Files.get_home ();
-				}
+			if (last_folder != null) {
+				open_location (last_folder);
 			}
-			open_location (last_folder);
+			else {
+				open_home ();
+			}
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("load-catalog-home", null);
+		action = new SimpleAction ("show-catalogs", null);
 		action.activate.connect ((_action, param) => {
 			if ((sidebar_state == SidebarState.PROPERTIES)
 				&& current_folder.file.has_uri_scheme ("catalog"))
@@ -834,7 +869,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("toggle-file-info", null, new Variant.boolean (false));
+		action = new SimpleAction.stateful ("show-properties", null, new Variant.boolean (false));
 		action.activate.connect ((_action, param) => {
 			set_sidebar_state (SidebarState.PROPERTIES);
 		});
@@ -1007,6 +1042,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.ScrolledWindow files_sidebar;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
+	[GtkChild] unowned Gtk.MenuButton location_button;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;

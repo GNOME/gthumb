@@ -49,5 +49,15 @@
         <signal name="search_changed" handler="on_search_changed" />
       </object>
     </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label" translatable="yes">Copy Value</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label" translatable="yes">Copy All</property>
+      </object>
+    </child>
   </template>
 </interface>
