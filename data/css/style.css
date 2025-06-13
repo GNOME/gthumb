@@ -21,7 +21,19 @@
 	color: #ffffff33;
 }
 
+.sidebar-header,
+.sidebar-header-bottom {
+	padding: 6px;
+}
+
 .sidebar-header {
 	border-bottom: 1px solid var(--border-color);
-	padding: 6px;
+}
+
+.sidebar-header-bottom {
+	border-top: 1px solid var(--border-color);
+}
+
+.property-view {
+	margin: 6px;
 }

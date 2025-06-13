@@ -84,7 +84,7 @@ public class Gth.FileData : Object {
 				var metadata = info.get_attribute_object (tag) as Gth.Metadata;
 				if (metadata == null)
 					continue;
-				if (dtime.set_from_exif_date (metadata.raw))
+				if (dtime.set_from_exif_date (metadata.get_raw ()))
 					break;
 			}
 		}
@@ -98,7 +98,7 @@ public class Gth.FileData : Object {
 			embedded_otime = new Gth.DateTime ();
 			var metadata = info.get_attribute_object ("Embedded::Photo::DateTimeOriginal") as Gth.Metadata;
 			if (metadata != null) {
-				var time = Util.get_time_from_exif_date (metadata.raw);
+				var time = Util.get_time_from_exif_date (metadata.get_raw ());
 				if (time != null)
 					embedded_otime.copy (time);
 				else
@@ -114,7 +114,7 @@ public class Gth.FileData : Object {
 		if (embedded_title == null) {
 			var metadata = info.get_attribute_object ("general::title") as Gth.Metadata;
 			if (metadata != null) {
-				embedded_title = metadata.formatted;
+				embedded_title = metadata.get_formatted ();
 			}
 		}
 		return embedded_title;
@@ -126,7 +126,7 @@ public class Gth.FileData : Object {
 		if (embedded_description == null) {
 			var metadata = info.get_attribute_object ("general::description") as Gth.Metadata;
 			if (metadata != null) {
-				embedded_description = metadata.formatted;
+				embedded_description = metadata.get_formatted ();
 			}
 		}
 		return embedded_description;
@@ -139,7 +139,7 @@ public class Gth.FileData : Object {
 			var metadata = info.get_attribute_object ("general::rating") as Gth.Metadata;
 			if (metadata != null) {
 				int value;
-				if (int.try_parse (metadata.raw, out value, null, 10)) {
+				if (int.try_parse (metadata.get_raw (), out value, null, 10)) {
 					embedded_rating = value;
 				}
 			}
@@ -152,14 +152,38 @@ public class Gth.FileData : Object {
 
 	public string get_attribute_as_string (string id) {
 		string value = null;
-		switch (info.get_attribute_type (id)) {
-		case FileAttributeType.OBJECT:
-			// TODO
+		if (info.get_attribute_type (id) == FileAttributeType.OBJECT) {
+			var obj = info.get_attribute_object (id);
+			if (obj is Metadata) {
+				var metadata = obj as Metadata;
+				switch (metadata.get_data_type ()) {
+				case MetadataType.STRING:
+					if (id == "general::rating") {
+						int n;
+						if (int.try_parse (metadata.get_raw (), out n, null, 10)) {
+							var str = new StringBuilder ();
+							while (n > 0) {
+								str.append ("⭐");
+								n--;
+							}
+							value = str.str;
+						}
+					}
+					if (value == null) {
+						value = metadata.get_formatted ();
+					}
+					break;
+				case MetadataType.STRING_LIST:
+					value = metadata.get_string_list ().join (" ");
+					break;
+				}
+			}
+			else if (obj is StringList) {
+				value = (obj as StringList).join (" ");
+			}
+		}
+		if (value == null) {
 			value = info.get_attribute_as_string (id);
-			break;
-		default:
-			value = info.get_attribute_as_string (id);
-			break;
 		}
 		return value;
 	}

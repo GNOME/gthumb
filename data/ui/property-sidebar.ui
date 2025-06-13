@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthPropertySidebar">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="vexpand">true</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="header">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">6</property>
+        <style>
+          <class name="sidebar-header-bottom"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

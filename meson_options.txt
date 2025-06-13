@@ -33,3 +33,9 @@ option('gstreamer',
   value : true,
   description : 'Use gstreamer to play multimedia files and to view the metadata'
 )
+
+option('exiv2',
+  type : 'boolean',
+  value : true,
+  description : 'Use exiv2 to read and write metadata'
+)

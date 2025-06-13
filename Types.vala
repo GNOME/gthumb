@@ -47,30 +47,7 @@ public struct Gth.TestInfo {
 	GLib.Type test_type;
 }
 
-[Flags]
-public enum Gth.MetadataFlags {
-	HIDDEN,
-	ALLOW_IN_FILE_LIST,
-	ALLOW_IN_PROPERTIES_VIEW,
-	ALLOW_IN_PRINT,
-}
-
 public const Gth.MetadataFlags METADATA_ALLOW_EVERYWHERE = Gth.MetadataFlags.ALLOW_IN_FILE_LIST | Gth.MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | Gth.MetadataFlags.ALLOW_IN_PRINT;
-
-public struct Gth.MetadataInfo {
-	string id;
-	string display_name;
-	string category;
-	int sort_order;
-	string type;
-	Gth.MetadataFlags flags;
-}
-
-public struct Gth.MetadataCategory {
-	string id;
-	string display_name;
-	int sort_order;
-}
 
 public delegate void Gth.IdleFunc ();
 
@@ -94,4 +71,11 @@ public enum Gth.LoadAction {
 	public bool changes_root () {
 		return this <= OPEN_FROM_HISTORY;
 	}
+}
+
+public enum Gth.SidebarState {
+	NONE,
+	FILES,
+	CATALOGS,
+	PROPERTIES
 }

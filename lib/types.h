@@ -1,6 +1,8 @@
 #ifndef LIB_TYPES_H
 #define LIB_TYPES_H
 
+G_BEGIN_DECLS
+
 // The GthTransform numeric values range from 1 to 8, corresponding to
 // the valid range of Exif orientation tags.  The name associated with each
 // numeric valid describes the data transformation required that will allow
@@ -66,5 +68,7 @@ typedef enum {
 	GTH_FILL_START,
 	GTH_FILL_END,
 } GthFill;
+
+G_END_DECLS
 
 #endif /* LIB_TYPES_H */

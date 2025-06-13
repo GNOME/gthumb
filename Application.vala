@@ -6,10 +6,6 @@ public class Gth.Application : Adw.Application {
 	public GenericArray<string> ordered_sorters;
 	public GenericArray<FileSource> file_sources;
 	public GenericArray<MetadataProvider> metadata_providers;
-	public GenericArray<string> ordered_metadata_categories;
-	public HashTable<string, Gth.MetadataCategory?> metadata_categories;
-	public HashTable<string, Gth.MetadataInfo?> metadata_info;
-	public GenericArray<Gth.MetadataInfo?> metadata_info_v;
 	public HashTable<string, Gth.LoadFunc> loaders;
 	public HashTable<string, Gth.SaveFunc> savers;
 	public Gth.FilterFile filter_file;
@@ -71,56 +67,194 @@ public class Gth.Application : Adw.Application {
 		register_source (typeof (Gth.FileSourceVfs));
 		register_source (typeof (Gth.FileSourceCatalogs));
 
-		ordered_metadata_categories = new GenericArray<string>();
-		metadata_categories = new HashTable<string, Gth.MetadataCategory?>(str_hash, str_equal);
-		register_metadata_category ({ "file", N_("File"), 1 });
-		register_metadata_category ({ "general", N_("Metadata"), 2 });
+		MetadataCategory.init ();
+		MetadataCategory.register (new MetadataCategory ("file", _("File"), 1));
+		MetadataCategory.register (new MetadataCategory ("general", _("Metadata"), 2));
+		MetadataCategory.register (new MetadataCategory ("comment", _("Comment"), 20));
+		MetadataCategory.register (new MetadataCategory ("Exif::General", _("Exif General"), 30));
+		MetadataCategory.register (new MetadataCategory ("Exif::Conditions", _("Exif Conditions"), 31));
+		MetadataCategory.register (new MetadataCategory ("Exif::Structure", _("Exif Structure"), 32));
+		MetadataCategory.register (new MetadataCategory ("Exif::Thumbnail", _("Exif Thumbnail"), 33));
+		MetadataCategory.register (new MetadataCategory ("Exif::GPS", _("Exif GPS"), 34));
+		MetadataCategory.register (new MetadataCategory ("Exif::MakerNotes", _("Exif Maker Notes"), 35));
+		MetadataCategory.register (new MetadataCategory ("Exif::Versions", _("Exif Versions"), 36));
+		MetadataCategory.register (new MetadataCategory ("Exif::Other", _("Exif Other"), 37));
+		MetadataCategory.register (new MetadataCategory ("Iptc", _("IPTC"), 38));
+		MetadataCategory.register (new MetadataCategory ("Xmp::Embedded", _("XMP Embedded"), 39));
+		MetadataCategory.register (new MetadataCategory ("Xmp::Sidecar", _("XMP Attached"), 40));
 
-		metadata_info = new HashTable<string, Gth.MetadataInfo?>(str_hash, str_equal);
-		metadata_info_v = new GenericArray<Gth.MetadataInfo?>();
-		register_metadata_info ({ "standard::display-name", N_("Name"), "file", 1, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "gth::file::display-size", N_("Size"), "file", 2, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "standard::size", N_("Bytes"), "file", 3, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.init ();
+		MetadataInfo.register ({ "standard::display-name", N_("Name"), "file", 1, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "gth::file::display-size", N_("Size"), "file", 2, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "standard::size", N_("Bytes"), "file", 3, null, METADATA_ALLOW_EVERYWHERE });
 		// Translators: the file modified time.
-		register_metadata_info ({ "gth::file::display-mtime", N_("Modified Date and Time"), "file", 4, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "standard::fast-content-type", N_("Type"), "file", 5, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "gth::file::is-modified", null, "file", 6, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "gth::file::full-name", N_("Location"), "file", 7, null, MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
-		register_metadata_info ({ "general::format", N_("Format"), "file", 10, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
-		register_metadata_info ({ "general::dimensions", N_("Dimensions"), "file", 12, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "general::duration", N_("Duration"), "file", 11, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "gth::file::display-mtime", N_("Modified"), "file", 4, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "standard::fast-content-type", N_("Type"), "file", 5, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "gth::file::is-modified", null, "file", 6, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "gth::file::full-name", N_("Location"), "file", 7, null, MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "general::format", N_("Format"), "file", 10, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "general::dimensions", N_("Dimensions"), "file", 12, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "general::duration", N_("Duration"), "file", 11, null, METADATA_ALLOW_EVERYWHERE });
 
-		register_metadata_info ({ "Embedded::Photo::Exposure", N_("Exposure Settings"), "general", 10, null, MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST  });
-		register_metadata_info ({ "Embedded::Photo::Aperture", N_("Aperture"), "general", 11, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::ISOSpeed", N_("ISO Speed"), "general", 12, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::ExposureTime", N_("Exposure Time"), "general", 13, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::ShutterSpeed", N_("Shutter Speed"), "general", 14, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::FocalLength", N_("Focal Length"), "general", 16, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::Flash", N_("Flash"), "general", 17, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Loaded::Image::ColorProfile", N_("Color Profile"), "general", 19, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Embedded::Photo::Exposure", N_("Exposure Settings"), "general", 10, null, MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST  });
+		MetadataInfo.register ({ "Embedded::Photo::Aperture", N_("Aperture"), "general", 11, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::ISOSpeed", N_("ISO Speed"), "general", 12, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::ExposureTime", N_("Exposure Time"), "general", 13, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::ShutterSpeed", N_("Shutter Speed"), "general", 14, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::FocalLength", N_("Focal Length"), "general", 16, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::Flash", N_("Flash"), "general", 17, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Loaded::Image::ColorProfile", N_("Color Profile"), "general", 19, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
 
-		register_metadata_info ({ "general::datetime", N_("General Date and Time"), "general", 20, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "general::title", N_("Title"), "general", 21, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "general::location", N_("Place"), "general", 22, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "general::description", N_("Description"), "general", 23, null, MetadataFlags.ALLOW_IN_PRINT });
-		register_metadata_info ({ "general::tags", N_("Tags"), "general", 24, null, METADATA_ALLOW_EVERYWHERE });
-		register_metadata_info ({ "general::rating", N_("Rating"), "general", 25, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "general::datetime", N_("Date"), "general", 20, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "general::title", N_("Title"), "general", 21, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "general::location", N_("Place"), "general", 22, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "general::description", N_("Description"), "general", 23, null, MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "general::tags", N_("Tags"), "general", 24, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "general::rating", N_("Rating"), "general", 25, null, METADATA_ALLOW_EVERYWHERE });
 
-		register_metadata_info ({ "Embedded::Photo::Author", N_("Author"), "general", 30, null, METADATA_ALLOW_EVERYWHERE  });
-		register_metadata_info ({ "Embedded::Photo::Copyright", N_("Copyright"), "general", 31, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::Author", N_("Author"), "general", 30, null, METADATA_ALLOW_EVERYWHERE  });
+		MetadataInfo.register ({ "Embedded::Photo::Copyright", N_("Copyright"), "general", 31, null, METADATA_ALLOW_EVERYWHERE  });
 
-		register_metadata_info ({ "gth::file::emblems", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "gth::standard::secondary-sort-order", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "image::width", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "image::height", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "frame::width", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "frame::height", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "Embedded::Image::Orientation", "", "", 0, null, MetadataFlags.HIDDEN });
-		register_metadata_info ({ "Embedded::Photo::DateTimeOriginal", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "gth::file::emblems", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "gth::standard::secondary-sort-order", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "image::width", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "image::height", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "frame::width", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "frame::height", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "Embedded::Image::Orientation", "", "", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "Embedded::Photo::DateTimeOriginal", "", "", 0, null, MetadataFlags.HIDDEN });
+
+		// Specify the type of a field to allow to create it if it's not
+		// already present in the image.
+
+		MetadataInfo.register ({ "Exif::Image::Make", null, "Exif::General", 1, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Image::Model", null, "Exif::General", 2, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Image::Software", null, "Exif::General", 3, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::DateTime", null, "Exif::General", 4, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::SubSecTime", null, "Exif::General", 5, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::DateTimeOriginal", null, "Exif::General", 6, "Ascii", METADATA_ALLOW_EVERYWHERE});
+		MetadataInfo.register ({ "Exif::Photo::SubSecTimeOriginal", null, "Exif::General", 7, "Ascii", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::DateTimeDigitized", null, "Exif::General", 8, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::SubSecTimeDigitized", null, "Exif::General", 9, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::Artist", null, "Exif::General", 11, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Image::Copyright", null, "Exif::General", 12, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::UniqueID", null, "Exif::General", 13, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SoundFile", null, "Exif::General", 14, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		MetadataInfo.register ({ "Exif::Photo::ISOSpeedRatings", null, "Exif::Conditions", 2, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::BrightnessValue", null, "Exif::Conditions", 3, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::FNumber", null, "Exif::Conditions", 4, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::ApertureValue", null, "Exif::Conditions", 5, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::MaxApertureValue", null, "Exif::Conditions", 6, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::ExposureTime", null, "Exif::Conditions", 7, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::ExposureProgram", null, "Exif::Conditions", 8, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ExposureIndex", null, "Exif::Conditions", 9, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ExposureBiasValue", null, "Exif::Conditions", 10, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ExposureMode", null, "Exif::Conditions", 11, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ShutterSpeedValue", null, "Exif::Conditions", 12, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::MeteringMode", null, "Exif::Conditions", 13, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::LightSource", null, "Exif::Conditions", 14, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::WhiteBalance", null, "Exif::Conditions", 15, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::Flash", null, "Exif::Conditions", 16, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::FlashEnergy", null, "Exif::Conditions", 17, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SubjectDistance", null, "Exif::Conditions", 18, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SubjectDistanceRange", null, "Exif::Conditions", 19, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SubjectArea", null, "Exif::Conditions", 20, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SubjectLocation", null, "Exif::Conditions", 21, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::FocalLength", null, "Exif::Conditions", 22, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::FocalLengthIn35mmFilm", null, "Exif::Conditions", 23, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::FocalPlaneXResolution", null, "Exif::Conditions", 24, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::FocalPlaneYResolution", null, "Exif::Conditions", 25, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::FocalPlaneResolutionUnit", null, "Exif::Conditions", 26, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::Contrast", null, "Exif::Conditions", 27, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::Saturation", null, "Exif::Conditions", 28, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::Sharpness", null, "Exif::Conditions", 29, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SceneType", null, "Exif::Conditions", 30, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SceneCaptureType", null, "Exif::Conditions", 31, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::CustomRendered", null, "Exif::Conditions", 32, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::DigitalZoomRatio", null, "Exif::Conditions", 33, null, METADATA_ALLOW_EVERYWHERE });
+		MetadataInfo.register ({ "Exif::Photo::FileSource", null, "Exif::Conditions", 34, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SensingMethod", null, "Exif::Conditions", 35, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::DeviceSettingDescription", null, "Exif::Conditions", 36, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::OECF", null, "Exif::Conditions", 37, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SpatialFrequencyResponse", null, "Exif::Conditions", 38, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::SpectralSensitivity", null, "Exif::Conditions", 39, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::GainControl", null, "Exif::Conditions", 40, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::CFAPattern", null, "Exif::Conditions", 41, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		MetadataInfo.register ({ "Exif::Image::ImageWidth", null, "Exif::Structure", 1, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::ImageLength", null, "Exif::Structure", 2, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::Orientation", null, "Exif::Structure", 3, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::PixelXDimension", null, "Exif::Structure", 4, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::PixelYDimension", null, "Exif::Structure", 5, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::XResolution", null, "Exif::Structure", 6, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::YResolution", null, "Exif::Structure", 7, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::ResolutionUnit", null, "Exif::Structure", 8, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::Compression", null, "Exif::Structure", 9, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::SamplesPerPixel", null, "Exif::Structure", 10, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::BitsPerSample", null, "Exif::Structure", 11, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::PlanarConfiguration", null, "Exif::Structure", 12, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::YCbCrSubSampling", null, "Exif::Structure", 13, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::YCbCrPositioning", null, "Exif::Structure", 14, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::PhotometricInterpretation", null, "Exif::Structure", 15, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ComponentsConfiguration", null, "Exif::Structure", 16, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::CompressedBitsPerPixel", null, "Exif::Structure", 17, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::StripOffset", null, "Exif::Structure", 18, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::RowsPerStrip", null, "Exif::Structure", 19, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::StripByteCounts", null, "Exif::Structure", 20, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::JPEGInterchangeFormat", null, "Exif::Structure", 21, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::JPEGInterchangeFormatLength", null, "Exif::Structure", 22, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::TransferFunction", null, "Exif::Structure", 23, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::WhitePoint", null, "Exif::Structure", 24, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::PrimaryChromaticities", null, "Exif::Structure", 25, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::YCbCrCoefficients", null, "Exif::Structure", 26, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ReferenceBlackWhite", null, "Exif::Structure", 27, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::ColorSpace", null, "Exif::Structure", 28, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		MetadataInfo.register ({ "Exif::Photo::ExifVersion", null, "Exif::Versions", 1, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Image::ExifTag", null, "Exif::Versions", 2, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::FlashpixVersion", null, "Exif::Versions", 3, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Iop::InteroperabilityIndex", null, "Exif::Versions", 4, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Iop::InteroperabilityVersion", null, "Exif::Versions", 5, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::InteroperabilityTag", null, "Exif::Versions", 6, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::RelatedImageFileFormat", null, "Exif::Versions", 7, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::RelatedImageWidth", null, "Exif::Versions", 8, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Exif::Photo::RelatedImageLength", null, "Exif::Versions", 9, null, MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		MetadataInfo.register ({ "Exif::Photo::MakerNote", null, "Exif::Other", 0, null, MetadataFlags.HIDDEN });
+		MetadataInfo.register ({ "Exif::Photo::UserComment", null, "Exif::Other", 1, "Ascii", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		MetadataInfo.register ({ "Xmp::dc::description", null, "Xmp::Embedded", 0, "XmpText", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Xmp::dc::title", null, "Xmp::Embedded", 0, "XmpText", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Xmp::iptc::Location", null, "Xmp::Embedded", 0, "XmpText", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Xmp::iptc::Keywords", null, "Xmp::Embedded", 0, "XmpBag", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Xmp::exif::DateTimeOriginal", null, "Xmp::Embedded", 0, "XmpText", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Xmp::xmp::Rating", null, "Xmp::Embedded", 0, "XmpText", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		MetadataInfo.register ({ "Iptc::Application2::Headline", null, "Iptc", 1, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Iptc::Application2::Caption", null, "Iptc", 2, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Iptc::Application2::LocationName", null, "Iptc", 3, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+		MetadataInfo.register ({ "Iptc::Application2::Keywords", null, "Iptc", 4, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW });
+
+		// The editable fields specified in the "Other" tab of the "edit metadata" dialog.
+
+		MetadataInfo.register ({ "Iptc::Application2::Copyright", null, "Iptc", 5, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::Credit", null, "Iptc", 6, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::Byline", null, "Iptc", 7, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::BylineTitle", null, "Iptc", 8, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::CountryName", null, "Iptc", 9, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::CountryCode", null, "Iptc", 10, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::City", null, "Iptc", 11, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::Language", null, "Iptc", 12, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::ObjectName", null, "Iptc", 13, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::Source", null, "Iptc", 14, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Envelope::Destination", null, "Iptc", 15, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
+		MetadataInfo.register ({ "Iptc::Application2::Urgency", null, "Iptc", 16, "String", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT });
 
 		metadata_providers = new GenericArray<MetadataProvider>();
 		register_metadata_provider (typeof (MetadataProviderFile));
+		register_metadata_provider (typeof (MetadataProviderExiv2));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
 		register_image_loader ("image/png", load_png);
@@ -380,16 +514,6 @@ public class Gth.Application : Adw.Application {
 	public void register_metadata_provider (GLib.Type provider_type) {
 		var provider = Object.new (provider_type) as Gth.MetadataProvider;
 		metadata_providers.add (provider);
-	}
-
-	public void register_metadata_info (Gth.MetadataInfo info) {
-		metadata_info[info.id] = info;
-		metadata_info_v.add (info);
-	}
-
-	public void register_metadata_category (Gth.MetadataCategory category) {
-		ordered_metadata_categories.add (category.id);
-		metadata_categories[category.id] = category;
 	}
 
 	public inline Gth.Job new_job (string description, string? status = null, bool background = false) {

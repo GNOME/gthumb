@@ -1,6 +1,7 @@
 using GLib;
 
 namespace Gth {
+	[CCode (cheader_filename = "lib/gth-icc-profile.h")]
 	[PointerType]
 	public struct CmsTransform {
 	}

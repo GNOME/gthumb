@@ -51,6 +51,7 @@ public class Gth.FileListItem : Gtk.Box {
 		second_label.add_css_class ("dim-label");
 		labels.append (second_label);
 
+		labels.visible = attributes_v.length > 0;
 		first_label.visible = attributes_v.length > 0;
 		second_label.visible = attributes_v.length > 1;
 	}

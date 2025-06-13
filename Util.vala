@@ -247,7 +247,7 @@ public class Gth.Util {
 	public static string[] extract_metadata_attributes (string attributes) {
 		string[] result = {};
 		var matcher = new FileAttributeMatcher (attributes);
-		foreach (unowned var info in app.metadata_info_v) {
+		foreach (unowned var info in MetadataInfo.get_all ()) {
 			if (matcher.matches (info.id)) {
 				result += info.id;
 			}
@@ -387,5 +387,9 @@ public class Gth.Util {
 			}
 		}
 		return nearest_parent;
+	}
+
+	public static int intcmp (int a, int b) {
+		return (a == b) ? 0 : (a < b) ? -1 : 1;
 	}
 }

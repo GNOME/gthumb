@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthPropertyFile">
+    <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <style>
+      <class name="property-view"/>
+    </style>
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="vexpand">true</property>
+        <child>
+          <object class="GtkColumnView" id="column_view">
+            <property name="show-column-separators">true</property>
+            <property name="show-row-separators">true</property>
+            <property name="reorderable">false</property>
+            <property name="header_factory">
+              <object class="GtkSignalListItemFactory"></object>
+            </property>
+            <style>
+              <class name="data-table"/>
+            </style>
+            <child>
+              <object class="GtkColumnViewColumn" id="name_column">
+                <property name="title" translatable="yes">Property</property>
+                <property name="expand">true</property>
+                <property name="factory">
+                  <object class="GtkSignalListItemFactory"></object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkColumnViewColumn" id="value_column">
+                <property name="title" translatable="yes">Value</property>
+                <property name="expand">true</property>
+                <property name="factory">
+                  <object class="GtkSignalListItemFactory"></object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSearchEntry">
+        <property name="placeholder_text" translatable="yes">Search Property</property>
+        <property name="halign">center</property>
+        <signal name="search_changed" handler="on_search_changed" />
+      </object>
+    </child>
+  </template>
+</interface>

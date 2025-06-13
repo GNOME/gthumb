@@ -9,6 +9,7 @@
     <file preprocess="xml-stripblanks">empty-symbolic.svg</file>
     <file preprocess="xml-stripblanks">filter-symbolic.svg</file>
     <file preprocess="xml-stripblanks">folder-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">info-outline-symbolic.svg</file>
     <file preprocess="xml-stripblanks">library-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-add-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-delete-symbolic.svg</file>
@@ -39,5 +40,7 @@
     <file preprocess="xml-stripblanks">sort-folders-dialog.ui</file>
     <file preprocess="xml-stripblanks">status.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
+    <file preprocess="xml-stripblanks">property-file.ui</file>
+    <file preprocess="xml-stripblanks">property-sidebar.ui</file>
   </gresource>
 </gresources>

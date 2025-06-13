@@ -1,5 +1,5 @@
 project('Thumbnails',
-  [ 'vala', 'c' ],
+  [ 'vala', 'c', 'cpp' ],
   license: 'GPL2+',
   version: '4',
   meson_version: '>=0.56'
@@ -14,8 +14,10 @@ png_version = '>=1.6'
 libwebp_version = '>=0.2.0'
 librsvg_version = '>=2.34.0'
 gstreamer_version = '>=1.26.0'
+exiv2_version = '>=0.28'
 
 c_comp = meson.get_compiler('c')
+cpp_comp = meson.get_compiler('cpp')
 vala_comp = meson.get_compiler('vala')
 
 # lcms2
@@ -103,7 +105,7 @@ if get_option('gstreamer')
     version: gstreamer_version,
     required: false
   )
-  gstreamer_deps = [
+  gstreamer_dep_list = [
     gstreamer_dep,
     gstreamer_plugins_base_dep,
     gstreamer_video_dep
@@ -112,6 +114,19 @@ if get_option('gstreamer')
 else
   use_gstreamer = false
 endif
+
+# exiv2
+
+if get_option('exiv2')
+  exiv2_dep = dependency('exiv2',
+    version: exiv2_version,
+    required: false
+  )
+  use_exiv2 = exiv2_dep.found()
+else
+  use_exiv2 = false
+endif
+
 
 dependencies = [
   dependency('threads'),
@@ -127,7 +142,8 @@ dependencies = [
   use_colord ? colord_dep : [],
   use_libwebp ? libwebp_dep : [],
   use_librsvg ? librsvg_dep : [],
-  use_gstreamer ? gstreamer_deps : [],
+  use_gstreamer ? gstreamer_dep_list : [],
+  use_exiv2 ? exiv2_dep : [],
 ]
 
 gettext_package = 'thumbnails'
@@ -181,6 +197,10 @@ if use_gstreamer
   config.set('HAVE_GSTREAMER', 1)
   add_project_arguments(['-D', 'HAVE_GSTREAMER'], language: 'vala')
 endif
+if use_exiv2
+  config.set('HAVE_EXIV2', 1)
+  add_project_arguments(['-D', 'HAVE_EXIV2'], language: 'vala')
+endif
 
 config_file = configure_file(
   output : 'config.h',
@@ -201,11 +221,14 @@ resources_files = gnome.compile_resources('resources',
 )
 
 lib_files = files(
+  'lib/exiv2-utils.cpp',
   'lib/gth-color-manager.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
   'lib/gth-image-edit.c',
   'lib/gth-image-resize.c',
+  'lib/gth-metadata.c',
+  'lib/gth-string-list.c',
   'lib/io/load-jpeg.c',
   'lib/io/load-png.c',
   'lib/io/save-png.c',
@@ -224,16 +247,21 @@ endif
 vapi_files = files(
   'vapi/ColorManager.vapi',
   'vapi/Config.vapi',
+  'vapi/Exiv2.vapi',
   'vapi/IccProfile.vapi',
   'vapi/IccTransform.vapi',
   'vapi/Image.vapi',
   'vapi/Loaders.vapi',
+  'vapi/Metadata.vapi',
   'vapi/Savers.vapi',
+  'vapi/StringList.vapi',
   'vapi/Types.vapi',
 )
 
 source_files = files(
   'Application.vala',
+  'CatalogSearch.vala',
+  'Catalog.vala',
   'DateTime.vala',
   'DefaultTests.vala',
   'Dialogs/EditFiltersDialog.vala',
@@ -245,6 +273,7 @@ source_files = files(
   'Factory.vala',
   'FileData.vala',
   'FileListItem.vala',
+  'FileSourceCatalogs.vala',
   'FileSource.vala',
   'FileSource.vala',
   'FileSourceVfs.vala',
@@ -253,6 +282,7 @@ source_files = files(
   'FilterBar.vala',
   'FilterFile.vala',
   'Filter.vala',
+  'FolderTreeItem.vala',
   'GenericList.vala',
   'GenericTree.vala',
   'ImageLoader.vala',
@@ -260,15 +290,15 @@ source_files = files(
   'Job.vala',
   'Job.vala',
   'Main.vala',
+  'MetadataProviderExiv2.vala',
   'MetadataProviderFile.vala',
   'MetadataProvider.vala',
-  'Metadata.vala',
   'Settings.vala',
   'SortFunc.vala',
   'Status.vala',
   'Strings.vala',
-  'TestExpr.vala',
   'TestDate.vala',
+  'TestExpr.vala',
   'TestInt.vala',
   'TestSelector.vala',
   'TestSize.vala',
@@ -281,13 +311,12 @@ source_files = files(
   'UserDir.vala',
   'Util.vala',
   'Widgets.vala',
-  'Window.vala',
   'WindowBookmarks.vala',
   'WindowHistory.vala',
-  'FolderTreeItem.vala',
-  'Catalog.vala',
-  'CatalogSearch.vala',
-  'FileSourceCatalogs.vala',
+  'Window.vala',
+  'PropertyFile.vala',
+  'PropertyView.vala',
+  'PropertySidebar.vala',
 )
 
 executable(
@@ -332,6 +361,7 @@ summary(
     'libwebp': use_libwebp,
     'librsvg': use_librsvg,
     'gstreamer': use_gstreamer,
+    'exiv2': use_exiv2,
   },
   section: 'Configuration summary:',
 )

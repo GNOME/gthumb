@@ -13,6 +13,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public bool show_hidden_files = false;
 	public bool show_hidden_folders = false;
 	public bool sidebar_visible = false;
+	public SidebarState sidebar_state = SidebarState.NONE;
 	public bool sidebar_pinned = false;
 	public int thumbnail_size;
 	public Gth.JobQueue jobs;
@@ -20,6 +21,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public bool folder_inverse_order = false;
 
 	Queue<File> current_parents;
+	File last_folder = null;
+	File last_catalog = null;
 
 	public enum Page {
 		NONE = 0,
@@ -273,6 +276,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 				update_thumbnail_list ();
 				update_title ();
 				update_load_sensitivity ();
+				if (current_folder.file.has_uri_scheme ("catalog")) {
+					last_catalog = current_folder.file;
+				}
+				else {
+					last_folder = current_folder.file;
+				}
 				// TODO source.monitor_directory (current_folder.file, true);
 			}
 
@@ -282,14 +291,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 			if (load_action.changes_root ()) {
 				update_folder_tree ();
-				if (current_root.file.get_uri ().has_prefix ("catalog:")) {
-					catalog_button.active = true;
-					vfs_button.active = false;
-				}
-				else {
-					catalog_button.active = false;
-					vfs_button.active = true;
-				}
 			}
 		}
 		catch (Error error) {
@@ -315,6 +316,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
 		set_page (Page.BROWSER);
+		if (load_action.changes_current_folder ()) {
+			set_sidebar_state (location.has_uri_scheme ("catalog") ? SidebarState.CATALOGS : SidebarState.FILES);
+		}
 		load_folder.begin (location, load_action, (_obj, res) => {
 			try {
 				load_folder.end (res);
@@ -381,6 +385,32 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}*/
 		update_title ();
 		update_sensitivity ();
+	}
+
+	public void set_sidebar_state (SidebarState state) {
+		if (state == sidebar_state)
+			return;
+		sidebar_state = state;
+		switch (sidebar_state) {
+		case SidebarState.FILES:
+			sidebar_stack.set_visible_child (files_sidebar);
+			vfs_button.active = true;
+			catalog_button.active = false;
+			properties_button.active = false;
+			break;
+		case SidebarState.CATALOGS:
+			sidebar_stack.set_visible_child (files_sidebar);
+			vfs_button.active = false;
+			catalog_button.active = true;
+			properties_button.active = false;
+			break;
+		case SidebarState.PROPERTIES:
+			sidebar_stack.set_visible_child (property_sidebar);
+			vfs_button.active = false;
+			catalog_button.active = false;
+			properties_button.active = true;
+			break;
+		}
 	}
 
 	public void set_named_dialog (string name, Gtk.Window dialog) {
@@ -578,6 +608,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void update_selection_info () {
+		weak Gth.FileData selected_file = null;
 		var tot_files = 0;
 		uint64 tot_size = 0;
 		var selected = file_grid.model.get_selection ();
@@ -587,9 +618,28 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if (file != null) {
 				tot_files++;
 				tot_size += file.info.get_size ();
+				selected_file = file;
 			}
 		}
 		status.set_selection_info (tot_files, tot_size);
+		if (tot_files == 1) {
+			//property_sidebar.set_file (selected_file);
+			var local_job = new_job ("Load metadata for %s".printf (selected_file.file.get_uri ()));
+			var source = new FileSourceVfs ();
+			source.read_metadata.begin (selected_file.file, "*", local_job.cancellable, (obj, res) => {
+				try {
+					var selected_file_data = source.read_metadata.end (res);
+					property_sidebar.set_file (selected_file_data);
+				}
+				catch (Error error) {
+					stdout.printf ("ERROR: %s\n", error.message);
+				}
+				local_job.done ();
+			});
+		}
+		else {
+			property_sidebar.set_file (null);
+		}
 	}
 
 	void init_actions () {
@@ -704,19 +754,44 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("load-home", null);
 		action.activate.connect ((_action, param) => {
-			File home = null;
-			if (app.browser_settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
-				var uri = app.browser_settings.get_string (PREF_BROWSER_STARTUP_LOCATION);
-				var full_uri = Files.expand_home_uri (uri);
-				home = File.new_for_uri (full_uri);
+			if ((sidebar_state == SidebarState.PROPERTIES)
+				&& !current_folder.file.has_uri_scheme ("catalog"))
+			{
+				set_sidebar_state (SidebarState.FILES);
+				return;
 			}
-			open_location ((home != null) ? home : Files.get_home ());
+			if (sidebar_state == SidebarState.FILES) {
+				return;
+			}
+			if (last_folder == null) {
+				if (app.browser_settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
+					var uri = app.browser_settings.get_string (PREF_BROWSER_STARTUP_LOCATION);
+					var full_uri = Files.expand_home_uri (uri);
+					last_folder = File.new_for_uri (full_uri);
+				}
+				if (last_folder == null) {
+					last_folder = Files.get_home ();
+				}
+			}
+			open_location (last_folder);
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-catalog-home", null);
 		action.activate.connect ((_action, param) => {
-			open_location (File.new_for_uri ("catalog:///"));
+			if ((sidebar_state == SidebarState.PROPERTIES)
+				&& current_folder.file.has_uri_scheme ("catalog"))
+			{
+				set_sidebar_state (SidebarState.CATALOGS);
+				return;
+			}
+			if (sidebar_state == SidebarState.CATALOGS) {
+				return;
+			}
+			if (last_catalog == null) {
+				last_catalog = File.new_for_uri ("catalog:///");
+			}
+			open_location (last_catalog);
 		});
 		action_group.add_action (action);
 
@@ -756,6 +831,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("load-location", VariantType.STRING);
 		action.activate.connect ((_action, param) => {
 			open_location (File.new_for_uri (param.get_string ()));
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("toggle-file-info", null, new Variant.boolean (false));
+		action.activate.connect ((_action, param) => {
+			set_sidebar_state (SidebarState.PROPERTIES);
 		});
 		action_group.add_action (action);
 	}
@@ -921,7 +1002,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
+	[GtkChild] unowned Gtk.ToggleButton properties_button;
 	[GtkChild] unowned Adw.ToastOverlay browser_toast_overlay;
+	[GtkChild] unowned Gtk.ScrolledWindow files_sidebar;
+	[GtkChild] unowned Gtk.Stack sidebar_stack;
+	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;
