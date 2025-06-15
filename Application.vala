@@ -649,7 +649,7 @@ public class Gth.Application : Adw.Application {
 		filter_file = new Gth.FilterFile ();
 	}
 
-	void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
+	public void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
 		var reuse_active_window = false;
 		if (!force_new_window) {
 			reuse_active_window = browser_settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW);

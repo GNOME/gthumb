@@ -16,8 +16,6 @@ public class Gth.EmbeddedPropertyView : Gth.FilePropertyView {
 	}
 
 	public override bool can_view (Gth.FileData file_data) {
-		if (file_data == null)
-			return false;
 		var data_available = false;
 		foreach (unowned var info in MetadataInfo.get_all ()) {
 			if (info.id == null) {

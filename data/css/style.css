@@ -21,6 +21,10 @@
 	color: #ffffff33;
 }
 
+.statusbar {
+	padding: 5px 3px;
+}
+
 .sidebar-container,
 .sidebar-header,
 .mini-search-bar {
@@ -39,12 +43,25 @@
 	font-size: 0.9em;
 }
 
-.property-row {
-	margin: 6px 0;
-}
-
 .property-header {
 	margin: 6px 12px;
+}
+
+.property-widget {
+	border-radius: 0;
+	margin: 0;
+}
+
+.property-row {
+	margin: 12px 6px;
+}
+
+.property-title {
+	font-size: 0.9em;
+}
+
+.property-subtitle {
+	font-size: 0.9em;
 }
 
 .mini-search-bar > entry.search {

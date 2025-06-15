@@ -9,8 +9,8 @@
     <child>
       <object class="AdwOverlaySplitView" id="browser_view">
         <property name="collapsed">true</property>
-        <property name="min_sidebar_width">350</property>
-        <property name="max_sidebar_width">350</property>
+        <property name="min_sidebar_width">200</property>
+        <property name="max_sidebar_width">400</property>
         <property name="sidebar_width_fraction">1.0</property>
         <property name="sidebar_width_unit">px</property>
         <property name="sidebar">
@@ -268,11 +268,11 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="status_bar">
-                    <property name="margin_top">6</property>
-                    <property name="margin_bottom">6</property>
-                    <property name="margin_start">6</property>
-                    <property name="margin_end">6</property>
                     <property name="orientation">horizontal</property>
+                    <style>
+                      <class name="smaller-text"/>
+                      <class name="statusbar"/>
+                    </style>
                     <child>
                       <object class="GthFilterBar" id="filter_bar">
                       </object>

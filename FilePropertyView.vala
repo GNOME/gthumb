@@ -5,6 +5,36 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	construct {
 		embedded_properties = false;
 		filter_text = null;
+		file_data = null;
+
+		var action_group = new SimpleActionGroup ();
+		insert_action_group ("file", action_group);
+
+		var action = new SimpleAction ("copy-path", null);
+		action.activate.connect ((_action, param) => {
+			if (file_data != null) {
+				var win = app.active_window as Gth.Window;
+				if (win != null) {
+					win.copy_text (file_data.file.get_path ());
+				}
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-folder", null);
+		action.activate.connect ((_action, param) => {
+			if (file_data != null) {
+				var win = app.active_window as Gth.Window;
+				if (win != null) {
+					app.open_window (file_data.file.get_parent (), file_data.file, true);
+				}
+			}
+		});
+		action_group.add_action (action);
+
+		actions = new HashTable<string, Action> (str_hash, str_equal);
+		actions.set ("standard::display-name", new Action ("file.copy-path", "edit-copy-symbolic", _("Copy Path")));
+		actions.set ("gth::file::location", new Action ("file.open-folder", "folder-symbolic", _("Open Location")));
 
 		property_list = new GenericList<Property> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
@@ -23,7 +53,8 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			}
 			return Util.intcmp (prop_a.category.sort_order, prop_b.category.sort_order);
 		});
-		list_view.model = new Gtk.NoSelection (sort_model);
+		var selection_model = new Gtk.NoSelection (sort_model);
+		list_view.model = selection_model;
 
 		var header_factory = list_view.header_factory as Gtk.SignalListItemFactory;
 		header_factory.setup.connect ((item) => {
@@ -43,14 +74,28 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		var factory = list_view.factory as Gtk.SignalListItemFactory;
 		factory.setup.connect ((item) => {
 			var list_item = item as Gtk.ListItem;
-			list_item.child = new PropertyListItem ();
+			list_item.child = new FilePropertyItem ();
 		});
 		factory.bind.connect ((item) => {
 			var list_item = item as Gtk.ListItem;
 			var property = list_item.item as Property;
-			var property_item = list_item.child as PropertyListItem;
+			var property_item = list_item.child as FilePropertyItem;
 			property_item.title.label = property.name;
 			property_item.subtitle.label = property.value;
+			property_item.property = property;
+			var action_info = actions.get (property.id);
+			if (action_info != null) {
+				property_item.button.icon_name = action_info.icon_name;
+				property_item.button.tooltip_text = action_info.tooltip;
+				property_item.button.set_detailed_action_name (action_info.detailed_action_name);
+				property_item.button.visible = true;
+			}
+			else {
+				property_item.button.visible = false;
+			}
+			if (property_item.parent != null) {
+				property_item.parent.add_css_class ("property-widget");
+			}
 		});
 	}
 
@@ -67,11 +112,12 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public virtual bool can_view (Gth.FileData file_data) {
-		return (file_data != null);
+		return true;
 	}
 
-	public void set_file (Gth.FileData? file_data) {
+	public void set_file (Gth.FileData? _file_data) {
 		property_list.model.remove_all ();
+		file_data = _file_data;
 		if (file_data == null)
 			return;
 		foreach (unowned var info in MetadataInfo.get_all ()) {
@@ -96,6 +142,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 				continue;
 			}
 			var property = new Property () {
+				id = info.id,
 				name = _(info.display_name),
 				value = value,
 				category = Gth.MetadataCategory.get (info.category),
@@ -115,34 +162,59 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	GenericList<Property> property_list;
 	Gtk.CustomFilter property_filter;
 	string filter_text;
+	HashTable<string, Action> actions;
+	Gth.FileData file_data;
 
-	class Property : Object {
+	public class Property : Object {
+		public string id;
 		public string name;
 		public string value;
 		public unowned Gth.MetadataCategory? category;
 	}
+
+	class Action {
+		public string detailed_action_name;
+		public string icon_name;
+		public string tooltip;
+
+		public Action (string _detailed_action_name, string _icon_name, string _tooltip) {
+			detailed_action_name = _detailed_action_name;
+			icon_name = _icon_name;
+			tooltip = _tooltip;
+		}
+	}
 }
 
-class PropertyListItem : Gtk.Box {
-	public Gtk.Label title;
-	public Gtk.Label subtitle;
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-property-item.ui")]
+class Gth.FilePropertyItem : Gtk.Box {
+	public unowned Gth.FilePropertyView.Property property = null;
 
-	public PropertyListItem () {
-		orientation = Gtk.Orientation.VERTICAL;
-		spacing = 6;
-		add_css_class ("property-row");
+	public FilePropertyItem () {
+		var action_group = new SimpleActionGroup ();
+		insert_action_group ("property", action_group);
 
-		title = new Gtk.Label ("");
-		title.add_css_class ("dim-label");
-		//title.add_css_class ("smaller-text");
-		title.halign = Gtk.Align.START;
-		append (title);
+		var action = new SimpleAction ("copy-value", null);
+		action.activate.connect ((_action, param) => {
+			var win = app.active_window as Gth.Window;
+			if (win != null) {
+				win.copy_text (property.value);
+			}
+		});
+		action_group.add_action (action);
 
-		subtitle = new Gtk.Label ("");
-		subtitle.halign = Gtk.Align.FILL;
-		subtitle.xalign = 0.0f;
-		subtitle.wrap = true;
-		subtitle.wrap_mode = Pango.WrapMode.CHAR;
-		append (subtitle);
+		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_SECONDARY);
+		click_events.pressed.connect ((n_press, x, y) => {
+			if (n_press == 1) {
+				popover_menu.pointing_to = { (int) x, (int) y, 1, 1};
+				popover_menu.popup ();
+			}
+		});
+		add_controller (click_events);
 	}
+
+	[GtkChild] unowned Gtk.PopoverMenu popover_menu;
+	[GtkChild] public unowned Gtk.Label title;
+	[GtkChild] public unowned Gtk.Label subtitle;
+	[GtkChild] public unowned Gtk.Button button;
 }

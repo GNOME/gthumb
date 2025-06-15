@@ -35,7 +35,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 
 	public void set_file (Gth.FileData? file_data) {
 		foreach (unowned var page in pages) {
-			if (page.view.can_view (file_data)) {
+			if ((file_data != null) && page.view.can_view (file_data)) {
 				page.view.set_file (file_data);
 				page.button.sensitive = true;
 			}

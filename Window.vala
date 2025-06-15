@@ -323,6 +323,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		browser_toast_overlay.add_toast (new Adw.Toast (message));
 	}
 
+	public void copy_text (string text) {
+		var clipboard = get_clipboard ();
+		clipboard.set_text (text);
+		show_message ("Copied to Clipboard");
+	}
+
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
 		set_page (Page.BROWSER);
 		if (load_action.changes_current_folder ()) {

@@ -86,8 +86,6 @@ public class Gth.MetadataView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public bool can_view (Gth.FileData file_data) {
-		if (file_data == null)
-			return false;
 		var data_available = false;
 		foreach (unowned var info in MetadataInfo.get_all ()) {
 			if (info.id == null) {

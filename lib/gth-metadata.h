@@ -32,9 +32,9 @@ typedef struct {
 	const char *id;
 	const char *display_name;
 	const char *category;
-	int sort_order;
-	const char *type;
 	GthMetadataFlags flags;
+	const char *type;
+	int sort_order;
 } GthMetadataInfo;
 
 #define GTH_TYPE_METADATA (gth_metadata_get_type ())

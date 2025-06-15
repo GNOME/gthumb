@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthFilePropertyItem">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">12</property>
+    <style>
+      <class name="property-row"/>
+    </style>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <property name="hexpand">true</property>
+        <child>
+          <object class="GtkLabel" id="title">
+            <property name="halign">start</property>
+            <style>
+              <class name="dim-label"/>
+              <class name="property-title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="subtitle">
+            <property name="halign">fill</property>
+            <property name="xalign">0</property>
+            <property name="wrap">true</property>
+            <property name="wrap-mode">char</property>
+            <style>
+              <class name="property-subtitle"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="button">
+        <property name="valign">center</property>
+        <property name="visible">false</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkPopoverMenu" id="popover_menu">
+        <property name="menu-model">context-menu</property>
+      </object>
+    </child>
+  </template>
+  <menu id="context-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy Value</attribute>
+        <attribute name="action">property.copy-value</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>
+
