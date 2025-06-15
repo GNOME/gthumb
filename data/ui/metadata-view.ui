@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthPropertyFile">
+  <template class="GthMetadataView">
     <property name="orientation">vertical</property>
-    <property name="spacing">6</property>
-    <style>
-      <class name="property-view"/>
-    </style>
     <child>
       <object class="GtkScrolledWindow">
         <property name="vexpand">true</property>
@@ -46,17 +42,9 @@
       <object class="GtkSearchEntry">
         <property name="placeholder_text" translatable="yes">Search Property</property>
         <property name="halign">center</property>
+        <property name="margin-top">12</property>
+        <property name="margin-bottom">12</property>
         <signal name="search_changed" handler="on_search_changed" />
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton">
-        <property name="label" translatable="yes">Copy Value</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton">
-        <property name="label" translatable="yes">Copy All</property>
       </object>
     </child>
   </template>

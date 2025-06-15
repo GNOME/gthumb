@@ -249,15 +249,14 @@ static GthMetadata * create_metadata (
 
 	GthMetadataInfo *metadata_info = gth_metadata_info_get (attribute);
 	if ((metadata_info == NULL) && (category != NULL)) {
-		GthMetadataInfo info;
-
-		info.id = attribute;
-		info.type = (type_name != NULL) ? g_strdup (type_name) : NULL;
-		info.display_name = description_utf8;
-		info.category = category;
-		info.sort_order = 500;
-		info.flags = GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW;
-		metadata_info = gth_metadata_info_register (&info);
+		metadata_info = gth_metadata_info_register (
+			attribute,
+			description_utf8,
+			category,
+			GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
+			type_name
+		);
+		metadata_info->sort_order = 500;
 	}
 
 	if ((metadata_info != NULL) && (metadata_info->type == NULL) && (type_name != NULL))
@@ -544,9 +543,53 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 	set_attribute_from_tagset (info, "Embedded::Photo::ShutterSpeed", _SHUTTER_SPEED_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::FocalLength", _FOCAL_LENGTH_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::Flash", _FLASH_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::CameraModel", _MODEL_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::Author", _AUTHOR_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::Copyright", _COPYRIGHT_TAG_NAMES);
+
+	GObject *make_metadata = get_attribute_from_tagset (info, _MAKE_TAG_NAMES);
+	if (make_metadata != NULL) {
+		GObject *model_metadata = get_attribute_from_tagset (info, _MODEL_TAG_NAMES);
+		if (model_metadata != NULL) {
+			char *make_formatted_value;
+			char *make_raw_value;
+			char *make_type_name;
+			g_object_get (make_metadata, "formatted", &make_formatted_value, "raw", &make_raw_value, "value-type", &make_type_name, NULL);
+
+			char *model_formatted_value;
+			char *model_raw_value;
+			char *model_type_name;
+			g_object_get (model_metadata, "formatted", &model_formatted_value, "raw", &model_raw_value, "value-type", &model_type_name, NULL);
+
+			GString *full_formatted_value = g_string_new ("");
+			g_string_append (full_formatted_value, make_formatted_value);
+			g_string_append (full_formatted_value, " ");
+			g_string_append (full_formatted_value, model_formatted_value);
+
+			GString *full_raw_value = g_string_new ("");
+			g_string_append (full_raw_value, make_raw_value);
+			g_string_append (full_raw_value, " ");
+			g_string_append (full_raw_value, model_raw_value);
+
+			set_file_info (
+				info,
+				"Embedded::Photo::CameraModel",
+				NULL,
+				full_formatted_value->str,
+				full_raw_value->str,
+				NULL,
+				model_type_name);
+
+			g_string_free (full_raw_value, TRUE);
+			g_string_free (full_formatted_value, TRUE);
+			g_free (model_type_name);
+			g_free (model_raw_value);
+			g_free (model_formatted_value);
+
+			g_free (make_type_name);
+			g_free (make_raw_value);
+			g_free (make_formatted_value);
+		}
+	}
 
 	/* Embedded::Photo::Exposure */
 

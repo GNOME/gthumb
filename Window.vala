@@ -49,6 +49,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		init_file_grid ();
 		init_actions ();
 
+		sidebar_resizer.add_handle ();
+		sidebar_resizer.started.connect (() => {
+			initial_sidebar_width = browser_view.max_sidebar_width;
+		});
+		sidebar_resizer.changed.connect ((delta_x) => {
+			browser_view.max_sidebar_width = initial_sidebar_width + delta_x;
+		});
+
 		filter_bar.changed.connect (() => update_active_filter ());
 
 		browser_view.notify["show-sidebar"].connect (() => {
@@ -970,12 +978,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		factory.bind.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
 			var file_item = list_item.child as Gth.FileListItem;
-			if (file_item != null) {
-				var file_data = list_item.item as FileData;
-				if (file_data != null) {
-					file_item.bind (file_data);
-					thumbnailer.requested_size = (uint) thumbnail_size;
-					thumbnailer.add (file_data);
+			var file_data = list_item.item as FileData;
+			if (file_data != null) {
+				file_item.bind (file_data);
+				thumbnailer.requested_size = (uint) thumbnail_size;
+				thumbnailer.add (file_data);
+				if (file_item.parent != null) {
+					file_item.parent.halign = Gtk.Align.CENTER;
 				}
 			}
 		});
@@ -1043,6 +1052,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
+	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;
@@ -1052,4 +1062,5 @@ public class Gth.Window : Adw.ApplicationWindow {
 	Gth.Thumbnailer thumbnailer;
 	Gth.WindowHistory history;
 	Gth.WindowBookmarks bookmarks;
+	double initial_sidebar_width;
 }

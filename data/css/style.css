@@ -21,19 +21,35 @@
 	color: #ffffff33;
 }
 
+.sidebar-container,
 .sidebar-header,
-.sidebar-header-bottom {
-	padding: 6px;
+.mini-search-bar {
+	padding: 6px 0 6px 6px;
 }
 
 .sidebar-header {
 	border-bottom: 1px solid var(--border-color);
 }
 
-.sidebar-header-bottom {
-	border-top: 1px solid var(--border-color);
+.sidebar-header.bottom {
+	border-bottom: 0;
 }
 
-.property-view {
-	margin: 6px;
+.smaller-text {
+	font-size: 0.9em;
+}
+
+.property-row {
+	margin: 6px 0;
+}
+
+.property-header {
+	margin: 6px 12px;
+}
+
+.mini-search-bar > entry.search {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	font-size: 0.9em;
 }

@@ -303,12 +303,14 @@ static GPtrArray *metadata_info_array;
 static GHashTable *metadata_info_hash;
 static gboolean metadata_info_sorted;
 static GMutex metadata_info_mutex;
+static int metadata_info_last_sort_order;
 
 
 void gth_metadata_info_init () {
 	metadata_info_array = g_ptr_array_new ();
 	metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	metadata_info_sorted = FALSE;
+	metadata_info_last_sort_order = 0;
 }
 
 
@@ -322,13 +324,24 @@ GPtrArray * gth_metadata_info_get_all () {
 }
 
 
-GthMetadataInfo * gth_metadata_info_register (GthMetadataInfo *metadata_info) {
-	if ((metadata_info->display_name != NULL) && (strstr (metadata_info->display_name, "0x") != NULL))
-		metadata_info->flags = GTH_METADATA_HIDDEN;
+GthMetadataInfo * gth_metadata_info_register (const char *id, const char *display_name, const char *category, GthMetadataFlags flags, const char *type) {
+	if ((display_name != NULL) && (strstr (display_name, "0x") != NULL))
+		flags = GTH_METADATA_HIDDEN;
 
 	g_mutex_lock (&metadata_info_mutex);
 
-	GthMetadataInfo *info = gth_metadata_info_copy (metadata_info);
+	GthMetadataInfo *info = g_new0 (GthMetadataInfo, 1);
+	if (id != NULL)
+		info->id = g_strdup (id);
+	if (display_name != NULL)
+		info->display_name = g_strdup (display_name);
+	if (category != NULL)
+		info->category = g_strdup (category);
+	info->flags = flags;
+	if (type != NULL)
+		info->type = g_strdup (type);
+	info->sort_order = metadata_info_last_sort_order++;
+
 	g_ptr_array_add (metadata_info_array, info);
 	g_hash_table_insert (metadata_info_hash, (gpointer) info->id, info);
 	metadata_info_sorted = FALSE;
@@ -368,11 +381,13 @@ void gth_metadata_info_destroy (GthMetadataInfo *info) {
 static GPtrArray *metadata_category_array;
 static GHashTable *metadata_category_hash;
 static GMutex metadata_category_mutex;
+static int metadata_category_next_sort_order;
 
 
 void gth_metadata_category_init () {
 	metadata_category_array = g_ptr_array_new ();
 	metadata_category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
+	metadata_category_next_sort_order = 0;
 }
 
 
@@ -381,11 +396,11 @@ GthMetadataCategory * gth_metadata_category_get (const char *id) {
 }
 
 
-void gth_metadata_category_register (GthMetadataCategory *metadata_category) {
+void gth_metadata_category_register (const char *id, const char *display_name) {
 	g_mutex_lock (&metadata_category_mutex);
 
-	if (gth_metadata_category_get (metadata_category->id) == NULL) {
-		GthMetadataCategory *category = gth_metadata_category_copy (metadata_category);
+	if (gth_metadata_category_get (id) == NULL) {
+		GthMetadataCategory *category = gth_metadata_category_new (id, display_name, metadata_category_next_sort_order++);
 		g_ptr_array_add (metadata_category_array, category);
 		g_hash_table_insert (metadata_category_hash, (gpointer) category->id, category);
 	}

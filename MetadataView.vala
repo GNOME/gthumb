@@ -1,7 +1,5 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/property-file.ui")]
-public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
-	public bool show_details = false;
-
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/metadata-view.ui")]
+public class Gth.MetadataView : Gtk.Box, Gth.PropertyView {
 	construct {
 		filter_text = null;
 
@@ -30,6 +28,7 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 			var label = new Gtk.Inscription ("");
 			label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 			label.xalign = 0.0f;
+			label.add_css_class ("smaller-text");
 			list_header.child = label;
 		});
 		header_factory.bind.connect ((item) => {
@@ -53,6 +52,7 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 			var property = list_item.item as Property;
 			label.text = property.name;
 			label.tooltip_text = property.name;
+			label.add_css_class ("smaller-text");
 		});
 
 		var value_factory = value_column.factory as Gtk.SignalListItemFactory;
@@ -61,6 +61,7 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 			var label = new Gtk.Inscription ("");
 			label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 			label.xalign = 0.0f;
+			label.add_css_class ("smaller-text");
 			list_item.child = label;
 		});
 		value_factory.bind.connect ((item) => {
@@ -72,33 +73,22 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 		});
 	}
 
-	public virtual unowned string get_name () {
-		return "properties";
+	public unowned string get_name () {
+		return "embedded-metadata";
 	}
 
-	public virtual unowned string get_title () {
-		return _("File Properties");
+	public unowned string get_title () {
+		return _("Embedded Metadata");
 	}
 
-	public virtual unowned string get_icon () {
-		return "document-properties-symbolic";
+	public unowned string get_icon () {
+		return "open-book-symbolic";
 	}
 
 	public bool can_view (Gth.FileData file_data) {
 		if (file_data == null)
 			return false;
-		//if (!show_details)
-			return true;
-	}
-
-	[GtkCallback]
-	void on_search_changed (Gtk.SearchEntry entry) {
-		filter_text = entry.text.casefold ();
-		property_filter.changed (Gtk.FilterChange.DIFFERENT);
-	}
-
-	public void set_file (Gth.FileData? file_data) {
-		property_list.model.remove_all ();
+		var data_available = false;
 		foreach (unowned var info in MetadataInfo.get_all ()) {
 			if (info.id == null) {
 				continue;
@@ -110,12 +100,38 @@ public class Gth.PropertyFile : Gtk.Box, Gth.PropertyView {
 				|| info.id.has_prefix ("Iptc")
 				|| info.id.has_prefix ("Xmp"))
 			{
-				if (!show_details)
-					continue;
+				var value = file_data.get_attribute_as_string (info.id);
+				if (!Strings.empty (value)) {
+					data_available = true;
+					break;
+				}
 			}
-			else {
-				if (show_details)
-					continue;
+		}
+		return data_available;
+	}
+
+	[GtkCallback]
+	void on_search_changed (Gtk.SearchEntry entry) {
+		filter_text = entry.text.casefold ();
+		property_filter.changed (Gtk.FilterChange.DIFFERENT);
+	}
+
+	public void set_file (Gth.FileData? file_data) {
+		property_list.model.remove_all ();
+		if (file_data == null)
+			return;
+		foreach (unowned var info in MetadataInfo.get_all ()) {
+			if (info.id == null) {
+				continue;
+			}
+			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
+				continue;
+			}
+			if (!info.id.has_prefix ("Exif")
+				&& !info.id.has_prefix ("Iptc")
+				&& !info.id.has_prefix ("Xmp"))
+			{
+				continue;
 			}
 			var value = file_data.get_attribute_as_string (info.id);
 			if (Strings.empty (value)) {

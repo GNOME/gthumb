@@ -9,149 +9,157 @@
     <child>
       <object class="AdwOverlaySplitView" id="browser_view">
         <property name="collapsed">true</property>
+        <property name="min_sidebar_width">350</property>
+        <property name="max_sidebar_width">350</property>
+        <property name="sidebar_width_fraction">1.0</property>
+        <property name="sidebar_width_unit">px</property>
         <property name="sidebar">
-          <object class="AdwToolbarView">
-            <child type="top">
-              <object class="AdwHeaderBar">
-                <property name="title-widget">
-                  <object class="AdwWindowTitle">
-                    <property name="title">Thumbnails</property>
-                  </object>
-                </property>
-                <child type="start">
-                  <object class="GtkButton">
-                    <property name="icon-name">edit-find-symbolic</property>
-                    <property name="action-name">win.find-files</property>
+          <object class="GthSidebarResizer" id="sidebar_resizer">
+            <property name="orientation">horizontal</property>
+            <child>
+              <object class="AdwToolbarView">
+                <property name="hexpand">true</property>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="title-widget">
+                      <object class="AdwWindowTitle">
+                        <property name="title">Thumbnails</property>
+                      </object>
+                    </property>
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="icon-name">edit-find-symbolic</property>
+                        <property name="action-name">win.find-files</property>
+                      </object>
+                    </child>
+                    <child type="start">
+                      <object class="GtkToggleButton">
+                        <property name="icon-name">sidebar-show-symbolic</property>
+                        <property name="action-name">win.show-sidebar</property>
+                        <property name="visible">false</property>
+                      </object>
+                    </child>
+                    <child type="end">
+                      <object class="GtkToggleButton">
+                        <property name="icon-name">pin-symbolic</property>
+                        <property name="action-name">win.pin-sidebar</property>
+                        <property name="visible">false</property>
+                      </object>
+                    </child>
+                    <child type="end">
+                      <object class="GtkMenuButton" id="app_menu_button">
+                        <property name="icon-name">open-menu-symbolic</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
-                <child type="start">
-                  <object class="GtkToggleButton">
-                    <property name="icon-name">sidebar-show-symbolic</property>
-                    <property name="action-name">win.show-sidebar</property>
-                    <property name="visible">false</property>
-                  </object>
-                </child>
-                <child type="end">
-                  <object class="GtkToggleButton">
-                    <property name="icon-name">pin-symbolic</property>
-                    <property name="action-name">win.pin-sidebar</property>
-                    <property name="visible">false</property>
-                  </object>
-                </child>
-                <child type="end">
-                  <object class="GtkMenuButton" id="app_menu_button">
-                    <property name="icon-name">open-menu-symbolic</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <property name="content">
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                  <child>
-                    <object class="GtkBox">
-                      <property name="orientation">horizontal</property>
-                      <property name="spacing">6</property>
-                      <style>
-                        <class name="sidebar-header"/>
-                      </style>
+                <property name="content">
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
                       <child>
-                        <object class="GtkToggleButton" id="vfs_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">folder-symbolic</property>
-                          <property name="action-name">win.show-folders</property>
-                          <property name="tooltip-text">Folders</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkToggleButton" id="catalog_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">library-symbolic</property>
-                          <property name="action-name">win.show-catalogs</property>
-                          <property name="tooltip-text">Catalogs</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkToggleButton" id="properties_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">info-outline-symbolic</property>
-                          <property name="action-name">win.show-properties</property>
-                          <property name="tooltip-text">File Properties</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkSeparator">
+                        <object class="GtkBox">
                           <property name="orientation">horizontal</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkButton">
-                          <property name="hexpand">true</property>
+                          <property name="spacing">6</property>
                           <style>
-                            <class name="flat"/>
+                            <class name="sidebar-header"/>
                           </style>
-                          <property name="icon-name">user-home-symbolic</property>
-                          <property name="action-name">win.load-home</property>
-                          <property name="tooltip-text">Home Folder</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkMenuButton" id="bookmarks_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">user-bookmarks-symbolic</property>
-                          <property name="tooltip-text">Bookmarks</property>
-                        </object>
-                      </child>
-                      <child>
-                        <object class="GtkMenuButton" id="history_button">
-                          <property name="hexpand">true</property>
-                          <style>
-                            <class name="flat"/>
-                          </style>
-                          <property name="icon-name">clock-alt-symbolic</property>
-                          <property name="tooltip-text">History</property>
-                        </object>
-                      </child>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkStack" id="sidebar_stack">
-                      <property name="vexpand">true</property>
-                      <child>
-                        <object class="GtkScrolledWindow" id="files_sidebar">
-                          <property name="vexpand">true</property>
-                          <property name="min-content-width">450</property>
                           <child>
-                            <object class="GtkListView" id="folder_tree">
+                            <object class="GtkToggleButton" id="vfs_button">
+                              <property name="hexpand">true</property>
                               <style>
-                                <class name="navigation-sidebar"/>
+                                <class name="flat"/>
                               </style>
+                              <property name="icon-name">folder-symbolic</property>
+                              <property name="action-name">win.show-folders</property>
+                              <property name="tooltip-text">Folders</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkToggleButton" id="catalog_button">
+                              <property name="hexpand">true</property>
+                              <style>
+                                <class name="flat"/>
+                              </style>
+                              <property name="icon-name">library-symbolic</property>
+                              <property name="action-name">win.show-catalogs</property>
+                              <property name="tooltip-text">Catalogs</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkToggleButton" id="properties_button">
+                              <property name="hexpand">true</property>
+                              <style>
+                                <class name="flat"/>
+                              </style>
+                              <property name="icon-name">info-outline-symbolic</property>
+                              <property name="action-name">win.show-properties</property>
+                              <property name="tooltip-text">File Properties</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkSeparator">
+                              <property name="orientation">horizontal</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkButton">
+                              <property name="hexpand">true</property>
+                              <style>
+                                <class name="flat"/>
+                              </style>
+                              <property name="icon-name">user-home-symbolic</property>
+                              <property name="action-name">win.load-home</property>
+                              <property name="tooltip-text">Home Folder</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkMenuButton" id="bookmarks_button">
+                              <property name="hexpand">true</property>
+                              <style>
+                                <class name="flat"/>
+                              </style>
+                              <property name="icon-name">user-bookmarks-symbolic</property>
+                              <property name="tooltip-text">Bookmarks</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkMenuButton" id="history_button">
+                              <property name="hexpand">true</property>
+                              <style>
+                                <class name="flat"/>
+                              </style>
+                              <property name="icon-name">clock-alt-symbolic</property>
+                              <property name="tooltip-text">History</property>
                             </object>
                           </child>
                         </object>
                       </child>
                       <child>
-                        <object class="GthPropertySidebar" id="property_sidebar">
+                        <object class="GtkStack" id="sidebar_stack">
                           <property name="vexpand">true</property>
-                          <!--property name="min-content-width">400</property-->
+                          <child>
+                            <object class="GtkScrolledWindow" id="files_sidebar">
+                              <property name="vexpand">true</property>
+                              <child>
+                                <object class="GtkListView" id="folder_tree">
+                                  <style>
+                                    <class name="navigation-sidebar"/>
+                                  </style>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GthPropertySidebar" id="property_sidebar">
+                              <property name="vexpand">true</property>
+                            </object>
+                          </child>
                         </object>
                       </child>
-                    </object>
-                  </child>
+                  </object>
+                </property>
               </object>
-            </property>
+            </child>
           </object>
         </property>
         <property name="content">

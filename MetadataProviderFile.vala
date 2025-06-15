@@ -4,7 +4,7 @@ public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 		"gth::file::display-mtime",
 		"gth::file::content-type",
 		"gth::file::is-modified",
-		"gth::file::full-name",
+		"gth::file::location",
 	};
 
 	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
@@ -18,7 +18,10 @@ public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 		var time = file_data.get_modification_time ();
 		file_data.info.set_attribute_string ("gth::file::display-mtime", time.to_display_string ());
 
-		file_data.info.set_attribute_string ("gth::file::full-name", file_data.file.get_parse_name ());
+		var parent = file_data.file.get_parent ();
+		if (parent != null) {
+			file_data.info.set_attribute_string ("gth::file::location", parent.has_uri_scheme ("file") ? parent.get_path () : parent.get_uri ());
+		}
 
 		file_data.info.set_attribute_string ("gth::file::content-type", file_data.get_content_type ());
 	}

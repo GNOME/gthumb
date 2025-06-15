@@ -13,9 +13,9 @@ public class Gth.PropertySidebar : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		add_page (new Gth.PropertyFile ());
-		add_page (new Gth.PropertyMetadata ());
-		set_page ("properties");
+		add_page (new Gth.FilePropertyView ());
+		add_page (new Gth.EmbeddedPropertyView ());
+		set_page ("file-properties");
 	}
 
 	void add_page (Gth.PropertyView view) {
@@ -23,7 +23,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 		button.child = new Gtk.Image.from_icon_name (view.get_icon ());
 		button.action_name = "sidebar.set-view";
 		button.action_target = new Variant.string (view.get_name ());
-		//button.hexpand = true;
+		button.hexpand = true;
 		button.add_css_class ("flat");
 		button.tooltip_text = view.get_title ();
 		header.append (button);
@@ -35,7 +35,14 @@ public class Gth.PropertySidebar : Gtk.Box {
 
 	public void set_file (Gth.FileData? file_data) {
 		foreach (unowned var page in pages) {
-			page.view.set_file (file_data);
+			if (page.view.can_view (file_data)) {
+				page.view.set_file (file_data);
+				page.button.sensitive = true;
+			}
+			else {
+				page.view.set_file (null);
+				page.button.sensitive = false;
+			}
 		}
 	}
 

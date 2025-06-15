@@ -73,14 +73,14 @@ void              set_attribute_from_string         (GFileInfo       *info,
 						     const char      *formatted);
 
 void gth_metadata_info_init ();
-GthMetadataInfo * gth_metadata_info_register (GthMetadataInfo *info);
+GthMetadataInfo * gth_metadata_info_register (const char *id, const char *display_name, const char *category, GthMetadataFlags flags, const char *type);
 GthMetadataInfo * gth_metadata_info_get (const char *id);
 GPtrArray * gth_metadata_info_get_all ();
 GthMetadataInfo * gth_metadata_info_copy (GthMetadataInfo *info);
 void gth_metadata_info_destroy (GthMetadataInfo *info);
 
 void gth_metadata_category_init ();
-void gth_metadata_category_register (GthMetadataCategory *info);
+void gth_metadata_category_register (const char *id, const char *display_name);
 GthMetadataCategory * gth_metadata_category_get (const char *id);
 GthMetadataCategory * gth_metadata_category_new (const char *id, const char *display_name, int sort_order);
 GthMetadataCategory * gth_metadata_category_copy (GthMetadataCategory *category);

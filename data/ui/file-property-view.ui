@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthFilePropertyView">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="vexpand">true</property>
+        <child>
+          <object class="GtkListView" id="list_view">
+            <property name="header_factory">
+              <object class="GtkSignalListItemFactory"></object>
+            </property>
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"></object>
+            </property>
+            <style>
+              <class name="navigation-sidebar"/>
+              <class name="smaller-text"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <style>
+          <class name="mini-search-bar"/>
+        </style>
+        <child>
+          <object class="GtkSearchEntry">
+            <property name="placeholder_text" translatable="yes">Search Property</property>
+            <property name="halign">fill</property>
+            <signal name="search_changed" handler="on_search_changed" />
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

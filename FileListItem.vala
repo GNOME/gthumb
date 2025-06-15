@@ -7,7 +7,7 @@ public class Gth.FileListItem : Gtk.Box {
 		size = _size;
 		attributes_v = _attributes_v;
 		orientation = Gtk.Orientation.VERTICAL;
-		halign = Gtk.Align.FILL;
+		halign = Gtk.Align.CENTER;
 		spacing = V_SPACING;
 		//add_css_class ("card");
 		add_css_class ("thumbnail-card");
@@ -15,6 +15,7 @@ public class Gth.FileListItem : Gtk.Box {
 		var fixed_size = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		fixed_size.width_request = size;
 		fixed_size.height_request = size;
+		//fixed_size.halign = Gtk.Align.CENTER;
 		append (fixed_size);
 
 		preview = new Gtk.Picture ();
@@ -23,6 +24,7 @@ public class Gth.FileListItem : Gtk.Box {
 		preview.valign = Gtk.Align.CENTER;
 		preview.visible = false;
 		preview.can_shrink = false;
+		preview.content_fit = Gtk.ContentFit.SCALE_DOWN;
 		fixed_size.append (preview);
 
 		icon = new Gtk.Image ();

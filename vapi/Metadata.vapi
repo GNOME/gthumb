@@ -10,7 +10,7 @@ public struct Gth.MetadataInfo {
 	public MetadataFlags flags;
 
 	public static void init ();
-	public static void register (MetadataInfo info);
+	public static void register (string id, string display_name, string category, MetadataFlags flags, string? type = null);
 	[CCode ()]
 	public static unowned MetadataInfo? get (string id);
 	public static unowned GenericArray<MetadataInfo?> get_all ();
@@ -25,7 +25,7 @@ public class Gth.MetadataCategory {
 
 	public MetadataCategory (string id, string display_name, int sort_order);
 	public static void init ();
-	public static void register (MetadataCategory category);
+	public static void register (string id, string display_name);
 	public static unowned MetadataCategory get (string id);
 }
 

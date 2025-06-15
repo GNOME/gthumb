@@ -42,8 +42,8 @@ public class Gth.ImageLoader {
 				throw new IOError.FAILED (_("Unknown file type"));
 			}
 
-			var loader_func = app.get_load_func (content_type);
-			if (loader_func == null) {
+			var load_func = app.get_load_func (content_type);
+			if (load_func == null) {
 				throw new IOError.NOT_SUPPORTED (_("No suitable loader available for this file type"));
 			}
 
@@ -52,7 +52,7 @@ public class Gth.ImageLoader {
 				seekable.seek (0, SeekType.SET, cancellable);
 			}
 			var bytes = Files.read_all (stream, cancellable);
-			image = loader_func (bytes, requested_size, cancellable);
+			image = load_func (bytes, requested_size, cancellable);
 
 			unowned var icc_profile = image.get_icc_profile ();
 			if (icc_profile != null) {
