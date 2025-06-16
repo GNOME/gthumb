@@ -40,7 +40,6 @@
 #define MINIMUM_DELAY   10    /* When an animation frame has a 0 milli seconds
 			       * delay use this delay instead. */
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
-#define GRAY_VALUE 0.2
 #define CHECKED_PATTERN_SIZE 20
 
 

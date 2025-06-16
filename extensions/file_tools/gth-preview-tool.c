@@ -316,9 +316,9 @@ gth_preview_tool_init (GthPreviewTool *self)
 {
 	self->priv = gth_preview_tool_get_instance_private (self);
 	self->priv->preview_image = NULL;
-	self->priv->background_color.red = 0.2;
-	self->priv->background_color.green = 0.2;
-	self->priv->background_color.blue = 0.2;
+	self->priv->background_color.red = GRAY_VALUE;
+	self->priv->background_color.green = GRAY_VALUE;
+	self->priv->background_color.blue = GRAY_VALUE;
 	self->priv->background_color.alpha = 1.0;
 }
 

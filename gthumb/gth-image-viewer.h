@@ -32,6 +32,8 @@ typedef struct _GthImageViewer GthImageViewer;
 
 G_BEGIN_DECLS
 
+#define GRAY_VALUE 0.13
+
 #define GTH_TYPE_IMAGE_VIEWER            (gth_image_viewer_get_type ())
 #define GTH_IMAGE_VIEWER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE_VIEWER, GthImageViewer))
 #define GTH_IMAGE_VIEWER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_IMAGE_VIEWER, GthImageViewerClass))
