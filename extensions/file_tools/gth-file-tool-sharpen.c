@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include "gth-file-tool-sharpen.h"
+#include "gth-preview-tool.h"
 #include "cairo-blur.h"
 
 
@@ -29,18 +30,19 @@
 #define DEFAULT_RADIUS 2.0
 #define DEFAULT_AMOUNT 50.0
 #define DEFAULT_THRESHOLD 0.0
+#define PREVIEW_SIZE 0.9
 
 
 struct _GthFileToolSharpenPrivate {
-	GtkBuilder      *builder;
-	GtkAdjustment   *radius_adj;
-	GtkAdjustment   *amount_adj;
-	GtkAdjustment   *threshold_adj;
-	GtkWidget       *preview;
-	guint            apply_event;
-	gboolean         show_preview;
-	cairo_surface_t *preview_source;
-	gboolean         image_centered;
+	GtkBuilder         *builder;
+	GtkAdjustment      *radius_adj;
+	GtkAdjustment      *amount_adj;
+	GtkAdjustment      *threshold_adj;
+	GthImageViewerTool *preview_tool;
+	guint               apply_event;
+	gboolean            show_preview;
+	cairo_surface_t    *preview_source;
+	cairo_surface_t    *original_source;
 };
 
 
@@ -117,59 +119,22 @@ static gboolean
 apply_cb (gpointer user_data)
 {
 	GthFileToolSharpen *self = user_data;
-	cairo_surface_t    *source;
-	GthImageViewer     *preview;
-
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
-
-	source = self->priv->preview_source;
-	preview = GTH_IMAGE_VIEWER (self->priv->preview);
 	if (self->priv->show_preview) {
-		SharpenData     *sharpen_data;
-		int              x, y, w ,h;
-		cairo_surface_t *destination;
-		cairo_surface_t *preview_surface;
+		cairo_surface_destroy (self->priv->preview_source);
+		self->priv->preview_source = _cairo_image_surface_copy (self->priv->original_source);
+		SharpenData *sharpen_data = sharpen_data_new (self);
+		_cairo_image_surface_sharpen (self->priv->preview_source,
+			sharpen_data->radius,
+			sharpen_data->amount,
+			sharpen_data->threshold,
+			NULL);
+		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview_source);
 
-		sharpen_data = sharpen_data_new (self);
-		gth_image_viewer_get_scroll_offset (preview, &x, &y);
-		w = MIN (gtk_adjustment_get_page_size (preview->hadj), cairo_image_surface_get_width (source));
-		h = MIN (gtk_adjustment_get_page_size (preview->vadj), cairo_image_surface_get_height (source));
-
-		if ((w < 0) || (h < 0))
-			return FALSE;
-
-		destination = _cairo_image_surface_copy (source);
-		_cairo_image_surface_copy_metadata (source, destination);
-
-		preview_surface = _cairo_image_surface_copy_subsurface (destination, x, y, w, h);
-		if (preview_surface != NULL) {
-			cairo_t *cr;
-
-			_cairo_image_surface_sharpen (preview_surface,
-						      sharpen_data->radius,
-						      sharpen_data->amount,
-						      sharpen_data->threshold,
-						      NULL);
-
-			cr = cairo_create (destination);
-			cairo_set_source_surface (cr, preview_surface, x, y);
-			cairo_rectangle (cr, x, y, w, h);
-			cairo_fill (cr);
-			cairo_destroy (cr);
-		}
-
-		gth_image_viewer_set_surface (preview, destination, -1, -1);
-
-		cairo_surface_destroy (preview_surface);
-		cairo_surface_destroy (destination);
 		sharpen_data_free (sharpen_data);
 	}
-	else
-		gth_image_viewer_set_surface (preview, source, -1, -1);
-
+	else {
+		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->original_source);
+	}
 	return FALSE;
 }
 
@@ -199,53 +164,39 @@ preview_checkbutton_toggled_cb (GtkToggleButton    *toggle_button,
 }
 
 
-static void
-preview_size_allocate_cb (GtkWidget    *widget,
-	                  GdkRectangle *allocation,
-	                  gpointer      user_data)
-{
-	GthFileToolSharpen *self = user_data;
-
-	if (self->priv->image_centered)
-		return;
-
-	gth_image_viewer_scroll_to_center (GTH_IMAGE_VIEWER (self->priv->preview));
-	self->priv->image_centered = TRUE;
-}
-
-
 static GtkWidget *
 gth_file_tool_sharpen_get_options (GthFileTool *base)
 {
-	GthFileToolSharpen *self;
-	cairo_surface_t    *source;
-	GtkWidget          *options;
-	GtkWidget          *image_navigator;
+	GthFileToolSharpen *self = (GthFileToolSharpen *) base;
 
-	self = (GthFileToolSharpen *) base;
-
+	_cairo_clear_surface (&self->priv->original_source);
 	_cairo_clear_surface (&self->priv->preview_source);
 
-	source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
+	cairo_surface_t *source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (source == NULL)
 		return NULL;
 
-	self->priv->preview_source = cairo_surface_reference (source);
+	GtkWidget *window = gth_file_tool_get_window (base);
+	GthViewerPage *viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		return NULL;
+	GtkWidget *viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	int width = cairo_image_surface_get_width (source);
+	int height = cairo_image_surface_get_height (source);
+	GtkAllocation allocation;
+	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
+	if (scale_keeping_ratio (&width, &height, PREVIEW_SIZE * allocation.width, PREVIEW_SIZE * allocation.height, FALSE))
+		self->priv->original_source = _cairo_image_surface_scale_fast (source, width, height);
+	else
+		self->priv->original_source = cairo_surface_reference (source);
+
 	self->priv->builder = _gtk_builder_new_from_file ("sharpen-options.ui", "file_tools");
-	self->priv->image_centered = FALSE;
-	options = _gtk_builder_get_widget (self->priv->builder, "options");
+	GtkWidget *options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
 
-	self->priv->preview = gth_image_viewer_new ();
-	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->preview), GTH_FIT_NONE);
-	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->preview), GTH_ZOOM_CHANGE_KEEP_PREV);
-	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->preview), 1.0);
-	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
-	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->preview), self->priv->preview_source, -1, -1);
-	image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->preview));
-	gtk_widget_show_all (image_navigator);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_hbox")), image_navigator, TRUE, TRUE, 0);
+	self->priv->preview_tool = gth_preview_tool_new ();
+	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->original_source);
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
 
 	self->priv->amount_adj = gth_color_scale_label_new (GET_WIDGET ("amount_hbox"),
 						            GTK_LABEL (GET_WIDGET ("amount_label")),
@@ -272,21 +223,9 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
-	g_signal_connect (GTH_IMAGE_VIEWER (self->priv->preview)->hadj,
-			  "value-changed",
-			  G_CALLBACK (value_changed_cb),
-			  self);
-	g_signal_connect (GTH_IMAGE_VIEWER (self->priv->preview)->vadj,
-			  "value-changed",
-			  G_CALLBACK (value_changed_cb),
-			  self);
 	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
 			  "clicked",
 			  G_CALLBACK (preview_checkbutton_toggled_cb),
-			  self);
-	g_signal_connect (self->priv->preview,
-			  "size-allocate",
-			  G_CALLBACK (preview_size_allocate_cb),
 			  self);
 
 	return options;
@@ -305,8 +244,14 @@ gth_file_tool_sharpen_destroy_options (GthFileTool *base)
 		self->priv->apply_event = 0;
 	}
 
-	_cairo_clear_surface (&self->priv->preview_source);
+	GtkWidget *window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	GthViewerPage *viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_update_sensitivity (viewer_page);
+
 	_g_clear_object (&self->priv->builder);
+	_cairo_clear_surface (&self->priv->original_source);
+	_cairo_clear_surface (&self->priv->preview_source);
 }
 
 
@@ -428,6 +373,7 @@ gth_file_tool_sharpen_init (GthFileToolSharpen *self)
 	self->priv = gth_file_tool_sharpen_get_instance_private (self);
 	self->priv->builder = NULL;
 	self->priv->show_preview = TRUE;
+	self->priv->original_source = NULL;
 	self->priv->preview_source = NULL;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self),

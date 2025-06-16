@@ -617,7 +617,6 @@ gth_image_selector_set_viewer (GthImageViewerTool *base,
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
 	self->priv->viewer = image_viewer;
-	gth_image_viewer_show_frame (self->priv->viewer, 25);
 }
 
 
