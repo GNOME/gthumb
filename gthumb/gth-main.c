@@ -1386,6 +1386,7 @@ gth_main_activate_extensions (void)
 		"convert_format",
 		"desktop_background",
 		"edit_metadata",
+		"open_map",
 		"exiv2_tools",
 		"file_manager",
 		"find_duplicates",
