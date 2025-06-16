@@ -1626,7 +1626,7 @@ gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 	if (! GTH_IS_IMAGE_DRAGGER (tool))
 		return;
 
-	g_object_set (tool, "show-frame", ! active, NULL);
+	g_object_set (tool, "show-frame", active ? FALSE : g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_SHOW_FRAME), NULL);
 }
 
 
