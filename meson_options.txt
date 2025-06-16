@@ -82,18 +82,6 @@ option('librsvg',
   description : 'Use librsvg to load SVG images'
 )
 
-option('libsecret',
-  type : 'boolean',
-  value : true,
-  description : 'Use libsecret to save web service account data'
-)
-
-option('webservices',
-  type : 'boolean',
-  value : true,
-  description : 'Compile extensions that import/export images from web services'
-)
-
 option('libbrasero',
   type : 'boolean',
   value : true,

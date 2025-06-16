@@ -11,8 +11,6 @@ clutter_version = '>=1.12.0'
 clutter_gtk_version = '>=1.0.0'
 gstreamer_version = '>=1.0.0'
 libraw_version = '>=0.14'
-libsoup_version = '>=2.42'
-libsecret_version = '>=0.11'
 libbrasero_version = '>=3.2.0'
 libchamplain_version = '>=0.12.0'
 librsvg_version = '>=2.34.0'
@@ -20,8 +18,6 @@ libwebp_version = '>=0.2.0'
 libjxl_version = '>=0.3.0'
 libjxl_threads_version = '>=0.3.0'
 libheif_version = '>= 1.11'
-libjson_glib_version = '>=0.15.0'
-webkit2_version = '>=1.10.0'
 lcms2_version = '>=2.6'
 colord_version = '>=1.3'
 
@@ -198,24 +194,6 @@ else
   use_librsvg = false
 endif
 
-use_libsecret = false
-if get_option('webservices')
-  libsoup_dep = dependency('libsoup-2.4', version : libsoup_version, required : false)
-  libjson_glib_dep = dependency('json-glib-1.0', version : libjson_glib_version, required : false)
-  webkit2_dep = dependency('webkit2gtk-4.0', version : webkit2_version, required : false)
-  if not webkit2_dep.found()
-    webkit2_dep = dependency('webkit2gtk-3.0', version : webkit2_version, required : false)
-  endif
-  with_webservices = libsoup_dep.found() and libjson_glib_dep.found() and webkit2_dep.found()
-
-  if with_webservices and get_option('libsecret')
-    libsecret_dep = dependency('libsecret-1', version : libsecret_version, required : false)
-    use_libsecret = libsecret_dep.found()
-  endif
-else
-  with_webservices = false
-endif
-
 if get_option('libbrasero')
   libbrasero_dep = dependency('libbrasero-burn3', version : libbrasero_version, required : false)
   use_libbrasero = libbrasero_dep.found()
@@ -328,12 +306,6 @@ endif
 if use_librsvg
   config_data.set('HAVE_LIBRSVG', 1)
 endif
-if use_libsecret
-  config_data.set('HAVE_LIBSECRET', 1)
-endif
-if with_webservices
-  config_data.set('WITH_WEB_SERVICES', 1)
-endif
 if use_libbrasero
   config_data.set('HAVE_LIBBRASERO', 1)
 endif
@@ -415,8 +387,6 @@ summary = [
   '               raw: @0@'.format(use_libraw),
   '               svg: @0@'.format(use_librsvg),
   '         heif/avif: @0@'.format(use_libheif),
-  '      web services: @0@'.format(with_webservices),
-  '         libsecret: @0@'.format(use_libsecret),
   '        libbrasero: @0@'.format(use_libbrasero),
   '        web albums: @0@'.format(with_webalbums),
   '        vector ops: @0@'.format(vector_ops),

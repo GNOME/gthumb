@@ -37,14 +37,6 @@ if use_libbrasero
   subdir('burn_disc')
 endif
 subdir('contact_sheet')
-if with_webservices
-  subdir('oauth')
-
-  # flickr exporters
-  subdir('flicker_utils')
-  subdir('23hq')
-  subdir('flicker')
-endif
 if with_webalbums
   subdir('webalbums')
 endif

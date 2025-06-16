@@ -1377,7 +1377,6 @@ gth_main_activate_extensions (void)
 		NULL
 	};
 	const char *default_extensions[] = {
-		"23hq",
 		"bookmarks",
 		"burn_disc",
 		"catalogs",
@@ -1390,7 +1389,6 @@ gth_main_activate_extensions (void)
 		"exiv2_tools",
 		"file_manager",
 		"find_duplicates",
-		"flicker",
 		"gstreamer_tools",
 		"gstreamer_utils",
 		"image_print",
@@ -1398,7 +1396,6 @@ gth_main_activate_extensions (void)
 		"importer",
 		"jpeg_utils",
 		"list_tools",
-		"oauth",
 		"photo_importer",
 		"raw_files",
 		"red_eye_removal",
@@ -1443,7 +1440,7 @@ gth_main_activate_extensions (void)
 
 		mandatory = _g_strv_contains ((char **) mandatory_extensions, name);
 		description = gth_extension_manager_get_description (manager, name);
-		if (! mandatory && (description != NULL) && description->hidden)
+		if (! mandatory && ((description == NULL) || description->hidden))
 			continue;
 
 		if (! gth_extension_manager_activate (Main->priv->extension_manager, name, &error)) {
@@ -1451,8 +1448,9 @@ gth_main_activate_extensions (void)
 				g_critical ("Could not load the mandatory extension '%s': %s", name, error->message);
 				abort ();
 			}
-			else
+			else {
 				g_warning ("Could not load the '%s' extension: %s", name, error->message);
+			}
 			g_clear_error (&error);
 		}
 	}
