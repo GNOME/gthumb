@@ -9,7 +9,6 @@ public class Gth.FileListItem : Gtk.Box {
 		orientation = Gtk.Orientation.VERTICAL;
 		halign = Gtk.Align.CENTER;
 		spacing = V_SPACING;
-		//add_css_class ("card");
 		add_css_class ("thumbnail-card");
 
 		var fixed_size = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -50,7 +49,7 @@ public class Gth.FileListItem : Gtk.Box {
 		second_label.set_size_request (size, -1);
 		second_label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 		second_label.halign = Gtk.Align.START;
-		second_label.add_css_class ("dim-label");
+		second_label.add_css_class ("dimmed");
 		labels.append (second_label);
 
 		labels.visible = attributes_v.length > 0;

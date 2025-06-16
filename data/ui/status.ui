@@ -40,7 +40,7 @@
           <object class="GtkLabel" id="selected_size">
             <property name="margin-start">6</property>
             <style>
-              <class name="dim-label"/>
+              <class name="dimmed"/>
             </style>
           </object>
         </child>
@@ -63,7 +63,7 @@
           <object class="GtkLabel" id="total_size">
             <property name="margin-start">6</property>
             <style>
-              <class name="dim-label"/>
+              <class name="dimmed"/>
             </style>
           </object>
         </child>

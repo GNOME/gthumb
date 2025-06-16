@@ -1,20 +1,31 @@
+:root {
+	--dimmed-border-color: color-mix(in srgb, currentColor 10%, transparent);
+}
+
 .deeper-view {
 	background-color: #111;
 }
 
+.topbar,
+.statusbar {
+	background-color: var(--view-bg-color);
+	color: var(--view-fg-color);
+}
+
 .thumbnail-grid {
 	padding: 10px;
+
 }
 
 .thumbnail-grid > child {
 	margin: 5px;
 	border-radius: 10px;
+	border: 1px solid var(--dimmed-border-color);
 }
 
 .thumbnail-card {
 	padding: 12px;
 	border-radius: 9px;
-	border: 1px solid var(--border-color);
 }
 
 .thumbnail-icon {
@@ -22,7 +33,7 @@
 }
 
 .statusbar {
-	padding: 5px 3px;
+	padding: 6px 3px;
 }
 
 .sidebar-container,
@@ -32,7 +43,8 @@
 }
 
 .sidebar-header {
-	border-bottom: 1px solid var(--border-color);
+	--border-opacity: 10%;
+	border-bottom: 1px solid var(--dimmed-border-color);
 }
 
 .sidebar-header.bottom {
@@ -43,17 +55,22 @@
 	font-size: 0.9em;
 }
 
-.property-header {
-	margin: 6px 12px;
+.property-sidebar {
+	padding: 0 18px;
 }
 
 .property-widget {
 	border-radius: 0;
 	margin: 0;
+	--border-opacity: 10%;
+}
+
+.property-header {
+	margin: 24px 6px 6px 6px;
 }
 
 .property-row {
-	margin: 12px 6px;
+	margin: 12px 0;
 }
 
 .property-title {
@@ -61,12 +78,11 @@
 }
 
 .property-subtitle {
-	font-size: 0.9em;
 }
 
 .mini-search-bar > entry.search {
+	padding: 2px 5px 2px 18px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
-	font-size: 0.9em;
 }

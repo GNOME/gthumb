@@ -167,7 +167,7 @@
             <child type="top">
               <object class="AdwHeaderBar">
                 <style>
-                  <class name="deeper-view"/>
+                  <class name="topbar"/>
                 </style>
                 <property name="title-widget">
                   <object class="GtkMenuButton" id="location_button">
@@ -198,12 +198,20 @@
                             <property name="action-name">win.load-next</property>
                           </object>
                         </child>
-                        <!--child>
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="orientation">horizontal</property>
+                            <style>
+                              <class name="spacer"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkButton">
                             <property name="icon-name">go-up-symbolic</property>
                             <property name="action-name">win.load-parent</property>
                           </object>
-                        </child-->
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -224,69 +232,66 @@
               </object>
             </child>
             <property name="content">
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+              <object class="AdwToastOverlay" id="browser_toast_overlay">
                 <child>
-                  <object class="AdwToastOverlay" id="browser_toast_overlay">
+                  <object class="GtkStack" id="folder_stack">
+                    <property name="vexpand">true</property>
                     <child>
-                      <object class="GtkStack" id="folder_stack">
-                        <property name="vexpand">true</property>
+                      <object class="GtkBox" id="non_empty_folder">
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkBox" id="non_empty_folder">
-                            <property name="orientation">vertical</property>
+                          <object class="GtkScrolledWindow">
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                            <style>
+                              <class name="undershoot-top"/>
+                              <class name="undershoot-bottom"/>
+                            </style>
                             <child>
-                              <object class="GtkScrolledWindow">
-                                <property name="hexpand">true</property>
-                                <property name="vexpand">true</property>
-                                <child>
-                                  <object class="GtkGridView" id="file_grid">
-                                    <property name="enable_rubberband">true</property>
-                                    <property name="max_columns">15</property>
-                                    <property name="vscroll_policy">minimum</property>
-                                    <style>
-                                      <class name="thumbnail-grid"/>
-                                      <class name="deeper-view"/>
-                                    </style>
-                                  </object>
-                                </child>
+                              <object class="GtkGridView" id="file_grid">
+                                <property name="enable_rubberband">true</property>
+                                <property name="max_columns">15</property>
+                                <property name="vscroll_policy">minimum</property>
+                                <style>
+                                  <class name="thumbnail-grid"/>
+                                </style>
                               </object>
                             </child>
                           </object>
                         </child>
-                        <child>
-                          <object class="AdwStatusPage" id="empty_folder">
-                            <property name="icon-name">folder-symbolic</property>
-                            <property name="title" translatable="true">No File</property>
-                            <style>
-                              <class name="deeper-view"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox" id="status_bar">
-                    <property name="orientation">horizontal</property>
-                    <style>
-                      <class name="smaller-text"/>
-                      <class name="statusbar"/>
-                    </style>
-                    <child>
-                      <object class="GthFilterBar" id="filter_bar">
                       </object>
                     </child>
                     <child>
-                      <object class="GthStatus" id="status">
-                        <property name="margin_start">24</property>
-                        <property name="margin_end">12</property>
+                      <object class="AdwStatusPage" id="empty_folder">
+                        <property name="icon-name">folder-symbolic</property>
+                        <property name="title" translatable="true">No File</property>
+                        <style>
+                          <class name="view"/>
+                        </style>
                       </object>
                     </child>
                   </object>
                 </child>
               </object>
             </property>
+            <child type="bottom">
+              <object class="GtkBox" id="status_bar">
+                <property name="orientation">horizontal</property>
+                <style>
+                  <class name="statusbar"/>
+                </style>
+                <child>
+                  <object class="GthFilterBar" id="filter_bar">
+                  </object>
+                </child>
+                <child>
+                  <object class="GthStatus" id="status">
+                    <property name="margin_start">24</property>
+                    <property name="margin_end">12</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>
