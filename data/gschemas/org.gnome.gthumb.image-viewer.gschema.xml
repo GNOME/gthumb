@@ -35,6 +35,10 @@
     <key name="transparency-style" enum="org.gnome.gthumb.GthTransparencyStyle">
       <default>'checkered'</default>
     </key>
+    <key name="show-frame" type="b">
+      <default>true</default>
+      <description>Show images inside a frame</description>
+    </key>
   </schema>
 
 </schemalist>

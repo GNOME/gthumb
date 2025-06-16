@@ -35,6 +35,7 @@
 #define PREF_IMAGE_VIEWER_RESET_SCROLLBARS   "reset-scrollbars"
 #define PREF_IMAGE_VIEWER_HISTOGRAM_SCALE    "histogram-scale"
 #define PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE "transparency-style"
+#define PREF_IMAGE_VIEWER_SHOW_FRAME         "show-frame"
 
 void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,

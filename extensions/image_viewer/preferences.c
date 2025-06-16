@@ -60,6 +60,13 @@ reset_scrollbars_toggled_cb (GtkToggleButton *button,
 	g_settings_set_boolean (data->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS, gtk_toggle_button_get_active (button));
 }
 
+static void
+show_frame_toggled_cb (GtkToggleButton *button,
+			     BrowserData     *data)
+{
+	g_settings_set_boolean (data->settings, PREF_IMAGE_VIEWER_SHOW_FRAME, gtk_toggle_button_get_active (button));
+}
+
 
 static void
 scroll_event_toggled_cb (GtkToggleButton *button,
@@ -123,6 +130,8 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("scroll_event_zoom_radiobutton")), TRUE);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("show_frame")),
+				      g_settings_get_boolean (data->settings, PREF_IMAGE_VIEWER_SHOW_FRAME));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("transparency_style_combobox")),
 				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
 
@@ -149,6 +158,10 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (GET_WIDGET ("toggle_reset_scrollbars"),
 			  "toggled",
 			  G_CALLBACK (reset_scrollbars_toggled_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("show_frame"),
+			  "toggled",
+			  G_CALLBACK (show_frame_toggled_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("transparency_style_combobox"),
 			  "changed",

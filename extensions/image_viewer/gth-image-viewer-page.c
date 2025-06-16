@@ -1016,6 +1016,24 @@ pref_transparency_style_changed (GSettings *settings,
 
 
 static void
+pref_show_frame_changed (GSettings *settings,
+			 char      *key,
+			 gpointer   user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	if (! self->priv->active || (self->priv->viewer == NULL))
+		return;
+
+	GthImageViewerTool *tool = gth_image_viewer_get_tool (GTH_IMAGE_VIEWER (self->priv->viewer));
+	if (! GTH_IS_IMAGE_DRAGGER (tool))
+		return;
+	gboolean show_frame = g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_SHOW_FRAME);
+	g_object_set (tool, "show-frame", show_frame, NULL);
+}
+
+
+static void
 paint_comment_over_image_func (GthImageViewer *image_viewer,
 			       cairo_t        *cr,
 			       gpointer        user_data)
@@ -2184,6 +2202,10 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 			  "changed::" PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE,
 			  G_CALLBACK (pref_transparency_style_changed),
 			  self);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_SHOW_FRAME,
+			  G_CALLBACK (pref_show_frame_changed),
+			  self);
 }
 
 
@@ -2358,7 +2380,7 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 {
 	GthImageViewerTool *dragger;
 
-	dragger = gth_image_dragger_new (TRUE);
+	dragger = gth_image_dragger_new (g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_SHOW_FRAME));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (self->priv->viewer), dragger);
 	g_object_unref (dragger);
 
