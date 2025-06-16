@@ -344,6 +344,9 @@ static void add_metadata_to_hash (GHashTable *table, GthMetadata *metadata) {
 		case GTH_METADATA_TYPE_STRING_LIST:
 			string_list = (GthStringList *) g_object_ref (gth_metadata_get_string_list (GTH_METADATA (object)));
 			break;
+
+		case GTH_METADATA_TYPE_POINT:
+			break;
 		}
 
 		if (string_list == NULL) {
@@ -360,6 +363,9 @@ static void add_metadata_to_hash (GHashTable *table, GthMetadata *metadata) {
 
 		case GTH_METADATA_TYPE_STRING_LIST:
 			gth_string_list_concat (string_list, gth_metadata_get_string_list (metadata));
+			break;
+
+		case GTH_METADATA_TYPE_POINT:
 			break;
 		}
 
@@ -560,14 +566,25 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 			char *model_type_name;
 			g_object_get (model_metadata, "formatted", &model_formatted_value, "raw", &model_raw_value, "value-type", &model_type_name, NULL);
 
+			char *make_first_word = strchrnul (make_formatted_value, ' ');
+			char *model_first_word = strchrnul (model_formatted_value, ' ');
+			int make_first_word_len = make_first_word - make_formatted_value;
+			int model_first_word_len = model_first_word - model_formatted_value;
+			gboolean model_contains_maker = ((make_first_word_len == model_first_word_len)
+				&& (strncmp (model_formatted_value, make_formatted_value, model_first_word_len) == 0));
+
 			GString *full_formatted_value = g_string_new ("");
-			g_string_append (full_formatted_value, make_formatted_value);
-			g_string_append (full_formatted_value, " ");
+			if (!model_contains_maker) {
+				g_string_append (full_formatted_value, make_formatted_value);
+				g_string_append (full_formatted_value, " ");
+			}
 			g_string_append (full_formatted_value, model_formatted_value);
 
 			GString *full_raw_value = g_string_new ("");
-			g_string_append (full_raw_value, make_raw_value);
-			g_string_append (full_raw_value, " ");
+			if (!model_contains_maker) {
+				g_string_append (full_raw_value, make_raw_value);
+				g_string_append (full_raw_value, " ");
+			}
 			g_string_append (full_raw_value, model_raw_value);
 
 			set_file_info (
@@ -661,6 +678,22 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 		       NULL);
 
 	g_string_free (exposure, TRUE);
+
+	// GPS Coordinates
+
+	double latitude, longitude;
+	if (exiv2_get_coordinates (info, &latitude, &longitude) == 2) {
+		GthMetadata *metadata = gth_metadata_new_for_point (latitude, longitude);
+		char *formatted = exiv2_decimal_coordinates_to_string (latitude, longitude);
+		g_object_set (metadata,
+			"id", "Embedded::Photo::Coordinates",
+			"formatted", formatted,
+			NULL);
+		g_file_info_set_attribute_object (info, "Embedded::Photo::Coordinates", G_OBJECT (metadata));
+
+		g_free (formatted);
+		g_object_unref (metadata);
+	}
 }
 
 
@@ -807,4 +840,98 @@ gboolean exiv2_read_metadata_from_buffer (
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, e.what ());
 		return FALSE;
 	}
+}
+
+// Exif format: %d/%d %d/%d %d/%d
+static double exif_coordinate_to_decimal (const char *raw) {
+	double value = 0.0;
+	double factor = 1.0;
+	char **raw_values = g_strsplit (raw, " ", 3);
+	for (int i = 0; i < 3; i++) {
+		if (raw_values[i] == NULL)
+			break; // Error
+		int numerator;
+		int denominator;
+		sscanf (raw_values[i], "%d/%d", &numerator, &denominator);
+		if ((numerator != 0) && (denominator != 0))
+			value += ((double) numerator / denominator) / factor;
+		factor *= 60.0;
+	}
+	g_strfreev (raw_values);
+	return value;
+}
+
+int exiv2_get_coordinates (GFileInfo *info, double *out_latitude, double *out_longitude) {
+	double latitude = 0.0;
+	double longitude = 0.0;
+	int coordinates_available = 0;
+	if (info != NULL) {
+		GthMetadata *metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "Exif::GPSInfo::GPSLatitude");
+		if (metadata != NULL) {
+			latitude = exif_coordinate_to_decimal (gth_metadata_get_raw (metadata));
+
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "Exif::GPSInfo::GPSLatitudeRef");
+			if (metadata != NULL) {
+				if (g_strcmp0 (gth_metadata_get_raw (metadata), "S") == 0)
+					latitude = - latitude;
+			}
+			coordinates_available++;
+		}
+
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "Exif::GPSInfo::GPSLongitude");
+		if (metadata != NULL) {
+			longitude = exif_coordinate_to_decimal (gth_metadata_get_raw (metadata));
+
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "Exif::GPSInfo::GPSLongitudeRef");
+			if (metadata != NULL) {
+				if (g_strcmp0 (gth_metadata_get_raw (metadata), "W") == 0)
+					longitude = - longitude;
+			}
+			coordinates_available++;
+		}
+	}
+
+	if (out_latitude != NULL)
+		*out_latitude = latitude;
+	if (out_longitude != NULL)
+		*out_longitude = longitude;
+
+	return coordinates_available;
+}
+
+static char * decimal_to_string (double value) {
+	GString *s = g_string_new ("");
+
+	if (value < 0.0)
+		value = - value;
+
+	// degree
+	double part = floor (value);
+	g_string_append_printf (s, "%.0f°", part);
+	value = (value - part) * 60.0;
+
+	// minutes
+	part = floor (value);
+	g_string_append_printf (s, " %.0fʹ", part);
+	value = (value - part) * 60.0;
+
+	// seconds
+	g_string_append_printf (s, " %02.3fʺ", value);
+
+	return g_string_free (s, FALSE);
+}
+
+
+char * exiv2_decimal_coordinates_to_string (double latitude, double longitude) {
+	char *latitude_s = decimal_to_string (latitude);
+	char *longitude_s = decimal_to_string (longitude);
+	char *s = g_strdup_printf ("%s %s\n%s %s",
+		latitude_s,
+		((latitude < 0.0) ? C_("Cardinal point", "S") : C_("Cardinal point", "N")),
+		longitude_s,
+		((longitude < 0.0) ? C_("Cardinal point", "W") : C_("Cardinal point", "E")));
+
+	g_free (longitude_s);
+	g_free (latitude_s);
+	return s;
 }

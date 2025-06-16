@@ -41,7 +41,8 @@ public enum Gth.MetadataFlags {
 [CCode (cheader_filename = "lib/gth-metadata.h")]
 public enum Gth.MetadataType {
 	STRING,
-	STRING_LIST
+	STRING_LIST,
+	POINT
 }
 
 
@@ -49,10 +50,12 @@ public enum Gth.MetadataType {
 public class Gth.Metadata : Object {
 	public Metadata ();
 	public Metadata.from_string_list (StringList list);
+	public Metadata.from_point (double x, double y);
 	public MetadataType get_data_type ();
 	public unowned string get_id ();
 	public unowned string get_raw ();
 	public unowned StringList get_string_list ();
+	public bool get_point (out double x, out double y);
 	public unowned string get_formatted ();
 	public unowned string get_value_type ();
 	public Metadata dup ();

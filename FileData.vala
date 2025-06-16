@@ -176,6 +176,10 @@ public class Gth.FileData : Object {
 				case MetadataType.STRING_LIST:
 					value = metadata.get_string_list ().join (" ");
 					break;
+
+				case MetadataType.POINT:
+					value = metadata.get_formatted ();
+					break;
 				}
 			}
 			else if (obj is StringList) {

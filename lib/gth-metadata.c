@@ -21,6 +21,8 @@ struct _GthMetadataPrivate {
 	char            *description;
 	char            *raw;
 	GthStringList   *list;
+	double           x;
+	double           y;
 	char            *formatted;
 	char            *value_type;
 };
@@ -211,6 +213,19 @@ gth_metadata_new_for_string_list (GthStringList *list)
 }
 
 
+GthMetadata *
+gth_metadata_new_for_point (double           x,
+			    double           y)
+{
+	GthMetadata *self = (GthMetadata *) g_object_new (GTH_TYPE_METADATA, NULL);
+	self->priv->data_type = GTH_METADATA_TYPE_POINT;
+	self->priv->x = x;
+	self->priv->y = y;
+	return self;
+
+}
+
+
 GthMetadataType
 gth_metadata_get_data_type (GthMetadata *metadata)
 {
@@ -243,6 +258,27 @@ gth_metadata_get_string_list (GthMetadata *metadata)
 	}
 	else {
 		return NULL;
+	}
+}
+
+
+gboolean
+gth_metadata_get_point (GthMetadata     *metadata,
+			double          *x,
+			double          *y)
+{
+	if (metadata == NULL) {
+		return FALSE;
+	}
+	else if (metadata->priv->data_type == GTH_METADATA_TYPE_POINT) {
+		if (x != NULL)
+			*x = metadata->priv->x;
+		if (y != NULL)
+			*y = metadata->priv->y;
+		return TRUE;
+	}
+	else {
+		return FALSE;
 	}
 }
 
