@@ -14,18 +14,20 @@ public class Gth.PropertySidebar : Gtk.Box {
 		action_group.add_action (action);
 
 		add_page (new Gth.FilePropertyView ());
-		add_page (new Gth.EmbeddedPropertyView ());
+		add_page (new Gth.ExifPropertyView ());
+		add_page (new Gth.IptcPropertyView ());
+		add_page (new Gth.XmpPropertyView ());
+		//add_page (new Gth.MetadataView ());
 		set_page ("file-properties");
 	}
 
 	void add_page (Gth.PropertyView view) {
 		var button = new Gtk.ToggleButton ();
-		button.child = new Gtk.Image.from_icon_name (view.get_icon ());
+		button.child = new Gtk.Label (view.get_title ());
 		button.action_name = "sidebar.set-view";
 		button.action_target = new Variant.string (view.get_name ());
 		button.hexpand = true;
 		button.add_css_class ("flat");
-		button.tooltip_text = view.get_title ();
 		header.append (button);
 
 		stack.add_named (view, view.get_name ());

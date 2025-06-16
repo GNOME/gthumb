@@ -57,8 +57,8 @@ public class Gth.Application : Adw.Application {
 		ordered_sorters = new GenericArray<string>();
 		register_sorter ({ "file::name", _("Name"), "standard::display-name", SortFunc.cmp_basename });
 		register_sorter ({ "file::mtime", _("Modified"), "time::modified,time::modified-usec", SortFunc.cmp_modified_time });
-		register_sorter ({ "file::size", _("Size"), "standard::size", SortFunc.cmp_size });
-		register_sorter ({ "file::path", _("Location and Name"), "standard::display-name", SortFunc.cmp_uri });
+		register_sorter ({ "file::size", _("Bytes"), "standard::size", SortFunc.cmp_size });
+		register_sorter ({ "file::path", _("Path and Name"), "standard::display-name", SortFunc.cmp_uri });
 		register_sorter ({ "general::dimensions", _("Width and Height"), "frame::width,frame::height", SortFunc.cmp_frame_dimensions });
 		register_sorter ({ "frame::aspect-ratio", _("Aspect Ratio"), "frame::width,frame::height", SortFunc.cmp_aspect_ratio });
 		register_sorter ({ "general::unsorted", _("Unsorted"), "", null });
@@ -87,22 +87,23 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("standard::display-name", N_("Name"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("standard::fast-content-type", N_("Type"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("gth::file::display-size", N_("Size"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("standard::size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("gth::file::size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
 		// Translators: the file modified time.
 		MetadataInfo.register ("gth::file::display-mtime", N_("Modified"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("gth::file::location", N_("Location"), "file", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 		MetadataInfo.register ("gth::file::is-modified", null, "file", MetadataFlags.HIDDEN);
 
 		// Translators: width and height of the image/video.
-		MetadataInfo.register ("general::dimensions", N_("Dimensions"), "file", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("general::dimensions", N_("Pixels"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("general::duration", N_("Duration"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Loaded::Image::ColorProfile", N_("Color Profile"), "file", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
 		MetadataInfo.register ("Embedded::Photo::Copyright", N_("Copyright"), "general", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::Author", N_("Author"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::CameraModel", N_("Camera Model"), "general", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Coordinates", N_("Coordinates"), "general", METADATA_ALLOW_EVERYWHERE);
 
-		MetadataInfo.register ("Embedded::Photo::Exposure", N_("Exposure Settings"), "general", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST);
+		MetadataInfo.register ("Embedded::Photo::CameraModel", N_("Camera Model"), "general", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Exposure", N_("Exposure"), "general", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST);
 		MetadataInfo.register ("Embedded::Photo::Aperture", N_("Aperture"), "general",  METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::ISOSpeed", N_("ISO Speed"), "general", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::ExposureTime", N_("Exposure Time"), "general", METADATA_ALLOW_EVERYWHERE);

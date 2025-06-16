@@ -1,9 +1,38 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-property-view.ui")]
 public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
-	public bool embedded_properties;
+	public enum Filter {
+		NONE,
+		EXIF,
+		IPTC,
+		XMP;
+
+		public bool view_embedded () {
+			return this != NONE;
+		}
+
+		public bool matches (string property) {
+			if (this == NONE) {
+				return !property.has_prefix ("Exif")
+					&& !property.has_prefix ("Iptc")
+					&& !property.has_prefix ("Xmp");
+			}
+			else {
+				return property.has_prefix (PREFIX[this]);
+			}
+		}
+
+		const string[] PREFIX = {
+			"",
+			"Exif",
+			"Iptc",
+			"Xmp"
+		};
+	}
+
+	public Filter filter;
 
 	construct {
-		embedded_properties = false;
+		filter = Filter.NONE;
 		filter_text = null;
 		file_data = null;
 
@@ -32,9 +61,31 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("open-map", null);
+		action.activate.connect ((_action, param) => {
+			if (file_data != null) {
+				var win = app.active_window as Gth.Window;
+				if (win != null) {
+					var metadata = file_data.info.get_attribute_object ("Embedded::Photo::Coordinates") as Gth.Metadata;
+					double lat, long;
+					if ((metadata != null) && metadata.get_point (out lat, out long)) {
+						try {
+							var uri = "https://www.openstreetmap.org/?mlat=%f&mlon=%f&zoom=6".printf (lat, long);
+							AppInfo.launch_default_for_uri (uri, null);
+						}
+						catch (Error error) {
+							win.show_message (error.message);
+						}
+					}
+				}
+			}
+		});
+		action_group.add_action (action);
+
 		actions = new HashTable<string, Action> (str_hash, str_equal);
 		actions.set ("standard::display-name", new Action ("file.copy-path", "edit-copy-symbolic", _("Copy Path")));
 		actions.set ("gth::file::location", new Action ("file.open-folder", "folder-symbolic", _("Open Location")));
+		actions.set ("Embedded::Photo::Coordinates", new Action ("file.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
 
 		property_list = new GenericList<Property> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
@@ -56,22 +107,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		var selection_model = new Gtk.NoSelection (sort_model);
 		list_view.model = selection_model;
 
-		var header_factory = list_view.header_factory as Gtk.SignalListItemFactory;
-		header_factory.setup.connect ((item) => {
-			var list_header = item as Gtk.ListHeader;
-			var label = new Gtk.Label ("");
-			label.add_css_class ("property-header");
-			label.halign = Gtk.Align.START;
-			list_header.child = label;
-		});
-		header_factory.bind.connect ((item) => {
-			var list_header = item as Gtk.ListHeader;
-			var label = list_header.child as Gtk.Label;
-			var property = list_header.item as Property;
-			label.label = (property.category != null) ? property.category.display_name : "";
-		});
-
-		var factory = list_view.factory as Gtk.SignalListItemFactory;
+		var factory = new Gtk.SignalListItemFactory ();
 		factory.setup.connect ((item) => {
 			var list_item = item as Gtk.ListItem;
 			list_item.child = new FilePropertyItem ();
@@ -97,6 +133,23 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 				property_item.parent.add_css_class ("property-widget");
 			}
 		});
+		list_view.factory = factory;
+
+		var header_factory = new Gtk.SignalListItemFactory ();
+		header_factory.setup.connect ((item) => {
+			var list_header = item as Gtk.ListHeader;
+			var label = new Gtk.Label ("");
+			label.add_css_class ("property-header");
+			label.halign = Gtk.Align.START;
+			list_header.child = label;
+		});
+		header_factory.bind.connect ((item) => {
+			var list_header = item as Gtk.ListHeader;
+			var label = list_header.child as Gtk.Label;
+			var property = list_header.item as Property;
+			label.label = (property.category != null) ? property.category.display_name : "";
+		});
+		list_view.header_factory = header_factory;
 	}
 
 	public virtual unowned string get_name () {
@@ -104,7 +157,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public virtual unowned string get_title () {
-		return _("File Properties");
+		return _("General");
 	}
 
 	public virtual unowned string get_icon () {
@@ -112,7 +165,25 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public virtual bool can_view (Gth.FileData file_data) {
-		return true;
+		if (filter == Filter.NONE)
+			return true;
+		var data_available = false;
+		foreach (unowned var info in MetadataInfo.get_all ()) {
+			if (info.id == null) {
+				continue;
+			}
+			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
+				continue;
+			}
+			if (filter.matches (info.id)) {
+				var value = file_data.get_attribute_as_string (info.id);
+				if (!Strings.empty (value)) {
+					data_available = true;
+					break;
+				}
+			}
+		}
+		return data_available;
 	}
 
 	public void set_file (Gth.FileData? _file_data) {
@@ -127,10 +198,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
 				continue;
 			}
-			var is_embedded = info.id.has_prefix ("Exif")
-				|| info.id.has_prefix ("Iptc")
-				|| info.id.has_prefix ("Xmp");
-			if (is_embedded != embedded_properties) {
+			if (!filter.matches (info.id)) {
 				continue;
 			}
 			var value = file_data.get_attribute_as_string (info.id);
@@ -157,7 +225,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		property_filter.changed (Gtk.FilterChange.DIFFERENT);
 	}
 
-	[GtkChild] unowned Gtk.ListView list_view;
+	[GtkChild] protected unowned Gtk.ListView list_view;
 
 	GenericList<Property> property_list;
 	Gtk.CustomFilter property_filter;

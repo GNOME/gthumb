@@ -8,14 +8,9 @@
         <child>
           <object class="GtkListView" id="list_view">
             <property name="show_separators">true</property>
-            <property name="header_factory">
-              <object class="GtkSignalListItemFactory"></object>
-            </property>
-            <property name="factory">
-              <object class="GtkSignalListItemFactory"></object>
-            </property>
             <style>
               <class name="navigation-sidebar"/>
+              <class name="property-sidebar"/>
             </style>
           </object>
         </child>

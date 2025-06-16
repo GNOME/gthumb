@@ -296,6 +296,7 @@ source_files = files(
   'MetadataProviderFile.vala',
   'MetadataProviderImage.vala',
   'MetadataProvider.vala',
+  'MetadataView.vala',
   'PropertySidebar.vala',
   'PropertyView.vala',
   'Settings.vala',
@@ -320,7 +321,9 @@ source_files = files(
   'WindowBookmarks.vala',
   'WindowHistory.vala',
   'Window.vala',
-  'EmbeddedPropertyView.vala',
+  'IptcPropertyView.vala',
+  'XmpPropertyView.vala',
+  'ExifPropertyView.vala',
 )
 
 executable(

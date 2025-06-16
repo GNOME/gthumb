@@ -74,18 +74,19 @@ public class Gth.MetadataView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public unowned string get_name () {
-		return "embedded-metadata";
+		return "metadata-table";
 	}
 
 	public unowned string get_title () {
-		return _("Embedded Metadata");
+		return _("Metadata");
 	}
 
 	public unowned string get_icon () {
-		return "open-book-symbolic";
+		return "table-symbolic";
 	}
 
 	public bool can_view (Gth.FileData file_data) {
+		return true;/*
 		var data_available = false;
 		foreach (unowned var info in MetadataInfo.get_all ()) {
 			if (info.id == null) {
@@ -105,7 +106,7 @@ public class Gth.MetadataView : Gtk.Box, Gth.PropertyView {
 				}
 			}
 		}
-		return data_available;
+		return data_available;*/
 	}
 
 	[GtkCallback]
@@ -125,12 +126,12 @@ public class Gth.MetadataView : Gtk.Box, Gth.PropertyView {
 			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
 				continue;
 			}
-			if (!info.id.has_prefix ("Exif")
+			/*if (!info.id.has_prefix ("Exif")
 				&& !info.id.has_prefix ("Iptc")
 				&& !info.id.has_prefix ("Xmp"))
 			{
 				continue;
-			}
+			}*/
 			var value = file_data.get_attribute_as_string (info.id);
 			if (Strings.empty (value)) {
 				continue;

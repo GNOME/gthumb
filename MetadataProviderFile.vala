@@ -1,5 +1,6 @@
 public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
+		"gth::file::size",
 		"gth::file::display-size",
 		"gth::file::display-mtime",
 		"gth::file::content-type",
@@ -12,8 +13,11 @@ public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 	}
 
 	public override void read (FileData file_data, string[] attribute_v, Cancellable cancellable) {
+		var size = "%'u".printf ((uint64) file_data.info.get_size ());
+		file_data.info.set_attribute_string ("gth::file::size", size);
+
 		var formatted_size = GLib.format_size ((uint64) file_data.info.get_size ());
-		file_data.info.set_attribute_string ("gth::file::display-size",	formatted_size);
+		file_data.info.set_attribute_string ("gth::file::display-size", formatted_size);
 
 		var time = file_data.get_modification_time ();
 		file_data.info.set_attribute_string ("gth::file::display-mtime", time.to_display_string ());
