@@ -72,4 +72,22 @@ public class Gth.Strings {
 	public static unowned string unowned_substring (string str, int offset) {
 		return (string) str.data[offset:-1];
 	}
+
+	public static string substring (string str, int max_characters, string? suffix_if_truncated = null) {
+		var result = new StringBuilder ();
+		var characters = 0;
+		var index = 0;
+		unichar ch = 0;
+		while (str.get_next_char (ref index, out ch)) {
+			result.append_unichar (ch);
+			characters++;
+			if (characters >= max_characters) {
+				if (suffix_if_truncated != null) {
+					result.append (suffix_if_truncated);
+				}
+				break;
+			}
+		}
+		return result.str;
+	}
 }
