@@ -139,8 +139,6 @@ saver_completed_cb (GthTask  *task,
 
 	if (data->close_dialog)
 		close_dialog (data);
-	else if (gth_window_get_current_page (GTH_WINDOW (data->browser)) == GTH_BROWSER_PAGE_VIEWER)
-		gth_browser_show_next_image (data->browser, FALSE, FALSE);
 
 	dialog_data_unref (data);
 	_g_object_unref (task);
