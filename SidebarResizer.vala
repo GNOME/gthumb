@@ -1,12 +1,17 @@
 public class Gth.SidebarResizer : Gtk.Box {
 	public signal void started ();
-	public signal void changed (double delta);
+	public signal void ended ();
 
-	public void add_handle () {
+	public void add_handle (Adw.OverlaySplitView _view, Gtk.PackType _pack_type) {
+		view = _view;
+		pack_type = _pack_type;
 		dragging = false;
 
 		var handle = new Gth.ResizeHandle ();
-		append (handle);
+		if (pack_type == Gtk.PackType.END)
+			append (handle);
+		else
+			prepend (handle);
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.pressed.connect ((n_press, x, y) => {
@@ -15,6 +20,7 @@ public class Gth.SidebarResizer : Gtk.Box {
 		});
 		click_events.released.connect ((n_press, x, y) => {
 			dragging = false;
+			ended ();
 		});
 		handle.add_controller (click_events);
 
@@ -22,21 +28,37 @@ public class Gth.SidebarResizer : Gtk.Box {
 		motion_events.motion.connect ((x, y) => {
 			if (dragging) {
 				if (after_click) {
-					drag_x = x;
 					after_click = false;
-					started ();
-				}
-				else {
-					changed (x - drag_x);
+					set_started (x);
 				}
 			}
 		});
 		add_controller (motion_events);
 	}
 
+	public void update_width (double abs_drag_x) {
+		if (pack_type == Gtk.PackType.END) {
+			view.max_sidebar_width = initial_width + (abs_drag_x - abs_start_x);
+		}
+		else {
+			view.max_sidebar_width = initial_width + (abs_start_x - abs_drag_x);
+		}
+	}
+
+	void set_started (double drag_x) {
+		initial_width = view.max_sidebar_width;
+		int resizer_x;
+		Util.get_widget_abs_position (this, out resizer_x, null);
+		abs_start_x = resizer_x + drag_x;
+		started ();
+	}
+
+	Adw.OverlaySplitView view;
+	Gtk.PackType pack_type;
 	bool dragging;
-	double drag_x;
 	bool after_click;
+	double initial_width;
+	double abs_start_x;
 }
 
 class Gth.ResizeHandle : Gtk.Widget {

@@ -392,4 +392,39 @@ public class Gth.Util {
 	public static int intcmp (int a, int b) {
 		return (a == b) ? 0 : (a < b) ? -1 : 1;
 	}
+
+	public static string format_content_type (string? content_type) {
+		if (content_type == null)
+			return _("Unknown");
+		var components = content_type.split ("/", 2);
+		if ((components[0] != null) && (components[1] != null)) {
+			if ((components[0] == "image")
+				|| (components[0] == "video")
+				|| (components[0] == "audio"))
+			{
+				if (components[1] == "svg+xml") {
+					return "SVG";
+				}
+				else {
+					return components[1].ascii_up ();
+				}
+			}
+		}
+		return content_type;
+	}
+
+	public static void get_widget_abs_position (Gtk.Widget widget, out int x, out int y, Gtk.Window? target = null) {
+		if (target == null) {
+			target = widget.root as Gtk.Window;
+			if (target == null) {
+				x = 0;
+				y = 0;
+				return;
+			}
+		}
+		Graphene.Point p = Graphene.Point.zero ();
+		widget.compute_point (target.child, Graphene.Point.zero (), out p);
+		x = (int) Math.floorf (p.x);
+		y = (int) Math.floorf (p.y);
+	}
 }

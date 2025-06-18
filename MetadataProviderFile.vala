@@ -13,7 +13,7 @@ public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 	}
 
 	public override void read (FileData file_data, string[] attribute_v, Cancellable cancellable) {
-		var size = "%'u".printf ((uint64) file_data.info.get_size ());
+		var size = "%'lu".printf ((uint64) file_data.info.get_size ());
 		file_data.info.set_attribute_string ("gth::file::size", size);
 
 		var formatted_size = GLib.format_size ((uint64) file_data.info.get_size ());
@@ -27,7 +27,7 @@ public class Gth.MetadataProviderFile : Gth.MetadataProvider {
 			file_data.info.set_attribute_string ("gth::file::location", parent.has_uri_scheme ("file") ? parent.get_path () : parent.get_uri ());
 		}
 
-		file_data.info.set_attribute_string ("gth::file::content-type", file_data.get_content_type ());
+		file_data.info.set_attribute_string ("gth::file::content-type", Util.format_content_type (file_data.get_content_type ()));
 	}
 
 	public override bool can_write (FileData file_data, string content_type, string[] attribute_v) {

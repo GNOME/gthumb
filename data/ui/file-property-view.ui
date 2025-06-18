@@ -11,6 +11,7 @@
             <style>
               <class name="navigation-sidebar"/>
               <class name="property-sidebar"/>
+              <class name="right"/>
             </style>
           </object>
         </child>

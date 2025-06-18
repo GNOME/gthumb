@@ -12,9 +12,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
 	public bool show_hidden_folders = false;
-	public bool sidebar_visible = false;
 	public SidebarState sidebar_state = SidebarState.NONE;
-	public bool sidebar_pinned = false;
 	public int thumbnail_size;
 	public Gth.JobQueue jobs;
 	public string folder_sort_name = null;
@@ -44,25 +42,40 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
 		current_parents = null;
+		active_resizer = null;
 
 		init_folder_tree ();
 		init_file_grid ();
 		init_actions ();
 
-		sidebar_resizer.add_handle ();
-		sidebar_resizer.started.connect (() => {
-			initial_sidebar_width = browser_view.max_sidebar_width;
+		sidebar_resizer.add_handle (browser_view, Gtk.PackType.END);
+		sidebar_resizer.started.connect ((obj) => {
+			active_resizer = obj;
 		});
-		sidebar_resizer.changed.connect ((delta_x) => {
-			browser_view.max_sidebar_width = initial_sidebar_width + delta_x;
+		sidebar_resizer.ended.connect (() => {
+			active_resizer = null;
 		});
+
+		second_sidebar_resizer.add_handle (browser_content_view, Gtk.PackType.START);
+		second_sidebar_resizer.started.connect ((obj) => {
+			active_resizer = obj;
+		});
+		second_sidebar_resizer.ended.connect (() => {
+			active_resizer = null;
+		});
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			if (active_resizer != null) {
+				active_resizer.update_width (x);
+			}
+		});
+		child.add_controller (motion_events);
 
 		filter_bar.changed.connect (() => update_active_filter ());
 
 		browser_view.notify["show-sidebar"].connect (() => {
-			sidebar_visible = browser_view.show_sidebar;
-			action_group.change_action_state ("show-sidebar", new Variant.boolean (sidebar_visible));
-			show_sidebar_button.visible = !sidebar_visible;
+			action_group.change_action_state ("show-sidebar", new Variant.boolean (browser_view.show_sidebar));
 		});
 
 		// Restore the window size.
@@ -85,7 +98,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		folder_inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE);
 
 		set_page (Page.BROWSER);
-		set_sidebar_pinned (true);
 
 		// Load the location.
 		title = "Thumbnails";
@@ -424,19 +436,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 			sidebar_stack.set_visible_child (files_sidebar);
 			vfs_button.active = true;
 			catalog_button.active = false;
-			properties_button.active = false;
 			break;
 		case SidebarState.CATALOGS:
 			sidebar_stack.set_visible_child (files_sidebar);
 			vfs_button.active = false;
 			catalog_button.active = true;
-			properties_button.active = false;
-			break;
-		case SidebarState.PROPERTIES:
-			sidebar_stack.set_visible_child (property_sidebar);
-			vfs_button.active = false;
-			catalog_button.active = false;
-			properties_button.active = true;
 			break;
 		}
 	}
@@ -670,7 +674,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 		status.set_selection_info (tot_files, tot_size);
 		if (tot_files == 1) {
-			//property_sidebar.set_file (selected_file);
 			var local_job = new_job ("Load metadata for %s".printf (selected_file.file.get_uri ()));
 			var source = new FileSourceVfs ();
 			source.read_metadata.begin (selected_file.file, "*", local_job.cancellable, (obj, res) => {
@@ -786,17 +789,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("show-sidebar", null, new Variant.boolean (sidebar_visible));
+		action = new SimpleAction.stateful ("show-sidebar", null, new Variant.boolean (browser_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
-			sidebar_visible = Util.toggle_state (_action);
-			browser_view.show_sidebar = sidebar_visible;
-			show_sidebar_button.visible = !sidebar_visible;
+			browser_view.show_sidebar = Util.toggle_state (_action);
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("pin-sidebar", null, new Variant.boolean (sidebar_pinned));
+		action = new SimpleAction.stateful ("show-second-sidebar", null, new Variant.boolean (browser_content_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
-			set_sidebar_pinned (Util.toggle_state (_action));
+			browser_content_view.show_sidebar = Util.toggle_state (_action);
 		});
 		action_group.add_action (action);
 
@@ -1009,16 +1010,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		file_grid.factory = factory;
 	}
 
-	void set_sidebar_pinned (bool value) {
-		sidebar_pinned = value;
-		browser_view.collapsed = !sidebar_pinned;
-		if (browser_view.collapsed) {
-			browser_view.show_sidebar = true;
-		}
-		show_sidebar_button.visible = !sidebar_visible;
-		action_group.change_action_state ("pin-sidebar", new Variant.boolean (sidebar_pinned));
-	}
-
 	Gtk.TreeListRow? find_file_row_in_tree (File file, out int position = null) {
 		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
 		while (iter.next ()) {
@@ -1038,7 +1029,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return (row != null) ? row.item as Gth.FileData : null;
 	}
 
+	unowned Gth.SidebarResizer active_resizer;
+
 	[GtkChild] unowned Adw.OverlaySplitView browser_view;
+	[GtkChild] unowned Adw.OverlaySplitView browser_content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] unowned Gtk.MenuButton bookmarks_button;
@@ -1052,13 +1046,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
-	[GtkChild] unowned Gtk.ToggleButton properties_button;
 	[GtkChild] unowned Adw.ToastOverlay browser_toast_overlay;
 	[GtkChild] unowned Gtk.ScrolledWindow files_sidebar;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
+	[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
+	[GtkChild] unowned Gth.SidebarResizer second_sidebar_resizer;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;
@@ -1069,4 +1064,5 @@ public class Gth.Window : Adw.ApplicationWindow {
 	Gth.WindowHistory history;
 	Gth.WindowBookmarks bookmarks;
 	double initial_sidebar_width;
+	double initial_second_sidebar_width;
 }

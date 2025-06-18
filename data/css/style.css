@@ -38,8 +38,14 @@
 
 .sidebar-container,
 .sidebar-header,
-.mini-search-bar {
+.left .mini-search-bar {
 	padding: 6px 0 6px 6px;
+}
+
+.sidebar-container.right,
+.sidebar-header.right,
+.right .mini-search-bar {
+	padding: 6px 6px 6px 0;
 }
 
 .sidebar-header {
@@ -55,8 +61,8 @@
 	font-size: 0.9em;
 }
 
-.property-sidebar {
-	padding: 0 18px;
+.property-sidebar.right {
+	padding: 0 18px 0 12px;
 }
 
 .property-widget {
@@ -80,9 +86,16 @@
 .property-subtitle {
 }
 
-.mini-search-bar > entry.search {
+.left .mini-search-bar > entry.search {
 	padding: 2px 5px 2px 18px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
+}
+
+.right .mini-search-bar > entry.search {
+	padding: 2px 5px 2px 18px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 0;
 }

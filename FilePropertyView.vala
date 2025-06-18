@@ -84,8 +84,10 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 
 		actions = new HashTable<string, Action> (str_hash, str_equal);
 		actions.set ("standard::display-name", new Action ("file.copy-path", "edit-copy-symbolic", _("Copy Path")));
-		actions.set ("gth::file::location", new Action ("file.open-folder", "folder-symbolic", _("Open Location")));
+		actions.set ("gth::file::location", new Action ("file.open-folder", "folder-symbolic", _("Open")));
 		actions.set ("Embedded::Photo::Coordinates", new Action ("file.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
+		actions.set ("gth::file::display-size", new Action.with_description ("gth::file::size"));
+		actions.set ("gth::file::content-type", new Action.with_description ("standard::fast-content-type"));
 
 		property_list = new GenericList<Property> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
@@ -119,12 +121,20 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			property_item.title.label = property.name;
 			property_item.subtitle.label = property.value;
 			property_item.property = property;
+			property_item.description.visible = false;
 			var action_info = actions.get (property.id);
 			if (action_info != null) {
-				property_item.button.icon_name = action_info.icon_name;
-				property_item.button.tooltip_text = action_info.tooltip;
-				property_item.button.set_detailed_action_name (action_info.detailed_action_name);
-				property_item.button.visible = true;
+				if (action_info.type == Action.Type.DESCRIPTION) {
+					property_item.description.label = file_data.get_attribute_as_string (action_info.tooltip_attribute);
+					property_item.description.visible = true;
+					property_item.button.visible = false;
+				}
+				else {
+					property_item.button.icon_name = action_info.icon_name;
+					property_item.button.tooltip_text = action_info.tooltip;
+					property_item.button.set_detailed_action_name (action_info.detailed_action_name);
+					property_item.button.visible = true;
+				}
 			}
 			else {
 				property_item.button.visible = false;
@@ -241,14 +251,27 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	class Action {
+		public enum Type {
+			ACTION,
+			DESCRIPTION,
+		}
+
+		public Type type;
 		public string detailed_action_name;
 		public string icon_name;
 		public string tooltip;
+		public string tooltip_attribute;
 
 		public Action (string _detailed_action_name, string _icon_name, string _tooltip) {
+			type = Type.ACTION;
 			detailed_action_name = _detailed_action_name;
 			icon_name = _icon_name;
 			tooltip = _tooltip;
+		}
+
+		public Action.with_description (string _tooltip_attribute) {
+			type = Type.DESCRIPTION;
+			tooltip_attribute = _tooltip_attribute;
 		}
 	}
 }
@@ -284,5 +307,6 @@ class Gth.FilePropertyItem : Gtk.Box {
 	[GtkChild] unowned Gtk.PopoverMenu popover_menu;
 	[GtkChild] public unowned Gtk.Label title;
 	[GtkChild] public unowned Gtk.Label subtitle;
+	[GtkChild] public unowned Gtk.Label description;
 	[GtkChild] public unowned Gtk.Button button;
 }

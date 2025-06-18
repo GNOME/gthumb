@@ -85,12 +85,12 @@ public class Gth.Application : Adw.Application {
 
 		MetadataInfo.init ();
 		MetadataInfo.register ("standard::display-name", N_("Name"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("standard::fast-content-type", N_("Type"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("gth::file::display-size", N_("Size"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("gth::file::size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("gth::file::content-type", N_("Type"), "file", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("gth::file::display-size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
+		//MetadataInfo.register ("gth::file::size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
 		// Translators: the file modified time.
 		MetadataInfo.register ("gth::file::display-mtime", N_("Modified"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("gth::file::location", N_("Location"), "file", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		MetadataInfo.register ("gth::file::location", N_("Folder"), "file", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 		MetadataInfo.register ("gth::file::is-modified", null, "file", MetadataFlags.HIDDEN);
 
 		// Translators: width and height of the image/video.
