@@ -215,6 +215,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (Strings.empty (value)) {
 				continue;
 			}
+			value = Strings.substring (value, MAX_VALUE_CHARACTERS, "…");
 			unowned var category = Gth.MetadataCategory.get (info.category);
 			if (category == null) {
 				continue;
@@ -274,6 +275,8 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			tooltip_attribute = _tooltip_attribute;
 		}
 	}
+
+	const int MAX_VALUE_CHARACTERS = 300;
 }
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-property-item.ui")]
