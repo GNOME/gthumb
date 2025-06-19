@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2024-04-22 14:50+0000\n"
-"PO-Revision-Date: 2024-05-02 12:32+0200\n"
+"POT-Creation-Date: 2025-06-19 21:59+0000\n"
+"PO-Revision-Date: 2025-06-20 00:08+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -86,11 +86,11 @@ msgstr ""
 "metapodatkov slikam; organiziranje slik v katalogih in katalogih v "
 "knjižnicah; iskanje slik in shranjevanje rezultatov kot kataloga."
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:50
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
 msgid "Browser mode"
 msgstr "Način brskalnika"
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:54
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:55
 msgid "Viewer mode"
 msgstr "Način pregledovalnika"
 
@@ -109,6 +109,11 @@ msgstr "Odpri datoteke v dejavnem oknu"
 #: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:30
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Ali naj se položaji drsnika po spremembi slike ponastavi"
+
+#: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:40
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:288
+msgid "Show images inside a frame"
+msgstr "Pokaži slike v okviru"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:42
 msgid "Possible values are: jpeg, jpg."
@@ -139,7 +144,7 @@ msgid "Import the photos on your camera card"
 msgstr "Uvozi fotografij s kartice digitalnega fotoaparata"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in:3 gthumb/gth-application.c:105
+#: data/org.gnome.gThumb.desktop.in:3 gthumb/gth-application.c:107
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
@@ -231,10 +236,6 @@ msgstr "dodaj"
 #: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
 msgstr "_Razširitve:"
-
-#: data/ui/extensions-preferences.ui:116
-msgid "More extensions…"
-msgstr "Iskanje razširitev …"
 
 #: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
@@ -367,6 +368,7 @@ msgid "gThumb Preferences"
 msgstr "Možnosti gThumb"
 
 #: data/ui/preferences.ui:98
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
 msgid "Appearance"
 msgstr "Videz"
 
@@ -458,16 +460,8 @@ msgstr "_Obratni vrstni red"
 msgid "Example:"
 msgstr "Primer:"
 
-#: extensions/23hq/23hq.extension.desktop.in.in:3
-msgid "23"
-msgstr "23"
-
-#: extensions/23hq/23hq.extension.desktop.in.in:4
-msgid "Upload images to 23hq.com"
-msgstr "Pošlje slike na spletni album 23hq.com"
-
 #: extensions/bookmarks/bookmarks.extension.desktop.in.in:3
-#: extensions/bookmarks/callbacks.c:323
+#: extensions/bookmarks/callbacks.c:320
 #: extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Zaznamki"
@@ -553,8 +547,7 @@ msgid "Write to Disc"
 msgstr "Zapiši na disk"
 
 #: extensions/burn_disc/gth-burn-task.c:405
-#: extensions/oauth/oauth-account-chooser-dialog.c:150
-#: gthumb/dlg-preferences-extensions.c:715
+#: gthumb/dlg-preferences-extensions.c:720
 msgid "_Continue"
 msgstr "_Nadaljuj"
 
@@ -563,7 +556,7 @@ msgstr "_Nadaljuj"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Napaka tolmačenja slikovne datoteke JPEG: %s"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:558
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:562
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Neznan barvni prostor zapisa JPEG (%d)"
@@ -682,7 +675,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:414
 #: extensions/contact_sheet/data/ui/image-wall.ui:216
-#: extensions/image_viewer/gth-image-viewer-page.c:1781
+#: extensions/image_viewer/gth-image-viewer-page.c:1797
 #: extensions/webalbums/data/ui/web-album-exporter.ui:391
 msgid "Saving"
 msgstr "Shranjevanje"
@@ -916,7 +909,7 @@ msgid "_Add"
 msgstr "_Dodaj"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:715
-#: extensions/edit_metadata/dlg-edit-metadata.c:348
+#: extensions/edit_metadata/dlg-edit-metadata.c:346
 msgid "Keep the dialog open"
 msgstr "Ohrani pogovorno okno odprto"
 
@@ -963,7 +956,7 @@ msgstr "Oznaka (vključena)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:878
 #: extensions/exiv2_tools/exiv2-utils.cpp:891
 #: extensions/exiv2_tools/exiv2-utils.cpp:933
-#: extensions/exiv2_tools/exiv2-utils.cpp:1567
+#: extensions/exiv2_tools/exiv2-utils.cpp:1568
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:441
 msgid "Invalid file format"
 msgstr "Neveljavna vrsta datoteke"
@@ -1112,7 +1105,7 @@ msgstr "_Uskladi z vloženimi metapodatki"
 #: extensions/importer/gth-import-preferences-dialog.c:421
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
-#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:488
 #: gthumb/gth-file-properties.c:595
 msgid "Preferences"
 msgstr "Možnosti"
@@ -1214,31 +1207,32 @@ msgstr "_Preliv"
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:315
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:333
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:351
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:475
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:583
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:640
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:698
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:476
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:584
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:641
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:699
 msgid "Select a color"
 msgstr "Izbor barve"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:392
+#. Translators: (noun) The frame of an image.
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:393
 msgid "Frame"
 msgstr "Okvir"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:421
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:422
 msgid "_Style:"
 msgstr "_Slog:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:435
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:436
 msgid "C_olor:"
 msgstr "Ba_rva:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:519
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:520
 #: gthumb/gth-template-editor-dialog.c:419
 msgid "Text"
 msgstr "Besedilo"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:548
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:549
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:106
 #: extensions/image_print/data/ui/print-layout.ui:166
 #: extensions/image_print/data/ui/print-preferences.ui:55
@@ -1247,13 +1241,13 @@ msgstr "Besedilo"
 msgid "_Header:"
 msgstr "_Glava:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:569
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:626
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:684
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:570
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:627
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:685
 msgid "Select a font"
 msgstr "Izbor pisave"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:604
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:605
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:91
 #: extensions/image_print/data/ui/print-layout.ui:179
 #: extensions/image_print/data/ui/print-preferences.ui:69
@@ -1262,7 +1256,7 @@ msgstr "Izbor pisave"
 msgid "_Footer:"
 msgstr "_Noga:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:663
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:664
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:896
 #: extensions/image_print/data/ui/print-preferences.ui:43
 msgid "Caption:"
@@ -1290,7 +1284,6 @@ msgstr "Uredi predlogo"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:261
 #: extensions/contact_sheet/data/ui/image-wall.ui:82
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
 #: extensions/webalbums/data/ui/web-album-exporter.ui:268
 msgid "_Destination:"
@@ -1598,7 +1591,7 @@ msgstr "_Naslov:"
 msgid "Could not save the file metadata"
 msgstr "Metapodatkov datoteke ni mogoče shraniti"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:234
+#: extensions/edit_metadata/dlg-edit-metadata.c:232
 #: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Ni mogoče prebrati podatkov o datoteki"
@@ -1970,7 +1963,7 @@ msgstr "Spremeni velikost"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:56
 #: extensions/file_tools/data/ui/curves-options.ui:35
-#: extensions/file_tools/data/ui/sharpen-options.ui:45
+#: extensions/file_tools/data/ui/sharpen-options.ui:30
 msgid "_Preview"
 msgstr "_Predogled"
 
@@ -2202,15 +2195,15 @@ msgstr "Pravokotno"
 msgid "Alignment"
 msgstr "Poravnava"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:83
+#: extensions/file_tools/data/ui/sharpen-options.ui:68
 msgid "Threshold:"
 msgstr "Prag:"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:133
+#: extensions/file_tools/data/ui/sharpen-options.ui:118
 msgid "Radius:"
 msgstr "Radij:"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:151
+#: extensions/file_tools/data/ui/sharpen-options.ui:136
 msgid "Amount:"
 msgstr "Količina:"
 
@@ -2252,7 +2245,7 @@ msgstr "Modra"
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:557
 #: extensions/file_tools/gth-file-tool-curves.c:819
 #: extensions/file_tools/gth-file-tool-rotate.c:604
-#: extensions/file_tools/gth-file-tool-sharpen.c:364
+#: extensions/file_tools/gth-file-tool-sharpen.c:309
 #: gthumb/gth-test-aspect-ratio.c:218
 msgid "Reset"
 msgstr "Ponastavi"
@@ -2441,8 +2434,8 @@ msgid "Enter the preset name:"
 msgstr "Novo ime predloge:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
-#: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1710
+#: extensions/gstreamer_tools/actions.c:71
+#: extensions/image_viewer/gth-image-viewer-page.c:1726
 #: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
@@ -2595,11 +2588,11 @@ msgstr "Shrani kot s…"
 msgid "Save"
 msgstr "Shrani"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:334
+#: extensions/file_tools/gth-file-tool-sharpen.c:279
 msgid "Sharpening image"
 msgstr "Ostrenje slike"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:435
+#: extensions/file_tools/gth-file-tool-sharpen.c:381
 msgid "Enhance Focus"
 msgstr "Izboljšaj žarišče"
 
@@ -2637,7 +2630,7 @@ msgid "_View"
 msgstr "_Pogled"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:454
-#: gthumb/gth-tags-entry.c:1148 gthumb/gtk-utils.h:39
+#: gthumb/gth-tags-entry.c:1005 gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Izbriši"
 
@@ -2692,7 +2685,7 @@ msgstr "brez datotek"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:877
+#: gthumb/gth-browser.c:877
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2741,240 +2734,20 @@ msgstr "Podvojeno"
 msgid "Select"
 msgstr "Izberi"
 
-#: extensions/flicker/flicker.extension.desktop.in.in:3
-msgid "Flicker"
-msgstr "Flicker"
-
-#: extensions/flicker/flicker.extension.desktop.in.in:4
-msgid "Upload images to Flickr"
-msgstr "Pošiljanje slik na Flickr"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Javne fotografije"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
-msgid "Private photos, visible to family and friends"
-msgstr "Zasebne fotografije, vidne družini in prijateljem"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Zasebne fotografije, vidne prijateljem"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
-msgid "Private photos, visible to family"
-msgstr "Zasebne fotografije, vidne družini"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:51
-msgid "Private photos"
-msgstr "Zasebne fotografije"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:73
-msgid "Safe content"
-msgstr "Varna vsebina"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:77
-msgid "Moderate content"
-msgstr "Srednja vsebina"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:81
-msgid "Restricted content"
-msgstr "Omejena vsebina"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "R_ačun:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-msgid "Edit accounts"
-msgstr "Urejanje računov"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-msgid "Free space:"
-msgstr "Neporabljen prostor:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:275
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:134
-msgid "Ph_otoset:"
-msgstr "Niz _Fotografij:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:291
-msgid "_Privacy:"
-msgstr "_Zasebnost:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:329
-msgid "_Safety:"
-msgstr "_Varnost:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:405
-msgid "Hi_de from public searches"
-msgstr "Sk_rij iz javnih iskanj"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/webalbums/data/ui/web-album-exporter.ui:329
-msgid "_Resize if larger than:"
-msgstr "_Spremeni velikost, če je večja kot:"
-
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-msgid "A_ccount:"
-msgstr "Ra_čun:"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:219
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Ni se mogoče povezati s strežnikom"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-msgid "Files successfully uploaded to the server."
-msgstr "Datoteke so bile uspešno poslane na strežnik."
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1827
-msgid "_Open in the Browser"
-msgstr "_Odpri v brskalniku"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Albuma ni mogoče ustvariti"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-msgid "Could not upload the files"
-msgstr "Datotek ni mogoče poslati"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1782
-msgid "No valid file selected."
-msgstr "Nobena veljavna datoteka ni izbrana."
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-msgid "Could not export the files"
-msgstr "Datotek ni mogoče izvoziti"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Izvozi v %s"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:312
-#: gthumb/gth-file-selection-info.c:143
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d datotek"
-msgstr[1] "%d datoteka"
-msgstr[2] "%d datoteki"
-msgstr[3] "%d datoteke"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:337
-msgid "Could not get the photo list"
-msgstr "Ni mogoče dobiti seznama fotografij"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:374
-#: extensions/flicker_utils/dlg-import-from-flickr.c:553
-msgid "No album selected"
-msgstr "Noben album ni izbran"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:513
-#: extensions/photo_importer/dlg-photo-importer.c:575
-msgid "_Import"
-msgstr "_Uvozi"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:571
-#, c-format
-msgid "Import from %s"
-msgstr "Uvozi iz %s"
-
-#: extensions/flicker_utils/flickr-consumer.c:122
-#: extensions/flicker_utils/flickr-service.c:240
-#: extensions/flicker_utils/flickr-service.c:344
-#: extensions/flicker_utils/flickr-service.c:667
-#: extensions/flicker_utils/flickr-service.c:919
-#: extensions/oauth/oauth-service.c:154
-msgid "Unknown error"
-msgstr "Neznana napaka"
-
-#: extensions/flicker_utils/flickr-service.c:491
-#, c-format
-msgid ""
-"Return to this window when you have finished the authorization process on %s"
-msgstr "Vrnite se v to okno, ko boste končali opravilo pooblastitve na %s"
-
-#: extensions/flicker_utils/flickr-service.c:492
-msgid "Once you’re done, click the “Continue” button below."
-msgstr "Ko končate, kliknite spodnji gumb »Nadaljuj«."
-
-#: extensions/flicker_utils/flickr-service.c:562
-msgid "C_ontinue"
-msgstr "_Nadaljuj"
-
-#: extensions/flicker_utils/flickr-service.c:563
-msgid "_Authorize…"
-msgstr "_Overi …"
-
-#: extensions/flicker_utils/flickr-service.c:566
-#, c-format
-msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr "Program gThumb zahteva potrditev za pošiljanje fotografij na %s."
-
-#: extensions/flicker_utils/flickr-service.c:567
-#, c-format
-msgid ""
-"Click “Authorize” to open your web browser and authorize gthumb to upload "
-"photos to %s. When you’re finished, return to this window to complete the "
-"authorization."
-msgstr ""
-"Kliknite »Pooblasti« za odprtje spletnega brskalnika in pooblastite gthumb "
-"za pošiljanje fotografij na %s. Ko boste končali, se vrnite v to okno za "
-"dokončanje pooblastitve."
-
-#: extensions/flicker_utils/flickr-service.c:849
-msgid "Getting the album list"
-msgstr "Pridobivanje seznama albumov"
-
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Ustvarjanje novega albuma"
-
-#: extensions/flicker_utils/flickr-service.c:1144
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Ni mogoče poslati »%s«: %s"
-
 #. Translators: %s is a filename
-#: extensions/flicker_utils/flickr-service.c:1253
-#, c-format
-msgid "Uploading “%s”"
-msgstr "Poteka pošiljanje »%s«"
-
-#: extensions/flicker_utils/flickr-service.c:1450
-msgid "Uploading the files to the server"
-msgstr "Pošiljanje datotek na strežnik"
-
-#: extensions/flicker_utils/flickr-service.c:1611
-msgid "Getting the photo list"
-msgstr "Pridobivanje seznama fotografij"
-
-#. Translators: %s is a filename
-#: extensions/gstreamer_tools/actions.c:75
+#: extensions/gstreamer_tools/actions.c:77
 #, c-format
 msgid "Image saved as %s"
 msgstr "Slika je shranjena kot %s"
 
-#: extensions/gstreamer_tools/actions.c:101
+#: extensions/gstreamer_tools/actions.c:104
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Zaslonska slika"
 
-#: extensions/gstreamer_tools/actions.c:157
-#: extensions/gstreamer_tools/actions.c:169
-#: extensions/gstreamer_tools/actions.c:410
+#: extensions/gstreamer_tools/actions.c:162
+#: extensions/gstreamer_tools/actions.c:183
+#: extensions/gstreamer_tools/actions.c:424
 msgid "Could not take a screenshot"
 msgstr "Ni mogoče zajeti zaslonske slike"
 
@@ -2999,7 +2772,7 @@ msgid "Play slower"
 msgstr "Predvajaj počasneje"
 
 #: extensions/gstreamer_tools/callbacks.c:37
-#: extensions/image_viewer/gth-image-viewer-page.c:1234
+#: extensions/image_viewer/gth-image-viewer-page.c:1252
 msgid "Next frame"
 msgstr "Naslednja sličica"
 
@@ -3069,7 +2842,7 @@ msgstr "Mesto zajetih _slik:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:629
-#: extensions/image_viewer/gth-image-viewer-page.c:1227
+#: extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -3230,7 +3003,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:427
-#: extensions/image_viewer/gth-image-viewer-page.c:1944
+#: extensions/image_viewer/gth-image-viewer-page.c:1960
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
 #: extensions/webalbums/gth-web-exporter.c:2435 gthumb/gtk-utils.c:981
@@ -3361,6 +3134,10 @@ msgstr "Stran %d od %d"
 #: extensions/image_print/gth-image-print-job.c:1931
 msgid "Could not print"
 msgstr "Ni mogoče natisniti dokumenta"
+
+#: extensions/image_print/gth-image-print-job.c:1782
+msgid "No valid file selected."
+msgstr "Nobena veljavna datoteka ni izbrana."
 
 #: extensions/image_print/gth-image-print-job.c:1789
 msgid "Images"
@@ -3542,7 +3319,7 @@ msgid "After loading an image:"
 msgstr "Po nalaganju slike:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1184
+#: extensions/image_viewer/gth-image-viewer-page.c:1202
 msgid "Set to actual size"
 msgstr "Nastavi sliko na dejansko velikost"
 
@@ -3551,7 +3328,7 @@ msgid "Keep previous zoom"
 msgstr "Ohrani predhodno približanje"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1191
+#: extensions/image_viewer/gth-image-viewer-page.c:1209
 msgid "Fit to window if larger"
 msgstr "Prilagodi velikost oknu, če je večja"
 
@@ -3596,26 +3373,26 @@ msgctxt "zoom quality"
 msgid "_Low"
 msgstr "_Nizka"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:310
 msgid "Transparency:"
 msgstr "Prozornosti:"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:325
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
 msgid "Checkered"
 msgstr "Karirasto"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:326
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
 msgid "White"
 msgstr "Bela"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:327
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
 msgid "Gray"
 msgstr "Siva"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:298
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:328
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:42
 msgid "Black"
 msgstr "Črna"
@@ -3653,19 +3430,19 @@ msgstr "Histogram"
 msgid "Paste Image"
 msgstr "Prilepi sliko"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1219
+#: extensions/image_viewer/gth-image-viewer-page.c:1237
 msgid "Apply the embedded color profile"
 msgstr "Uveljavi vdelani barvni profil"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1241
+#: extensions/image_viewer/gth-image-viewer-page.c:1259
 msgid "Transparency"
 msgstr "Prozornost"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1882
+#: extensions/image_viewer/gth-image-viewer-page.c:1898
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2634
+#: extensions/image_viewer/gth-image-viewer-page.c:2654
 msgid "Loading the original image"
 msgstr "Nalaganje izvorne slike"
 
@@ -3685,7 +3462,7 @@ msgstr "Drsenje po sliki"
 msgid "Image Editor"
 msgstr "Urejevalnik slik"
 
-#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
+#: extensions/image_viewer/preferences.c:171 gthumb/gth-main-default-types.c:42
 #: gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Pregledovalnik"
@@ -3784,7 +3561,7 @@ msgstr "_Ukaz:"
 msgid "Edit command"
 msgstr "Uredi ukaz"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:556
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:558
 #: gthumb/gth-test-aspect-ratio.c:193
 msgid "Personalize…"
 msgstr "Po meri …"
@@ -3891,27 +3668,32 @@ msgid "Scripting and batch manipulation of files."
 msgstr "Skripti in paketno upravljanje datotek."
 
 #: extensions/map_view/gth-map-view.c:128
+#: extensions/open_map/gth-open-map.c:119
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "J"
 
 #: extensions/map_view/gth-map-view.c:128
+#: extensions/open_map/gth-open-map.c:119
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "S"
 
 #: extensions/map_view/gth-map-view.c:130
+#: extensions/open_map/gth-open-map.c:121
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "Z"
 
 #: extensions/map_view/gth-map-view.c:130
+#: extensions/open_map/gth-open-map.c:121
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "V"
 
 #: extensions/map_view/gth-map-view.c:225
 #: extensions/map_view/map_view.extension.desktop.in.in:3
+#: extensions/open_map/gth-open-map.c:216
 msgid "Map"
 msgstr "Zemljevid"
 
@@ -3919,47 +3701,13 @@ msgstr "Zemljevid"
 msgid "View the photo position on the map"
 msgstr "Pokaže mesto zajema slike na zemljevidu."
 
-#: extensions/oauth/data/ui/oauth-account-manager.ui:23
-msgid "A_ccounts:"
-msgstr "R_ačuni:"
+#: extensions/open_map/open_map.extension.desktop.in.in:3
+msgid "Open Map"
+msgstr "Odpri zemljevid"
 
-#. the message pane
-#: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1172
-msgid "Loading…"
-msgstr "Poteka nalaganje …"
-
-#: extensions/oauth/oauth-account-chooser-dialog.c:192
-msgid "New authentication…"
-msgstr "Nova overitev …"
-
-#: extensions/oauth/oauth-ask-authorization-dialog.c:240
-msgid "Authorization Required"
-msgstr "Zahtevana je overitev"
-
-#: extensions/oauth/web-service.c:379
-msgid "Choose _Account…"
-msgstr "Izbor _računa …"
-
-#: extensions/oauth/web-service.c:657
-msgid "Choose Account"
-msgstr "Izbor računa"
-
-#: extensions/oauth/web-service.c:774
-msgid "Edit Accounts"
-msgstr "Urejanje računov"
-
-#: extensions/oauth/web-service.c:792 extensions/oauth/web-service.c:809
-msgid "Connecting to the server"
-msgstr "Povezovanje s strežnikom"
-
-#: extensions/oauth/web-service.c:793
-msgid "Asking authorization"
-msgstr "Potrditev overitve"
-
-#: extensions/oauth/web-service.c:810
-msgid "Getting account information"
-msgstr "Pridobivanje podrobnosti računa"
+#: extensions/open_map/open_map.extension.desktop.in.in:4
+msgid "View the photo location on OpenStreetMap"
+msgstr "Oglejte si lokacijo fotografije na OpenStreetMap"
 
 #: extensions/photo_importer/actions.c:71
 #: extensions/photo_importer/dlg-photo-importer.c:619
@@ -3997,7 +3745,7 @@ msgstr "_Izbriši uvožene slike z vira"
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
-#: gthumb/gth-filterbar.c:391
+#: gthumb/gth-filterbar.c:393
 msgid "S_how:"
 msgstr "_Pokaži:"
 
@@ -4026,6 +3774,10 @@ msgstr "Mape ni mogoče naložiti"
 #: extensions/photo_importer/dlg-photo-importer.c:352
 msgid "Getting the folder content…"
 msgstr "Pridobivanje vsebine mape …"
+
+#: extensions/photo_importer/dlg-photo-importer.c:575
+msgid "_Import"
+msgstr "_Uvozi"
 
 #: extensions/photo_importer/dlg-photo-importer.c:585
 msgid "Import from Removable Device"
@@ -4483,6 +4235,10 @@ msgstr "Prilagodi se širini okna"
 msgid "_Copy originals to destination"
 msgstr "_Kopiraj izvirnike na cilj"
 
+#: extensions/webalbums/data/ui/web-album-exporter.ui:329
+msgid "_Resize if larger than:"
+msgstr "_Spremeni velikost, če je večja kot:"
+
 #: extensions/webalbums/data/ui/web-album-exporter.ui:605
 msgid "_Adapt to the window width "
 msgstr "_Prilagodi na širino okna "
@@ -4542,6 +4298,10 @@ msgstr "Ni mogoče pokazati cilja"
 #: extensions/webalbums/gth-web-exporter.c:1824
 msgid "The album has been created successfully."
 msgstr "Album je bil uspešno ustvarjen."
+
+#: extensions/webalbums/gth-web-exporter.c:1827
+msgid "_Open in the Browser"
+msgstr "_Odpri v brskalniku"
 
 #: extensions/webalbums/gth-web-exporter.c:2093
 #: extensions/webalbums/gth-web-exporter.c:2121
@@ -4657,28 +4417,28 @@ msgstr "Izvozniki"
 msgid "Could not activate the extension"
 msgstr "Ni mogoče omogočiti razširitve"
 
-#: gthumb/dlg-preferences-extensions.c:374
+#: gthumb/dlg-preferences-extensions.c:380
 msgid "Could not deactivate the extension"
 msgstr "Ni mogoče onemogočiti razširitve"
 
-#: gthumb/dlg-preferences-extensions.c:491
+#: gthumb/dlg-preferences-extensions.c:496
 msgid "gThumb Development Team"
 msgstr "Razvojna skupina gThumb"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-extensions.c:664
+#: gthumb/dlg-preferences-extensions.c:669
 msgid "Extensions"
 msgstr "Razširitve"
 
-#: gthumb/dlg-preferences-extensions.c:713
+#: gthumb/dlg-preferences-extensions.c:718
 msgid "Restart required"
 msgstr "Zahtevan je ponoven zagon"
 
-#: gthumb/dlg-preferences-extensions.c:714
+#: gthumb/dlg-preferences-extensions.c:719
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Za uveljavitev nekaterih sprememb je treba program ponovno zagnati."
 
-#: gthumb/dlg-preferences-extensions.c:716
+#: gthumb/dlg-preferences-extensions.c:721
 msgid "_Restart"
 msgstr "_Znova zaženi"
 
@@ -4802,7 +4562,7 @@ msgstr "Pokaži različico"
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[DATOTEKA...] [MAPA...]"
 
-#: gthumb/gth-application.c:170
+#: gthumb/gth-application.c:172
 msgid "— Image browser and viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
 
@@ -4948,7 +4708,7 @@ msgstr "Izbere vse"
 msgid "Select none"
 msgstr "Odstrani izbor"
 
-#: gthumb/gth-browser-actions-entries.h:137 gthumb/gth-filterbar.c:526
+#: gthumb/gth-browser-actions-entries.h:137 gthumb/gth-filterbar.c:528
 msgid "All"
 msgstr "Vse"
 
@@ -5060,6 +4820,20 @@ msgstr "Pokaži _možnosti zapisa"
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1198
 msgid "No file"
 msgstr "Ni nobene datoteke"
+
+#. the message pane
+#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1172
+msgid "Loading…"
+msgstr "Poteka nalaganje …"
+
+#: gthumb/gth-file-selection-info.c:143
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d datotek"
+msgstr[1] "%d datoteka"
+msgstr[2] "%d datoteki"
+msgstr[3] "%d datoteke"
 
 #: gthumb/gth-file-source-vfs.c:288
 msgid "Computer"
@@ -5328,12 +5102,12 @@ msgstr "Shranjevanje podrobnosti datoteke"
 msgid "Saving “%s”"
 msgstr "Poteka shranjevanje »%s«"
 
-#: gthumb/gth-tags-entry.c:507
+#: gthumb/gth-tags-entry.c:499
 #, c-format
 msgid "Create tag “%s”"
 msgstr "Ustvari oznako »%s«"
 
-#: gthumb/gth-tags-entry.c:1090
+#: gthumb/gth-tags-entry.c:947
 msgid "Show all the tags"
 msgstr "Pokaži vse oznake"
 
@@ -5492,11 +5266,11 @@ msgstr "je pred"
 msgid "is after"
 msgstr "je po"
 
-#: gthumb/gth-time-selector.c:542
+#: gthumb/gth-time-selector.c:396
 msgid "Today"
 msgstr "Danes"
 
-#: gthumb/gth-time-selector.c:550
+#: gthumb/gth-time-selector.c:404
 msgid "Now"
 msgstr "Ravnokar"
 
