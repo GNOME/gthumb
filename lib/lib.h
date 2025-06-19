@@ -1,6 +1,7 @@
 #ifndef LIB_LIB_H
 #define LIB_LIB_H
 
+#include <config.h>
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>

@@ -5,16 +5,18 @@ project('Thumbnails',
   meson_version: '>=0.56'
 )
 
-adwaita_version = '>=1.7.3'
-glib_version = '>=2.84.2'
-gtk_version = '>=4.18.5'
-lcms2_version = '>=2.6'
-colord_version = '>=1.3'
-png_version = '>=1.6'
-libwebp_version = '>=0.2.0'
-librsvg_version = '>=2.34.0'
-gstreamer_version = '>=1.26.0'
-exiv2_version = '>=0.28'
+adwaita_version = '>= 1.7.3'
+glib_version = '>= 2.84.2'
+gtk_version = '>= 4.18.5'
+lcms2_version = '>= 2.6'
+colord_version = '>= 1.3'
+png_version = '>= 1.6'
+libwebp_version = '>= 0.2.0'
+librsvg_version = '>= 2.34.0'
+gstreamer_version = '>= 1.26.0'
+exiv2_version = '>= 0.28'
+libheif_version = '>= 1.11'
+libjxl_version = '>=0.3.0'
 
 c_comp = meson.get_compiler('c')
 cpp_comp = meson.get_compiler('cpp')
@@ -127,6 +129,27 @@ else
   use_exiv2 = false
 endif
 
+# libheif
+
+if get_option('libheif')
+  libheif_dep = dependency('libheif', version : libheif_version, required : false)
+  use_libheif = libheif_dep.found()
+else
+  use_libheif = false
+endif
+
+# libjxl
+
+if get_option('libjxl')
+  libjxl_deps = [
+    dependency('libjxl', version : libjxl_version, required : false),
+    dependency('libjxl_threads', version : libjxl_version, required : false)
+  ]
+  use_libjxl = libjxl_deps[0].found()
+else
+  use_libjxl = false
+endif
+
 
 dependencies = [
   dependency('threads'),
@@ -144,6 +167,8 @@ dependencies = [
   use_librsvg ? librsvg_dep : [],
   use_gstreamer ? gstreamer_dep_list : [],
   use_exiv2 ? exiv2_dep : [],
+  use_libheif ? libheif_dep : [],
+  use_libjxl ? libjxl_deps : [],
 ]
 
 gettext_package = 'thumbnails'
@@ -200,6 +225,14 @@ endif
 if use_exiv2
   config.set('HAVE_EXIV2', 1)
   add_project_arguments(['-D', 'HAVE_EXIV2'], language: 'vala')
+endif
+if use_libheif
+  config.set('HAVE_LIBHEIF', 1)
+  add_project_arguments(['-D', 'HAVE_LIBHEIF'], language: 'vala')
+endif
+if use_libjxl
+  config.set('HAVE_LIBJXL', 1)
+  add_project_arguments(['-D', 'HAVE_LIBJXL'], language: 'vala')
 endif
 
 config_file = configure_file(
@@ -369,6 +402,8 @@ summary(
     'librsvg': use_librsvg,
     'gstreamer': use_gstreamer,
     'exiv2': use_exiv2,
+    'libheif': use_libheif,
+    'libjxl': use_libjxl,
   },
   section: 'Configuration summary:',
 )

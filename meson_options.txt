@@ -39,3 +39,15 @@ option('exiv2',
   value : true,
   description : 'Use exiv2 to read and write metadata'
 )
+
+option('libheif',
+  type : 'boolean',
+  value : true,
+  description : 'Use libheif to load HEIF and AVIF images'
+)
+
+option('libjxl',
+  type : 'boolean',
+  value : true,
+  description : 'Use libjxl to load JPEG XL images'
+)
