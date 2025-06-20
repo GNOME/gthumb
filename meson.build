@@ -277,6 +277,12 @@ endif
 if use_librsvg
   lib_files += ('lib/io/load-svg.c')
 endif
+if use_libjxl
+  lib_files += ('lib/io/load-jxl.c')
+endif
+if use_libheif
+  lib_files += ('lib/io/load-heif.c')
+endif
 
 vapi_files = files(
   'vapi/ColorManager.vapi',
