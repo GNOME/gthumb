@@ -29,18 +29,10 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 
 	GthImageInfo image_info;
 	gboolean format_recognized = FALSE;
+	const char *mime_type = guess_mime_type (buffer, buffer_size);
 
 	if ((size >= 24)
-		// PNG signature
-
-		&& (buffer[0] == 0x89)
-		&& (buffer[1] == 0x50)
-		&& (buffer[2] == 0x4E)
-		&& (buffer[3] == 0x47)
-		&& (buffer[4] == 0x0D)
-		&& (buffer[5] == 0x0A)
-		&& (buffer[6] == 0x1A)
-		&& (buffer[7] == 0x0A)
+		&& (g_strcmp0 (mime_type, "image/png") == 0)
 
 		// IHDR Image header
 
@@ -57,9 +49,7 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 
 	if (!format_recognized
 		&& (size >= 4)
-		&& (buffer[0] == 0xff)
-		&& (buffer[1] == 0xd8)
-		&& (buffer[2] == 0xff))
+		&& (g_strcmp0 (mime_type, "image/jpeg") == 0))
 	{
 		// JPEG
 		if (g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, cancellable, NULL)) {
@@ -97,7 +87,7 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 #if HAVE_LIBWEBP
 	if (!format_recognized
 		&& (size > 15)
-		&& (memcmp (buffer + 8, "WEBPVP8", 7) == 0))
+		&& (g_strcmp0 (mime_type, "image/webp") == 0))
 	{
 		WebPDecoderConfig config;
 
@@ -123,7 +113,8 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 #if HAVE_LIBHEIF
 	if (!format_recognized
 		&& (size >= 8)
-		&& (memcmp (buffer + 4, "ftyp", 4) == 0))
+		&& ((g_strcmp0 (mime_type, "image/heic") == 0)
+			|| (g_strcmp0 (mime_type, "image/avif") == 0)))
 	{
 		if (load_heif_info (G_INPUT_STREAM (stream), &image_info, buffer, size, cancellable)) {
 			format_recognized = TRUE;

@@ -257,37 +257,6 @@ public class Gth.Util {
 
 	const int BUFFER_SIZE_FOR_SNIFFING = 32;
 
-	static unowned string? get_mime_type_from_magic_numbers (uint8[] buffer, size_t content_size) {
-		for (var i = 0; i < MAGIC_IDS.length; i++) {
-			unowned var magic = MAGIC_IDS[i];
-			if (magic.offset + magic.length > content_size)
-				continue;
-			unowned uint8[] buffer_data = buffer[magic.offset:-1];
-			if (Posix.memcmp (buffer_data, magic.id.data, magic.length) == 0)
-				return magic.mime_type;
-		}
-		return null;
-	}
-
-	struct MagicInfo {
-		string mime_type;
-		uint offset;
-		uint length;
-		string id;
-	}
-
-	const MagicInfo[] MAGIC_IDS = {
-		// Some magic ids taken from magic/Magdir/archive from the file-4.21 tarball.
-		{ "image/png",  0,  8, "\x89PNG\x0d\x0a\x1a\x0a" },
-		{ "image/tiff", 0,  4, "MM\x00\x2a" },
-		{ "image/tiff", 0,  4, "II\x2a\x00" },
-		{ "image/gif",  0,  4, "GIF8" },
-		{ "image/jpeg", 0,  3, "\xff\xd8\xff" },
-		{ "image/webp", 8,  7, "WEBPVP8" },
-		{ "image/jxl",  0,  2, "\xff\x0a" },
-		{ "image/jxl",  0, 12, "\x00\x00\x00\x0cJXL\x20\x0d\x0a\x87\x0a" },
-	};
-
 	public static unowned string? guess_content_type_from_stream (InputStream stream, File? file, Cancellable cancellable) {
 		var buffer = new uint8[BUFFER_SIZE_FOR_SNIFFING];
 		size_t content_size;
@@ -297,7 +266,7 @@ public class Gth.Util {
 		catch (Error error) {
 			return null;
 		}
-		unowned var content_type = Util.get_mime_type_from_magic_numbers (buffer, content_size);
+		unowned var content_type = guess_mime_type (buffer);
 		if (content_type == null) {
 			bool result_uncertain;
 			unowned var valid_data = buffer[0:content_size];

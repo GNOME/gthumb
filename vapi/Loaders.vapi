@@ -3,6 +3,9 @@ using GLib;
 [CCode (cheader_filename = "lib/io/image-info.h")]
 public bool load_image_info (File file, out int width, out int height, Cancellable cancellable);
 
+[CCode (cheader_filename = "lib/util.h", array_length_type = "size_t", array_length_pos = 1.1)]
+public unowned string guess_mime_type (uint8[] buffer);
+
 [CCode (cheader_filename = "lib/io/load-png.h")]
 public Gth.Image load_png (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
 

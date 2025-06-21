@@ -55,6 +55,7 @@ bool _g_parse_exif_date (const char *exif_date,
 	int *out_hour, int *out_minute, int *out_second,
 	double *out_usecond);
 GDateTime * _g_date_time_new_from_exif_date (const char *exif_date);
+const char * guess_mime_type (const guchar* buffer, gsize buffer_size);
 
 G_END_DECLS
 

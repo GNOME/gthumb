@@ -388,3 +388,57 @@ GDateTime * _g_date_time_new_from_exif_date (const char *exif_date) {
 		return NULL;
 	return g_date_time_new_local (year, month, day, hour, minute, (double) second + usecond);
 }
+
+const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
+	static const struct MagicInfo {
+		const char * const mime_type;
+		const unsigned int offset;
+		const unsigned int bytes;
+		const char * const id;
+	} MAGIC_IDS[] = {
+		// Some magic ids taken from file-4.21 tarball.
+		{ "image/png",  0,  8, "\x89PNG\x0d\x0a\x1a\x0a" },
+		{ "image/tiff", 0,  4, "MM\x00\x2a" },
+		{ "image/tiff", 0,  4, "II\x2a\x00" },
+		{ "image/gif",  0,  4, "GIF8" },
+		{ "image/jpeg", 0,  3, "\xff\xd8\xff" },
+		{ "image/webp", 8,  7, "WEBPVP8" },
+		{ "image/jxl",  0,  2, "\xff\x0a" },
+		{ "image/jxl",  0, 12, "\x00\x00\x00\x0cJXL\x20\x0d\x0a\x87\x0a" },
+		{ "image/heic", 4, 8, "ftypmif1" },
+		{ "image/heic", 4, 8, "ftypmsf1" },
+		{ "image/heic", 4, 8, "ftypheic" },
+		{ "image/heic", 4, 8, "ftypheix" },
+		{ "image/heic", 4, 8, "ftyphevx" },
+		{ "image/heic", 4, 8, "ftypheim" },
+		{ "image/heic", 4, 8, "ftypheis" },
+		{ "image/heic", 4, 8, "ftypavic" },
+		{ "image/heic", 4, 8, "ftyphevm" },
+		{ "image/heic", 4, 8, "ftyphevs" },
+		{ "image/heic", 4, 8, "ftypavcs" },
+		{ "image/avif", 4, 8, "ftypavif" },
+		{ "image/avif", 4, 8, "ftypavis" },
+		{ "image/avif", 4, 8, "ftyprisx" },
+		{ "image/avif", 4, 8, "ftypROSS" },
+		{ "image/avif", 4, 8, "ftypsdv " },
+		{ "image/avif", 4, 8, "ftypssc1" },
+		{ "image/avif", 4, 8, "ftypssc2" },
+		{ "image/avif", 4, 8, "ftypSEAU" },
+		{ "image/avif", 4, 8, "ftypSEBK" },
+		{ "image/avif", 4, 8, "ftypsenv" },
+		{ "image/avif", 4, 8, "ftypsims" },
+		{ "image/avif", 4, 8, "ftypsisx" },
+		{ "image/avif", 4, 8, "ftypssss" },
+		{ "image/avif", 4, 8, "ftypuvvu" },
+	};
+
+	for (int i = 0; i < G_N_ELEMENTS (MAGIC_IDS); i++) {
+		const struct MagicInfo * const info = &MAGIC_IDS[i];
+
+		if ((info->offset + info->bytes) <= buffer_size) {
+			if (memcmp (buffer + info->offset, info->id, info->bytes) == 0)
+				return info->mime_type;
+		}
+	}
+	return NULL;
+}
