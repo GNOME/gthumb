@@ -83,24 +83,7 @@ transform_to_argb32_format_func (png_structp   png,
 				 png_row_infop row_info,
 				 png_bytep     data)
 {
-	guchar r, g, b, a;
-	guint temp; // used in PIXEL_MULTIPLY_ALPHA
-	for (guint i = 0; i < row_info->rowbytes; i += 4) {
-		guchar *p = data + i;
-		a = p[3];
-		if (a == 0xFF) {
-			*(guint32*)p = RGBA_TO_PIXEL (p[0], p[1], p[2], 0xFF);
-		}
-		else if (a == 0) {
-			*(guint32*)p = 0;
-		}
-		else {
-			PIXEL_MULTIPLY_ALPHA (r, p[0], a);
-			PIXEL_MULTIPLY_ALPHA (g, p[1], a);
-			PIXEL_MULTIPLY_ALPHA (b, p[2], a);
-			*(guint32*)p = RGBA_TO_PIXEL (r, g, b, a);
-		}
-	}
+	rgba_big_endian_line_to_pixel (data, data, row_info->rowbytes / 4);
 }
 
 
