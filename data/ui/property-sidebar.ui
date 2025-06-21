@@ -8,6 +8,7 @@
         <property name="spacing">6</property>
         <style>
           <class name="sidebar-header"/>
+          <class name="right"/>
         </style>
       </object>
     </child>

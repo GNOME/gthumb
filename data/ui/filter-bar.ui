@@ -26,6 +26,7 @@
         <property name="icon-name">window-close-symbolic</property>
         <style>
           <class name="flat"/>
+          <class name="circular"/>
         </style>
       </object>
     </child>

@@ -146,7 +146,7 @@ public class Gth.TestString : Gth.Test {
 		{ N_("Equal To"), Test.Operation.EQUAL, false },
 		{ N_("Different From"), Test.Operation.EQUAL, true },
 		{ N_("Does not Contain"), Test.Operation.CONTAINS, true },
-		{ N_("Matches"), Test.Operation.MATCHES, false }
+		{ N_("Matches Pattern"), Test.Operation.MATCHES, false }
 	};
 
 	Gtk.DropDown operation;

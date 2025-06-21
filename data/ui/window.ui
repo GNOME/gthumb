@@ -56,24 +56,24 @@
                         </style>
                         <child>
                           <object class="GtkToggleButton" id="vfs_button">
+                            <property name="icon-name">folder-symbolic</property>
+                            <property name="action-name">win.show-folders</property>
+                            <property name="tooltip-text">Folders</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
                             </style>
-                            <property name="icon-name">folder-symbolic</property>
-                            <property name="action-name">win.show-folders</property>
-                            <property name="tooltip-text">Folders</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="catalog_button">
+                            <property name="icon-name">library-symbolic</property>
+                            <property name="action-name">win.show-catalogs</property>
+                            <property name="tooltip-text">Catalogs</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
                             </style>
-                            <property name="icon-name">library-symbolic</property>
-                            <property name="action-name">win.show-catalogs</property>
-                            <property name="tooltip-text">Catalogs</property>
                           </object>
                         </child>
                         <child>
@@ -83,33 +83,33 @@
                         </child>
                         <child>
                           <object class="GtkButton">
+                            <property name="icon-name">user-home-symbolic</property>
+                            <property name="action-name">win.load-home</property>
+                            <property name="tooltip-text">Home Folder</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
                             </style>
-                            <property name="icon-name">user-home-symbolic</property>
-                            <property name="action-name">win.load-home</property>
-                            <property name="tooltip-text">Home Folder</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkMenuButton" id="bookmarks_button">
+                            <property name="icon-name">user-bookmarks-symbolic</property>
+                            <property name="tooltip-text">Bookmarks</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
                             </style>
-                            <property name="icon-name">user-bookmarks-symbolic</property>
-                            <property name="tooltip-text">Bookmarks</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkMenuButton" id="history_button">
+                            <property name="icon-name">clock-alt-symbolic</property>
+                            <property name="tooltip-text">History</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
                             </style>
-                            <property name="icon-name">clock-alt-symbolic</property>
-                            <property name="tooltip-text">History</property>
                           </object>
                         </child>
                       </object>
@@ -181,11 +181,6 @@
                     <style>
                       <class name="topbar"/>
                     </style>
-                    <property name="title-widget">
-                      <object class="GtkMenuButton" id="location_button">
-                        <property name="menu-model">location_menu</property>
-                      </object>
-                    </property>
                     <child type="start">
                       <object class="GtkBox">
                         <property name="orientation">horizontal</property>
@@ -199,30 +194,22 @@
                         </child>
                         <child>
                           <object class="GtkButton">
-                            <property name="hexpand">true</property>
-                            <style>
-                              <class name="flat"/>
-                            </style>
                             <property name="icon-name">go-previous-symbolic</property>
                             <property name="action-name">win.load-previous</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkButton">
-                            <property name="hexpand">true</property>
-                            <style>
-                              <class name="flat"/>
-                            </style>
                             <property name="icon-name">go-next-symbolic</property>
                             <property name="action-name">win.load-next</property>
                           </object>
                         </child>
-                        <!--child>
-                          <object class="GtkButton">
+                        <child>
+                          <object class="GtkMenuButton" id="location_button">
                             <property name="icon-name">go-up-symbolic</property>
-                            <property name="action-name">win.load-parent</property>
+                            <property name="menu-model">location_menu</property>
                           </object>
-                        </child-->
+                        </child>
                       </object>
                     </child>
                     <child type="end">

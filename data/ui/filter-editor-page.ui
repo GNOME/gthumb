@@ -102,7 +102,7 @@
                 <child>
                   <object class="AdwExpanderRow" id="limits_row">
                     <property name="title" translatable="yes">Limited Content</property>
-                    <property name="subtitle" translatable="yes">Add files untils a limit is reached.</property>
+                    <property name="subtitle" translatable="yes">Add files until a limit is reached.</property>
                     <property name="show-enable-switch">true</property>
 
                     <child>
