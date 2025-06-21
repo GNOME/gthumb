@@ -268,7 +268,9 @@ public class Gth.Application : Adw.Application {
 #if HAVE_LIBRSVG
 		register_image_loader ("image/svg+xml", load_svg);
 #endif
-
+#if HAVE_LIBJXL
+		register_image_loader ("image/jxl", load_jxl);
+#endif
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png);
 

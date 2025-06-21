@@ -31,7 +31,11 @@
 #endif
 
 #define RGBA_TO_PIXEL(red, green, blue, alpha) \
-	(((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue))
+	((guint32) (((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue)))
+
+#define PIXEL_MULTIPLY_ALPHA(r, p, a) \
+	temp = ((a) * (p)) + 0x80; \
+	r = ((temp + (temp >> 8)) >> 8);
 
 guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a);
 void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width);
