@@ -271,6 +271,12 @@ public class Gth.Application : Adw.Application {
 #if HAVE_LIBJXL
 		register_image_loader ("image/jxl", load_jxl);
 #endif
+#if HAVE_LIBHEIF
+		register_image_loader ("image/heif", load_heif);
+		register_image_loader ("image/heic", load_heif);
+		register_image_loader ("image/avif", load_heif);
+#endif
+
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png);
 

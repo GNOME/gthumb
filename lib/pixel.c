@@ -44,7 +44,6 @@ void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
 	}
 }
 
-
 #define PIXEL_TO_RGB(pixel, red, green, blue) \
 	G_STMT_START { \
 		red = pixel[PIXEL_RED]; \
@@ -58,6 +57,36 @@ void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
 		PIXEL_TO_RGB (src, dest[0], dest[1], dest[2]);
 		src += 4;
 		dest += 3;
+	}
+}
+
+void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
+	guchar r, g, b, a;
+	guint temp; // used in PIXEL_MULTIPLY_ALPHA
+	for (guint x = 0; x < width; x++) {
+		a = src[3];
+		if (a == 0xFF) {
+			*(guint32*)dest = RGBA_TO_PIXEL (src[0], src[1], src[2], 0xFF);
+		}
+		else if (a == 0) {
+			*(guint32*)dest = 0;
+		}
+		else {
+			PIXEL_MULTIPLY_ALPHA (r, src[0], a);
+			PIXEL_MULTIPLY_ALPHA (g, src[1], a);
+			PIXEL_MULTIPLY_ALPHA (b, src[2], a);
+			*(guint32*)dest = RGBA_TO_PIXEL (r, g, b, a);
+		}
+		src += 4;
+		dest += 4;
+	}
+}
+
+void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
+	for (guint x = 0; x < width; x++) {
+		*(guint32*)dest = RGBA_TO_PIXEL (src[0], src[1], src[2], 0xFF);
+		src += 3;
+		dest += 4;
 	}
 }
 

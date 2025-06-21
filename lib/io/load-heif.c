@@ -1,9 +1,95 @@
+#include <config.h>
 #include <libheif/heif.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
+#include "lib/gth-icc-profile.h"
 #include "image-info.h"
-#include "load-jxl.h"
+#include "load-heif.h"
 
-GthImage* load_heif (GBytes *buffer, guint requested_size, GCancellable *cancellable, GError **error) {
-	return NULL;
+GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancellable, GError **error) {
+	gsize buffer_size;
+	const void *buffer = g_bytes_get_data (bytes, &buffer_size);
+
+	struct heif_context *ctx = heif_context_alloc ();
+	struct heif_error err = heif_context_read_from_memory_without_copy (ctx, buffer, buffer_size, NULL);
+	if (err.code != heif_error_Ok) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, err.message);
+		goto stop_loading;
+	}
+
+	struct heif_image_handle *handle = NULL;
+	err = heif_context_get_primary_image_handle (ctx, &handle);
+	if (err.code != heif_error_Ok) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, err.message);
+		goto stop_loading;
+	}
+
+	gboolean has_alpha = heif_image_handle_has_alpha_channel (handle);
+
+	struct heif_image *img = NULL;
+	err = heif_decode_image (handle, &img, heif_colorspace_RGB, has_alpha ? heif_chroma_interleaved_RGBA : heif_chroma_interleaved_RGB, NULL);
+	if (err.code != heif_error_Ok) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, err.message);
+		goto stop_loading;
+	}
+
+	int image_width = heif_image_get_primary_width (img);
+	int image_height = heif_image_get_primary_height (img);
+	int data_stride;
+	const uint8_t *data = heif_image_get_plane_readonly (img, heif_channel_interleaved, &data_stride);
+
+	GthImage *image = gth_image_new (image_width, image_height);
+	gth_image_set_has_alpha (image, has_alpha);
+
+#if HAVE_LCMS2
+
+	if (heif_image_handle_get_color_profile_type (handle) != heif_color_profile_type_not_present) {
+		size_t icc_data_size = heif_image_handle_get_raw_color_profile_size (handle);
+		gpointer icc_data = g_malloc (icc_data_size);
+		err = heif_image_handle_get_raw_color_profile (handle, icc_data);
+		if (err.code == heif_error_Ok) {
+			GthIccProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (icc_data, icc_data_size));
+			if (profile != NULL) {
+				gth_image_set_icc_profile (image, profile);
+				g_object_unref (profile);
+			}
+		}
+		g_free (icc_data);
+	}
+
+#endif
+
+	int surface_stride;
+	unsigned char *surface_data = gth_image_get_pixels (image, NULL, &surface_stride);
+	if (has_alpha) {
+		for (int row = 0; row < image_height; row++) {
+			rgba_big_endian_line_to_pixel (surface_data, data, image_width);
+			surface_data += surface_stride;
+			data += data_stride;
+		}
+	}
+	else {
+		for (int row = 0; row < image_height; row++) {
+			rgb_big_endian_line_to_pixel (surface_data, data, image_width);
+			surface_data += surface_stride;
+			data += data_stride;
+		}
+	}
+
+stop_loading:
+
+	if (img != NULL) {
+		heif_image_release (img);
+	}
+	if (handle != NULL) {
+		heif_image_handle_release (handle);
+	}
+	if (ctx != NULL) {
+		heif_context_free (ctx);
+	}
+
+	return image;
 }
 
 struct _heif_reader_data {
@@ -49,7 +135,6 @@ static enum heif_reader_grow_status _heif_wait_for_file_size (int64_t target_siz
 	}
 	return success ? heif_reader_grow_status_size_reached : heif_reader_grow_status_size_beyond_eof;
 }
-
 
 gboolean load_heif_info (GInputStream *stream, GthImageInfo *image_info, guchar *buffer, gsize size, GCancellable *cancellable) {
 	gboolean format_recognized = FALSE;

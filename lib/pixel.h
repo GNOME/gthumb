@@ -40,5 +40,7 @@
 guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a);
 void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width);
 void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width);
+void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width);
+void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width);
 
 #endif /* LIB_PIXEL_H */
