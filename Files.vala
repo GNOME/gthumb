@@ -93,12 +93,17 @@ public class Gth.Files {
 		return true;
 	}
 
-	const int BUFFER_SIZE = 8192;
-	const uint8[] ZERO = {0};
+	const int BUFFER_SIZE = 256 * 1024;
 
 	public static Bytes read_all (InputStream stream, Cancellable? cancellable = null, bool add_zero = false) throws Error {
-		var result = new ByteArray ();
 		var buffer = new uint8[BUFFER_SIZE];
+		return Files.read_all_with_buffer (stream, cancellable, buffer, add_zero);
+	}
+
+	const uint8[] ZERO = {0};
+
+	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable = null, uint8[] buffer, bool add_zero = false) throws Error {
+		var result = new ByteArray ();
 		while (true) {
 			var size = stream.read (buffer, cancellable);
 			if (size <= 0)

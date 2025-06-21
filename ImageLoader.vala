@@ -36,23 +36,30 @@ public class Gth.ImageLoader {
 			image = null;
 		}
 
-		public override void run () throws Error {
+		public override void run (uint8[] buffer) throws Error {
 			var content_type = Util.guess_content_type_from_stream (stream, file, cancellable);
 			if (content_type == null) {
 				throw new IOError.FAILED (_("Unknown file type"));
 			}
 
 			var load_func = app.get_load_func (content_type);
-			if (load_func == null) {
-				throw new IOError.NOT_SUPPORTED (_("No suitable loader available for this file type"));
+			if (load_func != null) {
+				if (stream is Seekable) {
+					var seekable = stream as Seekable;
+					seekable.seek (0, SeekType.SET, cancellable);
+				}
+				var bytes = Files.read_all_with_buffer (stream, cancellable, buffer);
+				image = load_func (bytes, requested_size, cancellable);
 			}
-
-			if (stream is Seekable) {
-				var seekable = stream as Seekable;
-				seekable.seek (0, SeekType.SET, cancellable);
+			else {
+				/*var load_stream_func = app.get_load_stream_func (content_type);
+				if (load_stream_func != null) {
+					image = load_stream_func (stream, requested_size, cancellable);
+				}
+				else {*/
+					throw new IOError.NOT_SUPPORTED (_("No suitable loader available for this file type"));
+				//}
 			}
-			var bytes = Files.read_all (stream, cancellable);
-			image = load_func (bytes, requested_size, cancellable);
 
 			unowned var icc_profile = image.get_icc_profile ();
 			if (icc_profile != null) {
@@ -64,3 +71,4 @@ public class Gth.ImageLoader {
 
 [CCode (has_target = false)]
 public delegate Gth.Image Gth.LoadFunc (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
+public delegate Gth.Image Gth.LoadStreamFunc (InputStream stream, uint requested_size, Cancellable cancellable) throws Error;

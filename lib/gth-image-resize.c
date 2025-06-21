@@ -208,6 +208,7 @@ horizontal_scale_and_transpose (GthImage *image,
 	scale = 1.0 / scale;
 	for (y = 0; y < scaled_height; y++) {
 		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			filter->cancelled = TRUE;
 			goto out;
 		}
 
@@ -334,6 +335,11 @@ gth_image_resize (GthImage		*image,
 	horizontal_scale_and_transpose (image, tmp, x_factor, filter, cancellable);
 	horizontal_scale_and_transpose (tmp, scaled, y_factor, filter, cancellable);
 
+	if (filter->cancelled) {
+		g_object_unref (scaled);
+		scaled = NULL;
+	}
+
 	filter_destroy (filter);
 	g_object_unref (tmp);
 
@@ -392,14 +398,15 @@ resize_image_thread (GTask		*task,
 		resize_data->quality,
 		cancellable);
 
-	if (resized_image == NULL) {
-		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "Image is null"));
+	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+		if (resized_image != NULL)
+			g_object_unref (resized_image);
+		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
 		return;
 	}
 
-	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-		g_object_unref (resized_image);
-		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+	if (resized_image == NULL) {
+		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "Image is null"));
 		return;
 	}
 

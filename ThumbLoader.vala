@@ -29,9 +29,9 @@ public class Gth.ThumbLoader {
 			image = null;
 		}
 
-		public override void run () throws Error {
+		public override void run (uint8[] buffer) throws Error {
 			var stream = thumb_file.read (cancellable);
-			var bytes = Files.read_all (stream, cancellable);
+			var bytes = Files.read_all_with_buffer (stream, cancellable, buffer);
 			if (!Thumbnailer.valid_thumbnail_for_file (bytes, file_data, cancellable))
 				throw new IOError.FAILED ("Invalid Thumbnail");
 			image = load_png (bytes, 0, cancellable);

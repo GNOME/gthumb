@@ -33,7 +33,10 @@ public class Gth.Thumbnailer {
 	public bool load_from_cache;
 	public bool save_to_cache;
 
-	public Thumbnailer () {
+	NextFileFunc next_file_func;
+
+	public Thumbnailer (NextFileFunc? _next_file_func = null) {
+		next_file_func = _next_file_func;
 		cache_size = Size.LARGE;
 		load_from_cache = true;
 		save_to_cache = true;
@@ -41,12 +44,21 @@ public class Gth.Thumbnailer {
 		job_queue = new GenericArray<ThumbnailJob>();
 	}
 
-	public void add (FileData file) {
-		if (file.thumbnail_state == ThumbnailState.LOADED) {
+	~Thumbnailer () {
+		cancel ();
+	}
+
+	public void add (FileData file, bool high_priority = false) {
+		if (file.thumbnail_state != ThumbnailState.ICON) {
 			return;
 		}
-		file_queue.push_tail (file);
-		load_next_thumbnail ();
+		if (high_priority) {
+			file_queue.push_head (file);
+		}
+		else {
+			file_queue.push_tail (file);
+		}
+		load_next ();
 	}
 
 	public void remove (FileData file) {
@@ -66,19 +78,48 @@ public class Gth.Thumbnailer {
 		foreach (unowned var thumbnail_job in local_queue) {
 			thumbnail_job.job.cancel ();
 		}
+		cancel_load_next ();
 		file_queue.clear ();
 	}
 
-	void load_next_thumbnail () {
+	uint load_event = 0;
+
+	void cancel_load_next () {
+		if (load_event != 0) {
+			Source.remove (load_event);
+			load_event = 0;
+		}
+	}
+
+	public void queue_load_next () {
+		if (load_event != 0)
+			return;
+		load_event = Util.after_next_rearrange (() => {
+			load_next ();
+			load_event = 0;
+		});
+	}
+
+	public void load_next () {
 		if (job_queue.length >= app.thumb_loader.factory.n_workers) {
 			return;
 		}
-		var file = file_queue.pop_head ();
+		FileData file = (next_file_func != null) ? next_file_func () : null;
+		if (file != null) {
+			//stdout.printf ("> LOAD THUMBNAIL [next]: %s\n", file.file.get_basename ());
+		}
+		if (file == null) {
+			file = file_queue.pop_head ();
+			if (file != null) {
+				//stdout.printf ("> LOAD THUMBNAIL [queue]: %s\n", file.file.get_basename ());
+			}
+		}
 		if (file == null) {
 			return;
 		}
 		var thumbnail_job = new ThumbnailJob (file);
 		job_queue.add (thumbnail_job);
+		file.thumbnail_state = ThumbnailState.LOADING;
 		load_thumbnail.begin (thumbnail_job.file, thumbnail_job.job, (_obj, res) => {
 			try {
 				var thumbnail = load_thumbnail.end (res);
@@ -86,12 +127,13 @@ public class Gth.Thumbnailer {
 			}
 			catch (Error error) {
 				//stdout.printf ("> LOAD THUMBNAIL ERROR: %s\n", error.message);
+				file.thumbnail_state = (error is IOError.CANCELLED) ? ThumbnailState.ICON : ThumbnailState.BROKEN;
 			}
 			thumbnail_job.job.done ();
 			job_queue.remove (thumbnail_job);
-			load_next_thumbnail ();
+			load_next ();
 		});
-		load_next_thumbnail ();
+		load_next ();
 	}
 
 	async Gth.Image? load_thumbnail (FileData file_data, Job job) throws Error {
@@ -113,7 +155,10 @@ public class Gth.Thumbnailer {
 				}
 			}
 		}
-		if ((thumbnail != null) && (Util.content_type_is_video (file_data.get_content_type ()))) {
+		if (thumbnail == null) {
+			throw new IOError.FAILED ("Could not load or generate a thumbnail for %s".printf (file_data.file.get_uri ()));
+		}
+		if (Util.content_type_is_video (file_data.get_content_type ())) {
 			if (filmholes == null) {
 				var bytes = GLib.resources_lookup_data ("/app/gthumb/gthumb/icons/filmholes.png", ResourceLookupFlags.NONE);
 				filmholes = load_png (bytes, 0, job.cancellable);
@@ -153,8 +198,9 @@ public class Gth.Thumbnailer {
 		}
 		catch (Error error) {
 			//stdout.printf ("> generate_thumbnail: %s\n", error.message);
-			if (error is IOError.CANCELLED)
+			if (error is IOError.CANCELLED) {
 				throw error;
+			}
 			return null;
 		}
 	}
@@ -166,8 +212,9 @@ public class Gth.Thumbnailer {
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_thumbnail_to_cache: %s\n", error.message);
-			if (error is IOError.CANCELLED)
+			if (error is IOError.CANCELLED) {
 				throw error;
+			}
 		}
 	}
 
@@ -180,8 +227,9 @@ public class Gth.Thumbnailer {
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_failed_thumbnail_to_cache: %s\n", error.message);
-			if (error is IOError.CANCELLED)
+			if (error is IOError.CANCELLED) {
 				throw error;
+			}
 		}
 	}
 
@@ -194,8 +242,9 @@ public class Gth.Thumbnailer {
 		}
 		catch (Error error) {
 			//stdout.printf ("> has_valid_failed_thumbnail: %s\n", error.message);
-			if (error is IOError.CANCELLED)
+			if (error is IOError.CANCELLED) {
 				throw error;
+			}
 			return false;
 		}
 	}
@@ -276,3 +325,5 @@ public class Gth.Thumbnailer {
 	Queue<FileData> file_queue;
 	GenericArray<ThumbnailJob> job_queue;
 }
+
+public delegate Gth.FileData? Gth.NextFileFunc ();

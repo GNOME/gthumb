@@ -69,25 +69,37 @@ public class Gth.FileListItem : Gtk.Box {
 		thumbnail_texture_id = file_data.notify["thumbnail-texture"].connect ((obj) => {
 			update_preview ();
 		});
+		thumbnail_state_id = file_data.notify["thumbnail-state"].connect ((obj) => {
+			update_preview ();
+		});
 	}
 
 	void update_preview () {
-		var thumbnail = file_data.thumbnail_texture;
-		if (thumbnail != null) {
-			preview.paintable = thumbnail;
-			preview.visible = true;
-			icon.visible = false;
-		}
-		else {
-			var symbolic_icon = file_data.info.get_attribute_object (FileAttribute.STANDARD_SYMBOLIC_ICON) as Icon;
-			if (symbolic_icon != null) {
-				icon.gicon = symbolic_icon;
-			}
-			else {
-				icon.clear ();
-			}
+		switch (file_data.thumbnail_state) {
+		case ThumbnailState.ICON:
+			icon.gicon = file_data.info.get_attribute_object (FileAttribute.STANDARD_SYMBOLIC_ICON) as Icon;
 			icon.visible = true;
 			preview.visible = false;
+			break;
+
+		case ThumbnailState.LOADING:
+			icon.gicon = new ThemedIcon ("content-loading-symbolic");
+			icon.visible = true;
+			preview.visible = false;
+			break;
+
+		case ThumbnailState.BROKEN:
+			icon.gicon = new ThemedIcon ("thumbnail-error-symbolic");
+			//icon.gicon = file_data.info.get_attribute_object (FileAttribute.STANDARD_SYMBOLIC_ICON) as Icon;
+			icon.visible = true;
+			preview.visible = false;
+			break;
+
+		case ThumbnailState.LOADED:
+			preview.paintable = file_data.thumbnail_texture;
+			preview.visible = true;
+			icon.visible = false;
+			break;
 		}
 	}
 
@@ -96,12 +108,17 @@ public class Gth.FileListItem : Gtk.Box {
 			file_data.disconnect (thumbnail_texture_id);
 			thumbnail_texture_id = 0;
 		}
+		if (thumbnail_state_id != 0) {
+			file_data.disconnect (thumbnail_state_id);
+			thumbnail_state_id = 0;
+		}
 		first_label.set_text ("");
 		second_label.set_text ("");
 		preview.paintable = null;
 	}
 
 	ulong thumbnail_texture_id;
+	ulong thumbnail_state_id;
 	FileData file_data;
 	Gtk.Picture preview;
 	Gtk.Image icon;

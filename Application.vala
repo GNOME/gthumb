@@ -674,17 +674,11 @@ public class Gth.Application : Adw.Application {
 	}
 
 	uint get_workers (int max_workers) {
-		// 1 processors -> 1 thread
-		// 2 processors -> 1 thread
-		// 3 processors -> 2 thread
-		// 4 processors -> 3 threads
-		// 5 processors -> 3 threads
-		// 6 processors -> 3 threads
-		var n_proc = (int) GLib.get_num_processors () - 1;
-		return n_proc.clamp (1, max_workers);
+		var n_workers = GLib.get_num_processors () - 1;
+		return n_workers.clamp (1, max_workers);
 	}
 
-	const int MAX_IO_WORKERS = 3;
+	const int MAX_IO_WORKERS = 4;
 	Work.Factory io_factory;
 }
 

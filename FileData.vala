@@ -213,16 +213,16 @@ public class Gth.FileData : Object {
 
 	public Gdk.Paintable? thumbnail_texture { get; set; default = null; }
 
-	public void set_thumbnail (Gth.Image? image) {
+	public void set_thumbnail (Gth.Image image) {
 		thumbnail_image = image;
-		if (thumbnail_image != null) {
-			thumbnail_texture = thumbnail_image.get_gdk_texture ();
-			thumbnail_state = ThumbnailState.LOADED;
-		}
-		else {
-			thumbnail_texture = null;
-			thumbnail_state = ThumbnailState.ICON;
-		}
+		thumbnail_texture = thumbnail_image.get_gdk_texture ();
+		thumbnail_state = ThumbnailState.LOADED;
+	}
+
+	public void remove_thumbnail () {
+		thumbnail_image = null;
+		thumbnail_texture = null;
+		thumbnail_state = ThumbnailState.ICON;
 	}
 
 	public ThumbnailState thumbnail_state { get; set; default = ThumbnailState.ICON; }

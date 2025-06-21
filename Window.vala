@@ -21,6 +21,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	Queue<File> current_parents;
 	File last_folder = null;
 	File last_catalog = null;
+	GenericArray<Gtk.ListItem> binded_grid_items;
 
 	public enum Page {
 		NONE = 0,
@@ -36,13 +37,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		visible_files = new GenericList<FileData>();
 		root_children = new GenericList<FileData>();
 		roots = new GenericList<FileData>();
-		thumbnailer = new Thumbnailer ();
+		thumbnailer = new Thumbnailer (get_next_file_for_thumbnailer);
 		history = new WindowHistory (this);
 		bookmarks = new WindowBookmarks (this);
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
 		current_parents = null;
 		active_resizer = null;
+		binded_grid_items = new GenericArray<Gtk.ListItem> ();
 
 		init_folder_tree ();
 		init_file_grid ();
@@ -215,6 +217,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			load_job.cancel ();
 		}
 		thumbnailer.cancel ();
+		thumbnailer.requested_size = (uint) thumbnail_size;
 		if (load_action.changes_root ()) {
 			if (current_parents != null) {
 				current_parents.clear ();
@@ -305,6 +308,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				// TODO source.monitor_directory (current_folder.file, true);
 				update_selection_info ();
 				update_location_menu ();
+				thumbnailer.queue_load_next ();
 			}
 
 			if (load_action != LoadAction.OPEN_FROM_HISTORY) {
@@ -655,7 +659,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 			location_menu.append_item (item);
 			location = location.get_parent ();
 		}
-		location_button.label = current_folder.info.get_display_name ();
 	}
 
 	void update_selection_info () {
@@ -988,10 +991,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var file_data = list_item.item as FileData;
 			if (file_data != null) {
 				file_item.bind (file_data);
-				thumbnailer.requested_size = (uint) thumbnail_size;
-				thumbnailer.add (file_data);
+				//thumbnailer.requested_size = (uint) thumbnail_size;
+				//thumbnailer.add (file_data);
+				//stdout.printf ("  BINDED: %u\n", binded_grid_items.length);
 				if (file_item.parent != null) {
 					file_item.parent.halign = Gtk.Align.CENTER;
+				}
+				binded_grid_items.add (list_item);
+				thumbnailer.queue_load_next ();
+				if (binded_grid_items.length < 50) {
+					thumbnailer.add (file_data);
 				}
 			}
 		});
@@ -1003,11 +1012,56 @@ public class Gth.Window : Adw.ApplicationWindow {
 				var file_data = list_item.item as FileData;
 				if (file_data != null) {
 					thumbnailer.remove (file_data);
-					file_data.set_thumbnail (null);
+					file_data.remove_thumbnail ();
 				}
 			}
+			binded_grid_items.remove (list_item);
 		});
 		file_grid.factory = factory;
+
+		file_grid.vadjustment.changed.connect (() => { after_grid_vadj_changed (); });
+		file_grid.vadjustment.value_changed.connect (() => { after_grid_vadj_changed (); });
+	}
+
+	Gth.FileData? get_next_file_for_thumbnailer () {
+		// stdout.printf ("\n>>>> get_next_file_for_thumbnailer\n\n");
+		var top = 0;
+		var bottom = file_grid.vadjustment.get_page_size ();
+		foreach (unowned Gtk.ListItem item in binded_grid_items) {
+			if (!item.child.get_mapped ())
+				continue;
+			Graphene.Rect bounds;
+			if (item.child.compute_bounds (file_grid, out bounds)) {
+				var file_data = item.item as FileData;
+				if (bounds.origin.x < 0) {
+					continue;
+				}
+				if (file_data.thumbnail_state != ThumbnailState.ICON)
+					continue;
+
+				//stdout.printf ("> (%f,%f)[%f,%f] (state: %s) <=> [%f,%f]\n",
+				//	bounds.origin.x, bounds.origin.y,
+				//	bounds.size.width, bounds.size.height,
+				//	file_data.thumbnail_state.to_string (),
+				//	top, bottom);
+
+				if ((bounds.origin.y < top - bounds.size.height) || (bounds.origin.y > bottom))
+					continue;
+
+				//stdout.printf ("> y: %f, height %f (%s) <=> [%f,%f]\n",
+				//	bounds.origin.y,
+				//	bounds.size.height,
+				//	file_data.file.get_basename (),
+				//	top, bottom);
+
+				return file_data;
+			}
+		}
+		return null;
+	}
+
+	void after_grid_vadj_changed () {
+		thumbnailer.queue_load_next ();
 	}
 
 	Gtk.TreeListRow? find_file_row_in_tree (File file, out int position = null) {
