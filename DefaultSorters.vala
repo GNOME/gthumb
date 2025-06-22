@@ -1,4 +1,4 @@
-public class Gth.SortFunc {
+public class Gth.Sorters {
 	public static int cmp_basename (Gth.FileData a, Gth.FileData b) {
 		unowned var name_a = a.get_filename_sort_key ();
 		unowned var name_b = b.get_filename_sort_key ();
@@ -9,7 +9,7 @@ public class Gth.SortFunc {
 		var parent_a = a.file.get_parent ();
 		var parent_b = b.file.get_parent ();
 		if (parent_a.equal (parent_b)) {
-			return SortFunc.cmp_basename (a, b);
+			return Sorters.cmp_basename (a, b);
 		}
 		else {
 			var uri_a = a.file.get_uri ();

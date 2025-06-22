@@ -39,13 +39,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 
 	const int FILES_PER_REQUEST = 1000;
 
-	public override async void foreach_child (
-		File parent,
-		ForEachFlags flags,
-		string? attributes,
-		Cancellable cancellable,
-		ForEachChildFunc child_func) throws Error
-	{
+	public override async void foreach_child (File parent, ForEachFlags flags, string? attributes, Cancellable cancellable, ForEachChildFunc child_func) throws Error {
 		var gio_file = Catalog.to_gio_file (parent);
 		var parent_info = yield gio_file.query_info_async (
 			FileAttribute.STANDARD_TYPE,
@@ -77,8 +71,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					STANDARD_ATTRIBUTES,
 					(ForEachFlags.FOLLOW_LINKS in flags) ? FileQueryInfoFlags.NONE : FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
 					Priority.DEFAULT,
-					cancellable
-				);
+					cancellable);
 				while (action != ForEachAction.STOP) {
 					var info_list = yield enumerator.next_files_async (FILES_PER_REQUEST, Priority.DEFAULT, cancellable);
 					if (info_list == null)
@@ -159,11 +152,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		}
 	}
 
-	public override async Gth.FileData read_metadata (
-		File file,
-		string? requested_attributes,
-		Cancellable cancellable) throws Error
-	{
+	public override async Gth.FileData read_metadata (File file, string? requested_attributes, Cancellable cancellable) throws Error {
 		var gio_file = Catalog.to_gio_file (file);
 		var all_attributes = Util.concat_attributes (FileAttribute.STANDARD_TYPE, requested_attributes);
 		var info = yield gio_file.query_info_async (all_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);

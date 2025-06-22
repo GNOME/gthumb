@@ -55,12 +55,12 @@ public class Gth.Application : Adw.Application {
 
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
 		ordered_sorters = new GenericArray<string>();
-		register_sorter ({ "file::name", _("Name"), "standard::display-name", SortFunc.cmp_basename });
-		register_sorter ({ "file::mtime", _("Modified"), "time::modified,time::modified-usec", SortFunc.cmp_modified_time });
-		register_sorter ({ "file::size", _("Bytes"), "standard::size", SortFunc.cmp_size });
-		register_sorter ({ "file::path", _("Path and Name"), "standard::display-name", SortFunc.cmp_uri });
-		register_sorter ({ "general::dimensions", _("Width and Height"), "frame::width,frame::height", SortFunc.cmp_frame_dimensions });
-		register_sorter ({ "frame::aspect-ratio", _("Aspect Ratio"), "frame::width,frame::height", SortFunc.cmp_aspect_ratio });
+		register_sorter ({ "file::name", _("Name"), "standard::display-name", Sorters.cmp_basename });
+		register_sorter ({ "file::mtime", _("Modified"), "time::modified,time::modified-usec", Sorters.cmp_modified_time });
+		register_sorter ({ "file::size", _("Bytes"), "standard::size", Sorters.cmp_size });
+		register_sorter ({ "file::path", _("Path and Name"), "standard::display-name", Sorters.cmp_uri });
+		register_sorter ({ "general::dimensions", _("Width and Height"), "frame::width,frame::height", Sorters.cmp_frame_dimensions });
+		register_sorter ({ "frame::aspect-ratio", _("Aspect Ratio"), "frame::width,frame::height", Sorters.cmp_aspect_ratio });
 		register_sorter ({ "general::unsorted", _("Unsorted"), "", null });
 
 		file_sources = new GenericArray<FileSource>();

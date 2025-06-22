@@ -21,12 +21,11 @@ public class Gth.Catalog {
 			if (doc.first_child != null) {
 				if (doc.first_child.tag_name == "search") {
 					catalog = new CatalogSearch ();
-					catalog.load_doc (doc);
 				}
 				else {
 					catalog = new Catalog ();
-					catalog.load_doc (doc);
 				}
+				catalog.load_doc (doc);
 			}
 		}
 		return catalog;
@@ -80,7 +79,7 @@ public class Gth.Catalog {
 		}
 	}
 
-	public void load_doc (Dom.Document doc) {
+	public virtual void load_doc (Dom.Document doc) {
 		foreach (unowned var child in doc.first_child) {
 			switch (child.tag_name) {
 			case "files":

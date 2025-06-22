@@ -113,13 +113,7 @@ public class Gth.FileSourceVfs : FileSource {
 	const int REMOTE_FILES_PER_REQUEST = 100;
 	const int LOCAL_FILES_PER_REQUEST = 1000;
 
-	public override async void foreach_child (
-		File parent,
-		ForEachFlags flags,
-		string? attributes,
-		Cancellable cancellable,
-		ForEachChildFunc child_func) throws Error
-	{
+	public override async void foreach_child (File parent, ForEachFlags flags, string? attributes, Cancellable cancellable, ForEachChildFunc child_func) throws Error {
 		var required_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
 		var metadata_attributes_v = Util.extract_metadata_attributes (required_attributes);
 		var has_symbolic_icon = Util.attributes_match_all_patterns (FileAttribute.STANDARD_SYMBOLIC_ICON, required_attributes);
@@ -146,8 +140,7 @@ public class Gth.FileSourceVfs : FileSource {
 				required_attributes,
 				(ForEachFlags.FOLLOW_LINKS in flags) ? FileQueryInfoFlags.NONE : FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
 				Priority.DEFAULT,
-				cancellable
-			);
+				cancellable);
 			while (action != ForEachAction.STOP) {
 				var info_list = yield enumerator.next_files_async (files_per_request, Priority.DEFAULT, cancellable);
 				if (info_list == null)

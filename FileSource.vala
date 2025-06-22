@@ -10,14 +10,12 @@ public abstract class Gth.FileSource : Object {
 		ForEachFlags flags,
 		string? attributes,
 		Cancellable cancellable,
-		ForEachChildFunc child_func
-	) throws Error;
+		ForEachChildFunc child_func) throws Error;
 
 	public abstract async Gth.FileData read_metadata (
 		File file,
 		string? attributes,
-		Cancellable cancellable
-	) throws Error;
+		Cancellable cancellable) throws Error;
 
 	public abstract void monitor_directory (File file, bool activate);
 
