@@ -7,12 +7,6 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	public signal void choose_rule_type ();
 
 	construct {
-		var empty_row = new Adw.ActionRow ();
-		empty_row.title = _("No Rule");
-		empty_row.sensitive = false;
-		empty_row.halign = Gtk.Align.CENTER;
-		test_list.set_placeholder (empty_row);
-
 		var sort_names = new Gtk.StringList (null);
 		foreach (unowned var info in Sort_Name) {
 			sort_names.append (info.display_name);
@@ -26,10 +20,6 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		size_unit.model = unit_names;
 	}
 
-	void update_visibility () {
-		match_operation_group.visible = (filter != null) && (filter.tests.tests.model.get_n_items () > 1);
-	}
-
 	public void set_filter (Gth.Filter? current_filter) {
 		if (current_filter != null) {
 			filter = current_filter.duplicate () as Gth.Filter;
@@ -39,17 +29,10 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			filter.visible = true;
 		}
 
-		filter.tests.tests.model.items_changed.connect (() => update_visibility ());
-		update_visibility ();
-
 		name_entry.set_text (filter.display_name);
-		test_list.bind_model (filter.tests.tests.model, new_test_row);
-		if (filter.tests.operation == TestExpr.Operation.UNION) {
-			match_any.active = true;
-		}
-		else {
-			match_all.active = true;
-		}
+
+		rules_group.set_expr (filter.tests);
+
 		if (filter.limit_type == Gth.Filter.LimitType.FILES) {
 			limits_row.enable_expansion = true;
 			limits_row.expanded = true;
@@ -84,15 +67,6 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		sort_type.selected = filter.inverse_order ? 1 : 0;
 	}
 
-	public void add_rule (string id) {
-		var registered_test = app.get_test_by_id (id);
-		if (registered_test != null) {
-			var new_test = registered_test.duplicate ();
-			filter.tests.add (new_test);
-			new_test.focus_options ();
-		}
-	}
-
 	public Filter? get_filter () throws Error {
 		// Name
 		filter.display_name = name_entry.get_text ().strip ();
@@ -101,19 +75,10 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			throw new IOError.FAILED (_("Name is empty"));
 		}
 
-		// Tests
-		foreach (unowned var test in filter.tests.tests) {
-			try {
-				test.update_from_options ();
-			}
-			catch (Error error) {
-				test.focus_options ();
-				throw error;
-			}
-		}
+		// Rules
+		rules_group.update_from_options ();
 
-		// Match All / Match Any
-		filter.tests.operation = match_all.active ? TestExpr.Operation.INTERSECTION : TestExpr.Operation.UNION;
+		// Limits
 		filter.limit_type = !limits_row.enable_expansion ? Gth.Filter.LimitType.NONE : files_checkbox.active ? Gth.Filter.LimitType.FILES : Gth.Filter.LimitType.BYTES;
 		if (filter.limit_type != Gth.Filter.LimitType.NONE) {
 			if (filter.limit_type == Gth.Filter.LimitType.FILES) {
@@ -133,40 +98,9 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 		return filter;
 	}
 
-	Gtk.Widget new_test_row (Object item) {
-		var test = item as Gth.Test;
-
-		var row = new Adw.ActionRow ();
-		row.title = test.display_name;
-
-		var icon = new Gtk.Image.from_icon_name ("filter-symbolic");
-		row.add_prefix (icon);
-
-		var test_options = test.create_options ();
-		if (test_options != null) {
-			test_options.valign = Gtk.Align.CENTER;
-			row.add_suffix (test_options);
-		}
-
-		var delete_button = new Gtk.Button.from_icon_name ("list-delete-symbolic");
-		delete_button.add_css_class ("flat");
-		delete_button.valign = Gtk.Align.CENTER;
-		delete_button.clicked.connect (() => {
-			filter.tests.remove (test);
-		});
-		row.add_suffix (delete_button);
-
-		return row;
-	}
-
 	[GtkCallback]
 	void on_save (Gtk.Button source) {
 		save ();
-	}
-
-	[GtkCallback]
-	void on_add_rule (Gtk.Button source) {
-		choose_rule_type ();
 	}
 
 	struct SortInfo {
@@ -198,9 +132,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	};
 
 	[GtkChild] unowned Adw.EntryRow name_entry;
-	[GtkChild] unowned Gtk.ListBox test_list;
-	[GtkChild] unowned Gtk.CheckButton match_all;
-	[GtkChild] unowned Gtk.CheckButton match_any;
+	[GtkChild] unowned Gth.TestExprEditorGroup rules_group;
 	[GtkChild] unowned Gtk.CheckButton files_checkbox;
 	[GtkChild] unowned Gtk.CheckButton size_checkbox;
 	[GtkChild] unowned Gtk.Adjustment files_limit;
@@ -208,6 +140,5 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	[GtkChild] unowned Gtk.DropDown size_unit;
 	[GtkChild] unowned Adw.ComboRow sort_name;
 	[GtkChild] unowned Adw.ComboRow sort_type;
-	[GtkChild] unowned Adw.PreferencesGroup match_operation_group;
 	[GtkChild] unowned Adw.ExpanderRow limits_row;
 }

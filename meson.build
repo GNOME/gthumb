@@ -322,6 +322,7 @@ source_files = files(
   'Ext/FileTest/Filter.vala',
   'Ext/FileTest/TestDate.vala',
   'Ext/FileTest/TestExpr.vala',
+  'Ext/FileTest/TestExprEditorGroup.vala',
   'Ext/FileTest/TestInt.vala',
   'Ext/FileTest/TestSelector.vala',
   'Ext/FileTest/TestSize.vala',

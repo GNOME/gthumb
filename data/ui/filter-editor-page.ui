@@ -39,60 +39,7 @@
 
             <!-- Group: rules -->
             <child>
-              <object class="AdwPreferencesGroup" id="rules_group">
-                <property name="title" translatable="yes">Rules</property>
-                <property name="header-suffix">
-                  <object class="GtkButton">
-                    <style>
-                      <class name="flat"/>
-                    </style>
-                    <child>
-                      <object class="AdwButtonContent">
-                        <property name="icon-name">list-add-symbolic</property>
-                        <property name="label" translatable="yes">_Add</property>
-                        <property name="use-underline">true</property>
-                      </object>
-                    </child>
-                    <signal name="clicked" handler="on_add_rule" />
-                  </object>
-                </property>
-                <child>
-                  <object class="GtkListBox" id="test_list">
-                    <property name="selection-mode">none</property>
-                    <style>
-                      <class name="boxed-list"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-
-            <!-- Group: match all or any rule -->
-            <child>
-              <object class="AdwPreferencesGroup" id="match_operation_group">
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">Match All the Rules</property>
-                    <property name="activatable-widget">match_all</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="match_all">
-                        <property name="active">true</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">Match Any Rule</property>
-                    <property name="activatable-widget">match_any</property>
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="match_any">
-                        <property name="active">false</property>
-                        <property name="group">match_all</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
+              <object class="GthTestExprEditorGroup" id="rules_group">
               </object>
             </child>
 

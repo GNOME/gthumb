@@ -50,6 +50,7 @@
     <file preprocess="xml-stripblanks">sort-files-dialog.ui</file>
     <file preprocess="xml-stripblanks">sort-folders-dialog.ui</file>
     <file preprocess="xml-stripblanks">status.ui</file>
+    <file preprocess="xml-stripblanks">test-expr-editor-group.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
   </gresource>
 </gresources>

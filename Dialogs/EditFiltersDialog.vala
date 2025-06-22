@@ -3,16 +3,6 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 	public EditFiltersDialog () {
 		current_filter = null;
 
-		var action_group = new SimpleActionGroup ();
-		insert_action_group ("dialog", action_group);
-
-		var action = new SimpleAction ("add-rule", GLib.VariantType.STRING);
-		action.activate.connect ((_action, param) => {
-			pop_subpage ();
-			filter_page.add_rule (param.get_string ());
-		});
-		action_group.add_action (action);
-
 		// General filter
 		var general_filter_id = app.browser_settings.get_string (PREF_BROWSER_GENERAL_FILTER);
 		var filters = app.get_file_type_filters ();
@@ -43,19 +33,6 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 		}
 	}
 
-	bool rules_loaded = false;
-
-	[GtkCallback]
-	private void on_choose_rule_type (Gth.FilterEditorPage source) {
-		if (!rules_loaded) {
-			var test_list = Widgets.new_boxed_list ();
-			test_list.bind_model (app.ordered_tests.model, new_test_type_row);
-			rule_types.add (test_list);
-			rules_loaded = true;
-		}
-		push_subpage (rule_page);
-	}
-
 	[GtkCallback]
 	private void on_add_filter (Gtk.Button source) {
 		current_filter = null;
@@ -70,21 +47,6 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 			app.browser_settings.set_string (PREF_BROWSER_GENERAL_FILTER, test.id);
 			activate_action_variant ("set-general-filter", new Variant.string (test.id));
 		}
-	}
-
-	Gtk.Widget new_test_type_row (Object item) {
-		var test = item as Gth.Test;
-
-		var row = new Adw.ActionRow ();
-		row.title = test.display_name;
-		row.activatable = true;
-		row.action_name = "dialog.add-rule";
-		row.action_target = test.id;
-
-		var icon = new Gtk.Image.from_icon_name ("list-add-symbolic");
-		row.add_suffix (icon);
-
-		return row;
 	}
 
 	void move_row_to_position (Gth.FilterRow row, int target_pos) {
@@ -154,6 +116,4 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 	[GtkChild] unowned Adw.ComboRow general_filter_row;
 	[GtkChild] unowned Adw.PreferencesGroup filters_group;
 	[GtkChild] unowned Gth.FilterEditorPage filter_page;
-	[GtkChild] unowned Adw.NavigationPage rule_page;
-	[GtkChild] unowned Adw.PreferencesGroup rule_types;
 }
