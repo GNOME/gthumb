@@ -37,6 +37,8 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		return info;
 	}
 
+	const int FILES_PER_REQUEST = 1000;
+
 	public override async void foreach_child (
 		File parent,
 		ForEachFlags flags,
@@ -45,14 +47,14 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		ForEachChildFunc child_func) throws Error
 	{
 		var gio_file = Catalog.to_gio_file (parent);
-		var info = yield gio_file.query_info_async (
+		var parent_info = yield gio_file.query_info_async (
 			FileAttribute.STANDARD_TYPE,
 			FileQueryInfoFlags.NONE,
 			Priority.DEFAULT,
 			cancellable);
 
 		var queue = new Queue<FileData>();
-		queue.push_tail (new Gth.FileData (parent, info));
+		queue.push_tail (new Gth.FileData (parent, parent_info));
 
 		var gio_source = new FileSourceVfs ();
 		while (queue.length > 0) {
@@ -77,45 +79,50 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					Priority.DEFAULT,
 					cancellable
 				);
-				while ((info = enumerator.next_file (cancellable)) != null) {
-					if (info.get_is_hidden ()) {
-						continue;
-					}
-					var gio_child = enumerator.get_child (info);
-					var child = Catalog.from_gio_file (gio_child);
-					if (child == null) {
-						continue;
-					}
-					//stdout.printf ("  CHILD: %s\n", child.get_uri ());
-					var child_data = new Gth.FileData (child, info);
-					switch (child_data.info.get_file_type ()) {
-					case FileType.DIRECTORY:
-						Catalog.update_file_info_for_library (child_data.file, child_data.info);
-						if (ForEachFlags.RECURSIVE in flags) {
-							queue.push_tail (child_data);
-						}
-						else {
-							action = child_func (child_data, false);
-						}
+				while (action != ForEachAction.STOP) {
+					var info_list = yield enumerator.next_files_async (FILES_PER_REQUEST, Priority.DEFAULT, cancellable);
+					if (info_list == null)
 						break;
+					foreach (var info in info_list) {
+						if (info.get_is_hidden ()) {
+							continue;
+						}
+						var gio_child = enumerator.get_child (info);
+						var child = Catalog.from_gio_file (gio_child);
+						if (child == null) {
+							continue;
+						}
+						//stdout.printf ("  CHILD: %s\n", child.get_uri ());
+						var child_data = new Gth.FileData (child, info);
+						switch (child_data.info.get_file_type ()) {
+						case FileType.DIRECTORY:
+							Catalog.update_file_info_for_library (child_data.file, child_data.info);
+							if (ForEachFlags.RECURSIVE in flags) {
+								queue.push_tail (child_data);
+							}
+							else {
+								action = child_func (child_data, false);
+							}
+							break;
 
-					case FileType.REGULAR:
-						try {
-							var data = yield Files.load_contents_async (gio_child, cancellable);
-							var catalog = Catalog.new_from_data (data);
-							catalog.update_file_info (child_data.file, child_data.info);
-							action = child_func (child_data, false);
-						}
-						catch (Error error) {
-							//stdout.printf ("ERROR: %s\n", error.message);
-						}
-						break;
+						case FileType.REGULAR:
+							try {
+								var data = yield Files.load_contents_async (gio_child, cancellable);
+								var catalog = Catalog.new_from_data (data);
+								catalog.update_file_info (child_data.file, child_data.info);
+								action = child_func (child_data, false);
+							}
+							catch (Error error) {
+								//stdout.printf ("ERROR: %s\n", error.message);
+							}
+							break;
 
-					default:
-						break;
-					}
-					if (action != ForEachAction.CONTINUE) {
-						break;
+						default:
+							break;
+						}
+						if (action != ForEachAction.CONTINUE) {
+							break;
+						}
 					}
 				}
 				break;
