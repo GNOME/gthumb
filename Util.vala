@@ -396,4 +396,18 @@ public class Gth.Util {
 		x = (int) Math.floorf (p.x);
 		y = (int) Math.floorf (p.y);
 	}
+
+	static HashTable<string, Icon> icons = null;
+
+	public static Icon get_themed_icon (string icon_name) {
+		if (icons == null) {
+			icons = new HashTable<string, Icon> (str_hash, str_equal);
+		}
+		var icon = icons.get (icon_name);
+		if (icon == null) {
+			icon = new ThemedIcon (icon_name);
+			icons.set (icon_name, icon);
+		}
+		return icon;
+	}
 }

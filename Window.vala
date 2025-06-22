@@ -194,7 +194,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			throw new IOError.FAILED (_("File type not supported"));
 		}
 		var local_job = new_job ("List subfolders for %s".printf (file_data.file.get_uri ()));
-		source.list_children.begin (file_data.file, STANDARD_ATTRIBUTES, local_job.cancellable, (_obj, res) => {
+		source.list_children.begin (file_data.file, STANDARD_ATTRIBUTES + "," + FileAttribute.STANDARD_SYMBOLIC_ICON, local_job.cancellable, (_obj, res) => {
 			try {
 				var all_children = source.list_children.end (res);
 				set_file_data_children (file_data, all_children);
@@ -217,7 +217,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 			load_job.cancel ();
 		}
 		thumbnailer.cancel ();
-		thumbnailer.requested_size = (uint) thumbnail_size;
 		if (load_action.changes_root ()) {
 			if (current_parents != null) {
 				current_parents.clear ();
@@ -308,6 +307,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 				// TODO source.monitor_directory (current_folder.file, true);
 				update_selection_info ();
 				update_location_menu ();
+
+				thumbnailer.requested_size = (uint) thumbnail_size;
 				thumbnailer.queue_load_next ();
 			}
 

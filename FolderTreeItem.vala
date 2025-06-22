@@ -45,7 +45,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		}
 		file_data = _file_data;
 		label.set_text (file_data.info.get_display_name ());
-		icon.set_from_gicon (file_data.info.get_symbolic_icon ());
+		icon.set_from_gicon (file_data.get_symbolic_icon ());
 		expander.list_row = row;
 		row_expended_id = row.notify["expanded"].connect ((obj, _spec) => {
 			if (expander.list_row.expanded) {

@@ -77,19 +77,20 @@ public class Gth.FileListItem : Gtk.Box {
 	void update_preview () {
 		switch (file_data.thumbnail_state) {
 		case ThumbnailState.ICON:
-			icon.gicon = file_data.info.get_attribute_object (FileAttribute.STANDARD_SYMBOLIC_ICON) as Icon;
+			icon.gicon = file_data.get_symbolic_icon ();
 			icon.visible = true;
 			preview.visible = false;
 			break;
 
 		case ThumbnailState.LOADING:
-			icon.gicon = new ThemedIcon ("content-loading-symbolic");
+			icon.gicon = Util.get_themed_icon ("content-loading-symbolic") as Icon;
+			//icon.gicon = new ThemedIcon ("content-loading-symbolic");
 			icon.visible = true;
 			preview.visible = false;
 			break;
 
 		case ThumbnailState.BROKEN:
-			icon.gicon = new ThemedIcon ("thumbnail-error-symbolic");
+			icon.gicon = Util.get_themed_icon ("thumbnail-error-symbolic") as Icon;
 			//icon.gicon = file_data.info.get_attribute_object (FileAttribute.STANDARD_SYMBOLIC_ICON) as Icon;
 			icon.visible = true;
 			preview.visible = false;

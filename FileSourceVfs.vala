@@ -202,7 +202,6 @@ public class Gth.FileSourceVfs : FileSource {
 		FileAttribute.STANDARD_TYPE + "," +
 		FileAttribute.STANDARD_NAME + "," +
 		FileAttribute.STANDARD_DISPLAY_NAME + "," +
-		FileAttribute.STANDARD_ICON + "," +
 		FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
 		ACCESS_ATTRIBUTES;
 

@@ -241,4 +241,25 @@ public class Gth.FileData : Object {
 		}
 		return children;
 	}
+
+	unowned string icon_name = null;
+
+	public Icon get_symbolic_icon () {
+		if (info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
+			return info.get_symbolic_icon () as Icon;
+		}
+		if (icon_name == null) {
+			icon_name = "text-x-generic-symbolic";
+			if (Util.content_type_is_image (get_content_type ())) {
+				icon_name = Strings.get_static ("image-x-generic-symbolic");
+			}
+			else if (Util.content_type_is_video (get_content_type ())) {
+				icon_name = Strings.get_static ("video-x-generic-symbolic");
+			}
+			else if (Util.content_type_is_audio (get_content_type ())) {
+				icon_name = Strings.get_static ("audio-x-generic-symbolic");
+			}
+		}
+		return Util.get_themed_icon (icon_name) as Icon;
+	}
 }
