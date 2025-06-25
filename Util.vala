@@ -337,7 +337,7 @@ public class Gth.Util {
 		return filename.substring (0, ext_idx);
 	}
 
-	public static Gth.FileData? get_nearest_parent (File file, GenericArray<FileData> locations) {
+	public static Gth.FileData? get_nearest_parent (File file, GenericList<FileData> locations) {
 		Gth.FileData nearest_parent = null;
 		var file_uri = Uri.parse (file.get_uri (), UriFlags.PARSE_RELAXED);
 		var file_path = file_uri.get_path ();

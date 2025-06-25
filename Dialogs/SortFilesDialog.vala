@@ -4,9 +4,9 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 		window = _window;
 		transient_for = window;
 
-		if (window.current_folder != null) {
-			sort_name = window.current_folder.info.get_attribute_string ("sort::name");
-			inverse_order = window.current_folder.info.get_attribute_boolean ("sort::inverse");
+		if (window.folder_tree.current_folder != null) {
+			sort_name = window.folder_tree.current_folder.info.get_attribute_string ("sort::name");
+			inverse_order = window.folder_tree.current_folder.info.get_attribute_boolean ("sort::inverse");
 		}
 
 		if (sort_name == null) {

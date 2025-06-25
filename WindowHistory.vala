@@ -59,8 +59,8 @@ class Gth.WindowHistory {
 	public void clear () {
 		files.length = 0;
 		current = -1;
-		if (window.current_folder != null) {
-			add (window.current_folder.file);
+		if (window.folder_tree.current_folder != null) {
+			add (window.folder_tree.current_folder.file);
 		}
 		update_menu ();
 	}

@@ -4,8 +4,8 @@ public class Gth.SortFoldersDialog : Adw.ApplicationWindow {
 		window = _window;
 		transient_for = window;
 
-		sort_name = window.folder_sort_name;
-		inverse_order = window.folder_inverse_order;
+		sort_name = window.folder_tree.sort_name;
+		inverse_order = window.folder_tree.inverse_order;
 
 		Gtk.CheckButton first_check_button = null;
 		var idx = 0;
@@ -26,7 +26,7 @@ public class Gth.SortFoldersDialog : Adw.ApplicationWindow {
 			}
 			check_button.toggled.connect (() => {
 				sort_name = sort_id;
-				window.update_folder_sort_order (sort_name, inverse_order);
+				window.folder_tree.set_sort_order (sort_name, inverse_order);
 			});
 			row.add_prefix (check_button);
 			row.activatable_widget = check_button;
@@ -38,7 +38,7 @@ public class Gth.SortFoldersDialog : Adw.ApplicationWindow {
 		inverse_order_switch.active = inverse_order;
 		inverse_order_switch.notify["active"].connect (() => {
 			inverse_order = inverse_order_switch.active;
-			window.update_folder_sort_order (sort_name, inverse_order);
+			window.folder_tree.set_sort_order (sort_name, inverse_order);
 		});
 	}
 

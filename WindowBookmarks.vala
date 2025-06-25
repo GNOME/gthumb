@@ -3,17 +3,15 @@ class Gth.WindowBookmarks {
 	public Menu menu;
 	public Menu system_menu;
 	public Menu roots_menu;
-	public GenericArray<FileData> roots;
 
 	public WindowBookmarks (Window _window) {
 		window = _window;
-		roots = new GenericArray<FileData> ();
 	}
 
 	public async void load_from_file () {
 		yield load_app_bookmarks ();
 		yield load_system_bookmarks ();
-		yield update_root_list ();
+		yield update_root_menu ();
 	}
 
 	public async void load_app_bookmarks () {
@@ -72,8 +70,9 @@ class Gth.WindowBookmarks {
 		local_job.done ();
 	}
 
-	public async void update_root_list () {
-		roots = yield app.get_roots ();
+	public async void update_root_menu () {
+		var roots = yield app.update_roots ();
+		roots_menu.remove_all ();
 		foreach (unowned var file_data in roots) {
 			var uri = file_data.file.get_uri ();
 			var menu_item = new MenuItem (null, null);

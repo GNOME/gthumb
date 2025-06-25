@@ -16,6 +16,7 @@ public class Gth.Application : Adw.Application {
 	public ThumbLoader thumb_loader;
 	public ImageSaver image_saver;
 	public ColorManager color_manager;
+	public GenericList<FileData> roots = null;
 
 	public Application () {
 		Object (
@@ -285,6 +286,7 @@ public class Gth.Application : Adw.Application {
 		thumb_loader = new ThumbLoader (io_factory);
 		image_saver = new ImageSaver (io_factory);
 		color_manager = new ColorManager ();
+		roots = new GenericList<FileData>();
 	}
 
 	public override void startup () {
@@ -550,9 +552,9 @@ public class Gth.Application : Adw.Application {
 
 	const int MAX_ROOTS_PER_SOURCE = 1000;
 
-	public async GenericArray<FileData> get_roots () {
-		var job = new_job ("Get roots");
-		var roots = new GenericArray<FileData>();
+	public async GenericList<FileData> update_roots () {
+		roots.model.remove_all ();
+		var job = new_job ("Update roots");
 		var sort_order = 0;
 		foreach (unowned var source in file_sources) {
 			var source_roots = yield source.get_roots (job.cancellable);
@@ -560,7 +562,7 @@ public class Gth.Application : Adw.Application {
 				continue;
 			foreach (unowned var root in source_roots) {
 				root.info.set_sort_order (sort_order++);
-				roots.add (root);
+				roots.model.append (root);
 			}
 			sort_order += MAX_ROOTS_PER_SOURCE;
 		}

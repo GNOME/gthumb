@@ -2,8 +2,8 @@ public class Gth.FolderTreeItem : Gtk.Box {
 	const int ROW_H_PADDING = 12;
 	const int ICON_SPACING = 6;
 
-	public FolderTreeItem (Gth.Window _window) {
-		window = _window;
+	public FolderTreeItem (Gth.FolderTree _folder_tree) {
+		folder_tree = _folder_tree;
 		job = null;
 		row_expended_id = 0;
 
@@ -30,7 +30,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		controller.released.connect ((n_press, x, y) => {
 			var row = expander.get_list_row ();
 			if (row != null) {
-				if (file_data.children_loaded && FileData.equal (file_data, window.current_folder)) {
+				if (file_data.children_loaded && FileData.equal (file_data, folder_tree.current_folder)) {
 					row.expanded = !row.expanded;
 				}
 			}
@@ -49,7 +49,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		expander.list_row = row;
 		row_expended_id = row.notify["expanded"].connect ((obj, _spec) => {
 			if (expander.list_row.expanded) {
-				job = window.list_subfolders (file_data);
+				job = folder_tree.list_subfolders (file_data);
 			}
 		});
 	}
@@ -63,7 +63,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		}
 	}
 
-	weak Gth.Window window;
+	weak Gth.FolderTree folder_tree;
 	public FileData file_data;
 	Gtk.TreeExpander expander;
 	Gtk.Image icon;

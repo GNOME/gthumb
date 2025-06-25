@@ -121,10 +121,7 @@
                           <object class="GtkScrolledWindow" id="files_sidebar">
                             <property name="vexpand">true</property>
                             <child>
-                              <object class="GtkListView" id="folder_tree">
-                                <style>
-                                  <class name="navigation-sidebar"/>
-                                </style>
+                              <object class="GthFolderTree" id="folder_tree">
                               </object>
                             </child>
                           </object>
