@@ -90,7 +90,10 @@ public class Gth.TestExpr : Gth.Test {
 	}
 
 	public override void focus_options () {
-		// TODO
+		var test = tests.first ();
+		if (test != null) {
+			test.focus_options ();
+		}
 	}
 
 	public override Dom.Element create_element (Dom.Document doc) {

@@ -1,6 +1,6 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/edit-filters-dialog.ui")]
-public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
-	public EditFiltersDialog () {
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/filters-dialog.ui")]
+public class Gth.FiltersDialog : Adw.PreferencesDialog {
+	public FiltersDialog () {
 		current_filter = null;
 
 		// General filter
@@ -16,9 +16,7 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 		}
 
 		// Filter list
-		var filter_list = Widgets.new_boxed_list ();
 		filter_list.bind_model (app.filter_file.filters.model, new_filter_row);
-		filters_group.add (filter_list);
 	}
 
 	[GtkCallback]
@@ -72,15 +70,15 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 			var last_pos = (int) app.filter_file.filters.model.get_n_items () - 1;
 			move_row_to_position (source_row, last_pos);
 		});
+		row.delete_row.connect ((source_row) => {
+			app.filter_file.remove (filter);
+		});
 
 		if (filter is Gth.Filter) {
 			row.edit_button.clicked.connect (() => {
 				current_filter = filter as Gth.Filter;
 				filter_page.set_filter (current_filter);
 				push_subpage (filter_page);
-			});
-			row.delete_button.clicked.connect (() => {
-				app.filter_file.remove (filter);
 			});
 		}
 
@@ -114,6 +112,6 @@ public class Gth.EditFiltersDialog : Adw.PreferencesDialog {
 	Gth.Filter current_filter;
 
 	[GtkChild] unowned Adw.ComboRow general_filter_row;
-	[GtkChild] unowned Adw.PreferencesGroup filters_group;
+	[GtkChild] unowned Gtk.ListBox filter_list;
 	[GtkChild] unowned Gth.FilterEditorPage filter_page;
 }

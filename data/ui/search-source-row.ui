@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adwaita" version="1.7.0"/>
+  <template class="GthSearchSourceRow" parent="AdwActionRow">
+    <property name="activatable">true</property>
+    <signal name="activated" handler="on_activated" />
+    <child type="prefix">
+      <object class="GtkImage" id="icon">
+      </object>
+    </child>
+    <child type="prefix">
+      <object class="GtkImage">
+        <property name="icon-name">list-drag-handle-symbolic</property>
+        <property name="opacity">0.5</property>
+        <property name="margin-end">6</property>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkMenuButton">
+        <property name="valign">center</property>
+        <property name="margin-start">6</property>
+        <property name="icon-name">view-more-symbolic</property>
+        <property name="menu-model">row-menu</property>
+        <style>
+          <class name="flat"/>
+          <class name="circular"/>
+        </style>
+      </object>
+    </child>
+  </template>
+
+  <menu id="row-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Include Sub-Folders</attribute>
+        <attribute name="action">row.recursive</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Remove</attribute>
+        <attribute name="action">row.delete</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

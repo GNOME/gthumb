@@ -71,9 +71,16 @@
         <property name="content">
           <object class="AdwPreferencesPage">
             <child>
-              <object class="AdwPreferencesGroup" id="rule_types">
+              <object class="AdwPreferencesGroup">
                 <property name="description" translatable="yes">Choose a rule to add to the filter.</property>
-                <!-- Dynamic content -->
+                <child>
+                  <object class="GtkListBox" id="rule_list">
+                    <property name="selection-mode">none</property>
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

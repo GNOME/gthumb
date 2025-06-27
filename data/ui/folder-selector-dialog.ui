@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adwaita" version="1.7.0"/>
+  <template class="GthFolderSelectorDialog" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">Location</property>
+    <property name="default_width">550</property>
+    <property name="default_height">650</property>
+    <property name="resizable">true</property>
+    <property name="modal">true</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-start-title-buttons">false</property>
+            <property name="show-end-title-buttons">false</property>
+            <child type="start">
+              <object class="GtkButton">
+                <property name="label">Cancel</property>
+                <signal name="clicked" handler="on_cancel" />
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label">Select</property>
+                <signal name="clicked" handler="on_select" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
+            <property name="margin-start">6</property>
+            <property name="margin-end">6</property>
+            <property name="margin-top">6</property>
+            <property name="margin-bottom">6</property>
+            <child>
+              <object class="GthFolderTree" id="folder_tree">
+                <property name="show-hidden" bind-source="show-hidden-button" bind-property="active" bind-flags="sync-create" />
+                <property name="single-root">false</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="show-hidden-button">
+                <property name="label" translatable="yes">Show _Hidden Files</property>
+                <property name="use-underline">true</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

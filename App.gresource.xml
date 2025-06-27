@@ -38,7 +38,7 @@
   <gresource prefix="/app/gthumb/gthumb/ui">
     <file preprocess="xml-stripblanks">app-menu.ui</file>
     <file preprocess="xml-stripblanks">bookmarks-menu.ui</file>
-    <file preprocess="xml-stripblanks">edit-filters-dialog.ui</file>
+    <file preprocess="xml-stripblanks">filters-dialog.ui</file>
     <file preprocess="xml-stripblanks">file-property-item.ui</file>
     <file preprocess="xml-stripblanks">file-property-view.ui</file>
     <file preprocess="xml-stripblanks">filter-bar.ui</file>
@@ -52,5 +52,9 @@
     <file preprocess="xml-stripblanks">status.ui</file>
     <file preprocess="xml-stripblanks">test-expr-editor-group.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
+    <file preprocess="xml-stripblanks">search-dialog.ui</file>
+    <file preprocess="xml-stripblanks">search-source-row.ui</file>
+    <file preprocess="xml-stripblanks">folder-selector-dialog.ui</file>
+    <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
   </gresource>
 </gresources>

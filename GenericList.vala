@@ -9,6 +9,10 @@ public class Gth.GenericList<T> {
 		return new Iterator<T> (this);
 	}
 
+	public T? first () {
+		return model.get_item (0);
+	}
+
 	public class Iterator<T> {
 		public Iterator (GenericList<T> _list) {
 			list = _list;

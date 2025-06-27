@@ -65,10 +65,6 @@ public enum Gth.LoadAction {
 	public bool changes_current_folder () {
 		return this <= OPEN_SUBFOLDER;
 	}
-
-	public bool changes_root () {
-		return this <= OPEN_FROM_HISTORY;
-	}
 }
 
 public enum Gth.SidebarState {

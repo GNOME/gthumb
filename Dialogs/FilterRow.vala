@@ -4,12 +4,13 @@ public class Gth.FilterRow : Adw.ActionRow {
 
 	[GtkChild] public unowned Gtk.Switch visibility_switch;
 	[GtkChild] public unowned Gtk.Button edit_button;
-	[GtkChild] public unowned Gtk.Button delete_button;
+	//[GtkChild] public unowned Gtk.Button delete_button;
 	[GtkChild] public unowned Gtk.Box edit_buttons;
 
 	public signal void move_to_row (Gth.FilterRow row);
 	public signal void move_to_top ();
 	public signal void move_to_bottom ();
+	public signal void delete_row ();
 
 	public FilterRow (Test _filter, bool as_icon_content = false) {
 		filter = _filter;
@@ -64,6 +65,12 @@ public class Gth.FilterRow : Adw.ActionRow {
 		action = new SimpleAction ("move-to-bottom", null);
 		action.activate.connect ((_action, param) => {
 			move_to_bottom ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete", null);
+		action.activate.connect ((_action, param) => {
+			delete_row ();
 		});
 		action_group.add_action (action);
 	}

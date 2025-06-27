@@ -45,8 +45,7 @@ public class Gth.CatalogSearch : Gth.Catalog {
 	}
 }
 
-[Compact]
-public class Gth.SearchSource {
+public class Gth.SearchSource : Object {
 	public File folder;
 	public bool recursive;
 

@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthEditFiltersDialog" parent="AdwPreferencesDialog">
+  <template class="GthFiltersDialog" parent="AdwPreferencesDialog">
     <property name="title" translatable="yes">Filters</property>
     <property name="content_width">700</property>
     <property name="content_height">710</property>
@@ -40,6 +40,14 @@
                 <signal name="clicked" handler="on_add_filter" />
               </object>
             </property>
+            <child>
+              <object class="GtkListBox" id="filter_list">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+              </object>
+            </child>
           </object>
         </child>
 

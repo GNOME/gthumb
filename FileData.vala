@@ -11,6 +11,10 @@ public class Gth.FileData : Object {
 		children_loaded = false;
 	}
 
+	public FileData.copy (FileData other) {
+		this (other.file, other.info);
+	}
+
 	public FileData.for_uri (string uri, string mime_type) {
 		this (File.new_for_uri (uri), new FileInfo ());
 		unowned var static_mime_type = Strings.get_static (mime_type);

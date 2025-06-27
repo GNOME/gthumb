@@ -78,16 +78,34 @@ public class Gth.FileSourceVfs : FileSource {
 	}
 
 	public override FileInfo get_display_info (File file) {
-		var info = new FileInfo ();
-		var name = file.get_basename ();
-		if (name == null)
-			name = file.get_uri ();
-		info.set_display_name (name);
+		FileInfo info = null;
+		string icon_name = null;
 		var uri = file.get_uri ();
-		var icon = new ThemedIcon (uri.has_prefix ("file://") ? "folder-symbolic" : "folder-remote-symbolic");
-		info.set_symbolic_icon (icon);
-		info.set_icon (icon);
-		//update_special_location_info (file, info);
+		if (uri.has_prefix ("file://")) {
+			try {
+				info = file.query_info (
+					FileAttribute.STANDARD_DISPLAY_NAME + "," + FileAttribute.STANDARD_SYMBOLIC_ICON,
+					FileQueryInfoFlags.NONE,
+					null);
+			}
+			catch (Error error) {
+			}
+			icon_name = "folder-symbolic";
+		}
+		else {
+			icon_name = "folder-remote-symbolic";
+		}
+		if (info == null) {
+			info = new FileInfo ();
+			var name = file.get_basename ();
+			if (name == null)
+				name = file.get_uri ();
+			info.set_display_name (name);
+		}
+		if (!info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
+			info.set_symbolic_icon (Util.get_themed_icon (icon_name));
+		}
+		update_special_location_info (file, info);
 		return info;
 	}
 

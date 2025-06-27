@@ -87,6 +87,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		thumbnail_size = app.browser_settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 		folder_tree.sort_name = app.browser_settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE);
 		folder_tree.inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE);
+		folder_tree.show_hidden = show_hidden_files;
 
 		set_page (Page.BROWSER);
 
@@ -198,12 +199,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		sidebar_state = state;
 		switch (sidebar_state) {
 		case SidebarState.FILES:
-			sidebar_stack.set_visible_child (files_sidebar);
+			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = true;
 			catalog_button.active = false;
 			break;
 		case SidebarState.CATALOGS:
-			sidebar_stack.set_visible_child (files_sidebar);
+			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = false;
 			catalog_button.active = true;
 			break;
@@ -240,6 +241,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public void cancel_jobs () {
 		jobs.cancel_all ();
+	}
+
+	public void set_show_hidden (bool show) {
+		show_hidden_files = show;
+		folder_tree.show_hidden = show_hidden_files;
+		update_thumbnail_list ();
 	}
 
 	void update_title () {
@@ -530,8 +537,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction.stateful ("show-hidden-files", null, new Variant.boolean (show_hidden_files));
 		action.activate.connect ((_action, param) => {
-			show_hidden_files = Util.toggle_state (_action);
-			update_thumbnail_list ();
+			set_show_hidden (Util.toggle_state (_action));
 		});
 		action_group.add_action (action);
 
@@ -639,7 +645,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("search", null);
 		action.activate.connect ((_action, param) => {
 			var dialog = new Gth.SearchDialog (folder_tree.current_folder.file);
-			dialog.present (this);
+			dialog.transient_for = this;
+			dialog.present ();
 			dialog.focus_first_rule ();
 		});
 		action_group.add_action (action);
@@ -763,7 +770,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
 	[GtkChild] unowned Adw.ToastOverlay browser_toast_overlay;
-	[GtkChild] unowned Gtk.ScrolledWindow files_sidebar;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
 	[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;

@@ -12,6 +12,11 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 			if (dialog != null) {
 				dialog.pop_subpage ();
 			}
+			else {
+				if (add_rule_dialog != null) {
+					add_rule_dialog.close ();
+				}
+			}
 			add_rule (param.get_string ());
 		});
 		action_group.add_action (action);
@@ -80,7 +85,9 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 
 		var delete_button = new Gtk.Button.from_icon_name ("list-delete-symbolic");
 		delete_button.add_css_class ("flat");
+		delete_button.add_css_class ("circular");
 		delete_button.valign = Gtk.Align.CENTER;
+		delete_button.margin_start = 6;
 		delete_button.clicked.connect (() => {
 			expr.remove (test);
 		});
@@ -98,15 +105,20 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 	[GtkCallback]
 	void on_add_rule (Gtk.Button source) {
 		if (!rules_loaded) {
-			var test_list = Widgets.new_boxed_list ();
-			test_list.bind_model (app.ordered_tests.model, new_test_type_row);
-			rule_types.add (test_list);
+			rule_list.bind_model (app.ordered_tests.model, new_test_type_row);
 			rules_loaded = true;
 		}
 		// Show the rule chooser page.
 		unowned var dialog = get_dialog ();
 		if (dialog != null) {
 			dialog.push_subpage (rule_page);
+		}
+		else {
+			add_rule_dialog = new Gth.AddRuleDialog (this);
+			add_rule_dialog.closed.connect (() => {
+				add_rule_dialog = null;
+			});
+			add_rule_dialog.present (root as Gtk.Window);
 		}
 	}
 
@@ -140,6 +152,8 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 	[GtkChild] unowned Gtk.ListBox match_operation_group;
 	[GtkChild] unowned Gtk.CheckButton match_all;
 	[GtkChild] unowned Gtk.CheckButton match_any;
-	[GtkChild] unowned Adw.NavigationPage rule_page;
-	[GtkChild] unowned Adw.PreferencesGroup rule_types;
+	[GtkChild] public unowned Adw.NavigationPage rule_page;
+	[GtkChild] unowned Gtk.ListBox rule_list;
+
+	AddRuleDialog add_rule_dialog = null;
 }
