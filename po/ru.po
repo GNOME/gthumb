@@ -13,10 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb trunk\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2023-04-09 05:52+0000\n"
-"PO-Revision-Date: 2023-04-09 13:43+0300\n"
-"Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
+"POT-Creation-Date: 2025-06-19 21:59+0000\n"
+"PO-Revision-Date: 2025-06-20 09:36+1000\n"
+"Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -24,14 +24,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
 msgstr "Приложение просмотра изображений gThumb"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:9
-#: data/org.gnome.gThumb.desktop.in.in:6
+#: data/org.gnome.gThumb.desktop.in:6
 msgid "View and organize your images"
 msgstr "Просмотр изображений и ведение альбомов"
 
@@ -90,11 +90,11 @@ msgstr ""
 "к изображениям; организовывать изображения в каталоги, а каталоги в "
 "библиотеки; производить поиск изображений и сохранять результат как каталог."
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
 msgid "Browser mode"
 msgstr "Режим обозревателя"
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:55
 msgid "Viewer mode"
 msgstr "Режим просмотра"
 
@@ -115,6 +115,11 @@ msgstr "Открывать файлы в текущем окне"
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Сбрасывать ли положение полос прокрутки после изменения изображения"
 
+#: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:40
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:288
+msgid "Show images inside a frame"
+msgstr "Показывать фотографии в рамке"
+
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:42
 msgid "Possible values are: jpeg, jpg."
 msgstr "Возможные значения: jpeg, jpg."
@@ -131,35 +136,35 @@ msgstr ""
 "Возможные значения: general::unsorted, file::name, file::size, file::mtime, "
 "exif::photo::datetimeoriginal"
 
-#: data/org.gnome.gThumb.Import.desktop.in.in:3
+#: data/org.gnome.gThumb.Import.desktop.in:3
 msgid "Import with gThumb"
 msgstr "Импортировать с помощью gThumb"
 
-#: data/org.gnome.gThumb.Import.desktop.in.in:4
+#: data/org.gnome.gThumb.Import.desktop.in:4
 msgid "Photo Import Tool"
 msgstr "Инструмент импорта фотографий"
 
-#: data/org.gnome.gThumb.Import.desktop.in.in:6
+#: data/org.gnome.gThumb.Import.desktop.in:6
 msgid "Import the photos on your camera card"
 msgstr "Импортировать фотографии с цифровой камеры"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
+#: data/org.gnome.gThumb.desktop.in:3 gthumb/gth-application.c:107
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
-#: data/org.gnome.gThumb.desktop.in.in:4 extensions/image_viewer/main.c:35
+#: data/org.gnome.gThumb.desktop.in:4 extensions/image_viewer/main.c:35
 msgid "Image Viewer"
 msgstr "Просмотр изображений"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.gThumb.desktop.in.in:8
+#: data/org.gnome.gThumb.desktop.in:8
 msgid "Image;Viewer;"
-msgstr "Изображение; Обозреватель;"
+msgstr "Изображение;Обозреватель;просмотрщик;"
 
-#: data/org.gnome.gThumb.desktop.in.in:21
-#: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/gears-menu.ui:7
+#: data/org.gnome.gThumb.desktop.in:21 gthumb/gth-browser-actions-entries.h:100
+#: gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Новое окно"
 
@@ -235,10 +240,6 @@ msgstr "добавить"
 #: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
 msgstr "_Расширения:"
-
-#: data/ui/extensions-preferences.ui:116
-msgid "More extensions…"
-msgstr "Дополнительные расширения…"
 
 #: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
@@ -371,6 +372,7 @@ msgid "gThumb Preferences"
 msgstr "Настройки gThumb"
 
 #: data/ui/preferences.ui:98
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
 msgid "Appearance"
 msgstr "Внешний вид"
 
@@ -443,7 +445,17 @@ msgstr "Комбинации клавиш:"
 msgid "_Restore All…"
 msgstr "_Восстановить все…"
 
-#: data/ui/sort-order.ui:30
+#: data/ui/sort-order-folder-tree.ui:20
+#: gthumb/gth-main-default-sort-types.c:166
+msgid "file name"
+msgstr "имя файла"
+
+#: data/ui/sort-order-folder-tree.ui:35
+#: gthumb/gth-main-default-sort-types.c:169
+msgid "file modified date"
+msgstr "дата изменения файла"
+
+#: data/ui/sort-order-folder-tree.ui:58 data/ui/sort-order.ui:30
 msgid "_Inverse order"
 msgstr "В _обратном порядке"
 
@@ -452,16 +464,8 @@ msgstr "В _обратном порядке"
 msgid "Example:"
 msgstr "Пример:"
 
-#: extensions/23hq/23hq.extension.desktop.in.in:3
-msgid "23"
-msgstr "23"
-
-#: extensions/23hq/23hq.extension.desktop.in.in:4
-msgid "Upload images to 23hq.com"
-msgstr "Загрузить изображения на 23hq.com"
-
 #: extensions/bookmarks/bookmarks.extension.desktop.in.in:3
-#: extensions/bookmarks/callbacks.c:323
+#: extensions/bookmarks/callbacks.c:320
 #: extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Закладки"
@@ -547,8 +551,7 @@ msgid "Write to Disc"
 msgstr "Записать на диск"
 
 #: extensions/burn_disc/gth-burn-task.c:405
-#: extensions/oauth/oauth-account-chooser-dialog.c:150
-#: gthumb/dlg-preferences-extensions.c:715
+#: gthumb/dlg-preferences-extensions.c:720
 msgid "_Continue"
 msgstr "Про_должить"
 
@@ -557,7 +560,7 @@ msgstr "Про_должить"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Ошибка интерпретации изображения в формате JPEG: %s"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:558
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:562
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Неизвестное цветовое пространство JPEG (%d)"
@@ -676,35 +679,35 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:414
 #: extensions/contact_sheet/data/ui/image-wall.ui:216
-#: extensions/image_viewer/gth-image-viewer-page.c:1735
+#: extensions/image_viewer/gth-image-viewer-page.c:1797
 #: extensions/webalbums/data/ui/web-album-exporter.ui:391
 msgid "Saving"
 msgstr "Сохранение"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:376
-#: extensions/catalogs/dlg-add-to-catalog.c:541
+#: extensions/catalogs/dlg-add-to-catalog.c:377
+#: extensions/catalogs/dlg-add-to-catalog.c:542
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:295
-#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1925
+#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1945
 #, c-format
 msgid "No name specified"
 msgstr "Не указано имя"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:383
-#: extensions/catalogs/dlg-add-to-catalog.c:548
+#: extensions/catalogs/dlg-add-to-catalog.c:384
+#: extensions/catalogs/dlg-add-to-catalog.c:549
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
-#: gthumb/gth-folder-tree.c:1932
+#: gthumb/gth-folder-tree.c:1952
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Недопустимое имя. Следующие символы запрещены к использованию: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:440
-#: extensions/catalogs/dlg-add-to-catalog.c:597
+#: extensions/catalogs/dlg-add-to-catalog.c:441
+#: extensions/catalogs/dlg-add-to-catalog.c:598
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -715,13 +718,13 @@ msgid "New catalog"
 msgstr "Новый каталог"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:462
+#: extensions/catalogs/dlg-add-to-catalog.c:463
 msgid "Enter the catalog name:"
 msgstr "Введите название каталога:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:464
-#: extensions/catalogs/dlg-add-to-catalog.c:623
+#: extensions/catalogs/dlg-add-to-catalog.c:465
+#: extensions/catalogs/dlg-add-to-catalog.c:624
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "_Создать"
@@ -731,7 +734,7 @@ msgid "New library"
 msgstr "Новая коллекция"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:621
+#: extensions/catalogs/dlg-add-to-catalog.c:622
 msgid "Enter the library name:"
 msgstr "Введите название коллекции:"
 
@@ -768,13 +771,13 @@ msgstr "Создать коллекцию"
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
 #: extensions/rename_series/dlg-rename-series.c:886
-#: gthumb/gth-folder-tree.c:1972
+#: gthumb/gth-folder-tree.c:1992
 msgid "Rename"
 msgstr "Переименовать"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4781
-#: gthumb/gth-browser.c:4893 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4811
+#: gthumb/gth-browser.c:4923 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Свойства"
 
@@ -810,18 +813,18 @@ msgid "C_atalogs:"
 msgstr "К_аталоги:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
-#: extensions/catalogs/dlg-add-to-catalog.c:620
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "New Library"
 msgstr "Новая коллекция"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
-#: extensions/catalogs/dlg-add-to-catalog.c:461
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "New Catalog"
 msgstr "Новый каталог"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:103
 #: extensions/file_manager/actions.c:766
-#: extensions/webalbums/gth-web-exporter.c:1820
+#: extensions/webalbums/gth-web-exporter.c:1828
 msgid "_View the destination"
 msgstr "_Просмотреть место назначения"
 
@@ -896,21 +899,21 @@ msgstr "Одиночные"
 msgid "Could not add the files to the catalog"
 msgstr "Не удалось добавить файлы в каталог"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:319
+#: extensions/catalogs/dlg-add-to-catalog.c:320
 #: extensions/search/gth-search-task.c:396
 msgid "Could not create the catalog"
 msgstr "Не удалось создать каталог"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:687
+#: extensions/catalogs/dlg-add-to-catalog.c:688
 msgid "Add to Catalog"
 msgstr "Добавить в каталог"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:710
+#: extensions/catalogs/dlg-add-to-catalog.c:711
 msgid "_Add"
 msgstr "_Добавить"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:714
-#: extensions/edit_metadata/dlg-edit-metadata.c:347
+#: extensions/catalogs/dlg-add-to-catalog.c:715
+#: extensions/edit_metadata/dlg-edit-metadata.c:346
 msgid "Keep the dialog open"
 msgstr "Не закрывать окно"
 
@@ -953,11 +956,11 @@ msgid "Tag (embedded)"
 msgstr "Метка (встроенная)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:874
-#: extensions/exiv2_tools/exiv2-utils.cpp:883
-#: extensions/exiv2_tools/exiv2-utils.cpp:913
-#: extensions/exiv2_tools/exiv2-utils.cpp:1452
-#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
+#: extensions/exiv2_tools/exiv2-utils.cpp:878
+#: extensions/exiv2_tools/exiv2-utils.cpp:891
+#: extensions/exiv2_tools/exiv2-utils.cpp:933
+#: extensions/exiv2_tools/exiv2-utils.cpp:1568
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:441
 msgid "Invalid file format"
 msgstr "Неверный формат файла"
 
@@ -1105,7 +1108,7 @@ msgstr "_Синхронизировать со встроенными метад
 #: extensions/importer/gth-import-preferences-dialog.c:421
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
-#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:488
 #: gthumb/gth-file-properties.c:595
 msgid "Preferences"
 msgstr "Параметры"
@@ -1114,12 +1117,14 @@ msgstr "Параметры"
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
 #: extensions/edit_metadata/gth-edit-comment-dialog.c:124
-#: extensions/webalbums/dlg-web-exporter.c:46
-#: extensions/webalbums/dlg-web-exporter.c:296 gthumb/gth-file-comment.c:136
+#: extensions/webalbums/dlg-web-exporter.c:47
+#: extensions/webalbums/dlg-web-exporter.c:297 gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Добавить комментарий"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
+#: extensions/comments/main.c:43 extensions/webalbums/dlg-web-exporter.c:46
+#: extensions/webalbums/dlg-web-exporter.c:301
+#: gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Заголовок"
 
@@ -1157,7 +1162,7 @@ msgstr "Создать изображение, показывающее мини
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
 #: extensions/file_tools/gth-file-tool-crop.c:443
-#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-crop.c:474
 #: extensions/file_tools/gth-file-tool-resize.c:593
 #: extensions/file_tools/gth-file-tool-rotate.c:396
 #: extensions/slideshow/main.c:297 gthumb/gth-accel-button.c:201
@@ -1205,31 +1210,32 @@ msgstr "_Градиент"
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:315
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:333
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:351
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:475
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:583
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:640
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:698
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:476
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:584
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:641
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:699
 msgid "Select a color"
 msgstr "Выберите цвет"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:392
+#. Translators: (noun) The frame of an image.
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:393
 msgid "Frame"
 msgstr "Рамка"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:421
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:422
 msgid "_Style:"
 msgstr "_Стиль:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:435
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:436
 msgid "C_olor:"
 msgstr "_Цвет:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:519
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:520
 #: gthumb/gth-template-editor-dialog.c:419
 msgid "Text"
 msgstr "Текст"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:548
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:549
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:106
 #: extensions/image_print/data/ui/print-layout.ui:166
 #: extensions/image_print/data/ui/print-preferences.ui:55
@@ -1238,13 +1244,13 @@ msgstr "Текст"
 msgid "_Header:"
 msgstr "_Верхний колонтитул:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:569
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:626
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:684
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:570
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:627
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:685
 msgid "Select a font"
 msgstr "Выберите шрифт"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:604
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:605
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:91
 #: extensions/image_print/data/ui/print-layout.ui:179
 #: extensions/image_print/data/ui/print-preferences.ui:69
@@ -1253,7 +1259,7 @@ msgstr "Выберите шрифт"
 msgid "_Footer:"
 msgstr "Ни_жний колонтитул:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:663
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:664
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:896
 #: extensions/image_print/data/ui/print-preferences.ui:43
 msgid "Caption:"
@@ -1266,7 +1272,7 @@ msgstr "Заголовок:"
 #: extensions/webalbums/data/ui/web-album-exporter.ui:181
 #: extensions/webalbums/data/ui/web-album-exporter.ui:846
 #: extensions/webalbums/data/ui/web-album-exporter.ui:894
-#: gthumb/gth-browser-actions-entries.h:98
+#: gthumb/gth-browser-actions-entries.h:101
 msgid "Help"
 msgstr "Справка"
 
@@ -1281,7 +1287,6 @@ msgstr "Изменить шаблон"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:261
 #: extensions/contact_sheet/data/ui/image-wall.ui:82
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
 #: extensions/webalbums/data/ui/web-album-exporter.ui:268
 msgid "_Destination:"
@@ -1396,7 +1401,7 @@ msgstr "Счётчик"
 #: extensions/list_tools/gth-script-editor-dialog.c:41
 #: extensions/rename_series/dlg-rename-series.c:61
 #: extensions/webalbums/dlg-web-exporter.c:38
-#: extensions/webalbums/dlg-web-exporter.c:47
+#: extensions/webalbums/dlg-web-exporter.c:48
 msgid "Current date"
 msgstr "Текущая дата"
 
@@ -1436,8 +1441,8 @@ msgstr "Не удалось удалить тему"
 #: extensions/image_print/gth-image-print-job.c:1303
 #: extensions/importer/gth-import-preferences-dialog.c:325
 #: extensions/rename_series/dlg-rename-series.c:821
-#: extensions/webalbums/dlg-web-exporter.c:323
-#: extensions/webalbums/dlg-web-exporter.c:364
+#: extensions/webalbums/dlg-web-exporter.c:328
+#: extensions/webalbums/dlg-web-exporter.c:369
 #: gthumb/gth-template-selector.c:357
 msgid "Edit Template"
 msgstr "Изменить шаблон"
@@ -1513,7 +1518,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Не удалось показать свойства фона рабочего стола"
 
 #: extensions/desktop_background/actions.c:360
-#: gthumb/resources/gears-menu.ui:45
+#: gthumb/resources/gears-menu.ui:49
 msgid "_Preferences"
 msgstr "_Параметры"
 
@@ -1588,7 +1593,7 @@ msgstr "_Заголовок:"
 msgid "Could not save the file metadata"
 msgstr "Не удалось сохранить метаданные"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:234
+#: extensions/edit_metadata/dlg-edit-metadata.c:232
 #: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Не удалось прочитать информацию о файле"
@@ -1695,8 +1700,8 @@ msgstr "_Язык:"
 msgid "State/Province:"
 msgstr "Область/район:"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2114 gthumb/str-utils.c:641
+#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1128
+#: gthumb/glib-utils.c:2161 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(неверное значение)"
 
@@ -1776,7 +1781,7 @@ msgstr "Введите имя папки:"
 #: extensions/file_manager/callbacks.c:566
 #: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5819 gthumb/gth-browser.c:5862
+#: gthumb/gth-browser.c:5885 gthumb/gth-browser.c:5928
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Не удалось выполнить операцию"
@@ -1949,7 +1954,7 @@ msgid "Rotate left"
 msgstr "Повернуть влево"
 
 #: extensions/file_tools/callbacks.c:58
-#: extensions/file_tools/gth-file-tool-crop.c:691
+#: extensions/file_tools/gth-file-tool-crop.c:692
 msgid "Crop"
 msgstr "Кадрировать"
 
@@ -1960,7 +1965,7 @@ msgstr "Изменить размер"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:56
 #: extensions/file_tools/data/ui/curves-options.ui:35
-#: extensions/file_tools/data/ui/sharpen-options.ui:45
+#: extensions/file_tools/data/ui/sharpen-options.ui:30
 msgid "_Preview"
 msgstr "_Просмотр"
 
@@ -2019,7 +2024,7 @@ msgstr "Цвет"
 #: extensions/file_tools/data/ui/crop-options.ui:31
 #: extensions/file_tools/data/ui/resize-options.ui:9
 #: extensions/file_tools/data/ui/rotate-options.ui:9
-#: extensions/file_tools/gth-file-tool-crop.c:665
+#: extensions/file_tools/gth-file-tool-crop.c:666
 #: extensions/file_tools/gth-file-tool-resize.c:764
 #: extensions/file_tools/gth-file-tool-rotate.c:617
 #: gthumb/gth-file-chooser-dialog.c:258
@@ -2192,15 +2197,15 @@ msgstr "Перпендикулярное"
 msgid "Alignment"
 msgstr "Выравнивание"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:83
+#: extensions/file_tools/data/ui/sharpen-options.ui:68
 msgid "Threshold:"
 msgstr "Порог:"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:133
+#: extensions/file_tools/data/ui/sharpen-options.ui:118
 msgid "Radius:"
 msgstr "Радиус:"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:151
+#: extensions/file_tools/data/ui/sharpen-options.ui:136
 msgid "Amount:"
 msgstr "Величина:"
 
@@ -2242,7 +2247,7 @@ msgstr "Синий"
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:557
 #: extensions/file_tools/gth-file-tool-curves.c:819
 #: extensions/file_tools/gth-file-tool-rotate.c:604
-#: extensions/file_tools/gth-file-tool-sharpen.c:364
+#: extensions/file_tools/gth-file-tool-sharpen.c:309
 #: gthumb/gth-test-aspect-ratio.c:218
 msgid "Reset"
 msgstr "Сброс"
@@ -2255,7 +2260,7 @@ msgstr "Предустановки"
 
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:340
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
-#: extensions/file_tools/gth-file-tool-crop.c:636
+#: extensions/file_tools/gth-file-tool-crop.c:637
 #: extensions/file_tools/gth-file-tool-curves.c:287
 #: extensions/file_tools/gth-file-tool-effects.c:401
 #: extensions/file_tools/gth-file-tool-effects.c:445
@@ -2307,7 +2312,7 @@ msgid "Equalize the histogram using the square root function"
 msgstr "Настройка гистограммы с использованием квадратичной функции"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:547
-#: extensions/file_tools/gth-file-tool-crop.c:477
+#: extensions/file_tools/gth-file-tool-crop.c:478
 #: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
 msgstr "Единообразие"
@@ -2393,28 +2398,33 @@ msgid "1.85∶1"
 msgstr "1.85∶1"
 
 #: extensions/file_tools/gth-file-tool-crop.c:458
+#: extensions/file_tools/gth-file-tool-resize.c:610
+msgid "1.91∶1"
+msgstr "1.91∶1"
+
+#: extensions/file_tools/gth-file-tool-crop.c:459
 #: extensions/file_tools/gth-file-tool-resize.c:611
 #: gthumb/gth-test-aspect-ratio.c:55
 msgid "2.39∶1"
 msgstr "2.39∶1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:459
+#: extensions/file_tools/gth-file-tool-crop.c:460
 #: extensions/file_tools/gth-file-tool-resize.c:612
 #: gthumb/gth-location-chooser.c:617 gthumb/gth-template-selector.c:434
 msgid "Other…"
 msgstr "Другое…"
 
-#: extensions/file_tools/gth-file-tool-crop.c:474
+#: extensions/file_tools/gth-file-tool-crop.c:475
 #: extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Rule of Thirds"
 msgstr "Правило третей"
 
-#: extensions/file_tools/gth-file-tool-crop.c:475
+#: extensions/file_tools/gth-file-tool-crop.c:476
 #: extensions/file_tools/gth-file-tool-rotate.c:398
 msgid "Golden Sections"
 msgstr "Золотые сечения"
 
-#: extensions/file_tools/gth-file-tool-crop.c:476
+#: extensions/file_tools/gth-file-tool-crop.c:477
 #: extensions/file_tools/gth-file-tool-rotate.c:399
 msgid "Center Lines"
 msgstr "Центральные линии"
@@ -2428,8 +2438,8 @@ msgid "Enter the preset name:"
 msgstr "Введите имя предустановки:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
-#: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1664
+#: extensions/gstreamer_tools/actions.c:71
+#: extensions/image_viewer/gth-image-viewer-page.c:1726
 #: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Не удалось сохранить файл"
@@ -2548,10 +2558,6 @@ msgstr "Повторить"
 msgid "Resizing images"
 msgstr "Изменение размера изображений"
 
-#: extensions/file_tools/gth-file-tool-resize.c:610
-msgid "1.91∶1"
-msgstr "1.91∶1"
-
 #: extensions/file_tools/gth-file-tool-rotate-left.c:90
 #: extensions/image_rotation/callbacks.c:53
 #: extensions/image_rotation/callbacks.c:163
@@ -2586,11 +2592,11 @@ msgstr "Сохранить как…"
 msgid "Save"
 msgstr "Сохранить"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:334
+#: extensions/file_tools/gth-file-tool-sharpen.c:279
 msgid "Sharpening image"
 msgstr "Увеличение резкости"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:435
+#: extensions/file_tools/gth-file-tool-sharpen.c:381
 msgid "Enhance Focus"
 msgstr "Усилить фокус"
 
@@ -2628,7 +2634,7 @@ msgid "_View"
 msgstr "_Вид"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:454
-#: gthumb/gth-tags-entry.c:1148 gthumb/gtk-utils.h:39
+#: gthumb/gth-tags-entry.c:1005 gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Удалить"
 
@@ -2683,7 +2689,7 @@ msgstr "ни одного файла"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:877
+#: gthumb/gth-browser.c:877
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2729,239 +2735,20 @@ msgstr "Дубликаты"
 msgid "Select"
 msgstr "Выбрать"
 
-#: extensions/flicker/flicker.extension.desktop.in.in:3
-msgid "Flicker"
-msgstr "Flickr"
-
-#: extensions/flicker/flicker.extension.desktop.in.in:4
-msgid "Upload images to Flickr"
-msgstr "Отправить изображения на Flickr"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Общедоступные фотографии"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
-msgid "Private photos, visible to family and friends"
-msgstr "Личные фотографии, доступные для членов семьи и друзьям"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Личные фотографии, доступные друзьям"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
-msgid "Private photos, visible to family"
-msgstr "Личные фотографии, доступные для членов семьи"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:51
-msgid "Private photos"
-msgstr "Личные фотографии"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:73
-msgid "Safe content"
-msgstr "Безопасное содержимое"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:77
-msgid "Moderate content"
-msgstr "Модерировать содержимое"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:81
-msgid "Restricted content"
-msgstr "Содержимое с ограниченным доступом"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Учётная запись:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-msgid "Edit accounts"
-msgstr "_Изменить учётные записи"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-msgid "Free space:"
-msgstr "Доступно:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:275
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:134
-msgid "Ph_otoset:"
-msgstr "_Набор снимков:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:291
-msgid "_Privacy:"
-msgstr "_Личное:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:329
-msgid "_Safety:"
-msgstr "_Безопасное:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:405
-msgid "Hi_de from public searches"
-msgstr "_Сделать невидимым для поиска"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/webalbums/data/ui/web-album-exporter.ui:329
-msgid "_Resize if larger than:"
-msgstr "Мас_штабировать, если больше, чем:"
-
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-msgid "A_ccount:"
-msgstr "_Учётная запись:"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:219
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Не удалось соединиться с сервером"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-msgid "Files successfully uploaded to the server."
-msgstr "Файлы успешно загружены на сервер."
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1819
-msgid "_Open in the Browser"
-msgstr "_Открыть в веб-браузере"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Не удалось создать альбом"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-msgid "Could not upload the files"
-msgstr "Не удалось отправить файлы"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1782
-msgid "No valid file selected."
-msgstr "Не выбрано ни одного допустимого файла."
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-msgid "Could not export the files"
-msgstr "Не удалось экспортировать файлы"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Экспортировать в %s"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:312
-#: gthumb/gth-file-selection-info.c:143
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d файл"
-msgstr[1] "%d файла"
-msgstr[2] "%d файлов"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:337
-msgid "Could not get the photo list"
-msgstr "Не удалось получить список фотографий"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:374
-#: extensions/flicker_utils/dlg-import-from-flickr.c:553
-msgid "No album selected"
-msgstr "Не выбран альбом"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:513
-#: extensions/photo_importer/dlg-photo-importer.c:575
-msgid "_Import"
-msgstr "_Импортировать"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:571
-#, c-format
-msgid "Import from %s"
-msgstr "Импортировать из %s"
-
-#: extensions/flicker_utils/flickr-consumer.c:122
-#: extensions/flicker_utils/flickr-service.c:240
-#: extensions/flicker_utils/flickr-service.c:344
-#: extensions/flicker_utils/flickr-service.c:667
-#: extensions/flicker_utils/flickr-service.c:919
-#: extensions/oauth/oauth-service.c:154
-msgid "Unknown error"
-msgstr "Неизвестная ошибка"
-
-#: extensions/flicker_utils/flickr-service.c:491
-#, c-format
-msgid ""
-"Return to this window when you have finished the authorization process on %s"
-msgstr "Вернуться к этому окну, когда завершится процесс авторизации для %s"
-
-#: extensions/flicker_utils/flickr-service.c:492
-msgid "Once you’re done, click the “Continue” button below."
-msgstr "По завершении нажмите кнопку «Продолжить»."
-
-#: extensions/flicker_utils/flickr-service.c:562
-msgid "C_ontinue"
-msgstr "Пр_одолжить"
-
-#: extensions/flicker_utils/flickr-service.c:563
-msgid "_Authorize…"
-msgstr "_Авторизация…"
-
-#: extensions/flicker_utils/flickr-service.c:566
-#, c-format
-msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr "gThumb требует вашей авторизации для загрузки фотографий в %s"
-
-#: extensions/flicker_utils/flickr-service.c:567
-#, c-format
-msgid ""
-"Click “Authorize” to open your web browser and authorize gthumb to upload "
-"photos to %s. When you’re finished, return to this window to complete the "
-"authorization."
-msgstr ""
-"Нажмите кнопку «Авторизация...», чтобы открыть веб-браузер и авторизовать "
-"gthumb для отправки фотографий в %s. По завершении вернитесь к этому окну, "
-"чтобы завершить авторизацию."
-
-#: extensions/flicker_utils/flickr-service.c:849
-msgid "Getting the album list"
-msgstr "Получение списка альбомов"
-
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Создание нового альбома"
-
-#: extensions/flicker_utils/flickr-service.c:1144
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Не удалось отправить «%s»: %s"
-
 #. Translators: %s is a filename
-#: extensions/flicker_utils/flickr-service.c:1253
-#, c-format
-msgid "Uploading “%s”"
-msgstr "Отправка «%s»"
-
-#: extensions/flicker_utils/flickr-service.c:1450
-msgid "Uploading the files to the server"
-msgstr "Отправка файлов на сервер"
-
-#: extensions/flicker_utils/flickr-service.c:1611
-msgid "Getting the photo list"
-msgstr "Получение списка фотографий"
-
-#. Translators: %s is a filename
-#: extensions/gstreamer_tools/actions.c:75
+#: extensions/gstreamer_tools/actions.c:77
 #, c-format
 msgid "Image saved as %s"
 msgstr "Изображение сохранено как %s"
 
-#: extensions/gstreamer_tools/actions.c:101
+#: extensions/gstreamer_tools/actions.c:104
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Снимок экрана"
 
-#: extensions/gstreamer_tools/actions.c:157
-#: extensions/gstreamer_tools/actions.c:169
-#: extensions/gstreamer_tools/actions.c:410
+#: extensions/gstreamer_tools/actions.c:162
+#: extensions/gstreamer_tools/actions.c:183
+#: extensions/gstreamer_tools/actions.c:424
 msgid "Could not take a screenshot"
 msgstr "Не удалось сделать снимок экрана"
 
@@ -2986,7 +2773,7 @@ msgid "Play slower"
 msgstr "Замедлить воспроизведение"
 
 #: extensions/gstreamer_tools/callbacks.c:37
-#: extensions/image_viewer/gth-image-viewer-page.c:1205
+#: extensions/image_viewer/gth-image-viewer-page.c:1252
 msgid "Next frame"
 msgstr "Следующий кадр"
 
@@ -3040,6 +2827,12 @@ msgstr "Назад на 1 минуту"
 msgid "Go back 5 minutes"
 msgstr "Назад на 5 минут"
 
+#: extensions/gstreamer_tools/callbacks.c:48
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:117
+#: extensions/image_viewer/gth-image-viewer-page.c:84
+msgid "Copy Image"
+msgstr "Копировать изображение"
+
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
 msgstr "Использовать аппаратное ускорение"
@@ -3050,7 +2843,7 @@ msgstr "Расположение снимков экрана:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:629
-#: extensions/image_viewer/gth-image-viewer-page.c:1198
+#: extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Play"
 msgstr "Воспроизвести"
 
@@ -3127,11 +2920,6 @@ msgstr "Поддержка звука и видео"
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:4
 msgid "Play audio and video files."
 msgstr "Воспроизвести звуковые и видео файлы."
-
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:117
-#: extensions/image_viewer/gth-image-viewer-page.c:84
-msgid "Copy Image"
-msgstr "Копировать изображение"
 
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:602
 msgid "Playing video"
@@ -3216,15 +3004,15 @@ msgstr "Моно"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:427
-#: extensions/image_viewer/gth-image-viewer-page.c:1897
+#: extensions/image_viewer/gth-image-viewer-page.c:1960
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
+#: extensions/webalbums/gth-web-exporter.c:2435 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d x %d"
 
-#: extensions/image_print/actions.c:69
+#: extensions/image_print/actions.c:74
 msgid "Could not print the selected files"
 msgstr "Не удалось вывести на печать выделенные файлы"
 
@@ -3348,6 +3136,10 @@ msgstr "Страница %d из %d"
 msgid "Could not print"
 msgstr "Не удалось вывести на печать"
 
+#: extensions/image_print/gth-image-print-job.c:1782
+msgid "No valid file selected."
+msgstr "Не выбрано ни одного допустимого файла."
+
 #: extensions/image_print/gth-image-print-job.c:1789
 msgid "Images"
 msgstr "Изображения"
@@ -3365,7 +3157,7 @@ msgid "Loading “%s”"
 msgstr "Загрузка «%s»"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
-#: extensions/webalbums/gth-web-exporter.c:2707
+#: extensions/webalbums/gth-web-exporter.c:2715
 msgid "Loading images"
 msgstr "Загрузка изображений"
 
@@ -3387,8 +3179,8 @@ msgstr "Сбросить ориентацию EXIF"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
-#: extensions/webalbums/gth-web-exporter.c:2319
-#: extensions/webalbums/gth-web-exporter.c:2404
+#: extensions/webalbums/gth-web-exporter.c:2327
+#: extensions/webalbums/gth-web-exporter.c:2412
 msgid "Saving images"
 msgstr "Сохранение изображений"
 
@@ -3437,91 +3229,91 @@ msgstr "_Обрезать"
 msgid "_Accept distortion"
 msgstr "_Допустить помехи"
 
-#: extensions/image_viewer/callbacks.c:32
+#: extensions/image_viewer/callbacks.c:36
 msgid "Zoom in"
 msgstr "Увеличить масштаб"
 
-#: extensions/image_viewer/callbacks.c:33
+#: extensions/image_viewer/callbacks.c:37
 msgid "Zoom out"
 msgstr "Уменьшить масштаб"
 
-#: extensions/image_viewer/callbacks.c:34
+#: extensions/image_viewer/callbacks.c:38
 msgid "Zoom 100%"
 msgstr "Масштаб 100%"
 
-#: extensions/image_viewer/callbacks.c:35
+#: extensions/image_viewer/callbacks.c:39
 msgid "Zoom 200%"
 msgstr "Масштаб 200%"
 
-#: extensions/image_viewer/callbacks.c:36
+#: extensions/image_viewer/callbacks.c:40
 msgid "Zoom 300%"
 msgstr "Масштаб 300%"
 
-#: extensions/image_viewer/callbacks.c:38
+#: extensions/image_viewer/callbacks.c:42
 msgid "Zoom to fit"
 msgstr "Масштаб по размеру окна"
 
-#: extensions/image_viewer/callbacks.c:39
+#: extensions/image_viewer/callbacks.c:43
 msgid "Zoom to fit if larger"
 msgstr "Подогнать под размер окна, если больше"
 
-#: extensions/image_viewer/callbacks.c:40
+#: extensions/image_viewer/callbacks.c:44
 msgid "Zoom to fit width"
 msgstr "Подогнать по ширине"
 
-#: extensions/image_viewer/callbacks.c:41
+#: extensions/image_viewer/callbacks.c:45
 msgid "Zoom to fit width if larger"
 msgstr "Подогнать по ширине, если больше"
 
-#: extensions/image_viewer/callbacks.c:42
+#: extensions/image_viewer/callbacks.c:46
 msgid "Zoom to fit height"
 msgstr "Подогнать по высоте"
 
-#: extensions/image_viewer/callbacks.c:43
+#: extensions/image_viewer/callbacks.c:47
 msgid "Zoom to fit height if larger"
 msgstr "Подогнать по высоте, если больше"
 
-#: extensions/image_viewer/callbacks.c:45
+#: extensions/image_viewer/callbacks.c:49
 msgid "Undo edit"
 msgstr "Отменить правку"
 
-#: extensions/image_viewer/callbacks.c:46
+#: extensions/image_viewer/callbacks.c:50
 msgid "Redo edit"
 msgstr "Вернуть правку"
 
-#: extensions/image_viewer/callbacks.c:48
+#: extensions/image_viewer/callbacks.c:52
 msgid "Scroll left"
 msgstr "Прокрутить влево"
 
-#: extensions/image_viewer/callbacks.c:49
+#: extensions/image_viewer/callbacks.c:53
 msgid "Scroll right"
 msgstr "Прокрутить вправо"
 
-#: extensions/image_viewer/callbacks.c:50
+#: extensions/image_viewer/callbacks.c:54
 msgid "Scroll up"
 msgstr "Прокрутить вверх"
 
-#: extensions/image_viewer/callbacks.c:51
+#: extensions/image_viewer/callbacks.c:55
 msgid "Scroll down"
 msgstr "Прокрутить вниз"
 
-#: extensions/image_viewer/callbacks.c:53
+#: extensions/image_viewer/callbacks.c:57
 msgid "Scroll left fast"
 msgstr "Быстро прокрутить влево"
 
-#: extensions/image_viewer/callbacks.c:54
+#: extensions/image_viewer/callbacks.c:58
 msgid "Scroll right fast"
 msgstr "Быстро прокрутить вправо"
 
-#: extensions/image_viewer/callbacks.c:55
+#: extensions/image_viewer/callbacks.c:59
 msgid "Scroll up fast"
 msgstr "Быстро прокрутить вверх"
 
-#: extensions/image_viewer/callbacks.c:56
+#: extensions/image_viewer/callbacks.c:60
 msgid "Scroll down fast"
 msgstr "Быстро прокрутить вниз"
 
-#: extensions/image_viewer/callbacks.c:58
+#: extensions/image_viewer/callbacks.c:62
 msgid "Scroll to center"
 msgstr "Прокрутить к центру"
 
@@ -3530,7 +3322,7 @@ msgid "After loading an image:"
 msgstr "После загрузки изображения:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1155
+#: extensions/image_viewer/gth-image-viewer-page.c:1202
 msgid "Set to actual size"
 msgstr "Не использовать масштабирование"
 
@@ -3539,7 +3331,7 @@ msgid "Keep previous zoom"
 msgstr "Использовать предыдущий масштаб"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1162
+#: extensions/image_viewer/gth-image-viewer-page.c:1209
 msgid "Fit to window if larger"
 msgstr "Подогнать под размеры окна, если больше"
 
@@ -3584,26 +3376,26 @@ msgctxt "zoom quality"
 msgid "_Low"
 msgstr "_Низкое"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:310
 msgid "Transparency:"
 msgstr "Прозрачность:"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:325
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
 msgid "Checkered"
 msgstr "В клетку"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:326
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
 msgid "White"
 msgstr "Белый"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:327
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
 msgid "Gray"
 msgstr "Серый"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:298
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:328
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:42
 msgid "Black"
 msgstr "Чёрный"
@@ -3637,22 +3429,23 @@ msgid "Histogram"
 msgstr "Гистограмма"
 
 #: extensions/image_viewer/gth-image-viewer-page.c:85
+#: gthumb/gth-browser-actions-entries.h:199 gthumb/resources/gears-menu.ui:43
 msgid "Paste Image"
 msgstr "Вставить изображение"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1190
+#: extensions/image_viewer/gth-image-viewer-page.c:1237
 msgid "Apply the embedded color profile"
 msgstr "Применить встроенный цветовой профиль"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1212
+#: extensions/image_viewer/gth-image-viewer-page.c:1259
 msgid "Transparency"
 msgstr "Прозрачность"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1836
+#: extensions/image_viewer/gth-image-viewer-page.c:1898
 msgid "Save Image"
 msgstr "Сохранить изображение"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2560
+#: extensions/image_viewer/gth-image-viewer-page.c:2654
 msgid "Loading the original image"
 msgstr "Загрузка исходного изображения"
 
@@ -3672,7 +3465,7 @@ msgstr "Прокрутка изображений"
 msgid "Image Editor"
 msgstr "Редактор изображений"
 
-#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
+#: extensions/image_viewer/preferences.c:171 gthumb/gth-main-default-types.c:42
 #: gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Просмотрщик"
@@ -3771,7 +3564,7 @@ msgstr "_Команда:"
 msgid "Edit command"
 msgstr "Изменить команду"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:556
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:558
 #: gthumb/gth-test-aspect-ratio.c:193
 msgid "Personalize…"
 msgstr "Персонализировать…"
@@ -3878,27 +3671,32 @@ msgid "Scripting and batch manipulation of files."
 msgstr "Выполнение сценариев для массовой обработки файлов."
 
 #: extensions/map_view/gth-map-view.c:128
+#: extensions/open_map/gth-open-map.c:119
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "Ю"
 
 #: extensions/map_view/gth-map-view.c:128
+#: extensions/open_map/gth-open-map.c:119
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "С"
 
 #: extensions/map_view/gth-map-view.c:130
+#: extensions/open_map/gth-open-map.c:121
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "З"
 
 #: extensions/map_view/gth-map-view.c:130
+#: extensions/open_map/gth-open-map.c:121
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "В"
 
 #: extensions/map_view/gth-map-view.c:225
 #: extensions/map_view/map_view.extension.desktop.in.in:3
+#: extensions/open_map/gth-open-map.c:216
 msgid "Map"
 msgstr "Карта"
 
@@ -3906,47 +3704,13 @@ msgstr "Карта"
 msgid "View the photo position on the map"
 msgstr "Показать место снимка на карте"
 
-#: extensions/oauth/data/ui/oauth-account-manager.ui:23
-msgid "A_ccounts:"
-msgstr "_Учётные записи:"
+#: extensions/open_map/open_map.extension.desktop.in.in:3
+msgid "Open Map"
+msgstr "Открыть карту"
 
-#. the message pane
-#: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1160
-msgid "Loading…"
-msgstr "Загрузка…"
-
-#: extensions/oauth/oauth-account-chooser-dialog.c:192
-msgid "New authentication…"
-msgstr "Новая аутентификация…"
-
-#: extensions/oauth/oauth-ask-authorization-dialog.c:240
-msgid "Authorization Required"
-msgstr "Требуется авторизация"
-
-#: extensions/oauth/web-service.c:379
-msgid "Choose _Account…"
-msgstr "Выбрать учётную запись…"
-
-#: extensions/oauth/web-service.c:657
-msgid "Choose Account"
-msgstr "Выбрать учётную запись"
-
-#: extensions/oauth/web-service.c:774
-msgid "Edit Accounts"
-msgstr "Изменить учётные записи"
-
-#: extensions/oauth/web-service.c:792 extensions/oauth/web-service.c:809
-msgid "Connecting to the server"
-msgstr "Соединение с сервером"
-
-#: extensions/oauth/web-service.c:793
-msgid "Asking authorization"
-msgstr "Запрос авторизации"
-
-#: extensions/oauth/web-service.c:810
-msgid "Getting account information"
-msgstr "Получение сведений об учётной записи"
+#: extensions/open_map/open_map.extension.desktop.in.in:4
+msgid "View the photo location on OpenStreetMap"
+msgstr "Показать место снимка на OpenStreetMap"
 
 #: extensions/photo_importer/actions.c:71
 #: extensions/photo_importer/dlg-photo-importer.c:619
@@ -3984,7 +3748,7 @@ msgstr "_Удалить импортированные файлы из исто�
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
-#: gthumb/gth-filterbar.c:391
+#: gthumb/gth-filterbar.c:393
 msgid "S_how:"
 msgstr "По_казать:"
 
@@ -4013,6 +3777,10 @@ msgstr "Не удалось загрузить папку"
 #: extensions/photo_importer/dlg-photo-importer.c:352
 msgid "Getting the folder content…"
 msgstr "Получение содержимого папки…"
+
+#: extensions/photo_importer/dlg-photo-importer.c:575
+msgid "_Import"
+msgstr "_Импортировать"
 
 #: extensions/photo_importer/dlg-photo-importer.c:585
 msgid "Import from Removable Device"
@@ -4097,7 +3865,7 @@ msgid "Could not rename the files"
 msgstr "Не удалось переименовать файлы"
 
 #: extensions/rename_series/dlg-rename-series.c:896
-#: gthumb/gth-folder-tree.c:1975
+#: gthumb/gth-folder-tree.c:1995
 msgid "_Rename"
 msgstr "_Переименовать"
 
@@ -4295,11 +4063,11 @@ msgstr "Завершить презентацию"
 msgid "Pause/Resume presentation"
 msgstr "Приостановить или продолжить презентацию"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:124
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:127
 msgid "Show next file"
 msgstr "Показать следующий файл"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:123
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:126
 msgid "Show previous file"
 msgstr "Показать предыдущий файл"
 
@@ -4468,6 +4236,10 @@ msgstr "Изменяет размер под ширину окна"
 msgid "_Copy originals to destination"
 msgstr "_Копировать исходные изображения в место назначения"
 
+#: extensions/webalbums/data/ui/web-album-exporter.ui:329
+msgid "_Resize if larger than:"
+msgstr "Мас_штабировать, если больше, чем:"
+
 #: extensions/webalbums/data/ui/web-album-exporter.ui:605
 msgid "_Adapt to the window width "
 msgstr "_Масштабировать под ширину окна "
@@ -4510,7 +4282,7 @@ msgstr "Общее количество изображений"
 msgid "Original filename"
 msgstr "Исходное имя файла"
 
-#: extensions/webalbums/dlg-web-exporter.c:531
+#: extensions/webalbums/dlg-web-exporter.c:536
 msgid "Web Album"
 msgstr "Веб-альбом"
 
@@ -4520,36 +4292,40 @@ msgstr "Веб-альбом"
 msgid "Malformed command"
 msgstr "Неправильная команда"
 
-#: extensions/webalbums/gth-web-exporter.c:1780
+#: extensions/webalbums/gth-web-exporter.c:1788
 msgid "Could not show the destination"
 msgstr "Не удалось показать место назначения"
 
-#: extensions/webalbums/gth-web-exporter.c:1816
+#: extensions/webalbums/gth-web-exporter.c:1824
 msgid "The album has been created successfully."
 msgstr "Альбом успешно создан."
 
-#: extensions/webalbums/gth-web-exporter.c:2085
-#: extensions/webalbums/gth-web-exporter.c:2113
+#: extensions/webalbums/gth-web-exporter.c:1827
+msgid "_Open in the Browser"
+msgstr "_Открыть в веб-браузере"
+
+#: extensions/webalbums/gth-web-exporter.c:2093
+#: extensions/webalbums/gth-web-exporter.c:2121
 msgid "Saving thumbnails"
 msgstr "Сохранение миниатюр"
 
-#: extensions/webalbums/gth-web-exporter.c:2141
+#: extensions/webalbums/gth-web-exporter.c:2149
 msgid "Saving HTML pages: Images"
 msgstr "Сохранение страниц HTML: изображения"
 
-#: extensions/webalbums/gth-web-exporter.c:2199
+#: extensions/webalbums/gth-web-exporter.c:2207
 msgid "Saving HTML pages: Indexes"
 msgstr "Сохранение страниц HTML: индексы"
 
-#: extensions/webalbums/gth-web-exporter.c:2484
+#: extensions/webalbums/gth-web-exporter.c:2492
 msgid "Copying original images"
 msgstr "Копирование исходных изображений"
 
-#: extensions/webalbums/gth-web-exporter.c:2955
+#: extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Не удалось найти папку со стилями"
 
-#: extensions/webalbums/gth-web-exporter.c:2993
+#: extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Не удалось создать временную папку"
 
@@ -4562,8 +4338,8 @@ msgid "Create static web albums."
 msgstr "Создать статические веб-альбомы."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6861 gthumb/gth-browser.c:6880
-#: gthumb/gth-browser.c:6904 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:7052 gthumb/gth-browser.c:7071
+#: gthumb/gth-browser.c:7095 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Не удалось загрузить положение «%s»"
@@ -4642,28 +4418,28 @@ msgstr "Инструменты экспортирования"
 msgid "Could not activate the extension"
 msgstr "Не удалось включить данное расширение"
 
-#: gthumb/dlg-preferences-extensions.c:374
+#: gthumb/dlg-preferences-extensions.c:380
 msgid "Could not deactivate the extension"
 msgstr "Не удалось отключить данное расширение"
 
-#: gthumb/dlg-preferences-extensions.c:491
+#: gthumb/dlg-preferences-extensions.c:496
 msgid "gThumb Development Team"
 msgstr "Команда разработчиков gThumb"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-extensions.c:664
+#: gthumb/dlg-preferences-extensions.c:669
 msgid "Extensions"
 msgstr "Расширения"
 
-#: gthumb/dlg-preferences-extensions.c:713
+#: gthumb/dlg-preferences-extensions.c:718
 msgid "Restart required"
 msgstr "Требуется перезапуск"
 
-#: gthumb/dlg-preferences-extensions.c:714
+#: gthumb/dlg-preferences-extensions.c:719
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Необходимо перезапустить gthumb, чтобы изменения вступили в силу"
 
-#: gthumb/dlg-preferences-extensions.c:716
+#: gthumb/dlg-preferences-extensions.c:721
 msgid "_Restart"
 msgstr "_Перезапустить"
 
@@ -4691,7 +4467,7 @@ msgstr "Изменённые"
 msgid "Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: gthumb/dlg-sort-order.c:113
+#: gthumb/dlg-sort-order-folder-tree.c:84 gthumb/dlg-sort-order.c:113
 msgid "Sort By"
 msgstr "Сортировать по"
 
@@ -4737,7 +4513,7 @@ msgstr "Перемещение файлов в корзину"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2090
+#: gthumb/glib-utils.c:2137
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4749,17 +4525,17 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2099
+#: gthumb/glib-utils.c:2146
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
 msgstr "%d∶%02d"
 
-#: gthumb/gth-accel-dialog.c:121
+#: gthumb/gth-accel-dialog.c:123
 msgid "Press a combination of keys to use as shortcut."
 msgstr "Нажмите необходимую комбинацию клавиш."
 
-#: gthumb/gth-accel-dialog.c:122
+#: gthumb/gth-accel-dialog.c:124
 msgid "Press Esc to cancel"
 msgstr "Нажмите клавишу Esc для отмены"
 
@@ -4787,11 +4563,11 @@ msgstr "Показать версию"
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[ФАЙЛ…] [КАТАЛОГ…]"
 
-#: gthumb/gth-application.c:170
+#: gthumb/gth-application.c:172
 msgid "— Image browser and viewer"
 msgstr "— приложение просмотра изображений"
 
-#: gthumb/gth-browser-actions-callbacks.c:101
+#: gthumb/gth-browser-actions-callbacks.c:102
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4802,7 +4578,7 @@ msgstr ""
 "согласно условиям лицензии GNU Public License версии 2 или более поздней, "
 "опубликованной Фондом Свободного Программного Обеспечения."
 
-#: gthumb/gth-browser-actions-callbacks.c:105
+#: gthumb/gth-browser-actions-callbacks.c:106
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4813,7 +4589,7 @@ msgstr ""
 "КАКИХ-ЛИБО ГАРАНТИЙ, даже неявных гарантий ТОВАРНОСТИ или ПРИГОДНОСТИ ДЛЯ "
 "КОНКРЕТНОЙ ЦЕЛИ. Подробности см. в лицензии GNU General Public License."
 
-#: gthumb/gth-browser-actions-callbacks.c:109
+#: gthumb/gth-browser-actions-callbacks.c:110
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
@@ -4821,11 +4597,11 @@ msgstr ""
 "Вы должны были получить копии лицензии GNU General Public License, вместе с "
 "gThumb. Если это не так, см. http://www.gnu.org/licenses/."
 
-#: gthumb/gth-browser-actions-callbacks.c:128
+#: gthumb/gth-browser-actions-callbacks.c:129
 msgid "An image viewer and browser for GNOME."
 msgstr "Приложение просмотра изображений для GNOME."
 
-#: gthumb/gth-browser-actions-callbacks.c:131
+#: gthumb/gth-browser-actions-callbacks.c:132
 msgid "translator-credits"
 msgstr ""
 "Leonid Kanter <leon@asplinux.ru>, 2006\n"
@@ -4835,109 +4611,109 @@ msgstr ""
 "Stas Solovey <whats_up@tut.by>, 2015\n"
 "Olesya Gerasimenko <translation-team@basealt.ru>, 2021"
 
-#: gthumb/gth-browser-actions-entries.h:99 gthumb/resources/gears-menu.ui:49
+#: gthumb/gth-browser-actions-entries.h:102 gthumb/resources/gears-menu.ui:53
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: gthumb/gth-browser-actions-entries.h:100
+#: gthumb/gth-browser-actions-entries.h:103
 msgid "Quit"
 msgstr "Закрыть"
 
-#: gthumb/gth-browser-actions-entries.h:103
+#: gthumb/gth-browser-actions-entries.h:106
 msgid "Show browser"
 msgstr "Показать обозреватель"
 
-#: gthumb/gth-browser-actions-entries.h:104
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Close window"
 msgstr "Закрыть окно"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Open location"
 msgstr "Открыть местоположение"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4796
-#: gthumb/gth-browser.c:4814 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:110 gthumb/gth-browser.c:4826
+#: gthumb/gth-browser.c:4844 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Полноэкранный режим"
 
-#: gthumb/gth-browser-actions-entries.h:108
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Revert image to saved"
 msgstr "Вернуть состояние изображения к сохранённому"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Save image"
 msgstr "Сохранить изображение"
 
-#: gthumb/gth-browser-actions-entries.h:110
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Save image as"
 msgstr "Сохранить изображение как"
 
-#: gthumb/gth-browser-actions-entries.h:111
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Sidebar"
 msgstr "Боковая панель"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Statusbar"
 msgstr "Строка состояния"
 
-#: gthumb/gth-browser-actions-entries.h:113
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Thumbnails list"
 msgstr "Список миниатюр"
 
-#: gthumb/gth-browser-actions-entries.h:115
+#: gthumb/gth-browser-actions-entries.h:118
 msgid "Load previous location"
 msgstr "Загрузить предыдущее местоположение"
 
-#: gthumb/gth-browser-actions-entries.h:116
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Load next location"
 msgstr "Загрузить следующее местоположение"
 
-#: gthumb/gth-browser-actions-entries.h:117
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Load parent folder"
 msgstr "Загрузить родительскую папку"
 
-#: gthumb/gth-browser-actions-entries.h:118
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Load home"
 msgstr "Загрузить домашнюю папку"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Reload location"
 msgstr "Перезагрузить местоположение"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:123
 msgid "Show/Hide hidden files"
 msgstr "Показать или скрыть скрытые файлы"
 
-#: gthumb/gth-browser-actions-entries.h:121
+#: gthumb/gth-browser-actions-entries.h:124
 msgid "Change sorting order"
 msgstr "Изменить порядок сортировки"
 
-#: gthumb/gth-browser-actions-entries.h:125
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Show first file"
 msgstr "Показать первый файл"
 
-#: gthumb/gth-browser-actions-entries.h:126
+#: gthumb/gth-browser-actions-entries.h:129
 msgid "Show last file"
 msgstr "Показать последний файл"
 
-#: gthumb/gth-browser-actions-entries.h:128
+#: gthumb/gth-browser-actions-entries.h:131
 msgid "Image tools"
 msgstr "Средства работы с изображением"
 
-#: gthumb/gth-browser-actions-entries.h:129
+#: gthumb/gth-browser-actions-entries.h:132
 msgid "File properties"
 msgstr "Свойства файла"
 
-#: gthumb/gth-browser-actions-entries.h:131
+#: gthumb/gth-browser-actions-entries.h:134
 msgid "Select all"
 msgstr "Выбрать всё"
 
-#: gthumb/gth-browser-actions-entries.h:132
+#: gthumb/gth-browser-actions-entries.h:135
 msgid "Select none"
 msgstr "Снять выделение"
 
-#: gthumb/gth-browser-actions-entries.h:134 gthumb/gth-filterbar.c:526
+#: gthumb/gth-browser-actions-entries.h:137 gthumb/gth-filterbar.c:528
 msgid "All"
 msgstr "Все"
 
@@ -4976,53 +4752,53 @@ msgstr "Если не сохранить изменения, они будут �
 msgid "Do _Not Save"
 msgstr "_Не сохранять"
 
-#: gthumb/gth-browser.c:2525 gthumb/gth-browser.c:4822
+#: gthumb/gth-browser.c:2540 gthumb/gth-browser.c:4852
 msgid "Accept"
 msgstr "Принять"
 
-#: gthumb/gth-browser.c:2525 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2540 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Закрыть"
 
-#: gthumb/gth-browser.c:3068
+#: gthumb/gth-browser.c:3083
 msgid "Could not change name"
 msgstr "Не удалось изменить имя"
 
-#: gthumb/gth-browser.c:3562
+#: gthumb/gth-browser.c:3579
 msgid "Modified"
 msgstr "Изменено"
 
-#: gthumb/gth-browser.c:4744
+#: gthumb/gth-browser.c:4774
 msgid "Go to the previous visited location"
 msgstr "Перейти к предыдущему посещённому местоположению"
 
-#: gthumb/gth-browser.c:4750
+#: gthumb/gth-browser.c:4780
 msgid "Go to the next visited location"
 msgstr "Перейти к следующему посещённому местоположению"
 
-#: gthumb/gth-browser.c:4758
+#: gthumb/gth-browser.c:4788
 msgid "History"
 msgstr "История"
 
-#: gthumb/gth-browser.c:4772
+#: gthumb/gth-browser.c:4802
 msgid "View the folders"
 msgstr "Просмотр папок"
 
-#: gthumb/gth-browser.c:4787
+#: gthumb/gth-browser.c:4817
 msgid "Edit file"
 msgstr "Изменить файл"
 
-#: gthumb/gth-browser.c:4878 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4908 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Операции"
 
-#: gthumb/gth-browser.c:6862
+#: gthumb/gth-browser.c:7053
 #, c-format
 msgid "File type not supported"
 msgstr "Тип файла не поддерживается"
 
-#: gthumb/gth-browser.c:6905
+#: gthumb/gth-browser.c:7096
 #, c-format
 msgid "No suitable module found"
 msgstr "Подходящий модуль не найден"
@@ -5045,9 +4821,22 @@ msgstr "Все поддерживаемые файлы"
 msgid "_Show Format Options"
 msgstr "_Показать параметры формата"
 
-#: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
+#: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1198
 msgid "No file"
 msgstr "Нет файлов"
+
+#. the message pane
+#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1172
+msgid "Loading…"
+msgstr "Загрузка…"
+
+#: gthumb/gth-file-selection-info.c:143
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d файл"
+msgstr[1] "%d файла"
+msgstr[2] "%d файлов"
 
 #: gthumb/gth-file-source-vfs.c:288
 msgid "Computer"
@@ -5114,11 +4903,11 @@ msgstr "нисходящий"
 msgid "No limit specified"
 msgstr "Не указано ограничение"
 
-#: gthumb/gth-folder-tree.c:1466
+#: gthumb/gth-folder-tree.c:1485
 msgid "(Open Parent)"
 msgstr "(Открыть родителя)"
 
-#: gthumb/gth-folder-tree.c:1973
+#: gthumb/gth-folder-tree.c:1993
 msgid "Enter the new name:"
 msgstr "Введите новое имя:"
 
@@ -5229,10 +5018,6 @@ msgstr "Автор"
 msgid "Copyright"
 msgstr "Авторские права"
 
-#: gthumb/gth-main-default-sort-types.c:166
-msgid "file name"
-msgstr "имя файла"
-
 #: gthumb/gth-main-default-sort-types.c:167
 msgid "file path"
 msgstr "путь к файлу"
@@ -5240,10 +5025,6 @@ msgstr "путь к файлу"
 #: gthumb/gth-main-default-sort-types.c:168
 msgid "file size"
 msgstr "размер файла"
-
-#: gthumb/gth-main-default-sort-types.c:169
-msgid "file modified date"
-msgstr "дата изменения файла"
 
 #: gthumb/gth-main-default-sort-types.c:170
 msgid "no sorting"
@@ -5319,12 +5100,12 @@ msgstr "Сохранение информации в файле"
 msgid "Saving “%s”"
 msgstr "Сохранение «%s»"
 
-#: gthumb/gth-tags-entry.c:507
+#: gthumb/gth-tags-entry.c:499
 #, c-format
 msgid "Create tag “%s”"
 msgstr "Создать метку «%s»"
 
-#: gthumb/gth-tags-entry.c:1090
+#: gthumb/gth-tags-entry.c:947
 msgid "Show all the tags"
 msgstr "Показать все метки"
 
@@ -5483,11 +5264,11 @@ msgstr "перед"
 msgid "is after"
 msgstr "после"
 
-#: gthumb/gth-time-selector.c:542
+#: gthumb/gth-time-selector.c:396
 msgid "Today"
 msgstr "Сегодня"
 
-#: gthumb/gth-time-selector.c:550
+#: gthumb/gth-time-selector.c:404
 msgid "Now"
 msgstr "Теперь"
 
@@ -5499,7 +5280,7 @@ msgstr "Цвета"
 msgid "Rotation"
 msgstr "Поворот"
 
-#: gthumb/gth-window.c:1073
+#: gthumb/gth-window.c:1075
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5508,11 +5289,11 @@ msgstr ""
 "Комбинация клавиш «%s» уже назначена действию «%s». Переназначить её этому "
 "действию?"
 
-#: gthumb/gth-window.c:1081
+#: gthumb/gth-window.c:1083
 msgid "Reassign"
 msgstr "Переназначить"
 
-#: gthumb/gth-window.c:1099
+#: gthumb/gth-window.c:1101
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5520,7 +5301,7 @@ msgid ""
 msgstr ""
 "Комбинация клавиш «%s» уже назначена действию «%s», и её нельзя изменить."
 
-#: gthumb/gth-window.c:1103
+#: gthumb/gth-window.c:1105
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "Комбинация клавиш «%s» уже назначена, и её нельзя изменить."
@@ -5553,7 +5334,7 @@ msgstr "Отмена"
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: gthumb/gtk-utils.h:40 gthumb/resources/gears-menu.ui:53
+#: gthumb/gtk-utils.h:40 gthumb/resources/gears-menu.ui:57
 msgid "_Help"
 msgstr "_Справка"
 
@@ -5585,21 +5366,192 @@ msgstr "_Отправить"
 msgid "Open in New Window"
 msgstr "Открыть в новом окне"
 
+#: gthumb/resources/folder-menu.ui:17 gthumb/resources/gears-menu.ui:31
+msgid "Sort By…"
+msgstr "Сортировать по…"
+
 #: gthumb/resources/gears-menu.ui:11
 msgid "Open Location…"
 msgstr "Открыть местоположение…"
 
-#: gthumb/resources/gears-menu.ui:31
-msgid "Sort By…"
-msgstr "Сортировать по…"
-
-#: gthumb/resources/gears-menu.ui:57
+#: gthumb/resources/gears-menu.ui:61
 msgid "_About gThumb"
 msgstr "_О приложении"
 
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Удалить историю"
+
+#~ msgid "More extensions…"
+#~ msgstr "Дополнительные расширения…"
+
+#~ msgid "23"
+#~ msgstr "23"
+
+#~ msgid "Upload images to 23hq.com"
+#~ msgstr "Загрузить изображения на 23hq.com"
+
+#~ msgid "Flicker"
+#~ msgstr "Flickr"
+
+#~ msgid "Upload images to Flickr"
+#~ msgstr "Отправить изображения на Flickr"
+
+#~ msgid "Public photos"
+#~ msgstr "Общедоступные фотографии"
+
+#~ msgid "Private photos, visible to family and friends"
+#~ msgstr "Личные фотографии, доступные для членов семьи и друзьям"
+
+#~ msgid "Private photos, visible to friends"
+#~ msgstr "Личные фотографии, доступные друзьям"
+
+#~ msgid "Private photos, visible to family"
+#~ msgstr "Личные фотографии, доступные для членов семьи"
+
+#~ msgid "Private photos"
+#~ msgstr "Личные фотографии"
+
+#~ msgid "Safe content"
+#~ msgstr "Безопасное содержимое"
+
+#~ msgid "Moderate content"
+#~ msgstr "Модерировать содержимое"
+
+#~ msgid "Restricted content"
+#~ msgstr "Содержимое с ограниченным доступом"
+
+#~ msgid "_Account:"
+#~ msgstr "_Учётная запись:"
+
+#~ msgid "Edit accounts"
+#~ msgstr "_Изменить учётные записи"
+
+#~ msgid "Free space:"
+#~ msgstr "Доступно:"
+
+#~ msgid "Ph_otoset:"
+#~ msgstr "_Набор снимков:"
+
+#~ msgid "_Privacy:"
+#~ msgstr "_Личное:"
+
+#~ msgid "_Safety:"
+#~ msgstr "_Безопасное:"
+
+#~ msgid "Hi_de from public searches"
+#~ msgstr "_Сделать невидимым для поиска"
+
+#~ msgid "A_ccount:"
+#~ msgstr "_Учётная запись:"
+
+#~ msgid "Could not connect to the server"
+#~ msgstr "Не удалось соединиться с сервером"
+
+#~ msgid "Files successfully uploaded to the server."
+#~ msgstr "Файлы успешно загружены на сервер."
+
+#~ msgid "Could not create the album"
+#~ msgstr "Не удалось создать альбом"
+
+#~ msgid "Could not upload the files"
+#~ msgstr "Не удалось отправить файлы"
+
+#~ msgid "Could not export the files"
+#~ msgstr "Не удалось экспортировать файлы"
+
+#, c-format
+#~ msgid "Export to %s"
+#~ msgstr "Экспортировать в %s"
+
+#~ msgid "Could not get the photo list"
+#~ msgstr "Не удалось получить список фотографий"
+
+#~ msgid "No album selected"
+#~ msgstr "Не выбран альбом"
+
+#, c-format
+#~ msgid "Import from %s"
+#~ msgstr "Импортировать из %s"
+
+#~ msgid "Unknown error"
+#~ msgstr "Неизвестная ошибка"
+
+#, c-format
+#~ msgid ""
+#~ "Return to this window when you have finished the authorization process on "
+#~ "%s"
+#~ msgstr "Вернуться к этому окну, когда завершится процесс авторизации для %s"
+
+#~ msgid "Once you’re done, click the “Continue” button below."
+#~ msgstr "По завершении нажмите кнопку «Продолжить»."
+
+#~ msgid "C_ontinue"
+#~ msgstr "Пр_одолжить"
+
+#~ msgid "_Authorize…"
+#~ msgstr "_Авторизация…"
+
+#, c-format
+#~ msgid "gThumb requires your authorization to upload the photos to %s"
+#~ msgstr "gThumb требует вашей авторизации для загрузки фотографий в %s"
+
+#, c-format
+#~ msgid ""
+#~ "Click “Authorize” to open your web browser and authorize gthumb to upload "
+#~ "photos to %s. When you’re finished, return to this window to complete the "
+#~ "authorization."
+#~ msgstr ""
+#~ "Нажмите кнопку «Авторизация...», чтобы открыть веб-браузер и авторизовать "
+#~ "gthumb для отправки фотографий в %s. По завершении вернитесь к этому "
+#~ "окну, чтобы завершить авторизацию."
+
+#~ msgid "Getting the album list"
+#~ msgstr "Получение списка альбомов"
+
+#~ msgid "Creating the new album"
+#~ msgstr "Создание нового альбома"
+
+#, c-format
+#~ msgid "Could not upload “%s”: %s"
+#~ msgstr "Не удалось отправить «%s»: %s"
+
+#, c-format
+#~ msgid "Uploading “%s”"
+#~ msgstr "Отправка «%s»"
+
+#~ msgid "Uploading the files to the server"
+#~ msgstr "Отправка файлов на сервер"
+
+#~ msgid "Getting the photo list"
+#~ msgstr "Получение списка фотографий"
+
+#~ msgid "A_ccounts:"
+#~ msgstr "_Учётные записи:"
+
+#~ msgid "New authentication…"
+#~ msgstr "Новая аутентификация…"
+
+#~ msgid "Authorization Required"
+#~ msgstr "Требуется авторизация"
+
+#~ msgid "Choose _Account…"
+#~ msgstr "Выбрать учётную запись…"
+
+#~ msgid "Choose Account"
+#~ msgstr "Выбрать учётную запись"
+
+#~ msgid "Edit Accounts"
+#~ msgstr "Изменить учётные записи"
+
+#~ msgid "Connecting to the server"
+#~ msgstr "Соединение с сервером"
+
+#~ msgid "Asking authorization"
+#~ msgstr "Запрос авторизации"
+
+#~ msgid "Getting account information"
+#~ msgstr "Получение сведений об учётной записи"
 
 #~ msgid "48"
 #~ msgstr "48"
