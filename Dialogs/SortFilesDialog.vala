@@ -4,15 +4,10 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 		window = _window;
 		transient_for = window;
 
-		if (window.folder_tree.current_folder != null) {
-			sort_name = window.folder_tree.current_folder.info.get_attribute_string ("sort::name");
-			inverse_order = window.folder_tree.current_folder.info.get_attribute_boolean ("sort::inverse");
-		}
-
-		if (sort_name == null) {
-			sort_name = window.sort_name;
-			inverse_order = window.inverse_order;
-		}
+		sort = {
+			window.folder_tree.current_folder.get_sort_name (window.sort.name),
+			window.folder_tree.current_folder.get_inverse_order (window.sort.inverse)
+		};
 
 		Gtk.CheckButton first_check_button = null;
 		foreach (unowned var id in app.ordered_sorters) {
@@ -20,7 +15,7 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 			var row = new Adw.ActionRow ();
 			row.title = info.display_name;
 			var check_button = new Gtk.CheckButton ();
-			if (id == sort_name) {
+			if (id == sort.name) {
 				check_button.active = true;
 			}
 			if (first_check_button == null) {
@@ -30,8 +25,8 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 				check_button.group = first_check_button;
 			}
 			check_button.toggled.connect (() => {
-				sort_name = id;
-				window.update_sort_order (sort_name, inverse_order);
+				sort.name = id;
+				window.update_sort_order (sort.name, sort.inverse);
 			});
 			row.add_prefix (check_button);
 			row.activatable_widget = check_button;
@@ -39,16 +34,15 @@ public class Gth.SortFilesDialog : Adw.ApplicationWindow {
 			rule_types.add (row);
 		}
 
-		inverse_order_switch.active = inverse_order;
+		inverse_order_switch.active = sort.inverse;
 		inverse_order_switch.notify["active"].connect (() => {
-			inverse_order = inverse_order_switch.active;
-			window.update_sort_order (sort_name, inverse_order);
+			sort.inverse = inverse_order_switch.active;
+			window.update_sort_order (sort.name, sort.inverse);
 		});
 	}
 
 	weak Gth.Window window;
-	string sort_name;
-	bool inverse_order;
+	Gth.Sort sort;
 
 	[GtkChild] unowned Adw.PreferencesGroup rule_types;
 	[GtkChild] unowned Adw.SwitchRow inverse_order_switch;

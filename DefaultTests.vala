@@ -217,10 +217,22 @@ public class Gth.TestTagEmbedded : Gth.Test {
 	}
 }
 
-public class Gth.TestAspectRatio : Gth.Test {
+public class Gth.TestFrameAspectRatio : Gth.TestAspectRatio {
 	construct {
 		id = "frame::aspect-ratio";
 		display_name = _("Aspect Ratio");
 		attributes = "frame::width, frame::height";
+	}
+
+	public override float get_file_value (FileData file) {
+		var value = 0.0f;
+		if (file.info.has_attribute ("frame::width")
+			&& file.info.has_attribute ("frame::height"))
+		{
+			var width = file.info.get_attribute_int32 ("frame::width");
+			var height = file.info.get_attribute_int32 ("frame::height");
+			value = (float) width / height;
+		}
+		return value;
 	}
 }

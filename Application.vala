@@ -51,7 +51,7 @@ public class Gth.Application : Adw.Application {
 		register_test (typeof (Gth.TestDescriptionEmbedded));
 		register_test (typeof (Gth.TestTagEmbedded));
 		register_test (typeof (Gth.TestRating));
-		register_test (typeof (Gth.TestAspectRatio));
+		register_test (typeof (Gth.TestFrameAspectRatio));
 		register_test (typeof (Gth.TestVisible));
 
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);

@@ -160,6 +160,12 @@ public class Gth.Files {
 		stream.write_all (content.data, null, cancellable);
 		stream.close (cancellable);
 	}
+
+	public static async void save_file_async (File file, Bytes bytes, Cancellable? cancellable = null) throws Error {
+		var stream = yield file.replace_async (null, false, FileCreateFlags.NONE, Priority.DEFAULT, cancellable);
+		yield stream.write_bytes_async (bytes, Priority.DEFAULT, cancellable);
+		yield stream.close_async (Priority.DEFAULT, cancellable);
+	}
 }
 
 public enum Gth.FileIntent {

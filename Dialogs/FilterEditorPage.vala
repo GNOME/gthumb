@@ -63,8 +63,8 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			size_limit.value = 1;
 			size_unit.selected = 1;
 		}
-		sort_name.selected = SortInfo.index_of (Sort_Name, filter.sort_name);
-		sort_type.selected = filter.inverse_order ? 1 : 0;
+		sort_name.selected = SortInfo.index_of (Sort_Name, filter.sort.name);
+		sort_type.selected = filter.sort.inverse ? 1 : 0;
 	}
 
 	public Filter? get_filter () throws Error {
@@ -87,12 +87,14 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 			else if (filter.limit_type == Gth.Filter.LimitType.BYTES) {
 				filter.limit = ((int64) size_limit.value) * Test.Unit_List[size_unit.selected].size;
 			}
-			filter.sort_name = Sort_Name[sort_name.selected].id;
-			filter.inverse_order = (Sort_Type[sort_type.selected] == Gtk.SortType.DESCENDING);
+			filter.sort = {
+				Sort_Name[sort_name.selected].id,
+				Sort_Type[sort_type.selected] == Gtk.SortType.DESCENDING
+			};
 		}
 		else {
 			filter.limit = 0;
-			filter.sort_name = "";
+			filter.sort = { null, false };
 		}
 
 		return filter;

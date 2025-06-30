@@ -211,6 +211,26 @@
                         <property name="orientation">horizontal</property>
                         <property name="spacing">6</property>
                         <child>
+                          <object class="GtkButton" id="update_search_button">
+                            <property name="icon-name">view-refresh-symbolic</property>
+                            <property name="action-name">win.update-search</property>
+                            <property name="tooltip-text" translatable="true">Search Again</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="edit_catalog_button">
+                            <property name="icon-name">document-properties-symbolic</property>
+                            <property name="action-name">win.edit-catalog</property>
+                            <property name="tooltip-text" translatable="true">Catalog Properties</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkToggleButton" id="show_second_sidebar_button">
                             <property name="icon-name">info-outline-symbolic</property>
                             <property name="action-name">win.show-second-sidebar</property>

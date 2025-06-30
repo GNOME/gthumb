@@ -91,6 +91,15 @@ public class Dom.Element : InitiallyUnowned {
 		return double.try_parse (value, out result, null);
 	}
 
+	public bool get_attribute_as_float (string name, out float result) {
+		var value = get_attribute (name);
+		if (value == null) {
+			result = 0;
+			return false;
+		}
+		return float.try_parse (value, out result, null);
+	}
+
 	public bool has_attribute (string name) {
 		return attributes.contains (name);
 	}

@@ -24,7 +24,8 @@
     <file preprocess="xml-stripblanks">user-home-symbolic.svg</file>
     <file preprocess="xml-stripblanks">map-marker-symbolic.svg</file>
     <file preprocess="xml-stripblanks">content-loading-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">thumbnail-error-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">document-properties-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">view-refresh-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -56,5 +57,7 @@
     <file preprocess="xml-stripblanks">search-source-row.ui</file>
     <file preprocess="xml-stripblanks">folder-selector-dialog.ui</file>
     <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
+    <file preprocess="xml-stripblanks">search-source-editor-group.ui</file>
+    <file preprocess="xml-stripblanks">catalog-dialog.ui</file>
   </gresource>
 </gresources>

@@ -410,4 +410,43 @@ public class Gth.Util {
 		}
 		return icon;
 	}
+
+	public static string clear_for_filename (string name) {
+		return name.replace ("/", "_");
+	}
+
+	public static int get_extension_start (string? filename, int bytes = -1) {
+		if (filename == null)
+			return -1;
+		if (bytes < 0)
+			bytes = filename.data.length;
+		int byte_offset = bytes;
+		int next_byte_offset = byte_offset;
+		unichar ch;
+		while (filename.get_prev_char (ref byte_offset, out ch)) {
+			if (ch == '.') {
+				if (byte_offset <= 0)
+					return -1;
+				// .tar.gz
+				//      ^
+				if (Strings.ends_with (filename, ".tar", 4, byte_offset))
+					next_byte_offset -= 4; // 4 = ".tar".length
+				return next_byte_offset;
+			}
+			next_byte_offset = byte_offset;
+		}
+		return -1;
+	}
+
+	public static string? get_extension (string? filename) {
+		if (filename == null)
+			return null;
+		var bytes = filename.data.length;
+		if (bytes == 0)
+			return null;
+		var start = get_extension_start (filename, bytes);
+		if (start < 0)
+			return null;
+		return filename.slice (start, bytes).down ();
+	}
 }

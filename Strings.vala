@@ -69,6 +69,26 @@ public class Gth.Strings {
 		return false;
 	}
 
+	public static bool ends_with (string str, string trail, int trail_offset = -1, int str_offset = -1) {
+		if (trail_offset == -1)
+			trail_offset = trail.data.length;
+		if (str_offset == -1)
+			str_offset = str.data.length;
+		if ((str_offset == 0) && (trail_offset == 0))
+			return true;
+		var str_size = str_offset;
+		var trail_size = trail_offset;
+		unichar str_ch = 0;
+		unichar trail_ch = 0;
+		while (trail.get_prev_char (ref trail_offset, out trail_ch)
+			&& str.get_prev_char (ref str_offset, out str_ch))
+		{
+			if (str_ch != trail_ch)
+				return false;
+		}
+		return (str_offset >= 0) && (trail_offset == -1);
+	}
+
 	public static unowned string unowned_substring (string str, int offset) {
 		return (string) str.data[offset:-1];
 	}

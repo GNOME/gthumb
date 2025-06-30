@@ -17,8 +17,7 @@ public class Gth.Filter : Gth.Test {
 
 	public LimitType limit_type;
 	public int64 limit;
-	public string sort_name;
-	public bool inverse_order;
+	public Gth.Sort sort;
 	public Gth.TestExpr tests {
 		set {
 			_tests = value;
@@ -34,8 +33,7 @@ public class Gth.Filter : Gth.Test {
 		_tests = new TestExpr ();
 		limit_type = LimitType.NONE;
 		limit = 0;
-		sort_name = null;
-		inverse_order = false;
+		sort = { null, false };
 	}
 
 	public override TestIterator iterator (GenericList<FileData> files) {
@@ -60,8 +58,8 @@ public class Gth.Filter : Gth.Test {
 			var limit_node = new Dom.Element ("limit");
 			limit_node.set_attribute ("type", limit_type.to_xml_attribute ());
 			limit_node.set_attribute ("value", limit.to_string ());
-			limit_node.set_attribute ("selected_by", sort_name);
-			limit_node.set_attribute ("direction", inverse_order ? "descending" : "ascending");
+			limit_node.set_attribute ("selected_by", sort.name);
+			limit_node.set_attribute ("direction", sort.inverse ? "descending" : "ascending");
 			node.append_child (limit_node);
 		}
 		return node;
@@ -81,8 +79,10 @@ public class Gth.Filter : Gth.Test {
 			case "limit":
 				limit_type = LimitType.from_xml_attribute (child.get_attribute ("type"));
 				child.get_attribute_as_int64 ("value", out limit);
-				sort_name = child.get_attribute ("selected_by");
-				inverse_order = (child.get_attribute ("direction") == "descending");
+				sort = {
+					child.get_attribute ("selected_by"),
+					child.get_attribute ("direction") == "descending"
+				};
 				break;
 			}
 		}
@@ -197,11 +197,11 @@ public class Gth.FilterIterator : Gth.TestIterator {
 		tot_files = 0;
 		tot_bytes = 0;
 		if (filter.limit_type != Filter.LimitType.NONE) {
-			unowned var sort_info = app.get_sorter_by_id (filter.sort_name);
+			unowned var sort_info = app.get_sorter_by_id (filter.sort.name);
 			if ((sort_info != null) && (sort_info.cmp_func != null)) {
 				files.model.sort ((a, b) => {
 					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (filter.inverse_order)
+					if (filter.sort.inverse)
 						result *= -1;
 					return result;
 				});

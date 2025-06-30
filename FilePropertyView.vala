@@ -74,7 +74,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 							AppInfo.launch_default_for_uri (uri, null);
 						}
 						catch (Error error) {
-							win.show_message (error.message);
+							win.show_error (error);
 						}
 					}
 				}

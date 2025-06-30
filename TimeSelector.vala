@@ -7,11 +7,11 @@ public class Gth.TimeSelector : Gtk.Box {
 	public signal void changed ();
 	public Gth.Date selected_date;
 	public Gth.Time selected_time;
+	public Mode mode { get; construct set; default = Mode.WITHOUT_TIME; }
 
-	public TimeSelector (Mode _mode) {
+	construct {
 		orientation = Gtk.Orientation.HORIZONTAL;
 		spacing = HORIZONTAL_SPACING;
-		mode = _mode;
 		selected_date = Gth.Date ();
 		selected_time = Gth.Time ();
 
@@ -52,6 +52,10 @@ public class Gth.TimeSelector : Gtk.Box {
 		}
 	}
 
+	public TimeSelector (Mode _mode) {
+		Object (mode: _mode);
+	}
+
 	public void set_time (Gth.DateTime? datetime) {
 		if (datetime != null) {
 			selected_date = datetime.date;
@@ -68,7 +72,7 @@ public class Gth.TimeSelector : Gtk.Box {
 		changed ();
 	}
 
-	public Gth.DateTime? get_time () {
+	public Gth.DateTime get_time () {
 		var datetime = new Gth.DateTime ();
 		datetime.date = selected_date;
 		datetime.time = selected_time;
@@ -88,5 +92,4 @@ public class Gth.TimeSelector : Gtk.Box {
 	Gtk.Entry time_entry;
 	Gtk.Popover calendar_popup;
 	Gtk.Calendar calendar;
-	Mode mode;
 }

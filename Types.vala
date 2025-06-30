@@ -73,3 +73,8 @@ public enum Gth.SidebarState {
 	CATALOGS,
 	PROPERTIES
 }
+
+public struct Gth.Sort {
+	string name;
+	bool inverse;
+}

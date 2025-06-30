@@ -2,8 +2,8 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthSearchDialog" parent="AdwApplicationWindow">
-    <property name="title" translatable="yes" context="Noun">Search</property>
+  <template class="GthCatalogDialog" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">Catalog</property>
     <property name="default_width">700</property>
     <property name="resizable">false</property>
     <property name="modal">true</property>
@@ -21,8 +21,8 @@
             </child>
             <child type="end">
               <object class="GtkButton">
-                <property name="label" translatable="yes" context="Verb">Search</property>
-                <signal name="clicked" handler="on_search" />
+                <property name="label">Save</property>
+                <signal name="clicked" handler="on_save" />
                 <style>
                   <class name="suggested-action"/>
                 </style>
@@ -32,6 +32,26 @@
         </child>
         <property name="content">
           <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="separate-rows">true</property>
+                <child>
+                  <object class="AdwEntryRow" id="name_row">
+                    <property name="title" translatable="yes">Name</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Date</property>
+                    <child type="suffix">
+                      <object class="GthTimeSelector" id="time_selector">
+                        <property name="valign" translatable="yes">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
             <child>
               <object class="GthSearchSourceEditorGroup" id="sources_group">
               </object>

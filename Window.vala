@@ -1,8 +1,7 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/window.ui")]
 public class Gth.Window : Adw.ApplicationWindow {
 	public GenericList<FileData> visible_files = null;
-	public string sort_name = null;
-	public bool inverse_order = false;
+	public Gth.Sort sort = { null, false };
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
 	public SidebarState sidebar_state = SidebarState.NONE;
@@ -78,15 +77,19 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Browser settings.
-		sort_name = app.browser_settings.get_string (PREF_BROWSER_SORT_TYPE);
-		inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_SORT_INVERSE);
+		sort = {
+			app.browser_settings.get_string (PREF_BROWSER_SORT_TYPE),
+			app.browser_settings.get_boolean (PREF_BROWSER_SORT_INVERSE)
+		};
 		general_filter = app.get_general_filter ();
 		active_filter = app.get_last_active_filter ();
 		fast_file_type = app.browser_settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
 		show_hidden_files = app.browser_settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
 		thumbnail_size = app.browser_settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
-		folder_tree.sort_name = app.browser_settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE);
-		folder_tree.inverse_order = app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE);
+		folder_tree.sort = {
+			app.browser_settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE),
+			app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE)
+		};
 		folder_tree.show_hidden = show_hidden_files;
 
 		set_page (Page.BROWSER);
@@ -114,6 +117,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_thumbnail_list ();
 		update_title ();
 		update_load_sensitivity ();
+		update_location_commands ();
 		if (folder_tree.current_folder.file.has_uri_scheme ("catalog")) {
 			last_catalog = folder_tree.current_folder.file;
 		}
@@ -132,6 +136,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public void show_message (string message) {
 		browser_toast_overlay.add_toast (new Adw.Toast (message));
+	}
+
+	public void show_error (Error error) {
+		if (error is IOError.CANCELLED)
+			return;
+		show_message (error.message);
 	}
 
 	public void copy_text (string text) {
@@ -153,7 +163,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 			}
 			catch (Error error) {
-				show_message (error.message);
+				show_error (error);
 			}
 		});
 	}
@@ -171,9 +181,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		open_location (home);
 	}
 
-	public void update_sort_order (string _sort_name, bool _inverse_order) {
-		sort_name = _sort_name;
-		inverse_order = _inverse_order;
+	public void update_sort_order (string name, bool inverse) {
+		sort = { name, inverse };
 		update_thumbnail_list ();
 	}
 
@@ -270,6 +279,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 		enable_action ("load-parent", parent != null);
 	}
 
+	void update_location_commands () {
+		var is_catalog = false;
+		var is_search = false;
+		if (folder_tree.current_folder.file.has_uri_scheme ("catalog")) {
+			var uri = folder_tree.current_folder.file.get_uri ();
+			is_catalog = uri.has_suffix (".catalog");
+			is_search = uri.has_suffix (".search");
+		}
+		edit_catalog_button.visible = is_catalog || is_search;
+		update_search_button.visible = is_search;
+	}
+
 	void enable_action (string name, bool enabled) {
 		var action = action_group.lookup_action (name) as SimpleAction;
 		if (action != null) {
@@ -306,8 +327,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Attributes required for sorting.
-		if (sort_name != null) {
-			var sort_info = app.get_sorter_by_id (sort_name);
+		if (sort.name != null) {
+			var sort_info = app.get_sorter_by_id (sort.name);
 			if (sort_info != null) {
 				if (!Strings.empty (sort_info.required_attributes)) {
 					attributes.append (",");
@@ -363,15 +384,19 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Sort the files.
-		if ((sort_name != filter.sort_name) || (inverse_order != filter.inverse_order)) {
-			unowned var sort_info = app.get_sorter_by_id (sort_name);
+		Gth.Sort local_sort = {
+			folder_tree.current_folder.get_sort_name (sort.name),
+			folder_tree.current_folder.get_inverse_order (sort.inverse)
+		};
+		if ((local_sort.name != filter.sort.name) || (local_sort.inverse != filter.sort.inverse)) {
+			unowned var sort_info = app.get_sorter_by_id (local_sort.name);
 			if (sort_info == null) {
 				sort_info = app.get_sorter_by_id ("file::name");
 			}
 			if (sort_info.cmp_func != null) {
 				visible_children.model.sort ((a, b) => {
 					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (inverse_order)
+					if (local_sort.inverse)
 						result *= -1;
 					return result;
 				});
@@ -503,14 +528,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-sort-name", GLib.VariantType.STRING, new Variant.string (sort_name ?? ""));
+		action = new SimpleAction.stateful ("set-sort-name", GLib.VariantType.STRING, new Variant.string (sort.name ?? ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-inverse-order", GLib.VariantType.BOOLEAN, new Variant.boolean (inverse_order));
+		action = new SimpleAction.stateful ("set-inverse-order", GLib.VariantType.BOOLEAN, new Variant.boolean (sort.inverse));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
@@ -650,6 +675,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 			dialog.focus_first_rule ();
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-catalog", null);
+		action.activate.connect ((_action, param) => {
+			edit_catalog.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("update-search", null);
+		action.activate.connect ((_action, param) => {
+			// TODO
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {
@@ -752,6 +789,24 @@ public class Gth.Window : Adw.ApplicationWindow {
 		thumbnailer.queue_load_next ();
 	}
 
+	async void edit_catalog () {
+		var local_job = new_job ("Edit catalog %s".printf (folder_tree.current_folder.file.get_uri ()));
+		try {
+			var editor = new Gth.CatalogEditor ();
+			var catalog = yield editor.edit_catalog (this, folder_tree.current_folder.file, local_job.cancellable);
+			yield catalog.save_async (local_job.cancellable);
+			// TODO: update the current folder info
+			// TODO: monitor metadata changed
+			// TODO: start searching if the search parameters changed
+			// catalog.update_file_info (folder_tree.current_folder.info);
+			local_job.done ();
+		}
+		catch (Error error) {
+			local_job.done ();
+			show_error (error);
+		}
+	}
+
 	unowned Gth.SidebarResizer active_resizer;
 
 	[GtkChild] unowned Adw.OverlaySplitView browser_view;
@@ -776,6 +831,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.MenuButton location_button;
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] unowned Gth.SidebarResizer second_sidebar_resizer;
+	[GtkChild] unowned Gtk.Button edit_catalog_button;
+	[GtkChild] unowned Gtk.Button update_search_button;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;

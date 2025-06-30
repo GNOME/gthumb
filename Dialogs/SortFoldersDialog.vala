@@ -4,8 +4,8 @@ public class Gth.SortFoldersDialog : Adw.ApplicationWindow {
 		window = _window;
 		transient_for = window;
 
-		sort_name = window.folder_tree.sort_name;
-		inverse_order = window.folder_tree.inverse_order;
+		sort_name = window.folder_tree.sort.name;
+		inverse_order = window.folder_tree.sort.inverse;
 
 		Gtk.CheckButton first_check_button = null;
 		var idx = 0;

@@ -15,8 +15,7 @@ public class Gth.FolderTree : Gtk.Box {
 			reload ();
 		}
 	}
-	public string sort_name;
-	public bool inverse_order;
+	public Gth.Sort sort;
 	public string list_attributes;
 	public bool single_root { get; construct set; default = false; }
 
@@ -39,8 +38,7 @@ public class Gth.FolderTree : Gtk.Box {
 		current_children = null;
 		roots = new GenericList<FileData>();
 		show_hidden = false;
-		sort_name = null;
-		inverse_order = false;
+		sort = { null, false };
 		list_attributes = FOLDER_ATTRIBUTES;
 		load_job = null;
 		current_parents = new Queue<File>();
@@ -209,9 +207,12 @@ public class Gth.FolderTree : Gtk.Box {
 				}
 			}
 
-			// Load the requested location.
+			// Read the requested location metadata.
 			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
-			var children = yield source.list_children (location, list_attributes, local_job.cancellable);
+
+			// List the location children.
+			var all_attributes = Util.concat_attributes (list_attributes, file_data.get_sort_attributes ());
+			var children = yield source.list_children (location, all_attributes, local_job.cancellable);
 
 			if (load_action.changes_current_folder ()) {
 				var parent = location;
@@ -298,10 +299,9 @@ public class Gth.FolderTree : Gtk.Box {
 		return (load_job != null) && load_job.is_running ();
 	}
 
-	public void set_sort_order (string _sort_name, bool _inverse_order) {
-		sort_name = _sort_name;
-		inverse_order = _inverse_order;
-		unowned var sort_info = app.get_folder_sorter_by_id (sort_name);
+	public void set_sort_order (string name, bool inverse) {
+		sort = { name, inverse };
+		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
 		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
 		while (iter.next ()) {
 			var row = iter.get ();
@@ -310,7 +310,7 @@ public class Gth.FolderTree : Gtk.Box {
 				var file_model = file_data.get_children_model ();
 				file_model.model.sort ((a, b) => {
 					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (inverse_order)
+					if (sort.inverse)
 						result *= -1;
 					return result;
 				});
@@ -421,10 +421,10 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		// Sort the folders
-		unowned var sort_info = app.get_folder_sorter_by_id (sort_name);
+		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
 		folders.model.sort ((a, b) => {
 			var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-			if (inverse_order)
+			if (sort.inverse)
 				result *= -1;
 			return result;
 		});

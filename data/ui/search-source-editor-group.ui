@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adwaita" version="1.7.0"/>
+  <template class="GthSearchSourceEditorGroup" parent="AdwPreferencesGroup">
+    <property name="title" translatable="yes">Folders</property>
+    <property name="header-suffix">
+      <object class="GtkButton">
+        <style>
+          <class name="flat"/>
+        </style>
+        <child>
+          <object class="AdwButtonContent">
+            <property name="icon-name">list-add-symbolic</property>
+            <property name="label" translatable="yes">_Add</property>
+            <property name="use-underline">true</property>
+          </object>
+        </child>
+        <signal name="clicked" handler="on_add_source" />
+      </object>
+    </property>
+    <child>
+      <object class="GtkListBox" id="source_list">
+        <property name="selection-mode">none</property>
+        <style>
+          <class name="boxed-list"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

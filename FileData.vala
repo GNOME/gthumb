@@ -266,4 +266,33 @@ public class Gth.FileData : Object {
 		}
 		return Util.get_themed_icon (icon_name) as Icon;
 	}
+
+	public unowned string? get_sort_name (string? default_value) {
+		if (!info.has_attribute ("sort::type")) {
+			return default_value;
+		}
+		return info.get_attribute_string ("sort::type");
+	}
+
+	public bool get_inverse_order (bool default_value) {
+		if (!info.has_attribute ("sort::inverse")) {
+			return default_value;
+		}
+		return info.get_attribute_boolean ("sort::inverse");
+	}
+
+	public unowned string? get_sort_attributes () {
+		if (info.has_attribute ("sort::type")) {
+			var sort_name = info.get_attribute_string ("sort::type");
+			if (sort_name != null) {
+				var sort_info = app.get_sorter_by_id (sort_name);
+				if (sort_info != null) {
+					if (!Strings.empty (sort_info.required_attributes)) {
+						return sort_info.required_attributes;
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

@@ -1,4 +1,5 @@
 public class Gth.Catalog {
+	public File? file;
 	public string name;
 	public string sort_type;
 	public bool inverse_order;
@@ -6,6 +7,7 @@ public class Gth.Catalog {
 	public GenericArray<File> files;
 
 	public Catalog () {
+		file = null;
 		files = new GenericArray<File>();
 		sort_type = null;
 		inverse_order = false;
@@ -107,6 +109,33 @@ public class Gth.Catalog {
 		}
 	}
 
+	public virtual string to_xml () {
+		var doc = new Dom.Document ();
+		var root = new Dom.Element.with_attributes ("catalog", "version", CATALOG_FORMAT);
+		doc.append_child (root);
+		save_catalog_to_doc (root);
+		return doc.to_xml ();
+	}
+
+	public void save_catalog_to_doc (Dom.Element root) {
+		// Name
+		if (name != null) {
+			root.append_child (new Dom.Element.with_text ("name", name));
+		}
+
+		// Date
+		if (date.date_is_valid ()) {
+			root.append_child (new Dom.Element.with_text ("date", date.to_exif_date ()));
+		}
+
+		// Files
+		var files_node = new Dom.Element ("files");
+		root.append_child (files_node);
+		foreach (unowned var file in files) {
+			files_node.append_child (new Dom.Element.with_attributes ("file", "uri", file.get_uri ()));
+		}
+	}
+
 	public virtual void update_file_info (File file, FileInfo info) {
 		info.set_file_type (FileType.DIRECTORY);
 		info.set_content_type ("gthumb/catalog");
@@ -114,6 +143,7 @@ public class Gth.Catalog {
 		info.set_sort_order (1);
 		info.set_attribute_boolean ("gthumb::no-child", true);
 
+		// Display name
 		var display_name = new StringBuilder ();
 		if (name != null) {
 			display_name.append (name);
@@ -136,8 +166,28 @@ public class Gth.Catalog {
 			}
 		}
 		info.set_display_name (display_name.str);
-		info.set_edit_name (display_name.str);
 
+		// Edit name
+		if (name != null) {
+			info.set_edit_name (name);
+		}
+		else if (file != null) {
+			var basename = file.get_basename ();
+			var edit_name = Filename.to_utf8 (basename, -1, null, null);
+			info.set_edit_name (edit_name);
+		}
+
+		// Sort order
+		if (sort_type != null) {
+			info.set_attribute_string ("sort::type", sort_type);
+			info.set_attribute_boolean ("sort::inverse", inverse_order);
+		}
+		else {
+			info.remove_attribute ("sort::type");
+			info.remove_attribute ("sort::inverse");
+		}
+
+		// Secondary sort order (date)
 		var sort_order = date.date.to_sort_order ();
 		if (sort_order != 0) {
 			info.set_attribute_uint32 ("gth::standard::secondary-sort-order", sort_order);
@@ -146,4 +196,29 @@ public class Gth.Catalog {
 			info.remove_attribute ("gth::standard::secondary-sort-order");
 		}
 	}
+
+	public async void save_async (Cancellable cancellable) throws Error {
+		var original_file = file;
+
+		// Update file
+		var parent = file.get_parent ();
+		var extension = Util.get_extension (file.get_basename ());
+		var filename = "TEST-" + Util.clear_for_filename (name) + "." + extension;
+		file = parent.get_child_for_display_name (filename);
+
+		// Save
+		var gio_file = Catalog.to_gio_file (file);
+		var buffer = to_xml ();
+		var bytes = new Bytes.static (buffer.data);
+		yield Files.save_file_async (gio_file, bytes, cancellable);
+
+		// Delete the original file if different
+		//if (!file.equal (original_file)) {
+		//	var original_gio_file = Catalog.to_gio_file (original_file);
+		//	yield original_gio_file.delete_async (Priority.DEFAULT, cancellable);
+		//	// TODO: monitor rename original_file -> catalog.file
+		//}
+	}
+
+	const string CATALOG_FORMAT = "1.0";
 }
