@@ -43,7 +43,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		var test = general_filter_row.model.get_item (general_filter_row.selected) as Gth.Test;
 		if (test != null) {
 			app.browser_settings.set_string (PREF_BROWSER_GENERAL_FILTER, test.id);
-			activate_action_variant ("set-general-filter", new Variant.string (test.id));
+			activate_action_variant ("win.set-general-filter", new Variant.string (test.id));
 		}
 	}
 

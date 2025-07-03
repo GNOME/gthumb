@@ -68,6 +68,18 @@ public class Gth.FilterBar : Gtk.Box {
 		return set_selected (test_idx);
 	}
 
+	public void general_filter_changed () {
+		var state = action_group.get_action_state ("set-filter");
+		if (state != null) {
+			var general_filter_active = state.get_string () == "";
+			update_filter_list (null);
+			if (general_filter_active) {
+				select_filter_by_id ("");
+				changed ();
+			}
+		}
+	}
+
 	public void set_active_filter (Gth.Test? filter) {
 		update_filter_list (null);
 		Gth.Test test = null;

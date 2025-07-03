@@ -522,7 +522,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string ((general_filter != null) ? general_filter.id : ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
-			// TODO
+			filter_bar.general_filter_changed ();
 		});
 		action_group.add_action (action);
 

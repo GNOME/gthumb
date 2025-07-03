@@ -435,7 +435,7 @@ public class Gth.Application : Adw.Application {
 				doc.load_file (file);
 				if (doc.first_child != null) {
 					var id = doc.first_child.get_attribute ("id");
-					if (id != null) {
+					if (!Strings.empty (id)) {
 						var test = get_test_by_id (id);
 						if (test != null) {
 							filter = test.duplicate ();
