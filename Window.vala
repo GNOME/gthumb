@@ -12,6 +12,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	File last_folder = null;
 	File last_catalog = null;
 	GenericArray<Gtk.ListItem> binded_grid_items;
+	bool closing = false;
 
 	public enum Page {
 		NONE = 0,
@@ -24,6 +25,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		named_dialogs = new HashTable<string, Gtk.Window?>(str_hash, str_equal);
 		jobs = new Gth.JobQueue ();
+		jobs.size_changed.connect (() => {
+			if (closing && (jobs.size () == 0)) {
+				before_closing ();
+				close ();
+			}
+		});
 		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer (get_next_file_for_thumbnailer);
 		history = new WindowHistory (this);
@@ -75,6 +82,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (app.browser_settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			maximize ();
 		}
+		browser_view.max_sidebar_width = app.browser_settings.get_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH);
+		browser_content_view.max_sidebar_width = app.browser_settings.get_int (PREF_BROWSER_VIEWER_SIDEBAR);
 
 		// Browser settings.
 		sort = {
@@ -687,6 +696,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 			// TODO
 		});
 		action_group.add_action (action);
+
+		close_request.connect (() => {
+			closing = true;
+			if (jobs.size () > 0) {
+				jobs.cancel_all ();
+				return true;
+			}
+			before_closing ();
+			return false;
+		});
 	}
 
 	void init_folder_tree () {
@@ -804,6 +823,48 @@ public class Gth.Window : Adw.ApplicationWindow {
 		catch (Error error) {
 			local_job.done ();
 			show_error (error);
+		}
+	}
+
+	void before_closing () {
+		save_preferences ();
+	}
+
+	void save_preferences () {
+		var last_window = app.one_window ();
+		if (get_realized ()) {
+			if (!maximized && !fullscreened && get_mapped ()) {
+				int width, height;
+				get_default_size (out width, out height);
+				app.browser_settings.set_int (PREF_BROWSER_WINDOW_WIDTH, width);
+				app.browser_settings.set_int (PREF_BROWSER_WINDOW_HEIGHT, height);
+			}
+
+			app.browser_settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, maximized);
+			app.browser_settings.set_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, (int) browser_view.max_sidebar_width);
+			app.browser_settings.set_int (PREF_BROWSER_VIEWER_SIDEBAR, (int) browser_content_view.max_sidebar_width);
+
+			if (last_window) {
+				if (app.browser_settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
+					&& (folder_tree.current_folder != null))
+				{
+					var uri = folder_tree.current_folder.file.get_uri ();
+					app.browser_settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
+				}
+
+				if (sort.name != null) {
+					app.browser_settings.set_string (PREF_BROWSER_SORT_TYPE, sort.name);
+					app.browser_settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
+				}
+
+				if (folder_tree.sort.name != null) {
+					app.browser_settings.set_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE, folder_tree.sort.name);
+					app.browser_settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
+				}
+
+				app.save_active_filter (filter_bar.filter);
+				history.save_to_file ();
+			}
 		}
 	}
 

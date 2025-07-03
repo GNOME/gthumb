@@ -455,6 +455,24 @@ public class Gth.Application : Adw.Application {
 		return filter;
 	}
 
+	public void save_active_filter (Gth.Test? test) {
+		var file = Gth.UserDir.get_config_file (Gth.FileIntent.WRITE, "active_filter.xml");
+		if (file == null)
+			return;
+
+		var content = "";
+		if (test != null) {
+			var doc = new Dom.Document ();
+			doc.append_child (test.create_element (doc));
+			content = doc.to_xml ();
+		}
+		try {
+			Files.save_content (file, content, null);
+		}
+		catch (Error error) {
+		}
+	}
+
 	public GenericList<Gth.Test> get_visible_filters () {
 		var filters = new GenericList<Gth.Test>();
 
