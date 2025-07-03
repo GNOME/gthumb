@@ -30,6 +30,11 @@ public class Gth.FileData : Object {
 		return file1.file.equal (file2.file);
 	}
 
+	public void set_file (File _file) {
+		file = _file;
+		sort_key = null;
+	}
+
 	string sort_key = null;
 
 	public unowned string get_filename_sort_key () {
@@ -38,6 +43,18 @@ public class Gth.FileData : Object {
 			sort_key = (name != null) ? name.collate_key_for_filename () : "";
 		}
 		return sort_key;
+	}
+
+	public void info_changed () {
+		mtime = null;
+		ctime = null;
+		dtime = null;
+		embedded_otime = null;
+		embedded_title = null;
+		embedded_description = null;
+		embedded_rating = -1;
+		icon_name = null;
+		app.monitor.metadata_changed (this);
 	}
 
 	Gth.DateTime mtime = null;

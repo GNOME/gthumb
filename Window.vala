@@ -82,8 +82,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (app.browser_settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			maximize ();
 		}
-		browser_view.max_sidebar_width = app.browser_settings.get_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH);
-		browser_content_view.max_sidebar_width = app.browser_settings.get_int (PREF_BROWSER_VIEWER_SIDEBAR);
+		browser_view.max_sidebar_width = (double) app.browser_settings.get_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH);
+		//browser_content_view.max_sidebar_width = (double) app.browser_settings.get_int (PREF_BROWSER_VIEWER_SIDEBAR_WIDTH);
 
 		// Browser settings.
 		sort = {
@@ -814,10 +814,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var editor = new Gth.CatalogEditor ();
 			var catalog = yield editor.edit_catalog (this, folder_tree.current_folder.file, local_job.cancellable);
 			yield catalog.save_async (local_job.cancellable);
-			// TODO: update the current folder info
-			// TODO: monitor metadata changed
+
+			// Update the current folder info
+			folder_tree.current_folder.set_file (catalog.file);
+			catalog.update_file_info (folder_tree.current_folder.info);
+			folder_tree.current_folder.info_changed ();
+
 			// TODO: start searching if the search parameters changed
-			// catalog.update_file_info (folder_tree.current_folder.info);
+
 			local_job.done ();
 		}
 		catch (Error error) {
@@ -842,7 +846,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 			app.browser_settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, maximized);
 			app.browser_settings.set_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, (int) browser_view.max_sidebar_width);
-			app.browser_settings.set_int (PREF_BROWSER_VIEWER_SIDEBAR, (int) browser_content_view.max_sidebar_width);
+			//app.browser_settings.set_int (PREF_BROWSER_VIEWER_SIDEBAR, (int) browser_content_view.max_sidebar_width);
 
 			if (last_window) {
 				if (app.browser_settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)

@@ -44,8 +44,7 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 	public async void load_file (File file, Cancellable cancellable) throws Error {
 		var gio_file = Catalog.to_gio_file (file);
 		var data = yield Files.load_contents_async (gio_file, cancellable);
-		var catalog = Catalog.new_from_data (data);
-		catalog.file = file;
+		var catalog = Catalog.new_from_data (file, data);
 		set_catalog (catalog);
 	}
 

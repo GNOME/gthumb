@@ -9,14 +9,15 @@ public class Gth.Application : Adw.Application {
 	public HashTable<string, Gth.LoadFunc> loaders;
 	public HashTable<string, Gth.SaveFunc> savers;
 	public Gth.FilterFile filter_file;
-	public Gth.JobQueue jobs;
 	public bool restart;
 	public bool quitting;
+	public Gth.JobQueue jobs;
 	public ImageLoader image_loader;
 	public ThumbLoader thumb_loader;
 	public ImageSaver image_saver;
 	public ColorManager color_manager;
-	public GenericList<FileData> roots = null;
+	public GenericList<FileData> roots;
+	public Monitor monitor;
 
 	public Application () {
 		Object (
@@ -24,13 +25,20 @@ public class Gth.Application : Adw.Application {
 			register_session: true,
 			flags: ApplicationFlags.HANDLES_COMMAND_LINE
 		);
+
 		restart = false;
 		quitting = false;
-
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
 			foreach_window ((win) => win.status.set_n_jobs (jobs.size ()));
 		});
+		io_factory = new Work.Factory (get_workers (MAX_IO_WORKERS));
+		image_loader = new ImageLoader (io_factory);
+		thumb_loader = new ThumbLoader (io_factory);
+		image_saver = new ImageSaver (io_factory);
+		color_manager = new ColorManager ();
+		roots = new GenericList<FileData>();
+		monitor = new Monitor ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();
@@ -280,13 +288,6 @@ public class Gth.Application : Adw.Application {
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png);
-
-		io_factory = new Work.Factory (get_workers (MAX_IO_WORKERS));
-		image_loader = new ImageLoader (io_factory);
-		thumb_loader = new ThumbLoader (io_factory);
-		image_saver = new ImageSaver (io_factory);
-		color_manager = new ColorManager ();
-		roots = new GenericList<FileData>();
 	}
 
 	public override void startup () {
@@ -424,7 +425,8 @@ public class Gth.Application : Adw.Application {
 
 	public Gth.Test? get_last_active_filter () {
 		if (active_filter_loaded) {
-			// Reset the last filter only in the first window.
+			// Restore the filter only in the first window.
+			// TODO: use the active window filter.
 			return null;
 		}
 		Gth.Test filter = null;

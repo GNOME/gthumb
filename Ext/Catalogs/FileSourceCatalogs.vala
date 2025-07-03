@@ -18,9 +18,9 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		if (uri.has_suffix (".catalog") || uri.has_suffix (".search")) {
 			try {
 				var data = Files.load_contents (gio_file, null);
-				var catalog = Catalog.new_from_data (data);
+				var catalog = Catalog.new_from_data (file, data);
 				info = new FileInfo ();
-				catalog.update_file_info (file, info);
+				catalog.update_file_info (info);
 			}
 			catch (Error error) {
 				stdout.printf ("ERROR: %s\n", error.message);
@@ -101,8 +101,8 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 						case FileType.REGULAR:
 							try {
 								var data = yield Files.load_contents_async (gio_child, cancellable);
-								var catalog = Catalog.new_from_data (data);
-								catalog.update_file_info (child_data.file, child_data.info);
+								var catalog = Catalog.new_from_data (child_data.file, data);
+								catalog.update_file_info (child_data.info);
 								action = child_func (child_data, false);
 							}
 							catch (Error error) {
@@ -122,8 +122,9 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 
 			case FileType.REGULAR:
 				try {
-					var data = yield Files.load_contents_async (gio_file, cancellable);
-					var catalog = Catalog.new_from_data (data);
+					var gio_folder = Catalog.to_gio_file (folder_data.file);
+					var data = yield Files.load_contents_async (gio_folder, cancellable);
+					var catalog = Catalog.new_from_data (folder_data.file, data);
 					foreach (var file in catalog.files) {
 						try {
 							var file_data = yield gio_source.read_metadata (file, attributes, cancellable);
@@ -161,8 +162,8 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		}
 		else if (info.get_file_type () == FileType.REGULAR) {
 			var data = yield Files.load_contents_async (gio_file, cancellable);
-			var catalog = Catalog.new_from_data (data);
-			catalog.update_file_info (file, info);
+			var catalog = Catalog.new_from_data (file, data);
+			catalog.update_file_info (info);
 		}
 		else {
 			throw new IOError.FAILED ("Wrong file type");

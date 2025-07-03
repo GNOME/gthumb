@@ -22,7 +22,7 @@ public class Gth.TestFileTypeRegular : Gth.TestFileType {
 	}
 
 	public override bool match (FileData file) {
-		return true;
+		return file.info.get_file_type () == FileType.REGULAR;
 	}
 }
 

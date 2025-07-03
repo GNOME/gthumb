@@ -15,7 +15,7 @@ public class Gth.Catalog {
 		name = null;
 	}
 
-	public static Catalog? new_from_data (string data) throws Error {
+	public static Catalog? new_from_data (File file, string data) throws Error {
 		Catalog catalog = null;
 		if (data.has_prefix ("<?xml")) {
 			var doc = new Dom.Document ();
@@ -29,6 +29,9 @@ public class Gth.Catalog {
 				}
 				catalog.load_doc (doc);
 			}
+		}
+		if (catalog != null) {
+			catalog.file = file;
 		}
 		return catalog;
 	}
@@ -136,7 +139,7 @@ public class Gth.Catalog {
 		}
 	}
 
-	public virtual void update_file_info (File file, FileInfo info) {
+	public virtual void update_file_info (FileInfo info) {
 		info.set_file_type (FileType.DIRECTORY);
 		info.set_content_type ("gthumb/catalog");
 		info.set_symbolic_icon (new ThemedIcon ("catalog-symbolic"));
@@ -198,12 +201,12 @@ public class Gth.Catalog {
 	}
 
 	public async void save_async (Cancellable cancellable) throws Error {
-		var original_file = file;
+		var previous_file = file;
 
 		// Update file
-		var parent = file.get_parent ();
 		var extension = Util.get_extension (file.get_basename ());
-		var filename = "TEST-" + Util.clear_for_filename (name) + "." + extension;
+		var filename = Util.clear_for_filename (name) + "." + extension;
+		var parent = file.get_parent ();
 		file = parent.get_child_for_display_name (filename);
 
 		// Save
@@ -212,12 +215,12 @@ public class Gth.Catalog {
 		var bytes = new Bytes.static (buffer.data);
 		yield Files.save_file_async (gio_file, bytes, cancellable);
 
-		// Delete the original file if different
-		//if (!file.equal (original_file)) {
-		//	var original_gio_file = Catalog.to_gio_file (original_file);
-		//	yield original_gio_file.delete_async (Priority.DEFAULT, cancellable);
-		//	// TODO: monitor rename original_file -> catalog.file
-		//}
+		// Delete the previous file if different
+		if (!file.equal (previous_file)) {
+			var previous_gio_file = Catalog.to_gio_file (previous_file);
+			yield previous_gio_file.delete_async (Priority.DEFAULT, cancellable);
+			app.monitor.file_renamed (previous_file, file);
+		}
 	}
 
 	const string CATALOG_FORMAT = "1.0";
