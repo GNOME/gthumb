@@ -18,8 +18,9 @@
       </object>
     </child>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="search_section">
         <property name="orientation">vertical</property>
+        <property name="visible">false</property>
         <style>
           <class name="mini-search-bar"/>
         </style>

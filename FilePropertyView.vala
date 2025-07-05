@@ -245,6 +245,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	[GtkChild] protected unowned Gtk.ListView list_view;
+	[GtkChild] protected unowned Gtk.Box search_section;
 
 	GenericList<Property> property_list;
 	Gtk.CustomFilter property_filter;

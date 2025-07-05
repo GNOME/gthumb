@@ -1,6 +1,7 @@
 public class Gth.XmpPropertyView : Gth.FilePropertyView {
 	construct {
 		filter = FilePropertyView.Filter.XMP;
+		search_section.visible = true;
 	}
 
 	public override unowned string get_name () {
