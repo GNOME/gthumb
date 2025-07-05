@@ -270,6 +270,7 @@ lib_files = files(
   'lib/jpeg/jpeg-info.c',
   'lib/pixel.c',
   'lib/util.c',
+  'lib/zlib-utils.c',
 )
 if use_libwebp
   lib_files += ('lib/io/load-webp.c')
@@ -296,6 +297,7 @@ vapi_files = files(
   'vapi/Savers.vapi',
   'vapi/StringList.vapi',
   'vapi/Types.vapi',
+  'vapi/Zip.vapi',
 )
 
 source_files = files(
@@ -318,6 +320,8 @@ source_files = files(
   'Ext/Catalogs/FileSourceCatalogs.vala',
   'Ext/Catalogs/SearchDialog.vala',
   'Ext/Catalogs/SearchSourceEditorGroup.vala',
+  'Ext/Comments/Comment.vala',
+  'Ext/Comments/MetadataProviderComment.vala',
   'Ext/Exiv2/ExifPropertyView.vala',
   'Ext/Exiv2/IptcPropertyView.vala',
   'Ext/Exiv2/MetadataProviderExiv2.vala',

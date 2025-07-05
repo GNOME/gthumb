@@ -31,7 +31,7 @@ public class Dom.Element : InitiallyUnowned {
 		}
 	}
 
-	public Element.with_text (string _tag_name, string text_data) {
+	public Element.with_text (string _tag_name, string? text_data) {
 		this (_tag_name);
 		append_child (new TextNode (text_data));
 	}
@@ -215,7 +215,7 @@ public class Dom.Element : InitiallyUnowned {
 public class Dom.TextNode : Dom.Element {
 	public string data;
 
-	public TextNode (string _data) {
+	public TextNode (string? _data) {
 		base ("#text");
 		data = _data;
 	}

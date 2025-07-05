@@ -71,6 +71,11 @@
 	--border-opacity: 10%;
 }
 
+.property-widget.description {
+	background: var(--card-bg-color,#43434e);
+	color: var(--card-fg-color,#fff);
+}
+
 .property-header {
 	margin: 24px 6px 6px 6px;
 }

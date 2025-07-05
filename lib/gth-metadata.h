@@ -60,6 +60,8 @@ struct _GthMetadataClass {
 
 GType             gth_metadata_get_type             (void);
 GthMetadata *     gth_metadata_new                  (void);
+GthMetadata *     gth_metadata_new_for_string       (const char      *raw,
+						     const char      *formatted);
 GthMetadata *     gth_metadata_new_for_string_list  (GthStringList   *list);
 GthMetadata *     gth_metadata_new_for_point        (double           x,
 						     double           y);
@@ -73,10 +75,6 @@ gboolean          gth_metadata_get_point            (GthMetadata     *metadata,
 const char *      gth_metadata_get_formatted        (GthMetadata     *metadata);
 const char *      gth_metadata_get_value_type       (GthMetadata     *metadata);
 GthMetadata *     gth_metadata_dup                  (GthMetadata     *metadata);
-void              set_attribute_from_string         (GFileInfo       *info,
-						     const char      *key,
-						     const char      *raw,
-						     const char      *formatted);
 
 void gth_metadata_info_init ();
 GthMetadataInfo * gth_metadata_info_register (const char *id, const char *display_name, const char *category, GthMetadataFlags flags, const char *type);

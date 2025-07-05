@@ -48,9 +48,17 @@ public enum Gth.MetadataType {
 
 [CCode (cheader_filename = "lib/gth-metadata.h")]
 public class Gth.Metadata : Object {
+	public string id { get; set; }
+	public string description { get; set; }
+	public string raw { get; set; }
+	public StringList string_list { get; set; }
+	public string formatted { get; set; }
+	public string value_type { get; set; }
+
 	public Metadata ();
-	public Metadata.from_string_list (StringList list);
-	public Metadata.from_point (double x, double y);
+	public Metadata.for_string (string raw, string? formatted = null);
+	public Metadata.for_string_list (StringList list);
+	public Metadata.for_point (double x, double y);
 	public MetadataType get_data_type ();
 	public unowned string get_id ();
 	public unowned string get_raw ();

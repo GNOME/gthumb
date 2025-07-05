@@ -141,6 +141,12 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			}
 			if (property_item.parent != null) {
 				property_item.parent.add_css_class ("property-widget");
+				if (property.id == "general::description") {
+					property_item.parent.add_css_class ("description");
+				}
+				else {
+					property_item.parent.remove_css_class ("description");
+				}
 			}
 		});
 		list_view.factory = factory;
@@ -215,7 +221,9 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (Strings.empty (value)) {
 				continue;
 			}
-			value = Strings.substring (value, MAX_VALUE_CHARACTERS, "…");
+			if (info.id != "general::description") {
+				value = Strings.substring (value, MAX_VALUE_CHARACTERS, "…");
+			}
 			unowned var category = Gth.MetadataCategory.get (info.category);
 			if (category == null) {
 				continue;

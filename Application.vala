@@ -78,8 +78,8 @@ public class Gth.Application : Adw.Application {
 
 		MetadataCategory.init ();
 		MetadataCategory.register ("file", _("File"));
+		MetadataCategory.register ("comment", _("Description"));
 		MetadataCategory.register ("general", _("Metadata"));
-		MetadataCategory.register ("comment", _("Comment"));
 		MetadataCategory.register ("Exif::General", _("Exif General"));
 		MetadataCategory.register ("Exif::Conditions", _("Exif Conditions"));
 		MetadataCategory.register ("Exif::Structure", _("Exif Structure"));
@@ -107,6 +107,13 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("general::duration", N_("Duration"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Loaded::Image::ColorProfile", N_("Color Profile"), "file", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
+		MetadataInfo.register ("general::description", N_("Comment"), "comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		MetadataInfo.register ("general::title", N_("Title"), "comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("general::location", N_("Place"), "comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("general::datetime", N_("Date"), "comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("general::tags", N_("Tags"), "comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("general::rating", N_("Rating"), "comment", METADATA_ALLOW_EVERYWHERE);
+
 		MetadataInfo.register ("Embedded::Photo::Copyright", N_("Copyright"), "general", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::Author", N_("Author"), "general", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::Coordinates", N_("Coordinates"), "general", METADATA_ALLOW_EVERYWHERE);
@@ -119,13 +126,6 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("Embedded::Photo::ShutterSpeed", N_("Shutter Speed"), "general", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::FocalLength", N_("Focal Length"), "general", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Embedded::Photo::Flash", N_("Flash"), "general", METADATA_ALLOW_EVERYWHERE);
-
-		MetadataInfo.register ("general::datetime", N_("Date"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::title", N_("Title"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::location", N_("Place"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::description", N_("Description"), "general", MetadataFlags.ALLOW_IN_PRINT);
-		MetadataInfo.register ("general::tags", N_("Tags"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::rating", N_("Rating"), "general", METADATA_ALLOW_EVERYWHERE);
 
 		MetadataInfo.register ("gth::file::emblems", "", "", MetadataFlags.HIDDEN);
 		MetadataInfo.register ("gth::standard::secondary-sort-order", "", "", MetadataFlags.HIDDEN);
@@ -267,6 +267,7 @@ public class Gth.Application : Adw.Application {
 		register_metadata_provider (typeof (MetadataProviderFile));
 		register_metadata_provider (typeof (MetadataProviderExiv2));
 		register_metadata_provider (typeof (MetadataProviderImage));
+		register_metadata_provider (typeof (MetadataProviderComment));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
 		register_image_loader ("image/png", load_png);

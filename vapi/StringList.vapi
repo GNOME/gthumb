@@ -4,7 +4,8 @@ using GLib;
 public class Gth.StringList : Object {
 	public StringList (List list);
 	public StringList.from_strv (string[] strv);
-	public StringList.from_ptr_array (PtrArray array);
+	[CCode (cname = "gth_string_list_new_from_ptr_array")]
+	public StringList.from_array (GenericArray<string> array);
 	public unowned List get_list ();
 	public void set_list (List list);
 	public string join (string separator);

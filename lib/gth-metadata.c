@@ -87,6 +87,7 @@ gth_metadata_set_property (GObject      *object,
 		break;
 	case GTH_METADATA_RAW:
 		_g_str_set (&self->priv->raw, g_value_get_string (value));
+		self->priv->data_type = GTH_METADATA_TYPE_STRING;
 		break;
 	case GTH_METADATA_STRING_LIST:
 		GObject *string_list = g_value_get_object (value);
@@ -203,6 +204,17 @@ GthMetadata *
 gth_metadata_new (void)
 {
 	return g_object_new (GTH_TYPE_METADATA, NULL);
+}
+
+
+GthMetadata *
+gth_metadata_new_for_string (const char *raw,
+			     const char *formatted)
+{
+	return g_object_new (GTH_TYPE_METADATA,
+		"raw", raw,
+		"formatted", (formatted != NULL ? formatted : raw),
+		NULL);
 }
 
 
@@ -324,11 +336,12 @@ set_attribute_from_string (GFileInfo  *info,
 {
 	GthMetadata *metadata;
 
-	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", key,
-				 "raw", raw,
-				 "formatted", (formatted != NULL ? formatted : raw),
-				 NULL);
+	metadata = g_object_new (
+		GTH_TYPE_METADATA,
+		"id", key,
+		"raw", raw,
+		"formatted", (formatted != NULL ? formatted : raw),
+		NULL);
 	g_file_info_set_attribute_object (info, key, G_OBJECT (metadata));
 
 	g_object_unref (metadata);
