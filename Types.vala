@@ -67,11 +67,16 @@ public enum Gth.LoadAction {
 	}
 }
 
-public enum Gth.SidebarState {
+public enum Gth.BrowserSidebarState {
 	NONE,
 	FILES,
 	CATALOGS,
-	PROPERTIES
+}
+
+public enum Gth.SidebarState {
+	NONE,
+	PROPERTIES,
+	TOOLS,
 }
 
 public struct Gth.Sort {

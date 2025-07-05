@@ -4,7 +4,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public Gth.Sort sort = { null, false };
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
-	public SidebarState sidebar_state = SidebarState.NONE;
+	public BrowserSidebarState sidebar_state = BrowserSidebarState.NONE;
 	public int thumbnail_size;
 	public Gth.JobQueue jobs;
 
@@ -43,7 +43,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		init_folder_tree ();
 		init_file_grid ();
-		init_actions ();
 
 		sidebar_resizer.add_handle (browser_view, Gtk.PackType.END);
 		sidebar_resizer.started.connect ((obj) => {
@@ -100,7 +99,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE)
 		};
 		folder_tree.show_hidden = show_hidden_files;
+		browser_content_view.show_sidebar = app.browser_settings.get_boolean (PREF_BROWSER_SIDEBAR_VISIBLE);
 
+		init_actions ();
 		set_page (Page.BROWSER);
 
 		// Load the location.
@@ -162,7 +163,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
 		set_page (Page.BROWSER);
 		if (load_action.changes_current_folder ()) {
-			set_sidebar_state (location.has_uri_scheme ("catalog") ? SidebarState.CATALOGS : SidebarState.FILES);
+			set_sidebar_state (location.has_uri_scheme ("catalog") ? BrowserSidebarState.CATALOGS : BrowserSidebarState.FILES);
 		}
 		load_folder.begin (location, load_action, (_obj, res) => {
 			try {
@@ -211,17 +212,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_sensitivity ();
 	}
 
-	public void set_sidebar_state (SidebarState state) {
+	public void set_sidebar_state (BrowserSidebarState state) {
 		if (state == sidebar_state)
 			return;
 		sidebar_state = state;
 		switch (sidebar_state) {
-		case SidebarState.FILES:
+		case BrowserSidebarState.FILES:
 			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = true;
 			catalog_button.active = false;
 			break;
-		case SidebarState.CATALOGS:
+		case BrowserSidebarState.CATALOGS:
 			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = false;
 			catalog_button.active = true;
@@ -477,7 +478,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		else {
 			property_sidebar.set_file (null);
 		}
-		enable_action ("show-properties", (tot_files == 1));
 	}
 
 	void init_actions () {
@@ -595,13 +595,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("show-folders", null);
 		action.activate.connect ((_action, param) => {
-			if ((sidebar_state == SidebarState.PROPERTIES)
-				&& !folder_tree.current_folder.file.has_uri_scheme ("catalog"))
-			{
-				set_sidebar_state (SidebarState.FILES);
-				return;
-			}
-			if (sidebar_state == SidebarState.FILES) {
+			if (sidebar_state == BrowserSidebarState.FILES) {
 				return;
 			}
 			if (last_folder != null) {
@@ -615,13 +609,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("show-catalogs", null);
 		action.activate.connect ((_action, param) => {
-			if ((sidebar_state == SidebarState.PROPERTIES)
-				&& folder_tree.current_folder.file.has_uri_scheme ("catalog"))
-			{
-				set_sidebar_state (SidebarState.CATALOGS);
-				return;
-			}
-			if (sidebar_state == SidebarState.CATALOGS) {
+			if (sidebar_state == BrowserSidebarState.CATALOGS) {
 				return;
 			}
 			if (last_catalog == null) {
@@ -667,12 +655,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("load-location", VariantType.STRING);
 		action.activate.connect ((_action, param) => {
 			open_location (File.new_for_uri (param.get_string ()));
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("show-properties", null, new Variant.boolean (false));
-		action.activate.connect ((_action, param) => {
-			set_sidebar_state (SidebarState.PROPERTIES);
 		});
 		action_group.add_action (action);
 
@@ -847,6 +829,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			app.browser_settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, maximized);
 			app.browser_settings.set_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, (int) browser_view.max_sidebar_width);
 			//app.browser_settings.set_int (PREF_BROWSER_VIEWER_SIDEBAR, (int) browser_content_view.max_sidebar_width);
+			app.browser_settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, browser_content_view.show_sidebar);
 
 			if (last_window) {
 				if (app.browser_settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
