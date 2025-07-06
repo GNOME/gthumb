@@ -4,6 +4,12 @@ option('build-tests',
   description : 'Build tests'
 )
 
+option('run-in-place',
+  type : 'boolean',
+  value : false,
+  description : 'Load extensions and other resources from the source tree'
+)
+
 option('lcms2',
   type : 'boolean',
   value : true,

@@ -26,8 +26,9 @@ namespace Gth {
 		public unowned IccProfile? get_icc_profile ();
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
-		public Image? resize (uint size, ScaleFilter quality, Cancellable cancellable);
+		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 		public void fill_vertical (Image pattern, Fill fill);
+		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
 	}
 }

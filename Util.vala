@@ -60,6 +60,14 @@ public class Gth.Util {
 			|| (content_type == "image/x-tga");
 	}
 
+	// 'video/mp4' -> 'video/*'
+	public static string get_generic_type (string content_type) {
+		var end = content_type.index_of_char ('/');
+		if (end < 0)
+			return content_type;
+		return content_type.substring (0, end + 1) + "*";
+	}
+
 	public static Gth.DateTime? get_time_from_exif_date (string? exif_date) {
 		if (exif_date == null)
 			return null;

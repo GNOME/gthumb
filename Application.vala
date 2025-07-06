@@ -7,6 +7,7 @@ public class Gth.Application : Adw.Application {
 	public GenericArray<FileSource> file_sources;
 	public GenericArray<MetadataProvider> metadata_providers;
 	public HashTable<string, Gth.LoadFunc> loaders;
+	public HashTable<string, Gth.LoadFileFunc> external_loaders;
 	public HashTable<string, Gth.SaveFunc> savers;
 	public Gth.FilterFile filter_file;
 	public bool restart;
@@ -288,6 +289,16 @@ public class Gth.Application : Adw.Application {
 		register_image_loader ("image/avif", load_heif);
 #endif
 
+		external_loaders = new HashTable<string, Gth.LoadFileFunc>(str_hash, str_equal);
+#if HAVE_GSTREAMER
+		// Same types listed in Util.content_type_is_video
+		register_external_loader ("video/*", load_video_thumbnail);
+		register_external_loader ("application/ogg", load_video_thumbnail);
+		register_external_loader ("application/x-matroska", load_video_thumbnail);
+		register_external_loader ("application/vnd.ms-asf", load_video_thumbnail);
+		register_external_loader ("application/vnd.rn-realmedia", load_video_thumbnail);
+#endif
+
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png);
 	}
@@ -536,6 +547,21 @@ public class Gth.Application : Adw.Application {
 
 	public LoadFunc? get_load_func (string content_type) {
 		return loaders.get (content_type);
+	}
+
+	public void register_external_loader (string content_type, LoadFileFunc func) {
+		external_loaders.set (content_type, func);
+	}
+
+	public LoadFileFunc? get_load_file_func (string content_type) {
+		LoadFileFunc func = null;
+		if (!external_loaders.contains (content_type)) {
+			// 'video/mp4' -> 'video/*'
+			var generic_type = Util.get_generic_type (content_type);
+			func = external_loaders.get (generic_type);
+			external_loaders.set (content_type, func);
+		}
+		return external_loaders.get (content_type);
 	}
 
 	public void register_image_saver (string content_type, SaveFunc func) {

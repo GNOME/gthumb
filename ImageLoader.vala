@@ -52,13 +52,13 @@ public class Gth.ImageLoader {
 				image = load_func (bytes, requested_size, cancellable);
 			}
 			else {
-				/*var load_stream_func = app.get_load_stream_func (content_type);
-				if (load_stream_func != null) {
-					image = load_stream_func (stream, requested_size, cancellable);
+				var load_file_func = app.get_load_file_func (content_type);
+				if ((file != null) && (load_file_func != null)) {
+					image = load_file_func (file, requested_size, cancellable);
 				}
-				else {*/
+				else {
 					throw new IOError.NOT_SUPPORTED (_("No suitable loader available for this file type"));
-				//}
+				}
 			}
 
 			unowned var icc_profile = image.get_icc_profile ();
@@ -71,4 +71,6 @@ public class Gth.ImageLoader {
 
 [CCode (has_target = false)]
 public delegate Gth.Image Gth.LoadFunc (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
-public delegate Gth.Image Gth.LoadStreamFunc (InputStream stream, uint requested_size, Cancellable cancellable) throws Error;
+
+[CCode (has_target = false)]
+public delegate Gth.Image Gth.LoadFileFunc (File file, uint requested_size, Cancellable cancellable) throws Error;

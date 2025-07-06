@@ -1,4 +1,4 @@
-project('Thumbnails',
+project('gthumb',
   [ 'vala', 'c', 'cpp' ],
   license: 'GPL2+',
   version: '4',
@@ -173,9 +173,10 @@ dependencies = [
   use_libjxl ? libjxl_deps : [],
 ]
 
-gettext_package = 'gthumb'
-log_domain = 'gthumb'
+gettext_package = meson.project_name()
+log_domain = meson.project_name()
 prefix = get_option('prefix')
+privexecdir = join_paths(prefix, get_option('libexecdir'), meson.project_name())
 
 add_project_arguments([
   '--disable-warnings',
@@ -200,6 +201,12 @@ config.set_quoted('DOMAIN', meson.project_name ())
 config.set_quoted('G_LOG_DOMAIN', log_domain)
 config.set_quoted('VERSION', meson.project_version())
 config.set_quoted('PREFIX', get_option('prefix'))
+if get_option('run-in-place')
+  config.set_quoted('PRIVEXECDIR', join_paths(meson.build_root()))
+  add_project_arguments(['-D', 'RUN_IN_PLACE'], language: 'vala')
+else
+  config.set_quoted('PRIVEXECDIR', privexecdir)
+endif
 if vector_ops
   config.set('HAVE_VECTOR_OPERATIONS', 1)
 endif
@@ -344,6 +351,7 @@ source_files = files(
   'Ext/FileTest/TestString.vala',
   'Ext/FileTest/Test.vala',
   'Ext/Video/MetadataProviderVideo.vala',
+  'Ext/Video/Util.vala',
   'Factory.vala',
   'FileData.vala',
   'FileListItem.vala',
@@ -391,6 +399,22 @@ executable(
     source_files,
   ],
   dependencies: dependencies
+)
+
+executable(
+  'video-thumbnailer',
+  sources: [
+    'Ext/Video/VideoThumbnailer.vala',
+    'Ext/Video/Util.vala',
+    'Files.vala',
+    'Strings.vala',
+    config_file,
+    lib_files,
+    vapi_files,
+  ],
+  dependencies: dependencies,
+  install: true,
+  install_dir: privexecdir,
 )
 
 if get_option('build-tests')

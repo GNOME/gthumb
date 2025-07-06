@@ -93,6 +93,12 @@ public class Gth.Files {
 		return true;
 	}
 
+	public static File get_temp_file (string suffix = "") {
+		var filename = Strings.new_random (10) + suffix;
+		var path = Path.build_filename (Environment.get_tmp_dir (), filename);
+		return File.new_for_path (path);
+	}
+
 	const int BUFFER_SIZE = 256 * 1024;
 
 	public static Bytes read_all (InputStream stream, Cancellable? cancellable = null, bool add_zero = false) throws Error {
@@ -158,6 +164,12 @@ public class Gth.Files {
 	public static void save_content (File file, string content, Cancellable? cancellable = null) throws Error {
 		var stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
 		stream.write_all (content.data, null, cancellable);
+		stream.close (cancellable);
+	}
+
+	public static void save_file (File file, Bytes bytes, Cancellable? cancellable = null) throws Error {
+		var stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
+		stream.write_bytes (bytes, cancellable);
 		stream.close (cancellable);
 	}
 

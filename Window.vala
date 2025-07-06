@@ -179,7 +179,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void open_home () {
-		File home = Gth.Settings.get_startup_location (app.settings);
+		File home = null;
+		if (app.settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
+			home = Gth.Settings.get_startup_location (app.settings);
+		}
 		if (home == null) {
 			home = Files.get_home ();
 		}

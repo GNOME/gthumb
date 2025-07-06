@@ -25,6 +25,7 @@
 #include "lib/gstreamer-utils.h"
 #include "lib/util.h"
 #include "lib/gth-metadata.h"
+#include "lib/io/load-png.h"
 
 #define MAX_WAITING_TIME (10 * GST_SECOND)
 
@@ -564,16 +565,15 @@ static gboolean message_loop_to_state_change (MetadataExtractor *extractor, GstS
 }
 
 
-gboolean gstreamer_read_metadata_from_file (GFile *file, GFileInfo *info, GCancellable *cancellable, GError **error) {
-	if (! gstreamer_init ())
+gboolean read_video_metadata (GFile *file, GFileInfo *info, GCancellable *cancellable, GError **error) {
+	if (!gstreamer_init ()) {
 		return FALSE;
-
+	}
 	MetadataExtractor *extractor = metadata_extractor_new (file, cancellable);
 	gst_element_set_state (extractor->playbin, GST_STATE_PAUSED);
 	if (message_loop_to_state_change (extractor, GST_STATE_PAUSED)) {
 		extract_metadata (extractor, info);
 	}
-
 	metadata_extractor_free (extractor);
 	return TRUE;
 }
@@ -708,109 +708,6 @@ _gst_playbin_get_current_frame (GstElement  *playbin,
 	}
 
 	return pixbuf;
-}
-
-
-typedef struct {
-	GSubprocess *proc;
-} ProcData;
-
-
-static void
-thumbnailer_cancelled_cb (GCancellable *cancellable,
-			  gpointer      user_data)
-{
-	ProcData *data = user_data;
-	if (data->proc != NULL)
-		g_subprocess_force_exit (data->proc);
-}
-
-
-GthImage *
-gstreamer_thumbnail_generator (GInputStream  *istream,
-			       GthFileData   *file_data,
-			       int            requested_size,
-			       int           *original_width,
-			       int           *original_height,
-			       gboolean      *loaded_original,
-			       gpointer       user_data,
-			       GCancellable  *cancellable,
-			       GError       **error)
-{
-	GthImage      *image;
-	char          *dir;
-	char          *command;
-	char          *input;
-	GFile         *tmp_dir;
-	GFile         *tmp_file;
-	char          *output;
-	char          *size;
-
-	image = gth_image_new ();
-
-	if (file_data == NULL)
-		return image;
-
-#ifdef RUN_IN_PLACE
-	dir = g_build_filename (PRIVEXECDIR, "extensions", "gstreamer_tools", NULL);
-#else
-	dir = g_strdup (PRIVEXECDIR);
-#endif
-
-	command = g_build_filename (dir, "video-thumbnailer", NULL);
-	input = g_file_get_uri (file_data->file);
-	tmp_dir = _g_directory_create_tmp ();
-	tmp_file = g_file_get_child (tmp_dir, "thumbnail.png");
-	output = g_file_get_path (tmp_file);
-	size = g_strdup_printf ("%d", requested_size);
-
-	char *argv[6];
-	int n = 0;
-	argv[n++] = command;
-	argv[n++] = "--size";
-	argv[n++] = size;
-	argv[n++] = input;
-	argv[n++] = output;
-	argv[n++] = NULL;
-	//g_print ("command: '%s'\n", g_strjoinv (" ", argv));
-
-	ProcData proc_data;
-	proc_data.proc = g_subprocess_newv ((const gchar * const *) argv, G_SUBPROCESS_FLAGS_NONE, error);
-
-	gulong id = 0;
-	if (cancellable != NULL)
-		id = g_cancellable_connect (cancellable,
-					    G_CALLBACK (thumbnailer_cancelled_cb),
-					    &proc_data,
-					    NULL);
-
-	if (proc_data.proc != NULL) {
-		g_subprocess_wait_check (proc_data.proc, NULL, error);
-		if (g_subprocess_get_if_exited (proc_data.proc)) {
-			cairo_surface_t *surface = cairo_image_surface_create_from_png (output);
-			if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
-				gth_image_set_cairo_surface (image, surface);
-			cairo_surface_destroy (surface);
-
-			g_file_delete (tmp_file, NULL, NULL);
-		}
-	}
-
-	g_file_delete (tmp_dir, NULL, NULL);
-
-	if ((cancellable != NULL) && (id != 0))
-		g_cancellable_disconnect (cancellable, id);
-
-	_g_object_unref (proc_data.proc);
-	g_free (size);
-	g_free (output);
-	g_object_unref (tmp_file);
-	g_object_unref (tmp_dir);
-	g_free (input);
-	g_free (command);
-	g_free (dir);
-
-	return image;
 }
 
 #endif

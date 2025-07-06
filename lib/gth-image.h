@@ -42,6 +42,7 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride);
 GdkTexture * gth_image_get_gdk_texture (GthImage *self);
 guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height);
+void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int row_stride);
 
 // Properties
 guint gth_image_get_width (GthImage *self);

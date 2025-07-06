@@ -5,6 +5,7 @@
 #endif /* HAVE_LCMS2 */
 #include "lib/gth-color-manager.h"
 #include "lib/gth-image.h"
+#include "lib/pixel.h"
 
 
 typedef enum {
@@ -196,6 +197,26 @@ guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, 
 	if (height != NULL)
 		*height = self->priv->height;
 	return self->priv->buffer;
+}
+
+
+void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int data_stride) {
+	int surface_stride;
+	unsigned char *surface_data = gth_image_get_pixels (self, NULL, &surface_stride);
+	if (with_alpha) {
+		for (int row = 0; row < self->priv->height; row++) {
+			rgba_big_endian_line_to_pixel (surface_data, data, self->priv->width);
+			surface_data += surface_stride;
+			data += data_stride;
+		}
+	}
+	else {
+		for (int row = 0; row < self->priv->height; row++) {
+			rgb_big_endian_line_to_pixel (surface_data, data, self->priv->width);
+			surface_data += surface_stride;
+			data += data_stride;
+		}
+	}
 }
 
 

@@ -60,22 +60,7 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 
 #endif
 
-	int surface_stride;
-	unsigned char *surface_data = gth_image_get_pixels (image, NULL, &surface_stride);
-	if (has_alpha) {
-		for (int row = 0; row < image_height; row++) {
-			rgba_big_endian_line_to_pixel (surface_data, data, image_width);
-			surface_data += surface_stride;
-			data += data_stride;
-		}
-	}
-	else {
-		for (int row = 0; row < image_height; row++) {
-			rgb_big_endian_line_to_pixel (surface_data, data, image_width);
-			surface_data += surface_stride;
-			data += data_stride;
-		}
-	}
+	gth_image_copy_from_rgba_big_endian (image, data, has_alpha, data_stride);
 
 stop_loading:
 
