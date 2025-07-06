@@ -4,7 +4,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		current_filter = null;
 
 		// General filter
-		var general_filter_id = app.browser_settings.get_string (PREF_BROWSER_GENERAL_FILTER);
+		var general_filter_id = app.settings.get_string (PREF_BROWSER_GENERAL_FILTER);
 		var filters = app.get_file_type_filters ();
 		var iter = filters.iterator ();
 		var general_filter_pos = iter.find_first ((obj) => ((Gth.Test) obj).id == general_filter_id);
@@ -42,7 +42,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 	private void on_general_filter_selected (Object row, ParamSpec param) {
 		var test = general_filter_row.model.get_item (general_filter_row.selected) as Gth.Test;
 		if (test != null) {
-			app.browser_settings.set_string (PREF_BROWSER_GENERAL_FILTER, test.id);
+			app.settings.set_string (PREF_BROWSER_GENERAL_FILTER, test.id);
 			activate_action_variant ("win.set-general-filter", new Variant.string (test.id));
 		}
 	}

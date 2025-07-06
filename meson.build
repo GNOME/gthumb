@@ -21,6 +21,8 @@ libjxl_version = '>=0.3.0'
 c_comp = meson.get_compiler('c')
 cpp_comp = meson.get_compiler('cpp')
 vala_comp = meson.get_compiler('vala')
+prefix = get_option('prefix')
+datadir = join_paths(prefix, get_option('datadir'))
 
 # lcms2
 
@@ -171,8 +173,8 @@ dependencies = [
   use_libjxl ? libjxl_deps : [],
 ]
 
-gettext_package = 'thumbnails'
-log_domain = 'Thumbnails'
+gettext_package = 'gthumb'
+log_domain = 'gthumb'
 prefix = get_option('prefix')
 
 add_project_arguments([
@@ -377,7 +379,7 @@ source_files = files(
 )
 
 executable(
-  'thumbnails',
+  'gthumb',
   sources: [
     config_file,
     resources_files,
@@ -404,6 +406,7 @@ if get_option('build-tests')
 endif
 
 subdir('po')
+subdir('data')
 
 # Summary
 

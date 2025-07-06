@@ -1,8 +1,8 @@
 public class Gth.MetadataProviderExiv2 : Gth.MetadataProvider {
-	GLib.Settings general_settings;
+	GLib.Settings settings;
 
 	construct {
-		general_settings = new GLib.Settings (GTHUMB_GENERAL_SCHEMA);
+		settings = new GLib.Settings (GTHUMB_SCHEMA);
 	}
 
 	const string[] Supported_Attributes = {
@@ -29,7 +29,7 @@ public class Gth.MetadataProviderExiv2 : Gth.MetadataProvider {
 		try {
 			// The embedded metadata is likely to be outdated if the user chooses to
 			// not store metadata in files.
-			var update_general_attributes = general_settings.get_boolean (PREF_GENERAL_STORE_METADATA_IN_FILES);
+			var update_general_attributes = settings.get_boolean (PREF_GENERAL_STORE_METADATA_IN_FILES);
 
 			var stream = file_data.file.read (cancellable);
 			var bytes = Files.read_all (stream, cancellable);

@@ -1,5 +1,5 @@
 public class Gth.Application : Adw.Application {
-	public GLib.Settings browser_settings;
+	public GLib.Settings settings;
 	public HashTable<string, Gth.Test> tests;
 	public GenericList<Gth.Test> ordered_tests;
 	public HashTable<string, Gth.SortInfo?> sorters;
@@ -343,8 +343,8 @@ public class Gth.Application : Adw.Application {
 
 		if (remaining_args == null) {
 			// No location specified.
-			var location = Gth.Settings.get_startup_location (browser_settings);
-			var file_to_select = Gth.Settings.get_file (browser_settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
+			var location = Gth.Settings.get_startup_location (settings);
+			var file_to_select = Gth.Settings.get_file (settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
 			open_window (location, file_to_select, true);
 			return 0;
 		}
@@ -378,7 +378,7 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public Gth.Test? get_general_filter () {
-		var filter_id = browser_settings.get_string (PREF_BROWSER_GENERAL_FILTER);
+		var filter_id = settings.get_string (PREF_BROWSER_GENERAL_FILTER);
 		if (filter_id == null)
 			return null;
 		return get_test_by_id (filter_id);
@@ -676,15 +676,14 @@ public class Gth.Application : Adw.Application {
 		var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
 		icon_theme.add_resource_path ("/app/gthumb/gthumb/icons");
 
-		browser_settings = new GLib.Settings (GTHUMB_BROWSER_SCHEMA);
-
+		settings = new GLib.Settings (GTHUMB_SCHEMA);
 		filter_file = new Gth.FilterFile ();
 	}
 
 	public void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
 		var reuse_active_window = false;
 		if (!force_new_window) {
-			reuse_active_window = browser_settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW);
+			reuse_active_window = settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW);
 		}
 
 		Gth.Window window = null;

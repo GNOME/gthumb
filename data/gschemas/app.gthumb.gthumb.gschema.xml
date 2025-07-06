@@ -1,0 +1,71 @@
+<schemalist>
+  <schema id="app.gthumb.gthumb" path="/app/gthumb/gthumb/" gettext-domain="gthumb">
+    <key name="store-metadata-in-files" type="b">
+      <default>true</default>
+    </key>
+    <key name="go-to-last-location" type="b">
+      <default>true</default>
+    </key>
+    <key name="use-startup-location" type="b">
+      <default>false</default>
+    </key>
+    <key name="startup-location" type="s">
+      <default>''</default>
+    </key>
+    <key name="startup-current-file" type="s">
+      <default>''</default>
+    </key>
+    <key name="reuse-active-window" type="b">
+      <default>false</default>
+      <description>Open files in the active window</description>
+    </key>
+    <key name="general-filter" type="s">
+      <default>'file::type::is_media'</default>
+    </key>
+    <key name="show-hidden-files" type="b">
+      <default>false</default>
+    </key>
+    <key name="fast-file-type" type="b">
+      <default>true</default>
+    </key>
+    <key name="thumbnail-size" type="i">
+      <default>256</default>
+    </key>
+    <key name="thumbnail-caption" type="s">
+      <default>''</default>
+    </key>
+    <key name="sort-type" type="s">
+      <default>'file::name'</default>
+    </key>
+    <key name="sort-inverse" type="b">
+      <default>false</default>
+    </key>
+    <key name="window-width" type="i">
+      <default>1600</default>
+    </key>
+    <key name="window-height" type="i">
+      <default>900</default>
+    </key>
+    <key name="maximized" type="b">
+      <default>false</default>
+    </key>
+    <key name="sidebar-visible" type="b">
+      <default>true</default>
+    </key>
+    <key name="sidebar-width" type="i">
+      <default>300</default>
+    </key>
+    <key name="properties-visible" type="b">
+      <default>false</default>
+    </key>
+    <key name="properties-width" type="i">
+      <default>300</default>
+    </key>
+    <key name="folder-tree-sort-type" type="s">
+      <default>'name'</default>
+    </key>
+    <key name="folder-tree-sort-inverse" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+</schemalist>

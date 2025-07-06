@@ -75,31 +75,31 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 
 		// Restore the window size.
-		var width = app.browser_settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
-		var height = app.browser_settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
+		var width = app.settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
+		var height = app.settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
 		set_default_size (width, height);
-		if (app.browser_settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
+		if (app.settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			maximize ();
 		}
-		browser_view.max_sidebar_width = (double) app.browser_settings.get_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH);
-		//browser_content_view.max_sidebar_width = (double) app.browser_settings.get_int (PREF_BROWSER_VIEWER_SIDEBAR_WIDTH);
+		browser_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_SIDEBAR_WIDTH);
+		browser_content_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_PROPERTIES_WIDTH);
 
 		// Browser settings.
 		sort = {
-			app.browser_settings.get_string (PREF_BROWSER_SORT_TYPE),
-			app.browser_settings.get_boolean (PREF_BROWSER_SORT_INVERSE)
+			app.settings.get_string (PREF_BROWSER_SORT_TYPE),
+			app.settings.get_boolean (PREF_BROWSER_SORT_INVERSE)
 		};
 		general_filter = app.get_general_filter ();
 		active_filter = app.get_last_active_filter ();
-		fast_file_type = app.browser_settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
-		show_hidden_files = app.browser_settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
-		thumbnail_size = app.browser_settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
+		fast_file_type = app.settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
+		show_hidden_files = app.settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
+		thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 		folder_tree.sort = {
-			app.browser_settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE),
-			app.browser_settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE)
+			app.settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE),
+			app.settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE)
 		};
 		folder_tree.show_hidden = show_hidden_files;
-		browser_content_view.show_sidebar = app.browser_settings.get_boolean (PREF_BROWSER_SIDEBAR_VISIBLE);
+		browser_content_view.show_sidebar = app.settings.get_boolean (PREF_BROWSER_PROPERTIES_VISIBLE);
 
 		init_actions ();
 		set_page (Page.BROWSER);
@@ -179,12 +179,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void open_home () {
-		File home = null;
-		if (app.browser_settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
-			var uri = app.browser_settings.get_string (PREF_BROWSER_STARTUP_LOCATION);
-			var full_uri = Files.expand_home_uri (uri);
-			home = File.new_for_uri (full_uri);
-		}
+		File home = Gth.Settings.get_startup_location (app.settings);
 		if (home == null) {
 			home = Files.get_home ();
 		}
@@ -348,7 +343,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Attributes required for the thumbnail caption.
-		var thumbnail_caption = app.browser_settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
+		var thumbnail_caption = app.settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
 		if (!Strings.empty (thumbnail_caption) && (thumbnail_caption != "none")) {
 			attributes.append (",");
 			attributes.append (thumbnail_caption);
@@ -822,31 +817,32 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if (!maximized && !fullscreened && get_mapped ()) {
 				int width, height;
 				get_default_size (out width, out height);
-				app.browser_settings.set_int (PREF_BROWSER_WINDOW_WIDTH, width);
-				app.browser_settings.set_int (PREF_BROWSER_WINDOW_HEIGHT, height);
+				app.settings.set_int (PREF_BROWSER_WINDOW_WIDTH, width);
+				app.settings.set_int (PREF_BROWSER_WINDOW_HEIGHT, height);
 			}
 
-			app.browser_settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, maximized);
-			app.browser_settings.set_int (PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, (int) browser_view.max_sidebar_width);
-			//app.browser_settings.set_int (PREF_BROWSER_VIEWER_SIDEBAR, (int) browser_content_view.max_sidebar_width);
-			app.browser_settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, browser_content_view.show_sidebar);
+			app.settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, maximized);
+			app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, browser_view.show_sidebar);
+			app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) browser_view.max_sidebar_width);
+			app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, browser_content_view.show_sidebar);
+			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) browser_content_view.max_sidebar_width);
 
 			if (last_window) {
-				if (app.browser_settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
+				if (app.settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
 					&& (folder_tree.current_folder != null))
 				{
 					var uri = folder_tree.current_folder.file.get_uri ();
-					app.browser_settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
+					app.settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
 				}
 
 				if (sort.name != null) {
-					app.browser_settings.set_string (PREF_BROWSER_SORT_TYPE, sort.name);
-					app.browser_settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
+					app.settings.set_string (PREF_BROWSER_SORT_TYPE, sort.name);
+					app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
 				}
 
 				if (folder_tree.sort.name != null) {
-					app.browser_settings.set_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE, folder_tree.sort.name);
-					app.browser_settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
+					app.settings.set_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE, folder_tree.sort.name);
+					app.settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
 				}
 
 				app.save_active_filter (filter_bar.filter);
