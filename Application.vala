@@ -268,6 +268,7 @@ public class Gth.Application : Adw.Application {
 		register_metadata_provider (typeof (MetadataProviderExiv2));
 		register_metadata_provider (typeof (MetadataProviderImage));
 		register_metadata_provider (typeof (MetadataProviderComment));
+		register_metadata_provider (typeof (MetadataProviderVideo));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
 		register_image_loader ("image/png", load_png);

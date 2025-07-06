@@ -442,3 +442,34 @@ const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
 	}
 	return NULL;
 }
+
+/* this is totem_time_to_string renamed, thanks to the authors :) */
+char * _g_format_duration_for_display (gint64 msecs) {
+	int sec, min, hour, _time;
+
+	_time = (int) (msecs / 1000);
+	sec = _time % 60;
+	_time = _time - sec;
+	min = (_time % (60*60)) / 60;
+	_time = _time - (min * 60);
+	hour = _time / (60*60);
+
+	if (hour > 0)
+	{
+		/* hour:minutes:seconds */
+		/* Translators: This is a time format, like "9∶05∶02" for 9
+		* hours, 5 minutes, and 2 seconds. You may change "∶" to
+		* the separator that your locale uses or use "%Id" instead
+		* of "%d" if your locale uses localized digits.
+		*/
+		return g_strdup_printf (C_("long time format", "%d∶%02d∶%02d"), hour, min, sec);
+	}
+
+	/* minutes:seconds */
+	/* Translators: This is a time format, like "5∶02" for 5
+	* minutes and 2 seconds. You may change "∶" to the
+	* separator that your locale uses or use "%Id" instead of
+	* "%d" if your locale uses localized digits.
+	*/
+	return g_strdup_printf (C_("short time format", "%d∶%02d"), min, sec);
+}

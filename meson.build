@@ -257,6 +257,7 @@ resources_files = gnome.compile_resources('resources',
 
 lib_files = files(
   'lib/exiv2-utils.cpp',
+  'lib/gstreamer-utils.c',
   'lib/gth-color-manager.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
@@ -300,6 +301,7 @@ vapi_files = files(
   'vapi/StringList.vapi',
   'vapi/Types.vapi',
   'vapi/Zip.vapi',
+  'vapi/Video.vapi',
 )
 
 source_files = files(
@@ -341,6 +343,7 @@ source_files = files(
   'Ext/FileTest/TestSize.vala',
   'Ext/FileTest/TestString.vala',
   'Ext/FileTest/Test.vala',
+  'Ext/Video/MetadataProviderVideo.vala',
   'Factory.vala',
   'FileData.vala',
   'FileListItem.vala',
