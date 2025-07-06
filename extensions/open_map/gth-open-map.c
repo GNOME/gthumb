@@ -202,6 +202,7 @@ gth_open_map_real_set_file (GthPropertyView *base,
 		gtk_button_set_label (GTK_BUTTON (self->priv->link_button), position);
 
 		char *uri = g_strdup_printf ("https://www.openstreetmap.org/?mlat=%f&mlon=%f&zoom=6", latitude, longitude);
+		_g_str_replace_char (uri, ',', '.');
 		gtk_link_button_set_uri (GTK_LINK_BUTTON (self->priv->link_button), uri);
 
 		g_free (uri);

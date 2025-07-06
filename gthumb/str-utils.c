@@ -198,6 +198,22 @@ _g_str_split_as_hash_table (const char *str)
 }
 
 
+void
+_g_str_replace_char (char *str,
+		     char  old_ch,
+		     char  new_ch)
+{
+	if (str == NULL)
+		return;
+	char *p = str;
+	while (*p != 0) {
+		if (*p == old_ch)
+			*p = new_ch;
+		p++;
+	}
+}
+
+
 /* StrV utils */
 
 

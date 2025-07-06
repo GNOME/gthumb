@@ -45,6 +45,9 @@ char *		_g_str_remove_suffix	(const char	 *str,
 const char *	_g_str_get_static	(const char	 *str);
 GHashTable *	_g_str_split_as_hash_table
 					(const char	 *str);
+void		_g_str_replace_char	(char	 	 *str,
+					 char		  old_ch,
+					 char		  new_ch);
 
 /* StrV utils */
 
