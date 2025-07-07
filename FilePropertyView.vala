@@ -138,6 +138,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			}
 			else {
 				property_item.button.visible = false;
+				property_item.description.visible = false;
 			}
 			if (property_item.parent != null) {
 				property_item.parent.add_css_class ("property-widget");

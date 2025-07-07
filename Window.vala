@@ -169,7 +169,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 			try {
 				load_folder.end (res);
 				if (file_to_select != null) {
-					// TODO
+					var iter = visible_files.iterator ();
+					var pos = iter.find_first ((file_data) => file_data.file.equal (file_to_select));
+					if (pos >= 0) {
+						file_grid.model.select_item (pos, true);
+					}
 				}
 			}
 			catch (Error error) {
@@ -442,6 +446,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 			location_menu.append_item (item);
 			location = location.get_parent ();
 		}
+	}
+
+	File? get_selected_file () {
+		var selected = file_grid.model.get_selection ();
+		if (selected.get_size () != 1)
+			return null;
+		var pos = selected.get_nth (0);
+		var file = file_grid.model.get_item (pos) as FileData;
+		if (file == null)
+			return null;
+		return file.file;
 	}
 
 	void update_selection_info () {
@@ -836,6 +851,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 				{
 					var uri = folder_tree.current_folder.file.get_uri ();
 					app.settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
+				}
+
+				var selected_file = get_selected_file ();
+				if (selected_file != null) {
+					app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, selected_file.get_uri ());
+				}
+				else {
+					app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
 				}
 
 				if (sort.name != null) {

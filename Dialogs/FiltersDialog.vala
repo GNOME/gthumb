@@ -7,7 +7,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		var general_filter_id = app.settings.get_string (PREF_BROWSER_GENERAL_FILTER);
 		var filters = app.get_file_type_filters ();
 		var iter = filters.iterator ();
-		var general_filter_pos = iter.find_first ((obj) => ((Gth.Test) obj).id == general_filter_id);
+		var general_filter_pos = iter.find_first ((test) => test.id == general_filter_id);
 
 		general_filter_row.model = filters.model;
 		general_filter_row.expression = new Gtk.PropertyExpression (typeof (Gth.Test), null, "display-name");
