@@ -309,7 +309,6 @@
       </object>
     </property>
   </template>
-
   <menu id="location_menu">
   </menu>
 </interface>
