@@ -288,7 +288,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (folder_tree.current_folder != null) {
 			parent = folder_tree.current_folder.file.get_parent ();
 		}
-		enable_action ("load-parent", parent != null);
+		Util.enable_action (action_group, "load-parent", parent != null);
 	}
 
 	void update_location_commands () {
@@ -301,13 +301,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 		edit_catalog_button.visible = is_catalog || is_search;
 		update_search_button.visible = is_search;
-	}
-
-	void enable_action (string name, bool enabled) {
-		var action = action_group.lookup_action (name) as SimpleAction;
-		if (action != null) {
-			action.set_enabled (enabled);
-		}
 	}
 
 	string list_attributes = null;

@@ -457,4 +457,11 @@ public class Gth.Util {
 			return null;
 		return filename.slice (start, bytes).down ();
 	}
+
+	public static void enable_action (SimpleActionGroup action_group, string name, bool enabled) {
+		var action = action_group.lookup_action (name) as SimpleAction;
+		if (action != null) {
+			action.set_enabled (enabled);
+		}
+	}
 }

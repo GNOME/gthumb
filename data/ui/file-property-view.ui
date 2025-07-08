@@ -45,8 +45,12 @@
   <menu id="property-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Copy Value</attribute>
+        <attribute name="label" translatable="yes">Copy</attribute>
         <attribute name="action">property.copy-value</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy Raw Value</attribute>
+        <attribute name="action">property.copy-details</attribute>
       </item>
     </section>
   </menu>

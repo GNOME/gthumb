@@ -36,7 +36,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		filter_text = null;
 		file_data = null;
 
-		var action_group = new SimpleActionGroup ();
+		action_group = new SimpleActionGroup ();
 		insert_action_group ("property", action_group);
 
 		var action = new SimpleAction ("copy-value", null);
@@ -45,6 +45,26 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 				var win = app.active_window as Gth.Window;
 				if (win != null) {
 					win.copy_text (current_property.value);
+				}
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-details", null);
+		action.activate.connect ((_action, param) => {
+			if (current_property != null) {
+				string text = null;
+				var action_info = actions.get (current_property.id);
+				if (action_info != null) {
+					if (action_info.type == Action.Type.DETAILS) {
+						text = file_data.get_attribute_as_string (action_info.details_attribute);
+					}
+				}
+				if (text != null) {
+					var win = app.active_window as Gth.Window;
+					if (win != null) {
+						win.copy_text (text);
+					}
 				}
 			}
 		});
@@ -97,8 +117,8 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		actions.set ("standard::display-name", new Action ("property.copy-path", "edit-copy-symbolic", _("Copy Path")));
 		actions.set ("gth::file::location", new Action ("property.open-folder", "folder-symbolic", _("Open")));
 		actions.set ("Embedded::Photo::Coordinates", new Action ("property.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
-		actions.set ("gth::file::display-size", new Action.with_description ("gth::file::size"));
-		actions.set ("gth::file::content-type", new Action.with_description ("standard::fast-content-type"));
+		actions.set ("gth::file::display-size", new Action.with_details ("gth::file::size"));
+		actions.set ("gth::file::content-type", new Action.with_details ("standard::fast-content-type"));
 
 		property_list = new GenericList<Property> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
@@ -135,8 +155,8 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			property_item.description.visible = false;
 			var action_info = actions.get (property.id);
 			if (action_info != null) {
-				if (action_info.type == Action.Type.DESCRIPTION) {
-					property_item.description.label = file_data.get_attribute_as_string (action_info.tooltip_attribute);
+				if (action_info.type == Action.Type.DETAILS) {
+					property_item.description.label = file_data.get_attribute_as_string (action_info.details_attribute);
 					property_item.description.visible = true;
 					property_item.button.visible = false;
 				}
@@ -178,16 +198,6 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			label.label = (property.category != null) ? property.category.display_name : "";
 		});
 		list_view.header_factory = header_factory;
-
-		var click_events = new Gtk.GestureClick ();
-		click_events.set_button (Gdk.BUTTON_SECONDARY);
-		click_events.pressed.connect ((n_press, x, y) => {
-			if (n_press == 1) {
-				context_menu.pointing_to = { (int) x, (int) y, 1, 1};
-				context_menu.popup ();
-			}
-		});
-		add_controller (click_events);
 	}
 
 	public virtual unowned string get_name () {
@@ -262,8 +272,21 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 
 	Property current_property = null;
 
-	public void open_context_menu (Property property) {
-		current_property = property;
+	public void open_context_menu (FilePropertyItem item, int x, int y) {
+		var has_details = false;
+		var action_info = actions.get (item.property.id);
+		if (action_info != null) {
+			if (action_info.type == Action.Type.DETAILS) {
+				has_details = file_data.info.has_attribute (action_info.details_attribute);
+			}
+		}
+		Util.enable_action (action_group, "copy-details", has_details);
+
+		current_property = item.property;
+		Graphene.Point p = Graphene.Point.zero ();
+		item.compute_point (this, Graphene.Point.zero (), out p);
+		context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 24 };
+		context_menu.popup ();
 	}
 
 	[GtkCallback]
@@ -281,6 +304,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	string filter_text;
 	HashTable<string, Action> actions;
 	Gth.FileData file_data;
+	SimpleActionGroup action_group;
 
 	public class Property : Object {
 		public string id;
@@ -292,14 +316,14 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	class Action {
 		public enum Type {
 			ACTION,
-			DESCRIPTION,
+			DETAILS,
 		}
 
 		public Type type;
 		public string detailed_action_name;
 		public string icon_name;
 		public string tooltip;
-		public string tooltip_attribute;
+		public string details_attribute;
 
 		public Action (string _detailed_action_name, string _icon_name, string _tooltip) {
 			type = Type.ACTION;
@@ -308,9 +332,9 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			tooltip = _tooltip;
 		}
 
-		public Action.with_description (string _tooltip_attribute) {
-			type = Type.DESCRIPTION;
-			tooltip_attribute = _tooltip_attribute;
+		public Action.with_details (string _details_attribute) {
+			type = Type.DETAILS;
+			details_attribute = _details_attribute;
 		}
 	}
 
@@ -333,7 +357,7 @@ public class Gth.FilePropertyItem : Gtk.Box {
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
 		click_events.pressed.connect ((n_press, x, y) => {
-			view.open_context_menu (property);
+			view.open_context_menu (this, (int) x, (int) y);
 		});
 		add_controller (click_events);
 	}

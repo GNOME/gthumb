@@ -8,7 +8,7 @@
 
 popover.deeper > arrow,
 popover.deeper > contents {
-	background-color: #111;
+	border: 1px solid #111;
 }
 
 .topbar,
@@ -73,12 +73,13 @@ popover.deeper > contents {
 .property-widget {
 	border-radius: 0;
 	margin: 0;
+	padding: 0;
 	--border-opacity: 10%;
 }
 
 .property-widget.description {
-	background: var(--card-bg-color,#43434e);
-	color: var(--card-fg-color,#fff);
+	background: #62574c;
+	color: #fff;
 }
 
 .property-header {
@@ -86,7 +87,8 @@ popover.deeper > contents {
 }
 
 .property-row {
-	margin: 12px 0;
+	padding: 12px 6px;
+	margin: 0;
 }
 
 .property-title {
