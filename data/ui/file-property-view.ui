@@ -33,5 +33,21 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="GtkPopoverMenu" id="context_menu">
+        <style>
+          <class name="deeper"/>
+        </style>
+        <property name="menu-model">property-menu</property>
+      </object>
+    </child>
   </template>
+  <menu id="property-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy Value</attribute>
+        <attribute name="action">property.copy-value</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

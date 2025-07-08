@@ -6,6 +6,11 @@
 	background-color: #111;
 }
 
+popover.deeper > arrow,
+popover.deeper > contents {
+	background-color: #111;
+}
+
 .topbar,
 .statusbar {
 	background-color: var(--view-bg-color);

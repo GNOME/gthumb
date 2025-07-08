@@ -56,19 +56,6 @@
         <property name="visible">false</property>
       </object>
     </child>
-    <child>
-      <object class="GtkPopoverMenu" id="popover_menu">
-        <property name="menu-model">context-menu</property>
-      </object>
-    </child>
   </template>
-  <menu id="context-menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Copy Value</attribute>
-        <attribute name="action">property.copy-value</attribute>
-      </item>
-    </section>
-  </menu>
 </interface>
 
