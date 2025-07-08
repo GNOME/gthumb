@@ -152,7 +152,6 @@ else
   use_libjxl = false
 endif
 
-
 dependencies = [
   dependency('threads'),
   c_comp.find_library('m', required: false),
@@ -307,8 +306,8 @@ vapi_files = files(
   'vapi/Savers.vapi',
   'vapi/StringList.vapi',
   'vapi/Types.vapi',
-  'vapi/Zip.vapi',
   'vapi/Video.vapi',
+  'vapi/Zip.vapi',
 )
 
 source_files = files(
@@ -404,8 +403,8 @@ executable(
 executable(
   'video-thumbnailer',
   sources: [
-    'Ext/Video/VideoThumbnailer.vala',
     'Ext/Video/Util.vala',
+    'Ext/Video/VideoThumbnailer.vala',
     'Files.vala',
     'Strings.vala',
     config_file,
@@ -421,10 +420,10 @@ if get_option('build-tests')
   test('dom',
     executable('test-dom',
       sources: [
-        'Tests/TestDom.vala',
         'Dom.vala',
         'Files.vala',
         'Strings.vala',
+        'Tests/TestDom.vala',
       ],
       dependencies: dependencies,
       vala_args: '--define=TEST_XML',
