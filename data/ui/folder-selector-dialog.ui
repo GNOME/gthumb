@@ -46,9 +46,17 @@
               </object>
             </child>
             <child>
-              <object class="GtkCheckButton" id="show-hidden-button">
-                <property name="label" translatable="yes">Show _Hidden Files</property>
-                <property name="use-underline">true</property>
+              <object class="GtkListBox">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="background"/>
+                </style>
+                <child>
+                  <object class="AdwSwitchRow" id="show-hidden-button">
+                    <property name="title" translatable="yes">Show _Hidden Files</property>
+                    <property name="use-underline">true</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
