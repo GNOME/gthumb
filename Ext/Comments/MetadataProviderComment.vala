@@ -73,7 +73,7 @@ public class Gth.MetadataProviderComment : Gth.MetadataProvider {
 
 		}
 		catch (Error error) {
-			stdout.printf ("ERRROR: %s\n", error.message);
+			//stdout.printf ("ERROR: %s\n", error.message);
 			file_data.info.set_attribute_boolean ("comment::no-comment-file", true);
 		}
 	}
