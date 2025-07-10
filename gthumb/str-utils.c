@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <math.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include "glib-utils.h"
@@ -211,6 +212,58 @@ _g_str_replace_char (char *str,
 			*p = new_ch;
 		p++;
 	}
+}
+
+
+char *
+_g_convert_double_to_c_format (double value, int max_decimal_digits) {
+	double int_part, fract_part;
+	fract_part = modf (value, &int_part);
+
+	GString *result = g_string_new ("");
+	if (int_part < 0) {
+		g_string_append_c (result, '-');
+	}
+
+	// Integer
+	char *local_format = g_strdup_printf ("%d", (int) int_part);
+	char *p = local_format;
+	while (*p != 0) {
+		if ((*p >= '0') && (*p <= '9')) {
+			g_string_append_c (result, *p);
+		}
+		p++;
+	}
+	g_free (local_format);
+
+	// Dot
+	g_string_append_c (result, '.');
+
+	// Fractional
+	if (fract_part < 0) {
+		fract_part = -fract_part;
+	}
+	local_format = g_strdup_printf ("%f", fract_part);
+	p = local_format;
+	gboolean after_symbol = FALSE;
+	int digits = 0;
+	while (*p != 0) {
+		if ((*p >= '0') && (*p <= '9')) {
+			if (after_symbol) {
+				g_string_append_c (result, *p);
+				digits++;
+				if (digits >= max_decimal_digits) {
+					break;
+				}
+			}
+		}
+		else if (!after_symbol) {
+			after_symbol = TRUE;
+		}
+		p++;
+	}
+	g_free (local_format);
+	return g_string_free (result, FALSE);
 }
 
 

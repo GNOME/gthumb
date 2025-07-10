@@ -201,11 +201,14 @@ gth_open_map_real_set_file (GthPropertyView *base,
 		char *position = decimal_coordinates_to_string (latitude, longitude);
 		gtk_button_set_label (GTK_BUTTON (self->priv->link_button), position);
 
-		char *uri = g_strdup_printf ("https://www.openstreetmap.org/?mlat=%f&mlon=%f&zoom=6", latitude, longitude);
-		_g_str_replace_char (uri, ',', '.');
+		char *latitude_s = _g_convert_double_to_c_format (latitude, 6);
+		char *longitude_s = _g_convert_double_to_c_format (longitude, 6);
+		char *uri = g_strdup_printf ("https://www.openstreetmap.org/?mlat=%s&mlon=%s&zoom=6", latitude_s, longitude_s);
 		gtk_link_button_set_uri (GTK_LINK_BUTTON (self->priv->link_button), uri);
 
 		g_free (uri);
+		g_free (longitude_s);
+		g_free (latitude_s);
 		g_free (position);
 	}
 }
