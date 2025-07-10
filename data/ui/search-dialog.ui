@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthSearchDialog" parent="AdwApplicationWindow">
+  <template class="GthSearchDialog">
     <property name="title" translatable="yes" context="Noun">Search</property>
     <property name="default_width">700</property>
     <property name="resizable">false</property>

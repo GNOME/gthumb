@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthWindow" parent="AdwApplicationWindow">
+  <template class="GthWindow">
     <property name="title" translatable="yes">Thumbnails</property>
     <property name="default_width">800</property>
     <property name="default_height">800</property>

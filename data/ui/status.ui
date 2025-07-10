@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthStatus" parent="GtkBox">
+  <template class="GthStatus">
     <property name="orientation">horizontal</property>
     <property name="spacing">24</property>
     <child>

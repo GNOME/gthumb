@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthFilterRow" parent="AdwActionRow">
+  <template class="GthFilterRow">
     <property name="activatable-widget">visibility_switch</property>
     <child type="prefix">
       <object class="GtkImage">

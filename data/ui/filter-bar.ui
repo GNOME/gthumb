@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="adwaita" version="1.7.0"/>
-  <template class="GthFilterBar" parent="GtkBox">
+  <template class="GthFilterBar">
     <property name="orientation">horizontal</property>
     <property name="spacing">12</property>
     <child>
