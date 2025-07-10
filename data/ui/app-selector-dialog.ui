@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthAppSelectorDialog" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">Open With</property>
+    <property name="default_width">550</property>
+    <property name="resizable">true</property>
+    <property name="modal">true</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-start-title-buttons">false</property>
+            <property name="show-end-title-buttons">false</property>
+            <child type="start">
+              <object class="GtkButton">
+                <property name="label">Cancel</property>
+                <signal name="clicked" handler="on_cancel" />
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label">Select</property>
+                <signal name="clicked" handler="on_select" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="GtkListBox" id="app_list">
+                    <property name="selection-mode">single</property>
+                    <property name="activate-on-single-click">false</property>
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                    <signal name="row-activated" handler="on_row_activated" />
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

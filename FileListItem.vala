@@ -1,9 +1,9 @@
 public class Gth.FileListItem : Gtk.Box {
 	public unowned string[] attributes_v;
-	int size;
-	const int V_SPACING = 6;
+	public FileData file_data;
 
-	public FileListItem (int _size, string[] _attributes_v) {
+	public FileListItem (Gth.Window _window, int _size, string[] _attributes_v) {
+		window = _window;
 		size = _size;
 		attributes_v = _attributes_v;
 		orientation = Gtk.Orientation.VERTICAL;
@@ -55,6 +55,13 @@ public class Gth.FileListItem : Gtk.Box {
 		labels.visible = attributes_v.length > 0;
 		first_label.visible = attributes_v.length > 0;
 		second_label.visible = attributes_v.length > 1;
+
+		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_SECONDARY);
+		click_events.pressed.connect ((n_press, x, y) => {
+			window.open_file_context_menu (this, (int) x, (int) y);
+		});
+		add_controller (click_events);
 	}
 
 	public void bind (FileData _file_data) {
@@ -117,9 +124,11 @@ public class Gth.FileListItem : Gtk.Box {
 		preview.paintable = null;
 	}
 
+	int size;
+	const int V_SPACING = 6;
+	weak Gth.Window window;
 	ulong thumbnail_texture_id;
 	ulong thumbnail_state_id;
-	FileData file_data;
 	Gtk.Picture preview;
 	Gtk.Image icon;
 	Gtk.Inscription first_label;

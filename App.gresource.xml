@@ -60,5 +60,6 @@
     <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
     <file preprocess="xml-stripblanks">search-source-editor-group.ui</file>
     <file preprocess="xml-stripblanks">catalog-dialog.ui</file>
+    <file preprocess="xml-stripblanks">app-selector-dialog.ui</file>
   </gresource>
 </gresources>

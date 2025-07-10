@@ -353,7 +353,6 @@ public class Gth.FilePropertyItem : Gtk.Box {
 
 	public FilePropertyItem (Gth.FilePropertyView _view) {
 		view = _view;
-
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
 		click_events.pressed.connect ((n_press, x, y) => {

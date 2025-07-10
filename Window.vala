@@ -169,11 +169,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			try {
 				load_folder.end (res);
 				if (file_to_select != null) {
-					var iter = visible_files.iterator ();
-					var pos = iter.find_first ((file_data) => file_data.file.equal (file_to_select));
-					if (pos >= 0) {
-						file_grid.model.select_item (pos, true);
-					}
+					select_file (file_to_select);
 				}
 			}
 			catch (Error error) {
@@ -268,6 +264,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 		show_hidden_files = show;
 		folder_tree.show_hidden = show_hidden_files;
 		update_thumbnail_list ();
+	}
+
+	public void open_file_context_menu (Gth.FileListItem item, int x, int y) {
+		if (!is_selected (item.file_data.file)) {
+			select_file (item.file_data.file);
+		}
+		Graphene.Point p = Graphene.Point.zero ();
+		item.compute_point (non_empty_folder, Graphene.Point.zero (), out p);
+		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
+		file_context_menu.popup ();
 	}
 
 	void update_title () {
@@ -450,6 +456,39 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (file == null)
 			return null;
 		return file.file;
+	}
+
+	bool is_selected (File file) {
+		var selected = file_grid.model.get_selection ();
+		for (int64 idx = 0; idx < selected.get_size (); idx++) {
+			var pos = selected.get_nth ((uint) idx);
+			var selected_file = file_grid.model.get_item (pos) as FileData;
+			if (selected_file.file.equal (file)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void select_file (File file) {
+		var iter = visible_files.iterator ();
+		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
+		if (pos >= 0) {
+			file_grid.model.select_item (pos, true);
+		}
+	}
+
+	GenericArray<Gth.FileData> get_selected () {
+		var selected_files = new GenericArray<Gth.FileData>();
+		var selected = file_grid.model.get_selection ();
+		for (int64 idx = 0; idx < selected.get_size (); idx++) {
+			var pos = selected.get_nth ((uint) idx);
+			var file = file_grid.model.get_item (pos) as FileData;
+			if (file != null) {
+				selected_files.add (file);
+			}
+		}
+		return selected_files;
 	}
 
 	void update_selection_info () {
@@ -685,6 +724,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("open-with", null);
+		action.activate.connect ((_action, param) => {
+			open_selected_files.begin ();
+		});
+		action_group.add_action (action);
+
 		close_request.connect (() => {
 			closing = true;
 			if (jobs.size () > 0) {
@@ -711,7 +756,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var factory = new Gtk.SignalListItemFactory ();
 		factory.setup.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FileListItem (thumbnail_size, thumbnail_attributes_v);
+			list_item.child = new Gth.FileListItem (this, thumbnail_size, thumbnail_attributes_v);
 		});
 		factory.teardown.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
@@ -809,12 +854,37 @@ public class Gth.Window : Adw.ApplicationWindow {
 			folder_tree.current_folder.info_changed ();
 
 			// TODO: start searching if the search parameters changed
-
-			local_job.done ();
 		}
 		catch (Error error) {
-			local_job.done ();
 			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void open_selected_files () {
+		var local_job = new_job ("Choose application");
+		try {
+			var files = get_selected ();
+			if (files.length == 0) {
+				throw new IOError.FAILED (_("No file selected"));
+			}
+			var app_selector = new Gth.AppSelector ();
+			var app_info = yield app_selector.select_app (this, files, local_job.cancellable);
+			var uris = new List<string>();
+			foreach (unowned var file_data in files)
+				uris.append (file_data.file.get_uri ());
+			var context = get_display ().get_app_launch_context ();
+			context.set_timestamp (0);
+			context.set_icon (app_info.get_icon ());
+			app_info.launch_uris (uris, context);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
 		}
 	}
 
@@ -896,6 +966,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gth.SidebarResizer second_sidebar_resizer;
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
 	[GtkChild] unowned Gtk.Button update_search_button;
+	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 
 	Page current_page = Page.NONE;
 	public SimpleActionGroup action_group = null;

@@ -316,6 +316,7 @@ source_files = files(
   'DefaultSorters.vala',
   'DefaultTests.vala',
   'Dialogs/AddRuleDialog.vala',
+  'Dialogs/AppSelector.vala',
   'Dialogs/FilterEditorPage.vala',
   'Dialogs/FilterRow.vala',
   'Dialogs/FiltersDialog.vala',
