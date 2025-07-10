@@ -67,7 +67,7 @@ public static int main (string[] args) {
 		// Generate the thumbnail.
 		var input_file = File.new_for_commandline_arg (input_path);
 		if (input_file == null) {
-			throw new IOError.FAILED ("Invalid video filename.");
+			throw new IOError.FAILED ("Invalid video filename");
 		}
 
 		var cancellable = new Cancellable ();
@@ -80,7 +80,7 @@ public static int main (string[] args) {
 		var bytes = save_png (scaled, cancellable);
 		var output_file = File.new_for_commandline_arg (output_path);
 		if (output_file == null) {
-			throw new IOError.FAILED ("Invalid thumbnail filename.");
+			throw new IOError.FAILED ("Invalid thumbnail filename");
 		}
 		Gth.Files.save_file (output_file, bytes);
 	}

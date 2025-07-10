@@ -33,7 +33,7 @@ public class Gth.ThumbLoader {
 			var stream = thumb_file.read (cancellable);
 			var bytes = Files.read_all_with_buffer (stream, cancellable, buffer);
 			if (!Thumbnailer.valid_thumbnail_for_file (bytes, file_data, cancellable))
-				throw new IOError.FAILED ("Invalid Thumbnail");
+				throw new IOError.FAILED ("Invalid thumbnail");
 			image = load_png (bytes, 0, cancellable);
 			unowned var icc_profile = image.get_icc_profile ();
 			if (icc_profile != null) {

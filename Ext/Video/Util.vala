@@ -48,13 +48,13 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	// Get the video length.
 	int64 duration;
 	if (!playbin.query_duration (Gst.Format.TIME, out duration)) {
-		throw new IOError.FAILED ("Could not get the media length.");
+		throw new IOError.FAILED ("Could not get the media length");
 	}
 
 	// Seek to the thumbnail position.
 	int64 thumbnail_position = duration / 3;
 	if (!playbin.seek_simple (Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE, thumbnail_position))	{
-		throw new IOError.FAILED ("Seek failed.");
+		throw new IOError.FAILED ("Seek failed");
 	}
 	playbin.get_state (null, null, MAX_WAITING_TIME);
 
@@ -68,13 +68,13 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	// Check the sample format.
 	unowned var sample_caps = sample.get_caps ();
 	if (sample_caps == null) {
-		throw new IOError.FAILED ("No caps on output buffer.");
+		throw new IOError.FAILED ("No caps on output buffer");
 	}
 
 	unowned var cap_struct = sample_caps.get_structure (0);
 	unowned var format = cap_struct.get_string ("format");
 	if ((format != "RGB") && (format != "RGBA")) {
-		throw new IOError.FAILED ("Wrong sample format.");
+		throw new IOError.FAILED ("Wrong sample format");
 	}
 
 	// Create the pixbuf from the sample data.
@@ -82,11 +82,11 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	if (!cap_struct.get_int ("width", out width)
 		|| !cap_struct.get_int ("height", out height))
 	{
-		throw new IOError.FAILED ("No size.");
+		throw new IOError.FAILED ("No size");
 	}
 
 	if ((width == 0) || (height == 0)) {
-		throw new IOError.FAILED ("Wrong size.");
+		throw new IOError.FAILED ("Wrong size");
 	}
 
 	Gth.Image image = null;
@@ -102,7 +102,7 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	memory.unmap (info);
 
 	if (image == null) {
-		throw new IOError.FAILED ("Could not create the image.");
+		throw new IOError.FAILED ("Could not create the image");
 	}
 
 	playbin.set_state (Gst.State.NULL);
