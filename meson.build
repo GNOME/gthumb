@@ -313,11 +313,14 @@ vapi_files = files(
 
 source_files = files(
   'Application.vala',
+  'Bookmarks.vala',
   'DateTime.vala',
   'DefaultSorters.vala',
   'DefaultTests.vala',
   'Dialogs/AddRuleDialog.vala',
   'Dialogs/AppSelector.vala',
+  'Dialogs/BookmarksDialog.vala',
+  'Dialogs/BookmarkRow.vala',
   'Dialogs/FilterEditorPage.vala',
   'Dialogs/FilterRow.vala',
   'Dialogs/FiltersDialog.vala',
@@ -385,7 +388,6 @@ source_files = files(
   'Types.vala',
   'UserDir.vala',
   'Util.vala',
-  'WindowBookmarks.vala',
   'WindowHistory.vala',
   'Window.vala',
 )

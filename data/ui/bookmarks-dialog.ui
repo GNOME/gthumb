@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthBookmarksDialog">
+    <property name="title" translatable="yes">Bookmarks</property>
+    <property name="content_width">700</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup">
+            <child>
+              <object class="GtkListBox" id="bookmark_list">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="AdwNavigationPage" id="entry_page">
+    <property name="title" translatable="yes">Location</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-back-button">true</property>
+            <property name="show-end-title-buttons">false</property>
+            <property name="show-start-title-buttons">false</property>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label" translatable="yes">Save</property>
+                <signal name="clicked" handler="on_save" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="separate-rows">true</property>
+                <child>
+                  <object class="AdwEntryRow" id="name_row">
+                    <property name="title" translatable="yes">Name</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="uri_row">
+                    <property name="title" translatable="yes">Location</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </object>
+</interface>

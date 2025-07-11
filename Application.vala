@@ -19,6 +19,7 @@ public class Gth.Application : Adw.Application {
 	public ColorManager color_manager;
 	public GenericList<FileData> roots;
 	public Monitor monitor;
+	public Bookmarks bookmarks;
 
 	public Application () {
 		Object (
@@ -40,6 +41,7 @@ public class Gth.Application : Adw.Application {
 		color_manager = new ColorManager ();
 		roots = new GenericList<FileData>();
 		monitor = new Monitor ();
+		bookmarks = new Bookmarks ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();

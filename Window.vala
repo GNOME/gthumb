@@ -34,7 +34,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer (get_next_file_for_thumbnailer);
 		history = new WindowHistory (this);
-		bookmarks = new WindowBookmarks (this);
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
 		current_parents = null;
@@ -111,8 +110,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if (app.one_window ()) {
 				history.restore_from_file ();
 			}
-			bookmarks.load_from_file.begin ((_obj, res) => {
-				bookmarks.load_from_file.end (res);
+			app.bookmarks.load_from_file.begin ((_obj, res) => {
+				app.bookmarks.load_from_file.end (res);
 				open_location (location, LoadAction.OPEN, file_to_select);
 			});
 		});
@@ -529,11 +528,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/app-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/bookmarks-menu.ui");
-		bookmarks_button.menu_model = builder.get_object ("bookmarks_menu") as MenuModel;
-		bookmarks.menu = builder.get_object ("app-bookmarks") as Menu;
-		bookmarks.system_menu = builder.get_object ("system-bookmarks") as Menu;
-		bookmarks.roots_menu = builder.get_object ("roots") as Menu;
+		var bookmarks_menu = new Menu ();
+		var section = new Menu ();
+		bookmarks_menu.append_section (null, section);
+		section.append (_("_Add Bookmark"), "win.add-bookmark");
+		section.append (_("_Edit Bookmarks…"), "win.edit-bookmarks");
+		section.append_submenu (_("_System Bookmarks"), app.bookmarks.system_menu);
+		bookmarks_menu.append_section (null, app.bookmarks.roots_menu);
+		bookmarks_menu.append_section (null, app.bookmarks.menu);
+		bookmarks_button.menu_model = bookmarks_menu;
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/history-menu.ui");
 		history_button.menu_model = builder.get_object ("history_menu") as MenuModel;
@@ -727,6 +730,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("open-with", null);
 		action.activate.connect ((_action, param) => {
 			open_selected_files.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-bookmarks", null);
+		action.activate.connect ((_action, param) => {
+			var dialog = new Gth.BookmarksDialog ();
+			dialog.present (this);
 		});
 		action_group.add_action (action);
 
@@ -975,7 +985,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	HashTable<string, Gtk.Window?> named_dialogs;
 	Gth.Thumbnailer thumbnailer;
 	Gth.WindowHistory history;
-	Gth.WindowBookmarks bookmarks;
 	double initial_sidebar_width;
 	double initial_second_sidebar_width;
 }

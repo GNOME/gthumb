@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthBookmarkRow">
+    <child type="prefix">
+      <object class="GtkBox">
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">list-drag-handle-symbolic</property>
+            <property name="opacity">0.5</property>
+            <property name="margin-end">12</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImage" id="icon">
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkBox" id="edit_buttons">
+        <property name="spacing">12</property>
+        <child>
+          <object class="GtkButton" id="edit_button">
+            <property name="icon-name">edit-item-symbolic</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="delete_button">
+            <property name="icon-name">delete-item-symbolic</property>
+            <property name="valign">center</property>
+            <style>
+              <class name="destructive-action"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -13,6 +13,16 @@ public class Gth.GenericList<T> {
 		return model.get_item (0);
 	}
 
+	public int find (T _item) {
+		var iter = new Iterator<T> (this);
+		while (iter.next ()) {
+			if (iter.get () == _item) {
+				return iter.index ();
+			}
+		}
+		return -1;
+	}
+
 	public class Iterator<T> {
 		public Iterator (GenericList<T> _list) {
 			list = _list;

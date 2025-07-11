@@ -4,7 +4,9 @@
     <file preprocess="xml-stripblanks">calendar-symbolic.svg</file>
     <file preprocess="xml-stripblanks">catalog-symbolic.svg</file>
     <file preprocess="xml-stripblanks">clock-alt-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">content-loading-symbolic.svg</file>
     <file preprocess="xml-stripblanks">delete-item-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">document-properties-symbolic.svg</file>
     <file preprocess="xml-stripblanks">edit-item-symbolic.svg</file>
     <file preprocess="xml-stripblanks">empty-symbolic.svg</file>
     <file preprocess="xml-stripblanks">filter-symbolic.svg</file>
@@ -13,6 +15,7 @@
     <file preprocess="xml-stripblanks">library-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-add-symbolic.svg</file>
     <file preprocess="xml-stripblanks">list-delete-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">map-marker-symbolic.svg</file>
     <file preprocess="xml-stripblanks">non-starred-symbolic.svg</file>
     <file preprocess="xml-stripblanks">open-book-symbolic.svg</file>
     <file preprocess="xml-stripblanks">pin-symbolic.svg</file>
@@ -20,13 +23,10 @@
     <file preprocess="xml-stripblanks">starred-symbolic.svg</file>
     <file preprocess="xml-stripblanks">table-symbolic.svg</file>
     <file preprocess="xml-stripblanks">tag-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">thumbnail-error-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-home-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">map-marker-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">content-loading-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">document-properties-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-refresh-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">thumbnail-error-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -38,28 +38,29 @@
     <file>style.css</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/ui">
+    <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
     <file preprocess="xml-stripblanks">app-menu.ui</file>
-    <file preprocess="xml-stripblanks">bookmarks-menu.ui</file>
-    <file preprocess="xml-stripblanks">filters-dialog.ui</file>
+    <file preprocess="xml-stripblanks">app-selector-dialog.ui</file>
+    <file preprocess="xml-stripblanks">bookmarks-dialog.ui</file>
+    <file preprocess="xml-stripblanks">bookmark-row.ui</file>
+    <file preprocess="xml-stripblanks">catalog-dialog.ui</file>
     <file preprocess="xml-stripblanks">file-property-item.ui</file>
     <file preprocess="xml-stripblanks">file-property-view.ui</file>
     <file preprocess="xml-stripblanks">filter-bar.ui</file>
     <file preprocess="xml-stripblanks">filter-editor-page.ui</file>
     <file preprocess="xml-stripblanks">filter-row.ui</file>
+    <file preprocess="xml-stripblanks">filters-dialog.ui</file>
+    <file preprocess="xml-stripblanks">folder-selector-dialog.ui</file>
     <file preprocess="xml-stripblanks">history-menu.ui</file>
     <file preprocess="xml-stripblanks">metadata-view.ui</file>
     <file preprocess="xml-stripblanks">property-sidebar.ui</file>
+    <file preprocess="xml-stripblanks">search-dialog.ui</file>
+    <file preprocess="xml-stripblanks">search-source-editor-group.ui</file>
+    <file preprocess="xml-stripblanks">search-source-row.ui</file>
     <file preprocess="xml-stripblanks">sort-files-dialog.ui</file>
     <file preprocess="xml-stripblanks">sort-folders-dialog.ui</file>
     <file preprocess="xml-stripblanks">status.ui</file>
     <file preprocess="xml-stripblanks">test-expr-editor-group.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
-    <file preprocess="xml-stripblanks">search-dialog.ui</file>
-    <file preprocess="xml-stripblanks">search-source-row.ui</file>
-    <file preprocess="xml-stripblanks">folder-selector-dialog.ui</file>
-    <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
-    <file preprocess="xml-stripblanks">search-source-editor-group.ui</file>
-    <file preprocess="xml-stripblanks">catalog-dialog.ui</file>
-    <file preprocess="xml-stripblanks">app-selector-dialog.ui</file>
   </gresource>
 </gresources>
