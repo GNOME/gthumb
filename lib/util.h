@@ -57,6 +57,7 @@ bool _g_parse_exif_date (const char *exif_date,
 GDateTime * _g_date_time_new_from_exif_date (const char *exif_date);
 const char * guess_mime_type (const guchar* buffer, gsize buffer_size);
 char * _g_format_duration_for_display (gint64 msecs);
+char * _g_format_double (double value, int max_decimal_digits);
 
 G_END_DECLS
 

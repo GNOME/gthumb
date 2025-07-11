@@ -308,6 +308,7 @@ vapi_files = files(
   'vapi/Types.vapi',
   'vapi/Video.vapi',
   'vapi/Zip.vapi',
+  'vapi/Lib.vapi',
 )
 
 source_files = files(
