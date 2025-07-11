@@ -27,7 +27,7 @@ public class Gth.AppSelector : Object {
 			cancelled_event = 0;
 		}
 		if (result == null) {
-			throw new IOError.FAILED ("No app selected");
+			throw new IOError.FAILED ("No application selected");
 		}
 		return result;
 	}
