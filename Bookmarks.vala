@@ -123,6 +123,21 @@ public class Gth.Bookmarks {
 			throw local_job.error;
 		}
 	}
+
+	public async void add_bookmark (File file) throws Error {
+		foreach (unowned var entry in entries) {
+			if (entry.file.equal (file)) {
+				throw new IOError.FAILED ("Already saved");
+			}
+		}
+		var file_source = app.get_source_for_file (file);
+		var info = file_source.get_display_info (file);
+		var entry = new BookmarkEntry (file, info.get_display_name ());
+		entries.model.append (entry);
+		var menu_item = Bookmarks.new_menu_item_from_entry (entry);
+		menu.append_item (menu_item);
+		yield save_app_bookmarks ();
+	}
 }
 
 public class Gth.BookmarkEntry : Object {

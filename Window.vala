@@ -529,10 +529,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
 		var bookmarks_menu = new Menu ();
+
 		var section = new Menu ();
 		bookmarks_menu.append_section (null, section);
-		section.append (_("_Add Bookmark"), "win.add-bookmark");
+		section.append (_("_Add to Bookmarks"), "win.add-bookmark");
 		section.append (_("_Edit Bookmarks…"), "win.edit-bookmarks");
+		section = new Menu ();
+		bookmarks_menu.append_section (null, section);
 		section.append_submenu (_("_System Bookmarks"), app.bookmarks.system_menu);
 		bookmarks_menu.append_section (null, app.bookmarks.roots_menu);
 		bookmarks_menu.append_section (null, app.bookmarks.menu);
@@ -737,6 +740,19 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var dialog = new Gth.BookmarksDialog ();
 			dialog.present (this);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("add-bookmark", null);
+		action.activate.connect ((_action, param) => {
+			app.bookmarks.add_bookmark.begin (folder_tree.current_folder.file, (_obj, res) => {
+				try {
+					app.bookmarks.add_bookmark.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+			});
 		});
 		action_group.add_action (action);
 

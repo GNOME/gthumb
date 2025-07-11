@@ -3,6 +3,7 @@
   <template class="GthBookmarksDialog">
     <property name="title" translatable="yes">Bookmarks</property>
     <property name="content_width">700</property>
+    <property name="content_height">500</property>
     <child>
       <object class="AdwPreferencesPage">
         <child>
