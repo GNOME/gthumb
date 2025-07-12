@@ -56,7 +56,7 @@
                           <object class="GtkToggleButton" id="vfs_button">
                             <property name="icon-name">folder-symbolic</property>
                             <property name="action-name">win.show-folders</property>
-                            <property name="tooltip-text">Folders</property>
+                            <property name="tooltip-text" translatable="yes">Folders</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
@@ -67,7 +67,7 @@
                           <object class="GtkToggleButton" id="catalog_button">
                             <property name="icon-name">library-symbolic</property>
                             <property name="action-name">win.show-catalogs</property>
-                            <property name="tooltip-text">Catalogs</property>
+                            <property name="tooltip-text" translatable="yes">Catalogs</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
@@ -83,7 +83,7 @@
                           <object class="GtkButton">
                             <property name="icon-name">user-home-symbolic</property>
                             <property name="action-name">win.load-home</property>
-                            <property name="tooltip-text">Home Folder</property>
+                            <property name="tooltip-text" translatable="yes">Home Folder</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
@@ -93,7 +93,7 @@
                         <child>
                           <object class="GtkMenuButton" id="bookmarks_button">
                             <property name="icon-name">user-bookmarks-symbolic</property>
-                            <property name="tooltip-text">Bookmarks</property>
+                            <property name="tooltip-text" translatable="yes">Bookmarks</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
@@ -103,7 +103,7 @@
                         <child>
                           <object class="GtkMenuButton" id="history_button">
                             <property name="icon-name">clock-alt-symbolic</property>
-                            <property name="tooltip-text">History</property>
+                            <property name="tooltip-text" translatable="yes">History</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
