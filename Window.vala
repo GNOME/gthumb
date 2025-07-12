@@ -269,6 +269,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		else {
 			title = "Thumbnails";
 		}
+		location_button.label = title;
 	}
 
 	void update_sensitivity () {
@@ -420,15 +421,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void update_location_menu () {
-		var location_menu = location_button.menu_model as Menu;
-		location_menu.remove_all ();
-		if (folder_tree.current_folder == null)
-			return;
+		location_actions.remove_all_actions ();
 		var location = folder_tree.current_folder.file;
 		while (location != null) {
-			var item = Util.menu_item_for_file (location);
-			item.set_action_and_target_value ("win.load-location", new Variant.string (location.get_uri ()));
-			location_menu.append_item (item);
+			var action = new ActionInfo.for_file ("win.load-location", location);
+			location_actions.append_action (action);
 			location = location.get_parent ();
 		}
 	}
@@ -967,6 +964,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
+	[GtkChild] unowned Gth.ActionList location_actions;
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] unowned Gth.SidebarResizer second_sidebar_resizer;
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
