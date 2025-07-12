@@ -6,6 +6,7 @@
     <child>
       <object class="GtkMenuButton" id="filter_selector">
         <property name="always_show_arrow">true</property>
+        <property name="direction">up</property>
         <style>
           <class name="flat"/>
         </style>
