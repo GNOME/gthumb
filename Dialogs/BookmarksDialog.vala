@@ -1,6 +1,12 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/bookmarks-dialog.ui")]
 public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 	public BookmarksDialog () {
+		var empty_row = new Adw.ActionRow ();
+		empty_row.title = _("No Bookmark");
+		empty_row.sensitive = false;
+		empty_row.halign = Gtk.Align.CENTER;
+		bookmark_list.set_placeholder (empty_row);
+
 		bookmark_list.bind_model (app.bookmarks.entries.model, new_bookmark_row);
 	}
 
