@@ -13,6 +13,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 	File last_catalog = null;
 	GenericArray<Gtk.ListItem> binded_grid_items;
 	bool closing = false;
+	ActionCategory actions_category;
+	ActionCategory bookmarks_category;
+	ActionCategory parents_category;
 
 	public enum Page {
 		NONE = 0,
@@ -38,6 +41,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 		current_parents = null;
 		active_resizer = null;
 		binded_grid_items = new GenericArray<Gtk.ListItem> ();
+		actions_category = new ActionCategory ("", -1);
+		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
+		parents_category = new ActionCategory (_("Path"), 1);
 
 		init_folder_tree ();
 		init_file_grid ();
@@ -425,22 +431,22 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var location = folder_tree.current_folder.file;
 		while (location != null) {
 			var action = new ActionInfo.for_file ("win.load-location", location);
+			action.category = parents_category;
 			location_actions.append_action (action);
 			location = location.get_parent ();
 		}
 	}
 
-	public void update_preferred_menu () {
+	public void update_bookmarks_menu () {
+		var bookmark_menu = bookmark_popover.actions;
 		bookmark_menu.remove_all_actions ();
 
-		var actions = new ActionCategory ("", -1);
-
 		var action = new ActionInfo ("win.add-bookmark", null, _("_Add To Bookmarks"));
-		action.category = actions;
+		action.category = actions_category;
 		bookmark_menu.append_action (action);
 
 		action = new ActionInfo ("win.edit-bookmarks", null, _("_Edit Bookmarks…"));
-		action.category = actions;
+		action.category = actions_category;
 		bookmark_menu.append_action (action);
 
 		// Roots
@@ -449,11 +455,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 
 		// Bookmarks
-		var bookmarks = new ActionCategory (_("Bookmarks"), 1);
 		foreach (unowned var entry in app.bookmarks.entries) {
-			var file_action = new ActionInfo.for_file ("win.load-location", entry.file, entry.display_name);
-			file_action.category = bookmarks;
-			bookmark_menu.append_action (file_action);
+			action = new ActionInfo.for_file ("win.load-location", entry.file, entry.display_name);
+			action.category = bookmarks_category;
+			bookmark_menu.append_action (action);
 		}
 
 		// System bookmarks
@@ -544,9 +549,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/app-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/history-menu.ui");
-		history_button.menu_model = builder.get_object ("history_menu") as MenuModel;
-		history.menu = builder.get_object ("history_entries") as Menu;
+		history.actions = history_popover.actions;
 
 		var action = new SimpleAction ("about", null);
 		action.activate.connect (() => {
@@ -967,8 +970,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Adw.OverlaySplitView browser_content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
-	[GtkChild] unowned Gtk.MenuButton history_button;
-	[GtkChild] unowned Gth.ActionList bookmark_menu;
+	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
+	[GtkChild] unowned Gth.ActionPopover history_popover;
 	[GtkChild] unowned Gtk.GridView file_grid;
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;

@@ -1,14 +1,18 @@
 class Gth.WindowHistory {
 	public weak Window window;
 	public Menu menu;
+	public Gth.ActionList actions;
 	public GenericArray<File> files;
 	public int current;
 
 	public WindowHistory (Window _window) {
 		window = _window;
 		menu = null;
+		actions = null;
 		files = new GenericArray<File>();
 		current = -1;
+		locations_category = new ActionCategory (_("History"), 1);
+		actions_category = new ActionCategory ("", 0);
 	}
 
 	public void print () {
@@ -21,21 +25,30 @@ class Gth.WindowHistory {
 	}
 
 	public void update_menu () {
-		menu.remove_all ();
+		actions.remove_all_actions ();
+
+		var action = new ActionInfo ("win.delete-history", null, _("_Delete History"));
+		action.category = actions_category;
+		actions.append_action (action);
+
 		var idx = 0;
 		foreach (unowned var file in files) {
-			var item = Util.menu_item_for_file (file);
-			item.set_action_and_target_value ("win.load-history-position", new Variant.int16 (idx));
-			menu.append_item (item);
+			var file_source = app.get_source_for_file (file);
+			var info = file_source.get_display_info (file);
+			var file_action = new ActionInfo ("win.load-history-position",
+				new Variant.int16 (idx),
+				info.get_display_name (),
+				info.get_symbolic_icon ());
+			file_action.category = locations_category;
+			actions.append_action (file_action);
 			if (current == idx) {
-				var action = window.action_group.lookup_action ("load-history-position");
-				if (action != null) {
-					action.change_state (new Variant.int16 (idx));
+				var history_action = window.action_group.lookup_action ("load-history-position");
+				if (history_action != null) {
+					history_action.change_state (new Variant.int16 (idx));
 				}
 			}
 			idx++;
 		}
-		update_sensitivity ();
 	}
 
 	public void add (File file) {
@@ -195,4 +208,7 @@ class Gth.WindowHistory {
 	bool can_load_next () {
 		return (files.length > 0) && (current > 0);
 	}
+
+	ActionCategory locations_category;
+	ActionCategory actions_category;
 }

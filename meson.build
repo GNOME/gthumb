@@ -313,6 +313,7 @@ vapi_files = files(
 
 source_files = files(
   'ActionList.vala',
+  'ActionPopover.vala',
   'Application.vala',
   'Bookmarks.vala',
   'DateTime.vala',

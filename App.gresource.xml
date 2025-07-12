@@ -27,7 +27,6 @@
     <file preprocess="xml-stripblanks">user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-home-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-refresh-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">no-icon.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -52,7 +51,6 @@
     <file preprocess="xml-stripblanks">filter-row.ui</file>
     <file preprocess="xml-stripblanks">filters-dialog.ui</file>
     <file preprocess="xml-stripblanks">folder-selector-dialog.ui</file>
-    <file preprocess="xml-stripblanks">history-menu.ui</file>
     <file preprocess="xml-stripblanks">metadata-view.ui</file>
     <file preprocess="xml-stripblanks">property-sidebar.ui</file>
     <file preprocess="xml-stripblanks">search-dialog.ui</file>
