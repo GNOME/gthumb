@@ -430,6 +430,38 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	public void update_preferred_menu () {
+		bookmark_menu.remove_all_actions ();
+
+		var actions = new ActionCategory ("", -1);
+
+		var action = new ActionInfo ("win.add-bookmark", null, _("_Add To Bookmarks"));
+		action.category = actions;
+		bookmark_menu.append_action (action);
+
+		action = new ActionInfo ("win.edit-bookmarks", null, _("_Edit Bookmarks…"));
+		action.category = actions;
+		bookmark_menu.append_action (action);
+
+		// Roots
+		foreach (unowned var file_action in app.bookmarks.roots) {
+			bookmark_menu.append_action (file_action);
+		}
+
+		// Bookmarks
+		var bookmarks = new ActionCategory (_("Bookmarks"), 1);
+		foreach (unowned var entry in app.bookmarks.entries) {
+			var file_action = new ActionInfo.for_file ("win.load-location", entry.file, entry.display_name);
+			file_action.category = bookmarks;
+			bookmark_menu.append_action (file_action);
+		}
+
+		// System bookmarks
+		foreach (unowned var file_action in app.bookmarks.system_bookmarks) {
+			bookmark_menu.append_action (file_action);
+		}
+	}
+
 	File? get_selected_file () {
 		var selected = file_grid.model.get_selection ();
 		if (selected.get_size () != 1)
@@ -511,19 +543,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	void init_actions () {
 		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/app-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
-
-		var bookmarks_menu = new Menu ();
-
-		var section = new Menu ();
-		bookmarks_menu.append_section (null, section);
-		section.append (_("_Add to Bookmarks"), "win.add-bookmark");
-		section.append (_("_Edit Bookmarks…"), "win.edit-bookmarks");
-		section = new Menu ();
-		bookmarks_menu.append_section (null, section);
-		section.append_submenu (_("_System Bookmarks"), app.bookmarks.system_menu);
-		bookmarks_menu.append_section (null, app.bookmarks.roots_menu);
-		bookmarks_menu.append_section (null, app.bookmarks.menu);
-		bookmarks_button.menu_model = bookmarks_menu;
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/history-menu.ui");
 		history_button.menu_model = builder.get_object ("history_menu") as MenuModel;
@@ -948,8 +967,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] unowned Adw.OverlaySplitView browser_content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
-	[GtkChild] unowned Gtk.MenuButton bookmarks_button;
 	[GtkChild] unowned Gtk.MenuButton history_button;
+	[GtkChild] unowned Gth.ActionList bookmark_menu;
 	[GtkChild] unowned Gtk.GridView file_grid;
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;

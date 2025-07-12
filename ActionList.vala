@@ -1,7 +1,17 @@
 public class Gth.ActionList : Gtk.Box {
 	construct {
 		actions = new GenericList<ActionInfo>();
-		var selection_model = new Gtk.NoSelection (actions.model);
+		var sort_model = new Gtk.SortListModel (actions.model, null);
+		sort_model.section_sorter = new Gtk.CustomSorter ((a, b) => {
+			unowned var action_a = a as ActionInfo;
+			unowned var action_b = b as ActionInfo;
+			if ((action_a.category == null) || (action_b.category == null)) {
+				return 0;
+			}
+			return Util.intcmp (action_a.category.sort_order, action_b.category.sort_order);
+		});
+		var selection_model = new Gtk.NoSelection (sort_model);
+
 		var factory = new Gtk.SignalListItemFactory ();
 		factory.setup.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
@@ -24,6 +34,7 @@ public class Gth.ActionList : Gtk.Box {
 				action_item.unbind ();
 			}
 		});
+
 		view = new Gtk.ListView (selection_model, factory);
 		view.add_css_class ("navigation-sidebar");
 		view.add_css_class ("action-list");
@@ -34,9 +45,32 @@ public class Gth.ActionList : Gtk.Box {
 				popover.popdown ();
 			}
 			var action = actions.model.get_item (pos) as ActionInfo;
-			//stdout.printf (">> %s\n", action.to_string ());
 			activate_action_variant (action.name, action.value);
 		});
+
+		var header_factory = new Gtk.SignalListItemFactory ();
+		header_factory.setup.connect ((item) => {
+			var list_header = item as Gtk.ListHeader;
+			var label = new Gtk.Label ("");
+			label.halign = Gtk.Align.START;
+			label.margin_start = 16;
+			label.sensitive = false;
+			list_header.child = label;
+		});
+		header_factory.bind.connect ((item) => {
+			var list_header = item as Gtk.ListHeader;
+			var label = list_header.child as Gtk.Label;
+			var action = list_header.item as ActionInfo;
+			if ((action.category != null) && !Strings.empty (action.category.display_name)) {
+				label.label = action.category.display_name;
+				label.parent.visible = true;
+			}
+			else {
+				label.parent.visible = false;
+			}
+		});
+		view.header_factory = header_factory;
+
 		append (view);
 	}
 
@@ -60,25 +94,28 @@ public class Gth.ActionList : Gtk.Box {
 	GenericList<ActionInfo> actions;
 }
 
-public class ActionInfo : Object {
+public class Gth.ActionInfo : Object {
+	public Type type;
 	public string name;
 	public Variant? value;
 	public string display_name;
 	public Icon icon;
+	public ActionCategory category;
 
-	public ActionInfo (string _name, Variant? _value, string _display_name, Icon _icon) {
+	public ActionInfo (string _name, Variant? _value, string _display_name, Icon? _icon = null) {
 		name = _name;
 		value = _value;
 		display_name = _display_name;
 		icon = _icon;
+		category = null;
 	}
 
-	public ActionInfo.for_file (string action_name, File file) {
+	public ActionInfo.for_file (string action_name, File file, string? _display_name = null) {
 		var file_source = app.get_source_for_file (file);
 		var info = file_source.get_display_info (file);
 		this (action_name,
 			new Variant.string (file.get_uri ()),
-			info.get_display_name (),
+			(_display_name != null) ? _display_name : info.get_display_name (),
 			info.get_symbolic_icon ());
 	}
 
@@ -87,9 +124,10 @@ public class ActionInfo : Object {
 	}
 }
 
-public class ActionItem : Gtk.Box {
+public class Gth.ActionItem : Gtk.Box {
 	public ActionItem () {
 		spacing = 6;
+		orientation = Gtk.Orientation.HORIZONTAL;
 
 		icon = new Gtk.Image ();
 		append (icon);
@@ -99,8 +137,16 @@ public class ActionItem : Gtk.Box {
 	}
 
 	public void bind (ActionInfo action) {
-		icon.set_from_gicon (action.icon);
-		label.set_text (action.display_name);
+		if (action.icon != null) {
+			icon.set_from_gicon (action.icon);
+			icon.visible = true;
+			label.set_text (action.display_name);
+		}
+		else {
+			icon.visible = false;
+			label.use_underline = true;
+			label.set_text_with_mnemonic (action.display_name);
+		}
 	}
 
 	public void unbind () {
@@ -109,4 +155,14 @@ public class ActionItem : Gtk.Box {
 
 	Gtk.Image icon;
 	Gtk.Label label;
+}
+
+public class Gth.ActionCategory {
+	public string display_name;
+	public int sort_order;
+
+	public ActionCategory (string _display_name, int _sort_order) {
+		display_name = _display_name;
+		sort_order = _sort_order;
+	}
 }

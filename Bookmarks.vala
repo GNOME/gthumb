@@ -1,16 +1,15 @@
 public class Gth.Bookmarks {
 	public GenericList<BookmarkEntry> entries;
-	public Menu menu;
-	public Menu system_menu;
-	public Menu roots_menu;
-
-	bool loaded = false;
+	public GenericList<ActionInfo> roots;
+	public GenericList<ActionInfo> system_bookmarks;
 
 	public Bookmarks () {
 		entries = new GenericList<BookmarkEntry> ();
-		menu = new Menu ();
-		system_menu = new Menu ();
-		roots_menu = new Menu ();
+		roots = new GenericList<ActionInfo> ();
+		system_bookmarks = new GenericList<ActionInfo> ();
+		roots_category = new ActionCategory (_("Locations"), 0);
+		system_bookmarks_category = new ActionCategory (_("System Bookmarks"), 2);
+		loaded = false;
 	}
 
 	public async void load_from_file () {
@@ -20,10 +19,11 @@ public class Gth.Bookmarks {
 		yield load_system_bookmarks ();
 		yield update_root_menu ();
 		loaded = true;
+		app.monitor.bookmarks_changed ();
 	}
 
 	public async void load_app_bookmarks () {
-		menu.remove_all ();
+		entries.model.remove_all ();
 		var local_job = app.new_job ("Load bookmarks");
 		try {
 			var bookmarks_file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
@@ -36,10 +36,7 @@ public class Gth.Bookmarks {
 					continue;
 				var file = File.new_for_uri (uri);
 				var name = bookmarks.get_title (uri);
-				var entry = new BookmarkEntry (file, name);
-				entries.model.append (entry);
-				var menu_item = Bookmarks.new_menu_item_from_entry (entry);
-				menu.append_item (menu_item);
+				entries.model.append (new BookmarkEntry (file, name));
 			}
 		}
 		catch (Error error) {
@@ -55,7 +52,7 @@ public class Gth.Bookmarks {
 	}
 
 	public async void load_system_bookmarks () {
-		system_menu.remove_all ();
+		system_bookmarks.model.remove_all ();
 #if FLATPAK_BUILD
 		var path = Path.build_filename (g_get_home (), ".config", "gtk-3.0", "bookmarks");
 		var bookmarks_file = File.new_for_path (path);
@@ -74,9 +71,9 @@ public class Gth.Bookmarks {
 					continue;
 				var after_space = line.index_of_char (' ');
 				unowned var name = (after_space > 0) ? Strings.unowned_substring (line, after_space + 1) : null;
-				var menu_item = Util.menu_item_for_file (File.new_for_uri (uri), name);
-				menu_item.set_action_and_target_value ("win.load-location", new Variant.string (uri));
-				system_menu.append_item (menu_item);
+				var action = new ActionInfo.for_file ("win.load-location", File.new_for_uri (uri), name);
+				action.category = system_bookmarks_category;
+				system_bookmarks.model.append (action);
 			}
 		}
 		catch (Error error) {
@@ -86,15 +83,16 @@ public class Gth.Bookmarks {
 	}
 
 	public async void update_root_menu () {
-		var roots = yield app.update_roots ();
-		roots_menu.remove_all ();
-		foreach (unowned var file_data in roots) {
-			var uri = file_data.file.get_uri ();
-			var menu_item = new MenuItem (null, null);
-			menu_item.set_label (file_data.info.get_display_name ());
-			menu_item.set_icon (file_data.info.get_symbolic_icon ());
-			menu_item.set_action_and_target_value ("win.load-location", new Variant.string (uri));
-			roots_menu.append_item (menu_item);
+		var root_list = yield app.update_roots ();
+		roots.model.remove_all ();
+		foreach (unowned var file_data in root_list) {
+			var action = new ActionInfo ("win.load-location",
+				new Variant.string (file_data.file.get_uri ()),
+				file_data.info.get_display_name (),
+				file_data.info.get_symbolic_icon ()
+			);
+			action.category = roots_category;
+			roots.model.append (action);
 		}
 	}
 
@@ -118,6 +116,7 @@ public class Gth.Bookmarks {
 		}
 		finally {
 			local_job.done ();
+			app.monitor.bookmarks_changed ();
 		}
 		if (local_job.error != null) {
 			throw local_job.error;
@@ -127,17 +126,19 @@ public class Gth.Bookmarks {
 	public async void add_bookmark (File file) throws Error {
 		foreach (unowned var entry in entries) {
 			if (entry.file.equal (file)) {
-				throw new IOError.FAILED ("Already saved");
+				throw new IOError.FAILED (_("Location already saved"));
 			}
 		}
 		var file_source = app.get_source_for_file (file);
 		var info = file_source.get_display_info (file);
 		var entry = new BookmarkEntry (file, info.get_display_name ());
 		entries.model.append (entry);
-		var menu_item = Bookmarks.new_menu_item_from_entry (entry);
-		menu.append_item (menu_item);
 		yield save_app_bookmarks ();
 	}
+
+	ActionCategory roots_category;
+	ActionCategory system_bookmarks_category;
+	bool loaded;
 }
 
 public class Gth.BookmarkEntry : Object {

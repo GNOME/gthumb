@@ -91,13 +91,33 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkMenuButton" id="bookmarks_button">
+                          <object class="GtkMenuButton">
                             <property name="icon-name">user-bookmarks-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Bookmarks</property>
                             <property name="hexpand">true</property>
                             <style>
                               <class name="flat"/>
                             </style>
+                            <property name="popover">
+                              <object class="GtkPopover">
+                                <style>
+                                  <class name="menu"/>
+                                  <class name="deeper"/>
+                                </style>
+                                <child>
+                                  <object class="GtkScrolledWindow">
+                                    <property name="hscrollbar_policy">never</property>
+                                    <property name="vscrollbar_policy">external</property>
+                                    <property name="max_content_height">800</property>
+                                    <property name="propagate_natural_height">true</property>
+                                    <child>
+                                      <object class="GthActionList" id="bookmark_menu">
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </property>
                           </object>
                         </child>
                         <child>

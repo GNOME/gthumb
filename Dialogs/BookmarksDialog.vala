@@ -40,11 +40,6 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 		try {
 			app.bookmarks.entries.model.remove (source_pos);
 			app.bookmarks.entries.model.insert (target_pos, row.entry);
-
-			app.bookmarks.menu.remove (source_pos);
-			var menu_item = Bookmarks.new_menu_item_from_entry (row.entry);
-			app.bookmarks.menu.insert_item (target_pos, menu_item);
-
 			yield app.bookmarks.save_app_bookmarks ();
 		}
 		catch (Error error) {
@@ -58,7 +53,6 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 			if (pos < 0)
 				return;
 			app.bookmarks.entries.model.remove (pos);
-			app.bookmarks.menu.remove (pos);
 			yield app.bookmarks.save_app_bookmarks ();
 		}
 		catch (Error error) {
@@ -80,10 +74,6 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 			if (pos < 0)
 				return;
 			app.bookmarks.entries.model.items_changed (pos, 1, 1);
-
-			app.bookmarks.menu.remove (pos);
-			var menu_item = Bookmarks.new_menu_item_from_entry (current_entry);
-			app.bookmarks.menu.insert_item (pos, menu_item);
 
 			yield app.bookmarks.save_app_bookmarks ();
 			pop_subpage ();
