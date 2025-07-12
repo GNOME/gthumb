@@ -23,7 +23,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public Window (Gtk.Application _app, File location, File? file_to_select) {
 		Object (application: app);
 
-		named_dialogs = new HashTable<string, Gtk.Window?>(str_hash, str_equal);
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
 			if (closing && (jobs.size () == 0)) {
@@ -225,18 +224,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 			catalog_button.active = true;
 			break;
 		}
-	}
-
-	public void set_named_dialog (string name, Gtk.Window dialog) {
-		dialog.close_request.connect (() => {
-			named_dialogs[name] = null;
-			return false;
-		});
-		named_dialogs[name] = dialog;
-	}
-
-	public Gtk.Window get_named_dialog (string name) {
-		return named_dialogs[name];
 	}
 
 	public Gth.Job new_job (string description, string? status = null) {
@@ -579,12 +566,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("sort-files", null);
 		action.activate.connect (() => {
-			var dialog = get_named_dialog ("sort-files");
-			if (dialog == null) {
-				dialog = new Gth.SortFilesDialog (this);
-				set_named_dialog ("sort-files", dialog);
-			}
-			dialog.present ();
+			var dialog = new Gth.SortFilesDialog (this);
+			dialog.present (this);
 		});
 		action_group.add_action (action);
 
@@ -604,12 +587,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("sort-folders", null);
 		action.activate.connect (() => {
-			var dialog = get_named_dialog ("sort-folders");
-			if (dialog == null) {
-				dialog = new Gth.SortFoldersDialog (this);
-				set_named_dialog ("sort-folders", dialog);
-			}
-			dialog.present ();
+			var dialog = new Gth.SortFoldersDialog (this);
+			dialog.present (this);
 		});
 		action_group.add_action (action);
 
@@ -998,7 +977,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public SimpleActionGroup action_group = null;
 	Gth.Test general_filter;
 	Gth.Test active_filter;
-	HashTable<string, Gtk.Window?> named_dialogs;
 	Gth.Thumbnailer thumbnailer;
 	Gth.WindowHistory history;
 	double initial_sidebar_width;

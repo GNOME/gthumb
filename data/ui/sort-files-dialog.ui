@@ -2,31 +2,23 @@
 <interface>
   <template class="GthSortFilesDialog">
     <property name="title" translatable="yes">Sort Files</property>
-    <property name="default_width">500</property>
-    <property name="resizable">false</property>
+    <property name="content_width">500</property>
     <child>
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar"/>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup" id="rule_types">
+            <!-- Dynamic content -->
+          </object>
         </child>
-        <property name="content">
-          <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup">
             <child>
-              <object class="AdwPreferencesGroup" id="rule_types">
-                <!-- Dynamic content -->
-              </object>
-            </child>
-            <child>
-              <object class="AdwPreferencesGroup">
-                <child>
-                  <object class="AdwSwitchRow" id="inverse_order_switch">
-                    <property name="title" translatable="yes">Reverse Order</property>
-                  </object>
-                </child>
+              <object class="AdwSwitchRow" id="inverse_order_switch">
+                <property name="title" translatable="yes">Reverse Order</property>
               </object>
             </child>
           </object>
-        </property>
+        </child>
       </object>
     </child>
   </template>

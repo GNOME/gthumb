@@ -1,8 +1,7 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/sort-files-dialog.ui")]
-public class Gth.SortFilesDialog : Adw.ApplicationWindow {
+public class Gth.SortFilesDialog : Adw.PreferencesDialog {
 	public SortFilesDialog (Gth.Window _window) {
 		window = _window;
-		transient_for = window;
 
 		sort = {
 			window.folder_tree.current_folder.get_sort_name (window.sort.name),

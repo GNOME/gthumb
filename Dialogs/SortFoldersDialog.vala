@@ -1,8 +1,7 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/sort-folders-dialog.ui")]
-public class Gth.SortFoldersDialog : Adw.ApplicationWindow {
+public class Gth.SortFoldersDialog : Adw.PreferencesDialog {
 	public SortFoldersDialog (Gth.Window _window) {
 		window = _window;
-		transient_for = window;
 
 		sort_name = window.folder_tree.sort.name;
 		inverse_order = window.folder_tree.sort.inverse;
