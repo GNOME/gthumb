@@ -4,15 +4,15 @@ ascli = find_program('appstreamcli')
 # NOTE: Release notes are not translated on purpose.
 # This target should not be run when building from tarball, see metainfo-releases-tarball.sh script.
 metainfo_with_relinfo = custom_target('gen-output',
-  input : ['../../NEWS', 'org.gnome.gThumb.appdata.xml.in'],
-  output : ['nol10n_withrelinfo_org.gnome.gThumb.appdata.xml'],
+  input : ['../../NEWS', 'org.gnome.gThumb.metainfo.xml.in'],
+  output : ['nol10n_withrelinfo_org.gnome.gThumb.metainfo.xml'],
   command : [ascli, 'news-to-metainfo', '--limit=6', '@INPUT0@', '@INPUT1@', '@OUTPUT@']
 )
 
 if get_option('tarball-appdata') == true
   metainfo_i18n = i18n.merge_file(
-    input : 'org.gnome.gThumb.appdata.xml.in',
-    output : 'org.gnome.gThumb.appdata.xml',
+    input : 'org.gnome.gThumb.metainfo.xml.in',
+    output : 'org.gnome.gThumb.metainfo.xml',
     type : 'xml',
     po_dir : po_dir,
     install : true,
@@ -21,7 +21,7 @@ if get_option('tarball-appdata') == true
 else
   metainfo_i18n = i18n.merge_file(
     input : metainfo_with_relinfo,
-    output : 'org.gnome.gThumb.appdata.xml',
+    output : 'org.gnome.gThumb.metainfo.xml',
     type : 'xml',
     po_dir : po_dir,
     install : true,
