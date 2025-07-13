@@ -14,17 +14,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2023-08-24 14:38+0000\n"
-"PO-Revision-Date: 2023-10-17 13:42+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
+"POT-Creation-Date: 2025-06-19 21:59+0000\n"
+"PO-Revision-Date: 2025-06-25 14:49+0300\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.6\n"
 "X-POOTLE-MTIME: 1423290220.000000\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -93,11 +93,11 @@ msgstr ""
 "düzenlemenize, resim aramanıza ve katalog olarak sonuçları kaydetmenizi "
 "sağlar."
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
 msgid "Browser mode"
 msgstr "Tarayıcı kipi"
 
-#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:55
 msgid "Viewer mode"
 msgstr "Gösterici kipi"
 
@@ -117,6 +117,11 @@ msgstr "Dosyaları etkin pencerede aç"
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr ""
 "Resmi değiştirdikten sonra kaydırma çubuğunun sıfırlanıp sıfırlanmaması"
+
+#: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:40
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:288
+msgid "Show images inside a frame"
+msgstr "Görüntüleri çerçeve içinde göster"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:42
 msgid "Possible values are: jpeg, jpg."
@@ -147,7 +152,7 @@ msgid "Import the photos on your camera card"
 msgstr "Kamera kartınızdaki fotoğrafları içeri aktar"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in:3 gthumb/gth-application.c:105
+#: data/org.gnome.gThumb.desktop.in:3 gthumb/gth-application.c:107
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
@@ -161,7 +166,7 @@ msgstr "Resim Görüntüleyici"
 msgid "Image;Viewer;"
 msgstr "Resim;Görüntüleyici;"
 
-#: data/org.gnome.gThumb.desktop.in:21 gthumb/gth-browser-actions-entries.h:99
+#: data/org.gnome.gThumb.desktop.in:21 gthumb/gth-browser-actions-entries.h:100
 #: gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Yeni Pencere"
@@ -238,10 +243,6 @@ msgstr "ekle"
 #: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
 msgstr "_Uzantılar:"
-
-#: data/ui/extensions-preferences.ui:116
-msgid "More extensions…"
-msgstr "Daha çok uzantı…"
 
 #: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
@@ -374,6 +375,7 @@ msgid "gThumb Preferences"
 msgstr "gThumb Tercihleri"
 
 #: data/ui/preferences.ui:98
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
 msgid "Appearance"
 msgstr "Görünüm"
 
@@ -465,16 +467,8 @@ msgstr "_Ters sırada"
 msgid "Example:"
 msgstr "Örnek:"
 
-#: extensions/23hq/23hq.extension.desktop.in.in:3
-msgid "23"
-msgstr "23"
-
-#: extensions/23hq/23hq.extension.desktop.in.in:4
-msgid "Upload images to 23hq.com"
-msgstr "23hq.com adresine resimleri yükle"
-
 #: extensions/bookmarks/bookmarks.extension.desktop.in.in:3
-#: extensions/bookmarks/callbacks.c:323
+#: extensions/bookmarks/callbacks.c:320
 #: extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Yer İmleri"
@@ -560,8 +554,7 @@ msgid "Write to Disc"
 msgstr "Diske Yaz"
 
 #: extensions/burn_disc/gth-burn-task.c:405
-#: extensions/oauth/oauth-account-chooser-dialog.c:150
-#: gthumb/dlg-preferences-extensions.c:715
+#: gthumb/dlg-preferences-extensions.c:720
 msgid "_Continue"
 msgstr "_Devam et"
 
@@ -570,7 +563,7 @@ msgstr "_Devam et"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "JPEG resim dosyası işlenirken hata: %s"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:558
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:562
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Bilinmeyen JPEG renk uzayı (%d)"
@@ -689,14 +682,14 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:414
 #: extensions/contact_sheet/data/ui/image-wall.ui:216
-#: extensions/image_viewer/gth-image-viewer-page.c:1745
+#: extensions/image_viewer/gth-image-viewer-page.c:1797
 #: extensions/webalbums/data/ui/web-album-exporter.ui:391
 msgid "Saving"
 msgstr "Kaydediliyor"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:376
-#: extensions/catalogs/dlg-add-to-catalog.c:541
+#: extensions/catalogs/dlg-add-to-catalog.c:377
+#: extensions/catalogs/dlg-add-to-catalog.c:542
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:295
@@ -706,8 +699,8 @@ msgid "No name specified"
 msgstr "Ad belirtilmemiş"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:383
-#: extensions/catalogs/dlg-add-to-catalog.c:548
+#: extensions/catalogs/dlg-add-to-catalog.c:384
+#: extensions/catalogs/dlg-add-to-catalog.c:549
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1952
@@ -716,8 +709,8 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Geçersiz ad. Aşağıdaki karakterlere izin verilmez: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:440
-#: extensions/catalogs/dlg-add-to-catalog.c:597
+#: extensions/catalogs/dlg-add-to-catalog.c:441
+#: extensions/catalogs/dlg-add-to-catalog.c:598
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -728,13 +721,13 @@ msgid "New catalog"
 msgstr "Yeni katalog"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:462
+#: extensions/catalogs/dlg-add-to-catalog.c:463
 msgid "Enter the catalog name:"
 msgstr "Katalog adı gir:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:464
-#: extensions/catalogs/dlg-add-to-catalog.c:623
+#: extensions/catalogs/dlg-add-to-catalog.c:465
+#: extensions/catalogs/dlg-add-to-catalog.c:624
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "Oluştu_r"
@@ -744,7 +737,7 @@ msgid "New library"
 msgstr "Yeni kütüphane"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:621
+#: extensions/catalogs/dlg-add-to-catalog.c:622
 msgid "Enter the library name:"
 msgstr "Kütüphane adı gir:"
 
@@ -786,8 +779,8 @@ msgid "Rename"
 msgstr "Yeniden Adlandır"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4807
-#: gthumb/gth-browser.c:4919 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4811
+#: gthumb/gth-browser.c:4923 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Özellikler"
 
@@ -823,18 +816,18 @@ msgid "C_atalogs:"
 msgstr "K_ataloglar:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
-#: extensions/catalogs/dlg-add-to-catalog.c:620
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "New Library"
 msgstr "Yeni Kütüphane"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
-#: extensions/catalogs/dlg-add-to-catalog.c:461
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "New Catalog"
 msgstr "Yeni Katalog"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:103
 #: extensions/file_manager/actions.c:766
-#: extensions/webalbums/gth-web-exporter.c:1820
+#: extensions/webalbums/gth-web-exporter.c:1828
 msgid "_View the destination"
 msgstr "Hedefi _görüntüle"
 
@@ -909,21 +902,21 @@ msgstr "Tek"
 msgid "Could not add the files to the catalog"
 msgstr "Dosyalar kataloga eklenemedi"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:319
+#: extensions/catalogs/dlg-add-to-catalog.c:320
 #: extensions/search/gth-search-task.c:396
 msgid "Could not create the catalog"
 msgstr "Katalog oluşturulamadı"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:687
+#: extensions/catalogs/dlg-add-to-catalog.c:688
 msgid "Add to Catalog"
 msgstr "Kataloga Ekle"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:710
+#: extensions/catalogs/dlg-add-to-catalog.c:711
 msgid "_Add"
 msgstr "_Ekle"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:714
-#: extensions/edit_metadata/dlg-edit-metadata.c:347
+#: extensions/catalogs/dlg-add-to-catalog.c:715
+#: extensions/edit_metadata/dlg-edit-metadata.c:346
 msgid "Keep the dialog open"
 msgstr "İletişim penceresini açık tut"
 
@@ -970,7 +963,7 @@ msgstr "Etiket (gömülü)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:878
 #: extensions/exiv2_tools/exiv2-utils.cpp:891
 #: extensions/exiv2_tools/exiv2-utils.cpp:933
-#: extensions/exiv2_tools/exiv2-utils.cpp:1558
+#: extensions/exiv2_tools/exiv2-utils.cpp:1568
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:441
 msgid "Invalid file format"
 msgstr "Geçersiz dosya biçimi"
@@ -1119,7 +1112,7 @@ msgstr "Gömülü üst veriler ile _eşitle"
 #: extensions/importer/gth-import-preferences-dialog.c:421
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
-#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:488
 #: gthumb/gth-file-properties.c:595
 msgid "Preferences"
 msgstr "Tercihler"
@@ -1128,12 +1121,14 @@ msgstr "Tercihler"
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
 #: extensions/edit_metadata/gth-edit-comment-dialog.c:124
-#: extensions/webalbums/dlg-web-exporter.c:46
-#: extensions/webalbums/dlg-web-exporter.c:296 gthumb/gth-file-comment.c:136
+#: extensions/webalbums/dlg-web-exporter.c:47
+#: extensions/webalbums/dlg-web-exporter.c:297 gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Yorum"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
+#: extensions/comments/main.c:43 extensions/webalbums/dlg-web-exporter.c:46
+#: extensions/webalbums/dlg-web-exporter.c:301
+#: gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Başlık"
 
@@ -1172,7 +1167,7 @@ msgstr ""
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
 #: extensions/file_tools/gth-file-tool-crop.c:443
-#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-crop.c:474
 #: extensions/file_tools/gth-file-tool-resize.c:593
 #: extensions/file_tools/gth-file-tool-rotate.c:396
 #: extensions/slideshow/main.c:297 gthumb/gth-accel-button.c:201
@@ -1220,31 +1215,32 @@ msgstr "_Eğim"
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:315
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:333
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:351
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:475
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:583
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:640
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:698
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:476
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:584
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:641
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:699
 msgid "Select a color"
 msgstr "Renk seç"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:392
+#. Translators: (noun) The frame of an image.
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:393
 msgid "Frame"
 msgstr "Çerçeve"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:421
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:422
 msgid "_Style:"
 msgstr "_Biçem:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:435
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:436
 msgid "C_olor:"
 msgstr "R_enk:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:519
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:520
 #: gthumb/gth-template-editor-dialog.c:419
 msgid "Text"
 msgstr "Metin"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:548
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:549
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:106
 #: extensions/image_print/data/ui/print-layout.ui:166
 #: extensions/image_print/data/ui/print-preferences.ui:55
@@ -1253,13 +1249,13 @@ msgstr "Metin"
 msgid "_Header:"
 msgstr "_Başlık:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:569
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:626
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:684
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:570
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:627
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:685
 msgid "Select a font"
 msgstr "Yazı tipi seç"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:604
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:605
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:91
 #: extensions/image_print/data/ui/print-layout.ui:179
 #: extensions/image_print/data/ui/print-preferences.ui:69
@@ -1268,7 +1264,7 @@ msgstr "Yazı tipi seç"
 msgid "_Footer:"
 msgstr "_Alt bilgi:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:663
+#: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:664
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:896
 #: extensions/image_print/data/ui/print-preferences.ui:43
 msgid "Caption:"
@@ -1281,7 +1277,7 @@ msgstr "Resim yazısı:"
 #: extensions/webalbums/data/ui/web-album-exporter.ui:181
 #: extensions/webalbums/data/ui/web-album-exporter.ui:846
 #: extensions/webalbums/data/ui/web-album-exporter.ui:894
-#: gthumb/gth-browser-actions-entries.h:100
+#: gthumb/gth-browser-actions-entries.h:101
 msgid "Help"
 msgstr "Yardım"
 
@@ -1296,7 +1292,6 @@ msgstr "Şablonu düzenle"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:261
 #: extensions/contact_sheet/data/ui/image-wall.ui:82
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
 #: extensions/webalbums/data/ui/web-album-exporter.ui:268
 msgid "_Destination:"
@@ -1411,7 +1406,7 @@ msgstr "Numaralandırıcı"
 #: extensions/list_tools/gth-script-editor-dialog.c:41
 #: extensions/rename_series/dlg-rename-series.c:61
 #: extensions/webalbums/dlg-web-exporter.c:38
-#: extensions/webalbums/dlg-web-exporter.c:47
+#: extensions/webalbums/dlg-web-exporter.c:48
 msgid "Current date"
 msgstr "Geçerli tarih"
 
@@ -1451,8 +1446,8 @@ msgstr "Tema silinemedi"
 #: extensions/image_print/gth-image-print-job.c:1303
 #: extensions/importer/gth-import-preferences-dialog.c:325
 #: extensions/rename_series/dlg-rename-series.c:821
-#: extensions/webalbums/dlg-web-exporter.c:323
-#: extensions/webalbums/dlg-web-exporter.c:364
+#: extensions/webalbums/dlg-web-exporter.c:328
+#: extensions/webalbums/dlg-web-exporter.c:369
 #: gthumb/gth-template-selector.c:357
 msgid "Edit Template"
 msgstr "Şablonu Düzenle"
@@ -1528,7 +1523,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Masaüstü arka plan özellikleri gösterilemedi"
 
 #: extensions/desktop_background/actions.c:360
-#: gthumb/resources/gears-menu.ui:45
+#: gthumb/resources/gears-menu.ui:49
 msgid "_Preferences"
 msgstr "Ö_zellikler"
 
@@ -1605,7 +1600,7 @@ msgstr "_Başlık:"
 msgid "Could not save the file metadata"
 msgstr "Dosya üst verisi kaydedilemedi"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:234
+#: extensions/edit_metadata/dlg-edit-metadata.c:232
 #: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Dosya bilgisi okunamıyor"
@@ -1713,7 +1708,7 @@ msgid "State/Province:"
 msgstr "Eyalet/Bölge:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1128
-#: gthumb/glib-utils.c:2128 gthumb/str-utils.c:641
+#: gthumb/glib-utils.c:2161 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(geçersiz değer)"
 
@@ -1793,7 +1788,7 @@ msgstr "Klasör adı gir:"
 #: extensions/file_manager/callbacks.c:566
 #: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5849 gthumb/gth-browser.c:5892
+#: gthumb/gth-browser.c:5885 gthumb/gth-browser.c:5928
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "İşlem gerçekleştirilemedi"
@@ -1967,7 +1962,7 @@ msgid "Rotate left"
 msgstr "Sola döndür"
 
 #: extensions/file_tools/callbacks.c:58
-#: extensions/file_tools/gth-file-tool-crop.c:691
+#: extensions/file_tools/gth-file-tool-crop.c:692
 msgid "Crop"
 msgstr "Kes"
 
@@ -1978,7 +1973,7 @@ msgstr "Yeniden Boyutlandır"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:56
 #: extensions/file_tools/data/ui/curves-options.ui:35
-#: extensions/file_tools/data/ui/sharpen-options.ui:45
+#: extensions/file_tools/data/ui/sharpen-options.ui:30
 msgid "_Preview"
 msgstr "Ö_n izleme"
 
@@ -2037,7 +2032,7 @@ msgstr "Renk"
 #: extensions/file_tools/data/ui/crop-options.ui:31
 #: extensions/file_tools/data/ui/resize-options.ui:9
 #: extensions/file_tools/data/ui/rotate-options.ui:9
-#: extensions/file_tools/gth-file-tool-crop.c:665
+#: extensions/file_tools/gth-file-tool-crop.c:666
 #: extensions/file_tools/gth-file-tool-resize.c:764
 #: extensions/file_tools/gth-file-tool-rotate.c:617
 #: gthumb/gth-file-chooser-dialog.c:258
@@ -2210,15 +2205,15 @@ msgstr "Dik"
 msgid "Alignment"
 msgstr "Hizalama"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:83
+#: extensions/file_tools/data/ui/sharpen-options.ui:68
 msgid "Threshold:"
 msgstr "Eşik:"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:133
+#: extensions/file_tools/data/ui/sharpen-options.ui:118
 msgid "Radius:"
 msgstr "Yarıçap:"
 
-#: extensions/file_tools/data/ui/sharpen-options.ui:151
+#: extensions/file_tools/data/ui/sharpen-options.ui:136
 msgid "Amount:"
 msgstr "Miktar:"
 
@@ -2260,7 +2255,7 @@ msgstr "Mavi"
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:557
 #: extensions/file_tools/gth-file-tool-curves.c:819
 #: extensions/file_tools/gth-file-tool-rotate.c:604
-#: extensions/file_tools/gth-file-tool-sharpen.c:364
+#: extensions/file_tools/gth-file-tool-sharpen.c:309
 #: gthumb/gth-test-aspect-ratio.c:218
 msgid "Reset"
 msgstr "Sıfırla"
@@ -2273,7 +2268,7 @@ msgstr "Önayarlar"
 
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:340
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
-#: extensions/file_tools/gth-file-tool-crop.c:636
+#: extensions/file_tools/gth-file-tool-crop.c:637
 #: extensions/file_tools/gth-file-tool-curves.c:287
 #: extensions/file_tools/gth-file-tool-effects.c:401
 #: extensions/file_tools/gth-file-tool-effects.c:445
@@ -2323,7 +2318,7 @@ msgid "Equalize the histogram using the square root function"
 msgstr "Karekök işlevini kullanan çubuklu grafiği eşitle"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:547
-#: extensions/file_tools/gth-file-tool-crop.c:477
+#: extensions/file_tools/gth-file-tool-crop.c:478
 #: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
 msgstr "Birbiçimli"
@@ -2409,28 +2404,33 @@ msgid "1.85∶1"
 msgstr "1.85∶1"
 
 #: extensions/file_tools/gth-file-tool-crop.c:458
+#: extensions/file_tools/gth-file-tool-resize.c:610
+msgid "1.91∶1"
+msgstr "1.91∶1"
+
+#: extensions/file_tools/gth-file-tool-crop.c:459
 #: extensions/file_tools/gth-file-tool-resize.c:611
 #: gthumb/gth-test-aspect-ratio.c:55
 msgid "2.39∶1"
 msgstr "2.39∶1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:459
+#: extensions/file_tools/gth-file-tool-crop.c:460
 #: extensions/file_tools/gth-file-tool-resize.c:612
 #: gthumb/gth-location-chooser.c:617 gthumb/gth-template-selector.c:434
 msgid "Other…"
 msgstr "Diğer…"
 
-#: extensions/file_tools/gth-file-tool-crop.c:474
+#: extensions/file_tools/gth-file-tool-crop.c:475
 #: extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Rule of Thirds"
 msgstr "Üçte bir kuralı"
 
-#: extensions/file_tools/gth-file-tool-crop.c:475
+#: extensions/file_tools/gth-file-tool-crop.c:476
 #: extensions/file_tools/gth-file-tool-rotate.c:398
 msgid "Golden Sections"
 msgstr "Altın Bölümler"
 
-#: extensions/file_tools/gth-file-tool-crop.c:476
+#: extensions/file_tools/gth-file-tool-crop.c:477
 #: extensions/file_tools/gth-file-tool-rotate.c:399
 msgid "Center Lines"
 msgstr "Orta Çizgiler"
@@ -2444,8 +2444,8 @@ msgid "Enter the preset name:"
 msgstr "Önayar adını girin:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
-#: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1674
+#: extensions/gstreamer_tools/actions.c:71
+#: extensions/image_viewer/gth-image-viewer-page.c:1726
 #: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Dosya kaydedilemedi"
@@ -2564,10 +2564,6 @@ msgstr "Yinele"
 msgid "Resizing images"
 msgstr "Resimler yeniden boyutlandırılıyor"
 
-#: extensions/file_tools/gth-file-tool-resize.c:610
-msgid "1.91∶1"
-msgstr "1.91∶1"
-
 #: extensions/file_tools/gth-file-tool-rotate-left.c:90
 #: extensions/image_rotation/callbacks.c:53
 #: extensions/image_rotation/callbacks.c:163
@@ -2602,11 +2598,11 @@ msgstr "Farklı Kaydet…"
 msgid "Save"
 msgstr "Kaydet"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:334
+#: extensions/file_tools/gth-file-tool-sharpen.c:279
 msgid "Sharpening image"
 msgstr "Resim keskinleştiriliyor"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:435
+#: extensions/file_tools/gth-file-tool-sharpen.c:381
 msgid "Enhance Focus"
 msgstr "Odak Geliştir"
 
@@ -2644,7 +2640,7 @@ msgid "_View"
 msgstr "_Görüntüle"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:454
-#: gthumb/gth-tags-entry.c:1148 gthumb/gtk-utils.h:39
+#: gthumb/gth-tags-entry.c:1005 gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Sil"
 
@@ -2699,7 +2695,7 @@ msgstr "dosya yok"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:877
+#: gthumb/gth-browser.c:877
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2739,237 +2735,20 @@ msgstr "Kopyalar"
 msgid "Select"
 msgstr "Seç"
 
-#: extensions/flicker/flicker.extension.desktop.in.in:3
-msgid "Flicker"
-msgstr "Flicker"
-
-#: extensions/flicker/flicker.extension.desktop.in.in:4
-msgid "Upload images to Flickr"
-msgstr "Flickr uygulamasına resim yükle"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Herkese açık fotoğraflar"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
-msgid "Private photos, visible to family and friends"
-msgstr "Aile ve arkadaşlara görünür özel fotoğraflar"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Özel fotoğraflar, arkadaşlara görünür"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
-msgid "Private photos, visible to family"
-msgstr "Özel fotoğraflar aileye görünür"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:51
-msgid "Private photos"
-msgstr "Özel fotoğraflar"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:73
-msgid "Safe content"
-msgstr "Güvenli içerik"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:77
-msgid "Moderate content"
-msgstr "Ölçülü içerik"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:81
-msgid "Restricted content"
-msgstr "Kısıtlı içerik"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Hesap:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-msgid "Edit accounts"
-msgstr "Hesapları düzenle"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-msgid "Free space:"
-msgstr "Boş alan:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:275
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:134
-msgid "Ph_otoset:"
-msgstr "Fo_toğraf kümesi:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:291
-msgid "_Privacy:"
-msgstr "_Gizlilik:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:329
-msgid "_Safety:"
-msgstr "_Güvenli:"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:405
-msgid "Hi_de from public searches"
-msgstr "Açık aramalardan gi_zle"
-
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/webalbums/data/ui/web-album-exporter.ui:329
-msgid "_Resize if larger than:"
-msgstr "Eğer daha büyükse _yeniden boyutlandır:"
-
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-msgid "A_ccount:"
-msgstr "H_esap:"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:219
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Sunucuya bağlanılamadı"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-msgid "Files successfully uploaded to the server."
-msgstr "Dosyalar sunucuya başarılı biçimde yüklendi."
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1819
-msgid "_Open in the Browser"
-msgstr "Tarayıcıda _Aç"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Albüm oluşturulamadı"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-msgid "Could not upload the files"
-msgstr "Dosyalar yüklenemedi"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1782
-msgid "No valid file selected."
-msgstr "Geçerli dosya seçilemedi."
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-msgid "Could not export the files"
-msgstr "Dosyalar dışa aktarılamadı"
-
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "%s konumuna dışa aktar"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:312
-#: gthumb/gth-file-selection-info.c:143
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d dosya"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:337
-msgid "Could not get the photo list"
-msgstr "Fotoğraf listesi alınamadı"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:374
-#: extensions/flicker_utils/dlg-import-from-flickr.c:553
-msgid "No album selected"
-msgstr "Albüm seçilemedi"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:513
-#: extensions/photo_importer/dlg-photo-importer.c:575
-msgid "_Import"
-msgstr "_Al"
-
-#: extensions/flicker_utils/dlg-import-from-flickr.c:571
-#, c-format
-msgid "Import from %s"
-msgstr "%s konumundan içeri aktar"
-
-#: extensions/flicker_utils/flickr-consumer.c:122
-#: extensions/flicker_utils/flickr-service.c:240
-#: extensions/flicker_utils/flickr-service.c:344
-#: extensions/flicker_utils/flickr-service.c:667
-#: extensions/flicker_utils/flickr-service.c:919
-#: extensions/oauth/oauth-service.c:154
-msgid "Unknown error"
-msgstr "Bilinmeyen hata"
-
-#: extensions/flicker_utils/flickr-service.c:491
-#, c-format
-msgid ""
-"Return to this window when you have finished the authorization process on %s"
-msgstr "%s üzerinde yetkilendirme işlemini bitirdiğinizde bu pencereye dönün"
-
-#: extensions/flicker_utils/flickr-service.c:492
-msgid "Once you’re done, click the “Continue” button below."
-msgstr "Tamamladığınızda, aşağıdaki “Devam Et” düğmesine tıklayın."
-
-#: extensions/flicker_utils/flickr-service.c:562
-msgid "C_ontinue"
-msgstr "D_evam et"
-
-#: extensions/flicker_utils/flickr-service.c:563
-msgid "_Authorize…"
-msgstr "_Yetkilendir…"
-
-#: extensions/flicker_utils/flickr-service.c:566
-#, c-format
-msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr "gThumb %s hizmetine fotoğraf yüklemek için yetkinizi ister"
-
-#: extensions/flicker_utils/flickr-service.c:567
-#, c-format
-msgid ""
-"Click “Authorize” to open your web browser and authorize gthumb to upload "
-"photos to %s. When you’re finished, return to this window to complete the "
-"authorization."
-msgstr ""
-"Web tarayıcınızı açmak ve %s hizmetine fotoğraf yükleyecek gthumb’ı "
-"yetkilendirmek için “Yetkilendir” seçeneğini tıklayın. Bitirdiğinizde "
-"yetkilendirme işlemini tamamlamak için bu pencereye dönün."
-
-#: extensions/flicker_utils/flickr-service.c:849
-msgid "Getting the album list"
-msgstr "Albüm listesi alınıyor"
-
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Yeni albüm oluşturuluyor"
-
-#: extensions/flicker_utils/flickr-service.c:1144
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "“%s” yüklenemedi: %s"
-
 #. Translators: %s is a filename
-#: extensions/flicker_utils/flickr-service.c:1253
-#, c-format
-msgid "Uploading “%s”"
-msgstr "“%s” yükleniyor"
-
-#: extensions/flicker_utils/flickr-service.c:1450
-msgid "Uploading the files to the server"
-msgstr "Dosyalar sunucuya yükleniyor"
-
-#: extensions/flicker_utils/flickr-service.c:1611
-msgid "Getting the photo list"
-msgstr "Fotoğraf listesi alınıyor"
-
-#. Translators: %s is a filename
-#: extensions/gstreamer_tools/actions.c:75
+#: extensions/gstreamer_tools/actions.c:77
 #, c-format
 msgid "Image saved as %s"
 msgstr "Resim, %s olarak kaydedildi"
 
-#: extensions/gstreamer_tools/actions.c:101
+#: extensions/gstreamer_tools/actions.c:104
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Ekran Görüntüsü"
 
-#: extensions/gstreamer_tools/actions.c:157
-#: extensions/gstreamer_tools/actions.c:169
-#: extensions/gstreamer_tools/actions.c:410
+#: extensions/gstreamer_tools/actions.c:162
+#: extensions/gstreamer_tools/actions.c:183
+#: extensions/gstreamer_tools/actions.c:424
 msgid "Could not take a screenshot"
 msgstr "Ekran görüntüsü alınamadı"
 
@@ -2994,7 +2773,7 @@ msgid "Play slower"
 msgstr "Yavaş oynat"
 
 #: extensions/gstreamer_tools/callbacks.c:37
-#: extensions/image_viewer/gth-image-viewer-page.c:1205
+#: extensions/image_viewer/gth-image-viewer-page.c:1252
 msgid "Next frame"
 msgstr "Sonraki kare"
 
@@ -3048,6 +2827,12 @@ msgstr "1 dakika geri git"
 msgid "Go back 5 minutes"
 msgstr "5 dakika geri git"
 
+#: extensions/gstreamer_tools/callbacks.c:48
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:117
+#: extensions/image_viewer/gth-image-viewer-page.c:84
+msgid "Copy Image"
+msgstr "Resmi Kopyala"
+
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
 msgstr "Donanım hızlandırması kullan"
@@ -3058,7 +2843,7 @@ msgstr "_Ekran Görüntüleri konumu:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:629
-#: extensions/image_viewer/gth-image-viewer-page.c:1198
+#: extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Play"
 msgstr "Oynat"
 
@@ -3135,11 +2920,6 @@ msgstr "Ses/Video desteği"
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:4
 msgid "Play audio and video files."
 msgstr "Ses ve video dosyalarını oynat."
-
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:117
-#: extensions/image_viewer/gth-image-viewer-page.c:84
-msgid "Copy Image"
-msgstr "Resmi Kopyala"
 
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:602
 msgid "Playing video"
@@ -3224,15 +3004,15 @@ msgstr "Tek Kanallı"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:427
-#: extensions/image_viewer/gth-image-viewer-page.c:1907
+#: extensions/image_viewer/gth-image-viewer-page.c:1960
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
+#: extensions/webalbums/gth-web-exporter.c:2435 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
 
-#: extensions/image_print/actions.c:69
+#: extensions/image_print/actions.c:74
 msgid "Could not print the selected files"
 msgstr "Seçilen dosyalar yazdırılamadı"
 
@@ -3356,6 +3136,10 @@ msgstr "Sayfa %d / %d"
 msgid "Could not print"
 msgstr "Yazdırılamadı"
 
+#: extensions/image_print/gth-image-print-job.c:1782
+msgid "No valid file selected."
+msgstr "Geçerli dosya seçilemedi."
+
 #: extensions/image_print/gth-image-print-job.c:1789
 msgid "Images"
 msgstr "Resimler"
@@ -3373,7 +3157,7 @@ msgid "Loading “%s”"
 msgstr "“%s” yükleniyor"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
-#: extensions/webalbums/gth-web-exporter.c:2707
+#: extensions/webalbums/gth-web-exporter.c:2715
 msgid "Loading images"
 msgstr "Resimler yükleniyor"
 
@@ -3395,8 +3179,8 @@ msgstr "EXIF Yönlendirmesini Sıfırla"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
-#: extensions/webalbums/gth-web-exporter.c:2319
-#: extensions/webalbums/gth-web-exporter.c:2404
+#: extensions/webalbums/gth-web-exporter.c:2327
+#: extensions/webalbums/gth-web-exporter.c:2412
 msgid "Saving images"
 msgstr "Resimler kaydediliyor"
 
@@ -3444,91 +3228,91 @@ msgstr "_Kırp"
 msgid "_Accept distortion"
 msgstr "Bozulmayı _Kabul Et"
 
-#: extensions/image_viewer/callbacks.c:32
+#: extensions/image_viewer/callbacks.c:36
 msgid "Zoom in"
 msgstr "Büyültmeyi arttır"
 
-#: extensions/image_viewer/callbacks.c:33
+#: extensions/image_viewer/callbacks.c:37
 msgid "Zoom out"
 msgstr "Büyültmeyi azalt"
 
-#: extensions/image_viewer/callbacks.c:34
+#: extensions/image_viewer/callbacks.c:38
 msgid "Zoom 100%"
 msgstr "%100 yakınlaştır"
 
-#: extensions/image_viewer/callbacks.c:35
+#: extensions/image_viewer/callbacks.c:39
 msgid "Zoom 200%"
 msgstr "%200 yakınlaştır"
 
-#: extensions/image_viewer/callbacks.c:36
+#: extensions/image_viewer/callbacks.c:40
 msgid "Zoom 300%"
 msgstr "%200 yakınlaştır"
 
-#: extensions/image_viewer/callbacks.c:38
+#: extensions/image_viewer/callbacks.c:42
 msgid "Zoom to fit"
 msgstr "Sığdır"
 
-#: extensions/image_viewer/callbacks.c:39
+#: extensions/image_viewer/callbacks.c:43
 msgid "Zoom to fit if larger"
 msgstr "Eğer büyükse sığdır"
 
-#: extensions/image_viewer/callbacks.c:40
+#: extensions/image_viewer/callbacks.c:44
 msgid "Zoom to fit width"
 msgstr "Genişliğe sığdır"
 
-#: extensions/image_viewer/callbacks.c:41
+#: extensions/image_viewer/callbacks.c:45
 msgid "Zoom to fit width if larger"
 msgstr "Eğer büyükse genişliğe sığdır"
 
-#: extensions/image_viewer/callbacks.c:42
+#: extensions/image_viewer/callbacks.c:46
 msgid "Zoom to fit height"
 msgstr "Yüksekliğe sığdır"
 
-#: extensions/image_viewer/callbacks.c:43
+#: extensions/image_viewer/callbacks.c:47
 msgid "Zoom to fit height if larger"
 msgstr "Eğer büyükse yüksekliğe sığdır"
 
-#: extensions/image_viewer/callbacks.c:45
+#: extensions/image_viewer/callbacks.c:49
 msgid "Undo edit"
 msgstr "Düzenlemeyi geri al"
 
-#: extensions/image_viewer/callbacks.c:46
+#: extensions/image_viewer/callbacks.c:50
 msgid "Redo edit"
 msgstr "Düzenlemeyi yinele"
 
-#: extensions/image_viewer/callbacks.c:48
+#: extensions/image_viewer/callbacks.c:52
 msgid "Scroll left"
 msgstr "Sola kaydır"
 
-#: extensions/image_viewer/callbacks.c:49
+#: extensions/image_viewer/callbacks.c:53
 msgid "Scroll right"
 msgstr "Sağa kaydır"
 
-#: extensions/image_viewer/callbacks.c:50
+#: extensions/image_viewer/callbacks.c:54
 msgid "Scroll up"
 msgstr "Yukarı kaydır"
 
-#: extensions/image_viewer/callbacks.c:51
+#: extensions/image_viewer/callbacks.c:55
 msgid "Scroll down"
 msgstr "Aşağı kaydır"
 
-#: extensions/image_viewer/callbacks.c:53
+#: extensions/image_viewer/callbacks.c:57
 msgid "Scroll left fast"
 msgstr "Sola hızlı kaydır"
 
-#: extensions/image_viewer/callbacks.c:54
+#: extensions/image_viewer/callbacks.c:58
 msgid "Scroll right fast"
 msgstr "Sağa hızlı kaydır"
 
-#: extensions/image_viewer/callbacks.c:55
+#: extensions/image_viewer/callbacks.c:59
 msgid "Scroll up fast"
 msgstr "Yukarı hızlı kaydır"
 
-#: extensions/image_viewer/callbacks.c:56
+#: extensions/image_viewer/callbacks.c:60
 msgid "Scroll down fast"
 msgstr "Aşağı hızlı kaydır"
 
-#: extensions/image_viewer/callbacks.c:58
+#: extensions/image_viewer/callbacks.c:62
 msgid "Scroll to center"
 msgstr "Merkeze kaydır"
 
@@ -3537,7 +3321,7 @@ msgid "After loading an image:"
 msgstr "Resim yüklendikten sonra:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1155
+#: extensions/image_viewer/gth-image-viewer-page.c:1202
 msgid "Set to actual size"
 msgstr "Gerçek boyutuna ayarla"
 
@@ -3546,7 +3330,7 @@ msgid "Keep previous zoom"
 msgstr "Önceki büyültmeyi koru"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1162
+#: extensions/image_viewer/gth-image-viewer-page.c:1209
 msgid "Fit to window if larger"
 msgstr "Eğer büyükse pencereye uydur"
 
@@ -3591,26 +3375,26 @@ msgctxt "zoom quality"
 msgid "_Low"
 msgstr "_Düşük"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:310
 msgid "Transparency:"
 msgstr "Saydamlık:"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:325
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
 msgid "Checkered"
 msgstr "Damalı"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:326
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
 msgid "White"
 msgstr "Beyaz"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:327
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
 msgid "Gray"
 msgstr "Gri"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:298
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:328
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:42
 msgid "Black"
 msgstr "Siyah"
@@ -3644,22 +3428,23 @@ msgid "Histogram"
 msgstr "Çubuklu Grafik"
 
 #: extensions/image_viewer/gth-image-viewer-page.c:85
+#: gthumb/gth-browser-actions-entries.h:199 gthumb/resources/gears-menu.ui:43
 msgid "Paste Image"
 msgstr "Resmi Yapıştır"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1190
+#: extensions/image_viewer/gth-image-viewer-page.c:1237
 msgid "Apply the embedded color profile"
 msgstr "Gömülü renk profilini uygula"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1212
+#: extensions/image_viewer/gth-image-viewer-page.c:1259
 msgid "Transparency"
 msgstr "Saydamlık"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1846
+#: extensions/image_viewer/gth-image-viewer-page.c:1898
 msgid "Save Image"
 msgstr "Resmi Kaydet"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2571
+#: extensions/image_viewer/gth-image-viewer-page.c:2654
 msgid "Loading the original image"
 msgstr "Özgün resim yükleniyor"
 
@@ -3679,7 +3464,7 @@ msgstr "Resmi Kaydır"
 msgid "Image Editor"
 msgstr "Resim Düzenleyici"
 
-#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
+#: extensions/image_viewer/preferences.c:171 gthumb/gth-main-default-types.c:42
 #: gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Gösterici"
@@ -3778,7 +3563,7 @@ msgstr "_Komut:"
 msgid "Edit command"
 msgstr "Komutu düzenle"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:556
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:558
 #: gthumb/gth-test-aspect-ratio.c:193
 msgid "Personalize…"
 msgstr "Kişiselleştir…"
@@ -3885,27 +3670,32 @@ msgid "Scripting and batch manipulation of files."
 msgstr "Dosyaları toplu işleme ve komut dizisi oluşturma."
 
 #: extensions/map_view/gth-map-view.c:128
+#: extensions/open_map/gth-open-map.c:119
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "G"
 
 #: extensions/map_view/gth-map-view.c:128
+#: extensions/open_map/gth-open-map.c:119
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "K"
 
 #: extensions/map_view/gth-map-view.c:130
+#: extensions/open_map/gth-open-map.c:121
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "B"
 
 #: extensions/map_view/gth-map-view.c:130
+#: extensions/open_map/gth-open-map.c:121
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "D"
 
 #: extensions/map_view/gth-map-view.c:225
 #: extensions/map_view/map_view.extension.desktop.in.in:3
+#: extensions/open_map/gth-open-map.c:216
 msgid "Map"
 msgstr "Harita"
 
@@ -3913,47 +3703,13 @@ msgstr "Harita"
 msgid "View the photo position on the map"
 msgstr "Haritada fotoğraf konumunu görüntüle"
 
-#: extensions/oauth/data/ui/oauth-account-manager.ui:23
-msgid "A_ccounts:"
-msgstr "H_esaplar:"
+#: extensions/open_map/open_map.extension.desktop.in.in:3
+msgid "Open Map"
+msgstr "Haritayı Aç"
 
-#. the message pane
-#: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1172
-msgid "Loading…"
-msgstr "Yükleniyor…"
-
-#: extensions/oauth/oauth-account-chooser-dialog.c:192
-msgid "New authentication…"
-msgstr "Yeni kimlik doğrulama…"
-
-#: extensions/oauth/oauth-ask-authorization-dialog.c:240
-msgid "Authorization Required"
-msgstr "Yetkilendirme Gerekli"
-
-#: extensions/oauth/web-service.c:379
-msgid "Choose _Account…"
-msgstr "_Hesap Seç…"
-
-#: extensions/oauth/web-service.c:657
-msgid "Choose Account"
-msgstr "Hesap Seç"
-
-#: extensions/oauth/web-service.c:774
-msgid "Edit Accounts"
-msgstr "Hesapları Düzenle"
-
-#: extensions/oauth/web-service.c:792 extensions/oauth/web-service.c:809
-msgid "Connecting to the server"
-msgstr "Sunucuya bağlanılıyor"
-
-#: extensions/oauth/web-service.c:793
-msgid "Asking authorization"
-msgstr "Yetkilendirme isteniyor"
-
-#: extensions/oauth/web-service.c:810
-msgid "Getting account information"
-msgstr "Hesap bilgisi alınıyor"
+#: extensions/open_map/open_map.extension.desktop.in.in:4
+msgid "View the photo location on OpenStreetMap"
+msgstr "Fotoğraf konumunu OpenStreetMap ile görüntüle"
 
 #: extensions/photo_importer/actions.c:71
 #: extensions/photo_importer/dlg-photo-importer.c:619
@@ -3991,7 +3747,7 @@ msgstr "Kaynaktan içeri aktarılan dosyaları _sil"
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
-#: gthumb/gth-filterbar.c:391
+#: gthumb/gth-filterbar.c:393
 msgid "S_how:"
 msgstr "G_öster:"
 
@@ -4020,6 +3776,10 @@ msgstr "Klasör yüklenemedi"
 #: extensions/photo_importer/dlg-photo-importer.c:352
 msgid "Getting the folder content…"
 msgstr "Klasör içeriği alınıyor…"
+
+#: extensions/photo_importer/dlg-photo-importer.c:575
+msgid "_Import"
+msgstr "_Al"
 
 #: extensions/photo_importer/dlg-photo-importer.c:585
 msgid "Import from Removable Device"
@@ -4303,11 +4063,11 @@ msgstr "Sunumu sonlandır"
 msgid "Pause/Resume presentation"
 msgstr "Sunumu duraklat/sürdür"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:126
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:127
 msgid "Show next file"
 msgstr "Sonraki dosyayı göster"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:125
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:126
 msgid "Show previous file"
 msgstr "Önceki dosyayı göster"
 
@@ -4476,6 +4236,10 @@ msgstr "Pencere genişliğine uyarlar"
 msgid "_Copy originals to destination"
 msgstr "_Varış yerine özgün olanları kopyala"
 
+#: extensions/webalbums/data/ui/web-album-exporter.ui:329
+msgid "_Resize if larger than:"
+msgstr "Eğer daha büyükse _yeniden boyutlandır:"
+
 #: extensions/webalbums/data/ui/web-album-exporter.ui:605
 msgid "_Adapt to the window width "
 msgstr "Pencere genişliğine _uydur "
@@ -4518,7 +4282,7 @@ msgstr "Toplam resim sayısı"
 msgid "Original filename"
 msgstr "Özgün dosya adı"
 
-#: extensions/webalbums/dlg-web-exporter.c:531
+#: extensions/webalbums/dlg-web-exporter.c:536
 msgid "Web Album"
 msgstr "Web Albümü"
 
@@ -4528,36 +4292,40 @@ msgstr "Web Albümü"
 msgid "Malformed command"
 msgstr "Hatalı biçimlendirilmiş komut"
 
-#: extensions/webalbums/gth-web-exporter.c:1780
+#: extensions/webalbums/gth-web-exporter.c:1788
 msgid "Could not show the destination"
 msgstr "Hedef gösterilemedi"
 
-#: extensions/webalbums/gth-web-exporter.c:1816
+#: extensions/webalbums/gth-web-exporter.c:1824
 msgid "The album has been created successfully."
 msgstr "Albüm başarılı biçimde oluşturuldu."
 
-#: extensions/webalbums/gth-web-exporter.c:2085
-#: extensions/webalbums/gth-web-exporter.c:2113
+#: extensions/webalbums/gth-web-exporter.c:1827
+msgid "_Open in the Browser"
+msgstr "Tarayıcıda _Aç"
+
+#: extensions/webalbums/gth-web-exporter.c:2093
+#: extensions/webalbums/gth-web-exporter.c:2121
 msgid "Saving thumbnails"
 msgstr "Küçük resimler kaydediliyor"
 
-#: extensions/webalbums/gth-web-exporter.c:2141
+#: extensions/webalbums/gth-web-exporter.c:2149
 msgid "Saving HTML pages: Images"
 msgstr "HTML sayfaları kaydediliyor: Resimler"
 
-#: extensions/webalbums/gth-web-exporter.c:2199
+#: extensions/webalbums/gth-web-exporter.c:2207
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML sayfaları kaydediliyor: Dizinler"
 
-#: extensions/webalbums/gth-web-exporter.c:2484
+#: extensions/webalbums/gth-web-exporter.c:2492
 msgid "Copying original images"
 msgstr "Özgün resimler kopyalanıyor"
 
-#: extensions/webalbums/gth-web-exporter.c:2955
+#: extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Biçem klasörü bulunamadı"
 
-#: extensions/webalbums/gth-web-exporter.c:2993
+#: extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Geçici klasör oluşturulamıyor"
 
@@ -4570,8 +4338,8 @@ msgid "Create static web albums."
 msgstr "Değişmeyen web albümleri oluştur."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6914 gthumb/gth-browser.c:6933
-#: gthumb/gth-browser.c:6957 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:7052 gthumb/gth-browser.c:7071
+#: gthumb/gth-browser.c:7095 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "“%s” konumuna yüklenemedi"
@@ -4650,30 +4418,30 @@ msgstr "Dışa aktarıcılar"
 msgid "Could not activate the extension"
 msgstr "Uzantı etkinleştirilemedi"
 
-#: gthumb/dlg-preferences-extensions.c:374
+#: gthumb/dlg-preferences-extensions.c:380
 msgid "Could not deactivate the extension"
 msgstr "Uzantılar devre dışı bırakılamadı"
 
-#: gthumb/dlg-preferences-extensions.c:491
+#: gthumb/dlg-preferences-extensions.c:496
 msgid "gThumb Development Team"
 msgstr "gthumb Geliştirme Takımı"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-extensions.c:664
+#: gthumb/dlg-preferences-extensions.c:669
 msgid "Extensions"
 msgstr "Uzantılar"
 
-#: gthumb/dlg-preferences-extensions.c:713
+#: gthumb/dlg-preferences-extensions.c:718
 msgid "Restart required"
 msgstr "Yeniden başlatma gerekli"
 
-#: gthumb/dlg-preferences-extensions.c:714
+#: gthumb/dlg-preferences-extensions.c:719
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr ""
 "Değişikliklerin uygulanabilmesi için gthumb uygulamasını yeniden başlatmanız "
 "gerekmektedir"
 
-#: gthumb/dlg-preferences-extensions.c:716
+#: gthumb/dlg-preferences-extensions.c:721
 msgid "_Restart"
 msgstr "_Yeniden Başlat"
 
@@ -4749,7 +4517,7 @@ msgstr "Dosyalar çöpe taşınıyor"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2104
+#: gthumb/glib-utils.c:2137
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4761,7 +4529,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2113
+#: gthumb/glib-utils.c:2146
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4799,7 +4567,7 @@ msgstr "Sürümü göster"
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[DOSYA…] [DİZİN…]"
 
-#: gthumb/gth-application.c:170
+#: gthumb/gth-application.c:172
 msgid "— Image browser and viewer"
 msgstr "— Resim tarayıcısı ya da göstericisi"
 
@@ -4849,109 +4617,109 @@ msgstr ""
 "Sabri Ünal <libreajans@gmail.com>\n"
 "Emin Tufan Çetin <etcetin@gmail.com>"
 
-#: gthumb/gth-browser-actions-entries.h:101 gthumb/resources/gears-menu.ui:49
+#: gthumb/gth-browser-actions-entries.h:102 gthumb/resources/gears-menu.ui:53
 msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
-#: gthumb/gth-browser-actions-entries.h:102
+#: gthumb/gth-browser-actions-entries.h:103
 msgid "Quit"
 msgstr "Çık"
 
-#: gthumb/gth-browser-actions-entries.h:105
+#: gthumb/gth-browser-actions-entries.h:106
 msgid "Show browser"
 msgstr "Tarayıcıyı göster"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Close window"
 msgstr "Pencereyi kapat"
 
-#: gthumb/gth-browser-actions-entries.h:108
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Open location"
 msgstr "Konum aç"
 
-#: gthumb/gth-browser-actions-entries.h:109 gthumb/gth-browser.c:4822
-#: gthumb/gth-browser.c:4840 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:110 gthumb/gth-browser.c:4826
+#: gthumb/gth-browser.c:4844 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Tam Ekran"
 
-#: gthumb/gth-browser-actions-entries.h:110
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Revert image to saved"
 msgstr "Kayıtlı resme döndür"
 
-#: gthumb/gth-browser-actions-entries.h:111
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Save image"
 msgstr "Resmi kaydet"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Save image as"
 msgstr "Resmi farklı kaydet"
 
-#: gthumb/gth-browser-actions-entries.h:113
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Sidebar"
 msgstr "Kenar çubuğu"
 
-#: gthumb/gth-browser-actions-entries.h:114
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Statusbar"
 msgstr "Durum çubuğu"
 
-#: gthumb/gth-browser-actions-entries.h:115
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Thumbnails list"
 msgstr "Küçük resimler listesi"
 
-#: gthumb/gth-browser-actions-entries.h:117
+#: gthumb/gth-browser-actions-entries.h:118
 msgid "Load previous location"
 msgstr "Önceki konumu yükle"
 
-#: gthumb/gth-browser-actions-entries.h:118
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Load next location"
 msgstr "Sonraki konumu yükle"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Load parent folder"
 msgstr "Üst klasörü yükle"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Load home"
 msgstr "Ev’i yükle"
 
-#: gthumb/gth-browser-actions-entries.h:121
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Reload location"
 msgstr "Konumu yeniden yükle"
 
-#: gthumb/gth-browser-actions-entries.h:122
+#: gthumb/gth-browser-actions-entries.h:123
 msgid "Show/Hide hidden files"
 msgstr "Gizli dosyaları göster/gizle"
 
-#: gthumb/gth-browser-actions-entries.h:123
+#: gthumb/gth-browser-actions-entries.h:124
 msgid "Change sorting order"
 msgstr "Sıralama ölçütünü değiştir"
 
-#: gthumb/gth-browser-actions-entries.h:127
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Show first file"
 msgstr "İlk dosyayı göster"
 
-#: gthumb/gth-browser-actions-entries.h:128
+#: gthumb/gth-browser-actions-entries.h:129
 msgid "Show last file"
 msgstr "Son dosyayı göster"
 
-#: gthumb/gth-browser-actions-entries.h:130
+#: gthumb/gth-browser-actions-entries.h:131
 msgid "Image tools"
 msgstr "Resim araçları"
 
-#: gthumb/gth-browser-actions-entries.h:131
+#: gthumb/gth-browser-actions-entries.h:132
 msgid "File properties"
 msgstr "Dosya özellikleri"
 
-#: gthumb/gth-browser-actions-entries.h:133
+#: gthumb/gth-browser-actions-entries.h:134
 msgid "Select all"
 msgstr "Tümünü seç"
 
-#: gthumb/gth-browser-actions-entries.h:134
+#: gthumb/gth-browser-actions-entries.h:135
 msgid "Select none"
 msgstr "Hiçbirini seçme"
 
-#: gthumb/gth-browser-actions-entries.h:136 gthumb/gth-filterbar.c:526
+#: gthumb/gth-browser-actions-entries.h:137 gthumb/gth-filterbar.c:528
 msgid "All"
 msgstr "Tüm"
 
@@ -4989,7 +4757,7 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "Kaydet_mez"
 
-#: gthumb/gth-browser.c:2540 gthumb/gth-browser.c:4848
+#: gthumb/gth-browser.c:2540 gthumb/gth-browser.c:4852
 msgid "Accept"
 msgstr "Kabul Et"
 
@@ -5005,37 +4773,37 @@ msgstr "Ad değiştirilemedi"
 msgid "Modified"
 msgstr "Değiştirildi"
 
-#: gthumb/gth-browser.c:4770
+#: gthumb/gth-browser.c:4774
 msgid "Go to the previous visited location"
 msgstr "Ziyaret edilmiş önceki yere git"
 
-#: gthumb/gth-browser.c:4776
+#: gthumb/gth-browser.c:4780
 msgid "Go to the next visited location"
 msgstr "Ziyaret edilmiş sonraki yere git"
 
-#: gthumb/gth-browser.c:4784
+#: gthumb/gth-browser.c:4788
 msgid "History"
 msgstr "Geçmiş"
 
-#: gthumb/gth-browser.c:4798
+#: gthumb/gth-browser.c:4802
 msgid "View the folders"
 msgstr "Klasörleri göster"
 
-#: gthumb/gth-browser.c:4813
+#: gthumb/gth-browser.c:4817
 msgid "Edit file"
 msgstr "Dosya Düzenle"
 
-#: gthumb/gth-browser.c:4904 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4908 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "İşlemler"
 
-#: gthumb/gth-browser.c:6915
+#: gthumb/gth-browser.c:7053
 #, c-format
 msgid "File type not supported"
 msgstr "Dosya türü desteklenmiyor"
 
-#: gthumb/gth-browser.c:6958
+#: gthumb/gth-browser.c:7096
 #, c-format
 msgid "No suitable module found"
 msgstr "Uygun modül bulunamadı"
@@ -5061,6 +4829,17 @@ msgstr "Biçim Seçeneklerini _Göster"
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1198
 msgid "No file"
 msgstr "Dosya yok"
+
+#. the message pane
+#: gthumb/gth-file-list.c:567 gthumb/gth-folder-tree.c:1172
+msgid "Loading…"
+msgstr "Yükleniyor…"
+
+#: gthumb/gth-file-selection-info.c:143
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d dosya"
 
 #: gthumb/gth-file-source-vfs.c:288
 msgid "Computer"
@@ -5323,12 +5102,12 @@ msgstr "Dosya bilgisi kaydediliyor"
 msgid "Saving “%s”"
 msgstr "“%s” kaydediliyor"
 
-#: gthumb/gth-tags-entry.c:507
+#: gthumb/gth-tags-entry.c:499
 #, c-format
 msgid "Create tag “%s”"
 msgstr "“%s” etiketini oluştur"
 
-#: gthumb/gth-tags-entry.c:1090
+#: gthumb/gth-tags-entry.c:947
 msgid "Show all the tags"
 msgstr "Tüm etiketleri göster"
 
@@ -5487,11 +5266,11 @@ msgstr "daha önce"
 msgid "is after"
 msgstr "sonra"
 
-#: gthumb/gth-time-selector.c:542
+#: gthumb/gth-time-selector.c:396
 msgid "Today"
 msgstr "Bugün"
 
-#: gthumb/gth-time-selector.c:550
+#: gthumb/gth-time-selector.c:404
 msgid "Now"
 msgstr "Şimdi"
 
@@ -5503,7 +5282,7 @@ msgstr "Renkler"
 msgid "Rotation"
 msgstr "Döndürme"
 
-#: gthumb/gth-window.c:1073
+#: gthumb/gth-window.c:1075
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5512,18 +5291,18 @@ msgstr ""
 "«%s» tuş birleşimi zaten «%s» eylemine atanmış. Bunun yerine bu eyleme "
 "yeniden atamak ister misin?"
 
-#: gthumb/gth-window.c:1081
+#: gthumb/gth-window.c:1083
 msgid "Reassign"
 msgstr "Yeniden ata"
 
-#: gthumb/gth-window.c:1099
+#: gthumb/gth-window.c:1101
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr "«%s» tuş birleşimi zaten «%s» eylemine atanmış ve değiştirilemez."
 
-#: gthumb/gth-window.c:1103
+#: gthumb/gth-window.c:1105
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "«%s» tuş birleşimi zaten atanmış ve değiştirilemez."
@@ -5556,7 +5335,7 @@ msgstr "İptal"
 msgid "_Cancel"
 msgstr "İ_ptal"
 
-#: gthumb/gtk-utils.h:40 gthumb/resources/gears-menu.ui:53
+#: gthumb/gtk-utils.h:40 gthumb/resources/gears-menu.ui:57
 msgid "_Help"
 msgstr "_Yardım"
 
@@ -5596,10 +5375,182 @@ msgstr "Buna Göre Sırala…"
 msgid "Open Location…"
 msgstr "Konumu Aç…"
 
-#: gthumb/resources/gears-menu.ui:57
+#: gthumb/resources/gears-menu.ui:61
 msgid "_About gThumb"
 msgstr "gThumb H_akkında"
 
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "Geçmişi _Sil"
+
+#~ msgid "More extensions…"
+#~ msgstr "Daha çok uzantı…"
+
+#~ msgid "23"
+#~ msgstr "23"
+
+#~ msgid "Upload images to 23hq.com"
+#~ msgstr "23hq.com adresine resimleri yükle"
+
+#~ msgid "Flicker"
+#~ msgstr "Flicker"
+
+#~ msgid "Upload images to Flickr"
+#~ msgstr "Flickr uygulamasına resim yükle"
+
+#~ msgid "Public photos"
+#~ msgstr "Herkese açık fotoğraflar"
+
+#~ msgid "Private photos, visible to family and friends"
+#~ msgstr "Aile ve arkadaşlara görünür özel fotoğraflar"
+
+#~ msgid "Private photos, visible to friends"
+#~ msgstr "Özel fotoğraflar, arkadaşlara görünür"
+
+#~ msgid "Private photos, visible to family"
+#~ msgstr "Özel fotoğraflar aileye görünür"
+
+#~ msgid "Private photos"
+#~ msgstr "Özel fotoğraflar"
+
+#~ msgid "Safe content"
+#~ msgstr "Güvenli içerik"
+
+#~ msgid "Moderate content"
+#~ msgstr "Ölçülü içerik"
+
+#~ msgid "Restricted content"
+#~ msgstr "Kısıtlı içerik"
+
+#~ msgid "_Account:"
+#~ msgstr "_Hesap:"
+
+#~ msgid "Edit accounts"
+#~ msgstr "Hesapları düzenle"
+
+#~ msgid "Free space:"
+#~ msgstr "Boş alan:"
+
+#~ msgid "Ph_otoset:"
+#~ msgstr "Fo_toğraf kümesi:"
+
+#~ msgid "_Privacy:"
+#~ msgstr "_Gizlilik:"
+
+#~ msgid "_Safety:"
+#~ msgstr "_Güvenli:"
+
+#~ msgid "Hi_de from public searches"
+#~ msgstr "Açık aramalardan gi_zle"
+
+#~ msgid "A_ccount:"
+#~ msgstr "H_esap:"
+
+#~ msgid "Could not connect to the server"
+#~ msgstr "Sunucuya bağlanılamadı"
+
+#~ msgid "Files successfully uploaded to the server."
+#~ msgstr "Dosyalar sunucuya başarılı biçimde yüklendi."
+
+#~ msgid "Could not create the album"
+#~ msgstr "Albüm oluşturulamadı"
+
+#~ msgid "Could not upload the files"
+#~ msgstr "Dosyalar yüklenemedi"
+
+#~ msgid "Could not export the files"
+#~ msgstr "Dosyalar dışa aktarılamadı"
+
+#, c-format
+#~ msgid "Export to %s"
+#~ msgstr "%s konumuna dışa aktar"
+
+#~ msgid "Could not get the photo list"
+#~ msgstr "Fotoğraf listesi alınamadı"
+
+#~ msgid "No album selected"
+#~ msgstr "Albüm seçilemedi"
+
+#, c-format
+#~ msgid "Import from %s"
+#~ msgstr "%s konumundan içeri aktar"
+
+#~ msgid "Unknown error"
+#~ msgstr "Bilinmeyen hata"
+
+#, c-format
+#~ msgid ""
+#~ "Return to this window when you have finished the authorization process on "
+#~ "%s"
+#~ msgstr ""
+#~ "%s üzerinde yetkilendirme işlemini bitirdiğinizde bu pencereye dönün"
+
+#~ msgid "Once you’re done, click the “Continue” button below."
+#~ msgstr "Tamamladığınızda, aşağıdaki “Devam Et” düğmesine tıklayın."
+
+#~ msgid "C_ontinue"
+#~ msgstr "D_evam et"
+
+#~ msgid "_Authorize…"
+#~ msgstr "_Yetkilendir…"
+
+#, c-format
+#~ msgid "gThumb requires your authorization to upload the photos to %s"
+#~ msgstr "gThumb %s hizmetine fotoğraf yüklemek için yetkinizi ister"
+
+#, c-format
+#~ msgid ""
+#~ "Click “Authorize” to open your web browser and authorize gthumb to upload "
+#~ "photos to %s. When you’re finished, return to this window to complete the "
+#~ "authorization."
+#~ msgstr ""
+#~ "Web tarayıcınızı açmak ve %s hizmetine fotoğraf yükleyecek gthumb’ı "
+#~ "yetkilendirmek için “Yetkilendir” seçeneğini tıklayın. Bitirdiğinizde "
+#~ "yetkilendirme işlemini tamamlamak için bu pencereye dönün."
+
+#~ msgid "Getting the album list"
+#~ msgstr "Albüm listesi alınıyor"
+
+#~ msgid "Creating the new album"
+#~ msgstr "Yeni albüm oluşturuluyor"
+
+#, c-format
+#~ msgid "Could not upload “%s”: %s"
+#~ msgstr "“%s” yüklenemedi: %s"
+
+#, c-format
+#~ msgid "Uploading “%s”"
+#~ msgstr "“%s” yükleniyor"
+
+#~ msgid "Uploading the files to the server"
+#~ msgstr "Dosyalar sunucuya yükleniyor"
+
+#~ msgid "Getting the photo list"
+#~ msgstr "Fotoğraf listesi alınıyor"
+
+#~ msgid "A_ccounts:"
+#~ msgstr "H_esaplar:"
+
+#~ msgid "New authentication…"
+#~ msgstr "Yeni kimlik doğrulama…"
+
+#~ msgid "Authorization Required"
+#~ msgstr "Yetkilendirme Gerekli"
+
+#~ msgid "Choose _Account…"
+#~ msgstr "_Hesap Seç…"
+
+#~ msgid "Choose Account"
+#~ msgstr "Hesap Seç"
+
+#~ msgid "Edit Accounts"
+#~ msgstr "Hesapları Düzenle"
+
+#~ msgid "Connecting to the server"
+#~ msgstr "Sunucuya bağlanılıyor"
+
+#~ msgid "Asking authorization"
+#~ msgstr "Yetkilendirme isteniyor"
+
+#~ msgid "Getting account information"
+#~ msgstr "Hesap bilgisi alınıyor"
