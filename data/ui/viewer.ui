@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthViewer">
+    <child>
+      <object class="AdwStatusPage">
+        <property name="title">Viewer</property>
+        <property name="icon-name">folder-pictures-symbolic</property>
+      </object>
+    </child>
+  </template>
+</interface>

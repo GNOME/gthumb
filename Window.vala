@@ -31,11 +31,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 			before_closing ();
 			return false;
 		});
+
+		init_actions ();
 	}
 
 	public Window (Gtk.Application _app, File location, File? file_to_select) {
 		Object (application: app, title: "Thumbnails");
 		browser.window = this;
+		viewer.window = this;
 		set_page (Page.BROWSER);
 		Util.next_tick (() => {
 			browser.first_load (location, file_to_select);
@@ -64,14 +67,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (page == current_page)
 			return;
 		current_page = page;
-		/*switch (current_page) {
+		switch (current_page) {
 		case Page.BROWSER:
-			main_stack.set_visible_child (browser_page);
+			stack.set_visible_child (browser);
 			break;
 		case Page.VIEWER:
-			main_stack.set_visible_child (viewer_page);
+			stack.set_visible_child (viewer);
 			break;
-		}*/
+		}
 		update_title ();
 		update_sensitivity ();
 	}
@@ -108,7 +111,29 @@ public class Gth.Window : Adw.ApplicationWindow {
 		browser.save_preferences ();
 	}
 
+	void init_actions () {
+		var action = new SimpleAction ("about", null);
+		action.activate.connect (() => {
+			const string[] developers = {
+				"Paolo Bacchilega <paobac@src.gnome.org>",
+			};
+			Adw.show_about_dialog (this,
+				"application-name", "Thumbnails",
+				"application-icon", "app.gthumb.gthumb",
+				"version", Config.VERSION,
+				"license-type", Gtk.License.GPL_2_0,
+				"translator-credits", _("translator-credits"),
+				"website", "https://gitlab.gnome.org/GNOME/gthumb/",
+				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/issues",
+				"developers", developers
+			);
+		});
+		action_group.add_action (action);
+	}
+
+	[GtkChild] public unowned Gtk.Stack stack;
 	[GtkChild] public unowned Gth.Browser browser;
+	[GtkChild] public unowned Gth.Viewer viewer;
 
 	Page current_page = Page.NONE;
 }

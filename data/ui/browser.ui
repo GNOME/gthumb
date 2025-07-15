@@ -279,6 +279,7 @@
                                     <style>
                                       <class name="thumbnail-grid"/>
                                     </style>
+                                    <signal name="activate" handler="on_file_activate"/>
                                   </object>
                                 </child>
                               </object>

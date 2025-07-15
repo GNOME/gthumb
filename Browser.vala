@@ -488,25 +488,8 @@ public class Gth.Browser : Gtk.Box {
 		history.actions = history_popover.actions;
 
 		var action_group = window.action_group;
-		var action = new SimpleAction ("about", null);
-		action.activate.connect (() => {
-			const string[] developers = {
-				"Paolo Bacchilega <paobac@src.gnome.org>",
-			};
-			Adw.show_about_dialog (this,
-				"application-name", "Thumbnails",
-				"application-icon", "app.gthumb.gthumb",
-				"version", Config.VERSION,
-				"license-type", Gtk.License.GPL_2_0,
-				"translator-credits", _("translator-credits"),
-				"website", "https://gitlab.gnome.org/GNOME/gthumb/",
-				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/issues",
-				"developers", developers
-			);
-		});
-		action_group.add_action (action);
 
-		action = new SimpleAction ("edit-filters", null);
+		var action = new SimpleAction ("edit-filters", null);
 		action.activate.connect (() => {
 			var dialog = new Gth.FiltersDialog ();
 			dialog.present (this);
@@ -884,6 +867,14 @@ public class Gth.Browser : Gtk.Box {
 				app.save_active_filter (filter_bar.filter);
 				history.save_to_file ();
 			}
+		}
+	}
+
+	[GtkCallback]
+	void on_file_activate (uint position) {
+		var file = file_grid.model.get_item (position) as FileData;
+		if (file != null) {
+			window.viewer.view_file (file);
 		}
 	}
 

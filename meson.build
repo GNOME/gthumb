@@ -393,6 +393,7 @@ source_files = files(
   'UserDir.vala',
   'Util.vala',
   'Window.vala',
+  'Viewer.vala',
 )
 
 executable(
