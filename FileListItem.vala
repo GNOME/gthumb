@@ -2,8 +2,8 @@ public class Gth.FileListItem : Gtk.Box {
 	public unowned string[] attributes_v;
 	public FileData file_data;
 
-	public FileListItem (Gth.Window _window, int _size, string[] _attributes_v) {
-		window = _window;
+	public FileListItem (Gth.Browser _browser, int _size, string[] _attributes_v) {
+		browser = _browser;
 		size = _size;
 		attributes_v = _attributes_v;
 		orientation = Gtk.Orientation.VERTICAL;
@@ -59,7 +59,7 @@ public class Gth.FileListItem : Gtk.Box {
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
 		click_events.pressed.connect ((n_press, x, y) => {
-			window.open_file_context_menu (this, (int) x, (int) y);
+			browser.open_file_context_menu (this, (int) x, (int) y);
 		});
 		add_controller (click_events);
 	}
@@ -126,7 +126,7 @@ public class Gth.FileListItem : Gtk.Box {
 
 	int size;
 	const int V_SPACING = 6;
-	weak Gth.Window window;
+	weak Gth.Browser browser;
 	ulong thumbnail_texture_id;
 	ulong thumbnail_state_id;
 	Gtk.Picture preview;

@@ -1,10 +1,10 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/sort-folders-dialog.ui")]
 public class Gth.SortFoldersDialog : Adw.PreferencesDialog {
-	public SortFoldersDialog (Gth.Window _window) {
-		window = _window;
+	public SortFoldersDialog (Gth.Browser _browser) {
+		browser = _browser;
 
-		sort_name = window.folder_tree.sort.name;
-		inverse_order = window.folder_tree.sort.inverse;
+		sort_name = browser.folder_tree.sort.name;
+		inverse_order = browser.folder_tree.sort.inverse;
 
 		Gtk.CheckButton first_check_button = null;
 		var idx = 0;
@@ -25,7 +25,7 @@ public class Gth.SortFoldersDialog : Adw.PreferencesDialog {
 			}
 			check_button.toggled.connect (() => {
 				sort_name = sort_id;
-				window.folder_tree.set_sort_order (sort_name, inverse_order);
+				browser.folder_tree.set_sort_order (sort_name, inverse_order);
 			});
 			row.add_prefix (check_button);
 			row.activatable_widget = check_button;
@@ -37,11 +37,11 @@ public class Gth.SortFoldersDialog : Adw.PreferencesDialog {
 		inverse_order_switch.active = inverse_order;
 		inverse_order_switch.notify["active"].connect (() => {
 			inverse_order = inverse_order_switch.active;
-			window.folder_tree.set_sort_order (sort_name, inverse_order);
+			browser.folder_tree.set_sort_order (sort_name, inverse_order);
 		});
 	}
 
-	weak Gth.Window window;
+	weak Gth.Browser browser;
 	string sort_name;
 	bool inverse_order;
 

@@ -61,5 +61,6 @@
     <file preprocess="xml-stripblanks">status.ui</file>
     <file preprocess="xml-stripblanks">test-expr-editor-group.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
+    <file preprocess="xml-stripblanks">browser.ui</file>
   </gresource>
 </gresources>

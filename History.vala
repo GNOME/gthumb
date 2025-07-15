@@ -1,12 +1,12 @@
-class Gth.WindowHistory {
-	public weak Window window;
+class Gth.History {
+	public weak Browser browser;
 	public Menu menu;
 	public Gth.ActionList actions;
 	public GenericArray<File> files;
 	public int current;
 
-	public WindowHistory (Window _window) {
-		window = _window;
+	public History (Browser _browser) {
+		browser = _browser;
 		menu = null;
 		actions = null;
 		files = new GenericArray<File>();
@@ -42,7 +42,7 @@ class Gth.WindowHistory {
 			file_action.category = locations_category;
 			actions.append_action (file_action);
 			if (current == idx) {
-				var history_action = window.action_group.lookup_action ("load-history-position");
+				var history_action = browser.window.action_group.lookup_action ("load-history-position");
 				if (history_action != null) {
 					history_action.change_state (new Variant.int16 (idx));
 				}
@@ -72,8 +72,8 @@ class Gth.WindowHistory {
 	public void clear () {
 		files.length = 0;
 		current = -1;
-		if (window.folder_tree.current_folder != null) {
-			add (window.folder_tree.current_folder.file);
+		if (browser.folder_tree.current_folder != null) {
+			add (browser.folder_tree.current_folder.file);
 		}
 		update_menu ();
 	}
@@ -84,7 +84,7 @@ class Gth.WindowHistory {
 		var location = files[idx];
 		if (location == null)
 			return;
-		window.open_location (location, LoadAction.OPEN_FROM_HISTORY);
+		browser.open_location (location, LoadAction.OPEN_FROM_HISTORY);
 	}
 
 	public void load_previous () {
@@ -176,7 +176,7 @@ class Gth.WindowHistory {
 	bool set_current (int idx) {
 		if ((idx < 0) || (idx >= files.length))
 			return false;
-		var action = window.action_group.lookup_action ("load-history-position");
+		var action = browser.window.action_group.lookup_action ("load-history-position");
 		if (action == null)
 			return false;
 		action.change_state (new Variant.int16 ((int16) idx));
@@ -191,11 +191,11 @@ class Gth.WindowHistory {
 	}
 
 	void update_sensitivity () {
-		var action = window.action_group.lookup_action ("load-next") as SimpleAction;
+		var action = browser.window.action_group.lookup_action ("load-next") as SimpleAction;
 		if (action != null) {
 			action.set_enabled (can_load_next ());
 		}
-		action = window.action_group.lookup_action ("load-previous") as SimpleAction;
+		action = browser.window.action_group.lookup_action ("load-previous") as SimpleAction;
 		if (action != null) {
 			action.set_enabled (can_load_previous ());
 		}

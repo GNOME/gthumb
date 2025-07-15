@@ -316,6 +316,7 @@ source_files = files(
   'ActionPopover.vala',
   'Application.vala',
   'Bookmarks.vala',
+  'Browser.vala',
   'DateTime.vala',
   'DefaultSorters.vala',
   'DefaultTests.vala',
@@ -370,6 +371,7 @@ source_files = files(
   'FolderTreeItem.vala',
   'FolderTree.vala',
   'GenericList.vala',
+  'History.vala',
   'ImageLoader.vala',
   'ImageSaver.vala',
   'Job.vala',
@@ -390,7 +392,6 @@ source_files = files(
   'Types.vala',
   'UserDir.vala',
   'Util.vala',
-  'WindowHistory.vala',
   'Window.vala',
 )
 

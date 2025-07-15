@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthBrowser">
+    <child>
+      <object class="AdwOverlaySplitView" id="browser_view">
+        <property name="min_sidebar_width">200</property>
+        <property name="max_sidebar_width">400</property>
+        <property name="sidebar_width_fraction">1.0</property>
+        <property name="sidebar_width_unit">px</property>
+        <!--child>
+          <object class="AdwBreakpoint">
+            <condition>max-width: 900sp</condition>
+            <setter object="browser_view" property="collapsed">true</setter>
+            <setter object="browser_content_view" property="collapsed">true</setter>
+          </object>
+        </child-->
+        <property name="sidebar">
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="title-widget">
+                  <object class="AdwWindowTitle">
+                    <property name="title">Thumbnails</property>
+                  </object>
+                </property>
+                <child type="start">
+                  <object class="GtkButton">
+                    <property name="icon-name">edit-find-symbolic</property>
+                    <property name="action-name">win.search</property>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkMenuButton" id="app_menu_button">
+                    <property name="icon-name">open-menu-symbolic</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="GthSidebarResizer" id="sidebar_resizer">
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">6</property>
+                        <style>
+                          <class name="sidebar-header"/>
+                        </style>
+                        <child>
+                          <object class="GtkToggleButton" id="vfs_button">
+                            <property name="icon-name">folder-symbolic</property>
+                            <property name="action-name">win.show-folders</property>
+                            <property name="tooltip-text" translatable="yes">Folders</property>
+                            <property name="hexpand">true</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkToggleButton" id="catalog_button">
+                            <property name="icon-name">library-symbolic</property>
+                            <property name="action-name">win.show-catalogs</property>
+                            <property name="tooltip-text" translatable="yes">Catalogs</property>
+                            <property name="hexpand">true</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="orientation">horizontal</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">user-home-symbolic</property>
+                            <property name="action-name">win.load-home</property>
+                            <property name="tooltip-text" translatable="yes">Home Folder</property>
+                            <property name="hexpand">true</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuButton">
+                            <property name="icon-name">user-bookmarks-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Bookmarks</property>
+                            <property name="hexpand">true</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <property name="popover">
+                              <object class="GthActionPopover" id="bookmark_popover">
+                                <property name="max_content_height">800</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuButton">
+                            <property name="icon-name">clock-alt-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">History</property>
+                            <property name="hexpand">true</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <property name="popover">
+                              <object class="GthActionPopover" id="history_popover">
+                                <property name="max_content_height">800</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkStack" id="sidebar_stack">
+                        <property name="vexpand">true</property>
+                        <child>
+                          <object class="GthFolderTree" id="folder_tree">
+                            <property name="sidebar">true</property>
+                            <property name="single-root">true</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="content">
+          <object class="AdwOverlaySplitView" id="browser_content_view">
+            <property name="min_sidebar_width">200</property>
+            <property name="max_sidebar_width">400</property>
+            <property name="sidebar_width_fraction">1.0</property>
+            <property name="sidebar_width_unit">px</property>
+            <property name="sidebar_position">end</property>
+            <property name="show_sidebar">false</property>
+            <property name="sidebar">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="title-widget">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Properties</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <property name="content">
+                  <object class="GthSidebarResizer" id="second_sidebar_resizer">
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="GtkStack" id="second_sidebar_stack">
+                        <child>
+                          <object class="GthPropertySidebar" id="property_sidebar">
+                            <style>
+                              <class name="right"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+            <property name="content">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <style>
+                      <class name="topbar"/>
+                    </style>
+                    <property name="title-widget">
+                      <object class="GtkMenuButton" id="location_button">
+                        <property name="popover">
+                          <object class="GtkPopover">
+                            <style>
+                              <class name="menu"/>
+                            </style>
+                            <child>
+                              <object class="GthActionList" id="location_actions">
+                              </object>
+                            </child>
+                          </object>
+                        </property>
+                      </object>
+                    </property>
+                    <child type="start">
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkToggleButton" id="show_sidebar_button">
+                            <property name="icon-name">sidebar-show-symbolic</property>
+                            <property name="action-name">win.show-sidebar</property>
+                            <property name="visible">false</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">go-previous-symbolic</property>
+                            <property name="action-name">win.load-previous</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">go-next-symbolic</property>
+                            <property name="action-name">win.load-next</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="end">
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkButton" id="update_search_button">
+                            <property name="icon-name">view-refresh-symbolic</property>
+                            <property name="action-name">win.update-search</property>
+                            <property name="tooltip-text" translatable="true">Search Again</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="edit_catalog_button">
+                            <property name="icon-name">document-properties-symbolic</property>
+                            <property name="action-name">win.edit-catalog</property>
+                            <property name="tooltip-text" translatable="true">Catalog Properties</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkToggleButton" id="show_second_sidebar_button">
+                            <property name="icon-name">info-outline-symbolic</property>
+                            <property name="action-name">win.show-second-sidebar</property>
+                            <property name="tooltip-text" translatable="true">Properties</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <property name="content">
+                  <object class="AdwToastOverlay" id="browser_toast_overlay">
+                    <child>
+                      <object class="GtkStack" id="folder_stack">
+                        <property name="vexpand">true</property>
+                        <child>
+                          <object class="GtkBox" id="non_empty_folder">
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <object class="GtkScrolledWindow">
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <style>
+                                  <class name="undershoot-top"/>
+                                  <class name="undershoot-bottom"/>
+                                </style>
+                                <child>
+                                  <object class="GtkGridView" id="file_grid">
+                                    <property name="enable_rubberband">true</property>
+                                    <property name="max_columns">15</property>
+                                    <property name="vscroll_policy">minimum</property>
+                                    <style>
+                                      <class name="thumbnail-grid"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkPopoverMenu" id="file_context_menu">
+                                <style>
+                                  <class name="deeper"/>
+                                </style>
+                                <property name="menu-model">file_menu</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwStatusPage" id="empty_folder">
+                            <property name="icon-name">folder-symbolic</property>
+                            <property name="title" translatable="true">No File</property>
+                            <style>
+                              <class name="view"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <child type="bottom">
+                  <object class="GtkBox" id="status_bar">
+                    <property name="orientation">horizontal</property>
+                    <style>
+                      <class name="statusbar"/>
+                    </style>
+                    <child>
+                      <object class="GthFilterBar" id="filter_bar">
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GthStatus" id="status">
+                        <property name="margin_start">24</property>
+                        <property name="margin_end">12</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+  <menu id="file_menu">
+    <item>
+      <attribute name="label" translatable="yes">Open _With…</attribute>
+      <attribute name="action">win.open-with</attribute>
+    </item>
+  </menu>
+</interface>
