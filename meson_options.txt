@@ -91,7 +91,7 @@ option('libbrasero',
 option('tarball-appdata',
   type : 'boolean',
   value : false,
-  description: 'Only merge translations, as tarball appdata already has release notes'
+  description: 'Only merge translations, as tarball metainfo already has release notes'
 )
 
 option('flatpak-build',
