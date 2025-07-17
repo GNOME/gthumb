@@ -840,6 +840,7 @@ static void
 create_playbin (GthMediaViewerPage *self)
 {
 	GstElement *scaletempo;
+	GstElement *videoflip;
 	gboolean    sink_created;
 	GstBus     *bus;
 
@@ -851,6 +852,12 @@ create_playbin (GthMediaViewerPage *self)
 	scaletempo = gst_element_factory_make ("scaletempo", "");
 	if (scaletempo != NULL)
 		g_object_set (self->priv->playbin, "audio-filter", scaletempo, NULL);
+
+	videoflip = gst_element_factory_make ("videoflip", "videoflip");
+	if (videoflip != NULL) {
+		g_object_set (videoflip, "video-direction", GST_VIDEO_ORIENTATION_AUTO, NULL);
+		g_object_set (self->priv->playbin, "video-filter", videoflip, NULL);
+	}
 
 	sink_created = FALSE;
 	if (g_settings_get_boolean (self->priv->settings, PREF_GSTREAMER_USE_HARDWARE_ACCEL)) {

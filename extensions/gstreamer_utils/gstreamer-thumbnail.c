@@ -40,6 +40,7 @@ gstreamer_generate_thumbnail (GFile   *file,
 			      GError **error)
 {
 	GstElement   *playbin = NULL;
+	GstElement   *videoflip;
 	char         *uri;
 	gint64        duration;
 	gint64        thumbnail_position;
@@ -53,6 +54,11 @@ gstreamer_generate_thumbnail (GFile   *file,
 
 	/* Create the playbin. */
 	playbin = gst_element_factory_make ("playbin", "playbin");
+	videoflip = gst_element_factory_make ("videoflip", "videoflip");
+	if (videoflip != NULL) {
+		g_object_set (videoflip, "video-direction", GST_VIDEO_ORIENTATION_AUTO, NULL);
+		g_object_set (playbin, "video-filter", videoflip, NULL);
+	}
 	uri = g_file_get_uri (file);
 	g_object_set (G_OBJECT (playbin),
 		      "uri", uri,
