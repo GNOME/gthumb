@@ -366,15 +366,6 @@ test('glib-utils',
   )
 )
 
-test('str-utils',
-  executable('test-str-utils',
-    sources : [ 'test-str-utils.c', 'glib-utils.c', 'str-utils.c', 'uri-utils.c' ],
-    dependencies : common_deps,
-    include_directories : config_inc,
-    c_args : c_args,
-  )
-)
-
 test('gtk-utils',
   executable('test-gtk-utils',
     sources : [ 'test-gtk-utils.c', 'gtk-utils.c', 'color-utils.c' ],

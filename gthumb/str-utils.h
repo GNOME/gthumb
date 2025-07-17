@@ -48,8 +48,6 @@ GHashTable *	_g_str_split_as_hash_table
 void		_g_str_replace_char	(char	 	 *str,
 					 char		  old_ch,
 					 char		  new_ch);
-char *		_g_convert_double_to_c_format (double	  value,
-					 int		  decimal_digits);
 
 /* StrV utils */
 
