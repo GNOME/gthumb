@@ -13,22 +13,14 @@ public class Gth.Browser : Gtk.Box {
 	public bool show_hidden_files = false;
 	public BrowserSidebarState sidebar_state = BrowserSidebarState.NONE;
 	public int thumbnail_size;
-
-	weak Window _window;
-	Queue<File> current_parents;
-	File last_folder = null;
-	File last_catalog = null;
-	GenericArray<Gtk.ListItem> binded_grid_items;
-	ActionCategory actions_category;
-	ActionCategory bookmarks_category;
-	ActionCategory parents_category;
+	[GtkChild] public unowned Gth.FolderTree folder_tree;
+	[GtkChild] public unowned Gth.Status status;
 
 	construct {
 		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer (get_next_file_for_thumbnailer);
 		history = new History (this);
 		current_parents = null;
-		active_resizer = null;
 		binded_grid_items = new GenericArray<Gtk.ListItem> ();
 		actions_category = new ActionCategory ("", -1);
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
@@ -41,32 +33,24 @@ public class Gth.Browser : Gtk.Box {
 
 		sidebar_resizer.add_handle (browser_view, Gtk.PackType.END);
 		sidebar_resizer.started.connect ((obj) => {
-			active_resizer = obj;
+			window.active_resizer = obj;
 		});
 		sidebar_resizer.ended.connect (() => {
-			active_resizer = null;
+			window.active_resizer = null;
 		});
 
 		second_sidebar_resizer.add_handle (browser_content_view, Gtk.PackType.START);
 		second_sidebar_resizer.started.connect ((obj) => {
-			active_resizer = obj;
+			window.active_resizer = obj;
 		});
 		second_sidebar_resizer.ended.connect (() => {
-			active_resizer = null;
+			window.active_resizer = null;
 		});
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
-			if (active_resizer != null) {
-				active_resizer.update_width (x);
-			}
-		});
-		window.child.add_controller (motion_events);
 
 		filter_bar.changed.connect (() => update_active_filter ());
 
 		browser_view.notify["show-sidebar"].connect (() => {
-			window.action_group.change_action_state ("show-sidebar", new Variant.boolean (browser_view.show_sidebar));
+			window.action_group.change_action_state ("show-browser-sidebar", new Variant.boolean (browser_view.show_sidebar));
 		});
 
 		// Restore the window size.
@@ -102,8 +86,6 @@ public class Gth.Browser : Gtk.Box {
 	public void show_message (string message) {
 		browser_toast_overlay.add_toast (new Adw.Toast (message));
 	}
-
-	Gth.Job load_job = null;
 
 	async void load_folder (File location, LoadAction load_action) throws Error {
 		thumbnailer.cancel ();
@@ -175,8 +157,9 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void set_sidebar_state (BrowserSidebarState state) {
-		if (state == sidebar_state)
+		if (state == sidebar_state) {
 			return;
+		}
 		sidebar_state = state;
 		switch (sidebar_state) {
 		case BrowserSidebarState.FILES:
@@ -544,13 +527,13 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("show-sidebar", null, new Variant.boolean (browser_view.show_sidebar));
+		action = new SimpleAction.stateful ("show-browser-sidebar", null, new Variant.boolean (browser_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
 			browser_view.show_sidebar = Util.toggle_state (_action);
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("show-second-sidebar", null, new Variant.boolean (browser_content_view.show_sidebar));
+		action = new SimpleAction.stateful ("browser-properties", null, new Variant.boolean (browser_content_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
 			browser_content_view.show_sidebar = Util.toggle_state (_action);
 		});
@@ -878,8 +861,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	unowned Gth.SidebarResizer active_resizer;
-
 	[GtkChild] unowned Adw.OverlaySplitView browser_view;
 	[GtkChild] unowned Adw.OverlaySplitView browser_content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
@@ -887,12 +868,9 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
 	[GtkChild] unowned Gth.ActionPopover history_popover;
 	[GtkChild] unowned Gtk.GridView file_grid;
-	[GtkChild] public unowned Gth.FolderTree folder_tree;
-	[GtkChild] public unowned Gth.Status status;
 	[GtkChild] unowned Gtk.Stack folder_stack;
 	[GtkChild] unowned Gtk.Widget non_empty_folder;
 	[GtkChild] unowned Gtk.Widget empty_folder;
-	[GtkChild] unowned Gtk.Widget show_sidebar_button;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
 	[GtkChild] unowned Adw.ToastOverlay browser_toast_overlay;
@@ -913,4 +891,12 @@ public class Gth.Browser : Gtk.Box {
 	Gth.History history;
 	double initial_sidebar_width;
 	double initial_second_sidebar_width;
+	weak Window _window;
+	Queue<File> current_parents;
+	File last_folder = null;
+	File last_catalog = null;
+	GenericArray<Gtk.ListItem> binded_grid_items;
+	ActionCategory actions_category;
+	ActionCategory bookmarks_category;
+	ActionCategory parents_category;
 }

@@ -1,0 +1,16 @@
+<schemalist>
+  <schema id="app.gthumb.gthumb.video" path="/app/gthumb/gthumb/video/" gettext-domain="gthumb">
+    <key name="screenshot-location" type="s">
+      <default>'file://~'</default>
+    </key>
+    <key name="volume" type="i">
+      <default>100</default>
+    </key>
+    <key name="mute" type="b">
+      <default>false</default>
+    </key>
+    <key name="zoom-to-fit" type="b">
+      <default>true</default>
+    </key>
+  </schema>
+</schemalist>

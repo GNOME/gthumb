@@ -2,6 +2,10 @@ public class Gth.SidebarResizer : Gtk.Box {
 	public signal void started ();
 	public signal void ended ();
 
+	construct {
+		orientation = Gtk.Orientation.HORIZONTAL;
+	}
+
 	public void add_handle (Adw.OverlaySplitView _view, Gtk.PackType _pack_type) {
 		view = _view;
 		pack_type = _pack_type;

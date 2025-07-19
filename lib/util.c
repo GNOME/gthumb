@@ -444,7 +444,7 @@ const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
 }
 
 /* this is totem_time_to_string renamed, thanks to the authors :) */
-char * _g_format_duration_for_display (gint64 msecs) {
+char * _g_format_duration_for_display (gint64 msecs, int *hours, int *minutes) {
 	int sec, min, hour, _time;
 
 	_time = (int) (msecs / 1000);
@@ -453,6 +453,13 @@ char * _g_format_duration_for_display (gint64 msecs) {
 	min = (_time % (60*60)) / 60;
 	_time = _time - (min * 60);
 	hour = _time / (60*60);
+
+	if (hours != NULL) {
+		*hours = hour;
+	}
+	if (minutes != NULL) {
+		*minutes = min;
+	}
 
 	if (hour > 0)
 	{

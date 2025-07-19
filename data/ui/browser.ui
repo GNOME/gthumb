@@ -38,7 +38,6 @@
             </child>
             <property name="content">
               <object class="GthSidebarResizer" id="sidebar_resizer">
-                <property name="orientation">horizontal</property>
                 <child>
                   <object class="GtkBox">
                     <property name="orientation">vertical</property>
@@ -157,7 +156,6 @@
                 </child>
                 <property name="content">
                   <object class="GthSidebarResizer" id="second_sidebar_resizer">
-                    <property name="orientation">horizontal</property>
                     <child>
                       <object class="GtkStack" id="second_sidebar_stack">
                         <child>
@@ -200,9 +198,9 @@
                         <property name="orientation">horizontal</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkToggleButton" id="show_sidebar_button">
-                            <property name="icon-name">sidebar-show-symbolic</property>
-                            <property name="action-name">win.show-sidebar</property>
+                          <object class="GtkToggleButton">
+                            <property name="icon-name">folder-visiting-symbolic</property>
+                            <property name="action-name">win.show-browser-sidebar</property>
                             <property name="visible">false</property>
                           </object>
                         </child>
@@ -245,9 +243,9 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkToggleButton" id="show_second_sidebar_button">
+                          <object class="GtkToggleButton">
                             <property name="icon-name">info-outline-symbolic</property>
-                            <property name="action-name">win.show-second-sidebar</property>
+                            <property name="action-name">win.browser-properties</property>
                             <property name="tooltip-text" translatable="true">Properties</property>
                           </object>
                         </child>

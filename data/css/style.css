@@ -6,6 +6,10 @@
 	background-color: #111;
 }
 
+.video-view {
+	background-color: #000;
+}
+
 popover.deeper > arrow,
 popover.deeper > contents {
 	border: 1px solid #111;
@@ -110,4 +114,9 @@ popover.deeper > contents {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	border-bottom-left-radius: 0;
+}
+
+.mediabar {
+	padding: 6px;
+	background-color: var(--headerbar-bg-color);
 }

@@ -1,4 +1,4 @@
-public class Gth.MetadataProviderVideo : Gth.MetadataProvider {
+public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"general::title",
 		"general::format",

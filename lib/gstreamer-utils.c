@@ -137,7 +137,7 @@ static void add_metadata (GFileInfo *info, const char *key, char *raw, char *for
 
 		g_free (formatted);
 		sscanf (raw, "%i", &secs);
-		formatted = _g_format_duration_for_display (secs * 1000);
+		formatted = _g_format_duration_for_display (secs * 1000, NULL, NULL);
 	}
 	else if (strcmp (key, "audio-video::general::bitrate") == 0) {
 		int bps;

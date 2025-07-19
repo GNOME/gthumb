@@ -9,6 +9,7 @@ public class Gth.Application : Adw.Application {
 	public HashTable<string, Gth.LoadFunc> loaders;
 	public HashTable<string, Gth.LoadFileFunc> external_loaders;
 	public HashTable<string, Gth.SaveFunc> savers;
+	public HashTable<string, GLib.Type> viewers;
 	public Gth.FilterFile filter_file;
 	public bool restart;
 	public bool quitting;
@@ -271,7 +272,7 @@ public class Gth.Application : Adw.Application {
 		register_metadata_provider (typeof (MetadataProviderExiv2));
 		register_metadata_provider (typeof (MetadataProviderImage));
 		register_metadata_provider (typeof (MetadataProviderComment));
-		register_metadata_provider (typeof (MetadataProviderVideo));
+		register_metadata_provider (typeof (VideoMetadataProvider));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
 		register_image_loader ("image/png", load_png);
@@ -303,6 +304,12 @@ public class Gth.Application : Adw.Application {
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png);
+
+		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);
+		//w ("image/png", typeof (ImageViewer));
+		//register_file_viewer ("image/jpeg", typeof (ImageViewer));
+		register_file_viewer ("video/*", typeof (VideoViewer));
+		register_file_viewer ("audio/*", typeof (VideoViewer));
 	}
 
 	public override void startup () {
@@ -577,6 +584,33 @@ public class Gth.Application : Adw.Application {
 	public void register_metadata_provider (GLib.Type provider_type) {
 		var provider = Object.new (provider_type) as Gth.MetadataProvider;
 		metadata_providers.add (provider);
+	}
+
+	public void register_file_viewer (string content_type, GLib.Type viewer_type) {
+		viewers.set (content_type, viewer_type);
+	}
+
+	GLib.Type get_viewer_type_for_content_type (string content_type) {
+		if (!viewers.contains (content_type)) {
+			var generic_type = Util.get_generic_type (content_type);
+			var viewer_type = viewers.get (generic_type);
+			if (viewer_type == 0) {
+				viewer_type = typeof (UnknownViewer);
+			}
+			viewers.set (content_type, viewer_type);
+		}
+		return viewers.get (content_type);
+	}
+
+	public FileViewer? get_viewer_for_type (string content_type) {
+		var type = get_viewer_type_for_content_type (content_type);
+		if ((type == 0) || (type == typeof (UnknownViewer)))
+			return null;
+		return Object.new (type) as Gth.FileViewer;
+	}
+
+	public bool viewer_can_view (GLib.Type viewer_type, string content_type) {
+		return get_viewer_type_for_content_type (content_type) == viewer_type;
 	}
 
 	public inline Gth.Job new_job (string description, string? status = null, bool background = false) {

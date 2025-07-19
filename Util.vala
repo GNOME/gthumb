@@ -157,6 +157,19 @@ public class Gth.Util {
 		return new Gth.DateTime.from_ymd_hms (year, month, day, hours, minutes, seconds, (int) (useconds * 1000000));
 	}
 
+	public static int get_digits (int number) {
+		int digits = 1;
+		if (number < 0) {
+			digits++;
+			number = -number;
+		}
+		while (number > 10) {
+			number = digits / 10;
+			digits++;
+		}
+		return digits;
+	}
+
 	public static int enum_index (string[] values, string? value, int default = 0) {
 		if (value != null) {
 			for (var i = 0; i < values.length; i++) {

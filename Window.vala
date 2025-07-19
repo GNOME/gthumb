@@ -32,6 +32,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 			return false;
 		});
 
+		active_resizer = null;
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			if (active_resizer != null) {
+				active_resizer.update_width (x);
+			}
+		});
+		child.add_controller (motion_events);
+
 		init_actions ();
 	}
 
@@ -69,10 +79,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		current_page = page;
 		switch (current_page) {
 		case Page.BROWSER:
+			viewer.before_close_page ();
 			stack.set_visible_child (browser);
 			break;
 		case Page.VIEWER:
 			stack.set_visible_child (viewer);
+			viewer.after_show_page ();
 			break;
 		}
 		update_title ();
@@ -129,11 +141,20 @@ public class Gth.Window : Adw.ApplicationWindow {
 			);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("pop-page", null);
+		action.activate.connect (() => {
+			if (current_page == Page.VIEWER) {
+				set_page (Page.BROWSER);
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	[GtkChild] public unowned Gtk.Stack stack;
 	[GtkChild] public unowned Gth.Browser browser;
 	[GtkChild] public unowned Gth.Viewer viewer;
+	public unowned Gth.SidebarResizer active_resizer;
 
 	Page current_page = Page.NONE;
 }

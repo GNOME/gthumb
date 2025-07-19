@@ -1,10 +1,10 @@
 // Schemas
 
 const string GTHUMB_SCHEMA = "app.gthumb.gthumb";
-
-// Browser
+const string GTHUMB_VIDEO_SCHEMA = GTHUMB_SCHEMA + ".video";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
+
 const string PREF_BROWSER_GO_TO_LAST_LOCATION = "go-to-last-location";
 const string PREF_BROWSER_USE_STARTUP_LOCATION = "use-startup-location";
 const string PREF_BROWSER_STARTUP_LOCATION = "startup-location";
@@ -26,6 +26,11 @@ const string PREF_BROWSER_PROPERTIES_VISIBLE = "properties-visible";
 const string PREF_BROWSER_PROPERTIES_WIDTH = "properties-width";
 const string PREF_BROWSER_FOLDER_TREE_SORT_TYPE = "folder-tree-sort-type";
 const string PREF_BROWSER_FOLDER_TREE_SORT_INVERSE = "folder-tree-sort-inverse";
+
+const string PREF_VIDEO_SCREESHOT_LOCATION = "screenshot-location";
+const string PREF_VIDEO_VOLUME = "volume";
+const string PREF_VIDEO_MUTE = "mute";
+const string PREF_VIDEO_ZOOM_TO_FIT = "zoom-to-fit";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {

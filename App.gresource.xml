@@ -27,6 +27,8 @@
     <file preprocess="xml-stripblanks">user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-home-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-refresh-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">left-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">loop-arrow-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -63,5 +65,6 @@
     <file preprocess="xml-stripblanks">window.ui</file>
     <file preprocess="xml-stripblanks">browser.ui</file>
     <file preprocess="xml-stripblanks">viewer.ui</file>
+    <file preprocess="xml-stripblanks">mediabar.ui</file>
   </gresource>
 </gresources>

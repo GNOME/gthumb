@@ -5,8 +5,7 @@ public Gth.Image load_video_thumbnail (File file, uint requested_size, Cancellab
 	var tmp_output = Files.get_temp_file (".png");
 	string[] argv = {
 		command,
-		"--size",
-		"%u".printf (requested_size),
+		"--size", "%u".printf (requested_size),
 		file.get_path (),
 		tmp_output.get_path ()
 	};
@@ -41,6 +40,8 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 		"uri", file.get_uri (),
 		"audio-sink", Gst.ElementFactory.make ("fakesink"),
 		"video-sink", Gst.ElementFactory.make ("fakesink"),
+		"video-filter", Gst.ElementFactory.make_full ("videoflip",
+			"video-direction", Gst.Video.OrientationMethod.AUTO, null),
 		null);
 	playbin.set_state (Gst.State.PAUSED);
 	playbin.get_state (null, null, MAX_WAITING_TIME);
@@ -77,7 +78,7 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 		throw new IOError.FAILED ("Wrong sample format");
 	}
 
-	// Create the pixbuf from the sample data.
+	// Create the image from the sample data.
 	int width = 0, height = 0;
 	if (!cap_struct.get_int ("width", out width)
 		|| !cap_struct.get_int ("height", out height))

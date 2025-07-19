@@ -2,10 +2,106 @@
 <interface>
   <template class="GthViewer">
     <child>
-      <object class="AdwStatusPage">
-        <property name="title">Viewer</property>
-        <property name="icon-name">folder-pictures-symbolic</property>
+      <object class="AdwOverlaySplitView" id="viewer_view">
+        <property name="min_sidebar_width">200</property>
+        <property name="max_sidebar_width">400</property>
+        <property name="sidebar_width_fraction">1.0</property>
+        <property name="sidebar_width_unit">px</property>
+        <property name="sidebar_position">end</property>
+        <property name="sidebar">
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="title-widget">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Properties</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <property name="content">
+              <object class="GthSidebarResizer" id="sidebar_resizer">
+                <child>
+                  <object class="GtkStack" id="sidebar_stack">
+                    <child>
+                      <object class="GthPropertySidebar" id="property_sidebar">
+                        <style>
+                          <class name="right"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="content">
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <child type="start">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">left-symbolic</property>
+                        <property name="action-name">win.pop-page</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkBox">
+                      <property name="orientation">horizontal</property>
+                      <property name="spacing">6</property>
+                      <child>
+                        <object class="GtkToggleButton">
+                          <property name="icon-name">info-outline-symbolic</property>
+                          <property name="action-name">win.viewer-properties</property>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="GtkMenuButton" id="app_menu_button">
+                          <property name="icon-name">open-menu-symbolic</property>
+                        </object>
+                      </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="AdwToastOverlay" id="toast_overlay">
+                <child>
+                  <object class="GtkBox">
+                    <property name="halign">fill</property>
+                    <child>
+                      <object class="GtkOverlay" id="viewer_container">
+                        <property name="hexpand">true</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkPopoverMenu" id="file_context_menu">
+                        <style>
+                          <class name="deeper"/>
+                        </style>
+                        <property name="menu-model">file_menu</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
       </object>
     </child>
   </template>
+  <menu id="file_menu">
+    <item>
+      <attribute name="label" translatable="yes">Open _With…</attribute>
+      <attribute name="action">win.open-with</attribute>
+    </item>
+  </menu>
 </interface>
