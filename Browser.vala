@@ -120,7 +120,7 @@ public class Gth.Browser : Gtk.Box {
 			try {
 				load_folder.end (res);
 				if (file_to_select != null) {
-					select_file (file_to_select);
+					select_file (file_to_select, SelectFile.SCROLL_TO_FILE);
 				}
 			}
 			catch (Error error) {
@@ -409,11 +409,21 @@ public class Gth.Browser : Gtk.Box {
 		return false;
 	}
 
-	void select_file (File file) {
+	enum SelectFile {
+		DEFAULT,
+		SCROLL_TO_FILE
+	}
+
+	void select_file (File file, SelectFile flags = SelectFile.DEFAULT) {
 		var iter = visible_files.iterator ();
 		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 		if (pos >= 0) {
-			file_grid.model.select_item (pos, true);
+			if (SelectFile.SCROLL_TO_FILE in flags) {
+				file_grid.scroll_to ((uint) pos, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
+			}
+			else {
+				file_grid.model.select_item (pos, true);
+			}
 		}
 	}
 
