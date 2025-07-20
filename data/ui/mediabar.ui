@@ -94,11 +94,6 @@
           <object class="GtkBox">
             <property name="spacing">18</property>
             <child>
-              <object class="GtkLabel">
-                <property name="label" translatable="yes">Time:</property>
-              </object>
-            </child>
-            <child>
               <object class="GtkBox">
                 <child>
                   <object class="GtkScale" id="position_scale">
