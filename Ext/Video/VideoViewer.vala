@@ -73,6 +73,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/mediabar.ui");
 		mediabar_revealer = builder.get_object ("mediabar_revealer") as Gtk.Revealer;
 		window.viewer.add_viewer_overlay (mediabar_revealer);
+		update_rate_label ();
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.button = Gdk.BUTTON_PRIMARY;
@@ -119,9 +120,14 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			volume_popover.set_position (Gtk.PositionType.TOP);
 		}
 
-		unowned var position_button = builder.get_object ("position_button") as Gtk.MenuButton;
-		position_button.notify["active"].connect (() => {
-			set_always_show_mediabar (position_button.active);
+		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
+		menu_button.notify["active"].connect ((obj, spec) => {
+			set_always_show_mediabar ((obj as Gtk.MenuButton).active);
+		});
+
+		menu_button = builder.get_object ("speed_button") as Gtk.MenuButton;
+		menu_button.notify["active"].connect ((obj, spec) => {
+			set_always_show_mediabar ((obj as Gtk.MenuButton).active);
 		});
 
 		unowned var adj = builder.get_object ("position_adjustment") as Gtk.Adjustment;
@@ -562,9 +568,28 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			Gst.SeekType.NONE, 0);
 	}
 
-	inline void set_rate (double value) {
+	void set_rate (double value) {
 		rate = value;
+		update_rate_label ();
 		skip_to (get_current_time ());
+	}
+
+	void update_rate_label () {
+		unowned var speed_label = builder.get_object ("speed_label") as Gtk.Label;
+		double integral;
+		var fractional = Math.modf (rate, out integral);
+		double _ignored;
+		var second_digit = Math.modf (fractional * 10, out _ignored);
+		stdout.printf ("%f -> %f -> %f\n", rate, fractional, second_digit);
+		if (fractional == 0) {
+			speed_label.label = "%d×".printf ((int) integral);
+		}
+		else if (second_digit == 0) {
+			speed_label.label = "%.1f×".printf (rate);
+		}
+		else {
+			speed_label.label = "%.2f×".printf (rate);
+		}
 	}
 
 	int get_current_rate_idx () {
@@ -626,8 +651,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 	const double MOTION_THRESHOLD = 1.0;
 	const double[] Rates = {
-		0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0,
-		1.50, 2.0, 3.0, 4.0
+		0.03, 0.05, 0.12, 0.25, 0.33, 0.5, 0.75,
+		1.0, // Note: Keep NORMAL_RATE_IDX up-to-date
+		1.5, 2.0, 3.0, 4.0
 	};
 	const int NORMAL_RATE_IDX = 7;
 }

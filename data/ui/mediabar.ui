@@ -29,29 +29,50 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="play_slower_button">
-                <property name="tooltip-text" translatable="yes">Slower</property>
+              <object class="GtkMenuButton" id="speed_button">
+                <property name="direction">up</property>
+                <property name="tooltip-text" translatable="yes">Playback Speed</property>
                 <style>
                   <class name="flat"/>
                 </style>
                 <child>
-                  <object class="GtkImage" id="play_slower_image">
-                    <property name="icon-name">media-seek-backward-symbolic</property>
+                  <object class="GtkLabel" id="speed_label">
+                    <property name="label">1×</property>
+                    <property name="width-chars">5</property>
+                    <style>
+                      <class name="numeric"/>
+                      <class name="dimmed"/>
+                      <class name="smaller-text"/>
+                    </style>
                   </object>
                 </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="play_faster_button">
-                <property name="tooltip-text" translatable="yes">Faster</property>
-                <style>
-                  <class name="flat"/>
-                </style>
-                <child>
-                  <object class="GtkImage" id="play_faster_image">
-                    <property name="icon-name">media-seek-forward-symbolic</property>
+                <property name="popover">
+                  <object class="GtkPopover">
+                    <child>
+                      <object class="GtkBox">
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkButton" id="play_slower_button">
+                            <property name="label">-</property>
+                            <property name="tooltip-text" translatable="yes">Slower</property>
+                            <style>
+                              <class name="circular"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="play_faster_button">
+                            <property name="label">+</property>
+                            <property name="tooltip-text" translatable="yes">Faster</property>
+                            <style>
+                              <class name="circular"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
-                </child>
+                </property>
               </object>
             </child>
             <child>
@@ -115,7 +136,7 @@
                   <class name="flat"/>
                 </style>
                 <child>
-                  <object class="GtkBox" id="position_box">
+                  <object class="GtkBox">
                     <property name="spacing">2</property>
                     <child>
                       <object class="GtkLabel" id="label_position">
@@ -135,7 +156,7 @@
                   </object>
                 </child>
                 <property name="popover">
-                  <object class="GtkPopover" id="position_popover">
+                  <object class="GtkPopover">
                     <child>
                       <object class="GtkGrid">
                         <property name="row-spacing">6</property>
@@ -312,7 +333,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="volume_box">
+          <object class="GtkBox">
             <property name="spacing">6</property>
             <child>
               <object class="GtkScaleButton" id="volume_button">
