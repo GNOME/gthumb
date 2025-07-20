@@ -16,7 +16,19 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		set {
 			_playing = value;
 			if (playbin != null) {
-				playbin.set_state (_playing ? Gst.State.PLAYING : Gst.State.PAUSED);
+				if (_playing) {
+					if (!paused) {
+						playbin.set_state (Gst.State.PAUSED);
+						skip_to (0);
+					}
+					else {
+						skip_to (get_current_time ());
+					}
+					playbin.set_state (Gst.State.PLAYING);
+				}
+				else {
+					playbin.set_state (Gst.State.PAUSED);
+				}
 				wait_playbin_state_change_to_complete ();
 			}
 		}
@@ -29,9 +41,11 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		picture = null;
 		_zoom_to_fit = true;
 		_playing = false;
-		total_time = 0;
+		paused = false;
 		rate = 1.0;
 		loop = false;
+		total_time = 0;
+		builder = null;
 	}
 
 	public async void load (FileData file_data) throws Error {
@@ -111,20 +125,103 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		});
 
 		unowned var adj = builder.get_object ("position_adjustment") as Gtk.Adjustment;
-		position_changed_id = adj.value_changed.connect (() => {
-			unowned var local_adj = builder.get_object ("position_adjustment") as Gtk.Adjustment;
+		position_changed_id = adj.value_changed.connect ((local_adj) => {
 			var current_time = (int64) (local_adj.get_value () / 100.0 * total_time);
-			playbin.seek (rate,
-				Gst.Format.TIME,
-				Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE,
-				Gst.SeekType.SET,
-				current_time,
-				Gst.SeekType.NONE,
-				0);
-			var text = Lib.format_duration_for_display (current_time / 1000000);
+			skip_to (current_time);
+			var text = Lib.format_duration_for_display (time_as_microseconds (current_time));
 			unowned var label = builder.get_object ("label_position") as Gtk.Label;
 			label.set_text (text);
 		});
+
+		adj = builder.get_object ("volume_adjustment") as Gtk.Adjustment;
+		volume_changed_id = adj.value_changed.connect ((local_adj) => {
+			if (playbin != null) {
+				// cubic in [0,1], linear in [1,2]
+				var volume = local_adj.get_value () / 100.0;
+				if (volume <= 1.0) {
+					volume = (volume * volume * volume);
+				}
+				playbin.set ("volume", volume);
+				if (volume > 0) {
+					playbin.set ("mute", false);
+				}
+			}
+		});
+
+		unowned var button = builder.get_object ("play_button") as Gtk.Button;
+		button.clicked.connect (() => {
+			playing = !playing;
+		});
+
+		button = builder.get_object ("play_slower_button") as Gtk.Button;
+		button.clicked.connect (() => {
+			var idx = get_current_rate_idx ();
+			set_rate ((idx > 0) ? Rates[idx - 1] : Rates[0]);
+		});
+
+		button = builder.get_object ("play_faster_button") as Gtk.Button;
+		button.clicked.connect (() => {
+			var idx = get_current_rate_idx ();
+			set_rate ((idx < Rates.length - 1) ? Rates[idx + 1] : Rates[Rates.length - 1]);
+		});
+
+		var toggle_button = builder.get_object ("loop_button") as Gtk.ToggleButton;
+		toggle_button.toggled.connect ((local_button) => {
+			loop = local_button.active;
+		});
+
+		button = builder.get_object ("skip_back_bigger_button") as Gtk.Button;
+		button.clicked.connect (() => skip (-60 * 5));
+
+		button = builder.get_object ("skip_back_big_button") as Gtk.Button;
+		button.clicked.connect (() => skip (-60));
+
+		button = builder.get_object ("skip_back_small_button") as Gtk.Button;
+		button.clicked.connect (() => skip (-10));
+
+		button = builder.get_object ("skip_back_smaller_button") as Gtk.Button;
+		button.clicked.connect (() => skip (-5));
+
+		button = builder.get_object ("skip_back_smallest_button") as Gtk.Button;
+		button.clicked.connect (() => skip (-1));
+
+		button = builder.get_object ("skip_forward_bigger_button") as Gtk.Button;
+		button.clicked.connect (() => skip (60 * 5));
+
+		button = builder.get_object ("skip_forward_big_button") as Gtk.Button;
+		button.clicked.connect (() => skip (60));
+
+		button = builder.get_object ("skip_forward_small_button") as Gtk.Button;
+		button.clicked.connect (() => skip (10));
+
+		button = builder.get_object ("skip_forward_smaller_button") as Gtk.Button;
+		button.clicked.connect (() => skip (5));
+
+		button = builder.get_object ("skip_forward_smallest_button") as Gtk.Button;
+		button.clicked.connect (() => skip (1));
+
+		button = builder.get_object ("copy_position_to_clipboard_button") as Gtk.Button;
+		button.clicked.connect (() => {
+			var time = time_as_microseconds (get_current_time ());
+			var text = Lib.format_duration_not_localized (time);
+			window.copy_text_to_clipboard (text);
+		});
+
+		var widget = builder.get_object ("position_scale") as Gtk.Widget;
+		motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			update_time_popup_position (x);
+		});
+		motion_events.enter.connect ((x, y) => {
+			update_time_popup_position (x);
+			unowned var time_popover = builder.get_object ("time_popover") as Gtk.Popover;
+			time_popover.popup ();
+		});
+		motion_events.leave.connect (() => {
+			unowned var time_popover = builder.get_object ("time_popover") as Gtk.Popover;
+			time_popover.popdown ();
+		});
+		widget.add_controller (motion_events);
 
 		create_playbin ();
 	}
@@ -246,11 +343,15 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			volume = 0.0;
 
 		// cubic in [0,1], linear in [1,2]
-		var adj_value = volume;
 		if (volume <= 1.0) {
-			adj_value = Math.exp (1.0 / 3.0 * Math.log (volume)); // cube root of volume
+			volume = Math.exp (1.0 / 3.0 * Math.log (volume)); // cube root of volume
 		}
-		// TODO: update volumne adjustment.
+
+		// Update the volume adjustment.
+		unowned var adj = builder.get_object ("volume_adjustment") as Gtk.Adjustment;
+		SignalHandler.block (adj, volume_changed_id);
+		adj.set_value (volume * 100.0);
+		SignalHandler.unblock (adj, volume_changed_id);
 	}
 
 	uint progress_id = 0;
@@ -298,7 +399,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		if (total_time == 0) {
 			playbin.query_duration (Gst.Format.TIME, out total_time);
 			int hours, minutes;
-			var text = Lib.format_duration_for_display (total_time / 1000000, out hours, out minutes);
+			var text = Lib.format_duration_for_display (time_as_microseconds (total_time), out hours, out minutes);
 			unowned var label = builder.get_object ("label_duration") as Gtk.Label;
 			label.set_text (text);
 			max_chars = (hours > 0 ? Util.get_digits (hours) + 1 /* ':' */ : 0)
@@ -310,11 +411,13 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		adj.set_value ((total_time > 0) ? ((double) current_time / total_time) * 100.0 : 0.0);
 		SignalHandler.unblock (adj, position_changed_id);
 
-		var text = Lib.format_duration_for_display (current_time / 1000000);
+		var text = Lib.format_duration_for_display (time_as_microseconds (current_time));
 		unowned var label = builder.get_object ("label_position") as Gtk.Label;
 		label.set_text (text);
 		if (max_chars > 0) {
 			label.width_chars = max_chars;
+			unowned var time_popover_label = builder.get_object ("time_popover_label") as Gtk.Label;
+			time_popover_label.width_chars = max_chars;
 		}
 	}
 
@@ -331,6 +434,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		switch (msg.type) {
 		case Gst.MessageType.ASYNC_DONE:
+			update_current_position_bar ();
 			break;
 
 		case Gst.MessageType.STATE_CHANGED:
@@ -341,6 +445,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			if (old_state == new_state)
 				break;
 			_playing = (new_state == Gst.State.PLAYING);
+			paused = (new_state == Gst.State.PAUSED);
 			update_current_position_bar ();
 			if ((old_state == Gst.State.NULL)
 				&& (new_state == Gst.State.READY)
@@ -370,13 +475,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		case Gst.MessageType.EOS:
 			if (loop && _playing) {
-				playbin.seek (rate,
-					Gst.Format.TIME,
-					Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE,
-					Gst.SeekType.SET,
-					0,
-					Gst.SeekType.NONE,
-					0);
+				skip_to (0);
 			}
 			else {
 				reset_state ();
@@ -428,6 +527,83 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 	}
 
+	int64 get_current_time () {
+		if (builder == null)
+			return 0;
+		unowned var adj = builder.get_object ("position_adjustment") as Gtk.Adjustment;
+		return (int64) ((adj.get_value () / 100.0) * total_time);
+	}
+
+	void skip_to (int64 time) {
+		if (playbin == null)
+			return;
+		playbin.seek (rate,	Gst.Format.TIME,
+			Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE,
+			Gst.SeekType.SET, time,
+			Gst.SeekType.NONE, 0);
+	}
+
+	void skip (int seconds) {
+		if (playbin == null)
+			return;
+		var seek_type = Gst.SeekType.SET;
+		var seek_flags = Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE;
+		var position = get_current_time () + (seconds * Gst.SECOND);
+		if (position < 0) {
+			position = 0;
+		}
+		if (position > total_time) {
+			seek_flags |= Gst.SeekFlags.KEY_UNIT | Gst.SeekFlags.SNAP_BEFORE | Gst.SeekFlags.TRICKMODE;
+			seek_type = Gst.SeekType.END;
+			position = 0;
+		}
+		playbin.seek (rate,	Gst.Format.TIME, seek_flags,
+			seek_type, position,
+			Gst.SeekType.NONE, 0);
+	}
+
+	inline void set_rate (double value) {
+		rate = value;
+		skip_to (get_current_time ());
+	}
+
+	int get_current_rate_idx () {
+		var min_delta = 0.0;
+		var min_idx = -1;
+		var idx = 0;
+		foreach (unowned var value in Rates) {
+			var delta = (value - rate).abs ();
+			if ((idx == 0) || (delta < min_delta)) {
+				min_idx = idx;
+				min_delta = delta;
+				if (delta == 0) {
+					break;
+				}
+			}
+			idx++;
+		}
+		return (min_idx >= 0) ? min_idx : NORMAL_RATE_IDX;
+	}
+
+	inline int time_as_microseconds (int64 time) {
+		return (int) (time / 1000000);
+	}
+
+	void update_time_popup_position (double x) {
+		// Position
+		unowned var position_scale = builder.get_object ("position_scale") as Gtk.Widget;
+		var max_x = position_scale.get_width ();
+		var point_x = ((int) x).clamp (0, max_x);
+		unowned var time_popover = builder.get_object ("time_popover") as Gtk.Popover;
+		time_popover.pointing_to = { point_x, 0, 1, 1 };
+
+		// Label
+		var percent = (x / max_x).clamp (0.0, 1.0);
+		var time = time_as_microseconds ((int64) (percent * total_time));
+		unowned var time_popover_label = builder.get_object ("time_popover_label") as Gtk.Label;
+		time_popover_label.label = Lib.format_duration_for_display (time);
+	}
+
 	GLib.Settings settings;
 	weak Gth.Window window;
 	Gst.Element playbin;
@@ -437,6 +613,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	Gtk.Builder builder;
 	int64 total_time;
 	ulong position_changed_id;
+	ulong volume_changed_id;
 	double rate;
 	bool loop;
 	unowned Gtk.Revealer mediabar_revealer;
@@ -445,6 +622,12 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	double last_y = 0.0;
 	bool always_show_mediabar = false;
 	bool on_mediabar = false;
+	bool paused = false;
 
 	const double MOTION_THRESHOLD = 1.0;
+	const double[] Rates = {
+		0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0,
+		1.50, 2.0, 3.0, 4.0
+	};
+	const int NORMAL_RATE_IDX = 7;
 }

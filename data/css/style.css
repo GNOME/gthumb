@@ -120,3 +120,7 @@ popover.deeper > contents {
 	padding: 6px;
 	background-color: var(--headerbar-bg-color);
 }
+
+.time-scale {
+	padding: 0;
+}

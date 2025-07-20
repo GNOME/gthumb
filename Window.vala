@@ -67,7 +67,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		show_message (error.message);
 	}
 
-	public void copy_text (string text) {
+	public void copy_text_to_clipboard (string text) {
 		var clipboard = get_clipboard ();
 		clipboard.set_text (text);
 		show_message ("Copied to Clipboard");

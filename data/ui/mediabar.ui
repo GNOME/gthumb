@@ -71,34 +71,37 @@
         </child>
         <child>
           <object class="GtkBox">
-            <property name="spacing">0</property>
+            <property name="spacing">18</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Time:</property>
+              </object>
+            </child>
             <child>
               <object class="GtkBox">
                 <child>
-                  <object class="GtkLabel">
-                    <property name="label" translatable="yes">Time:</property>
+                  <object class="GtkScale" id="position_scale">
+                    <property name="width-request">180</property>
+                    <property name="adjustment">position_adjustment</property>
+                    <property name="round-digits">1</property>
+                    <property name="draw-value">false</property>
+                    <property name="hexpand">true</property>
+                    <style>
+                      <class name="time-scale"/>
+                    </style>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkPopover" id="time_popover">
+                    <property name="position">top</property>
+                    <property name="autohide">false</property>
+                    <style>
+                      <class name="deeper"/>
+                    </style>
                     <child>
-                      <object class="GtkScale" id="position_scale">
-                        <property name="width-request">180</property>
-                        <property name="adjustment">position_adjustment</property>
-                        <property name="round-digits">1</property>
-                        <property name="draw-value">false</property>
-                        <property name="hexpand">true</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkPopover">
-                        <property name="autohide">false</property>
-                        <child>
-                          <object class="GtkLabel" id="time_popover_label">
-                            <property name="label">0:00</property>
-                            <property name="width-chars">10</property>
-                          </object>
-                        </child>
+                      <object class="GtkLabel" id="time_popover_label">
+                        <property name="label">0:00</property>
+                        <property name="width-chars">10</property>
                       </object>
                     </child>
                   </object>

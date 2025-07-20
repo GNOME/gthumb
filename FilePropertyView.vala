@@ -44,7 +44,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (current_property != null) {
 				var win = app.active_window as Gth.Window;
 				if (win != null) {
-					win.copy_text (current_property.value);
+					win.copy_text_to_clipboard (current_property.value);
 				}
 			}
 		});
@@ -63,7 +63,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 				if (text != null) {
 					var win = app.active_window as Gth.Window;
 					if (win != null) {
-						win.copy_text (text);
+						win.copy_text_to_clipboard (text);
 					}
 				}
 			}
@@ -75,7 +75,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (file_data != null) {
 				var win = app.active_window as Gth.Window;
 				if (win != null) {
-					win.copy_text (file_data.file.get_path ());
+					win.copy_text_to_clipboard (file_data.file.get_path ());
 				}
 			}
 		});
