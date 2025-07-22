@@ -1,0 +1,16 @@
+filters_files = files(
+ 'AddRuleDialog.vala',
+ 'Filter.vala',
+ 'FilterEditorPage.vala',
+ 'FilterRow.vala',
+ 'FiltersDialog.vala',
+ 'Test.vala',
+ 'TestAspectRatio.vala',
+ 'TestDate.vala',
+ 'TestExpr.vala',
+ 'TestExprEditorGroup.vala',
+ 'TestInt.vala',
+ 'TestSelector.vala',
+ 'TestSize.vala',
+ 'TestString.vala',
+)
