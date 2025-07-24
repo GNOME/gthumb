@@ -2,6 +2,8 @@
 
 const string GTHUMB_SCHEMA = "app.gthumb.gthumb";
 const string GTHUMB_VIDEO_SCHEMA = GTHUMB_SCHEMA + ".video";
+const string GTHUMB_PNG_OPTIONS_SCHEMA = GTHUMB_SCHEMA + ".pixbuf-savers.png";
+const string GTHUMB_JPEG_OPTIONS_SCHEMA = GTHUMB_SCHEMA + ".pixbuf-savers.jpeg";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 
@@ -31,6 +33,14 @@ const string PREF_VIDEO_SCREESHOT_LOCATION = "screenshot-location";
 const string PREF_VIDEO_VOLUME = "volume";
 const string PREF_VIDEO_MUTE = "mute";
 const string PREF_VIDEO_ZOOM_TO_FIT = "zoom-to-fit";
+
+const string PREF_PNG_COMPRESSION_LEVEL = "compression-level";
+
+const string PREF_JPEG_DEFAULT_EXT = "default-ext";
+const string PREF_JPEG_QUALITY = "quality";
+const string PREF_JPEG_SMOOTHING = "smoothing";
+const string PREF_JPEG_OPTIMIZE = "optimize";
+const string PREF_JPEG_PROGRESSIVE = "progressive";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {

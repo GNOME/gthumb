@@ -1,8 +1,37 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/property-sidebar.ui")]
 public class Gth.PropertySidebar : Gtk.Box {
+	public Gth.FileData file_data {
+		get { return _file_data; }
+		set {
+			_file_data = value;
+			foreach (unowned var page in pages) {
+				if ((_file_data != null) && page.view.can_view (_file_data)) {
+					page.view.set_file (_file_data);
+					page.button.sensitive = true;
+				}
+				else {
+					page.view.set_file (null);
+					page.button.sensitive = false;
+				}
+			}
+		}
+	}
+
+	public void set_page (string name) {
+		stack.set_visible_child_name (name);
+		foreach (unowned var page in pages) {
+			var active = (page.name == name);
+			page.button.active = active;
+			if (active) {
+				search_bar.visible = page.view.with_search ();
+			}
+		}
+	}
+
 	construct {
 		orientation = Gtk.Orientation.VERTICAL;
 		pages = new GenericArray<PageInfo?>();
+		_file_data = null;
 
 		var action_group = new SimpleActionGroup ();
 		insert_action_group ("sidebar", action_group);
@@ -35,28 +64,19 @@ public class Gth.PropertySidebar : Gtk.Box {
 		pages.add ({ view, button, view.get_name () });
 	}
 
-	public void set_file (Gth.FileData? file_data) {
+	[GtkCallback]
+	void on_search_changed (Gtk.SearchEntry entry) {
+		var text = entry.text.casefold ();
 		foreach (unowned var page in pages) {
-			if ((file_data != null) && page.view.can_view (file_data)) {
-				page.view.set_file (file_data);
-				page.button.sensitive = true;
+			if (page.view.with_search ()) {
+				page.view.set_search (text);
 			}
-			else {
-				page.view.set_file (null);
-				page.button.sensitive = false;
-			}
-		}
-	}
-
-	public void set_page (string name) {
-		stack.set_visible_child_name (name);
-		foreach (unowned var page in pages) {
-			page.button.active = (page.name == name);
 		}
 	}
 
 	[GtkChild] unowned Gtk.Box header;
 	[GtkChild] unowned Gtk.Stack stack;
+	[GtkChild] unowned Gtk.Box search_bar;
 
 	struct PageInfo {
 		weak Gth.PropertyView view;
@@ -65,4 +85,5 @@ public class Gth.PropertySidebar : Gtk.Box {
 	}
 
 	GenericArray<PageInfo?> pages;
+	Gth.FileData _file_data;
 }

@@ -5,6 +5,7 @@
     <child>
       <object class="GtkScrolledWindow">
         <property name="vexpand">true</property>
+        <property name="hscrollbar-policy">never</property>
         <child>
           <object class="GtkListView" id="list_view">
             <property name="show_separators">true</property>
@@ -13,22 +14,6 @@
               <class name="property-sidebar"/>
               <class name="right"/>
             </style>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkBox" id="search_section">
-        <property name="orientation">vertical</property>
-        <property name="visible">false</property>
-        <style>
-          <class name="mini-search-bar"/>
-        </style>
-        <child>
-          <object class="GtkSearchEntry">
-            <property name="placeholder_text" translatable="yes">Search Property</property>
-            <property name="halign">fill</property>
-            <signal name="search_changed" handler="on_search_changed" />
           </object>
         </child>
       </object>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthAppSelectorDialog" parent="AdwApplicationWindow">
+  <template class="GthAppSelectorDialog">
     <property name="title" translatable="yes">Open With</property>
     <property name="default_width">550</property>
     <property name="resizable">true</property>
@@ -13,13 +13,13 @@
             <property name="show-end-title-buttons">false</property>
             <child type="start">
               <object class="GtkButton">
-                <property name="label">Cancel</property>
+                <property name="label" translatable="yes">Cancel</property>
                 <signal name="clicked" handler="on_cancel" />
               </object>
             </child>
             <child type="end">
               <object class="GtkButton">
-                <property name="label">Select</property>
+                <property name="label" translatable="yes">Select</property>
                 <signal name="clicked" handler="on_select" />
                 <style>
                   <class name="suggested-action"/>

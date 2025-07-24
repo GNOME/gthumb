@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthAddRuleDialog" parent="AdwDialog">
+  <template class="GthAddRuleDialog">
     <property name="title" translatable="yes">Add Rule</property>
     <property name="content_width">550</property>
     <property name="content_height">650</property>

@@ -7,11 +7,18 @@ public class Gth.Browser : Gtk.Box {
 			init ();
 		}
 	}
+
+	enum SidebarState {
+		NONE,
+		FILES,
+		CATALOGS,
+	}
+
 	public GenericList<FileData> visible_files;
 	public Gth.Sort sort = { null, false };
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
-	public BrowserSidebarState sidebar_state = BrowserSidebarState.NONE;
+	SidebarState sidebar_state = SidebarState.NONE;
 	public int thumbnail_size;
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;
@@ -31,7 +38,7 @@ public class Gth.Browser : Gtk.Box {
 		init_folder_tree ();
 		init_file_grid ();
 
-		sidebar_resizer.add_handle (browser_view, Gtk.PackType.END);
+		sidebar_resizer.add_handle (main_view, Gtk.PackType.END);
 		sidebar_resizer.started.connect ((obj) => {
 			window.active_resizer = obj;
 		});
@@ -39,7 +46,7 @@ public class Gth.Browser : Gtk.Box {
 			window.active_resizer = null;
 		});
 
-		second_sidebar_resizer.add_handle (browser_content_view, Gtk.PackType.START);
+		second_sidebar_resizer.add_handle (content_view, Gtk.PackType.START);
 		second_sidebar_resizer.started.connect ((obj) => {
 			window.active_resizer = obj;
 		});
@@ -49,8 +56,8 @@ public class Gth.Browser : Gtk.Box {
 
 		filter_bar.changed.connect (() => update_active_filter ());
 
-		browser_view.notify["show-sidebar"].connect (() => {
-			window.action_group.change_action_state ("show-browser-sidebar", new Variant.boolean (browser_view.show_sidebar));
+		main_view.notify["show-sidebar"].connect (() => {
+			window.action_group.change_action_state ("show-browser-sidebar", new Variant.boolean (main_view.show_sidebar));
 		});
 
 		// Restore the window size.
@@ -60,8 +67,8 @@ public class Gth.Browser : Gtk.Box {
 		if (app.settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			window.maximize ();
 		}
-		browser_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_SIDEBAR_WIDTH);
-		browser_content_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_PROPERTIES_WIDTH);
+		main_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_SIDEBAR_WIDTH);
+		content_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_PROPERTIES_WIDTH);
 
 		// Browser settings.
 		sort = {
@@ -78,13 +85,9 @@ public class Gth.Browser : Gtk.Box {
 			app.settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE)
 		};
 		folder_tree.show_hidden = show_hidden_files;
-		browser_content_view.show_sidebar = app.settings.get_boolean (PREF_BROWSER_PROPERTIES_VISIBLE);
+		content_view.show_sidebar = app.settings.get_boolean (PREF_BROWSER_PROPERTIES_VISIBLE);
 
 		init_actions ();
-	}
-
-	public void show_message (string message) {
-		browser_toast_overlay.add_toast (new Adw.Toast (message));
 	}
 
 	async void load_folder (File location, LoadAction load_action) throws Error {
@@ -114,7 +117,7 @@ public class Gth.Browser : Gtk.Box {
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
 		window.set_page (Window.Page.BROWSER);
 		if (load_action.changes_current_folder ()) {
-			set_sidebar_state (location.has_uri_scheme ("catalog") ? BrowserSidebarState.CATALOGS : BrowserSidebarState.FILES);
+			set_sidebar_state (location.has_uri_scheme ("catalog") ? SidebarState.CATALOGS : SidebarState.FILES);
 		}
 		load_folder.begin (location, load_action, (_obj, res) => {
 			try {
@@ -156,18 +159,18 @@ public class Gth.Browser : Gtk.Box {
 		update_thumbnail_list ();
 	}
 
-	public void set_sidebar_state (BrowserSidebarState state) {
+	void set_sidebar_state (SidebarState state) {
 		if (state == sidebar_state) {
 			return;
 		}
 		sidebar_state = state;
 		switch (sidebar_state) {
-		case BrowserSidebarState.FILES:
+		case SidebarState.FILES:
 			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = true;
 			catalog_button.active = false;
 			break;
-		case BrowserSidebarState.CATALOGS:
+		case SidebarState.CATALOGS:
 			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = false;
 			catalog_button.active = true;
@@ -175,7 +178,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void set_show_hidden (bool show) {
+	void set_show_hidden (bool show) {
 		show_hidden_files = show;
 		folder_tree.show_hidden = show_hidden_files;
 		update_thumbnail_list ();
@@ -272,7 +275,7 @@ public class Gth.Browser : Gtk.Box {
 
 	Gth.Filter? file_filter = null;
 
-	public unowned Gth.Filter get_file_filter (bool recalc = false) {
+	unowned Gth.Filter get_file_filter (bool recalc = false) {
 		if ((file_filter == null) || recalc) {
 			file_filter = app.add_general_filter (active_filter);
 			if (!show_hidden_files) {
@@ -287,7 +290,7 @@ public class Gth.Browser : Gtk.Box {
 		update_thumbnail_list ();
 	}
 
-	void update_title () {
+	public void update_title () {
 		if (folder_tree.current_folder != null) {
 			window.title = folder_tree.current_folder.info.get_display_name ();
 		}
@@ -330,17 +333,18 @@ public class Gth.Browser : Gtk.Box {
 		var grid_model = file_grid.model;
 		file_grid.model = null;
 		visible_files.model.remove_all ();
-		var tot_files = 0;
-		uint64 tot_size = 0;
+		uint total_files = 0;
+		uint64 total_size = 0;
 		foreach (unowned var file in visible_children) {
 			visible_files.model.append (file);
-			tot_files++;
-			tot_size += file.info.get_size ();
+			total_files++;
+			total_size += file.info.get_size ();
 		}
 		file_grid.model = grid_model;
 
-		status.set_list_info (tot_files, tot_size);
-		folder_stack.set_visible_child ((tot_files == 0) ? empty_folder : non_empty_folder);
+		status.set_list_info (total_files, total_size);
+		window.viewer.set_list_info (total_files);
+		folder_stack.set_visible_child ((total_files == 0) ? empty_folder : non_empty_folder);
 
 		status.set_selection_info (0, 0);
 	}
@@ -442,35 +446,36 @@ public class Gth.Browser : Gtk.Box {
 
 	void update_selection_info () {
 		weak Gth.FileData selected_file = null;
-		var tot_files = 0;
-		uint64 tot_size = 0;
+		uint total_files = 0;
+		uint64 total_size = 0;
 		var selected = file_grid.model.get_selection ();
 		for (int64 idx = 0; idx < selected.get_size (); idx++) {
 			var pos = selected.get_nth ((uint) idx);
 			var file = file_grid.model.get_item (pos) as FileData;
 			if (file != null) {
-				tot_files++;
-				tot_size += file.info.get_size ();
+				total_files++;
+				total_size += file.info.get_size ();
 				selected_file = file;
 			}
 		}
-		status.set_selection_info (tot_files, tot_size);
-		if (tot_files == 1) {
+		status.set_selection_info (total_files, total_size);
+		if (total_files == 1) {
 			var local_job = window.new_job ("Load metadata for %s".printf (selected_file.file.get_uri ()));
 			var source = new FileSourceVfs ();
 			source.read_metadata.begin (selected_file.file, "*", local_job.cancellable, (obj, res) => {
 				try {
-					var selected_file_data = source.read_metadata.end (res);
-					property_sidebar.set_file (selected_file_data);
+					property_sidebar.file_data = source.read_metadata.end (res);
 				}
 				catch (Error error) {
 					stdout.printf ("ERROR: %s\n", error.message);
 				}
-				local_job.done ();
+				finally {
+					local_job.done ();
+				}
 			});
 		}
 		else {
-			property_sidebar.set_file (null);
+			property_sidebar.file_data = null;
 		}
 	}
 
@@ -537,15 +542,15 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("show-browser-sidebar", null, new Variant.boolean (browser_view.show_sidebar));
+		action = new SimpleAction.stateful ("show-browser-sidebar", null, new Variant.boolean (main_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
-			browser_view.show_sidebar = Util.toggle_state (_action);
+			main_view.show_sidebar = Util.toggle_state (_action);
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("browser-properties", null, new Variant.boolean (browser_content_view.show_sidebar));
+		action = new SimpleAction.stateful ("browser-properties", null, new Variant.boolean (content_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
-			browser_content_view.show_sidebar = Util.toggle_state (_action);
+			content_view.show_sidebar = Util.toggle_state (_action);
 		});
 		action_group.add_action (action);
 
@@ -557,7 +562,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("show-folders", null);
 		action.activate.connect ((_action, param) => {
-			if (sidebar_state == BrowserSidebarState.FILES) {
+			if (sidebar_state == SidebarState.FILES) {
 				return;
 			}
 			if (last_folder != null) {
@@ -571,7 +576,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("show-catalogs", null);
 		action.activate.connect ((_action, param) => {
-			if (sidebar_state == BrowserSidebarState.CATALOGS) {
+			if (sidebar_state == SidebarState.CATALOGS) {
 				return;
 			}
 			if (last_catalog == null) {
@@ -826,10 +831,10 @@ public class Gth.Browser : Gtk.Box {
 			}
 
 			app.settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, window.maximized);
-			app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, browser_view.show_sidebar);
-			app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) browser_view.max_sidebar_width);
-			app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, browser_content_view.show_sidebar);
-			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) browser_content_view.max_sidebar_width);
+			app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, main_view.show_sidebar);
+			app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) main_view.max_sidebar_width);
+			app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, content_view.show_sidebar);
+			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) content_view.max_sidebar_width);
 
 			if (last_window) {
 				if (app.settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
@@ -867,12 +872,13 @@ public class Gth.Browser : Gtk.Box {
 	void on_file_activate (uint position) {
 		var file = file_grid.model.get_item (position) as FileData;
 		if (file != null) {
+			window.viewer.set_file_position (position);
 			window.viewer.view_file (file);
 		}
 	}
 
-	[GtkChild] unowned Adw.OverlaySplitView browser_view;
-	[GtkChild] unowned Adw.OverlaySplitView browser_content_view;
+	[GtkChild] unowned Adw.OverlaySplitView main_view;
+	[GtkChild] unowned Adw.OverlaySplitView content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
@@ -883,10 +889,10 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.Widget empty_folder;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
-	[GtkChild] unowned Adw.ToastOverlay browser_toast_overlay;
+	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
 	[GtkChild] unowned Gtk.Stack second_sidebar_stack;
-	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
+	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
 	[GtkChild] unowned Gth.ActionList location_actions;
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;

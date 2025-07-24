@@ -39,7 +39,12 @@ public class Gth.ImageSaver {
 			if (save_func == null) {
 				throw new IOError.NOT_SUPPORTED (_("Cannot save this kind of files"));
 			}
-			var bytes = save_func (image, cancellable);
+			Gth.Option[] options = null;
+			var preferences = app.get_saver_preferences (content_type);
+			if (preferences != null) {
+				options = preferences.get_options ();
+			}
+			var bytes = save_func (image, options, cancellable);
 			if (bytes == null) {
 				throw new IOError.FAILED ("Save failed");
 			}
@@ -49,4 +54,7 @@ public class Gth.ImageSaver {
 }
 
 [CCode (has_target = false)]
-public delegate Bytes? Gth.SaveFunc (Gth.Image image, Cancellable cancellable) throws Error;
+public delegate Bytes? Gth.SaveFunc (
+	Gth.Image image,
+	[CCode (array_length = false, array_null_terminated = true)] Gth.Option[]? options,
+	Cancellable cancellable) throws Error;

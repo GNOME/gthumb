@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthPreferencesVideoPage">
+    <property name="title" translatable="yes">Video</property>
+    <property name="tag">video</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="true">Screenshots Folder</property>
+                <property name="description" translatable="true">Folder where to save the screenshots.</property>
+                <child>
+                  <object class="AdwActionRow" id="screenshot_folder">
+                    <property name="activatable">true</property>
+                    <child type="prefix">
+                      <object class="GtkImage" id="folder_icon">
+                      </object>
+                    </child>
+                    <signal name="activated" handler="on_select_folder"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

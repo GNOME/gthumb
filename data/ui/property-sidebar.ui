@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GthPropertySidebar">
-    <property name="orientation">vertical</property>
+    <property name="hexpand">true</property>
     <child>
-      <object class="GtkBox" id="header">
-        <property name="orientation">horizontal</property>
-        <property name="spacing">6</property>
-        <style>
-          <class name="sidebar-header"/>
-          <class name="right"/>
-        </style>
-      </object>
-    </child>
-    <child>
-      <object class="GtkStack" id="stack">
-        <property name="vexpand">true</property>
+      <object class="AdwToolbarView">
+        <property name="content">
+          <object class="GtkStack" id="stack">
+            <property name="vexpand">true</property>
+          </object>
+        </property>
+        <child type="bottom">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
+            <style>
+              <class name="toolbar"/>
+              <class name="right"/>
+              <class name="sidebar-footer"/>
+            </style>
+            <child>
+              <object class="GtkBox" id="search_bar">
+                <property name="orientation">vertical</property>
+                <property name="visible">true</property>
+                <style>
+                  <class name="mini-search-bar"/>
+                </style>
+                <child>
+                  <object class="GtkSearchEntry">
+                    <property name="placeholder_text" translatable="yes">search property</property>
+                    <property name="halign">fill</property>
+                    <signal name="search_changed" handler="on_search_changed" />
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox" id="header">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">6</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </template>

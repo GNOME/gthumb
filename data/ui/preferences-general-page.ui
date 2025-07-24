@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthPreferencesGeneralPage">
+    <property name="title" translatable="yes">General</property>
+    <property name="tag">general</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkLabel">
+            <property name="label">GENERAL</property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

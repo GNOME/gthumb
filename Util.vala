@@ -477,4 +477,19 @@ public class Gth.Util {
 			action.set_enabled (enabled);
 		}
 	}
+
+	public static void remove_all_children (Gtk.Box box) {
+		unowned Gtk.Widget child;
+		while ((child = box.get_first_child ()) != null) {
+			box.remove (child);
+		}
+	}
+
+	public static T get_parent<T> (Gtk.Widget widget) {
+		unowned var p = widget.parent;
+		while ((p != null) && !(p is T)) {
+			p = p.parent;
+		}
+		return (p != null) ? (T) p : null;
+	}
 }

@@ -77,7 +77,7 @@ public static int main (string[] args) {
 		var scaled = image.resize (thumbnail_size, Gth.ResizeFlags.UPSCALE, Gth.ScaleFilter.BEST, cancellable);
 
 		// Save to output_path.
-		var bytes = save_png (scaled, cancellable);
+		var bytes = save_png (scaled, null, cancellable);
 		var output_file = File.new_for_commandline_arg (output_path);
 		if (output_file == null) {
 			throw new IOError.FAILED ("Invalid thumbnail filename");

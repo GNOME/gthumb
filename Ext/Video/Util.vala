@@ -66,6 +66,28 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	caps.append_structure (new Gst.Structure ("video/x-raw", "format", Type.STRING, "RGBA"));
 	Signal.emit_by_name (playbin, "convert_sample", caps, out sample);
 
+	var image = get_image_from_sample (sample);
+
+	playbin.set_state (Gst.State.NULL);
+	playbin.get_state (null, null, -1);
+
+	return image;
+}
+
+Gth.Image get_playbin_current_frame (Gst.Pipeline playbin) throws Error {
+	var sink = playbin.get_by_name ("sink");
+	if (sink == null) {
+		throw new IOError.FAILED ("Playbin has no 'sink' element");
+	}
+	Gst.Sample sample = null;
+	sink.get ("last-sample", out sample);
+	if (sample == null) {
+		throw new IOError.FAILED ("Failed to retrieve the last sample");
+	}
+	return get_image_from_sample (sample);
+}
+
+Gth.Image get_image_from_sample (Gst.Sample sample) throws Error {
 	// Check the sample format.
 	unowned var sample_caps = sample.get_caps ();
 	if (sample_caps == null) {
@@ -105,9 +127,6 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	if (image == null) {
 		throw new IOError.FAILED ("Could not create the image");
 	}
-
-	playbin.set_state (Gst.State.NULL);
-	playbin.get_state (null, null, -1);
 
 	return image;
 }

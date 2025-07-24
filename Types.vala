@@ -67,12 +67,6 @@ public enum Gth.LoadAction {
 	}
 }
 
-public enum Gth.BrowserSidebarState {
-	NONE,
-	FILES,
-	CATALOGS,
-}
-
 public enum Gth.SidebarState {
 	NONE,
 	PROPERTIES,

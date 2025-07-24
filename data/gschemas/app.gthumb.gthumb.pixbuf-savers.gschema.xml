@@ -1,0 +1,86 @@
+<schemalist>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers" path="/app/gthumb/gthumb/pixbuf-savers/">
+    <child name="avif" schema="app.gthumb.gthumb.pixbuf-savers.avif" />
+    <child name="jpeg" schema="app.gthumb.gthumb.pixbuf-savers.jpeg" />
+    <child name="png" schema="app.gthumb.gthumb.pixbuf-savers.png" />
+    <child name="tga" schema="app.gthumb.gthumb.pixbuf-savers.tga" />
+    <child name="tiff" schema="app.gthumb.gthumb.pixbuf-savers.tiff" />
+    <child name="webp" schema="app.gthumb.gthumb.pixbuf-savers.webp" />
+  </schema>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers.png" path="/app/gthumb/gthumb/pixbuf-savers/png/" gettext-domain="gthumb">
+    <key name="compression-level" type="i">
+      <default>6</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers.jpeg" path="/app/gthumb/gthumb/pixbuf-savers/jpeg/" gettext-domain="gthumb">
+    <key name="default-ext" type="s">
+      <default>'jpeg'</default>
+      <description>Possible values are: jpeg, jpg.</description>
+    </key>
+    <key name="quality" type="i">
+      <default>85</default>
+    </key>
+    <key name="smoothing" type="i">
+      <default>0</default>
+    </key>
+    <key name="optimize" type="b">
+      <default>true</default>
+    </key>
+    <key name="progressive" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers.avif" path="/app/gthumb/gthumb/pixbuf-savers/avif/" gettext-domain="gthumb">
+    <key name="lossless" type="b">
+      <default>false</default>
+    </key>
+    <key name="quality" type="i">
+      <default>50</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers.tga" path="/app/gthumb/gthumb/pixbuf-savers/tga/" gettext-domain="gthumb">
+    <key name="rle-compression" type="b">
+      <default>true</default>
+    </key>
+  </schema>
+
+  <enum id="app.gthumb.gthumb.GthTiffCompression">
+    <value nick="none" value="0"/>
+    <value nick="deflate" value="1"/>
+    <value nick="jpeg" value="2"/>
+  </enum>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers.tiff" path="/app/gthumb/gthumb/pixbuf-savers/tiff/" gettext-domain="gthumb">
+    <key name="default-ext" type="s">
+      <default>'tiff'</default>
+      <description>Possible values are: tiff, tif.</description>
+    </key>
+    <key name="compression" enum="app.gthumb.gthumb.GthTiffCompression">
+      <default>'deflate'</default>
+    </key>
+    <key name="horizontal-resolution" type="i">
+      <default>72</default>
+    </key>
+    <key name="vertical-resolution" type="i">
+      <default>72</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.pixbuf-savers.webp" path="/app/gthumb/gthumb/pixbuf-savers/webp/" gettext-domain="gthumb">
+    <key name="lossless" type="b">
+      <default>false</default>
+    </key>
+    <key name="quality" type="i">
+      <default>75</default>
+    </key>
+    <key name="method" type="i">
+      <default>4</default>
+    </key>
+  </schema>
+
+</schemalist>

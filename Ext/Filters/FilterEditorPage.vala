@@ -4,7 +4,6 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 
 	public signal void cancelled ();
 	public signal void save ();
-	public signal void choose_rule_type ();
 
 	construct {
 		var sort_names = new Gtk.StringList (null);

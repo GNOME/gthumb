@@ -1,7 +1,6 @@
 public class Gth.ExifPropertyView : Gth.FilePropertyView {
 	construct {
 		filter = FilePropertyView.Filter.EXIF;
-		search_section.visible = true;
 	}
 
 	public override unowned string get_name () {

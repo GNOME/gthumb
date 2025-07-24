@@ -55,10 +55,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 	}
 
-	public void show_message (string message) {
+	public void add_toast (Adw.Toast toast) {
 		if (current_page == Page.BROWSER) {
-			browser.show_message (message);
+			browser.toast_overlay.add_toast (toast);
 		}
+		else if (current_page == Page.VIEWER) {
+			viewer.toast_overlay.add_toast (toast);
+		}
+	}
+
+	public void show_message (string message) {
+		add_toast (new Adw.Toast (message));
 	}
 
 	public void show_error (Error error) {
@@ -81,13 +88,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		case Page.BROWSER:
 			viewer.before_close_page ();
 			stack.set_visible_child (browser);
+			browser.update_title ();
 			break;
 		case Page.VIEWER:
 			stack.set_visible_child (viewer);
 			viewer.after_show_page ();
+			viewer.update_title ();
 			break;
 		}
-		update_title ();
 		update_sensitivity ();
 	}
 
@@ -111,10 +119,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs.cancel_all ();
 	}
 
-	void update_title () {
-		// TODO
-	}
-
 	void update_sensitivity () {
 		// TODO
 	}
@@ -124,31 +128,28 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void init_actions () {
-		var action = new SimpleAction ("about", null);
-		action.activate.connect (() => {
-			const string[] developers = {
-				"Paolo Bacchilega <paobac@src.gnome.org>",
-			};
-			Adw.show_about_dialog (this,
-				"application-name", "Thumbnails",
-				"application-icon", "app.gthumb.gthumb",
-				"version", Config.VERSION,
-				"license-type", Gtk.License.GPL_2_0,
-				"translator-credits", _("translator-credits"),
-				"website", "https://gitlab.gnome.org/GNOME/gthumb/",
-				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/issues",
-				"developers", developers
-			);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("pop-page", null);
+		var action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
 			if (current_page == Page.VIEWER) {
 				set_page (Page.BROWSER);
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("fullscreen", null);
+		action.activate.connect (() => {
+			fullscreened = !fullscreened;
+		});
+		action_group.add_action (action);
+
+		notify["fullscreened"].connect (() => {
+			if (fullscreened) {
+				viewer.after_fullscreen ();
+			}
+			else {
+				viewer.after_unfullscreen ();
+			}
+		});
 	}
 
 	[GtkChild] public unowned Gtk.Stack stack;

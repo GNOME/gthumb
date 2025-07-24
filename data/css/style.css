@@ -15,12 +15,6 @@ popover.deeper > contents {
 	border: 1px solid #111;
 }
 
-.topbar,
-.statusbar {
-	background-color: var(--view-bg-color);
-	color: var(--view-fg-color);
-}
-
 .thumbnail-grid {
 	padding: 10px;
 
@@ -47,14 +41,15 @@ popover.deeper > contents {
 
 .sidebar-container,
 .sidebar-header,
-.left .mini-search-bar {
-	padding: 6px 0 6px 6px;
+.sidebar-footer {
+	padding: 8px 2px 8px 8px;
 }
 
 .sidebar-container.right,
 .sidebar-header.right,
-.right .mini-search-bar {
-	padding: 6px 6px 6px 0;
+.sidebar-footer.right,
+.toolbar.right {
+	padding: 8px 8px 8px 2px;
 }
 
 .sidebar-header {
@@ -66,19 +61,30 @@ popover.deeper > contents {
 	border-bottom: 0;
 }
 
+.sidebar-footer {
+	--border-opacity: 10%;
+	border-top: 1px solid var(--dimmed-border-color);
+}
+
 .smaller-text {
 	font-size: 0.9em;
 }
 
 .property-sidebar.right {
-	padding: 0 18px 0 12px;
+	padding: 0 18px 18px 12px;
 }
 
 .property-widget {
-	border-radius: 0;
+	--border-opacity: 10%;
 	margin: 0;
 	padding: 0;
-	--border-opacity: 10%;
+	background: var(--card-bg-color);
+	border-radius: 0;
+	border-color: var(--window-bg-color);
+}
+
+.property-widget:hover {
+	background: #434348;
 }
 
 .property-widget.description {
@@ -86,12 +92,16 @@ popover.deeper > contents {
 	color: #fff;
 }
 
+.property-widget.description:hover {
+	background: #6d6154;
+}
+
 .property-header {
-	margin: 24px 6px 6px 6px;
+	margin: 12px 0px 6px 0px;
 }
 
 .property-row {
-	padding: 12px 6px;
+	padding: 12px;
 	margin: 0;
 }
 
@@ -102,25 +112,23 @@ popover.deeper > contents {
 .property-subtitle {
 }
 
-.left .mini-search-bar > entry.search {
-	padding: 2px 5px 2px 18px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
+.mini-search-bar {
+	font-size: 0.9em;
 }
 
-.right .mini-search-bar > entry.search {
-	padding: 2px 5px 2px 18px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-bottom-left-radius: 0;
+.right .mini-search-bar {
+	padding: 0;
 }
 
 .mediabar {
 	padding: 6px;
-	background-color: var(--headerbar-bg-color);
+	background: rgba(0, 0, 0, 0.8);
 }
 
 .time-scale {
 	padding: 0;
+}
+
+popover.button-list button {
+	font-weight: normal;
 }

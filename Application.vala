@@ -9,6 +9,7 @@ public class Gth.Application : Adw.Application {
 	public HashTable<string, Gth.LoadFunc> loaders;
 	public HashTable<string, Gth.LoadFileFunc> external_loaders;
 	public HashTable<string, Gth.SaveFunc> savers;
+	public HashTable<string, GLib.Type> saver_preferences;
 	public HashTable<string, GLib.Type> viewers;
 	public Gth.FilterFile filter_file;
 	public bool restart;
@@ -111,8 +112,8 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("general::duration", N_("Duration"), "file", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Loaded::Image::ColorProfile", N_("Color Profile"), "file", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
-		MetadataInfo.register ("general::description", N_("Comment"), "comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 		MetadataInfo.register ("general::title", N_("Title"), "comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("general::description", N_("Comment"), "comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 		MetadataInfo.register ("general::location", N_("Place"), "comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("general::datetime", N_("Date"), "comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("general::tags", N_("Tags"), "comment", METADATA_ALLOW_EVERYWHERE);
@@ -303,7 +304,9 @@ public class Gth.Application : Adw.Application {
 #endif
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
-		register_image_saver ("image/png", save_png);
+		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);
+		register_image_saver ("image/png", save_png, typeof (PngPreferences));
+		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
 
 		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);
 		//w ("image/png", typeof (ImageViewer));
@@ -315,6 +318,7 @@ public class Gth.Application : Adw.Application {
 	public override void startup () {
 		base.startup ();
 		init_settings ();
+		init_actions ();
 	}
 
 	public override bool local_command_line (ref unowned string[] arguments, out int exit_status) {
@@ -573,12 +577,22 @@ public class Gth.Application : Adw.Application {
 		return external_loaders.get (content_type);
 	}
 
-	public void register_image_saver (string content_type, SaveFunc func) {
+	public void register_image_saver (string content_type, SaveFunc func, GLib.Type options_type) {
 		savers.set (content_type, func);
+		if (options_type != 0) {
+			saver_preferences.set (content_type, options_type);
+		}
 	}
 
 	public SaveFunc? get_save_func (string content_type) {
 		return savers.get (content_type);
+	}
+
+	public SaverPreferences? get_saver_preferences (string content_type) {
+		var options_type = saver_preferences.get (content_type);
+		if (options_type == 0)
+			return null;
+		return Object.new (options_type) as Gth.SaverPreferences;
 	}
 
 	public void register_metadata_provider (GLib.Type provider_type) {
@@ -741,6 +755,40 @@ public class Gth.Application : Adw.Application {
 
 		settings = new GLib.Settings (GTHUMB_SCHEMA);
 		filter_file = new Gth.FilterFile ();
+	}
+
+	void init_actions () {
+		var action = new SimpleAction ("about", null);
+		action.activate.connect (() => {
+			const string[] developers = {
+				"Paolo Bacchilega <paobac@src.gnome.org>",
+			};
+			Adw.show_about_dialog (active_window,
+				"application-name", "Thumbnails",
+				"application-icon", "app.gthumb.gthumb",
+				"version", Config.VERSION,
+				"license-type", Gtk.License.GPL_2_0,
+				"translator-credits", _("translator-credits"),
+				"website", "https://gitlab.gnome.org/GNOME/gthumb/",
+				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/issues",
+				"developers", developers
+			);
+		});
+		add_action (action);
+
+		action = new SimpleAction ("preferences", null);
+		action.activate.connect (() => {
+			var dialog = new Gth.PreferencesDialog ();
+			dialog.present (active_window);
+		});
+		add_action (action);
+
+		action = new SimpleAction ("open-new-window", VariantType.STRING);
+		action.activate.connect ((_action, param) => {
+			var file = File.new_for_uri (param.get_string ());
+			open_window (file.get_parent (), file, true);
+		});
+		add_action (action);
 	}
 
 	public void open_window (File location, File? file_to_select = null, bool force_new_window = false) {

@@ -153,6 +153,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			var property_item = list_item.child as FilePropertyItem;
 			property_item.title.label = property.name;
 			property_item.subtitle.label = property.value;
+			property_item.subtitle.natural_wrap_mode = (property.id == "general::description") ? Gtk.NaturalWrapMode.WORD : Gtk.NaturalWrapMode.NONE;
 			property_item.property = property;
 			property_item.description.visible = false;
 			var action_info = actions.get (property.id);
@@ -207,7 +208,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public virtual unowned string get_title () {
-		return _("General");
+		return _("Properties");
 	}
 
 	public virtual unowned string get_icon () {
@@ -291,14 +292,16 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		context_menu.popup ();
 	}
 
-	[GtkCallback]
-	void on_search_changed (Gtk.SearchEntry entry) {
-		filter_text = entry.text.casefold ();
+	public bool with_search () {
+		return filter != Filter.NONE;
+	}
+
+	public void set_search (string? text) {
+		filter_text = (text != null) ? text.casefold () : null;
 		property_filter.changed (Gtk.FilterChange.DIFFERENT);
 	}
 
 	[GtkChild] protected unowned Gtk.ListView list_view;
-	[GtkChild] protected unowned Gtk.Box search_section;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 
 	GenericList<Property> property_list;

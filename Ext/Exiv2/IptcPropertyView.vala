@@ -1,7 +1,6 @@
 public class Gth.IptcPropertyView : Gth.FilePropertyView {
 	construct {
 		filter = FilePropertyView.Filter.IPTC;
-		search_section.visible = true;
 	}
 
 	public override unowned string get_name () {

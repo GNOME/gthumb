@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthViewerStatus">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">24</property>
+    <property name="margin-start">12</property>
+    <property name="margin-end">12</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">0</property>
+        <child>
+          <object class="GtkLabel" id="file_position">
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="total_files">
+            <style>
+              <class name="dimmed"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="zoom_info">
+      </object>
+    </child>
+    <child>
+      <object class="AdwSpinner" id="spinner">
+        <property name="visible">false</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+  </template>
+</interface>

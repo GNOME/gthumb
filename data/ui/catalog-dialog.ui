@@ -43,7 +43,7 @@
                     <property name="title" translatable="yes">Date</property>
                     <child type="suffix">
                       <object class="GthTimeSelector" id="time_selector">
-                        <property name="valign" translatable="yes">center</property>
+                        <property name="valign">center</property>
                       </object>
                     </child>
                   </object>

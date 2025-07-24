@@ -1,5 +1,5 @@
 #include <config.h>
-#include <strings.h>
+#include <string.h>
 #include <png.h>
 #include "lib/pixel.h"
 #include "save-png.h"
@@ -61,7 +61,7 @@ flush_data_func (png_structp png_ptr) {
 }
 
 
-GBytes* save_png (GthImage *image, GCancellable *cancellable, GError **error) {
+GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellable, GError **error) {
 	SaverData saver_data;
 	saver_data.error = error;
 	saver_data.png_info_ptr = NULL;
@@ -95,7 +95,15 @@ GBytes* save_png (GthImage *image, GCancellable *cancellable, GError **error) {
 		write_data_func,
 		flush_data_func);
 
-	volatile int compression_level = 6; // TODO
+	volatile int compression_level = 6;
+	if (options != NULL) {
+		for (int i = 0; options[i] != NULL; i++) {
+			GthOption *option = options[i];
+			if (gth_option_get_id (option) == GTH_PNG_OPTION_COMPRESSION_LEVEL) {
+				gth_option_get_int (option, &compression_level);
+			}
+		}
+	}
 
 	// Image information
 
