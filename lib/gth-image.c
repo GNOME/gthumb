@@ -188,6 +188,12 @@ guchar* gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride) {
 }
 
 
+guint gth_image_get_row_stride (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
+	return (guint) self->priv->row_stride;
+}
+
+
 guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	if (row_stride != NULL)
@@ -220,20 +226,26 @@ void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean
 }
 
 
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#define MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
-#elif G_BYTE_ORDER == G_BIG_ENDIAN
-#define MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
-#endif
-
-
-GdkTexture * gth_image_get_gdk_texture (GthImage *self) {
+GdkTexture * gth_image_get_texture (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return gdk_memory_texture_new (
 		self->priv->width,
 		self->priv->height,
-		MEMORY_FORMAT,
+		GTH_IMAGE_MEMORY_FORMAT,
 		self->priv->bytes,
+		(gsize) self->priv->row_stride);
+}
+
+
+GdkTexture * gth_image_get_texture_from_point (GthImage *self, guint x, guint y) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	gsize offset = (y * self->priv->row_stride) + x;
+	GBytes* bytes = g_bytes_new_from_bytes (self->priv->bytes, offset, g_bytes_get_size (self->priv->bytes) - offset);
+	return gdk_memory_texture_new (
+		self->priv->width,
+		self->priv->height,
+		GTH_IMAGE_MEMORY_FORMAT,
+		bytes,
 		(gsize) self->priv->row_stride);
 }
 

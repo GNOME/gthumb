@@ -380,6 +380,7 @@ executable(
     search_files,
     vapi_files,
     video_files,
+    image_files,
   ],
   dependencies: dependencies
 )

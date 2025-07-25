@@ -236,7 +236,7 @@ public class Gth.FileData : Object {
 
 	public void set_thumbnail (Gth.Image image) {
 		thumbnail_image = image;
-		thumbnail_texture = thumbnail_image.get_gdk_texture ();
+		thumbnail_texture = thumbnail_image.get_texture ();
 		thumbnail_state = ThumbnailState.LOADED;
 	}
 

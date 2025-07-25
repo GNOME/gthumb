@@ -9,6 +9,7 @@ namespace Gth {
 		public void copy_pixels (Image destination);
 		[CCode (array_length_cname = "size", array_length_type = "size_t", array_length_pos = 1.1)]
 		public unowned uint8[] get_pixels (out int row_stride);
+		public uint get_row_stride ();
 		public uint get_width ();
 		public uint get_height ();
 		public size_t get_size ();
@@ -21,7 +22,8 @@ namespace Gth {
 		public unowned string get_attribute (string key);
 		public virtual bool get_can_scale ();
 		public virtual Image scale (double factor);
-		public Gdk.Texture get_gdk_texture ();
+		public Gdk.Texture get_texture ();
+		public Gdk.Texture get_texture_from_point (uint x, uint y);
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
@@ -30,5 +32,6 @@ namespace Gth {
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 		public void fill_vertical (Image pattern, Fill fill);
 		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
+		public const Gdk.MemoryFormat MEMORY_FORMAT;
 	}
 }

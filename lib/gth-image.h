@@ -10,6 +10,12 @@
 
 G_BEGIN_DECLS
 
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#define GTH_IMAGE_MEMORY_FORMAT GDK_MEMORY_B8G8R8A8_PREMULTIPLIED
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+#define GTH_IMAGE_MEMORY_FORMAT GDK_MEMORY_A8R8G8B8_PREMULTIPLIED
+#endif
+
 #define GTH_TYPE_IMAGE (gth_image_get_type ())
 #define GTH_IMAGE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE, GthImage))
 #define GTH_IMAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_IMAGE, GthImageClass))
@@ -40,7 +46,9 @@ GthImage * gth_image_dup (GthImage *self);
 void gth_image_copy_pixels (GthImage *src, GthImage *dest);
 void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride);
-GdkTexture * gth_image_get_gdk_texture (GthImage *self);
+guint gth_image_get_row_stride (GthImage *self);
+GdkTexture * gth_image_get_texture (GthImage *self);
+GdkTexture * gth_image_get_texture_from_point (GthImage *self, guint x, guint y);
 guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height);
 void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int row_stride);
 

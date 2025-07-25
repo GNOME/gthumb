@@ -34,30 +34,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	construct {
-		settings = new GLib.Settings (GTHUMB_VIDEO_SCHEMA);
-		window = null;
-		playbin = null;
-		picture = null;
-		_zoom_to_fit = true;
-		_playing = false;
-		paused = false;
-		rate = 1.0;
-		loop = false;
-		total_time = 0;
-		builder = null;
-	}
-
-	public async void load (FileData file_data) throws Error {
-		if (playbin == null)
-			return;
-		playbin.set_state (Gst.State.NULL);
-		playbin.set ("uri", file_data.file.get_uri ());
-		playing = true;
-		// TODO: allow to cancel
-		// TODO: yield and resume in on_bus_message
-	}
-
 	public void activate (Gth.Window _window) {
 		assert (window == null);
 		assert (picture == null);
@@ -156,6 +132,16 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		widget.add_controller (motion_events);
 
 		create_playbin ();
+	}
+
+	public async void load (FileData file_data) throws Error {
+		if (playbin == null)
+			return;
+		playbin.set_state (Gst.State.NULL);
+		playbin.set ("uri", file_data.file.get_uri ());
+		playing = true;
+		// TODO: allow to cancel
+		// TODO: yield and resume in on_bus_message
 	}
 
 	public void deactivate () {
@@ -704,6 +690,20 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			window.viewer.status.set_zoom_info (zoom);
 			//window.viewer.status.pixel_info (video_width, video_height);
 		}*/
+	}
+
+	construct {
+		settings = new GLib.Settings (GTHUMB_VIDEO_SCHEMA);
+		window = null;
+		playbin = null;
+		picture = null;
+		_zoom_to_fit = true;
+		_playing = false;
+		paused = false;
+		rate = 1.0;
+		loop = false;
+		total_time = 0;
+		builder = null;
 	}
 
 	GLib.Settings settings;

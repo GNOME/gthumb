@@ -309,8 +309,8 @@ public class Gth.Application : Adw.Application {
 		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
 
 		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);
-		//w ("image/png", typeof (ImageViewer));
-		//register_file_viewer ("image/jpeg", typeof (ImageViewer));
+		register_file_viewer ("image/png", typeof (ImageViewer));
+		register_file_viewer ("image/jpeg", typeof (ImageViewer));
 		register_file_viewer ("video/*", typeof (VideoViewer));
 		register_file_viewer ("audio/*", typeof (VideoViewer));
 	}
