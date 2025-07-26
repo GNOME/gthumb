@@ -15,8 +15,8 @@ namespace Gth {
 		public size_t get_size ();
 		public void set_has_alpha (bool has_alpha);
 		public bool get_has_alpha (out bool has_alpha);
-		public void set_original_size (uint width, uint height);
-		public bool get_original_size (out uint width, out uint height);
+		public void set_natural_size (uint width, uint height);
+		public bool get_natural_size (out uint width, out uint height);
 		public bool get_original_image_size (out uint width, out uint height);
 		public void set_attribute (string key, string value);
 		public unowned string get_attribute (string key);

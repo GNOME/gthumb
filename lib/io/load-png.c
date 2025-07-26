@@ -220,7 +220,6 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 		return NULL;
 	}
 	gth_image_set_has_alpha (loader_data.image, (color_type & PNG_COLOR_MASK_ALPHA) || (color_type & PNG_COLOR_MASK_PALETTE));
-	gth_image_set_original_size (loader_data.image, width, height);
 
 	// Set the data transformations.
 

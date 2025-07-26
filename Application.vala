@@ -276,6 +276,8 @@ public class Gth.Application : Adw.Application {
 		register_metadata_provider (typeof (VideoMetadataProvider));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
+		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);
+
 		register_image_loader ("image/png", load_png);
 		register_image_loader ("image/jpeg", load_jpeg);
 #if HAVE_LIBWEBP
@@ -295,24 +297,17 @@ public class Gth.Application : Adw.Application {
 
 		external_loaders = new HashTable<string, Gth.LoadFileFunc>(str_hash, str_equal);
 #if HAVE_GSTREAMER
-		// Same types listed in Util.content_type_is_video
-		register_external_loader ("video/*", load_video_thumbnail);
-		register_external_loader ("application/ogg", load_video_thumbnail);
-		register_external_loader ("application/x-matroska", load_video_thumbnail);
-		register_external_loader ("application/vnd.ms-asf", load_video_thumbnail);
-		register_external_loader ("application/vnd.rn-realmedia", load_video_thumbnail);
+		register_external_loader ("video/*", load_video_thumbnail, typeof (VideoViewer));
+		register_external_loader ("audio/*", load_video_thumbnail, typeof (VideoViewer));
+		foreach (unowned var video_type in Other_Video_Types) {
+			register_external_loader (video_type, load_video_thumbnail, typeof (VideoViewer));
+		}
 #endif
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
 		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
-
-		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);
-		register_file_viewer ("image/png", typeof (ImageViewer));
-		register_file_viewer ("image/jpeg", typeof (ImageViewer));
-		register_file_viewer ("video/*", typeof (VideoViewer));
-		register_file_viewer ("audio/*", typeof (VideoViewer));
 	}
 
 	public override void startup () {
@@ -556,14 +551,18 @@ public class Gth.Application : Adw.Application {
 
 	public void register_image_loader (string content_type, LoadFunc func) {
 		loaders.set (content_type, func);
+		register_file_viewer (content_type, typeof (ImageViewer));
 	}
 
 	public LoadFunc? get_load_func (string content_type) {
 		return loaders.get (content_type);
 	}
 
-	public void register_external_loader (string content_type, LoadFileFunc func) {
+	public void register_external_loader (string content_type, LoadFileFunc func, GLib.Type viewer_type) {
 		external_loaders.set (content_type, func);
+		if (viewer_type != 0) {
+			register_file_viewer (content_type, viewer_type);
+		}
 	}
 
 	public LoadFileFunc? get_load_file_func (string content_type) {

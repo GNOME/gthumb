@@ -74,6 +74,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 		show_message (error.message);
 	}
 
+	public void edge_reached (string? msg = null) {
+		if (msg != null) {
+			show_message (msg);
+		}
+		else {
+			get_surface ().beep ();
+		}
+	}
+
 	public void copy_text_to_clipboard (string text) {
 		var clipboard = get_clipboard ();
 		clipboard.set_text (text);
@@ -87,12 +96,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 		switch (current_page) {
 		case Page.BROWSER:
 			viewer.before_close_page ();
+			if (viewer.position >= 0)
+				browser.select_position (viewer.position);
+			else if (viewer.current_file != null)
+				browser.select_file (viewer.current_file.file);
 			stack.set_visible_child (browser);
 			browser.update_title ();
 			break;
 		case Page.VIEWER:
 			stack.set_visible_child (viewer);
-			viewer.after_show_page ();
 			viewer.update_title ();
 			break;
 		}
@@ -125,6 +137,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	void before_closing () {
 		browser.save_preferences ();
+		viewer.save_preferences ();
 	}
 
 	void init_actions () {

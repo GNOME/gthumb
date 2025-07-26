@@ -45,11 +45,13 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
 		window.viewer.set_viewer_widget (picture);
 		window.viewer.viewer_container.add_css_class ("video-view");
+		window.viewer.set_statusbar_maximized (true);
 		init_actions ();
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/video-viewer.ui");
-		mediabar_revealer = builder.get_object ("mediabar_revealer") as Gtk.Revealer;
-		window.viewer.add_viewer_overlay (mediabar_revealer);
+		//mediabar_revealer = builder.get_object ("mediabar_revealer") as Gtk.Revealer;
+		//window.viewer.add_viewer_overlay (mediabar_revealer);
+		window.viewer.status.set_tools (builder.get_object ("mediabar") as Gtk.Widget);
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 		update_rate_label ();
 
@@ -59,22 +61,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			playing = !playing;
 		});
 		picture.add_controller (click_events);
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((event, x, y) => {
-			window.viewer.on_motion (x, y);
-		});
-		picture.add_controller (motion_events);
-
-		unowned var volume_button = builder.get_object ("volume_button") as Gtk.ScaleButton;
-		volume_button.notify["active"].connect (() => {
-			window.viewer.on_actived_popup (volume_button.active);
-		});
-
-		unowned var volume_popover = volume_button.get_popup () as Gtk.Popover;
-		if (volume_popover != null) {
-			volume_popover.set_position (Gtk.PositionType.TOP);
-		}
 
 		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
 		menu_button.notify["active"].connect ((obj, spec) => {
@@ -116,7 +102,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		});
 
 		unowned var widget = builder.get_object ("position_scale") as Gtk.Widget;
-		motion_events = new Gtk.EventControllerMotion ();
+		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
 			update_time_popup_position (x);
 		});
@@ -137,6 +123,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	public async void load (FileData file_data) throws Error {
 		if (playbin == null)
 			return;
+		reset_state ();
 		playbin.set_state (Gst.State.NULL);
 		playbin.set ("uri", file_data.file.get_uri ());
 		playing = true;
@@ -255,19 +242,31 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		double volume;
 		bool mute;
 		playbin.get ("volume", out volume, "mute", out mute);
-		if (mute)
+		if (mute) {
 			volume = 0.0;
+		}
 
-		// cubic in [0,1], linear in [1,2]
+		// Cubic in [0,1], linear in [1,2]
+		double linear_volume;
 		if (volume <= 1.0) {
-			volume = Math.exp (1.0 / 3.0 * Math.log (volume)); // cube root of volume
+			linear_volume = Math.exp (1.0 / 3.0 * Math.log (volume)); // cube root of volume
+		}
+		else {
+			linear_volume = volume;
 		}
 
 		// Update the volume adjustment.
 		unowned var adj = builder.get_object ("volume_adjustment") as Gtk.Adjustment;
 		SignalHandler.block (adj, volume_changed_id);
-		adj.set_value (volume * 100.0);
+		adj.set_value (linear_volume * 100.0);
 		SignalHandler.unblock (adj, volume_changed_id);
+
+		// Update the volume button icon.
+		// Use the mute icon only when the volume is exactly zero.
+		var volume_icon = builder.get_object ("volume_icon") as Gtk.Image;
+		var non_mute_icons = VOLUME_ICONS.length - 1;
+		var icon_idx = (linear_volume == 0) ? 0 : 1 + ((int) (linear_volume * non_mute_icons)).clamp (0, non_mute_icons - 1);
+		volume_icon.set_from_icon_name (VOLUME_ICONS[icon_idx]);
 	}
 
 	uint progress_id = 0;
@@ -330,7 +329,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	void reset_state () {
+	void end_of_stream () {
 		update_play_button (Gst.State.PLAYING, Gst.State.NULL);
 		_playing = false;
 		rate = 1.0;
@@ -387,7 +386,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 				skip_to (0);
 			}
 			else {
-				reset_state ();
+				end_of_stream ();
 			}
 			break;
 
@@ -581,6 +580,22 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			});
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("mute", null, new Variant.boolean (false));
+		action.activate.connect ((action, param) => {
+			if (playbin != null) {
+				double volume;
+				bool mute;
+				playbin.get ("volume", out volume, "mute", out mute);
+				mute = !mute;
+				//if (!mute && (volume == 0)) {
+				//	volume = 1.0;
+				//}
+				playbin.set ("mute", mute, "volume", volume);
+				action.set_state (new Variant.boolean (mute));
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	async void save_screenshot (Cancellable cancellable) throws Error {
@@ -679,17 +694,27 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	void update_zoom_info () {
-		/*if (!has_video || (video_width == 0) || (video_height == 0)) {
+		if (!has_video || (video_width == 0) || (video_height == 0)) {
 			window.viewer.status.set_zoom_info (0);
-			//window.viewer.status.pixel_info (0, 0);
 		}
 		else {
-			//var view_width = window.viewer.sized_container.width;
-			//var view_height = window.viewer.sized_container.height;
-			var zoom = (view_width > 0) ? ((double) view_width / video_width) : 0.0;
-			window.viewer.status.set_zoom_info (zoom);
-			//window.viewer.status.pixel_info (video_width, video_height);
-		}*/
+			window.viewer.status.set_zoom_info (0);
+			//int view_width, view_height;
+			//view.get_size (out view_width, out view_height);
+			//var zoom = (view_width > 0) ? ((double) view_width / video_width) : 0.0;
+			//window.viewer.status.set_pixel_info (width, height);
+			//window.viewer.status.set_zoom_info (zoom);
+		}
+	}
+
+	void reset_state () {
+		total_time = 0;
+		paused = false;
+		_playing = false;
+		video_width = 0;
+		video_height = 0;
+		has_audio = false;
+		has_video = false;
 	}
 
 	construct {
@@ -698,12 +723,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		playbin = null;
 		picture = null;
 		_zoom_to_fit = true;
-		_playing = false;
-		paused = false;
 		rate = 1.0;
 		loop = false;
-		total_time = 0;
 		builder = null;
+		reset_state ();
 	}
 
 	GLib.Settings settings;
@@ -719,11 +742,11 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	double rate;
 	bool loop;
 	unowned Gtk.Revealer mediabar_revealer;
-	bool paused = false;
-	int video_width = 0;
-	int video_height = 0;
-	bool has_audio = false;
-	bool has_video = false;
+	bool paused;
+	int video_width;
+	int video_height;
+	bool has_audio;
+	bool has_video;
 
 	const double[] Rates = {
 		0.03, 0.05, 0.12, 0.25, 0.33, 0.5, 0.75,
@@ -733,4 +756,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	const int NORMAL_RATE_IDX = 7;
 	const int MAX_ATTEMPTS = 1000;
 	const string SCREENSHOT_TYPE = "image/jpeg";
+	const string[] VOLUME_ICONS = {
+		"audio-volume-muted-symbolic",
+		"audio-volume-low-symbolic",
+		"audio-volume-medium-symbolic",
+		"audio-volume-high-symbolic",
+	};
 }

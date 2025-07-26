@@ -5,14 +5,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view = new Gth.ImageView ();
 		window.viewer.set_viewer_widget (image_view);
 		window.viewer.viewer_container.add_css_class ("image-view");
+		window.viewer.set_statusbar_maximized (false);
 		init_actions ();
 		//builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((event, x, y) => {
-			window.viewer.on_motion (x, y);
-		});
-		image_view.add_controller (motion_events);
+		image_view.resized.connect (() => update_zoom_info ());
 	}
 
 	public async void load (FileData file_data) throws Error {
@@ -22,8 +19,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var local_job = app.new_job ("Load image %s".printf (file_data.file.get_uri ()));
 		load_job = local_job;
 		try {
-			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
-			image_view.set_image (image);
+			image_view.image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);
@@ -57,6 +53,19 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		//action.activate.connect ((_action, param) => {
 		//});
 		//action_group.add_action (action);
+	}
+
+	void update_zoom_info () {
+		if (image_view.image != null) {
+			uint width, height;
+			image_view.image.get_natural_size (out width, out height);
+			window.viewer.status.set_pixel_info (width, height);
+			window.viewer.status.set_zoom_info (image_view.zoom);
+		}
+		else {
+			window.viewer.status.set_pixel_info (0, 0);
+			window.viewer.status.set_zoom_info (0);
+		}
 	}
 
 	construct {

@@ -46,10 +46,10 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 	WebPDemuxDelete (demux);
 #endif
 
-	guint original_width = (guint) config.input.width;
-	guint original_height = (guint) config.input.height;
-	guint width = original_width;
-	guint height = original_height;
+	guint natural_width = (guint) config.input.width;
+	guint natural_height = (guint) config.input.height;
+	guint width = natural_width;
+	guint height = natural_height;
 
 #if SCALING_WORKS
 	if (requested_size > 0) {
@@ -63,7 +63,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		gth_image_set_icc_profile (image, profile);
 		g_object_unref (profile);
 	}
-	gth_image_set_original_size (image, original_width, original_height);
+	gth_image_set_natural_size (image, natural_width, natural_height);
 
 	config.options.no_fancy_upsampling = 1;
 #if SCALING_WORKS

@@ -36,11 +36,15 @@ public class Gth.Util {
 	}
 
 	public static bool content_type_is_video (string content_type) {
-		return ContentType.is_a (content_type, "video/*")
-			|| (content_type == "application/ogg")
-			|| (content_type == "application/x-matroska")
-			|| (content_type == "application/vnd.ms-asf")
-			|| (content_type == "application/vnd.rn-realmedia");
+		if (ContentType.is_a (content_type, "video/*")) {
+			return true;
+		}
+		foreach (unowned var video_type in Other_Video_Types) {
+			if (content_type == video_type) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static bool content_type_is_audio (string content_type) {
@@ -491,5 +495,15 @@ public class Gth.Util {
 			p = p.parent;
 		}
 		return (p != null) ? (T) p : null;
+	}
+
+	public static void print_rectangle (string prefix, Graphene.Rect rect) {
+		stdout.printf ("%s (%f,%f)[%f,%f]\n",
+			prefix,
+			rect.origin.x,
+			rect.origin.y,
+			rect.size.width,
+			rect.size.height
+		);
 	}
 }

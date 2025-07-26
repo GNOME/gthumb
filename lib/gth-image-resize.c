@@ -320,7 +320,7 @@ gth_image_resize (GthImage		*image,
 
 	gth_image_copy_metadata (image, scaled);
 	if (!gth_image_has_original_size (image)) {
-		gth_image_set_original_size (scaled, original_width, original_height);
+		gth_image_set_natural_size (scaled, original_width, original_height);
 	}
 
 	if (g_once_init_enter (&coefficients_initialization)) {

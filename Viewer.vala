@@ -16,6 +16,7 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public Gth.FileData current_file;
+	public int position;
 
 	Gth.Job load_job = null;
 	FileViewer current_viewer = null;
@@ -29,13 +30,13 @@ public class Gth.Viewer : Gtk.Box {
 		try {
 			if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
 				if (current_viewer != null) {
-					cancel_hide_overlay ();
-					current_viewer.deactivate ();
+					before_close_page ();
 				}
 				current_viewer = app.get_viewer_for_type (file.get_content_type ());
 				if (current_viewer == null) {
 					throw new IOError.FAILED (_("Cannot load this kind of file"));
 				}
+				before_open_page ();
 				current_viewer.activate (window);
 			}
 			yield current_viewer.load (file);
@@ -79,6 +80,14 @@ public class Gth.Viewer : Gtk.Box {
 			viewer_container.child.destroy ();
 		}
 		viewer_container.child = widget;
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect (on_motion);
+		widget.add_controller (motion_events);
+
+		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		scroll_events.scroll.connect (on_scroll);
+		widget.add_controller (scroll_events);
 	}
 
 	public void add_viewer_overlay (Gtk.Revealer revealer) {
@@ -95,10 +104,20 @@ public class Gth.Viewer : Gtk.Box {
 		right_toolbar.append (toolbar);
 	}
 
+	public void set_statusbar_maximized (bool maximized) {
+		statusbar_revealer.halign = maximized ? Gtk.Align.FILL : Gtk.Align.START;
+	}
+
+	public void before_open_page () {
+		status.set_zoom_info (0);
+		status.set_pixel_info (0, 0);
+	}
+
 	public void before_close_page () {
 		cancel_hide_overlay ();
 		Util.remove_all_children (left_toolbar);
 		Util.remove_all_children (right_toolbar);
+		status.remove_tools ();
 
 		foreach (unowned var revealer in overlay_controls) {
 			viewer_container.remove_overlay (revealer);
@@ -111,17 +130,12 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public void after_show_page () {
-		if (current_viewer != null) {
-			current_viewer.show ();
-		}
-	}
-
 	public void after_fullscreen () {
 		var local_headerbar = headerbar;
 		toolbar_view.remove (headerbar);
 		headerbar.show_start_title_buttons = false;
 		headerbar.show_end_title_buttons = false;
+		back_to_browser_button.visible = false;
 		fullscreen_toolbar_revealer.child = headerbar;
 		fullscreen_state.save ();
 	}
@@ -132,10 +146,18 @@ public class Gth.Viewer : Gtk.Box {
 		toolbar_view.add_top_bar (headerbar);
 		headerbar.show_start_title_buttons = true;
 		headerbar.show_end_title_buttons = true;
+		back_to_browser_button.visible = true;
 		fullscreen_state.restore ();
 	}
 
-	public void on_motion (double x, double y) {
+	public void save_preferences () {
+		if (current_viewer != null) {
+			current_viewer.deactivate ();
+			current_viewer = null;
+		}
+	}
+
+	void on_motion (double x, double y) {
 		if (((last_x - x).abs () < MOTION_THRESHOLD)
 				|| ((last_y - y).abs () < MOTION_THRESHOLD))
 		{
@@ -145,6 +167,16 @@ public class Gth.Viewer : Gtk.Box {
 		last_y = y;
 		reveal_overlay_controls (true);
 		hide_overlay_after_timeout ();
+	}
+
+	bool on_scroll (double dx, double dy) {
+		if (dy < 0) {
+			window.browser.view_previous_file ();
+		}
+		else {
+			window.browser.view_next_file ();
+		}
+		return true;
 	}
 
 	public void on_actived_popup (bool active) {
@@ -163,12 +195,13 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public void set_file_position (uint position) {
-		file_position.label = "%u".printf (position + 1);
+	public void set_file_position (uint _position) {
+		position = (int) _position;
+		status.set_file_position (position);
 	}
 
 	public void set_list_info (uint files) {
-		total_files.label = " / %u".printf (files);
+		status.set_list_info (files);
 	}
 
 	void add_overlay_motion_controller (Gtk.Widget revealer) {
@@ -188,6 +221,7 @@ public class Gth.Viewer : Gtk.Box {
 		if (fullscreen_toolbar_revealer.child != null) {
 			fullscreen_toolbar_revealer.reveal_child = reveal;
 		}
+		statusbar_revealer.reveal_child = reveal;
 		foreach (unowned var revealer in overlay_controls) {
 			revealer.reveal_child = reveal;
 		}
@@ -215,6 +249,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	void init () {
 		current_file = null;
+		position = -1;
 
 		sidebar_resizer.add_handle (main_view, Gtk.PackType.START);
 		sidebar_resizer.started.connect ((obj) => {
@@ -243,6 +278,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	construct {
 		fullscreen_state = new FullscreenState (this);
+		add_overlay_motion_controller (statusbar_revealer);
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
@@ -254,11 +290,11 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] public unowned Gth.ViewerStatus status;
-	[GtkChild] unowned Gtk.Label total_files;
-	[GtkChild] unowned Gtk.Label file_position;
 	[GtkChild] unowned Adw.ToolbarView toolbar_view;
 	[GtkChild] unowned Gtk.Revealer fullscreen_toolbar_revealer;
+	[GtkChild] unowned Gtk.Revealer statusbar_revealer;
 	[GtkChild] unowned Adw.HeaderBar headerbar;
+	[GtkChild] unowned Gtk.Button back_to_browser_button;
 
 	weak Window _window;
 	bool active_popup = false;

@@ -413,21 +413,25 @@ public class Gth.Browser : Gtk.Box {
 		return false;
 	}
 
-	enum SelectFile {
+	public enum SelectFile {
 		DEFAULT,
 		SCROLL_TO_FILE
 	}
 
-	void select_file (File file, SelectFile flags = SelectFile.DEFAULT) {
+	public void select_file (File file, SelectFile flags = SelectFile.DEFAULT) {
 		var iter = visible_files.iterator ();
 		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
-		if (pos >= 0) {
-			if (SelectFile.SCROLL_TO_FILE in flags) {
-				file_grid.scroll_to ((uint) pos, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
-			}
-			else {
-				file_grid.model.select_item (pos, true);
-			}
+		select_position (pos, flags);
+	}
+
+	public void select_position (int position, SelectFile flags = SelectFile.DEFAULT) {
+		if (position < 0)
+			return;
+		if (SelectFile.SCROLL_TO_FILE in flags) {
+			file_grid.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
+		}
+		else {
+			file_grid.model.select_item ((uint) position, true);
 		}
 	}
 
@@ -671,6 +675,18 @@ public class Gth.Browser : Gtk.Box {
 			});
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("view-previous", null);
+		action.activate.connect ((_action, param) => {
+			view_previous_file ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("view-next", null);
+		action.activate.connect ((_action, param) => {
+			view_next_file ();
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {
@@ -870,10 +886,31 @@ public class Gth.Browser : Gtk.Box {
 
 	[GtkCallback]
 	void on_file_activate (uint position) {
+		view_position (position);
+	}
+
+	public bool view_position (uint position) {
 		var file = file_grid.model.get_item (position) as FileData;
-		if (file != null) {
-			window.viewer.set_file_position (position);
-			window.viewer.view_file (file);
+		if (file == null) {
+			return false;
+		}
+		window.viewer.set_file_position (position);
+		window.viewer.view_file (file);
+		return true;
+	}
+
+	public void view_previous_file () {
+		if (window.viewer.position > 0) {
+			view_position (window.viewer.position - 1);
+		}
+		else {
+			window.edge_reached ();
+		}
+	}
+
+	public void view_next_file () {
+		if (!view_position (window.viewer.position + 1)) {
+			window.edge_reached ();
 		}
 	}
 

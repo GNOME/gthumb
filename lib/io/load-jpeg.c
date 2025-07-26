@@ -514,8 +514,8 @@ stop_loading:
 		gboolean success = FALSE;
 		if (image != NULL) {
 			if (read_all_scanlines && !g_cancellable_is_cancelled (cancellable)) {
-				int original_width;
-				int original_height;
+				int natural_width;
+				int natural_height;
 
 				// Set the original dimensions.
 				if ((orientation == GTH_TRANSFORM_ROTATE_90)
@@ -523,15 +523,15 @@ stop_loading:
 					 || (orientation == GTH_TRANSFORM_TRANSPOSE)
 					 || (orientation == GTH_TRANSFORM_TRANSVERSE))
 				{
-					original_width = srcinfo.image_height;
-					original_height = srcinfo.image_width;
+					natural_width = srcinfo.image_height;
+					natural_height = srcinfo.image_width;
 				}
 				else {
-					original_width = srcinfo.image_width;
-					original_height = srcinfo.image_height;
+					natural_width = srcinfo.image_width;
+					natural_height = srcinfo.image_height;
 				}
 
-				gth_image_set_original_size (image, (guint) original_width, (guint) original_height);
+				gth_image_set_natural_size (image, (guint) natural_width, (guint) natural_height);
 				success = TRUE;
 			}
 			else {

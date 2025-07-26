@@ -32,6 +32,14 @@ const string STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE =
 const string EMBLEMS_ATTRIBUTE = "gth::file::emblems";
 const string VOLUME_ATTRIBUTE = "gth::volume";
 
+// Video types not matching 'video/*'
+const string[] Other_Video_Types = {
+	"application/ogg",
+	"application/x-matroska",
+	"application/vnd.ms-asf",
+	"application/vnd.rn-realmedia",
+};
+
 public struct Gth.SortInfo {
 	string id;
 	string display_name;
@@ -76,4 +84,31 @@ public enum Gth.SidebarState {
 public struct Gth.Sort {
 	string name;
 	bool inverse;
+}
+
+public enum Gth.ZoomType {
+	NATURAL_SIZE,
+	KEEP_PREVIOUS,
+	FIT_SIZE,
+	FIT_SIZE_IF_LARGER,
+	FIT_WIDTH,
+	FIT_WIDTH_IF_LARGER,
+	FIT_HEIGHT,
+	FIT_HEIGHT_IF_LARGER;
+
+	public bool fit_allocated_size () {
+		return this >= FIT_SIZE;
+	}
+}
+
+public enum Gth.ZoomQuality {
+	HIGH,
+	LOW;
+}
+
+public enum Gth.TransparencyStyle {
+	CHECKERED,
+	WHITE,
+	GRAY,
+	BLACK
 }

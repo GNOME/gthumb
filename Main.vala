@@ -5,6 +5,10 @@ int main (string[] args) {
 	Intl.bind_textdomain_codeset (Config.GETTEXT_PACKAGE, "UTF-8");
 	Intl.textdomain (Config.GETTEXT_PACKAGE);
 
+#if HAVE_GSTREAMER
+	Gst.init (ref args);
+#endif
+
 	app = new Gth.Application ();
 	var status = app.run (args);
 	if (app.restart) {

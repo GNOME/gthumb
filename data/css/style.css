@@ -36,7 +36,24 @@ popover.deeper > contents {
 }
 
 .statusbar {
-	padding: 6px 3px;
+	padding: 4px;
+}
+
+.statusbar.floating {
+	background: var(--headerbar-bg-color);
+	padding: 6px;
+	border-radius: 12px;
+	border: 1px solid #111;
+}
+
+.statusbar.osd {
+	padding: 6px;
+	border-radius: 12px;
+}
+
+.statusbar-section {
+	border-left: 1px solid var(--dimmed-border-color);
+	padding-left: 24px;
 }
 
 .sidebar-header,
@@ -46,7 +63,7 @@ popover.deeper > contents {
 
 .sidebar-header.right,
 .sidebar-footer.right {
-	padding: 6px 8px 6px 2px;
+	padding: 4px 4px 4px 0px;
 }
 
 .sidebar-header {
@@ -111,11 +128,6 @@ popover.deeper > contents {
 
 .right .mini-search-bar {
 	padding: 0;
-}
-
-.mediabar {
-	padding: 6px;
-	background: rgba(0, 0, 0, 0.8);
 }
 
 .time-scale {

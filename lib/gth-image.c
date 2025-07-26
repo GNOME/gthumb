@@ -118,6 +118,7 @@ GthImage * gth_image_new (guint width, guint height) {
 	g_return_val_if_fail (height > 0, NULL);
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
 	gth_image_init_pixels (image, width, height);
+	gth_image_set_natural_size (image, width, height);
 	return image;
 }
 
@@ -290,7 +291,7 @@ gboolean gth_image_get_has_alpha (GthImage *self, gboolean *has_alpha) {
 }
 
 
-void gth_image_set_original_size (GthImage *self, guint width, guint height) {
+void gth_image_set_natural_size (GthImage *self, guint width, guint height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_SIZE;
 	self->priv->original_width = width;
@@ -298,7 +299,7 @@ void gth_image_set_original_size (GthImage *self, guint width, guint height) {
 }
 
 
-gboolean gth_image_get_original_size (GthImage *self, guint *width, guint *height) {
+gboolean gth_image_get_natural_size (GthImage *self, guint *width, guint *height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) == 0)
 		return FALSE;
