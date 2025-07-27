@@ -16,9 +16,10 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="fullscreen_button">
                     <property name="icon-name">fullscreen-symbolic</property>
                     <property name="action-name">win.fullscreen</property>
+                    <property name="tooltip-text" translatable="yes">Fullscreen</property>
                   </object>
                 </child>
                 <child>
@@ -58,16 +59,9 @@
             <property name="sidebar_width_unit">px</property>
             <property name="sidebar_position">end</property>
             <property name="sidebar">
-              <object class="GthSidebarResizer" id="sidebar_resizer">
+              <object class="GtkStack" id="sidebar_stack">
                 <child>
-                  <object class="GtkStack" id="sidebar_stack">
-                    <child>
-                      <object class="GthPropertySidebar" id="property_sidebar">
-                        <style>
-                          <class name="right"/>
-                        </style>
-                      </object>
-                    </child>
+                  <object class="GthPropertySidebar" id="property_sidebar">
                   </object>
                 </child>
               </object>

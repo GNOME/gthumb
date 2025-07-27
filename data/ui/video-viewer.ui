@@ -24,6 +24,7 @@
         <property name="valign">center</property>
         <style>
           <class name="flat"/>
+          <class name="for_toolbar"/>
         </style>
         <child>
           <object class="GtkLabel" id="speed_label">
@@ -82,7 +83,7 @@
         <property name="margin-end">24</property>
         <child>
           <object class="GtkScale" id="position_scale">
-            <property name="width-request">180</property>
+            <property name="width-request">200</property>
             <property name="adjustment">position_adjustment</property>
             <property name="round-digits">1</property>
             <property name="draw-value">false</property>
@@ -115,6 +116,7 @@
         <property name="valign">center</property>
         <style>
           <class name="flat"/>
+          <class name="for_toolbar"/>
         </style>
         <child>
           <object class="GtkBox">
@@ -347,7 +349,7 @@
     </child>
     <child>
       <object class="GtkScale" id="volume_scale">
-        <property name="width-request">100</property>
+        <property name="width-request">120</property>
         <property name="adjustment">volume_adjustment</property>
         <property name="round-digits">1</property>
         <property name="draw-value">false</property>

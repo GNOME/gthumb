@@ -43,9 +43,10 @@ public class Gth.Viewer : Gtk.Box {
 			if (!(ViewFlags.KEEP_CURRENT_PAGE in flags)) {
 				window.set_page (Window.Page.VIEWER);
 			}
-			property_sidebar.file_data = window.browser.property_sidebar.file_data;
 			current_file = file;
+			property_sidebar.current_file = file;
 			update_title ();
+			update_sidebar ();
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);
@@ -58,6 +59,30 @@ public class Gth.Viewer : Gtk.Box {
 		if (local_job.error != null) {
 			throw local_job.error;
 		}
+	}
+
+	Gth.Job sidebar_job = null;
+
+	void update_sidebar () {
+		if (sidebar_job != null) {
+			sidebar_job.cancel ();
+		}
+		var local_job = window.new_job ("Load metadata for %s".printf (current_file.file.get_uri ()));
+		sidebar_job = local_job;
+		property_sidebar.load.begin (current_file, local_job.cancellable, (_obj, res) => {
+			try {
+				property_sidebar.load.end (res);
+			}
+			catch (Error error) {
+				stdout.printf ("ERROR: %s\n", error.message);
+			}
+			finally {
+				local_job.done ();
+				if (sidebar_job == local_job) {
+					sidebar_job = null;
+				}
+			}
+		});
 	}
 
 	public bool is_loading () {
@@ -137,6 +162,7 @@ public class Gth.Viewer : Gtk.Box {
 		headerbar.show_end_title_buttons = false;
 		back_to_browser_button.visible = false;
 		fullscreen_toolbar_revealer.child = headerbar;
+		fullscreen_button.set_icon_name ("unfullscreen-symbolic");
 		fullscreen_state.save ();
 	}
 
@@ -147,6 +173,7 @@ public class Gth.Viewer : Gtk.Box {
 		headerbar.show_start_title_buttons = true;
 		headerbar.show_end_title_buttons = true;
 		back_to_browser_button.visible = true;
+		fullscreen_button.set_icon_name ("fullscreen-symbolic");
 		fullscreen_state.restore ();
 	}
 
@@ -251,11 +278,11 @@ public class Gth.Viewer : Gtk.Box {
 		current_file = null;
 		position = -1;
 
-		sidebar_resizer.add_handle (main_view, Gtk.PackType.START);
-		sidebar_resizer.started.connect ((obj) => {
+		property_sidebar.resizer.add_handle (main_view, Gtk.PackType.START);
+		property_sidebar.resizer.started.connect ((obj) => {
 			window.active_resizer = obj;
 		});
-		sidebar_resizer.ended.connect (() => {
+		property_sidebar.resizer.ended.connect (() => {
 			window.active_resizer = null;
 		});
 
@@ -282,7 +309,6 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
-	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] public unowned Gtk.Overlay viewer_container;
 	[GtkChild] unowned Gtk.Box left_toolbar;
@@ -295,6 +321,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Revealer statusbar_revealer;
 	[GtkChild] unowned Adw.HeaderBar headerbar;
 	[GtkChild] unowned Gtk.Button back_to_browser_button;
+	[GtkChild] unowned Gtk.Button fullscreen_button;
 
 	weak Window _window;
 	bool active_popup = false;

@@ -131,11 +131,12 @@ public class Gth.FileSourceVfs : FileSource {
 	const int REMOTE_FILES_PER_REQUEST = 100;
 	const int LOCAL_FILES_PER_REQUEST = 1000;
 
-	public override async void foreach_child (File parent, ForEachFlags flags, string? attributes, Cancellable cancellable, ForEachChildFunc child_func) throws Error {
-		var required_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
-		var metadata_attributes_v = Util.extract_metadata_attributes (required_attributes);
-		var has_symbolic_icon = Util.attributes_match_all_patterns (FileAttribute.STANDARD_SYMBOLIC_ICON, required_attributes);
-		var parent_info = yield parent.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+	public override async void foreach_child (File parent, ForEachFlags flags, string attributes, Cancellable cancellable, ForEachChildFunc child_func) throws Error {
+		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
+		var metadata_attributes_v = Util.extract_metadata_attributes (all_attributes);
+		var has_symbolic_icon = Util.attributes_match_all_patterns (FileAttribute.STANDARD_SYMBOLIC_ICON, all_attributes);
+		var file_attributes = Util.extract_file_attributes (all_attributes);
+		var parent_info = yield parent.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
 		if (parent_info.get_file_type () != FileType.DIRECTORY)
 			throw new IOError.FAILED ("Not a directory");
 
@@ -155,7 +156,7 @@ public class Gth.FileSourceVfs : FileSource {
 				break;
 			}
 			var enumerator = yield folder_data.file.enumerate_children_async (
-				required_attributes,
+				file_attributes,
 				(ForEachFlags.FOLLOW_LINKS in flags) ? FileQueryInfoFlags.NONE : FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
 				Priority.DEFAULT,
 				cancellable);
@@ -205,16 +206,13 @@ public class Gth.FileSourceVfs : FileSource {
 		}
 	}
 
-	public override async Gth.FileData read_metadata (
-		File file,
-		string? requested_attributes,
-		Cancellable cancellable) throws Error
-	{
-		var attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
-		var info = yield file.query_info_async (attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+	public override async Gth.FileData read_metadata (File file, string requested_attributes, Cancellable cancellable) throws Error	{
+		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
+		var file_attributes = Util.extract_file_attributes (all_attributes);
+		var info = yield file.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
 		update_special_location_info (file, info);
 		var file_data = new Gth.FileData (file, info);
-		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);
+		var metadata_attributes_v = Util.extract_metadata_attributes (all_attributes);
 		read_metadata_attributes (file_data, metadata_attributes_v, cancellable);
 		return file_data;
 	}

@@ -46,11 +46,11 @@ public class Gth.Browser : Gtk.Box {
 			window.active_resizer = null;
 		});
 
-		second_sidebar_resizer.add_handle (content_view, Gtk.PackType.START);
-		second_sidebar_resizer.started.connect ((obj) => {
+		property_sidebar.resizer.add_handle (content_view, Gtk.PackType.START);
+		property_sidebar.resizer.started.connect ((obj) => {
 			window.active_resizer = obj;
 		});
-		second_sidebar_resizer.ended.connect (() => {
+		property_sidebar.resizer.ended.connect (() => {
 			window.active_resizer = null;
 		});
 
@@ -465,10 +465,9 @@ public class Gth.Browser : Gtk.Box {
 		status.set_selection_info (total_files, total_size);
 		if (total_files == 1) {
 			var local_job = window.new_job ("Load metadata for %s".printf (selected_file.file.get_uri ()));
-			var source = new FileSourceVfs ();
-			source.read_metadata.begin (selected_file.file, "*", local_job.cancellable, (obj, res) => {
+			property_sidebar.load.begin (selected_file, local_job.cancellable, (_obj, res) => {
 				try {
-					property_sidebar.file_data = source.read_metadata.end (res);
+					property_sidebar.load.end (res);
 				}
 				catch (Error error) {
 					stdout.printf ("ERROR: %s\n", error.message);
@@ -479,7 +478,7 @@ public class Gth.Browser : Gtk.Box {
 			});
 		}
 		else {
-			property_sidebar.file_data = null;
+			property_sidebar.current_file = null;
 		}
 	}
 
@@ -915,7 +914,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
-	[GtkChild] unowned Adw.OverlaySplitView content_view;
+	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
@@ -933,7 +932,6 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.MenuButton location_button;
 	[GtkChild] unowned Gth.ActionList location_actions;
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
-	[GtkChild] unowned Gth.SidebarResizer second_sidebar_resizer;
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
 	[GtkChild] unowned Gtk.Button update_search_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;

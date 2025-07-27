@@ -35,6 +35,7 @@
     <file preprocess="xml-stripblanks">one-symbolic.svg</file>
     <file preprocess="xml-stripblanks">options-symbolic.svg</file>
     <file preprocess="xml-stripblanks">fullscreen-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">unfullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">image-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">

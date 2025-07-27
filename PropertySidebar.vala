@@ -1,19 +1,10 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/property-sidebar.ui")]
 public class Gth.PropertySidebar : Gtk.Box {
-	public Gth.FileData file_data {
-		get { return _file_data; }
+	public Gth.FileData current_file {
+		get { return _file; }
 		set {
-			_file_data = value;
-			foreach (unowned var page in pages) {
-				if ((_file_data != null) && page.view.can_view (_file_data)) {
-					page.view.set_file (_file_data);
-					page.button.sensitive = true;
-				}
-				else {
-					page.view.set_file (null);
-					page.button.sensitive = false;
-				}
-			}
+			_file = value;
+			update_view ();
 		}
 	}
 
@@ -28,10 +19,30 @@ public class Gth.PropertySidebar : Gtk.Box {
 		}
 	}
 
+	public async void load (Gth.FileData file_data, Cancellable cancellable) throws Error {
+		var source = new FileSourceVfs ();
+		var result = yield source.read_metadata (file_data.file, "*", cancellable);
+		file_data.update_info (result.info);
+		current_file = file_data;
+	}
+
+	public void update_view () {
+		foreach (unowned var page in pages) {
+			if ((_file != null) && page.view.can_view (_file)) {
+				page.view.set_file (_file);
+				page.button.sensitive = true;
+			}
+			else {
+				page.view.set_file (null);
+				page.button.sensitive = false;
+			}
+		}
+	}
+
 	construct {
 		orientation = Gtk.Orientation.VERTICAL;
 		pages = new GenericArray<PageInfo?>();
-		_file_data = null;
+		_file = null;
 
 		var action_group = new SimpleActionGroup ();
 		insert_action_group ("sidebar", action_group);
@@ -77,6 +88,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 	[GtkChild] unowned Gtk.Box header;
 	[GtkChild] unowned Gtk.Stack stack;
 	[GtkChild] unowned Gtk.Box search_bar;
+	[GtkChild] public unowned Gth.SidebarResizer resizer;
 
 	struct PageInfo {
 		weak Gth.PropertyView view;
@@ -85,5 +97,5 @@ public class Gth.PropertySidebar : Gtk.Box {
 	}
 
 	GenericArray<PageInfo?> pages;
-	Gth.FileData _file_data;
+	Gth.FileData _file;
 }

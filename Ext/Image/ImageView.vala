@@ -70,7 +70,7 @@ public class Gth.ImageView : Gtk.Widget {
 		_image.get_natural_size (out natural_width, out natural_height);
 		switch (_zoom_type) {
 		case ZoomType.FIT_SIZE:
-			new_zoom = get_zoom_to_fit_surface (natural_width, natural_height, width, height);
+			new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width, height);
 			/*stdout.printf ("[%u,%u] in [%d,%d] -> %f\n",
 				natural_width, natural_height, width, height,
 				new_zoom);*/
@@ -78,7 +78,7 @@ public class Gth.ImageView : Gtk.Widget {
 
 		case ZoomType.FIT_SIZE_IF_LARGER:
 			if ((width < natural_width) || (height < natural_height)) {
-				new_zoom = get_zoom_to_fit_surface (natural_width, natural_height, width, height);
+				new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width, height);
 			}
 			else {
 				new_zoom = 1f;
@@ -86,12 +86,12 @@ public class Gth.ImageView : Gtk.Widget {
 			break;
 
 		case ZoomType.FIT_WIDTH:
-			new_zoom = get_zoom_to_fit_length (natural_width, width);
+			new_zoom = Util.get_zoom_to_fit_length (natural_width, width);
 			break;
 
 		case ZoomType.FIT_WIDTH_IF_LARGER:
 			if (width < natural_width) {
-				new_zoom = get_zoom_to_fit_length (natural_width, width);
+				new_zoom = Util.get_zoom_to_fit_length (natural_width, width);
 			}
 			else {
 				new_zoom = 1f;
@@ -99,12 +99,12 @@ public class Gth.ImageView : Gtk.Widget {
 			break;
 
 		case ZoomType.FIT_HEIGHT:
-			new_zoom = get_zoom_to_fit_length (natural_height, height);
+			new_zoom = Util.get_zoom_to_fit_length (natural_height, height);
 			break;
 
 		case ZoomType.FIT_HEIGHT_IF_LARGER:
 			if (height < natural_height) {
-				new_zoom = get_zoom_to_fit_length (natural_height, height);
+				new_zoom = Util.get_zoom_to_fit_length (natural_height, height);
 			}
 			else {
 				new_zoom = 1f;
@@ -115,20 +115,6 @@ public class Gth.ImageView : Gtk.Widget {
 			break;
 		}
 		return new_zoom;
-	}
-
-	float get_zoom_to_fit_surface (uint natural_width, uint natural_height, int max_width, int max_height) {
-		if (natural_width == 0)
-			return 1f;
-		if (natural_height == 0)
-			return 1f;
-		var x_ratio = (float) max_width / natural_width;
-		var y_ratio = (float) max_height / natural_height;
-		return (x_ratio < y_ratio) ? x_ratio : y_ratio;
-	}
-
-	inline float get_zoom_to_fit_length (uint natural, int max) {
-		return (natural > 0) ? (float) max / natural : 1f;
 	}
 
 	inline void set_zoom_centered (float new_zoom) {
@@ -149,8 +135,8 @@ public class Gth.ImageView : Gtk.Widget {
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 		image_box = { {
-				center_content (viewport.size.width, zoomed_width),
-				center_content (viewport.size.height, zoomed_height)
+				Util.center_content (viewport.size.width, zoomed_width),
+				Util.center_content (viewport.size.height, zoomed_height)
 			}, {
 				zoomed_width,
 				zoomed_height
@@ -165,8 +151,8 @@ public class Gth.ImageView : Gtk.Widget {
 		var texture_height = (uint) zoomed_height;
 		Lib.scale_keeping_ratio (ref texture_width, ref texture_height, (uint) viewport.size.width, (uint) viewport.size.height);
 		texture_box = { {
-				center_content (viewport.size.width, texture_width),
-				center_content (viewport.size.height, texture_height)
+				Util.center_content (viewport.size.width, texture_width),
+				Util.center_content (viewport.size.height, texture_height)
 			}, {
 				texture_width,
 				texture_height
@@ -189,10 +175,6 @@ public class Gth.ImageView : Gtk.Widget {
 				fit_height ? natural_height : (viewport.size.height / _zoom).clamp (0, natural_height),
 			}
 		};
-	}
-
-	inline float center_content (float container_size, float content_size) {
-		return float.max ((container_size - content_size) / 2, 0);
 	}
 
 	void get_zoomed_size_for_zoom (float zoom_level, out float width, out float height) {

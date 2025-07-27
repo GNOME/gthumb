@@ -202,6 +202,10 @@ public class Gth.Util {
 		}
 	}
 
+	public static string extract_file_attributes (string attributes) {
+		return (attributes == "*") ? STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : attributes;
+	}
+
 	public static string concat_attributes (string? attributes, string? other_attributes) {
 		if ((attributes == "*") || (other_attributes == "*"))
 			return "*";
@@ -505,5 +509,23 @@ public class Gth.Util {
 			rect.size.width,
 			rect.size.height
 		);
+	}
+
+	public static float get_zoom_to_fit_surface (uint natural_width, uint natural_height, int max_width, int max_height) {
+		if (natural_width == 0)
+			return 1f;
+		if (natural_height == 0)
+			return 1f;
+		var x_ratio = (float) max_width / natural_width;
+		var y_ratio = (float) max_height / natural_height;
+		return (x_ratio < y_ratio) ? x_ratio : y_ratio;
+	}
+
+	public static inline float get_zoom_to_fit_length (uint natural, int max) {
+		return (natural > 0) ? (float) max / natural : 1f;
+	}
+
+	public static inline float center_content (float container_size, float content_size) {
+		return float.max ((container_size - content_size) / 2, 0);
 	}
 }

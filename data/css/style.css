@@ -43,7 +43,6 @@ popover.deeper > contents {
 	background: var(--headerbar-bg-color);
 	padding: 6px;
 	border-radius: 12px;
-	border: 1px solid #111;
 }
 
 .statusbar.osd {
@@ -58,12 +57,7 @@ popover.deeper > contents {
 
 .sidebar-header,
 .sidebar-footer {
-	padding: 6px 2px 6px 8px;
-}
-
-.sidebar-header.right,
-.sidebar-footer.right {
-	padding: 4px 4px 4px 0px;
+	padding: 10px 8px;
 }
 
 .sidebar-header {
@@ -80,8 +74,8 @@ popover.deeper > contents {
 	font-size: 0.9em;
 }
 
-.property-sidebar.right {
-	padding: 0 18px 18px 12px;
+.property-sidebar {
+	padding: 0 12px 12px 6px;
 }
 
 .property-widget {
@@ -124,9 +118,6 @@ popover.deeper > contents {
 
 .mini-search-bar {
 	font-size: 0.9em;
-}
-
-.right .mini-search-bar {
 	padding: 0;
 }
 
@@ -136,4 +127,8 @@ popover.deeper > contents {
 
 popover.button-list button {
 	font-weight: normal;
+}
+
+.popup.for_toolbar > button {
+	padding: 1px 12px;
 }

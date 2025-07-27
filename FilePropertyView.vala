@@ -120,7 +120,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		actions.set ("gth::file::location", new Action ("property.open-folder", "folder-symbolic", _("Open")));
 		actions.set ("Embedded::Photo::Coordinates", new Action ("property.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
 		actions.set ("gth::file::display-size", new Action.with_details ("gth::file::size"));
-		actions.set ("gth::file::content-type", new Action.with_details ("standard::fast-content-type"));
+		actions.set ("gth::file::content-type", new Action.with_details ("standard::content-type,standard::fast-content-type"));
 
 		property_list = new GenericList<Property> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
@@ -153,7 +153,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			var property_item = list_item.child as FilePropertyItem;
 			property_item.title.label = property.name;
 			property_item.subtitle.label = property.value;
-			property_item.subtitle.natural_wrap_mode = (property.id == "general::description") ? Gtk.NaturalWrapMode.WORD : Gtk.NaturalWrapMode.NONE;
+			//property_item.subtitle.wrap_mode = (property.id == "general::description") ? Pango.WrapMode.WORD_CHAR : Pango.WrapMode.CHAR;
 			property_item.property = property;
 			property_item.description.visible = false;
 			var action_info = actions.get (property.id);
@@ -280,7 +280,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		var action_info = actions.get (item.property.id);
 		if (action_info != null) {
 			if (action_info.type == Action.Type.DETAILS) {
-				has_details = file_data.info.has_attribute (action_info.details_attribute);
+				has_details = file_data.has_attribute (action_info.details_attribute);
 			}
 		}
 		Util.enable_action (action_group, "copy-details", has_details);

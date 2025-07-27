@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GthPropertySidebar">
-    <property name="hexpand">true</property>
     <child>
       <object class="AdwToolbarView">
         <property name="content">
-          <object class="GtkStack" id="stack">
-            <property name="vexpand">true</property>
+          <object class="GthSidebarResizer" id="resizer">
+            <child>
+              <object class="GtkStack" id="stack">
+                <property name="vexpand">true</property>
+              </object>
+            </child>
           </object>
         </property>
         <child type="bottom">
@@ -15,7 +18,6 @@
             <property name="spacing">6</property>
             <style>
               <class name="toolbar"/>
-              <class name="right"/>
               <class name="sidebar-footer"/>
             </style>
             <child>

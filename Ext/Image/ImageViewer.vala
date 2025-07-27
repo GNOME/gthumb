@@ -20,6 +20,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		load_job = local_job;
 		try {
 			image_view.image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
+			file_data.set_content_type (image_view.image.get_attribute ("content-type"));
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);
@@ -36,7 +37,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	public void deactivate () {
 		window.viewer.viewer_container.remove_css_class ("image-view");
-		//window.insert_action_group ("image", null);
+		window.insert_action_group ("image", null);
 	}
 
 	public void show () {

@@ -35,6 +35,20 @@ public class Gth.FileData : Object {
 		sort_key = null;
 	}
 
+	public void update_info (FileInfo _info) {
+		// Keep the STANDARD_CONTENT_TYPE if not included in the new info.
+		string content_type = null;
+		if (!_info.has_attribute (FileAttribute.STANDARD_CONTENT_TYPE)) {
+			content_type = info.get_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE);
+		}
+		info = _info;
+		if (content_type != null) {
+			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
+			info.set_attribute_string ("gth::file::content-type", Util.format_content_type (content_type));
+		}
+		info_changed ();
+	}
+
 	string sort_key = null;
 
 	public unowned string get_filename_sort_key () {
@@ -46,6 +60,7 @@ public class Gth.FileData : Object {
 	}
 
 	public void info_changed () {
+		// Invalidate cached data.
 		mtime = null;
 		ctime = null;
 		dtime = null;
@@ -171,7 +186,32 @@ public class Gth.FileData : Object {
 		return embedded_rating;
 	}
 
-	public string get_attribute_as_string (string id) {
+	string get_first_available_attribute (string id_list) {
+		if (info.has_attribute (id_list)) {
+			return id_list;
+		}
+		if (id_list.index_of_char (',') < 0) {
+			return null;
+		}
+		var list = id_list.split (",");
+		foreach (unowned var id in list) {
+			if (info.has_attribute (id)) {
+				return id;
+			}
+		}
+		return null;
+	}
+
+	public bool has_attribute (string id_list) {
+		var id = get_first_available_attribute (id_list);
+		return id != null;
+	}
+
+	public string get_attribute_as_string (string id_list) {
+		var id = get_first_available_attribute (id_list);
+		if (id == null) {
+			return null;
+		}
 		string value = null;
 		if (info.get_attribute_type (id) == FileAttributeType.OBJECT) {
 			var obj = info.get_attribute_object (id);
@@ -215,6 +255,11 @@ public class Gth.FileData : Object {
 
 	public bool is_readable () {
 		return info.get_attribute_boolean (FileAttribute.ACCESS_CAN_READ);
+	}
+
+	public void set_content_type (string type) {
+		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, type);
+		app.monitor.metadata_changed (this);
 	}
 
 	public unowned string get_content_type () {

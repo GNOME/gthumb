@@ -92,18 +92,34 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void set_page (Page page) {
 		if (page == current_page)
 			return;
+		var previuos_page = current_page;
 		current_page = page;
 		switch (current_page) {
 		case Page.BROWSER:
-			viewer.before_close_page ();
-			if (viewer.position >= 0)
-				browser.select_position (viewer.position);
-			else if (viewer.current_file != null)
-				browser.select_file (viewer.current_file.file);
+			if (previuos_page == Page.VIEWER) {
+				if (viewer.main_view.show_sidebar) {
+					browser.content_view.max_sidebar_width = viewer.main_view.max_sidebar_width;
+				}
+				viewer.before_close_page ();
+				if ((viewer.current_file != null) && viewer.current_file.file.equal (browser.property_sidebar.current_file.file)) {
+					browser.property_sidebar.update_view ();
+				}
+				else if (viewer.position >= 0) {
+					browser.select_position (viewer.position);
+				}
+				else if (viewer.current_file != null) {
+					browser.select_file (viewer.current_file.file);
+				}
+			}
 			stack.set_visible_child (browser);
 			browser.update_title ();
 			break;
 		case Page.VIEWER:
+			if (previuos_page == Page.BROWSER) {
+				if (browser.content_view.show_sidebar) {
+					viewer.main_view.max_sidebar_width = browser.content_view.max_sidebar_width;
+				}
+			}
 			stack.set_visible_child (viewer);
 			viewer.update_title ();
 			break;
