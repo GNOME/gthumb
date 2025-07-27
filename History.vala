@@ -24,6 +24,15 @@ class Gth.History {
 		}
 	}
 
+	public void copy (History other) {
+		files.length = 0;
+		foreach (unowned var file in other.files) {
+			files.add (file);
+		}
+		set_current (0);
+		update_menu ();
+	}
+
 	public void update_menu () {
 		actions.remove_all_actions ();
 

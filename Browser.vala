@@ -146,10 +146,23 @@ public class Gth.Browser : Gtk.Box {
 	public void first_load (File location, File? file_to_select) {
 		filter_bar.set_active_filter (active_filter);
 		if (app.one_window ()) {
+			// Restore the last saved history.
 			history.restore_from_file ();
+		}
+		else {
+			// Copy the previously focused window history.
+			unowned var windows = app.get_windows ();
+			foreach (unowned var w in windows) {
+				if ((w != window) && (w is Gth.Window)) {
+					var previous_window = w as Gth.Window;
+					history.copy (previous_window.browser.history);
+					break;
+				}
+			}
 		}
 		app.bookmarks.load_from_file.begin ((_obj, res) => {
 			app.bookmarks.load_from_file.end (res);
+			update_bookmarks_menu ();
 			open_location (location, LoadAction.OPEN, file_to_select);
 		});
 	}
