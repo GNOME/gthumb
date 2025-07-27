@@ -3,10 +3,8 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		get { return _zoom_to_fit; }
 		set {
 			_zoom_to_fit = value;
-			if (picture != null) {
-				var align = _zoom_to_fit ? Gtk.Align.FILL : Gtk.Align.CENTER;
-				picture.halign = align;
-				picture.valign = align;
+			if (video_view != null) {
+				video_view.zoom_type = _zoom_to_fit ? ZoomType.FIT_SIZE : ZoomType.FIT_SIZE_IF_LARGER;
 			}
 		}
 	}
@@ -36,14 +34,13 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 	public void activate (Gth.Window _window) {
 		assert (window == null);
-		assert (picture == null);
+		assert (video_view == null);
 
 		window = _window;
-		picture = new Gtk.Picture ();
-		picture.halign = Gtk.Align.CENTER;
-		picture.valign = Gtk.Align.CENTER;
+		video_view = new Gth.VideoView ();
+		video_view.resized.connect (() => update_zoom_info ());
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
-		window.viewer.set_viewer_widget (picture);
+		window.viewer.set_viewer_widget (video_view);
 		window.viewer.viewer_container.add_css_class ("video-view");
 		window.viewer.set_statusbar_maximized (true);
 		init_actions ();
@@ -60,7 +57,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		click_events.pressed.connect ((n_press, x, y) => {
 			playing = !playing;
 		});
-		picture.add_controller (click_events);
+		video_view.add_controller (click_events);
 
 		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
 		menu_button.notify["active"].connect ((obj, spec) => {
@@ -203,7 +200,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 				Gdk.Paintable sink_paintable;
 				gtksink.get ("paintable", out sink_paintable);
-				picture.set_paintable (sink_paintable);
+				video_view.set_paintable (sink_paintable);
 			}
 		}
 
@@ -696,14 +693,11 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	void update_zoom_info () {
 		if (!has_video || (video_width == 0) || (video_height == 0)) {
 			window.viewer.status.set_zoom_info (0);
+			window.viewer.status.set_pixel_info (0, 0);
 		}
 		else {
-			window.viewer.status.set_zoom_info (0);
-			//int view_width, view_height;
-			//view.get_size (out view_width, out view_height);
-			//var zoom = (view_width > 0) ? ((double) view_width / video_width) : 0.0;
-			//window.viewer.status.set_pixel_info (width, height);
-			//window.viewer.status.set_zoom_info (zoom);
+			window.viewer.status.set_zoom_info (video_view.zoom);
+			window.viewer.status.set_pixel_info (video_width, video_height);
 		}
 	}
 
@@ -721,7 +715,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		settings = new GLib.Settings (GTHUMB_VIDEO_SCHEMA);
 		window = null;
 		playbin = null;
-		picture = null;
+		video_view = null;
 		_zoom_to_fit = true;
 		rate = 1.0;
 		loop = false;
@@ -732,7 +726,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	GLib.Settings settings;
 	weak Gth.Window window;
 	Gst.Pipeline playbin;
-	Gtk.Picture picture;
+	Gth.VideoView video_view;
 	bool _zoom_to_fit;
 	bool _playing;
 	Gtk.Builder builder;
