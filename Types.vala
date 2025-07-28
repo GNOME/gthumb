@@ -111,3 +111,8 @@ public enum Gth.TransparencyStyle {
 	GRAY,
 	BLACK
 }
+
+public struct Gth.ClickPoint {
+	double x;
+	double y;
+}

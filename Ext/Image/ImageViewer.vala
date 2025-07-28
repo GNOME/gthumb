@@ -25,8 +25,42 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		unowned var zoom_popover = builder.get_object ("zoom_popover") as Gtk.PopoverMenu;
 		zoom_popover.add_child (zoom_scale, "scale");
 
-
 		image_view.resized.connect (() => update_zoom_info ());
+
+		var click_events = new Gtk.GestureClick ();
+		click_events.button = Gdk.BUTTON_PRIMARY;
+		click_events.pressed.connect ((n_press, x, y) => {
+			//stdout.printf ("> PRESSED %f,%f\n", x, y);
+			clicking = true;
+			dragging = false;
+			drag_start = { x, y };
+		});
+		click_events.released.connect ((n_press, x, y) => {
+			//stdout.printf ("> RELEASED\n");
+			clicking = false;
+			dragging = false;
+		});
+		image_view.add_controller (click_events);
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			if (!dragging && clicking) {
+				var dx = (drag_start.x - x).abs ();
+				var dy = (drag_start.y - y).abs ();
+				//stdout.printf ("delta: %f,%f\n", dx, dy);
+				if ((dx >= DRAG_THRESHOLD) || (dy >= DRAG_THRESHOLD)) {
+					dragging = true;
+				}
+			}
+			if (dragging) {
+				var dx = (float) (drag_start.x - x);
+				var dy = (float) (drag_start.y - y);
+				//stdout.printf ("scroll_by: %f,%f\n", dx, dy);
+				image_view.scroll_by (dx, dy);
+				drag_start = { x, y };
+			}
+		});
+		image_view.add_controller (motion_events);
 	}
 
 	public async void load (FileData file_data) throws Error {
@@ -203,6 +237,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window = null;
 		builder = null;
 		load_job = null;
+		dragging = false;
+		clicking = false;
 	}
 
 	weak Gth.Window window;
@@ -212,9 +248,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	Gth.ImageView image_view;
 	ulong zoom_adj_changed_id;
 	SimpleActionGroup action_group;
+	bool dragging;
+	bool clicking;
+	ClickPoint drag_start;
 
 	const float ZOOM_MIN = 0.05f;
 	const float ZOOM_MAX = 10f;
 	const float ZOOM_ADJ_MIN = 0f;
 	const float ZOOM_ADJ_MAX = 100f;
+	const double DRAG_THRESHOLD = 1;
 }
