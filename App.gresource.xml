@@ -37,6 +37,10 @@
     <file preprocess="xml-stripblanks">fullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">unfullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">image-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">view-zoom-original-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">view-zoom-fit-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">view-zoom-in-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">zoom-menu-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -82,5 +86,6 @@
     <file preprocess="xml-stripblanks">png-preferences.ui</file>
     <file preprocess="xml-stripblanks">jpeg-preferences.ui</file>
     <file preprocess="xml-stripblanks">preferences-video-page.ui</file>
+    <file preprocess="xml-stripblanks">image-viewer.ui</file>
   </gresource>
 </gresources>

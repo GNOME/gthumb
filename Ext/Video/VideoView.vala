@@ -57,7 +57,7 @@ public class Gth.VideoView : Gtk.Widget {
 		var zoom = 1.0f;
 		var natural_width = paintable.get_intrinsic_width ();
 		var natural_height = paintable.get_intrinsic_height ();
-		if (_zoom_type == ZoomType.FIT_SIZE_IF_LARGER) {
+		if (_zoom_type == ZoomType.MAXIMIZE_IF_LARGER) {
 			if ((width < natural_width) || (height < natural_height)) {
 				zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width, height);
 			}
@@ -94,7 +94,7 @@ public class Gth.VideoView : Gtk.Widget {
 		invalidate_contents_id = 0;
 		invalidate_size_id = 0;
 		_zoom = 1f;
-		_zoom_type = ZoomType.FIT_SIZE_IF_LARGER;
+		_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 	}
 
 	~VideoView() {

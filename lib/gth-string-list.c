@@ -118,9 +118,13 @@ gth_string_list_join (GthStringList *list,
 
 	str = g_string_new ("");
 	for (scan = list->priv->list; scan; scan = scan->next) {
-		if (scan != list->priv->list)
+		if (scan != list->priv->list) {
 			g_string_append (str, separator);
-		g_string_append (str, (char *) scan->data);
+		}
+		const char *value = (char *) scan->data;
+		if (value != NULL) {
+			g_string_append (str, value);
+		}
 	}
 
 	return g_string_free (str, FALSE);

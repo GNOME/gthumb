@@ -4,7 +4,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		set {
 			_zoom_to_fit = value;
 			if (video_view != null) {
-				video_view.zoom_type = _zoom_to_fit ? ZoomType.FIT_SIZE : ZoomType.FIT_SIZE_IF_LARGER;
+				video_view.zoom_type = _zoom_to_fit ? ZoomType.MAXIMIZE : ZoomType.MAXIMIZE_IF_LARGER;
 			}
 		}
 	}
@@ -46,8 +46,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		init_actions ();
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/video-viewer.ui");
-		//mediabar_revealer = builder.get_object ("mediabar_revealer") as Gtk.Revealer;
-		//window.viewer.add_viewer_overlay (mediabar_revealer);
 		window.viewer.status.set_tools (builder.get_object ("mediabar") as Gtk.Widget);
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 		update_rate_label ();
@@ -169,9 +167,11 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	void create_playbin () {
 		assert (playbin == null);
 
+		double volume;
+		var mute = get_mute_from_settings (out volume);
 		playbin = Gst.ElementFactory.make_full ("playbin",
-			"volume", (double) settings.get_int (PREF_VIDEO_VOLUME) / 100.0,
-			"mute", settings.get_boolean (PREF_VIDEO_MUTE),
+			"volume", volume,
+			"mute", mute,
 			"force-aspect-ratio", true) as Gst.Pipeline;
 
 		// TODO: check if playbin is null
@@ -578,21 +578,31 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("mute", null, new Variant.boolean (false));
+		action = new SimpleAction.stateful ("mute", null, new Variant.boolean (get_mute_from_settings ()));
 		action.activate.connect ((action, param) => {
-			if (playbin != null) {
-				double volume;
-				bool mute;
-				playbin.get ("volume", out volume, "mute", out mute);
-				mute = !mute;
-				//if (!mute && (volume == 0)) {
-				//	volume = 1.0;
-				//}
-				playbin.set ("mute", mute, "volume", volume);
-				action.set_state (new Variant.boolean (mute));
-			}
+			action.set_state (new Variant.boolean (toggle_mute ()));
 		});
 		action_group.add_action (action);
+	}
+
+	bool toggle_mute () {
+		if (playbin == null) {
+			return false;
+		}
+		double volume;
+		bool mute;
+		playbin.get ("volume", out volume, "mute", out mute);
+		mute = !mute;
+		if (!mute && (volume == 0)) {
+			volume = 1.0;
+		}
+		playbin.set ("mute", mute, "volume", volume);
+		return mute;
+	}
+
+	bool get_mute_from_settings (out double volume = null) {
+		volume = (double) settings.get_int (PREF_VIDEO_VOLUME) / 100.0;
+		return (volume == 0) || settings.get_boolean (PREF_VIDEO_MUTE);
 	}
 
 	async void save_screenshot (Cancellable cancellable) throws Error {

@@ -238,13 +238,40 @@ GdkTexture * gth_image_get_texture (GthImage *self) {
 }
 
 
-GdkTexture * gth_image_get_texture_from_point (GthImage *self, guint x, guint y) {
+GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, guint width, guint height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
-	gsize offset = (y * self->priv->row_stride) + x;
-	GBytes* bytes = g_bytes_new_from_bytes (self->priv->bytes, offset, g_bytes_get_size (self->priv->bytes) - offset);
+
+	// Check x and width
+	if (width == 0) {
+		return NULL;
+	}
+	if (x >= self->priv->width) {
+		return NULL;
+	}
+	guint max_width = self->priv->width - x;
+	width = CLAMP (width, 0, max_width);
+
+	// Check y and height
+	if (height == 0) {
+		return NULL;
+	}
+	if (y >= self->priv->height) {
+		return NULL;
+	}
+	guint max_height = self->priv->height - y;
+	height = CLAMP (height, 0, max_height);
+
+	gsize start_offset = (y * self->priv->row_stride) + (x * PIXEL_BYTES);
+	gsize end_offset = ((y + height - 1) * self->priv->row_stride) + ((x + width) * PIXEL_BYTES);
+	GBytes* bytes = g_bytes_new_from_bytes (self->priv->bytes,
+		start_offset,
+		end_offset - start_offset);
+	//g_print ("> Image: [%u,%u] (stride: %d)\n", self->priv->width, self->priv->height, self->priv->row_stride);
+	//g_print ("> Rect: (%u,%u)[%u,%u]\n", x, y, width, height);
+	//g_print ("  Bytes: [%ld -> %ld] (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (self->priv->bytes));
 	return gdk_memory_texture_new (
-		self->priv->width,
-		self->priv->height,
+		(int) width,
+		(int) height,
 		GTH_IMAGE_MEMORY_FORMAT,
 		bytes,
 		(gsize) self->priv->row_stride);

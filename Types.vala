@@ -89,15 +89,14 @@ public struct Gth.Sort {
 public enum Gth.ZoomType {
 	NATURAL_SIZE,
 	KEEP_PREVIOUS,
-	FIT_SIZE,
-	FIT_SIZE_IF_LARGER,
-	FIT_WIDTH,
-	FIT_WIDTH_IF_LARGER,
-	FIT_HEIGHT,
-	FIT_HEIGHT_IF_LARGER;
+	MAXIMIZE,
+	MAXIMIZE_IF_LARGER,
+	MAXIMIZE_WIDTH,
+	MAXIMIZE_HEIGHT,
+	FILL_SPACE;
 
-	public bool fit_allocated_size () {
-		return this >= FIT_SIZE;
+	public bool fit_to_allocation () {
+		return this >= MAXIMIZE;
 	}
 }
 

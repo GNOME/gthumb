@@ -23,7 +23,7 @@ namespace Gth {
 		public virtual bool get_can_scale ();
 		public virtual Image scale (double factor);
 		public Gdk.Texture get_texture ();
-		public Gdk.Texture get_texture_from_point (uint x, uint y);
+		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);

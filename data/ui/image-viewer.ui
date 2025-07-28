@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkBox" id="left_toolbar">
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkBox">
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkToggleButton">
+            <property name="tooltip-text" translatable="yes">Set to actual size</property>
+            <property name="icon-name">view-zoom-original-symbolic</property>
+            <property name="action-name">image.zoom-100</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkToggleButton">
+            <property name="tooltip-text" translatable="yes">Fit to window if larger</property>
+            <property name="icon-name">view-zoom-fit-symbolic</property>
+            <property name="action-name">image.zoom-fit-if-larger</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuButton" id="zoom_button">
+            <property name="direction">down</property>
+            <property name="icon-name">zoom-menu-symbolic</property>
+            <style>
+              <class name="flat"/>
+            </style>
+            <property name="popover">
+              <object class="GtkPopoverMenu" id="zoom_popover">
+                <property name="menu-model">zoom_menu</property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="zoom_adjustment">
+    <property name="lower">0</property>
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+    <property name="value">1</property>
+  </object>
+  <object class="GtkScale" id="zoom_scale">
+    <property name="draw-value">false</property>
+    <property name="has-origin">false</property>
+    <property name="adjustment">zoom_adjustment</property>
+    <property name="round-digits">0</property>
+    <property name="restrict-to-fill-level">false</property>
+    <property name="hexpand">true</property>
+    <property name="halign">fill</property>
+  </object>
+  <menu id="zoom_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Automatic</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">automatic</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Maximize Size</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">max-size</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Fill Space</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">fill-space</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Maximize Width</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">max-width</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Maximize Height</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">max-height</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">50%</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">50</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">100%</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">100</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">200%</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">200</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">300%</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">300</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="custom">scale</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

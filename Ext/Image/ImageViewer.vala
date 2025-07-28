@@ -7,7 +7,24 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window.viewer.viewer_container.add_css_class ("image-view");
 		window.viewer.set_statusbar_maximized (false);
 		init_actions ();
-		//builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
+		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
+
+		var zoom_button = builder.get_object ("zoom_button") as Gtk.Widget;
+		zoom_button.remove_css_class ("popup");
+
+		unowned var adj = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
+		zoom_adj_changed_id = adj.value_changed.connect ((local_adj) => {
+			var x = local_adj.get_value ();
+			x = (adj_to_zoom (x) - adj_to_zoom (ZOOM_ADJ_MIN)) / (adj_to_zoom (ZOOM_ADJ_MAX) - adj_to_zoom (ZOOM_ADJ_MIN));
+			var zoom = ZOOM_MIN + (x * (ZOOM_MAX - ZOOM_MIN));
+			image_view.zoom = (float) zoom.clamp (ZOOM_MIN, ZOOM_MAX);
+		});
+
+		unowned var zoom_scale = builder.get_object ("zoom_scale") as Gtk.Widget;
+		unowned var zoom_popover = builder.get_object ("zoom_popover") as Gtk.PopoverMenu;
+		zoom_popover.add_child (zoom_scale, "scale");
+
 
 		image_view.resized.connect (() => update_zoom_info ());
 	}
@@ -47,38 +64,157 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	void init_actions () {
-		var action_group = new SimpleActionGroup ();
+		action_group = new SimpleActionGroup ();
 		window.insert_action_group ("image", action_group);
 
-		//var action = new SimpleAction ("zoom-fit", null);
-		//action.activate.connect ((_action, param) => {
-		//});
-		//action_group.add_action (action);
+		var action = new SimpleAction.stateful ("zoom-100", null, new Variant.boolean (false));
+		action.activate.connect ((action, param) => {
+			image_view.zoom_type = ZoomType.NATURAL_SIZE;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("zoom-fit-if-larger", null, new Variant.boolean (false));
+		action.activate.connect ((_action, param) => {
+			image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-zoom", VariantType.STRING, new Variant.string (""));
+		action.activate.connect ((action, param) => {
+			unowned var value = param.get_string ();
+			action.set_state (new Variant.string (value));
+			switch (value) {
+			case "automatic":
+				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+				break;
+			case "max-size":
+				image_view.zoom_type = ZoomType.MAXIMIZE;
+				break;
+			case "max-width":
+				image_view.zoom_type = ZoomType.MAXIMIZE_WIDTH;
+				break;
+			case "max-height":
+				image_view.zoom_type = ZoomType.MAXIMIZE_HEIGHT;
+				break;
+			case "fill-space":
+				image_view.zoom_type = ZoomType.FILL_SPACE;
+				break;
+			case "50":
+				image_view.zoom = 0.5f;
+				break;
+			case "100":
+				image_view.zoom = 1f;
+				break;
+			case "200":
+				image_view.zoom = 2f;
+				break;
+			case "300":
+				image_view.zoom = 3f;
+				break;
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	void update_zoom_info () {
-		if (image_view.image != null) {
-			uint width, height;
-			image_view.image.get_natural_size (out width, out height);
-			window.viewer.status.set_pixel_info (width, height);
-			window.viewer.status.set_zoom_info (image_view.zoom);
-		}
-		else {
+		if (image_view.image == null) {
 			window.viewer.status.set_pixel_info (0, 0);
 			window.viewer.status.set_zoom_info (0);
+			return;
 		}
+
+		// Update the statusbar.
+		uint width, height;
+		image_view.image.get_natural_size (out width, out height);
+		window.viewer.status.set_pixel_info (width, height);
+		window.viewer.status.set_zoom_info (image_view.zoom);
+
+		// Update the 'set-zoom' action state.
+		var action = action_group.lookup_action ("set-zoom") as SimpleAction;
+		if (action != null) {
+			var state = "";
+			switch (image_view.zoom_type) {
+			case ZoomType.MAXIMIZE_IF_LARGER:
+				state = "automatic";
+				break;
+			case ZoomType.MAXIMIZE:
+				state = "max-size";
+				break;
+			case ZoomType.MAXIMIZE_WIDTH:
+				state = "max-width";
+				break;
+			case ZoomType.MAXIMIZE_HEIGHT:
+				state = "max-height";
+				break;
+			case ZoomType.FILL_SPACE:
+				state = "fill-space";
+				break;
+			default:
+				if (image_view.zoom == 0.5f) {
+					state = "50";
+				}
+				else if (image_view.zoom == 1f) {
+					state = "100";
+				}
+				else if (image_view.zoom == 2f) {
+					state = "200";
+				}
+				else if (image_view.zoom == 3f) {
+					state = "300";
+				}
+				break;
+			}
+			action.set_state (new Variant.string (state));
+		}
+
+		action = action_group.lookup_action ("zoom-100") as SimpleAction;
+		if (action != null) {
+			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.NATURAL_SIZE));
+		}
+
+		action = action_group.lookup_action ("zoom-fit-if-larger") as SimpleAction;
+		if (action != null) {
+			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.MAXIMIZE_IF_LARGER));
+		}
+
+		// Update the zoom adjustment.
+		unowned var adj = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
+		SignalHandler.block (adj, zoom_adj_changed_id);
+		var x = ((double) image_view.zoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
+		x = x * (adj_to_zoom (ZOOM_ADJ_MAX) - adj_to_zoom (ZOOM_ADJ_MIN)) + adj_to_zoom (ZOOM_ADJ_MIN);
+		x = zoom_to_adj (x);
+		x = x.clamp (ZOOM_ADJ_MIN, ZOOM_ADJ_MAX);
+		adj.set_value (x);
+		SignalHandler.unblock (adj, zoom_adj_changed_id);
+
+		window.viewer.reveal_overlay_controls ();
+	}
+
+	inline double adj_to_zoom (double x) {
+		return Math.exp (x / 15 - Math.E);
+	}
+
+	inline double zoom_to_adj (double z) {
+		return (Math.log (z) + Math.E) * 15;
 	}
 
 	construct {
 		//settings = new GLib.Settings (GTHUMB_IMAGE_SCHEMA);
 		window = null;
-		//builder = null;
+		builder = null;
 		load_job = null;
 	}
 
 	weak Gth.Window window;
 	//GLib.Settings settings;
-	//Gtk.Builder builder;
+	Gtk.Builder builder;
 	Gth.Job load_job;
 	Gth.ImageView image_view;
+	ulong zoom_adj_changed_id;
+	SimpleActionGroup action_group;
+
+	const float ZOOM_MIN = 0.05f;
+	const float ZOOM_MAX = 10f;
+	const float ZOOM_ADJ_MIN = 0f;
+	const float ZOOM_ADJ_MAX = 100f;
 }

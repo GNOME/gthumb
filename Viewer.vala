@@ -192,8 +192,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		last_x = x;
 		last_y = y;
-		reveal_overlay_controls (true);
-		hide_overlay_after_timeout ();
+		reveal_overlay_controls ();
 	}
 
 	bool on_scroll (double dx, double dy) {
@@ -244,13 +243,16 @@ public class Gth.Viewer : Gtk.Box {
 		revealer.add_controller (motion_events);
 	}
 
-	void reveal_overlay_controls (bool reveal) {
+	public void reveal_overlay_controls (bool reveal = true) {
 		if (fullscreen_toolbar_revealer.child != null) {
 			fullscreen_toolbar_revealer.reveal_child = reveal;
 		}
 		statusbar_revealer.reveal_child = reveal;
 		foreach (unowned var revealer in overlay_controls) {
 			revealer.reveal_child = reveal;
+		}
+		if (reveal) {
+			hide_overlay_after_timeout ();
 		}
 	}
 
