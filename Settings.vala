@@ -1,9 +1,11 @@
 // Schemas
 
 const string GTHUMB_SCHEMA = "app.gthumb.gthumb";
-const string GTHUMB_VIDEO_SCHEMA = GTHUMB_SCHEMA + ".video";
-const string GTHUMB_PNG_OPTIONS_SCHEMA = GTHUMB_SCHEMA + ".pixbuf-savers.png";
-const string GTHUMB_JPEG_OPTIONS_SCHEMA = GTHUMB_SCHEMA + ".pixbuf-savers.jpeg";
+const string GTHUMB_VIEWER_SCHEMA = GTHUMB_SCHEMA + ".viewers.common";
+const string GTHUMB_IMAGES_SCHEMA = GTHUMB_SCHEMA + ".viewers.images";
+const string GTHUMB_VIDEOS_SCHEMA = GTHUMB_SCHEMA + ".viewers.videos";
+const string GTHUMB_PNG_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.png";
+const string GTHUMB_JPEG_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.jpeg";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 
@@ -28,6 +30,10 @@ const string PREF_BROWSER_PROPERTIES_VISIBLE = "properties-visible";
 const string PREF_BROWSER_PROPERTIES_WIDTH = "properties-width";
 const string PREF_BROWSER_FOLDER_TREE_SORT_TYPE = "folder-tree-sort-type";
 const string PREF_BROWSER_FOLDER_TREE_SORT_INVERSE = "folder-tree-sort-inverse";
+
+const string PREF_VIEWER_SIDEBAR_VISIBLE = "sidebar-visible";
+
+const string PREF_IMAGE_ZOOM_TYPE = "zoom-type";
 
 const string PREF_VIDEO_SCREESHOT_LOCATION = "screenshot-location";
 const string PREF_VIDEO_VOLUME = "volume";

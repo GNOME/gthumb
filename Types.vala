@@ -40,6 +40,26 @@ const string[] Other_Video_Types = {
 	"application/vnd.rn-realmedia",
 };
 
+namespace Dev.Enum {
+	public static int index_of (string[] arr, string val) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i] == val)
+				return i;
+		}
+		return -1;
+	}
+
+	public static bool set_state (string[] states, string? state, ref int value) {
+		if (state == null)
+			return false;
+		var idx = Dev.Enum.index_of (states, state);
+		if (idx < 0)
+			return false;
+		value = idx;
+		return true;
+	}
+}
+
 public struct Gth.SortInfo {
 	string id;
 	string display_name;
@@ -89,6 +109,7 @@ public struct Gth.Sort {
 public enum Gth.ZoomType {
 	NATURAL_SIZE,
 	KEEP_PREVIOUS,
+	BEST_FIT,
 	MAXIMIZE,
 	MAXIMIZE_IF_LARGER,
 	MAXIMIZE_WIDTH,
@@ -96,7 +117,7 @@ public enum Gth.ZoomType {
 	FILL_SPACE;
 
 	public bool fit_to_allocation () {
-		return this >= MAXIMIZE;
+		return this >= BEST_FIT;
 	}
 }
 

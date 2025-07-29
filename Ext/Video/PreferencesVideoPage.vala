@@ -31,7 +31,7 @@ public class Gth.PreferencesVideoPage : Adw.NavigationPage {
 	}
 
 	construct {
-		settings = new GLib.Settings (GTHUMB_VIDEO_SCHEMA);
+		settings = new GLib.Settings (GTHUMB_VIDEOS_SCHEMA);
 		var initial_folder = Gth.Settings.get_file (settings, PREF_VIDEO_SCREESHOT_LOCATION);
 		if (initial_folder == null) {
 			initial_folder = Files.get_special_dir (UserDirectory.PICTURES);

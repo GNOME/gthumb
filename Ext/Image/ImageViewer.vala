@@ -3,6 +3,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		assert (window == null);
 		window = _window;
 		image_view = new Gth.ImageView ();
+		image_view.zoom_type = settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
 		window.viewer.set_viewer_widget (image_view);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		window.viewer.set_statusbar_maximized (false);
@@ -89,6 +90,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public void deactivate () {
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("image", null);
+		settings.set_enum (PREF_IMAGE_ZOOM_TYPE, image_view.zoom_type);
 	}
 
 	public void show () {
@@ -107,9 +109,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("zoom-fit-if-larger", null, new Variant.boolean (false));
+		action = new SimpleAction.stateful ("zoom-best-fit", null, new Variant.boolean (false));
 		action.activate.connect ((_action, param) => {
-			image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+			image_view.zoom_type = ZoomType.BEST_FIT;
 		});
 		action_group.add_action (action);
 
@@ -118,8 +120,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			unowned var value = param.get_string ();
 			action.set_state (new Variant.string (value));
 			switch (value) {
-			case "automatic":
-				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+			case "best-fit":
+				image_view.zoom_type = ZoomType.BEST_FIT;
 				break;
 			case "max-size":
 				image_view.zoom_type = ZoomType.MAXIMIZE;
@@ -168,8 +170,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		if (action != null) {
 			var state = "";
 			switch (image_view.zoom_type) {
-			case ZoomType.MAXIMIZE_IF_LARGER:
-				state = "automatic";
+			case ZoomType.BEST_FIT:
+				state = "best-fit";
 				break;
 			case ZoomType.MAXIMIZE:
 				state = "max-size";
@@ -206,9 +208,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.NATURAL_SIZE));
 		}
 
-		action = action_group.lookup_action ("zoom-fit-if-larger") as SimpleAction;
+		action = action_group.lookup_action ("zoom-best-fit") as SimpleAction;
 		if (action != null) {
-			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.MAXIMIZE_IF_LARGER));
+			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.BEST_FIT));
 		}
 
 		// Update the zoom adjustment.
@@ -233,7 +235,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	construct {
-		//settings = new GLib.Settings (GTHUMB_IMAGE_SCHEMA);
+		settings = new GLib.Settings (GTHUMB_IMAGES_SCHEMA);
 		window = null;
 		builder = null;
 		load_job = null;
@@ -242,7 +244,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	weak Gth.Window window;
-	//GLib.Settings settings;
+	GLib.Settings settings;
 	Gtk.Builder builder;
 	Gth.Job load_job;
 	Gth.ImageView image_view;

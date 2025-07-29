@@ -7,7 +7,7 @@ i18n.merge_file(
   install_dir: join_paths(datadir, 'applications')
 )
 
-subdir('gschemas')
+subdir('schemas')
 subdir('icons')
 
 gnome.post_install(

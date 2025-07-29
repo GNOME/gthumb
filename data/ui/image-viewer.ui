@@ -14,9 +14,9 @@
         </child>
         <child>
           <object class="GtkToggleButton">
-            <property name="tooltip-text" translatable="yes">Fit to window if larger</property>
+            <property name="tooltip-text" translatable="yes">Fit to the available space</property>
             <property name="icon-name">view-zoom-fit-symbolic</property>
-            <property name="action-name">image.zoom-fit-if-larger</property>
+            <property name="action-name">image.zoom-best-fit</property>
           </object>
         </child>
         <child>
@@ -57,7 +57,7 @@
       <item>
         <attribute name="label" translatable="yes">Automatic</attribute>
         <attribute name="action">image.set-zoom</attribute>
-        <attribute name="target">automatic</attribute>
+        <attribute name="target">best-fit</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Maximize Size</attribute>

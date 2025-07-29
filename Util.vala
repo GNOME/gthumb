@@ -531,6 +531,30 @@ public class Gth.Util {
 		return (x_ratio < y_ratio) ? y_ratio : x_ratio;
 	}
 
+	public static float get_zoom_to_fit_or_fill_surface (uint natural_width, uint natural_height, int max_width, int max_height) {
+		if ((natural_width == 0) || (natural_height == 0)) {
+			return 1f;
+		}
+		var x_ratio = (float) max_width / natural_width;
+		var y_ratio = (float) max_height / natural_height;
+		var ratio = (y_ratio > x_ratio) ? y_ratio : x_ratio;
+		var resized_surface = (ratio * natural_width) * (ratio * natural_height);
+		var available_space = max_width * max_height;
+		var covered_space = resized_surface / available_space;
+		//stdout.printf ("> covered_space: %f\n", covered_space);
+		if (covered_space > 1.05f) {
+			var adj = float.min (1.05f / covered_space, 1.05f);
+			//stdout.printf ("  adj [1]: %f\n", adj);
+			ratio *= adj;
+		}
+		else if (covered_space < 0.95f) {
+			var adj = float.min (0.95f / covered_space, 1.05f);
+			//stdout.printf ("  adj [2]: %f\n", adj);
+			ratio *= adj;
+		}
+		return float.min (ratio, 2.25f);
+	}
+
 	public static inline float get_zoom_to_fit_length (uint natural, int max) {
 		return (natural > 0) ? (float) max / natural : 1f;
 	}

@@ -70,7 +70,7 @@ public class Gth.Browser : Gtk.Box {
 		main_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_SIDEBAR_WIDTH);
 		content_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_PROPERTIES_WIDTH);
 
-		// Browser settings.
+		// Restore settings.
 		sort = {
 			app.settings.get_string (PREF_BROWSER_SORT_TYPE),
 			app.settings.get_boolean (PREF_BROWSER_SORT_INVERSE)
@@ -403,15 +403,13 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	File? get_selected_file () {
+	public File? get_selected_file () {
 		var selected = file_grid.model.get_selection ();
 		if (selected.get_size () != 1)
 			return null;
 		var pos = selected.get_nth (0);
-		var file = file_grid.model.get_item (pos) as FileData;
-		if (file == null)
-			return null;
-		return file.file;
+		var file_data = file_grid.model.get_item (pos) as FileData;
+		return file_data?.file;
 	}
 
 	bool is_selected (File file) {
@@ -848,52 +846,51 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void save_preferences () {
-		var last_window = app.one_window ();
-		if (get_realized ()) {
-			if (!window.maximized && !window.fullscreened && window.get_mapped ()) {
-				int width, height;
-				window.get_default_size (out width, out height);
-				app.settings.set_int (PREF_BROWSER_WINDOW_WIDTH, width);
-				app.settings.set_int (PREF_BROWSER_WINDOW_HEIGHT, height);
-			}
+	public void save_preferences (bool page_visible) {
+		if (!window.maximized && !window.fullscreened && window.get_mapped ()) {
+			int width, height;
+			window.get_default_size (out width, out height);
+			app.settings.set_int (PREF_BROWSER_WINDOW_WIDTH, width);
+			app.settings.set_int (PREF_BROWSER_WINDOW_HEIGHT, height);
+		}
 
-			app.settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, window.maximized);
-			app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, main_view.show_sidebar);
-			app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) main_view.max_sidebar_width);
-			app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, content_view.show_sidebar);
+		app.settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, window.maximized);
+		app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, main_view.show_sidebar);
+		app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) main_view.max_sidebar_width);
+		app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, content_view.show_sidebar);
+		if (page_visible) {
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) content_view.max_sidebar_width);
+		}
 
-			if (last_window) {
-				if (app.settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
-					&& (folder_tree.current_folder != null))
-				{
-					var uri = folder_tree.current_folder.file.get_uri ();
-					app.settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
-				}
+		if (app.settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
+			&& (folder_tree.current_folder != null))
+		{
+			var uri = folder_tree.current_folder.file.get_uri ();
+			app.settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
+		}
 
-				var selected_file = get_selected_file ();
-				if (selected_file != null) {
-					app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, selected_file.get_uri ());
-				}
-				else {
-					app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
-				}
-
-				if (sort.name != null) {
-					app.settings.set_string (PREF_BROWSER_SORT_TYPE, sort.name);
-					app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
-				}
-
-				if (folder_tree.sort.name != null) {
-					app.settings.set_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE, folder_tree.sort.name);
-					app.settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
-				}
-
-				app.save_active_filter (filter_bar.filter);
-				history.save_to_file ();
+		if (page_visible) {
+			var selected_file = get_selected_file ();
+			if (selected_file != null) {
+				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, selected_file.get_uri ());
+			}
+			else {
+				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
 			}
 		}
+
+		if (sort.name != null) {
+			app.settings.set_string (PREF_BROWSER_SORT_TYPE, sort.name);
+			app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
+		}
+
+		if (folder_tree.sort.name != null) {
+			app.settings.set_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE, folder_tree.sort.name);
+			app.settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
+		}
+
+		app.save_active_filter (filter_bar.filter);
+		history.save_to_file ();
 	}
 
 	[GtkCallback]

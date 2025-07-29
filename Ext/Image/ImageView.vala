@@ -26,8 +26,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		get { return _zoom; }
 		set {
 			_zoom_type = ZoomType.KEEP_PREVIOUS;
-			set_zoom_and_keep_center_visible (value);
-			queue_resize ();
+			if (_image != null) {
+				set_zoom_and_keep_center_visible (value);
+				queue_resize ();
+			}
 		}
 	}
 
@@ -35,10 +37,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		get { return _zoom_type; }
 		set {
 			_zoom_type = value;
-			if (_zoom_type == ZoomType.NATURAL_SIZE) {
-				set_zoom_and_recenter_image (1f);
+			if (_image != null) {
+				if (_zoom_type == ZoomType.NATURAL_SIZE) {
+					set_zoom_and_recenter_image (1f);
+				}
+				queue_resize ();
 			}
-			queue_resize ();
 		}
 	}
 
@@ -148,12 +152,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			break;
 
 		case ZoomType.MAXIMIZE_IF_LARGER:
-			if ((width < natural_width) || (height < natural_height)) {
+			if ((natural_width > width) || (natural_height > height)) {
 				new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width, height);
 			}
 			else {
 				new_zoom = 1f;
 			}
+			break;
+
+		case ZoomType.BEST_FIT:
+			new_zoom = Util.get_zoom_to_fit_or_fill_surface (natural_width, natural_height, width, height);
 			break;
 
 		case ZoomType.MAXIMIZE_WIDTH:
@@ -314,7 +322,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	construct {
 		_image = null;
-		_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+		_zoom_type = ZoomType.BEST_FIT;
 		_default_zoom_type = ZoomType.KEEP_PREVIOUS;
 		_zoom = 1f;
 	}

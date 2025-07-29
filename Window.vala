@@ -152,8 +152,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void before_closing () {
-		browser.save_preferences ();
-		viewer.save_preferences ();
+		if (!app.one_window () || !get_realized ()) {
+			return;
+		}
+		browser.save_preferences (current_page == Page.BROWSER);
+		viewer.save_preferences (current_page == Page.VIEWER);
 	}
 
 	void init_actions () {

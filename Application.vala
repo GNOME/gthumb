@@ -1,5 +1,6 @@
 public class Gth.Application : Adw.Application {
 	public GLib.Settings settings;
+	public GLib.Settings viewer_settings;
 	public HashTable<string, Gth.Test> tests;
 	public GenericList<Gth.Test> ordered_tests;
 	public HashTable<string, Gth.SortInfo?> sorters;
@@ -753,6 +754,7 @@ public class Gth.Application : Adw.Application {
 		icon_theme.add_resource_path ("/app/gthumb/gthumb/icons");
 
 		settings = new GLib.Settings (GTHUMB_SCHEMA);
+		viewer_settings = new GLib.Settings (GTHUMB_VIEWER_SCHEMA);
 		filter_file = new Gth.FilterFile ();
 	}
 

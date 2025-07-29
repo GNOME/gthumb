@@ -64,7 +64,7 @@ public class Gth.JpegPreferences : Gth.SaverPreferences {
 	}
 
 	construct {
-		settings = new GLib.Settings (GTHUMB_JPEG_OPTIONS_SCHEMA);
+		settings = new GLib.Settings (GTHUMB_JPEG_SAVER_SCHEMA);
 		builder = null;
 	}
 

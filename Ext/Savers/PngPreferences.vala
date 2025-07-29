@@ -34,7 +34,7 @@ public class Gth.PngPreferences : Gth.SaverPreferences {
 	}
 
 	construct {
-		settings = new GLib.Settings (GTHUMB_PNG_OPTIONS_SCHEMA);
+		settings = new GLib.Settings (GTHUMB_PNG_SAVER_SCHEMA);
 		builder = null;
 	}
 

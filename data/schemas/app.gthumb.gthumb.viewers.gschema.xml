@@ -1,0 +1,47 @@
+<schemalist>
+
+  <schema id="app.gthumb.gthumb.viewers" path="/app/gthumb/gthumb/viewers/">
+    <child name="common" schema="app.gthumb.gthumb.viewers.common" />
+    <child name="images" schema="app.gthumb.gthumb.viewers.images" />
+    <child name="videos" schema="app.gthumb.gthumb.viewers.videos" />
+  </schema>
+
+  <schema id="app.gthumb.gthumb.viewers.common" path="/app/gthumb/gthumb/viewers/common/" gettext-domain="gthumb">
+    <key name="sidebar-visible" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+
+  <enum id="app.gthumb.gthumb.ZoomType">
+    <value nick="natural-size" value="0"/>
+    <value nick="keep-previous" value="1"/>
+    <value nick="best-fit" value="2"/>
+    <value nick="maximize" value="3"/>
+    <value nick="maximize-if-larger" value="4"/>
+    <value nick="maximize-width" value="5"/>
+    <value nick="maximize-height" value="6"/>
+    <value nick="fill-space" value="7"/>
+  </enum>
+
+  <schema id="app.gthumb.gthumb.viewers.images" path="/app/gthumb/gthumb/viewers/images/" gettext-domain="gthumb">
+    <key name="zoom-type" enum="app.gthumb.gthumb.ZoomType">
+      <default>'best-fit'</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.viewers.videos" path="/app/gthumb/gthumb/viewers/videos/" gettext-domain="gthumb">
+    <key name="screenshot-location" type="s">
+      <default>''</default>
+    </key>
+    <key name="volume" type="i">
+      <default>100</default>
+    </key>
+    <key name="mute" type="b">
+      <default>false</default>
+    </key>
+    <key name="zoom-to-fit" type="b">
+      <default>true</default>
+    </key>
+  </schema>
+
+</schemalist>

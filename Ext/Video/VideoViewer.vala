@@ -722,7 +722,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	construct {
-		settings = new GLib.Settings (GTHUMB_VIDEO_SCHEMA);
+		settings = new GLib.Settings (GTHUMB_VIDEOS_SCHEMA);
 		window = null;
 		playbin = null;
 		video_view = null;

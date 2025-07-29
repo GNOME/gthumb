@@ -177,7 +177,17 @@ public class Gth.Viewer : Gtk.Box {
 		fullscreen_state.restore ();
 	}
 
-	public void save_preferences () {
+	public void save_preferences (bool page_visible) {
+		app.viewer_settings.set_boolean (PREF_VIEWER_SIDEBAR_VISIBLE, main_view.show_sidebar);
+		if (page_visible) {
+			if (current_file != null) {
+				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, current_file.file.get_uri ());
+			}
+			else {
+				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
+			}
+			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) main_view.max_sidebar_width);
+		}
 		if (current_viewer != null) {
 			current_viewer.deactivate ();
 			current_viewer = null;
@@ -287,6 +297,9 @@ public class Gth.Viewer : Gtk.Box {
 		property_sidebar.resizer.ended.connect (() => {
 			window.active_resizer = null;
 		});
+
+		// Restore settings.
+		main_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_SIDEBAR_VISIBLE);
 
 		add_overlay_motion_controller (fullscreen_toolbar_revealer);
 		init_actions ();
