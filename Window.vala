@@ -147,6 +147,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs.cancel_all ();
 	}
 
+	public void on_setting_change (string key) {
+		if (key == PREF_BROWSER_THUMBNAIL_SIZE) {
+			browser.set_thumbnail_size (app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
+		}
+	}
+
 	void update_sensitivity () {
 		// TODO
 	}

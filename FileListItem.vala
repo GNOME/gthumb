@@ -2,28 +2,25 @@ public class Gth.FileListItem : Gtk.Box {
 	public unowned string[] attributes_v;
 	public FileData file_data;
 
-	public FileListItem (Gth.Browser _browser, int _size, string[] _attributes_v) {
+	public FileListItem (Gth.Browser _browser, string[] _attributes_v) {
 		browser = _browser;
-		size = _size;
 		attributes_v = _attributes_v;
+		size = 0;
 		orientation = Gtk.Orientation.VERTICAL;
 		halign = Gtk.Align.CENTER;
 		spacing = V_SPACING;
 		add_css_class ("thumbnail-card");
 
-		var fixed_size = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-		fixed_size.width_request = size;
-		fixed_size.height_request = size;
-		//fixed_size.halign = Gtk.Align.CENTER;
+		fixed_size = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		append (fixed_size);
 
-		preview = new Gtk.Picture ();
-		preview.hexpand = true;
+		preview = new Gtk.Image ();
+		//preview.hexpand = true;
 		preview.halign = Gtk.Align.CENTER;
 		preview.valign = Gtk.Align.CENTER;
 		preview.visible = false;
-		preview.can_shrink = false;
-		preview.content_fit = Gtk.ContentFit.SCALE_DOWN;
+		//preview.can_shrink = false;
+		//preview.content_fit = Gtk.ContentFit.CONTAIN;
 		fixed_size.append (preview);
 
 		icon = new Gtk.Image ();
@@ -31,7 +28,6 @@ public class Gth.FileListItem : Gtk.Box {
 		icon.halign = Gtk.Align.CENTER;
 		icon.valign = Gtk.Align.CENTER;
 		icon.visible = false;
-		icon.pixel_size = size / 2;
 		icon.add_css_class ("thumbnail-icon");
 		fixed_size.append (icon);
 
@@ -40,13 +36,11 @@ public class Gth.FileListItem : Gtk.Box {
 		append (labels);
 
 		first_label = new Gtk.Inscription ("");
-		first_label.set_size_request (size, -1);
 		first_label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 		first_label.halign = Gtk.Align.START;
 		labels.append (first_label);
 
 		second_label = new Gtk.Inscription ("");
-		second_label.set_size_request (size, -1);
 		second_label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
 		second_label.halign = Gtk.Align.START;
 		second_label.add_css_class ("dimmed");
@@ -66,6 +60,9 @@ public class Gth.FileListItem : Gtk.Box {
 
 	public void bind (FileData _file_data) {
 		file_data = _file_data;
+		if (size != browser.thumbnail_size) {
+			set_size (browser.thumbnail_size);
+		}
 		if (attributes_v.length > 0) {
 			first_label.set_text (file_data.get_attribute_as_string (attributes_v[0]));
 		}
@@ -79,6 +76,19 @@ public class Gth.FileListItem : Gtk.Box {
 		thumbnail_state_id = file_data.notify["thumbnail-state"].connect ((obj) => {
 			update_preview ();
 		});
+	}
+
+	public void set_size (int _size) {
+		if (_size == size)
+			return;
+		size = _size;
+		fixed_size.width_request = size;
+		fixed_size.height_request = size;
+		preview.width_request = size;
+		preview.height_request = size;
+		icon.pixel_size = size / 2;
+		first_label.set_size_request (size, -1);
+		second_label.set_size_request (size, -1);
 	}
 
 	void update_preview () {
@@ -125,12 +135,14 @@ public class Gth.FileListItem : Gtk.Box {
 	}
 
 	int size;
-	const int V_SPACING = 6;
 	weak Gth.Browser browser;
 	ulong thumbnail_texture_id;
 	ulong thumbnail_state_id;
-	Gtk.Picture preview;
+	Gtk.Image preview;
 	Gtk.Image icon;
 	Gtk.Inscription first_label;
 	Gtk.Inscription second_label;
+	Gtk.Box fixed_size;
+
+	const int V_SPACING = 6;
 }

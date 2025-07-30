@@ -48,6 +48,10 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GthPreferencesBrowserPage" id="browser_page">
+                      </object>
+                    </child>
+                    <child>
                       <object class="GthPreferencesSavingPage" id="saving_page">
                       </object>
                     </child>

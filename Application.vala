@@ -754,8 +754,31 @@ public class Gth.Application : Adw.Application {
 		icon_theme.add_resource_path ("/app/gthumb/gthumb/icons");
 
 		settings = new GLib.Settings (GTHUMB_SCHEMA);
+		settings.changed.connect ((key) => {
+			queue_setting_changed (key);
+		});
 		viewer_settings = new GLib.Settings (GTHUMB_VIEWER_SCHEMA);
 		filter_file = new Gth.FilterFile ();
+
+		changed_keys = new GenericSet<string> (str_hash, str_equal);
+	}
+
+	uint setting_changed_id = 0;
+	GenericSet<string> changed_keys;
+
+	void queue_setting_changed (string key) {
+		changed_keys.add (key);
+		if (setting_changed_id == 0) {
+			setting_changed_id = Util.after_timeout (100, () => {
+				setting_changed_id = 0;
+				foreach_window ((win) => {
+					foreach (unowned var _key in changed_keys.get_values ()) {
+						win.on_setting_change (_key);
+					}
+				});
+				changed_keys.remove_all ();
+			});
+		}
 	}
 
 	void init_actions () {

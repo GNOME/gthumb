@@ -2,8 +2,8 @@
 public class Gth.PreferencesSavingPage : Adw.NavigationPage {
 	construct {
 		saver_preferences = new GenericArray<SaverPreferences> ();
-		foreach (unowned var preferences_type in app.saver_preferences.get_values ()) {
-			var preferences = Object.new (preferences_type) as Gth.SaverPreferences;
+		foreach (unowned var type in app.saver_preferences.get_values ()) {
+			var preferences = Object.new (type) as Gth.SaverPreferences;
 			if (preferences != null) {
 				saver_preferences.add (preferences);
 			}

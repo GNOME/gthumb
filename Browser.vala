@@ -714,7 +714,7 @@ public class Gth.Browser : Gtk.Box {
 		var factory = new Gtk.SignalListItemFactory ();
 		factory.setup.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FileListItem (this, thumbnail_size, thumbnail_attributes_v);
+			list_item.child = new Gth.FileListItem (this, thumbnail_attributes_v);
 		});
 		factory.teardown.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
@@ -771,7 +771,7 @@ public class Gth.Browser : Gtk.Box {
 				if (bounds.origin.x < 0) {
 					continue;
 				}
-				if (file_data.thumbnail_state != ThumbnailState.ICON)
+				if (thumbnailer.already_added (file_data))
 					continue;
 
 				//stdout.printf ("> (%f,%f)[%f,%f] (state: %s) <=> [%f,%f]\n",
@@ -921,6 +921,18 @@ public class Gth.Browser : Gtk.Box {
 		if (!view_position (window.viewer.position + 1)) {
 			window.edge_reached ();
 		}
+	}
+
+	public void set_thumbnail_size (int size) {
+		if (size == thumbnail_size)
+			return;
+		thumbnail_size = size;
+		thumbnailer.requested_size = (uint) thumbnail_size;
+		foreach (unowned Gtk.ListItem item in binded_grid_items) {
+			unowned var file_item = item.child as Gth.FileListItem;
+			file_item.set_size (thumbnail_size);
+		}
+		thumbnailer.queue_load_next ();
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView main_view;

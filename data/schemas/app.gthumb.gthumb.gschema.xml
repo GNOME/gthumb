@@ -29,7 +29,7 @@
       <default>true</default>
     </key>
     <key name="thumbnail-size" type="i">
-      <default>256</default>
+      <default>250</default>
     </key>
     <key name="thumbnail-caption" type="s">
       <default>''</default>

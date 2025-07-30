@@ -9,6 +9,15 @@ public class Gth.Thumbnailer {
 			return PIXELS[this];
 		}
 
+		public static Size from_pixel_size (uint pixel_size) {
+			for (var i = 0; i < PIXELS.length; i++) {
+				if (PIXELS[i] >= pixel_size) {
+					return (Size) i;
+				}
+			}
+			return XXLARGE;
+		}
+
 		public unowned string get_subdir () {
 			return SUBDIR[this];
 		}
@@ -28,16 +37,24 @@ public class Gth.Thumbnailer {
 		};
 	}
 
-	public uint requested_size;
+	public uint requested_size {
+		get { return _requested_size; }
+		set {
+			_requested_size = value;
+			cache_size = Size.from_pixel_size (_requested_size);
+		}
+	}
+
 	public Size cache_size;
 	public bool load_from_cache;
 	public bool save_to_cache;
 
 	NextFileFunc next_file_func;
+	uint _requested_size;
 
 	public Thumbnailer (NextFileFunc? _next_file_func = null) {
 		next_file_func = _next_file_func;
-		cache_size = Size.LARGE;
+		requested_size = 256;
 		load_from_cache = true;
 		save_to_cache = true;
 		file_queue = new Queue<FileData>();
@@ -48,8 +65,14 @@ public class Gth.Thumbnailer {
 		cancel ();
 	}
 
+	public bool already_added (FileData file) {
+		return (((file.thumbnail_state == ThumbnailState.LOADED) && (file.thumbnail_size == cache_size.to_pixels ()))
+			|| (file.thumbnail_state == ThumbnailState.LOADING)
+			|| (file.thumbnail_state == ThumbnailState.BROKEN));
+	}
+
 	public void add (FileData file, bool high_priority = false) {
-		if (file.thumbnail_state != ThumbnailState.ICON) {
+		if (already_added (file)) {
 			return;
 		}
 		if (high_priority) {
@@ -123,7 +146,7 @@ public class Gth.Thumbnailer {
 		load_thumbnail.begin (thumbnail_job.file, thumbnail_job.job, (_obj, res) => {
 			try {
 				var thumbnail = load_thumbnail.end (res);
-				thumbnail_job.file.set_thumbnail (thumbnail);
+				thumbnail_job.file.set_thumbnail (thumbnail, cache_size.to_pixels ());
 			}
 			catch (Error error) {
 				//stdout.printf ("> LOAD THUMBNAIL ERROR: %s\n", error.message);
@@ -177,12 +200,13 @@ public class Gth.Thumbnailer {
 		try {
 			var thumbnail_file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.READ, cancellable);
 			var thumbnail = yield app.thumb_loader.load_if_valid (thumbnail_file, file_data, cancellable);
-			return yield thumbnail.resize_async (requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
+			return yield thumbnail.resize_async (_requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> load_thumbnail_from_cache: %s\n", error.message);
-			if (error is IOError.CANCELLED)
+			if (error is IOError.CANCELLED) {
 				throw error;
+			}
 			return null;
 		}
 	}
@@ -190,7 +214,7 @@ public class Gth.Thumbnailer {
 	async Gth.Image? generate_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, cancellable, cache_size.to_pixels ());
-			var resized = yield image.resize_async (requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
+			var resized = yield image.resize_async (cache_size.to_pixels (), ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 			set_file_attributes_to_image (resized, file_data);
 			resized.set_attribute ("Thumb::Image::Width", "%u".printf (image.get_width ()));
 			resized.set_attribute ("Thumb::Image::Height", "%u".printf (image.get_height ()));

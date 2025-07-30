@@ -279,8 +279,12 @@ public class Gth.FileData : Object {
 
 	public Gdk.Paintable? thumbnail_texture { get; set; default = null; }
 
-	public void set_thumbnail (Gth.Image image) {
+	public uint thumbnail_size { get; set; default = 0; }
+
+	public void set_thumbnail (Gth.Image image, uint cache_size) {
 		thumbnail_image = image;
+		uint width, height;
+		thumbnail_size = cache_size;
 		thumbnail_texture = thumbnail_image.get_texture ();
 		thumbnail_state = ThumbnailState.LOADED;
 	}
