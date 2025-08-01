@@ -111,6 +111,10 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 	gsize in_buffer_size;
 	const void *in_buffer = g_bytes_get_data (bytes, &in_buffer_size);
 	if (in_buffer_size == 0) {
+		g_set_error_literal (error,
+			G_IO_ERROR,
+			G_IO_ERROR_INVALID_DATA,
+			"No data");
 		return NULL;
 	}
 
