@@ -231,3 +231,236 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 	return image;
 }
+
+
+typedef struct {
+	gboolean big_endian;
+	GInputStream *stream;
+	GCancellable *cancellable;
+} Reader;
+
+
+static bool _read_byte (Reader *reader, guchar *value) {
+	return g_input_stream_read (reader->stream, value, 1, reader->cancellable, NULL) == 1;
+}
+
+
+static bool _read_uint16 (Reader *reader, guint16 *value) {
+	guchar byte1, byte2;
+	if (!_read_byte (reader, &byte1)) {
+		return FALSE;
+	}
+	if (!_read_byte (reader, &byte2)) {
+		return FALSE;
+	}
+	if (reader->big_endian) {
+		*value = (byte1 << 8) + byte2;
+	}
+	else {
+		*value = (byte2 << 8) + byte1;
+	}
+	return TRUE;
+}
+
+
+static bool _read_uint32 (Reader *reader, guint32 *value) {
+	guchar byte1, byte2, byte3, byte4;
+	if (!_read_byte (reader, &byte1)) {
+		return FALSE;
+	}
+	if (!_read_byte (reader, &byte2)) {
+		return FALSE;
+	}
+	if (!_read_byte (reader, &byte3)) {
+		return FALSE;
+	}
+	if (!_read_byte (reader, &byte4)) {
+		return FALSE;
+	}
+	if (reader->big_endian) {
+		*value = (byte1 << 24) + (byte2 << 16) + (byte3 << 8) + byte4;
+	}
+	else {
+		*value = (byte4 << 24) + (byte3 << 16) + (byte2 << 8) + byte1;
+	}
+	return TRUE;
+}
+
+
+static bool _seek (Reader *reader, guint32 offset) {
+	return g_seekable_seek (G_SEEKABLE (reader->stream),
+		(goffset) offset,
+		G_SEEK_SET,
+		reader->cancellable,
+		NULL);
+}
+
+
+static bool _skip (Reader *reader, guint32 offset) {
+	return g_seekable_seek (G_SEEKABLE (reader->stream),
+		(goffset) offset,
+		G_SEEK_CUR,
+		reader->cancellable,
+		NULL);
+}
+
+
+gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancellable *cancellable) {
+	Reader reader = {
+		.stream = stream,
+		.cancellable = cancellable
+	};
+
+	if (!_seek (&reader, 0)) {
+		return FALSE;
+	}
+
+	// Byte order
+
+	guchar byte1, byte2;
+	if (!_read_byte (&reader, &byte1)) {
+		return FALSE;
+	}
+	if (!_read_byte (&reader, &byte2)) {
+		return FALSE;
+	}
+
+	if ((byte1 == 0x49) && (byte2 == 0x49)) {
+		reader.big_endian = FALSE;
+	}
+	else if ((byte1 == 0x4D) && (byte2 == 0x4D)) {
+		reader.big_endian = TRUE;
+	}
+	else {
+		return FALSE;
+	}
+
+	// Type signature
+
+	guint16 word;
+	if (!_read_uint16 (&reader, &word)) {
+		return FALSE;
+	}
+	if (word != 42) {
+		return FALSE;
+	}
+
+	int remaining_tags = 3;
+	int orientation = ORIENTATION_TOPLEFT;
+
+	// IFD offset
+
+next_ifd:
+
+	guint32 offset;
+	if (!_read_uint32 (&reader, &offset)) {
+		return FALSE;
+	}
+	if (offset == 0) {
+		return FALSE;
+	}
+
+	// Move to the next IFD
+
+	if (!_seek (&reader, (goffset) offset)) {
+		return FALSE;
+	}
+
+	// Number of entries
+
+	guint16 entries;
+	if (!_read_uint16 (&reader, &entries)) {
+		return FALSE;
+	}
+	if (entries == 0) {
+		return FALSE;
+	}
+
+	for (int i = 0; (remaining_tags > 0) && (i < entries); i++) {
+		guint16 entry_tag;
+		if (!_read_uint16 (&reader, &entry_tag)) {
+			return FALSE;
+		}
+
+		if ((entry_tag == TIFFTAG_IMAGEWIDTH)
+			|| (entry_tag == TIFFTAG_IMAGELENGTH)
+			|| (entry_tag == TIFFTAG_ORIENTATION))
+		{
+			guint16 entry_type;
+			if (!_read_uint16 (&reader, &entry_type)) {
+				return FALSE;
+			}
+
+			guint32 count;
+			if (!_read_uint32 (&reader, &count)) {
+				return FALSE;
+			}
+
+			guint32 offset;
+			if (!_read_uint32 (&reader, &offset)) {
+				return FALSE;
+			}
+
+			if (count != 1) {
+				return FALSE;
+			}
+
+			// Values shorter than 4 bytes are left-justified.
+
+			guint32 value;
+			if (entry_type == 1) { // BYTE
+				if (reader.big_endian) {
+					value = (offset >> 32);
+				}
+				else {
+					value = offset;
+				}
+			}
+			else if (entry_type == 3) { // SHORT (2 BYTES)
+				if (reader.big_endian) {
+					value = (offset >> 16);
+				}
+				else {
+					value = offset;
+				}
+			}
+			else if (entry_type == 4) { // LONG (4 BYTES)
+				value = offset;
+			}
+			else {
+				return FALSE;
+			}
+
+			if (entry_tag == TIFFTAG_IMAGEWIDTH) {
+				image_info->width = value;
+				remaining_tags--;
+			}
+
+			if (entry_tag == TIFFTAG_IMAGELENGTH) {
+				image_info->height = value;
+				remaining_tags--;
+			}
+
+			if (entry_tag == TIFFTAG_ORIENTATION) {
+				orientation = value;
+				remaining_tags--;
+			}
+		}
+		else {
+			// Skip the rest of the entry.
+			_skip (&reader, 12 - 2);
+		}
+	}
+
+	if (remaining_tags > 0) {
+		goto next_ifd;
+	}
+
+	if (orientation >= ORIENTATION_LEFTTOP) {
+		uint tmp = image_info->width;
+		image_info->width = image_info->height;
+		image_info->height = tmp;
+	}
+
+	return TRUE;
+}

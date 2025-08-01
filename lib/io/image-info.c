@@ -99,6 +99,16 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 	}
 #endif /* HAVE_LIBHEIF */
 
+#if HAVE_LIBTIFF
+	if (!format_recognized && (g_strcmp0 (mime_type, "image/tiff") == 0)) {
+		GInputStream *buffered = g_buffered_input_stream_new_sized (G_INPUT_STREAM (stream), BUFFER_SIZE);
+		if (load_tiff_info (buffered, &image_info, cancellable)) {
+			format_recognized = TRUE;
+		}
+		g_object_unref (buffered);
+	}
+#endif /* HAVE_LIBTIFF */
+
 	g_free (buffer);
 	g_object_unref (stream);
 
