@@ -21,7 +21,13 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 	int buffer_size = BUFFER_SIZE;
 	guchar *buffer = g_new (guchar, buffer_size);
 	gsize size;
-	if (!g_input_stream_read_all (G_INPUT_STREAM (stream), buffer, buffer_size, &size, cancellable,	NULL)) {
+	if (!g_input_stream_read_all (G_INPUT_STREAM (stream),
+		buffer,
+		buffer_size,
+		&size,
+		cancellable,
+		NULL))
+	{
 		g_free (buffer);
 		g_object_unref (stream);
 		return FALSE;
@@ -33,9 +39,7 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 
 	if ((size >= 24)
 		&& (g_strcmp0 (mime_type, "image/png") == 0)
-
 		// IHDR Image header
-
 		&& (buffer[12] == 0x49)
 		&& (buffer[13] == 0x48)
 		&& (buffer[14] == 0x44)
@@ -52,35 +56,8 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 		&& (g_strcmp0 (mime_type, "image/jpeg") == 0))
 	{
 		// JPEG
-		if (g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, cancellable, NULL)) {
-			JpegInfoData jpeg_info;
-
-			_jpeg_info_data_init (&jpeg_info);
-			_jpeg_info_get_from_stream (
-				G_INPUT_STREAM (stream),
-				_JPEG_INFO_IMAGE_SIZE | _JPEG_INFO_EXIF_ORIENTATION,
-				&jpeg_info,
-				cancellable,
-				NULL);
-
-			if (jpeg_info.valid & _JPEG_INFO_IMAGE_SIZE) {
-				image_info.width = jpeg_info.width;
-				image_info.height = jpeg_info.height;
-				format_recognized = TRUE;
-
-				if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION) {
-					if ((jpeg_info.orientation == GTH_TRANSFORM_ROTATE_90)
-						|| (jpeg_info.orientation == GTH_TRANSFORM_ROTATE_270)
-						|| (jpeg_info.orientation == GTH_TRANSFORM_TRANSPOSE)
-						|| (jpeg_info.orientation == GTH_TRANSFORM_TRANSVERSE))
-					{
-						int tmp = image_info.width;
-						image_info.width = image_info.height;
-						image_info.height = tmp;
-					}
-				}
-			}
-			_jpeg_info_data_dispose (&jpeg_info);
+		if (load_jpeg_info (stream, &image_info, cancellable)) {
+			format_recognized = TRUE;
 		}
 	}
 

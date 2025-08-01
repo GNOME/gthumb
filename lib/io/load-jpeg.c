@@ -556,8 +556,41 @@ stop_loading:
 	return image;
 }
 
-
 #undef SCALE_FACTOR
 #undef SCALE_UP
 #undef SCALE_DOWN
 #undef ONE_HALF
+
+gboolean load_jpeg_info (GInputStream *stream, GthImageInfo *image_info, GCancellable *cancellable) {
+	if (!g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, cancellable, NULL))
+		return FALSE;
+
+	JpegInfoData jpeg_info;
+	_jpeg_info_data_init (&jpeg_info);
+	_jpeg_info_get_from_stream (
+		G_INPUT_STREAM (stream),
+		_JPEG_INFO_IMAGE_SIZE | _JPEG_INFO_EXIF_ORIENTATION,
+		&jpeg_info,
+		cancellable,
+		NULL);
+
+	gboolean format_recognized = FALSE;
+	if (jpeg_info.valid & _JPEG_INFO_IMAGE_SIZE) {
+		image_info->width = jpeg_info.width;
+		image_info->height = jpeg_info.height;
+		format_recognized = TRUE;
+		if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION) {
+			if ((jpeg_info.orientation == GTH_TRANSFORM_ROTATE_90)
+				|| (jpeg_info.orientation == GTH_TRANSFORM_ROTATE_270)
+				|| (jpeg_info.orientation == GTH_TRANSFORM_TRANSPOSE)
+				|| (jpeg_info.orientation == GTH_TRANSFORM_TRANSVERSE))
+			{
+				int tmp = image_info->width;
+				image_info->width = image_info->height;
+				image_info->height = tmp;
+			}
+		}
+	}
+	_jpeg_info_data_dispose (&jpeg_info);
+	return format_recognized;
+}
