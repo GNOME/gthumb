@@ -57,3 +57,9 @@ option('libjxl',
   value : true,
   description : 'Use libjxl to load JPEG XL images'
 )
+
+option('libtiff',
+  type : 'boolean',
+  value : true,
+  description : 'Use libtiff to load Tiff images'
+)

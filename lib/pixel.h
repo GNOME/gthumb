@@ -7,26 +7,33 @@
 #define CLAMP_TEMP(x, min, max) (temp = (x), CLAMP (temp, min, max))
 #define PIXEL_CLAMP(x) CLAMP_TEMP (x, 0, 255)
 
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
 
-#define PIXEL_BLUE  0
-#define PIXEL_GREEN 1
-#define PIXEL_RED   2
+// ARGB (little endian)
 #define PIXEL_ALPHA 3
+#define PIXEL_RED 2
+#define PIXEL_GREEN 1
+#define PIXEL_BLUE 0
 
-#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
+// ABGR (little endian)
+#define ABGR_ALPHA 3
+#define ABGR_BLUE 2
+#define ABGR_GREEN 1
+#define ABGR_RED 0
 
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+
+// ARGB (big endian)
 #define PIXEL_ALPHA 0
-#define PIXEL_RED   1
+#define PIXEL_RED 1
 #define PIXEL_GREEN 2
-#define PIXEL_BLUE  3
+#define PIXEL_BLUE 3
 
-#else /* PDP endianness: RABG */
-
-#define PIXEL_RED   0
-#define PIXEL_ALPHA 1
-#define PIXEL_BLUE  2
-#define PIXEL_GREEN 3
+// ABGR (big endian)
+#define ABGR_ALPHA 0
+#define ABGR_BLUE 1
+#define ABGR_GREEN 2
+#define ABGR_RED 3
 
 #endif
 
@@ -41,6 +48,7 @@ guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a);
 void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width);
 void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width);
 void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width);
+void abgr_line_to_pixel (guchar *dest, guchar *src, guint width);
 void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width);
 
 #endif /* LIB_PIXEL_H */

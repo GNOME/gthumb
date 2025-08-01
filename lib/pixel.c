@@ -1,8 +1,7 @@
 #include "lib/pixel.h"
 
 
-guint32
-pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
+guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
 	int temp;
 
 	temp = (a * r) + 0x80;
@@ -18,7 +17,7 @@ pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
 }
 
 
-#define PIXEL_TO_RGBA(pixel, red, green, blue, alpha) \
+#define GET_PIXEL_RGBA(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
 		alpha = pixel[PIXEL_ALPHA]; \
 		if (alpha == 0xff) { \
@@ -38,13 +37,13 @@ pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
 void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
 	int temp;
 	for (guint x = 0; x < width; x++) {
-		PIXEL_TO_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
+		GET_PIXEL_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
 		src += 4;
 		dest += 4;
 	}
 }
 
-#define PIXEL_TO_RGB(pixel, red, green, blue) \
+#define GET_PIXEL_RGB(pixel, red, green, blue) \
 	G_STMT_START { \
 		red = pixel[PIXEL_RED]; \
 		green = pixel[PIXEL_GREEN]; \
@@ -54,41 +53,53 @@ void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
 
 void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
 	for (guint x = 0; x < width; x++) {
-		PIXEL_TO_RGB (src, dest[0], dest[1], dest[2]);
+		GET_PIXEL_RGB (src, dest[0], dest[1], dest[2]);
 		src += 4;
 		dest += 3;
 	}
 }
 
-void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
+static void non_premultiplied_line_to_pixel_line (int r_idx, int g_idx, int b_idx, int a_idx, guchar *dest, guchar *src, guint width) {
 	guchar r, g, b, a;
 	guint temp; // used in PIXEL_MULTIPLY_ALPHA
 	for (guint x = 0; x < width; x++) {
-		a = src[3];
+		a = src[a_idx];
 		if (a == 0xFF) {
-			*(guint32*)dest = RGBA_TO_PIXEL (src[0], src[1], src[2], 0xFF);
+			*(guint32*) dest = RGBA_TO_PIXEL (src[r_idx], src[g_idx], src[b_idx], 0xFF);
 		}
 		else if (a == 0) {
-			*(guint32*)dest = 0;
+			*(guint32*) dest = 0;
 		}
 		else {
-			PIXEL_MULTIPLY_ALPHA (r, src[0], a);
-			PIXEL_MULTIPLY_ALPHA (g, src[1], a);
-			PIXEL_MULTIPLY_ALPHA (b, src[2], a);
-			*(guint32*)dest = RGBA_TO_PIXEL (r, g, b, a);
+			PIXEL_MULTIPLY_ALPHA (r, src[r_idx], a);
+			PIXEL_MULTIPLY_ALPHA (g, src[g_idx], a);
+			PIXEL_MULTIPLY_ALPHA (b, src[b_idx], a);
+			*(guint32*) dest = RGBA_TO_PIXEL (r, g, b, a);
 		}
 		src += 4;
 		dest += 4;
 	}
 }
 
+void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
+	non_premultiplied_line_to_pixel_line (
+		0, 1, 2, 3,
+		dest, src, width);
+}
+
+void abgr_line_to_pixel (guchar *dest, guchar *src, guint width) {
+	non_premultiplied_line_to_pixel_line (
+		ABGR_RED, ABGR_GREEN, ABGR_BLUE, ABGR_ALPHA,
+		dest, src, width);
+}
+
 void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
 	for (guint x = 0; x < width; x++) {
-		*(guint32*)dest = RGBA_TO_PIXEL (src[0], src[1], src[2], 0xFF);
+		*(guint32*) dest = RGBA_TO_PIXEL (src[0], src[1], src[2], 0xFF);
 		src += 3;
 		dest += 4;
 	}
 }
 
-#undef PIXEL_TO_RGBA
-#undef PIXEL_TO_RGB
+#undef GET_PIXEL_RGBA
+#undef GET_PIXEL_RGB

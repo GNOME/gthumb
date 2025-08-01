@@ -295,6 +295,9 @@ public class Gth.Application : Adw.Application {
 		register_image_loader ("image/heic", load_heif);
 		register_image_loader ("image/avif", load_heif);
 #endif
+#if HAVE_LIBTIFF
+		register_image_loader ("image/tiff", load_tiff);
+#endif
 
 		external_loaders = new HashTable<string, Gth.LoadFileFunc>(str_hash, str_equal);
 #if HAVE_GSTREAMER

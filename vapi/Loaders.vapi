@@ -26,3 +26,6 @@ public Gth.Image load_jxl (Bytes bytes, uint requested_size, Cancellable cancell
 
 [CCode (cheader_filename = "lib/io/load-heif.h")]
 public Gth.Image load_heif (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
+
+[CCode (cheader_filename = "lib/io/load-tiff.h")]
+public Gth.Image load_tiff (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;

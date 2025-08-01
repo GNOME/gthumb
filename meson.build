@@ -152,6 +152,20 @@ else
   use_libjxl = false
 endif
 
+# libtiff
+
+if get_option('libtiff')
+  libtiff_dep = c_comp.find_library('tiff', required: false)
+  use_libtiff = libtiff_dep.found()
+  libtiff_deps = [
+    dependency('zlib'),
+    c_comp.find_library('m'),
+    libtiff_dep
+  ]
+else
+  use_libtiff = false
+endif
+
 dependencies = [
   dependency('threads'),
   c_comp.find_library('m', required: false),
@@ -170,6 +184,7 @@ dependencies = [
   use_exiv2 ? exiv2_dep : [],
   use_libheif ? libheif_dep : [],
   use_libjxl ? libjxl_deps : [],
+  use_libtiff ? libtiff_deps : [],
 ]
 
 gettext_package = meson.project_name()
@@ -242,6 +257,10 @@ if use_libjxl
   config.set('HAVE_LIBJXL', 1)
   add_project_arguments(['-D', 'HAVE_LIBJXL'], language: 'vala')
 endif
+if use_libtiff
+  config.set('HAVE_LIBTIFF', 1)
+  add_project_arguments(['-D', 'HAVE_LIBTIFF'], language: 'vala')
+endif
 
 config_file = configure_file(
   output : 'config.h',
@@ -292,6 +311,9 @@ if use_librsvg
 endif
 if use_libjxl
   lib_files += ('lib/io/load-jxl.c')
+endif
+if use_libtiff
+  lib_files += ('lib/io/load-tiff.c')
 endif
 if use_libheif
   lib_files += ('lib/io/load-heif.c')
@@ -435,6 +457,7 @@ summary(
     'exiv2': use_exiv2,
     'libheif': use_libheif,
     'libjxl': use_libjxl,
+    'libtiff': use_libtiff,
   },
   section: 'Configuration summary:',
 )
