@@ -95,7 +95,7 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		return NULL;
 	}
 
-	/* find the best image to load */
+	// Find the best image to load.
 
 	gboolean first_directory = TRUE;
 	int best_directory = -1;
