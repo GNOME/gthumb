@@ -134,15 +134,15 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 				break;
 			}
 
-			GthIccProfile *profile = gth_icc_profile_new (
-				GTH_ICC_PROFILE_ID_UNKNOWN,
-				cmsOpenProfileFromMem (profile_data, profile_size));
+			GBytes *bytes = g_bytes_new_take (profile_data, profile_size);
+			GthIccProfile *profile = gth_icc_profile_new_from_bytes (bytes, NULL);
 			if (profile != NULL) {
 				if (image != NULL) {
 					gth_image_set_icc_profile (image, profile);
 				}
 				g_object_unref (profile);
 			}
+			g_bytes_unref (bytes);
 			break;
 #endif
 

@@ -172,6 +172,48 @@ GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellabl
 		}
 	}
 
+#if HAVE_LCMS2
+
+	GthIccProfile *icc_profile = gth_image_get_icc_profile (image);
+	if (icc_profile != NULL) {
+		switch (gth_icc_profile_get_known_type (icc_profile)) {
+		case GTH_ICC_TYPE_SRGB:
+			png_set_sRGB (saver_data.png_ptr,
+				saver_data.png_info_ptr,
+				PNG_sRGB_INTENT_PERCEPTUAL);
+			break;
+
+		case GTH_ICC_TYPE_SRGB_GAMMA:
+			png_set_gAMA (saver_data.png_ptr,
+				saver_data.png_info_ptr,
+				gth_icc_profile_get_gamma (icc_profile));
+			break;
+
+		case GTH_ICC_TYPE_ADOBERGB:
+		case GTH_ICC_TYPE_BYTES:
+			GBytes *bytes =  gth_icc_profile_get_bytes (icc_profile);
+			if (bytes != NULL) {
+				gsize profile_size;
+				gconstpointer profile_data = g_bytes_get_data (bytes, &profile_size);
+				if ((profile_data != NULL) && (profile_size > 0)) {
+					png_set_iCCP (saver_data.png_ptr,
+						saver_data.png_info_ptr,
+						gth_icc_profile_get_description (icc_profile),
+						PNG_COMPRESSION_TYPE_DEFAULT,
+						profile_data,
+						profile_size);
+				}
+				g_bytes_unref (bytes);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+#endif /* HAVE_LCMS2 */
+
 	// Write the file header information.
 
 	png_write_info (saver_data.png_ptr, saver_data.png_info_ptr);

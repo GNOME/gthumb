@@ -5,7 +5,7 @@ namespace Gth {
 	public class ColorManager : Object {
 		public signal void changed ();
 		public ColorManager ();
-		public async IccProfile get_profile_async (string monitor_name, Cancellable cancellable);
+		public async IccProfile get_profile_async (string monitor_name, Cancellable cancellable) throws Error;
 		public IccTransform get_transform (IccProfile from_profile, IccProfile to_profile);
 	}
 }

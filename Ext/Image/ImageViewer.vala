@@ -71,11 +71,16 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var local_job = app.new_job ("Load image %s".printf (file_data.file.get_uri ()));
 		load_job = local_job;
 		try {
-			image_view.image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
+			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
+			var monitor_profile = yield window.get_monitor_profile (local_job.cancellable);
+			if (monitor_profile != null) {
+				yield image.apply_icc_profile_async (app.color_manager, monitor_profile, local_job.cancellable);
+			}
+			image_view.image = image;
 			file_data.set_content_type (image_view.image.get_attribute ("content-type"));
 		}
 		catch (Error error) {
-			stdout.printf ("ERROR: %s\n", error.message);
+			stdout.printf ("ImageViewer.load: ERROR: %s\n", error.message);
 			local_job.error = error;
 		}
 		local_job.done ();

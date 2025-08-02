@@ -12,6 +12,10 @@ public class Gth.PngPreferences : Gth.SaverPreferences {
 		return "png";
 	}
 
+	public override bool can_save_icc_profile () {
+		return true;
+	}
+
 	public override Gtk.Widget? create_widget () {
 		if (builder == null) {
 			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/png-preferences.ui");

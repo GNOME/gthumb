@@ -25,7 +25,7 @@ public class Gth.Browser : Gtk.Box {
 
 	construct {
 		visible_files = new GenericList<FileData>();
-		thumbnailer = new Thumbnailer (get_next_file_for_thumbnailer);
+		thumbnailer = new Thumbnailer (this);
 		history = new History (this);
 		current_parents = null;
 		binded_grid_items = new GenericArray<Gtk.ListItem> ();
@@ -758,7 +758,7 @@ public class Gth.Browser : Gtk.Box {
 		file_grid.vadjustment.value_changed.connect (() => { after_grid_vadj_changed (); });
 	}
 
-	Gth.FileData? get_next_file_for_thumbnailer () {
+	public Gth.FileData? get_next_file_for_thumbnailer () {
 		// stdout.printf ("\n>>>> get_next_file_for_thumbnailer\n\n");
 		var top = 0;
 		var bottom = file_grid.vadjustment.get_page_size ();

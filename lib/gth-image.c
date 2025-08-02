@@ -166,6 +166,7 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 	g_return_if_fail (GTH_IS_IMAGE (dest));
 
 	dest->priv->metadata_flags = src->priv->metadata_flags;
+
 	if (src->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) {
 		dest->priv->has_alpha = src->priv->has_alpha;
 	}
@@ -409,6 +410,12 @@ void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
 		g_object_ref (profile);
 	_gth_image_free_icc_profile (self);
 	self->priv->icc_profile = profile;
+	if (self->priv->icc_profile != NULL) {
+		self->priv->metadata_flags |= METADATA_FLAG_ICC_PROFILE;
+	}
+	else {
+		self->priv->metadata_flags &= ~METADATA_FLAG_ICC_PROFILE;
+	}
 }
 
 
@@ -427,14 +434,17 @@ void gth_image_apply_icc_profile (GthImage *self,
 
 #if HAVE_LCMS2
 
-	if (out_profile == NULL)
+	if (out_profile == NULL) {
 		return;
+	}
 
-	if (self->priv->buffer == NULL)
+	if (self->priv->buffer == NULL) {
 		return;
+	}
 
-	if (self->priv->icc_profile == NULL)
+	if (self->priv->icc_profile == NULL) {
 		return;
+	}
 
 	GthIccTransform *transform = gth_color_manager_get_transform (
 		color_manager,
@@ -442,19 +452,23 @@ void gth_image_apply_icc_profile (GthImage *self,
 		out_profile
 	);
 
-	if (transform == NULL)
+	if (transform == NULL) {
 		return;
+	}
 
 	cmsHTRANSFORM hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
 	const unsigned char *row_pointer = self->priv->buffer;
 	for (guint row = 0; row < self->priv->height; row++) {
-		if (g_cancellable_is_cancelled (cancellable))
+		if (g_cancellable_is_cancelled (cancellable)) {
 			break;
+		}
 		cmsDoTransform (hTransform, row_pointer, row_pointer, self->priv->width);
 		row_pointer += self->priv->row_stride;
 	}
 
 	g_object_unref (transform);
+
+	gth_image_set_icc_profile (self, out_profile);
 
 #endif
 }

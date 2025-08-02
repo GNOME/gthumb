@@ -153,6 +153,42 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	public string? get_monitor_name () {
+		unowned var display = get_display ();
+		unowned var monitor = display.get_monitor_at_surface (get_surface ());
+		if (monitor == null) {
+			return null;
+		}
+		return monitor.description;
+	}
+
+	IccProfile monitor_profile = null;
+	bool no_monitor_profile = false;
+
+	public async IccProfile get_monitor_profile (Cancellable cancellable) {
+		if (no_monitor_profile) {
+			return null;
+		}
+		if (monitor_profile != null) {
+			return monitor_profile;
+		}
+		unowned var display = get_display ();
+		unowned var monitor = display.get_monitor_at_surface (get_surface ());
+		if (monitor == null) {
+			no_monitor_profile = true;
+			return null;
+		}
+		try {
+			monitor_profile = yield app.color_manager.get_profile_async (monitor.description, cancellable);
+		}
+		catch (Error error) {
+			if (!(error is IOError.CANCELLED)) {
+				no_monitor_profile = true;
+			}
+		}
+		return monitor_profile;
+	}
+
 	void update_sensitivity () {
 		// TODO
 	}

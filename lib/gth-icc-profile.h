@@ -9,6 +9,14 @@ G_BEGIN_DECLS
 typedef gpointer GthCmsProfile;
 typedef gpointer GthCmsTransform;
 
+typedef enum {
+	GTH_ICC_TYPE_UNKNOWN,
+	GTH_ICC_TYPE_SRGB,
+	GTH_ICC_TYPE_ADOBERGB,
+	GTH_ICC_TYPE_SRGB_GAMMA,
+	GTH_ICC_TYPE_BYTES,
+} GthIccType;
+
 #define GTH_ICC_PROFILE_ID_UNKNOWN "unknown://"
 #define GTH_ICC_PROFILE_WITH_MD5 "md5://"
 #define GTH_ICC_PROFILE_FROM_PROPERTY "property://"
@@ -57,18 +65,20 @@ void			gth_cms_profile_free		(GthCmsProfile	  profile);
 void			gth_cms_transform_free		(GthCmsTransform  transform);
 
 GType			gth_icc_profile_get_type	(void);
-GthIccProfile *		gth_icc_profile_new		(const char	 *id,
-							 GthCmsProfile	  profile);
 GthIccProfile *		gth_icc_profile_new_srgb	(void);
 GthIccProfile *		gth_icc_profile_new_adobergb	(void);
 GthIccProfile *		gth_icc_profile_new_srgb_with_gamma
 							(double gamma);
+GthIccProfile *		gth_icc_profile_new_from_bytes  (GBytes *bytes, const char *id);
 const char *		gth_icc_profile_get_id		(GthIccProfile	 *icc_profile);
 const char *            gth_icc_profile_get_description	(GthIccProfile	 *icc_profile);
 gboolean                gth_icc_profile_id_is_unknown   (const char      *id);
 GthCmsProfile		gth_icc_profile_get_profile	(GthIccProfile	 *icc_profile);
 gboolean		gth_icc_profile_equal		(GthIccProfile	 *a,
 							 GthIccProfile	 *b);
+GthIccType		gth_icc_profile_get_known_type	(GthIccProfile	 *icc_profile);
+double			gth_icc_profile_get_gamma	(GthIccProfile	 *icc_profile);
+GBytes *		gth_icc_profile_get_bytes	(GthIccProfile   *self);
 
 GType			gth_icc_transform_get_type	(void);
 GthIccTransform * 	gth_icc_transform_new		(GthCmsTransform  transform);

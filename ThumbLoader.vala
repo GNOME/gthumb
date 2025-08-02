@@ -36,10 +36,6 @@ public class Gth.ThumbLoader {
 				throw new IOError.FAILED ("Invalid thumbnail");
 			}
 			image = load_png (bytes, 0, cancellable);
-			unowned var icc_profile = image.get_icc_profile ();
-			if (icc_profile != null) {
-				image.apply_icc_profile (app.color_manager, icc_profile, cancellable);
-			}
 		}
 	}
 }

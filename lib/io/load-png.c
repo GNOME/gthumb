@@ -294,7 +294,7 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 		GthIccProfile *profile = NULL;
 		int            intent;
 		png_charp      name;
-		int            compression_type;
+		int            compression_type	;
 		png_bytep      icc_data;
 		png_uint_32    icc_data_size;
 		double         gamma;
@@ -302,34 +302,35 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 		png_uint_32    exif_data_size;
 
 		if (png_get_sRGB (loader_data.png_ptr,
-				  loader_data.png_info_ptr,
-				  &intent) == PNG_INFO_sRGB)
+			loader_data.png_info_ptr,
+			&intent) == PNG_INFO_sRGB)
 		{
 			profile = gth_icc_profile_new_srgb ();
 		}
 		else if (png_get_iCCP (loader_data.png_ptr,
-				       loader_data.png_info_ptr,
-				       &name,
-				       &compression_type,
-				       &icc_data,
-				       &icc_data_size) == PNG_INFO_iCCP)
+				loader_data.png_info_ptr,
+				&name,
+				&compression_type,
+				&icc_data,
+				&icc_data_size) == PNG_INFO_iCCP)
 		{
 			if ((icc_data_size > 0) && (icc_data != NULL)) {
-				profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
-					cmsOpenProfileFromMem (icc_data, icc_data_size));
+				GBytes *bytes = g_bytes_new (icc_data, icc_data_size);
+				profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+				g_bytes_unref (bytes);
 			}
 		}
 		else if (png_get_gAMA (loader_data.png_ptr,
-				       loader_data.png_info_ptr,
-				       &gamma))
+				loader_data.png_info_ptr,
+				&gamma))
 		{
 			profile = gth_icc_profile_new_srgb_with_gamma (1.0 / gamma);
 		}
 #ifdef PNG_eXIf_SUPPORTED
 		else if (png_get_eXIf_1 (loader_data.png_ptr,
-					 loader_data.png_info_ptr,
-					 &exif_data_size,
-					 &exif_data))
+				loader_data.png_info_ptr,
+				&exif_data_size,
+				&exif_data))
 		{
 			JpegInfoData jpeg_info;
 			_jpeg_info_data_init (&jpeg_info);

@@ -17,8 +17,9 @@ _jpeg_info_data_init (JpegInfoData *data)
 void
 _jpeg_info_data_dispose (JpegInfoData *data)
 {
-	if (data->valid & _JPEG_INFO_ICC_PROFILE)
+	if (data->valid & _JPEG_INFO_ICC_PROFILE) {
 		g_free (data->icc_data);
+	}
 }
 
 

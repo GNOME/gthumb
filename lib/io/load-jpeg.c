@@ -138,7 +138,10 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 #if HAVE_LCMS2
 	if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE) {
-		profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
+		GBytes *bytes = g_bytes_new_take (jpeg_info.icc_data, jpeg_info.icc_data_size);
+		profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+		g_bytes_unref (bytes);
+		jpeg_info.icc_data = NULL;
 	}
 	else if (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE) {
 		if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB) {

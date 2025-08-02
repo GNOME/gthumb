@@ -61,11 +61,6 @@ public class Gth.ImageLoader {
 				}
 			}
 
-			unowned var icc_profile = image.get_icc_profile ();
-			if (icc_profile != null) {
-				image.apply_icc_profile (app.color_manager, icc_profile, cancellable);
-			}
-
 			image.set_attribute ("content-type", content_type);
 		}
 	}

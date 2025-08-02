@@ -49,11 +49,11 @@ public class Gth.Thumbnailer {
 	public bool load_from_cache;
 	public bool save_to_cache;
 
-	NextFileFunc next_file_func;
 	uint _requested_size;
+	weak Gth.Browser browser;
 
-	public Thumbnailer (NextFileFunc? _next_file_func = null) {
-		next_file_func = _next_file_func;
+	public Thumbnailer (Gth.Browser _browser) {
+		browser = _browser;
 		requested_size = 256;
 		load_from_cache = true;
 		save_to_cache = true;
@@ -127,7 +127,7 @@ public class Gth.Thumbnailer {
 		if (job_queue.length >= app.thumb_loader.factory.n_workers) {
 			return;
 		}
-		FileData file = (next_file_func != null) ? next_file_func () : null;
+		FileData file = browser.get_next_file_for_thumbnailer ();
 		if (file != null) {
 			//stdout.printf ("> LOAD THUMBNAIL [next]: %s\n", file.file.get_basename ());
 		}
@@ -180,6 +180,10 @@ public class Gth.Thumbnailer {
 		}
 		if (thumbnail == null) {
 			throw new IOError.FAILED ("Could not load or generate a thumbnail for %s".printf (file_data.file.get_uri ()));
+		}
+		var monitor_profile = yield browser.window.get_monitor_profile (job.cancellable);
+		if (monitor_profile != null) {
+			yield thumbnail.apply_icc_profile_async (app.color_manager, monitor_profile, job.cancellable);
 		}
 		if (Util.content_type_is_video (file_data.get_content_type ())) {
 			if (filmholes == null) {
@@ -311,7 +315,7 @@ public class Gth.Thumbnailer {
 		if (datetime != null) {
 			image.set_attribute ("Thumb::MTime", ("%" + int64.FORMAT).printf (datetime.to_unix ()));
 		}
-		image.set_attribute ("Software", "app.gthumb.Thumbnails");
+		image.set_attribute ("Software", "gThumb " + Config.VERSION);
 	}
 
 	static File get_thumbnail_file (File file, Size size, FileIntent intent, Cancellable cancellable) throws Error {
@@ -350,4 +354,3 @@ public class Gth.Thumbnailer {
 	GenericArray<ThumbnailJob> job_queue;
 }
 
-public delegate Gth.FileData? Gth.NextFileFunc ();

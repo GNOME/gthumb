@@ -8,9 +8,12 @@
 
 
 struct _GthIccProfilePrivate {
-	GthCmsProfile cms_profile;
+	GthIccType type;
+	GBytes *bytes;
+	double gamma;
 	char *id;
 	char *description;
+	GthCmsProfile cms_profile;
 };
 
 
@@ -34,8 +37,9 @@ void
 gth_cms_profile_free (GthCmsProfile profile)
 {
 #ifdef HAVE_LCMS2
-	if (profile != NULL)
+	if (profile != NULL) {
 		cmsCloseProfile ((cmsHPROFILE) profile);
+	}
 #endif
 }
 
@@ -44,8 +48,9 @@ void
 gth_cms_transform_free (GthCmsTransform transform)
 {
 #ifdef HAVE_LCMS2
-	if (transform != NULL)
+	if (transform != NULL) {
 		cmsDeleteTransform ((cmsHTRANSFORM) transform);
+	}
 #endif
 }
 
@@ -65,6 +70,7 @@ gth_icc_profile_finalize (GObject *object)
 	gth_cms_profile_free (icc_profile->priv->cms_profile);
 	g_free (icc_profile->priv->id);
 	g_free (icc_profile->priv->description);
+	g_bytes_unref (icc_profile->priv->bytes);
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_icc_profile_parent_class)->finalize (object);
@@ -85,9 +91,12 @@ static void
 gth_icc_profile_init (GthIccProfile *self)
 {
 	self->priv = gth_icc_profile_get_instance_private (self);
+	self->priv->type = GTH_ICC_TYPE_UNKNOWN;
 	self->priv->cms_profile = NULL;
 	self->priv->id = NULL;
 	self->priv->description = NULL;
+	self->priv->bytes = NULL;
+	self->priv->gamma = 0.0;
 }
 
 
@@ -132,29 +141,11 @@ _gth_cms_profile_create_id (GthCmsProfile cms_profile)
 	}
 #endif
 
-	if (! id_set)
+	if (!id_set) {
 		g_string_append (str, GTH_ICC_PROFILE_ID_UNKNOWN);
+	}
 
 	return g_string_free (str, FALSE);
-}
-
-
-GthIccProfile *
-gth_icc_profile_new (const char    *id,
-		     GthCmsProfile  profile)
-{
-	GthIccProfile *icc_profile;
-
-	g_return_val_if_fail (profile != NULL, NULL);
-
-	icc_profile = g_object_new (GTH_TYPE_ICC_PROFILE, NULL);
-	if (! gth_icc_profile_id_is_unknown (id))
-		icc_profile->priv->id = g_strdup (id);
-	else
-		icc_profile->priv->id = _gth_cms_profile_create_id (profile);
-	icc_profile->priv->cms_profile = profile;
-
-	return icc_profile;
 }
 
 
@@ -163,18 +154,16 @@ gth_icc_profile_new_srgb (void)
 {
 #ifdef HAVE_LCMS2
 
-	char          *id;
-	GthCmsProfile  cms_profile;
-	GthIccProfile *icc_profile;
+	static GthIccProfile *icc_profile = NULL;
 
-	id = g_strdup ("standard://srgb");
-	cms_profile = (GthCmsProfile) cmsCreate_sRGBProfile ();
-	icc_profile = gth_icc_profile_new (id, cms_profile);
-	icc_profile->priv->description = g_strdup ("sRGB");
-
-	g_free (id);
-
-	return icc_profile;
+	if (icc_profile == NULL) {
+		icc_profile = g_object_new (GTH_TYPE_ICC_PROFILE, NULL);
+		icc_profile->priv->type = GTH_ICC_TYPE_SRGB;
+		icc_profile->priv->id = g_strdup ("standard://srgb");
+		icc_profile->priv->description = g_strdup ("sRGB");
+		icc_profile->priv->cms_profile = (GthCmsProfile) cmsCreate_sRGBProfile ();
+	}
+	return g_object_ref (icc_profile);
 
 #else
 
@@ -183,36 +172,41 @@ gth_icc_profile_new_srgb (void)
 #endif
 }
 
+
 GthIccProfile *
 gth_icc_profile_new_adobergb (void)
 {
 #ifdef HAVE_LCMS2
 
-	char          *id;
-	GthCmsProfile  cms_profile;
-	GthIccProfile *icc_profile;
+	static GthIccProfile *icc_profile = NULL;
 
-	// Voodoo numbers taken from:
-	// https://github.com/ellelstone/elles_icc_profiles/blob/master/code/make-elles-profiles.c
-	// Released under the GNU GPL v2 or later.
-	cmsCIExyY d65_srgb_adobe_specs = { 0.3127, 0.3290, 1.0 };
-	cmsCIExyYTRIPLE adobe_primaries_prequantized = {
-		{ 0.639996511, 0.329996864, 1.0 },
-		{ 0.210005295, 0.710004866, 1.0 },
-		{ 0.149997606, 0.060003644, 1.0 }
-	};
-	cmsToneCurve *tonecurve = cmsBuildGamma (NULL, 2.19921875);
-	cmsToneCurve *curve[3];
-	curve[0] = curve[1] = curve[2] = tonecurve;
+	if (icc_profile == NULL) {
+		// Voodoo numbers taken from:
+		// https://github.com/ellelstone/elles_icc_profiles/blob/master/code/make-elles-profiles.c
+		// Released under the GNU GPL v2 or later.
+		cmsCIExyY d65_srgb_adobe_specs = { 0.3127, 0.3290, 1.0 };
+		cmsCIExyYTRIPLE adobe_primaries_prequantized = {
+			{ 0.639996511, 0.329996864, 1.0 },
+			{ 0.210005295, 0.710004866, 1.0 },
+			{ 0.149997606, 0.060003644, 1.0 }
+		};
+		cmsToneCurve *tonecurve = cmsBuildGamma (NULL, 2.19921875);
+		cmsToneCurve *curve[3];
+		curve[0] = curve[1] = curve[2] = tonecurve;
 
-	id = g_strdup ("standard://adobergb-comp");
-	cms_profile = (GthCmsProfile) cmsCreateRGBProfile (&d65_srgb_adobe_specs, &adobe_primaries_prequantized, curve);
-	icc_profile = gth_icc_profile_new (id, cms_profile);
-	icc_profile->priv->description = g_strdup ("Adobe RGB compatible");
+		GthCmsProfile cms_profile = (GthCmsProfile) cmsCreateRGBProfile (
+			&d65_srgb_adobe_specs,
+			&adobe_primaries_prequantized,
+			curve);
 
-	g_free (id);
+		icc_profile = g_object_new (GTH_TYPE_ICC_PROFILE, NULL);
+		icc_profile->priv->type = GTH_ICC_TYPE_ADOBERGB;
+		icc_profile->priv->id = g_strdup ("standard://adobergb-comp");
+		icc_profile->priv->description = g_strdup ("Adobe RGB compatible");
+		icc_profile->priv->cms_profile = cms_profile;
+	}
 
-	return icc_profile;
+	return g_object_ref (icc_profile);
 
 #else
 
@@ -227,27 +221,34 @@ gth_icc_profile_new_srgb_with_gamma (double gamma)
 {
 #ifdef HAVE_LCMS2
 
-	cmsCIExyY        WhitePoint;
-	cmsCIExyYTRIPLE  Rec709Primaries = { {0.6400, 0.3300, 1.0}, {0.3000, 0.6000, 1.0}, {0.1500, 0.0600, 1.0} };
-	cmsToneCurve*    Gamma[3];
-	cmsHPROFILE      hProfile;
-	GthIccProfile   *icc_profile;
-
-	if (! cmsWhitePointFromTemp (&WhitePoint, 6500))
+	cmsCIExyY WhitePoint;
+	if (!cmsWhitePointFromTemp (&WhitePoint, 6500))
 		return NULL;
 
+	cmsCIExyYTRIPLE Rec709Primaries = {
+		{0.6400, 0.3300, 1.0},
+		{0.3000, 0.6000, 1.0},
+		{0.1500, 0.0600, 1.0}
+	};
+
+	cmsToneCurve* Gamma[3];
 	Gamma[0] = Gamma[1] = Gamma[2] = cmsBuildGamma (NULL, gamma);
-	if (Gamma[0] == NULL)
+	if (Gamma[0] == NULL) {
 		return NULL;
+	}
 
-	hProfile = cmsCreateRGBProfile (&WhitePoint, &Rec709Primaries, Gamma);
+	cmsHPROFILE cms_profile = cmsCreateRGBProfile (&WhitePoint, &Rec709Primaries, Gamma);
 	cmsFreeToneCurve (Gamma[0]);
-	if (hProfile == NULL)
+	if (cms_profile == NULL) {
 		return NULL;
+	}
 
-	icc_profile = gth_icc_profile_new (NULL, (GthCmsProfile) hProfile);
+	GthIccProfile *icc_profile = g_object_new (GTH_TYPE_ICC_PROFILE, NULL);
+	icc_profile->priv->type = GTH_ICC_TYPE_SRGB_GAMMA;
+	icc_profile->priv->gamma = gamma;
+	icc_profile->priv->id = _gth_cms_profile_create_id (cms_profile);
 	icc_profile->priv->description = g_strdup_printf ("sRGB Gamma=1/%.1f", gamma);
-
+	icc_profile->priv->cms_profile = cms_profile;
 	return icc_profile;
 
 #else
@@ -255,6 +256,23 @@ gth_icc_profile_new_srgb_with_gamma (double gamma)
 	return NULL;
 
 #endif
+}
+
+
+GthIccProfile *
+gth_icc_profile_new_from_bytes (GBytes *bytes, const char *id)
+{
+	gsize size;
+	gconstpointer data = g_bytes_get_data (bytes, &size);
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (size > 0, NULL);
+
+	GthIccProfile *icc_profile = g_object_new (GTH_TYPE_ICC_PROFILE, NULL);
+	icc_profile->priv->type = GTH_ICC_TYPE_BYTES;
+	icc_profile->priv->bytes = g_bytes_ref (bytes);
+	icc_profile->priv->cms_profile = cmsOpenProfileFromMem (data, size);
+	icc_profile->priv->id = (id != NULL) ? g_strdup (id) : _gth_cms_profile_create_id (icc_profile->priv->cms_profile);
+	return icc_profile;
 }
 
 
@@ -282,8 +300,9 @@ _g_utf8_try_from_any (const char *str) {
 const char *
 gth_icc_profile_get_description	(GthIccProfile *self)
 {
-	if (self->priv->description != NULL)
+	if (self->priv->description != NULL) {
 		return self->priv->description;
+	}
 
 #ifdef HAVE_LCMS2
 
@@ -335,10 +354,61 @@ gth_icc_profile_equal (GthIccProfile *a,
 {
 	g_return_val_if_fail ((a == NULL) || (b == NULL), FALSE);
 
-	if (gth_icc_profile_id_is_unknown (a->priv->id) || gth_icc_profile_id_is_unknown (b->priv->id))
+	if (gth_icc_profile_id_is_unknown (a->priv->id)
+		|| gth_icc_profile_id_is_unknown (b->priv->id))
+	{
 		return FALSE;
-	else
+	}
+	else {
 		return g_strcmp0 (a->priv->id, b->priv->id) == 0;
+	}
+}
+
+
+GthIccType
+gth_icc_profile_get_known_type (GthIccProfile *self)
+{
+	g_return_val_if_fail (self != NULL, GTH_ICC_TYPE_UNKNOWN);
+	return self->priv->type;
+}
+
+
+double
+gth_icc_profile_get_gamma (GthIccProfile *self)
+{
+	g_return_val_if_fail (self != NULL, 0.0);
+	return self->priv->gamma;
+}
+
+
+GBytes *
+gth_icc_profile_get_bytes (GthIccProfile *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	switch (self->priv->type) {
+	case GTH_ICC_TYPE_BYTES:
+		g_return_val_if_fail (self->priv->bytes != NULL, NULL);
+		return g_bytes_ref (self->priv->bytes);
+
+	case GTH_ICC_TYPE_SRGB:
+	case GTH_ICC_TYPE_ADOBERGB:
+	case GTH_ICC_TYPE_SRGB_GAMMA:
+		guint32 size;
+		if (cmsSaveProfileToMem (self->priv->cms_profile, NULL, &size)) {
+			gpointer data = g_malloc (size);
+			if (cmsSaveProfileToMem (self->priv->cms_profile, data, &size)) {
+				GBytes *bytes = g_bytes_new_take (data, size);
+				data = NULL;
+				return bytes;
+			}
+			g_free (data);
+		}
+		break;
+
+	default:
+		break;
+	}
+	return NULL;
 }
 
 
@@ -393,11 +463,9 @@ gth_icc_transform_new (GthCmsTransform transform)
 
 #if HAVE_LCMS2
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
-#define _LCMS2_CAIRO_FORMAT TYPE_BGRA_8
+#define _LCMS2_PIXEL_FORMAT TYPE_BGRA_8
 #elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
-#define _LCMS2_CAIRO_FORMAT TYPE_ARGB_8
-#else
-#define _LCMS2_CAIRO_FORMAT TYPE_ABGR_8
+#define _LCMS2_PIXEL_FORMAT TYPE_ARGB_8
 #endif
 #endif
 
@@ -410,9 +478,9 @@ gth_icc_transform_new_from_profiles (GthIccProfile *from_profile,
 
 	GthCmsTransform cms_transform = (GthCmsTransform) cmsCreateTransform (
 		(cmsHPROFILE) gth_icc_profile_get_profile (from_profile),
-		_LCMS2_CAIRO_FORMAT,
+		_LCMS2_PIXEL_FORMAT,
 		(cmsHPROFILE) gth_icc_profile_get_profile (to_profile),
-		_LCMS2_CAIRO_FORMAT,
+		_LCMS2_PIXEL_FORMAT,
 		INTENT_PERCEPTUAL,
 		0
 	);

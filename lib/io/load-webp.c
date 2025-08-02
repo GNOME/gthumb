@@ -37,9 +37,9 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		if (flags & ICCP_FLAG) {
 			WebPChunkIterator chunk_iter;
 			WebPDemuxGetChunk (demux, "ICCP", 1, &chunk_iter);
-			profile = gth_icc_profile_new (
-				GTH_ICC_PROFILE_ID_UNKNOWN,
-				cmsOpenProfileFromMem (chunk_iter.chunk.bytes, chunk_iter.chunk.size));
+			GBytes *bytes = g_bytes_new (chunk_iter.chunk.bytes, chunk_iter.chunk.size);
+			profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+			g_bytes_unref (bytes);
 			WebPDemuxReleaseChunkIterator (&chunk_iter);
 		}
 	}

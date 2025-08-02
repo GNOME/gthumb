@@ -12,6 +12,10 @@ public class Gth.JpegPreferences : Gth.SaverPreferences {
 		return "jpeg,jpg";
 	}
 
+	public override bool can_save_icc_profile () {
+		return false;
+	}
+
 	public override Gtk.Widget? create_widget () {
 		if (builder == null) {
 			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/jpeg-preferences.ui");

@@ -49,11 +49,14 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 		gpointer icc_data = g_malloc (icc_data_size);
 		err = heif_image_handle_get_raw_color_profile (handle, icc_data);
 		if (err.code == heif_error_Ok) {
-			GthIccProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (icc_data, icc_data_size));
+			GBytes *bytes = g_bytes_new_take (icc_data, icc_data_size);
+			GthIccProfile *profile = gth_icc_profile_new_from_bytes (bytes, NULL);
 			if (profile != NULL) {
 				gth_image_set_icc_profile (image, profile);
 				g_object_unref (profile);
 			}
+			icc_data = NULL;
+			g_bytes_unref (bytes);
 		}
 		g_free (icc_data);
 	}
