@@ -13,33 +13,21 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 	}
 
 	public override FileInfo get_display_info (File file) {
-		FileInfo info = null;
+		var info = new FileInfo ();
 		var gio_file = Catalog.to_gio_file (file);
 		var uri = file.get_uri ();
 		if (uri.has_suffix (".catalog") || uri.has_suffix (".search")) {
 			try {
 				var data = Files.load_contents (gio_file, null);
 				var catalog = Catalog.new_from_data (file, data);
-				info = new FileInfo ();
 				catalog.update_file_info (info);
 			}
 			catch (Error error) {
-				//stdout.printf ("ERROR: %s\n", error.message);
+				Catalog.update_file_info_for_broken_file (file, info);
 			}
 		}
 		else {
-			try {
-				info = gio_file.query_info (STANDARD_ATTRIBUTES, FileQueryInfoFlags.NONE);
-				if (info.get_file_type () == FileType.DIRECTORY) {
-					Catalog.update_file_info_for_library (file, info);
-				}
-			}
-			catch (Error error) {
-				//stdout.printf ("ERROR: %s\n", error.message);
-			}
-		}
-		if (info == null) {
-			info = new FileInfo ();
+			Catalog.update_file_info_for_library (file, info);
 		}
 		return info;
 	}

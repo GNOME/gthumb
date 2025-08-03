@@ -73,9 +73,6 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 
 		Gtk.Widget row = null;
 
-		//var icon = new Gtk.Image.from_icon_name ("filter-symbolic");
-		//row.add_prefix (icon);
-
 		var delete_button = new Gtk.Button.from_icon_name ("list-delete-symbolic");
 		delete_button.add_css_class ("flat");
 		delete_button.add_css_class ("circular");
@@ -103,14 +100,19 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 			var row_with_options = new Gtk.ListBoxRow ();
 			row_with_options.add_css_class ("test-list-row");
 			row_with_options.child = hbox;
-
 			row = row_with_options;
 		}
 		else {
 			var action_row = new Adw.ActionRow ();
-			action_row.title = test.display_name;
+			if (test.title != null) {
+				action_row.title = test.title;
+				action_row.subtitle = test.display_name;
+				action_row.add_css_class ("property");
+			}
+			else {
+				action_row.title = test.display_name;
+			}
 			action_row.add_suffix (delete_button);
-
 			row = action_row;
 		}
 

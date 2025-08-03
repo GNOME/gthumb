@@ -76,6 +76,7 @@ public class Gth.Test : Object {
 
 	public string id { get; set; default = ""; }
 	public string display_name { get; set; default = ""; }
+	public string title { get; set; default = null; }
 	public string attributes { get; set; default = ""; }
 	public bool visible { get; set; default = false; }
 	public GenericArray<FileData> files = null;

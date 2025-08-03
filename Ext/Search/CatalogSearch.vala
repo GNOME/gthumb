@@ -45,10 +45,25 @@ public class Gth.CatalogSearch : Gth.Catalog {
 	}
 
 	public override string to_xml () {
+		return to_xml_generic ();
+	}
+
+	public bool equal_search_parameters (CatalogSearch other) {
+		var xml_1 = to_xml_generic (true);
+		var xml_2 = other.to_xml_generic (true);
+		//stdout.printf ("> XML(1) : %s\n", xml_1);
+		//stdout.printf ("> XML(2) : %s\n", xml_2);
+		//stdout.printf ("> EQUAL: %s\n", (xml_1 == xml_2).to_string ());
+		return xml_1 == xml_2;
+	}
+
+	string to_xml_generic (bool only_search_parameters = false) {
 		var doc = new Dom.Document ();
 		var root = new Dom.Element.with_attributes ("search", "version", SEARCH_FORMAT);
 		doc.append_child (root);
-		save_catalog_to_doc (root);
+		if (!only_search_parameters) {
+			save_catalog_to_doc (root);
+		}
 		var sources_node = new Dom.Element ("sources");
 		root.append_child (sources_node);
 		foreach (unowned var source in sources) {

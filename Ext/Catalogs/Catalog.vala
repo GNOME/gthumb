@@ -1,14 +1,16 @@
-public class Gth.Catalog {
+public class Gth.Catalog : Object {
 	public File? file;
 	public string name;
 	public string sort_type;
 	public bool inverse_order;
 	public Gth.DateTime date;
 	public GenericArray<File> files;
+	public GenericSet<File> file_set;
 
 	public Catalog () {
 		file = null;
 		files = new GenericArray<File>();
+		file_set = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		sort_type = null;
 		inverse_order = false;
 		date = new Gth.DateTime ();
@@ -78,10 +80,37 @@ public class Gth.Catalog {
 		info.set_content_type ("gthumb/library");
 		info.set_symbolic_icon (new ThemedIcon ("library-symbolic"));
 		info.set_sort_order (0);
-		if (file.get_uri () == "catalog:///") {
-			info.set_display_name (_("Catalogs"));
-			info.set_edit_name (_("Catalogs"));
+		var basename = file.get_basename ();
+		if ((basename == null) || (basename == "/")) {
+			basename = _("Catalogs");
 		}
+		info.set_display_name (basename);
+		info.set_edit_name (basename);
+	}
+
+	public static void update_file_info_for_broken_file (File file, FileInfo info) {
+		var basename = file.get_basename ();
+		if ((basename == null) || (basename == "/")) {
+			Catalog.update_file_info_for_library (file, info);
+			return;
+		}
+		info.set_file_type (FileType.DIRECTORY);
+		var is_search = basename.has_suffix (".search");
+		info.set_symbolic_icon (new ThemedIcon ("cross-large-symbolic"));
+		if (is_search) {
+			info.set_content_type ("gthumb/search");
+			//info.set_symbolic_icon (new ThemedIcon ("search-symbolic"));
+		}
+		else {
+			info.set_content_type ("gthumb/catalog");
+			//info.set_symbolic_icon (new ThemedIcon ("catalog-symbolic"));
+		}
+		info.set_sort_order (1);
+		info.set_attribute_boolean ("gthumb::no-child", true);
+		basename = Filename.to_utf8 (basename, -1, null, null);
+		basename = Util.remove_extension (basename);
+		info.set_display_name (basename);
+		info.set_edit_name (basename);
 	}
 
 	public virtual void load_doc (Dom.Document doc) {
@@ -91,7 +120,7 @@ public class Gth.Catalog {
 				foreach (unowned var node in child) {
 					unowned var uri = node.get_attribute ("uri");
 					if (uri != null) {
-						files.add (File.new_for_uri (uri));
+						add_file (File.new_for_uri (uri));
 					}
 				}
 				break;
@@ -137,6 +166,10 @@ public class Gth.Catalog {
 		foreach (unowned var file in files) {
 			files_node.append_child (new Dom.Element.with_attributes ("file", "uri", file.get_uri ()));
 		}
+	}
+
+	public Gth.Catalog duplicate () {
+		return Catalog.new_from_data (file, to_xml ());
 	}
 
 	public virtual void update_file_info (FileInfo info) {
@@ -221,6 +254,18 @@ public class Gth.Catalog {
 			yield previous_gio_file.delete_async (Priority.DEFAULT, cancellable);
 			app.monitor.file_renamed (previous_file, file);
 		}
+	}
+
+	public void clear_files () {
+		files.length = 0;
+	}
+
+	public void add_file (File file) {
+		if (file_set.contains (file)) {
+			return;
+		}
+		files.add (file);
+		file_set.add (file);
 	}
 
 	const string CATALOG_FORMAT = "1.0";

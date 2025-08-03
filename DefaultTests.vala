@@ -2,6 +2,7 @@ public class Gth.TestVisible : Gth.Test {
 	construct {
 		id = "Permission::Visible";
 		display_name = _("Visible Files");
+		title = _("Type");
 		attributes = FileAttribute.STANDARD_IS_HIDDEN;
 	}
 
@@ -11,7 +12,9 @@ public class Gth.TestVisible : Gth.Test {
 }
 
 public class Gth.TestFileType : Gth.Test {
-	// void
+	construct {
+		title = _("Type");
+	}
 }
 
 public class Gth.TestFileTypeRegular : Gth.TestFileType {

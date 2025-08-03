@@ -562,4 +562,12 @@ public class Gth.Util {
 	public static inline float center_content (float container_size, float content_size) {
 		return float.max ((container_size - content_size) / 2, 0);
 	}
+
+	public static uint file_hash (File a) {
+		return a.hash ();
+	}
+
+	public static bool file_equal (File a, File b) {
+		return a.equal (b);
+	}
 }

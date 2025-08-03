@@ -114,6 +114,12 @@ public class Gth.Browser : Gtk.Box {
 		thumbnailer.queue_load_next ();
 	}
 
+	public async void open_location_async (File location) throws Error {
+		window.set_page (Window.Page.BROWSER);
+		set_sidebar_state (location.has_uri_scheme ("catalog") ? SidebarState.CATALOGS : SidebarState.FILES);
+		yield load_folder (location, LoadAction.OPEN);
+	}
+
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
 		window.set_page (Window.Page.BROWSER);
 		if (load_action.changes_current_folder ()) {
@@ -237,7 +243,7 @@ public class Gth.Browser : Gtk.Box {
 	string list_attributes = null;
 	string[] thumbnail_attributes_v = {};
 
-	unowned string get_list_attributes (bool recalc) {
+	public unowned string get_list_attributes (bool recalc = false) {
 		if (recalc) {
 			list_attributes = null;
 		}
@@ -657,7 +663,15 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("update-search", null);
 		action.activate.connect ((_action, param) => {
-			// TODO
+			update_search.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("stop-search", null);
+		action.activate.connect ((_action, param) => {
+			if (search_job != null) {
+				search_job.cancel ();
+			}
 		});
 		action_group.add_action (action);
 
@@ -801,10 +815,11 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	async void edit_catalog () {
-		var local_job = window.new_job ("Edit catalog %s".printf (folder_tree.current_folder.file.get_uri ()));
+		var file = folder_tree.current_folder.file;
+		var local_job = window.new_job ("Edit catalog %s".printf (file.get_uri ()));
 		try {
 			var editor = new Gth.CatalogEditor ();
-			var catalog = yield editor.edit_catalog (window, folder_tree.current_folder.file, local_job.cancellable);
+			var catalog = yield editor.edit_catalog (window, file, local_job.cancellable);
 			yield catalog.save_async (local_job.cancellable);
 
 			// Update the current folder info
@@ -812,13 +827,40 @@ public class Gth.Browser : Gtk.Box {
 			catalog.update_file_info (folder_tree.current_folder.info);
 			folder_tree.current_folder.info_changed ();
 
-			// TODO: start searching if the search parameters changed
+			if (editor.search_parameters_changed ()) {
+				// Start searching if the search parameters changed.
+				update_search.begin ();
+			}
 		}
 		catch (Error error) {
 			window.show_error (error);
 		}
 		finally {
 			local_job.done ();
+		}
+	}
+
+	Job search_job = null;
+
+	async void update_search () {
+		if (search_job != null) {
+			search_job.cancel ();
+		}
+		var file = folder_tree.current_folder.file;
+		var local_job = window.new_job ("Update search %s".printf (file.get_uri ()));
+		search_job = local_job;
+		try {
+			var search = new UpdateSearch ();
+			yield search.update_file (this, file, local_job.cancellable);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+			if (search_job == local_job) {
+				search_job = null;
+			}
 		}
 	}
 

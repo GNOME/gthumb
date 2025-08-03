@@ -3,4 +3,5 @@ search_files = files(
   'SearchDialog.vala',
   'SearchSourceEditorGroup.vala',
   'SearchSourceRow.vala',
+  'UpdateSearch.vala',
 )

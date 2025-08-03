@@ -27,13 +27,27 @@ public class Gth.CatalogEditor : Object {
 		if (result == null) {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
+		original = dialog.get_original ();
 		return result;
+	}
+
+	public bool search_parameters_changed () {
+		if ((result == null) || (original == null)) {
+			return false;
+		}
+		if ((result is CatalogSearch) && (original is CatalogSearch)) {
+			var result_s = result as CatalogSearch;
+			var original_s = original as CatalogSearch;
+			return !result_s.equal_search_parameters (original_s);
+		}
+		return false;
 	}
 
 	SourceFunc callback = null;
 	CatalogDialog dialog = null;
 	ulong cancelled_event = 0;
 	Catalog? result = null;
+	Catalog? original = null;
 }
 
 
@@ -55,8 +69,12 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 		return catalog;
 	}
 
+	public Catalog get_original () {
+		return original_catalog;
+	}
+
 	[GtkCallback]
-	private void on_cancel (Gtk.Button source) {
+	void on_cancel (Gtk.Button source) {
 		close ();
 	}
 
@@ -72,7 +90,8 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 	}
 
 	void set_catalog (Catalog _catalog) {
-		catalog = _catalog;
+		original_catalog = _catalog;
+		catalog = original_catalog.duplicate ();
 		if (catalog is CatalogSearch) {
 			var search = catalog as CatalogSearch;
 			rules_group.set_expr (search.test);
@@ -95,5 +114,6 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 	[GtkChild] unowned Gth.SearchSourceEditorGroup sources_group;
 	[GtkChild] unowned Gth.TestExprEditorGroup rules_group;
 
+	Catalog original_catalog;
 	Catalog catalog;
 }
