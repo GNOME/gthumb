@@ -71,17 +71,10 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 	Gtk.Widget new_test_row (Object item) {
 		var test = item as Gth.Test;
 
-		var row = new Adw.ActionRow ();
-		row.title = test.display_name;
+		Gtk.Widget row = null;
 
-		var icon = new Gtk.Image.from_icon_name ("filter-symbolic");
-		row.add_prefix (icon);
-
-		var test_options = test.create_options ();
-		if (test_options != null) {
-			test_options.valign = Gtk.Align.CENTER;
-			row.add_suffix (test_options);
-		}
+		//var icon = new Gtk.Image.from_icon_name ("filter-symbolic");
+		//row.add_prefix (icon);
 
 		var delete_button = new Gtk.Button.from_icon_name ("list-delete-symbolic");
 		delete_button.add_css_class ("flat");
@@ -91,7 +84,35 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 		delete_button.clicked.connect (() => {
 			expr.remove (test);
 		});
-		row.add_suffix (delete_button);
+
+		var test_options = test.create_options ();
+		if (test_options != null) {
+			test_options.valign = Gtk.Align.CENTER;
+			var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+			vbox.hexpand = true;
+			var subtitle = new Gtk.Label (test.display_name);
+			subtitle.halign = Gtk.Align.START;
+			subtitle.add_css_class ("subtitle");
+			vbox.append (subtitle);
+			vbox.append (test_options);
+
+			var hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+			hbox.append (vbox);
+			hbox.append (delete_button);
+
+			var row_with_options = new Gtk.ListBoxRow ();
+			row_with_options.add_css_class ("test-list-row");
+			row_with_options.child = hbox;
+
+			row = row_with_options;
+		}
+		else {
+			var action_row = new Adw.ActionRow ();
+			action_row.title = test.display_name;
+			action_row.add_suffix (delete_button);
+
+			row = action_row;
+		}
 
 		return row;
 	}
