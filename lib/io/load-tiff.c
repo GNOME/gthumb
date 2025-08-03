@@ -1,4 +1,7 @@
 #include <config.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
 #include <tiff.h>
 #include <tiffio.h>
 #include "load-tiff.h"
@@ -224,6 +227,24 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		dest_row += dest_row_stride;
 		src_row += src_row_stride;
 	}
+
+	// ICC Profile
+
+#if HAVE_LCMS2
+
+	uint32 icc_profile_size;
+	void *icc_profile_data;
+	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
+		GBytes *bytes = g_bytes_new (icc_profile_data, icc_profile_size);
+		GthIccProfile *profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+		if (profile != NULL) {
+			gth_image_set_icc_profile (image, profile);
+			g_object_unref (profile);
+		}
+		g_bytes_unref (bytes);
+	}
+
+#endif
 
 	_TIFFfree (raster);
 	TIFFClose (tif);
