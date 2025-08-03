@@ -406,8 +406,9 @@ GthImage* gth_image_scale (GthImage *self, double zoom) {
 
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
-	if (profile != NULL)
+	if (profile != NULL) {
 		g_object_ref (profile);
+	}
 	_gth_image_free_icc_profile (self);
 	self->priv->icc_profile = profile;
 	if (self->priv->icc_profile != NULL) {

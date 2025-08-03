@@ -272,6 +272,7 @@ gth_icc_profile_new_from_bytes (GBytes *bytes, const char *id)
 	icc_profile->priv->bytes = g_bytes_ref (bytes);
 	icc_profile->priv->cms_profile = cmsOpenProfileFromMem (data, size);
 	icc_profile->priv->id = (id != NULL) ? g_strdup (id) : _gth_cms_profile_create_id (icc_profile->priv->cms_profile);
+
 	return icc_profile;
 }
 
@@ -304,25 +305,36 @@ gth_icc_profile_get_description	(GthIccProfile *self)
 		return self->priv->description;
 	}
 
+	if (self->priv->cms_profile == NULL) {
+		return NULL;
+	}
+
 #ifdef HAVE_LCMS2
 
-	GString *color_profile = g_string_new ("");
-	cmsHPROFILE hProfile = (cmsHPROFILE) gth_icc_profile_get_profile (self);
-	const int buffer_size = 128;
+	cmsHPROFILE hProfile = (cmsHPROFILE) self->priv->cms_profile;
+	const int buffer_size = 512;
 	wchar_t buffer[buffer_size];
-	cmsUInt32Number size = cmsGetProfileInfo (hProfile, cmsInfoDescription, "en", "US", (wchar_t *) buffer, buffer_size);
+	cmsUInt32Number size = cmsGetProfileInfo (hProfile,
+		cmsInfoDescription,
+		cmsNoLanguage,
+		cmsNoCountry,
+		(wchar_t *) buffer,
+		buffer_size);
+
 	if (size > 0) {
+		GString *color_profile = g_string_new ("");
 		for (int i = 0; (i < size) && (buffer[i] != 0); i++) {
 			g_string_append_c (color_profile, buffer[i]);
 		}
+		if (color_profile->len > 0) {
+			self->priv->description = _g_utf8_try_from_any (color_profile->str);
+		}
+		g_string_free (color_profile, TRUE);
 	}
 
-	if (color_profile->len > 0) {
-		self->priv->description = _g_utf8_try_from_any (color_profile->str);
+	if (self->priv->description == NULL) {
+		self->priv->description = g_strdup ("Unknown");
 	}
-
-	g_string_free (color_profile, TRUE);
-
 	return self->priv->description;
 
 #else

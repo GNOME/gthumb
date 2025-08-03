@@ -72,9 +72,16 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		load_job = local_job;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
-			var monitor_profile = yield window.get_monitor_profile (local_job.cancellable);
-			if (monitor_profile != null) {
-				yield image.apply_icc_profile_async (app.color_manager, monitor_profile, local_job.cancellable);
+			var icc_profile = image.get_icc_profile ();
+			if (icc_profile != null) {
+				var monitor_profile = yield window.get_monitor_profile (local_job.cancellable);
+				if (monitor_profile != null) {
+					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, local_job.cancellable);
+				}
+				unowned var description = icc_profile.get_description ();
+				if (description != null) {
+					file_data.info.set_attribute_string ("Loaded::Image::ColorProfile", description);
+				}
 			}
 			image_view.image = image;
 			file_data.set_content_type (image_view.image.get_attribute ("content-type"));
