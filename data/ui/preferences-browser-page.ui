@@ -37,6 +37,25 @@
                 </child>
               </object>
             </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Caption</property>
+                <child>
+                  <object class="AdwComboRow" id="caption_first_row">
+                    <property name="title" translatable="yes">First Row</property>
+                    <property name="model">caption_model</property>
+                    <signal name="notify::selected" handler="on_caption_selected"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwComboRow" id="caption_second_row">
+                    <property name="title" translatable="yes">Second Row</property>
+                    <property name="model">caption_model</property>
+                    <signal name="notify::selected" handler="on_caption_selected"/>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>
@@ -49,5 +68,7 @@
     <property name="page-increment">128</property>
     <property name="value">256</property>
     <signal name="value_changed" handler="on_thumbnail_size_changed"/>
+  </object>
+  <object class="GtkStringList" id="caption_model">
   </object>
 </interface>

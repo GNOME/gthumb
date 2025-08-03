@@ -148,8 +148,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void on_setting_change (string key) {
-		if (key == PREF_BROWSER_THUMBNAIL_SIZE) {
+		switch (key) {
+		case PREF_BROWSER_THUMBNAIL_SIZE:
 			browser.set_thumbnail_size (app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
+			break;
+		case PREF_BROWSER_THUMBNAIL_CAPTION:
+			browser.reload ();
+			break;
 		}
 	}
 

@@ -167,6 +167,13 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
+	public void reload () {
+		if (folder_tree.current_folder == null) {
+			return;
+		}
+		open_location (folder_tree.current_folder.file, LoadAction.OPEN_FROM_HISTORY);
+	}
+
 	public void update_sort_order (string name, bool inverse) {
 		sort = { name, inverse };
 		update_thumbnail_list ();
@@ -696,6 +703,9 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect ((_action, param) => {
 			view_next_file ();
 		});
+
+		action = new SimpleAction ("reload", null);
+		action.activate.connect (() => reload ());
 		action_group.add_action (action);
 	}
 
