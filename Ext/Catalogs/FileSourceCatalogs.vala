@@ -6,7 +6,8 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 	public override async GenericArray<FileData>? get_roots (Cancellable cancellable) {
 		var roots = new GenericArray<FileData>();
 		var file = File.new_for_uri ("catalog:///");
-		var info = get_display_info (file);
+		var info = new FileInfo ();
+		Catalog.update_file_info_for_library (file, info);
 		roots.add (new Gth.FileData (file, info));
 		return roots;
 	}
@@ -23,17 +24,23 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 				catalog.update_file_info (info);
 			}
 			catch (Error error) {
-				stdout.printf ("ERROR: %s\n", error.message);
+				//stdout.printf ("ERROR: %s\n", error.message);
 			}
 		}
 		else {
-			info = gio_file.query_info (STANDARD_ATTRIBUTES, FileQueryInfoFlags.NONE);
-			if (info.get_file_type () == FileType.DIRECTORY) {
-				Catalog.update_file_info_for_library (file, info);
+			try {
+				info = gio_file.query_info (STANDARD_ATTRIBUTES, FileQueryInfoFlags.NONE);
+				if (info.get_file_type () == FileType.DIRECTORY) {
+					Catalog.update_file_info_for_library (file, info);
+				}
+			}
+			catch (Error error) {
+				//stdout.printf ("ERROR: %s\n", error.message);
 			}
 		}
-		if (info == null)
+		if (info == null) {
 			info = new FileInfo ();
+		}
 		return info;
 	}
 
