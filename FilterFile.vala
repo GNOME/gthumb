@@ -76,7 +76,7 @@ public class Gth.FilterFile {
 			changed (null);
 		}
 		catch (Error error) {
-			stdout.printf ("ERROR: %s\n", error.message);
+			//stdout.printf ("ERROR: %s\n", error.message);
 		}
 
 		return loaded;
