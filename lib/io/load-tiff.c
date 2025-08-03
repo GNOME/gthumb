@@ -367,114 +367,134 @@ gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancel
 	}
 
 	int remaining_tags = 3;
+	int remaining_dimensions = 2;
 	int orientation = ORIENTATION_TOPLEFT;
 
 	// IFD offset
-
-next_ifd:
 
 	guint32 offset;
 	if (!_read_uint32 (&reader, &offset)) {
 		return FALSE;
 	}
-	if (offset == 0) {
-		return FALSE;
-	}
 
-	// Move to the next IFD
+	while (offset != 0) {
+		// Move to the next IFD
 
-	if (!_seek (&reader, (goffset) offset)) {
-		return FALSE;
-	}
-
-	// Number of entries
-
-	guint16 entries;
-	if (!_read_uint16 (&reader, &entries)) {
-		return FALSE;
-	}
-	if (entries == 0) {
-		return FALSE;
-	}
-
-	for (int i = 0; (remaining_tags > 0) && (i < entries); i++) {
-		guint16 entry_tag;
-		if (!_read_uint16 (&reader, &entry_tag)) {
+		if (!_seek (&reader, (goffset) offset)) {
 			return FALSE;
 		}
 
-		if ((entry_tag == TIFFTAG_IMAGEWIDTH)
-			|| (entry_tag == TIFFTAG_IMAGELENGTH)
-			|| (entry_tag == TIFFTAG_ORIENTATION))
-		{
-			guint16 entry_type;
-			if (!_read_uint16 (&reader, &entry_type)) {
+		// Number of entries
+
+		guint16 entries;
+		if (!_read_uint16 (&reader, &entries)) {
+			return FALSE;
+		}
+		if (entries == 0) {
+			return FALSE;
+		}
+
+		for (int i = 0; (remaining_tags > 0) && (i < entries); i++) {
+			guint16 entry_tag;
+			if (!_read_uint16 (&reader, &entry_tag)) {
 				return FALSE;
 			}
 
-			guint32 count;
-			if (!_read_uint32 (&reader, &count)) {
-				return FALSE;
-			}
-
-			guint32 offset;
-			if (!_read_uint32 (&reader, &offset)) {
-				return FALSE;
-			}
-
-			if (count != 1) {
-				return FALSE;
-			}
-
-			// Values shorter than 4 bytes are left-justified.
-
-			guint32 value;
-			if (entry_type == 1) { // BYTE
-				if (reader.big_endian) {
-					value = (offset >> 32);
+			if ((entry_tag == TIFFTAG_IMAGEWIDTH)
+				|| (entry_tag == TIFFTAG_IMAGELENGTH)
+				|| (entry_tag == TIFFTAG_ORIENTATION))
+			{
+				guint16 entry_type;
+				if (!_read_uint16 (&reader, &entry_type)) {
+					return FALSE;
 				}
-				else {
+
+				guint32 count;
+				if (!_read_uint32 (&reader, &count)) {
+					return FALSE;
+				}
+
+				guint32 offset;
+				if (!_read_uint32 (&reader, &offset)) {
+					return FALSE;
+				}
+
+				if (count != 1) {
+					return FALSE;
+				}
+
+				// Values shorter than 4 bytes are left-justified.
+
+				guint32 value;
+				if ((entry_type == 1) || (entry_type == 6)) { // BYTE or SIGNED BYTE
+					if (reader.big_endian) {
+						value = (offset >> 32);
+					}
+					else {
+						value = offset;
+					}
+				}
+				else if ((entry_type == 3) || (entry_type == 8)) { // SHORT or SIGNED SHORT (2 BYTES)
+					if (reader.big_endian) {
+						value = (offset >> 16);
+					}
+					else {
+						value = offset;
+					}
+
+				}
+				else if ((entry_type == 4) || (entry_type == 9)) { // LONG or SIGNED LONG (4 BYTES)
 					value = offset;
 				}
-			}
-			else if (entry_type == 3) { // SHORT (2 BYTES)
-				if (reader.big_endian) {
-					value = (offset >> 16);
-				}
 				else {
-					value = offset;
+					g_warning ("Invalid Type: %u\n", entry_type);
+					return FALSE;
 				}
-			}
-			else if (entry_type == 4) { // LONG (4 BYTES)
-				value = offset;
+
+				if ((entry_type == 6) || (entry_type == 8) || (entry_type == 9)) {
+					gint32 signed_value = (gint32) value;
+					if (signed_value < 0) {
+						return FALSE;
+					}
+					value = (guint32) signed_value;
+				}
+
+				if (entry_tag == TIFFTAG_IMAGEWIDTH) {
+					image_info->width = value;
+					remaining_tags--;
+					remaining_dimensions--;
+				}
+
+				if (entry_tag == TIFFTAG_IMAGELENGTH) {
+					image_info->height = value;
+					remaining_tags--;
+					remaining_dimensions--;
+				}
+
+				if (entry_tag == TIFFTAG_ORIENTATION) {
+					orientation = value;
+					remaining_tags--;
+				}
 			}
 			else {
-				return FALSE;
-			}
-
-			if (entry_tag == TIFFTAG_IMAGEWIDTH) {
-				image_info->width = value;
-				remaining_tags--;
-			}
-
-			if (entry_tag == TIFFTAG_IMAGELENGTH) {
-				image_info->height = value;
-				remaining_tags--;
-			}
-
-			if (entry_tag == TIFFTAG_ORIENTATION) {
-				orientation = value;
-				remaining_tags--;
+				// Skip the rest of the entry.
+				_skip (&reader, 12 - 2);
 			}
 		}
-		else {
-			// Skip the rest of the entry.
-			_skip (&reader, 12 - 2);
+
+		if (remaining_tags == 0) {
+			break;
+		}
+
+		// Read the next IFD offset.
+
+		if (!_read_uint32 (&reader, &offset)) {
+			return FALSE;
 		}
 	}
 
-	if (remaining_tags > 0) {
-		goto next_ifd;
+	if (remaining_dimensions > 0) {
+		return FALSE;
 	}
 
 	if (orientation >= ORIENTATION_LEFTTOP) {
