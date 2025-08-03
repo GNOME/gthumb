@@ -72,7 +72,7 @@ public class Gth.Browser : Gtk.Box {
 
 		// Restore settings.
 		sort = {
-			app.settings.get_string (PREF_BROWSER_SORT_TYPE),
+			app.migration.test.get_new_key (app.settings.get_string (PREF_BROWSER_SORT_TYPE)),
 			app.settings.get_boolean (PREF_BROWSER_SORT_INVERSE)
 		};
 		general_filter = app.get_general_filter ();
@@ -269,9 +269,9 @@ public class Gth.Browser : Gtk.Box {
 		// Attributes required for the thumbnail caption.
 		var thumbnail_caption = app.settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
 		if (!Strings.empty (thumbnail_caption) && (thumbnail_caption != "none")) {
+			thumbnail_attributes_v = app.migration.metadata.get_new_key_v (thumbnail_caption);
 			attributes.append (",");
-			attributes.append (thumbnail_caption);
-			thumbnail_attributes_v = thumbnail_caption.split (",");
+			attributes.append (string.joinv (",", thumbnail_attributes_v));
 		}
 		else {
 			thumbnail_attributes_v = {};
@@ -330,7 +330,7 @@ public class Gth.Browser : Gtk.Box {
 		if ((local_sort.name != filter.sort.name) || (local_sort.inverse != filter.sort.inverse)) {
 			unowned var sort_info = app.get_sorter_by_id (local_sort.name);
 			if (sort_info == null) {
-				sort_info = app.get_sorter_by_id ("file::name");
+				sort_info = app.get_sorter_by_id ("File::Name");
 			}
 			if (sort_info.cmp_func != null) {
 				visible_children.model.sort ((a, b) => {
@@ -880,7 +880,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		if (sort.name != null) {
-			app.settings.set_string (PREF_BROWSER_SORT_TYPE, sort.name);
+			app.settings.set_string (PREF_BROWSER_SORT_TYPE, app.migration.test.get_old_key (sort.name));
 			app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
 		}
 

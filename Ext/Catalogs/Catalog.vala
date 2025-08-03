@@ -193,10 +193,10 @@ public class Gth.Catalog {
 		// Secondary sort order (date)
 		var sort_order = date.date.to_sort_order ();
 		if (sort_order != 0) {
-			info.set_attribute_uint32 ("gth::standard::secondary-sort-order", sort_order);
+			info.set_attribute_uint32 ("Private::SecondarySortOrder", sort_order);
 		}
 		else {
-			info.remove_attribute ("gth::standard::secondary-sort-order");
+			info.remove_attribute ("Private::SecondarySortOrder");
 		}
 	}
 

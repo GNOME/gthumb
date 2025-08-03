@@ -49,8 +49,8 @@ public class Gth.SortFoldersDialog : Adw.PreferencesDialog {
 	[GtkChild] unowned Adw.SwitchRow inverse_order_switch;
 
 	const string[] FOLDER_SORTERS = {
-		"file::name",
-		"file::mtime"
+		"File::Name",
+		"Time::Modified"
 	};
 
 	const string[] SORTER_ID = {

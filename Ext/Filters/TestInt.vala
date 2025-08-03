@@ -28,9 +28,7 @@ public class Gth.TestInt : Gth.Test {
 	}
 
 	public override Dom.Element create_element (Dom.Document doc) {
-		var node = new Dom.Element.with_attributes ("test", "id", id);
-		if (!visible)
-			node.set_attribute ("display", "none");
+		var node = base.create_element (doc);
 		node.set_attribute ("op", op.to_xml_attribute ());
 		if (op != Test.Operation.NONE) {
 			if (negative) {
@@ -42,8 +40,7 @@ public class Gth.TestInt : Gth.Test {
 	}
 
 	public override void load_from_element (Dom.Element node) {
-		id = node.get_attribute ("id");
-		visible = node.get_attribute ("display") != "none";
+		base.load_from_element (node);
 		op = Test.Operation.from_xml_attribute (node.get_attribute ("op"));
 		negative = node.get_attribute ("negative") == "true";
 		int value;

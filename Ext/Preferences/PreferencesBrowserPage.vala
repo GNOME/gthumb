@@ -20,4 +20,12 @@ public class Gth.PreferencesBrowserPage : Adw.NavigationPage {
 	[GtkChild] unowned Gtk.Adjustment thumbnail_size_adjustment;
 	GLib.Settings settings;
 	const double THUMBNAIL_SIZE_STEP = 32.0;
+	const string[] CAPTION_ATTRIBUTES = {
+		"standard::display-name",
+		"Private::File::DisplaySize",
+		"Private::File::DisplayMtime",
+		"Frame::Pixels",
+		"Metadata::Title",
+		"Metadata::Rating",
+	};
 }

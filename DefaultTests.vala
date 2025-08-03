@@ -1,6 +1,6 @@
 public class Gth.TestVisible : Gth.Test {
 	construct {
-		id = "file::is_visible";
+		id = "Permission::Visible";
 		display_name = _("Visible Files");
 		attributes = FileAttribute.STANDARD_IS_HIDDEN;
 	}
@@ -16,7 +16,7 @@ public class Gth.TestFileType : Gth.Test {
 
 public class Gth.TestFileTypeRegular : Gth.TestFileType {
 	construct {
-		id = "file::type::is_file";
+		id = "Type::File";
 		display_name = _("All Files");
 		attributes = null;
 	}
@@ -28,7 +28,7 @@ public class Gth.TestFileTypeRegular : Gth.TestFileType {
 
 public class Gth.TestFileTypeImage : Gth.TestFileType {
 	construct {
-		id = "file::type::is_image";
+		id = "Type::Image";
 		display_name = _("Images");
 		attributes = null;
 	}
@@ -40,7 +40,7 @@ public class Gth.TestFileTypeImage : Gth.TestFileType {
 
 public class Gth.TestFileTypeJpeg : Gth.TestFileType {
 	construct {
-		id = "file::type::is_jpeg";
+		id = "Type::Jpeg";
 		display_name = _("JPEG Images");
 		attributes = null;
 	}
@@ -52,7 +52,7 @@ public class Gth.TestFileTypeJpeg : Gth.TestFileType {
 
 public class Gth.TestFileTypeRaw : Gth.TestFileType {
 	construct {
-		id = "file::type::is_raw";
+		id = "Type::Raw";
 		display_name = _("Raw Photos");
 		attributes = null;
 	}
@@ -64,7 +64,7 @@ public class Gth.TestFileTypeRaw : Gth.TestFileType {
 
 public class Gth.TestFileTypeVideo : Gth.TestFileType {
 	construct {
-		id = "file::type::is_video";
+		id = "Type::Video";
 		display_name = _("Videos");
 		attributes = null;
 	}
@@ -76,7 +76,7 @@ public class Gth.TestFileTypeVideo : Gth.TestFileType {
 
 public class Gth.TestFileTypeAudio : Gth.TestFileType {
 	construct {
-		id = "file::type::is_audio";
+		id = "Type::Audio";
 		display_name = _("Audio Files");
 		attributes = null;
 	}
@@ -88,7 +88,7 @@ public class Gth.TestFileTypeAudio : Gth.TestFileType {
 
 public class Gth.TestFileTypeMedia : Gth.TestFileType {
 	construct {
-		id = "file::type::is_media";
+		id = "Type::Media";
 		display_name = _("Media Files");
 		attributes = null;
 	}
@@ -103,7 +103,7 @@ public class Gth.TestFileTypeMedia : Gth.TestFileType {
 
 public class Gth.TestFileTypeText : Gth.TestFileType {
 	construct {
-		id = "file::type::is_text";
+		id = "Type::Text";
 		display_name = _("Text Files");
 		attributes = null;
 	}
@@ -115,7 +115,7 @@ public class Gth.TestFileTypeText : Gth.TestFileType {
 
 public class Gth.TestFileName : Gth.TestString {
 	construct {
-		id = "file::name";
+		id = "File::Name";
 		display_name = _("Name");
 		attributes = "standard::display-name";
 	}
@@ -127,9 +127,9 @@ public class Gth.TestFileName : Gth.TestString {
 
 public class Gth.TestFileSize : Gth.TestSize {
 	construct {
-		id = "file::size";
+		id = "File::Size";
 		display_name = _("Size");
-		attributes = "gth::file::size";
+		attributes = "Private::File::Size";
 	}
 
 	public override uint64 get_file_value (FileData file) {
@@ -139,7 +139,7 @@ public class Gth.TestFileSize : Gth.TestSize {
 
 public class Gth.TestFileCreatedTime : Gth.TestDate {
 	construct {
-		id = "file::ctime";
+		id = "Time::Created";
 		display_name = _("Created");
 		attributes = "time::created,time::created-usec";
 	}
@@ -151,7 +151,7 @@ public class Gth.TestFileCreatedTime : Gth.TestDate {
 
 public class Gth.TestFileModifiedTime : Gth.TestDate {
 	construct {
-		id = "file::mtime";
+		id = "Time::Modified";
 		display_name = _("Modified");
 		attributes = "time::modified,time::modified-usec";
 	}
@@ -175,9 +175,9 @@ public class Gth.TestTimeOriginal : Gth.TestDate {
 
 public class Gth.TestTitleEmbedded : Gth.TestString {
 	construct {
-		id = "general::title";
+		id = "Metadata::Title";
 		display_name = _("Title (Embedded)");
-		attributes = "general::title";
+		attributes = "Metadata::Title";
 	}
 
 	public override string? get_file_value (FileData file) {
@@ -187,9 +187,9 @@ public class Gth.TestTitleEmbedded : Gth.TestString {
 
 public class Gth.TestDescriptionEmbedded : Gth.TestString {
 	construct {
-		id = "general::description";
+		id = "Metadata::Description";
 		display_name = _("Description (Embedded)");
-		attributes = "general::description";
+		attributes = "Metadata::Description";
 	}
 
 	public override string? get_file_value (FileData file) {
@@ -199,9 +199,9 @@ public class Gth.TestDescriptionEmbedded : Gth.TestString {
 
 public class Gth.TestRating : Gth.TestInt {
 	construct {
-		id = "general::rating";
+		id = "Metadata::Rating";
 		display_name = _("Rating");
-		attributes = "general::rating";
+		attributes = "Metadata::Rating";
 	}
 
 	public override int get_file_value (FileData file) {
@@ -211,26 +211,26 @@ public class Gth.TestRating : Gth.TestInt {
 
 public class Gth.TestTagEmbedded : Gth.Test {
 	construct {
-		id = "general::tags";
+		id = "Metadata::Tags";
 		display_name = _("Tag (Embedded)");
-		attributes = "general::tags";
+		attributes = "Metadata::Tags";
 	}
 }
 
 public class Gth.TestFrameAspectRatio : Gth.TestAspectRatio {
 	construct {
-		id = "frame::aspect-ratio";
+		id = "Frame::AspectRatio";
 		display_name = _("Aspect Ratio");
-		attributes = "frame::width, frame::height";
+		attributes = "Frame::Width, Frame::Height";
 	}
 
 	public override float get_file_value (FileData file) {
 		var value = 0.0f;
-		if (file.info.has_attribute ("frame::width")
-			&& file.info.has_attribute ("frame::height"))
+		if (file.info.has_attribute ("Frame::Width")
+			&& file.info.has_attribute ("Frame::Height"))
 		{
-			var width = file.info.get_attribute_int32 ("frame::width");
-			var height = file.info.get_attribute_int32 ("frame::height");
+			var width = file.info.get_attribute_int32 ("Frame::Width");
+			var height = file.info.get_attribute_int32 ("Frame::Height");
 			value = (float) width / height;
 		}
 		return value;

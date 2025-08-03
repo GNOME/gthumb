@@ -1,12 +1,12 @@
 public class Gth.MetadataProviderComment : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"comment::*",
-		"general::datetime",
-		"general::title",
-		"general::description",
-		"general::location",
-		"general::tags",
-		"general::rating",
+		"Metadata::DateTime",
+		"Metadata::Title",
+		"Metadata::Description",
+		"Metadata::Location",
+		"Metadata::Tags",
+		"Metadata::Rating",
 	};
 
 	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
@@ -26,37 +26,37 @@ public class Gth.MetadataProviderComment : Gth.MetadataProvider {
 			file_data.info.set_attribute_boolean ("comment::no-comment-file", false);
 			if (!Strings.empty (comment.note)) {
 				file_data.info.set_attribute_string ("comment::note", comment.note);
-				file_data.info.set_attribute_object ("general::description", new Metadata.for_string (comment.note));
+				file_data.info.set_attribute_object ("Metadata::Description", new Metadata.for_string (comment.note));
 			}
 
 			if (!Strings.empty (comment.caption)) {
 				file_data.info.set_attribute_string ("comment::caption", comment.caption);
-				file_data.info.set_attribute_object ("general::title", new Metadata.for_string (comment.caption));
+				file_data.info.set_attribute_object ("Metadata::Title", new Metadata.for_string (comment.caption));
 			}
 
 			if (!Strings.empty (comment.place)) {
 				file_data.info.set_attribute_string ("comment::place", comment.place);
-				file_data.info.set_attribute_object ("general::location", new Metadata.for_string (comment.place));
+				file_data.info.set_attribute_object ("Metadata::Location", new Metadata.for_string (comment.place));
 			}
 
 			if (comment.rating > 0) {
 				file_data.info.set_attribute_int32 ("comment::rating", comment.rating);
-				file_data.info.set_attribute_object ("general::rating", new Metadata.for_string ("%d".printf (comment.rating)));
+				file_data.info.set_attribute_object ("Metadata::Rating", new Metadata.for_string ("%d".printf (comment.rating)));
 			}
 			else {
 				file_data.info.remove_attribute ("comment::rating");
-				file_data.info.remove_attribute ("general::rating");
+				file_data.info.remove_attribute ("Metadata::Rating");
 			}
 
 			if (comment.categories.length > 0) {
 				var list = new StringList.from_array (comment.categories);
 				var metadata = new Metadata.for_string_list (list);
 				file_data.info.set_attribute_object ("comment::categories", metadata);
-				file_data.info.set_attribute_object ("general::tags", metadata);
+				file_data.info.set_attribute_object ("Metadata::Tags", metadata);
 			}
 			else {
 				file_data.info.remove_attribute ("comment::categories");
-				file_data.info.remove_attribute ("general::tags");
+				file_data.info.remove_attribute ("Metadata::Tags");
 			}
 
 			if (comment.time.date_is_valid ()) {
@@ -64,11 +64,11 @@ public class Gth.MetadataProviderComment : Gth.MetadataProvider {
 				var formatted = comment.time.to_display_string ();
 				var metadata = new Metadata.for_string (raw, formatted);
 				file_data.info.set_attribute_object ("comment::time", metadata);
-				file_data.info.set_attribute_object ("general::datetime", metadata);
+				file_data.info.set_attribute_object ("Metadata::DateTime", metadata);
 			}
 			else {
 				file_data.info.remove_attribute ("comment::time");
-				file_data.info.remove_attribute ("general::datetime");
+				file_data.info.remove_attribute ("Metadata::DateTime");
 			}
 
 		}

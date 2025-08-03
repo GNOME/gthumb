@@ -58,7 +58,7 @@ public class Gth.Filter : Gth.Test {
 			var limit_node = new Dom.Element ("limit");
 			limit_node.set_attribute ("type", limit_type.to_xml_attribute ());
 			limit_node.set_attribute ("value", limit.to_string ());
-			limit_node.set_attribute ("selected_by", sort.name);
+			limit_node.set_attribute ("selected_by", app.migration.sorter.get_old_key (sort.name));
 			limit_node.set_attribute ("direction", sort.inverse ? "descending" : "ascending");
 			node.append_child (limit_node);
 		}
@@ -66,9 +66,8 @@ public class Gth.Filter : Gth.Test {
 	}
 
 	public override void load_from_element (Dom.Element node) {
-		id = node.get_attribute ("id");
+		base.load_from_element (node);
 		display_name = node.get_attribute ("name");
-		visible = node.get_attribute ("display") != "none";
 
 		foreach (unowned var child in node) {
 			switch (child.tag_name) {
@@ -80,7 +79,7 @@ public class Gth.Filter : Gth.Test {
 				limit_type = LimitType.from_xml_attribute (child.get_attribute ("type"));
 				child.get_attribute_as_int64 ("value", out limit);
 				sort = {
-					child.get_attribute ("selected_by"),
+					app.migration.sorter.get_new_key (child.get_attribute ("selected_by")),
 					child.get_attribute ("direction") == "descending"
 				};
 				break;

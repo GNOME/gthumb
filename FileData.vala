@@ -35,16 +35,23 @@ public class Gth.FileData : Object {
 		sort_key = null;
 	}
 
+	const string[] PRESERVE_ATTRIBUTES = {
+		FileAttribute.STANDARD_CONTENT_TYPE,
+		"Private::File::ContentType",
+		"Loaded::Image::ColorProfile",
+	};
+
 	public void update_info (FileInfo _info) {
-		// Keep the STANDARD_CONTENT_TYPE if not included in the new info.
-		string content_type = null;
-		if (!_info.has_attribute (FileAttribute.STANDARD_CONTENT_TYPE)) {
-			content_type = info.get_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE);
-		}
+		var old_info = info;
 		info = _info;
-		if (content_type != null) {
-			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
-			info.set_attribute_string ("gth::file::content-type", Util.format_content_type (content_type));
+		// Keep some attributes if not included in the new info.
+		foreach (unowned var attr in PRESERVE_ATTRIBUTES) {
+			if (!info.has_attribute (attr)
+				&& old_info.has_attribute (attr))
+			{
+				unowned var value = old_info.get_attribute_string (attr);
+				info.set_attribute_string (attr, value);
+			}
 		}
 		info_changed ();
 	}
@@ -148,7 +155,7 @@ public class Gth.FileData : Object {
 
 	public unowned string get_embedded_title () {
 		if (embedded_title == null) {
-			var metadata = info.get_attribute_object ("general::title") as Gth.Metadata;
+			var metadata = info.get_attribute_object ("Metadata::Title") as Gth.Metadata;
 			if (metadata != null) {
 				embedded_title = metadata.get_formatted ();
 			}
@@ -160,7 +167,7 @@ public class Gth.FileData : Object {
 
 	public unowned string get_embedded_description () {
 		if (embedded_description == null) {
-			var metadata = info.get_attribute_object ("general::description") as Gth.Metadata;
+			var metadata = info.get_attribute_object ("Metadata::Description") as Gth.Metadata;
 			if (metadata != null) {
 				embedded_description = metadata.get_formatted ();
 			}
@@ -172,7 +179,7 @@ public class Gth.FileData : Object {
 
 	public int get_embedded_rating () {
 		if (embedded_rating == -1) {
-			var metadata = info.get_attribute_object ("general::rating") as Gth.Metadata;
+			var metadata = info.get_attribute_object ("Metadata::Rating") as Gth.Metadata;
 			if (metadata != null) {
 				int value;
 				if (int.try_parse (metadata.get_raw (), out value, null, 10)) {
@@ -219,7 +226,7 @@ public class Gth.FileData : Object {
 				var metadata = obj as Metadata;
 				switch (metadata.get_data_type ()) {
 				case MetadataType.STRING:
-					if (id == "general::rating") {
+					if (id == "Metadata::Rating") {
 						int n;
 						if (int.try_parse (metadata.get_raw (), out n, null, 10)) {
 							var str = new StringBuilder ();

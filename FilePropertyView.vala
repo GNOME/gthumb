@@ -117,10 +117,10 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 
 		actions = new HashTable<string, Action> (str_hash, str_equal);
 		actions.set ("standard::display-name", new Action ("property.copy-path", "edit-copy-symbolic", _("Copy Path")));
-		actions.set ("gth::file::location", new Action ("property.open-folder", "folder-symbolic", _("Open")));
+		actions.set ("Private::File::Location", new Action ("property.open-folder", "folder-symbolic", _("Open")));
 		actions.set ("Embedded::Photo::Coordinates", new Action ("property.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
-		actions.set ("gth::file::display-size", new Action.with_details ("gth::file::size"));
-		actions.set ("gth::file::content-type", new Action.with_details ("standard::content-type,standard::fast-content-type"));
+		actions.set ("Private::File::DisplaySize", new Action.with_details ("Private::File::Size"));
+		actions.set ("Private::File::ContentType", new Action.with_details ("standard::content-type,standard::fast-content-type"));
 
 		property_list = new GenericList<Property> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
@@ -153,7 +153,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			var property_item = list_item.child as FilePropertyItem;
 			property_item.title.label = property.name;
 			property_item.subtitle.label = property.value;
-			//property_item.subtitle.wrap_mode = (property.id == "general::description") ? Pango.WrapMode.WORD_CHAR : Pango.WrapMode.CHAR;
+			//property_item.subtitle.wrap_mode = (property.id == "Metadata::Description") ? Pango.WrapMode.WORD_CHAR : Pango.WrapMode.CHAR;
 			property_item.property = property;
 			property_item.description.visible = false;
 			var action_info = actions.get (property.id);
@@ -176,7 +176,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			}
 			if (property_item.parent != null) {
 				property_item.parent.add_css_class ("property-widget");
-				if (property.id == "general::description") {
+				if (property.id == "Metadata::Description") {
 					property_item.parent.add_css_class ("description");
 				}
 				else {
@@ -256,7 +256,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (Strings.empty (value)) {
 				continue;
 			}
-			if (info.id != "general::description") {
+			if (info.id != "Metadata::Description") {
 				value = Strings.substring (value, MAX_VALUE_CHARACTERS, "…");
 			}
 			unowned var category = Gth.MetadataCategory.get (info.category);

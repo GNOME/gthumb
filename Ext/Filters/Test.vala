@@ -104,7 +104,7 @@ public class Gth.Test : Object {
 
 	public virtual Dom.Element create_element (Dom.Document doc) {
 		var node = new Dom.Element ("test");
-		node.set_attribute("id", id);
+		node.set_attribute ("id", app.migration.test.get_old_key (id));
 		if (!visible) {
 			node.set_attribute ("display", "none");
 		}
@@ -112,7 +112,7 @@ public class Gth.Test : Object {
 	}
 
 	public virtual void load_from_element (Dom.Element node) {
-		id = node.get_attribute ("id");
+		id = app.migration.test.get_new_key (node.get_attribute ("id"));
 		visible = node.get_attribute ("display") != "none";
 	}
 

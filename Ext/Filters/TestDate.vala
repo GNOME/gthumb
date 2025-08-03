@@ -33,10 +33,7 @@ public class Gth.TestDate : Gth.Test {
 	}
 
 	public override Dom.Element create_element (Dom.Document doc) {
-		var node = new Dom.Element.with_attributes ("test", "id", id);
-		if (!visible) {
-			node.set_attribute ("display", "none");
-		}
+		var node = base.create_element (doc);
 		if (op != Test.Operation.NONE) {
 			node.set_attribute ("op", op.to_xml_attribute ());
 			if (negative) {
@@ -50,8 +47,7 @@ public class Gth.TestDate : Gth.Test {
 	}
 
 	public override void load_from_element (Dom.Element node) {
-		id = node.get_attribute ("id");
-		visible = node.get_attribute ("display") != "none";
+		base.load_from_element (node);
 		if (node.has_attribute ("op")) {
 			op = Test.Operation.from_xml_attribute (node.get_attribute ("op"));
 		}

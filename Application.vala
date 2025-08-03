@@ -23,6 +23,7 @@ public class Gth.Application : Adw.Application {
 	public GenericList<FileData> roots;
 	public Monitor monitor;
 	public Bookmarks bookmarks;
+	public Migration migration;
 
 	public Application () {
 		Object (
@@ -45,6 +46,7 @@ public class Gth.Application : Adw.Application {
 		roots = new GenericList<FileData>();
 		monitor = new Monitor ();
 		bookmarks = new Bookmarks ();
+		migration = new Migration ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();
@@ -70,22 +72,22 @@ public class Gth.Application : Adw.Application {
 
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
 		ordered_sorters = new GenericArray<string>();
-		register_sorter ({ "file::name", _("Name"), "standard::display-name", Sorters.cmp_basename });
-		register_sorter ({ "file::mtime", _("Modified"), "time::modified,time::modified-usec", Sorters.cmp_modified_time });
-		register_sorter ({ "file::size", _("Bytes"), "standard::size", Sorters.cmp_size });
-		register_sorter ({ "file::path", _("Path and Name"), "standard::display-name", Sorters.cmp_uri });
-		register_sorter ({ "general::dimensions", _("Width and Height"), "frame::width,frame::height", Sorters.cmp_frame_dimensions });
-		register_sorter ({ "frame::aspect-ratio", _("Aspect Ratio"), "frame::width,frame::height", Sorters.cmp_aspect_ratio });
-		register_sorter ({ "general::unsorted", _("Unsorted"), "", null });
+		register_sorter ({ "File::Name", _("Name"), "standard::display-name", Sorters.cmp_basename });
+		register_sorter ({ "Time::Modified", _("Modified"), "time::modified,time::modified-usec", Sorters.cmp_modified_time });
+		register_sorter ({ "File::Size", _("Bytes"), "standard::size", Sorters.cmp_size });
+		register_sorter ({ "File::Path", _("File Path"), "standard::display-name", Sorters.cmp_uri });
+		register_sorter ({ "Frame::Pixels", _("Width and Height"), "Frame::Width,Frame::Height", Sorters.cmp_frame_dimensions });
+		register_sorter ({ "Frame::AspectRatio", _("Aspect Ratio"), "Frame::Width,Frame::Height", Sorters.cmp_aspect_ratio });
+		register_sorter ({ "Private::Unsorted", _("Unsorted"), "", null });
 
 		file_sources = new GenericArray<FileSource>();
 		register_source (typeof (Gth.FileSourceVfs));
 		register_source (typeof (Gth.FileSourceCatalogs));
 
 		MetadataCategory.init ();
-		MetadataCategory.register ("file", _("File"));
-		MetadataCategory.register ("comment", _("Description"));
-		MetadataCategory.register ("general", _("Metadata"));
+		MetadataCategory.register ("File", _("File"));
+		MetadataCategory.register ("Comment", _("Description"));
+		MetadataCategory.register ("Metadata", _("Metadata"));
 		MetadataCategory.register ("Exif::General", _("Exif General"));
 		MetadataCategory.register ("Exif::Conditions", _("Exif Conditions"));
 		MetadataCategory.register ("Exif::Structure", _("Exif Structure"));
@@ -99,47 +101,44 @@ public class Gth.Application : Adw.Application {
 		MetadataCategory.register ("Xmp::Sidecar", _("XMP Attached"));
 
 		MetadataInfo.init ();
-		MetadataInfo.register ("standard::display-name", N_("Name"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("gth::file::content-type", N_("Type"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("gth::file::display-size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
-		//MetadataInfo.register ("gth::file::size", N_("Bytes"), "file", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("standard::display-name", N_("Name"), "File", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Private::File::ContentType", N_("Type"), "File", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Private::File::DisplaySize", N_("Bytes"), "File", METADATA_ALLOW_EVERYWHERE);
 		// Translators: the file modified time.
-		MetadataInfo.register ("gth::file::display-mtime", N_("Modified"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("gth::file::location", N_("Folder"), "file", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-		MetadataInfo.register ("gth::file::is-modified", null, "file", MetadataFlags.HIDDEN);
+		MetadataInfo.register ("Private::File::DisplayMtime", N_("Modified"), "File", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Private::File::Location", N_("Folder"), "File", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		MetadataInfo.register ("Loaded::Image::IsModified", null, "File", MetadataFlags.HIDDEN);
 
-		// Translators: width and height of the image/video.
-		MetadataInfo.register ("general::dimensions", N_("Pixels"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::duration", N_("Duration"), "file", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Loaded::Image::ColorProfile", N_("Color Profile"), "file", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		// Translators: width and height of images or videos.
+		MetadataInfo.register ("Frame::Pixels", N_("Pixels"), "File", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::Duration", N_("Duration"), "File", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Loaded::Image::ColorProfile", N_("Color Profile"), "File", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
-		MetadataInfo.register ("general::title", N_("Title"), "comment", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::description", N_("Comment"), "comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-		MetadataInfo.register ("general::location", N_("Place"), "comment", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::datetime", N_("Date"), "comment", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::tags", N_("Tags"), "comment", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("general::rating", N_("Rating"), "comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::Title", N_("Title"), "Comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::Description", N_("Comment"), "Comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		MetadataInfo.register ("Metadata::Location", N_("Place"), "Comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::DateTime", N_("Date"), "Comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::Tags", N_("Tags"), "Comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::Rating", N_("Rating"), "Comment", METADATA_ALLOW_EVERYWHERE);
 
-		MetadataInfo.register ("Embedded::Photo::Copyright", N_("Copyright"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::Author", N_("Author"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::Coordinates", N_("Coordinates"), "general", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Copyright", N_("Copyright"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Author", N_("Author"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Coordinates", N_("Coordinates"), "Metadata", METADATA_ALLOW_EVERYWHERE);
 
-		MetadataInfo.register ("Embedded::Photo::CameraModel", N_("Camera Model"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::Exposure", N_("Exposure"), "general", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST);
-		MetadataInfo.register ("Embedded::Photo::Aperture", N_("Aperture"), "general",  METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::ISOSpeed", N_("ISO Speed"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::ExposureTime", N_("Exposure Time"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::ShutterSpeed", N_("Shutter Speed"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::FocalLength", N_("Focal Length"), "general", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Embedded::Photo::Flash", N_("Flash"), "general", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::CameraModel", N_("Camera Model"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Exposure", N_("Exposure"), "Metadata", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST);
+		MetadataInfo.register ("Embedded::Photo::Aperture", N_("Aperture"), "Metadata",  METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::ISOSpeed", N_("ISO Speed"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::ExposureTime", N_("Exposure Time"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::ShutterSpeed", N_("Shutter Speed"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::FocalLength", N_("Focal Length"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Embedded::Photo::Flash", N_("Flash"), "Metadata", METADATA_ALLOW_EVERYWHERE);
 
-		MetadataInfo.register ("gth::file::emblems", "", "", MetadataFlags.HIDDEN);
-		MetadataInfo.register ("gth::standard::secondary-sort-order", "", "", MetadataFlags.HIDDEN);
-		MetadataInfo.register ("image::width", "", "", MetadataFlags.HIDDEN);
-		MetadataInfo.register ("image::height", "", "", MetadataFlags.HIDDEN);
-		MetadataInfo.register ("frame::width", "", "", MetadataFlags.HIDDEN);
-		MetadataInfo.register ("frame::height", "", "", MetadataFlags.HIDDEN);
-		MetadataInfo.register ("Embedded::Image::Orientation", "", "", MetadataFlags.HIDDEN);
+		MetadataInfo.register ("Private::File::Emblems", "", "", MetadataFlags.HIDDEN);
+		MetadataInfo.register ("Private::SecondarySortOrder", "", "", MetadataFlags.HIDDEN);
+		MetadataInfo.register ("Frame::Width", "", "", MetadataFlags.HIDDEN);
+		MetadataInfo.register ("Frame::Height", "", "", MetadataFlags.HIDDEN);
+		MetadataInfo.register ("Embedded::Photo::Orientation", "", "", MetadataFlags.HIDDEN);
 		MetadataInfo.register ("Embedded::Photo::DateTimeOriginal", "", "", MetadataFlags.HIDDEN);
 
 		// Specify the type of a field to allow to create it if it's not
@@ -388,7 +387,7 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public unowned Gth.SortInfo? get_folder_sorter_by_id (string? id) {
-		return get_sorter_by_id ((id == "modification-time") ? "file::mtime" : "file::name");
+		return get_sorter_by_id ((id == "modification-time") ? "Time::Modified" : "File::Name");
 	}
 
 	public void register_test (GLib.Type test_type) {
@@ -398,7 +397,7 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public Gth.Test? get_test_by_id (string id) {
-		return tests[id];
+		return tests[app.migration.test.get_new_key (id)];
 	}
 
 	public Gth.Test? get_general_filter () {
@@ -525,7 +524,7 @@ public class Gth.Application : Adw.Application {
 	public GenericList<Gth.Test> get_file_type_filters () {
 		var filters = new GenericList<Gth.Test> ( );
 		foreach (unowned var filter in ordered_tests) {
-			if (filter.id.has_prefix ("file::type::")) {
+			if (filter.id.has_prefix ("Type::")) {
 				filters.model.append (filter.duplicate ());
 			}
 		}
@@ -659,8 +658,9 @@ public class Gth.Application : Adw.Application {
 		var sort_order = 0;
 		foreach (unowned var source in file_sources) {
 			var source_roots = yield source.get_roots (job.cancellable);
-			if (source_roots == null)
+			if (source_roots == null) {
 				continue;
+			}
 			foreach (unowned var root in source_roots) {
 				root.info.set_sort_order (sort_order++);
 				roots.model.append (root);

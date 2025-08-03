@@ -9,13 +9,12 @@ public class Gth.MetadataProviderExiv2 : Gth.MetadataProvider {
 		"Exif::*",
 		"Xmp::*",
 		"Iptc::*",
-		"Embedded::Image::*",
 		"Embedded::Photo::*",
-		"general::datetime",
-		"general::title",
-		"general::description",
-		"general::location",
-		"general::tags"
+		"Metadata::DateTime",
+		"Metadata::Title",
+		"Metadata::Description",
+		"Metadata::Location",
+		"Metadata::Tags"
 	};
 
 	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {

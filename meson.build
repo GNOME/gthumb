@@ -369,6 +369,7 @@ executable(
     'Job.vala',
     'Main.vala',
     'MetadataProvider.vala',
+    'Migration.vala',
     'Monitor.vala',
     'PropertySidebar.vala',
     'PropertyView.vala',

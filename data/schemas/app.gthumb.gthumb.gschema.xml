@@ -20,7 +20,7 @@
       <description>Open files in the active window</description>
     </key>
     <key name="general-filter" type="s">
-      <default>'file::type::is_media'</default>
+      <default>'Type::Media'</default>
     </key>
     <key name="show-hidden-files" type="b">
       <default>false</default>
@@ -35,7 +35,7 @@
       <default>''</default>
     </key>
     <key name="sort-type" type="s">
-      <default>'file::name'</default>
+      <default>'File::Name'</default>
     </key>
     <key name="sort-inverse" type="b">
       <default>false</default>

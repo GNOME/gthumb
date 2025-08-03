@@ -29,8 +29,8 @@ const string STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE =
 	STANDARD_ATTRIBUTES + "," +
 	FileAttribute.STANDARD_FAST_CONTENT_TYPE + "," +
 	FileAttribute.STANDARD_CONTENT_TYPE;
-const string EMBLEMS_ATTRIBUTE = "gth::file::emblems";
-const string VOLUME_ATTRIBUTE = "gth::volume";
+const string EMBLEMS_ATTRIBUTE = "Private::File::Emblems";
+const string VOLUME_ATTRIBUTE = "Private::Volume";
 
 // Video types not matching 'video/*'
 const string[] Other_Video_Types = {

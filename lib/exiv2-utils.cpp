@@ -503,14 +503,14 @@ static void clear_useless_comments_from_tagset (GFileInfo *info, const char *tag
 
 extern "C"
 void exiv2_update_general_attributes (GFileInfo *info) {
-	set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::DateTime", _ORIGINAL_DATE_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::Description", _DESCRIPTION_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::Title", _TITLE_TAG_NAMES);
 
 	// if iptc::caption and iptc::headline are different use iptc::headline
 	// to set general::title, if not already set.
 
-	if (g_file_info_get_attribute_object (info, "general::title") == NULL) {
+	if (g_file_info_get_attribute_object (info, "Metadata::Title") == NULL) {
 		GObject *iptc_caption;
 		GObject *iptc_headline;
 
@@ -522,13 +522,13 @@ void exiv2_update_general_attributes (GFileInfo *info) {
 		    && (g_strcmp0 (gth_metadata_get_raw (GTH_METADATA (iptc_caption)),
 				   gth_metadata_get_raw (GTH_METADATA (iptc_headline))) != 0))
 		{
-			set_attribute_from_metadata (info, "general::title", iptc_headline);
+			set_attribute_from_metadata (info, "Metadata::Title", iptc_headline);
 		}
 	}
 
-	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
-	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::rating", _RATING_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::Location", _LOCATION_TAG_NAMES);
+	set_string_list_attribute_from_tagset (info, "Metadata::Tags", _KEYWORDS_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::Rating", _RATING_TAG_NAMES);
 }
 
 
@@ -541,7 +541,7 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 	}
 
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Image::Orientation", _ORIENTATION_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::Orientation", _ORIENTATION_TAG_NAMES);
 
 	set_attribute_from_tagset (info, "Embedded::Photo::Aperture", _APERTURE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::ISOSpeed", _ISOSPEED_TAG_NAMES);
