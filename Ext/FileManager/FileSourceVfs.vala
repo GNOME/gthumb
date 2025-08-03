@@ -239,10 +239,7 @@ public class Gth.FileSourceVfs : FileSource {
 		ACCESS_ATTRIBUTES;
 
 	async void add_root (GenericArray<FileData> roots, File file, Cancellable cancellable) {
-		if (file == null) {
-			return;
-		}
-		if (file_is_present (roots, file)) {
+		if ((file == null) || file_is_present (roots, file)) {
 			return;
 		}
 		try {

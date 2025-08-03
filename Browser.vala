@@ -576,9 +576,7 @@ public class Gth.Browser : Gtk.Box {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-home", null);
-		action.activate.connect ((_action, param) => {
-			open_home ();
-		});
+		action.activate.connect (() => open_home ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("show-folders", null);
@@ -614,19 +612,15 @@ public class Gth.Browser : Gtk.Box {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("delete-history", null);
-		action.activate.connect ((_action, param) => history.clear ());
+		action.activate.connect (() => history.clear ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-previous", null);
-		action.activate.connect ((_action, param) => {
-			history.load_previous ();
-		});
+		action.activate.connect (() => history.load_previous ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-next", null);
-		action.activate.connect ((_action, param) => {
-			history.load_next ();
-		});
+		action.activate.connect (() => history.load_next ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-parent", null);
@@ -694,15 +688,12 @@ public class Gth.Browser : Gtk.Box {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("view-previous", null);
-		action.activate.connect ((_action, param) => {
-			view_previous_file ();
-		});
+		action.activate.connect (() => view_previous_file ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("view-next", null);
-		action.activate.connect ((_action, param) => {
-			view_next_file ();
-		});
+		action.activate.connect (() => view_next_file ());
+		action_group.add_action (action);
 
 		action = new SimpleAction ("reload", null);
 		action.activate.connect (() => reload ());

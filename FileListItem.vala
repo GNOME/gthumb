@@ -15,12 +15,9 @@ public class Gth.FileListItem : Gtk.Box {
 		append (fixed_size);
 
 		preview = new Gtk.Image ();
-		//preview.hexpand = true;
 		preview.halign = Gtk.Align.CENTER;
 		preview.valign = Gtk.Align.CENTER;
 		preview.visible = false;
-		//preview.can_shrink = false;
-		//preview.content_fit = Gtk.ContentFit.CONTAIN;
 		fixed_size.append (preview);
 
 		icon = new Gtk.Image ();
@@ -84,8 +81,9 @@ public class Gth.FileListItem : Gtk.Box {
 		size = _size;
 		fixed_size.width_request = size;
 		fixed_size.height_request = size;
-		preview.width_request = size;
-		preview.height_request = size;
+		//preview.width_request = size;
+		//preview.height_request = size;
+		preview.pixel_size = size;
 		icon.pixel_size = size / 2;
 		first_label.set_size_request (size, -1);
 		second_label.set_size_request (size, -1);
