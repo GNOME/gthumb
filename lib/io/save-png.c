@@ -184,9 +184,12 @@ GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellabl
 			break;
 
 		case GTH_ICC_TYPE_SRGB_GAMMA:
-			png_set_gAMA (saver_data.png_ptr,
-				saver_data.png_info_ptr,
-				gth_icc_profile_get_gamma (icc_profile));
+			double gamma = gth_icc_profile_get_gamma (icc_profile);
+			if (gamma != 0.0) {
+				png_set_gAMA (saver_data.png_ptr,
+					saver_data.png_info_ptr,
+					1.0 / gamma);
+			}
 			break;
 
 		case GTH_ICC_TYPE_ADOBERGB:
