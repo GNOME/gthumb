@@ -265,6 +265,8 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 	png_read_image (loader_data.png_ptr, row_pointers);
 	png_read_end (loader_data.png_ptr, loader_data.png_info_ptr);
 
+	// Read some metadata.
+
 	png_textp text_ptr;
 	int num_texts;
 	if (png_get_text (loader_data.png_ptr,
@@ -272,15 +274,17 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 		&text_ptr,
 		&num_texts))
 	{
+		int original_image_width = -1;
+		int original_image_height = -1;
 		for (int i = 0; i < num_texts; i++) {
-			int original_image_width;
-			int original_image_height;
 			if (strcmp (text_ptr[i].key, "Thumb::Image::Width") == 0) {
 				original_image_width = atoi (text_ptr[i].text);
 			}
 			else if (strcmp (text_ptr[i].key, "Thumb::Image::Height") == 0) {
 				original_image_height = atoi (text_ptr[i].text);
 			}
+		}
+		if ((original_image_width > 0) && (original_image_height > 0)) {
 			gth_image_set_original_image_size (loader_data.image,
 				original_image_width,
 				original_image_height);
@@ -288,6 +292,8 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 	}
 
 	g_free (row_pointers);
+
+	// Read the color profile.
 
 #if HAVE_LCMS2
 	{
