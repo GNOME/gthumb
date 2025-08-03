@@ -118,7 +118,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 		return NULL;
 	}
 
-	// Read orientation e color profile.
+	// Read orientation and color profile.
 
 	JpegInfoData jpeg_info;
 	_jpeg_info_data_init (&jpeg_info);

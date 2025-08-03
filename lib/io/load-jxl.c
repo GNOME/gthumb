@@ -130,7 +130,7 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			guchar *profile_data = g_new (guchar, profile_size);
 			if (JxlDecoderGetColorAsICCProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) > 0) {
 				g_message ("Could not get ICC profile.\n");
-				g_free(profile_data);
+				g_free (profile_data);
 				break;
 			}
 
