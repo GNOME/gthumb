@@ -37,7 +37,7 @@ public class Gth.FileData : Object {
 
 	const string[] PRESERVE_ATTRIBUTES = {
 		FileAttribute.STANDARD_CONTENT_TYPE,
-		"Private::File::ContentType",
+		FileAttribute.STANDARD_FAST_CONTENT_TYPE,
 		"Loaded::Image::ColorProfile",
 	};
 
@@ -76,6 +76,7 @@ public class Gth.FileData : Object {
 		embedded_description = null;
 		embedded_rating = -1;
 		icon_name = null;
+		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (get_content_type ()));
 		app.monitor.metadata_changed (this);
 	}
 
@@ -266,6 +267,7 @@ public class Gth.FileData : Object {
 
 	public void set_content_type (string type) {
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, type);
+		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (type));
 		app.monitor.metadata_changed (this);
 	}
 
@@ -275,11 +277,11 @@ public class Gth.FileData : Object {
 			result = info.get_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE);
 		}
 		if (result == null) {
-			var guessed_type = Util.guess_content_type_from_name (file.get_basename ());
-			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, guessed_type);
+			unowned var guessed_type = Util.guess_content_type_from_name (file.get_basename ());
+			info.set_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE, guessed_type);
 			result = guessed_type;
 		}
-		return Strings.get_static (result);
+		return result;
 	}
 
 	public Gth.Image? thumbnail_image = null;
