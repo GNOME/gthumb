@@ -41,6 +41,7 @@
     <file preprocess="xml-stripblanks">view-zoom-fit-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-zoom-in-symbolic.svg</file>
     <file preprocess="xml-stripblanks">zoom-menu-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">cross-large-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

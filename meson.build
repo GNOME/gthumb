@@ -373,6 +373,7 @@ executable(
     'Monitor.vala',
     'PropertySidebar.vala',
     'PropertyView.vala',
+    'RegisteredSignals.vala',
     'Settings.vala',
     'SidebarResizer.vala',
     'Status.vala',

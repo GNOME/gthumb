@@ -83,16 +83,13 @@ public class Gth.UpdateSearch {
 					if (child.info.get_is_hidden () && !include_hidden) {
 						action = ForEachAction.SKIP;
 					}
-					else {
-						// Translators: %s is replaced by a folder name. (do not translate it)
-						//toast.title = _("Searching in %s").printf (child.info.get_display_name ());
-					}
 				}
 				else {
 					if (test.match (child)) {
-						stdout.printf ("> %s\n", child.file.get_uri ());
+						//stdout.printf ("> %s\n", child.file.get_uri ());
 						search.add_file (child.file);
-						app.monitor.file_created (search.file, child.file);
+						browser.add_to_search_results (search.file, child);
+						app.monitor.file_created (search.file, child.file, browser.window);
 					}
 				}
 				return action;

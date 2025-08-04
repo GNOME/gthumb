@@ -101,18 +101,21 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void set_viewer_widget (Gtk.Widget? widget) {
-		if (viewer_container.child != null) {
-			viewer_container.child.destroy ();
+		if (viewer_container.child == widget) {
+			return;
 		}
+		viewer_signals.disconnect_all ();
 		viewer_container.child = widget;
 
 		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect (on_motion);
+		var motion_id = motion_events.motion.connect (on_motion);
 		widget.add_controller (motion_events);
+		viewer_signals.add (motion_events, motion_id);
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
-		scroll_events.scroll.connect (on_scroll);
+		var scroll_id = scroll_events.scroll.connect (on_scroll);
 		widget.add_controller (scroll_events);
+		viewer_signals.add (scroll_events, scroll_id);
 	}
 
 	public void add_viewer_overlay (Gtk.Revealer revealer) {
@@ -242,15 +245,17 @@ public class Gth.Viewer : Gtk.Box {
 
 	void add_overlay_motion_controller (Gtk.Widget revealer) {
 		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.enter.connect (() => {
+		var enter_id = motion_events.enter.connect (() => {
 			cancel_hide_overlay ();
 			on_overlay = true;
 		});
-		motion_events.leave.connect (() => {
+		var leave_id = motion_events.leave.connect (() => {
 			on_overlay = false;
 			hide_overlay_after_timeout ();
 		});
 		revealer.add_controller (motion_events);
+		viewer_signals.add (motion_events, enter_id);
+		viewer_signals.add (motion_events, leave_id);
 	}
 
 	public void reveal_overlay_controls (bool reveal = true) {
@@ -320,6 +325,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	construct {
 		fullscreen_state = new FullscreenState (this);
+		viewer_signals = new RegisteredSignals ();
 		add_overlay_motion_controller (statusbar_revealer);
 	}
 
@@ -345,10 +351,12 @@ public class Gth.Viewer : Gtk.Box {
 	double last_x = 0.0;
 	double last_y = 0.0;
 	List<weak Gtk.Revealer> overlay_controls = null;
+	RegisteredSignals viewer_signals;
 	FullscreenState fullscreen_state;
 
 	const double MOTION_THRESHOLD = 1.0;
 }
+
 
 class Gth.FullscreenState {
 	public FullscreenState (Viewer _viewer) {

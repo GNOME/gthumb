@@ -137,6 +137,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 		window.viewer.viewer_container.remove_css_class ("video-view");
 		window.insert_action_group ("video", null);
+		if (video_view != null) {
+			video_view.deactivate ();
+		}
 		if (playbin != null) {
 			double volume;
 			bool mute;

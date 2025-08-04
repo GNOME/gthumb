@@ -10,9 +10,15 @@ public class Gth.VideoView : Gtk.Widget {
 
 	public signal void resized ();
 
-	public void set_paintable (Gdk.Paintable _paintable) {
+	public void set_paintable (Gdk.Paintable? _paintable) {
+		if (_paintable == paintable) {
+			return;
+		}
 		unbind_current_paintable ();
 		paintable = _paintable;
+		if (paintable == null) {
+			return;
+		}
 		invalidate_contents_id = paintable.invalidate_contents.connect (() => queue_draw ());
 		invalidate_size_id = paintable.invalidate_size.connect (() => queue_resize ());
 		queue_resize ();
@@ -51,6 +57,10 @@ public class Gth.VideoView : Gtk.Widget {
 		snapshot.translate (texture_box.origin);
 		paintable.snapshot (snapshot, (double) texture_box.size.width, (double) texture_box.size.height);
 		snapshot.restore ();
+	}
+
+	public void deactivate () {
+		set_paintable (null);
 	}
 
 	float get_zoom_for_allocation (int width, int height, out float zoomed_width, out float zoomed_height) {

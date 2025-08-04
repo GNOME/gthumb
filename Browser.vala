@@ -359,8 +359,8 @@ public class Gth.Browser : Gtk.Box {
 		var grid_model = file_grid.model;
 		file_grid.model = null;
 		visible_files.model.remove_all ();
-		uint total_files = 0;
-		uint64 total_size = 0;
+		total_files = 0;
+		total_size = 0;
 		foreach (unowned var file in visible_children) {
 			visible_files.model.append (file);
 			total_files++;
@@ -978,6 +978,33 @@ public class Gth.Browser : Gtk.Box {
 		thumbnailer.queue_load_next ();
 	}
 
+	public void file_created (File parent, File child) {
+		// TODO
+	}
+
+	public void add_to_search_results (File parent, FileData file_data) {
+		if (!folder_tree.current_folder.file.equal (parent)) {
+			return;
+		}
+
+		folder_tree.current_children.model.append (file_data);
+
+		var filter = get_file_filter ();
+		if (!filter.match (file_data)) {
+			return;
+		}
+
+		visible_files.model.append (file_data);
+		total_files++;
+		total_size += file_data.info.get_size ();
+
+		status.set_list_info (total_files, total_size);
+		window.viewer.set_list_info (total_files);
+		if (total_files == 1) {
+			folder_stack.set_visible_child (non_empty_folder);
+		}
+	}
+
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
@@ -1015,4 +1042,6 @@ public class Gth.Browser : Gtk.Box {
 	ActionCategory actions_category;
 	ActionCategory bookmarks_category;
 	ActionCategory parents_category;
+	uint total_files = 0;
+	uint64 total_size = 0;
 }
