@@ -18,6 +18,7 @@ public class Gth.UpdateSearch {
 
 		var local_cancellable = new Cancellable ();
 		yield search.save_async (local_cancellable);
+		// TODO app.monitor.file_changed (search.file, Monitor.Event.CREATED);
 
 		// End of search.
 
@@ -38,7 +39,7 @@ public class Gth.UpdateSearch {
 
 		search.clear_files ();
 		yield search.save_async (cancellable);
-		app.monitor.directory_created (search.file);
+		app.monitor.file_changed (search.file, Monitor.Event.CREATED);
 
 		// Open the search in the browser
 
@@ -89,7 +90,6 @@ public class Gth.UpdateSearch {
 						//stdout.printf ("> %s\n", child.file.get_uri ());
 						search.add_file (child.file);
 						browser.add_to_search_results (search.file, child);
-						app.monitor.file_created (search.file, child.file, browser.window);
 					}
 				}
 				return action;

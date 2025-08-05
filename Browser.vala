@@ -984,10 +984,6 @@ public class Gth.Browser : Gtk.Box {
 		thumbnailer.queue_load_next ();
 	}
 
-	public void file_created (File parent, File child) {
-		// TODO
-	}
-
 	public void add_to_search_results (File parent, FileData file_data) {
 		if (!folder_tree.current_folder.file.equal (parent)) {
 			return;
