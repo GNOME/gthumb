@@ -218,7 +218,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("fullscreen", null);
+		action = new SimpleAction ("toggle-fullscreen", null);
 		action.activate.connect (() => {
 			fullscreened = !fullscreened;
 		});

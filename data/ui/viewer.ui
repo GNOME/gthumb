@@ -18,7 +18,7 @@
                 <child>
                   <object class="GtkButton" id="fullscreen_button">
                     <property name="icon-name">fullscreen-symbolic</property>
-                    <property name="action-name">win.fullscreen</property>
+                    <property name="action-name">win.toggle-fullscreen</property>
                     <property name="tooltip-text" translatable="yes">Fullscreen</property>
                   </object>
                 </child>
