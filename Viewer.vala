@@ -239,7 +239,7 @@ public class Gth.Viewer : Gtk.Box {
 		status.set_list_info (files);
 	}
 
-	void add_overlay_motion_controller (Gtk.Widget revealer) {
+	void add_overlay_motion_controller (Gtk.Widget revealer, bool removable = true) {
 		var motion_events = new Gtk.EventControllerMotion ();
 		var enter_id = motion_events.enter.connect (() => {
 			cancel_hide_overlay ();
@@ -250,8 +250,10 @@ public class Gth.Viewer : Gtk.Box {
 			hide_overlay_after_timeout ();
 		});
 		revealer.add_controller (motion_events);
-		viewer_signals.add (motion_events, enter_id);
-		viewer_signals.add (motion_events, leave_id);
+		if (removable) {
+			viewer_signals.add (motion_events, enter_id);
+			viewer_signals.add (motion_events, leave_id);
+		}
 	}
 
 	public void reveal_overlay_controls (bool reveal = true) {
@@ -302,7 +304,8 @@ public class Gth.Viewer : Gtk.Box {
 		// Restore settings.
 		main_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_SIDEBAR_VISIBLE);
 
-		add_overlay_motion_controller (fullscreen_toolbar_revealer);
+		add_overlay_motion_controller (fullscreen_toolbar_revealer, false);
+		add_overlay_motion_controller (statusbar_revealer, false);
 		init_actions ();
 	}
 
@@ -322,7 +325,6 @@ public class Gth.Viewer : Gtk.Box {
 	construct {
 		fullscreen_state = new FullscreenState (this);
 		viewer_signals = new RegisteredSignals ();
-		add_overlay_motion_controller (statusbar_revealer);
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
