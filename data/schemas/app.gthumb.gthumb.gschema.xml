@@ -67,5 +67,8 @@
     <key name="folder-tree-sort-inverse" type="b">
       <default>false</default>
     </key>
+    <key name="open-files-in-fullscreen" type="b">
+      <default>false</default>
+    </key>
   </schema>
 </schemalist>

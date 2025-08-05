@@ -1,12 +1,5 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/viewer.ui")]
 public class Gth.Viewer : Gtk.Box {
-	public enum ViewFlags {
-		DEFAULT,
-		KEEP_CURRENT_PAGE,
-		NO_DELAY,
-		FULLSCREEN,
-	}
-
 	public weak Window window {
 		get { return _window; }
 		set {
@@ -47,6 +40,9 @@ public class Gth.Viewer : Gtk.Box {
 			property_sidebar.current_file = file;
 			update_title ();
 			update_sidebar ();
+			if (ViewFlags.FULLSCREEN in flags) {
+				window.fullscreened = true;
+			}
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);

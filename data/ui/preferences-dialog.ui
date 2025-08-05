@@ -55,6 +55,10 @@
                       <object class="GthPreferencesSavingPage" id="saving_page">
                       </object>
                     </child>
+                    <child>
+                      <object class="GthPreferencesViewerPage" id="viewer_page">
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

@@ -9,8 +9,17 @@
           <object class="AdwHeaderBar"/>
         </child>
         <property name="content">
-          <object class="GtkLabel">
-            <property name="label">GENERAL</property>
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwSwitchRow" id="open_fullscreen_switch">
+                    <property name="title" translatable="yes">Open in Fullscreen Mode</property>
+                    <signal name="notify::active" handler="on_fullscreen_activated"/>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>

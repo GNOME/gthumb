@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthPreferencesViewerPage">
+    <property name="title" translatable="yes">Viewer</property>
+    <property name="tag">viewer</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwComboRow" id="scroll_action">
+                    <property name="title" translatable="yes">Scroll Action</property>
+                    <property name="model">
+                      <object class="GtkStringList" id="scroll_actions">
+                        <items>
+                          <item translatable="yes">Change Zoom</item>
+                          <item translatable="yes">Change Image</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

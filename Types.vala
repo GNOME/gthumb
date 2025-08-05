@@ -137,3 +137,11 @@ public struct Gth.ClickPoint {
 	double x;
 	double y;
 }
+
+[Flags]
+public enum Gth.ViewFlags {
+	DEFAULT,
+	KEEP_CURRENT_PAGE,
+	NO_DELAY,
+	FULLSCREEN,
+}

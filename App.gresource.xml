@@ -89,5 +89,6 @@
     <file preprocess="xml-stripblanks">preferences-video-page.ui</file>
     <file preprocess="xml-stripblanks">image-viewer.ui</file>
     <file preprocess="xml-stripblanks">preferences-browser-page.ui</file>
+    <file preprocess="xml-stripblanks">preferences-viewer-page.ui</file>
   </gresource>
 </gresources>

@@ -19,6 +19,7 @@ public class Gth.Browser : Gtk.Box {
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
 	SidebarState sidebar_state = SidebarState.NONE;
+	public bool open_in_fullscreen = false;
 	public int thumbnail_size;
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;
@@ -86,6 +87,7 @@ public class Gth.Browser : Gtk.Box {
 		};
 		folder_tree.show_hidden = show_hidden_files;
 		content_view.show_sidebar = app.settings.get_boolean (PREF_BROWSER_PROPERTIES_VISIBLE);
+		open_in_fullscreen = app.settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
 
 		init_actions ();
 	}
@@ -938,16 +940,20 @@ public class Gth.Browser : Gtk.Box {
 
 	[GtkCallback]
 	void on_file_activate (uint position) {
-		view_position (position);
+		var flags = ViewFlags.NO_DELAY;
+		if (open_in_fullscreen) {
+			flags |= ViewFlags.FULLSCREEN;
+		}
+		view_position (position, flags);
 	}
 
-	public bool view_position (uint position) {
+	public bool view_position (uint position, ViewFlags flags = ViewFlags.DEFAULT) {
 		var file = file_grid.model.get_item (position) as FileData;
 		if (file == null) {
 			return false;
 		}
 		window.viewer.set_file_position (position);
-		window.viewer.view_file (file);
+		window.viewer.view_file (file, flags);
 		return true;
 	}
 

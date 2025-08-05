@@ -155,6 +155,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 		case PREF_BROWSER_THUMBNAIL_CAPTION:
 			browser.reload ();
 			break;
+		case PREF_BROWSER_OPEN_IN_FULLSCREEN:
+			browser.open_in_fullscreen = app.settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
+			break;
 		}
 	}
 
