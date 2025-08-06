@@ -27,6 +27,7 @@
     <value nick="change-file" value="0"/>
     <value nick="change-zoom" value="1"/>
     <value nick="change-volume" value="2"/>
+    <value nick="change-current-time" value="3"/>
   </enum>
 
   <schema id="app.gthumb.gthumb.viewers.images" path="/app/gthumb/gthumb/viewers/images/" gettext-domain="gthumb">

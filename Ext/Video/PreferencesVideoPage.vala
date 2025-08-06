@@ -69,6 +69,7 @@ public class Gth.PreferencesVideoPage : Adw.NavigationPage {
 	bool constructing;
 
 	const ScrollAction[] ACTION = {
+		ScrollAction.CHANGE_CURRENT_TIME,
 		ScrollAction.CHANGE_VOLUME,
 		ScrollAction.CHANGE_FILE,
 	};

@@ -168,9 +168,14 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			return window.viewer.on_scroll_change_file (dx, dy);
 
 		case ScrollAction.CHANGE_VOLUME:
-			var step = (dy < 0) ? 0.1f : -0.1f;
+			var direction = (dy < 0) ? 1 : -1;
 			unowned var adj = builder.get_object ("volume_adjustment") as Gtk.Adjustment;
-			adj.value = adj.value + (adj.value * step);
+			adj.value = adj.value + (adj.value * 0.1f * direction);
+			break;
+
+		case ScrollAction.CHANGE_CURRENT_TIME:
+			var direction = (dy < 0) ? -1 : 1;
+			skip (5 * direction);
 			break;
 
 		default:
@@ -431,8 +436,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	void skip_to (int64 time) {
-		if (playbin == null)
+		if (playbin == null) {
 			return;
+		}
 		playbin.seek (rate,	Gst.Format.TIME,
 			Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE,
 			Gst.SeekType.SET, time,
@@ -440,8 +446,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	void skip (int seconds) {
-		if (playbin == null)
+		if (playbin == null) {
 			return;
+		}
 		var seek_type = Gst.SeekType.SET;
 		var seek_flags = Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE;
 		var position = get_current_time () + (seconds * Gst.SECOND);

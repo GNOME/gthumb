@@ -150,4 +150,5 @@ public enum Gth.ScrollAction {
 	CHANGE_FILE,
 	CHANGE_ZOOM,
 	CHANGE_VOLUME,
+	CHANGE_CURRENT_TIME,
 }

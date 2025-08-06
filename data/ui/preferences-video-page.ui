@@ -19,6 +19,7 @@
                     <property name="model">
                       <object class="GtkStringList">
                         <items>
+                          <item translatable="yes">Change Time</item>
                           <item translatable="yes">Change Volume</item>
                           <item translatable="yes">Change File</item>
                         </items>
