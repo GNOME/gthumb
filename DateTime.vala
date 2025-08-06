@@ -183,6 +183,19 @@ public struct Gth.Date {
 		}
 	}
 
+	public Date.from_gdate (GLib.Date date) {
+		if (!date.valid ()) {
+			year = INVALID_VALUE;
+			month = INVALID_VALUE;
+			day = INVALID_VALUE;
+		}
+		else {
+			year = (uint) date.get_year ();
+			month = (uint8) date.get_month ();
+			day = (uint8) date.get_day ();
+		}
+	}
+
 	public bool is_valid () {
 		return (year >= 1)
 			&& (month >= 1)

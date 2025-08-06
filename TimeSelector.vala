@@ -23,6 +23,11 @@ public class Gth.TimeSelector : Gtk.Box {
 				calendar_popup.popup ();
 			}
 		});
+		date_entry.changed.connect (() => {
+			var date = new GLib.Date ();
+			date.set_parse (date_entry.text);
+			selected_date = Date.from_gdate (date);
+		});
 		append (date_entry);
 
 		calendar = new Gtk.Calendar ();
