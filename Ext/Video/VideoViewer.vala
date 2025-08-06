@@ -465,6 +465,20 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			Gst.SeekType.NONE, 0);
 	}
 
+	void next_frame () {
+		if ((playbin == null) || !has_video) {
+			return;
+		}
+		if (_playing) {
+			playing = false;
+		}
+		playbin.send_event (new Gst.Event.step (Gst.Format.BUFFERS,
+				1,
+				rate,
+				true,
+				false));
+	}
+
 	void set_rate (double value) {
 		rate = value;
 		update_rate_label ();
@@ -609,6 +623,12 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		action = new SimpleAction.stateful ("mute", null, new Variant.boolean (get_mute_from_settings ()));
 		action.activate.connect ((action, param) => {
 			action.set_state (new Variant.boolean (toggle_mute ()));
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("next-frame", null);
+		action.activate.connect ((action, param) => {
+			next_frame ();
 		});
 		action_group.add_action (action);
 	}

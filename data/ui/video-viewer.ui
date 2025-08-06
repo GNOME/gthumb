@@ -304,28 +304,32 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
+                  <object class="GtkButton">
+                    <property name="icon-name">edit-copy-symbolic</property>
+                    <property name="action-name">video.copy-position-to-clipboard</property>
+                    <property name="tooltip-text" translatable="yes">Copy Current Time</property>
+                    <property name="vexpand">true</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
                     <layout>
                       <property name="column">6</property>
                       <property name="row">0</property>
-                      <property name="row-span">2</property>
                     </layout>
-                    <child>
-                      <object class="GtkButton">
-                        <property name="tooltip-text" translatable="yes">Copy Current Time</property>
-                        <property name="action-name">video.copy-position-to-clipboard</property>
-                        <property name="vexpand">true</property>
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">edit-copy-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">skip-forward-large-symbolic</property>
+                    <property name="action-name">video.next-frame</property>
+                    <property name="tooltip-text" translatable="yes">Next Frame</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <layout>
+                      <property name="column">6</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
                 </child>
               </object>
