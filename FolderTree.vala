@@ -24,7 +24,7 @@ public class Gth.FolderTree : Gtk.Box {
 
 	Gth.Job load_job;
 	Queue<File> current_parents;
-	Gtk.TreeListModel tree_model;
+	public Gtk.TreeListModel tree_model;
 	Gtk.SingleSelection tree_selection_model;
 	bool current_folder_as_root;
 
@@ -302,10 +302,9 @@ public class Gth.FolderTree : Gtk.Box {
 	public void set_sort_order (string name, bool inverse) {
 		sort = { name, inverse };
 		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
-		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
+		var iter = new TreeIterator<Gth.FileData> (tree_model);
 		while (iter.next ()) {
-			var row = iter.get ();
-			var file_data = row.item as Gth.FileData;
+			var file_data = iter.get_data ();
 			if (file_data != null) {
 				var file_model = file_data.get_children_model ();
 				file_model.model.sort ((a, b) => {
@@ -320,21 +319,20 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	void collapse_folder_tree () {
-		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
+		var iter = new TreeIterator<Gth.FileData> (tree_model);
 		while (iter.next ()) {
-			var row = iter.get ();
+			var row = iter.get_row ();
 			row.expanded = false;
 		}
 	}
 
 	public Gtk.TreeListRow? get_file_row (File file, out int position = null) {
-		var iter = new TreeIterator<Gtk.TreeListRow> (tree_model);
+		var iter = new TreeIterator<Gth.FileData> (tree_model);
 		while (iter.next ()) {
-			var row = iter.get ();
-			var file_data = row.item as Gth.FileData;
+			var file_data = iter.get_data ();
 			if ((file_data != null) && (file_data.file.equal (file))) {
 				position = iter.index ();
-				return row;
+				return iter.get_row ();
 			}
 		}
 		position = -1;

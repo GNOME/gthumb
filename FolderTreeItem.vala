@@ -6,6 +6,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		folder_tree = _folder_tree;
 		job = null;
 		row_expended_id = 0;
+		file_renamed_id = 0;
 
 		expander = new Gtk.TreeExpander ();
 		expander.margin_start = ROW_H_PADDING;
@@ -52,15 +53,20 @@ public class Gth.FolderTreeItem : Gtk.Box {
 				job = folder_tree.list_subfolders (file_data);
 			}
 		});
+		file_renamed_id = file_data.renamed.connect (() => {
+			label.set_text (file_data.info.get_display_name ());
+		});
 	}
 
 	public void unbind () {
 		expander.list_row.disconnect (row_expended_id);
+		file_data.disconnect (file_renamed_id);
 		expander.list_row = null;
 		if (job != null) {
 			job.cancel ();
 			job = null;
 		}
+		file_data = null;
 	}
 
 	weak Gth.FolderTree folder_tree;
@@ -70,4 +76,5 @@ public class Gth.FolderTreeItem : Gtk.Box {
 	Gtk.Label label;
 	Gth.Job job;
 	ulong row_expended_id;
+	ulong file_renamed_id;
 }

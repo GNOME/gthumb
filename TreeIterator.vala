@@ -2,19 +2,26 @@ public class Gth.TreeIterator<T> {
 	public TreeIterator (Gtk.TreeListModel _model) {
 		model = _model;
 		idx = -1;
-		item = null;
+		row = null;
 	}
 
-	public unowned T get () {
-		return item;
+	public unowned Gtk.TreeListRow? get_row () {
+		return row;
+	}
+
+	public T? get_data () {
+		if (row == null) {
+			return null;
+		}
+		return (T) row.item;
 	}
 
 	public bool next () {
-		if ((idx >= 0) && (item == null))
+		if ((idx >= 0) && (row == null))
 			return false;
 		idx++;
-		item = model.get_item (idx);
-		return item != null;
+		row = model.get_item (idx) as Gtk.TreeListRow;
+		return row != null;
 	}
 
 	public bool has_next () {
@@ -27,7 +34,7 @@ public class Gth.TreeIterator<T> {
 
 	public int find_first (MatchGenericItemFunc<T> match_func) {
 		while (next ()) {
-			if (match_func (item)) {
+			if (match_func (row)) {
 				return index ();
 			}
 		}
@@ -35,6 +42,6 @@ public class Gth.TreeIterator<T> {
 	}
 
 	Gtk.TreeListModel model;
-	T item;
+	Gtk.TreeListRow row;
 	int idx;
 }

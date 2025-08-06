@@ -252,8 +252,8 @@ public class Gth.Catalog : Object {
 		if (!file.equal (previous_file)) {
 			var previous_gio_file = Catalog.to_gio_file (previous_file);
 			yield previous_gio_file.delete_async (Priority.DEFAULT, cancellable);
-			app.monitor.file_renamed (previous_file, file);
 		}
+		app.monitor.catalog_saved (this, previous_file);
 	}
 
 	public void clear_files () {

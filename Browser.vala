@@ -824,11 +824,6 @@ public class Gth.Browser : Gtk.Box {
 			var catalog = yield editor.edit_catalog (window, file, local_job.cancellable);
 			yield catalog.save_async (local_job.cancellable);
 
-			// Update the current folder info
-			folder_tree.current_folder.set_file (catalog.file);
-			catalog.update_file_info (folder_tree.current_folder.info);
-			folder_tree.current_folder.info_changed ();
-
 			if (editor.search_parameters_changed ()) {
 				// Start searching if the search parameters changed.
 				update_search.begin ();
@@ -1004,6 +999,26 @@ public class Gth.Browser : Gtk.Box {
 		window.viewer.set_list_info (total_files);
 		if (total_files == 1) {
 			folder_stack.set_visible_child (non_empty_folder);
+		}
+	}
+
+	public void catalog_saved (Gth.Catalog catalog, File old_file) {
+		if (folder_tree.current_folder.file.equal (old_file)) {
+			catalog.update_file_info (folder_tree.current_folder.info);
+			folder_tree.current_folder.set_file (catalog.file);
+			folder_tree.current_folder.info_changed ();
+			update_title ();
+		}
+		var iter = new TreeIterator<Gth.FileData> (folder_tree.tree_model);
+		while (iter.next ()) {
+			var child = iter.get_data ();
+			if (child.file.equal (old_file)) {
+				child.set_file (catalog.file);
+				catalog.update_file_info (child.info);
+				child.info_changed ();
+				child.renamed ();
+				break;
+			}
 		}
 	}
 

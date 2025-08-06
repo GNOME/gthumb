@@ -4,6 +4,8 @@ public class Gth.FileData : Object {
 	public GenericList<FileData> children;
 	public bool children_loaded;
 
+	public signal void renamed ();
+
 	public FileData (File _file, FileInfo? _info = null) {
 		file = _file;
 		info = (_info != null) ? _info : new FileInfo ();
@@ -77,7 +79,7 @@ public class Gth.FileData : Object {
 		embedded_rating = -1;
 		icon_name = null;
 		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (get_content_type ()));
-		app.monitor.metadata_changed (this);
+		// TODO: app.monitor.metadata_changed (this);
 	}
 
 	Gth.DateTime mtime = null;
@@ -268,7 +270,7 @@ public class Gth.FileData : Object {
 	public void set_content_type (string type) {
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, type);
 		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (type));
-		app.monitor.metadata_changed (this);
+		// TODO: app.monitor.metadata_changed (this);
 	}
 
 	public unowned string get_content_type () {
