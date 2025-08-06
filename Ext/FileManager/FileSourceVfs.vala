@@ -198,6 +198,10 @@ public class Gth.FileSourceVfs : FileSource {
 					{
 						read_metadata_attributes (child_data, metadata_attributes_v, cancellable);
 					}
+					if (cancellable.is_cancelled ()) {
+						action = ForEachAction.STOP;
+						break;
+					}
 				}
 			}
 			if (action == ForEachAction.STOP) {

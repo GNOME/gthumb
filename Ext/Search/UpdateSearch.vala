@@ -41,7 +41,7 @@ public class Gth.UpdateSearch {
 		yield search.save_async (cancellable);
 		app.monitor.file_changed (search.file, Monitor.Event.CREATED);
 
-		// Open the search in the browser
+		// Open the search in the browser TODO: make cancellable
 
 		yield browser.open_location_async (search.file);
 
@@ -87,13 +87,15 @@ public class Gth.UpdateSearch {
 				}
 				else {
 					if (test.match (child)) {
-						//stdout.printf ("> %s\n", child.file.get_uri ());
 						search.add_file (child.file);
 						browser.add_to_search_results (search.file, child);
 					}
 				}
 				return action;
 			});
+			if (cancellable.is_cancelled ()) {
+				break;
+			}
 		}
 	}
 
@@ -105,7 +107,7 @@ public class Gth.UpdateSearch {
 			throw new IOError.FAILED ("Not a search");
 		}
 		search = catalog as CatalogSearch;
-		search_and_save (browser, search, file, cancellable);
+		yield search_and_save (browser, search, file, cancellable);
 	}
 
 	CatalogSearch search;

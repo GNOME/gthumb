@@ -75,6 +75,10 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 						if (info.get_is_hidden ()) {
 							continue;
 						}
+						if (cancellable.is_cancelled ()) {
+							action = ForEachAction.STOP;
+							break;
+						}
 						var gio_child = enumerator.get_child (info);
 						var child = Catalog.from_gio_file (gio_child);
 						if (child == null) {
@@ -102,6 +106,9 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 							}
 							catch (Error error) {
 								//stdout.printf ("ERROR: %s\n", error.message);
+								if (cancellable.is_cancelled ()) {
+									action = ForEachAction.STOP;
+								}
 							}
 							break;
 
@@ -126,7 +133,10 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 							action = child_func (file_data, false);
 						}
 						catch (Error error) {
-							stdout.printf ("ERROR [1]: %s\n", error.message);
+							//stdout.printf ("ERROR [1]: %s\n", error.message);
+							if (cancellable.is_cancelled ()) {
+								action = ForEachAction.STOP;
+							}
 						}
 						if (action == ForEachAction.STOP) {
 							break;
@@ -134,7 +144,10 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					}
 				}
 				catch (Error error) {
-					stdout.printf ("ERROR [2]: %s\n", error.message);
+					//stdout.printf ("ERROR [2]: %s\n", error.message);
+					if (cancellable.is_cancelled ()) {
+						action = ForEachAction.STOP;
+					}
 				}
 				break;
 

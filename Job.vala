@@ -29,14 +29,15 @@ public class Gth.Job : Object {
 	}
 
 	public bool cancel () {
-		if (state != State.RUNNING)
+		if (state != State.RUNNING) {
 			return false;
-		/*var time_cancelled = new GLib.DateTime.now ();
-		stdout.printf ("  JOB CANCELLED [%p] [%s]: %s\n",
-			this,
-			time_cancelled.format ("%H:%M:%S"),
-			description
-		);*/
+		}
+		var time_cancelled = new GLib.DateTime.now ();
+		//stdout.printf ("  JOB CANCELLED [%p] [%s]: %s\n",
+		//	this,
+		//	time_cancelled.format ("%H:%M:%S"),
+		//	description
+		//);
 		state = State.CANCELLED;
 		cancellable.cancel ();
 		return true;
