@@ -10,10 +10,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			switch (_zoom_type) {
 			case ZoomType.NATURAL_SIZE:
-				set_zoom_and_recenter_image (1f);
+				set_zoom_and_update_scroll_offset (1f);
 				break;
 			case ZoomType.KEEP_PREVIOUS:
-				set_zoom_and_recenter_image (_zoom);
+				set_zoom_and_update_scroll_offset (_zoom);
 				break;
 			default:
 				break;
@@ -39,7 +39,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			_zoom_type = value;
 			if (_image != null) {
 				if (_zoom_type == ZoomType.NATURAL_SIZE) {
-					set_zoom_and_recenter_image (1f);
+					set_zoom_and_update_scroll_offset (1f);
 				}
 				queue_resize ();
 			}
@@ -104,8 +104,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			return;
 		}
 		if (_zoom_type.fit_to_allocation ()) {
-			set_zoom_and_recenter_image (get_zoom_for_allocation (width, height));
+			set_valid_zoom (get_zoom_for_allocation (width, height));
 		}
+		update_scroll_offset ();
 		update_texture_box ();
 		update_image_box ();
 		update_adjustments ();
@@ -182,15 +183,28 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		return new_zoom;
 	}
 
-	void set_zoom_and_recenter_image (float new_zoom) {
+	void recenter_image () {
 		float zoomed_width, zoomed_height;
-		get_zoomed_size_for_zoom (new_zoom, out zoomed_width, out zoomed_height);
+		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 
-		var offset_x = (zoomed_width - viewport.size.width) / 2;
-		var offset_y = (zoomed_height - viewport.size.height) / 2;
-		set_scroll_offset (new_zoom, offset_x, offset_y);
+		var offset_x = Util.center_content (viewport.size.width, zoomed_width);
+		var offset_y = Util.center_content (viewport.size.height, zoomed_height);
+		set_scroll_offset (_zoom, offset_x, offset_y);
+	}
 
-		_zoom = new_zoom;
+	float set_valid_zoom (float new_zoom) {
+		_zoom = new_zoom.clamp (MIN_ZOOM, MAX_ZOOM);
+		return _zoom;
+	}
+
+	void set_zoom_and_recenter_image (float new_zoom) {
+		set_valid_zoom (new_zoom);
+		recenter_image ();
+	}
+
+	void set_zoom_and_update_scroll_offset (float new_zoom) {
+		set_valid_zoom (new_zoom);
+		update_scroll_offset ();
 	}
 
 	void set_zoom_and_keep_center_visible (float new_zoom) {
@@ -198,12 +212,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	void set_zoom_and_center_at (float new_zoom, float pointer_x, float pointer_y) {
+		var old_zoom = _zoom;
+		new_zoom = set_valid_zoom (new_zoom);
 		if ((texture_box.size.width == 0) || (viewport.size.width == 0)) {
 			set_scroll_offset (new_zoom, 0, 0);
 		}
 		else {
-			var old_zoom = _zoom;
-
 			// Pixel under the pointer.
 			var new_pointer_x = (viewport.origin.x + pointer_x - texture_box.origin.x) / old_zoom * new_zoom;
 			var new_pointer_y = (viewport.origin.y + pointer_y - texture_box.origin.y) / old_zoom * new_zoom;
@@ -213,7 +227,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			var offset_y = new_pointer_y - (viewport.size.height / 2);
 			set_scroll_offset (new_zoom, offset_x, offset_y);
 		}
-		_zoom = new_zoom;
+	}
+
+	void update_scroll_offset () {
+		// Make sure the scroll offsets are valid.
+		set_scroll_offset (_zoom, viewport.origin.x, viewport.origin.y);
 	}
 
 	void set_scroll_offset (float zoom_level, float x, float y) {
@@ -229,7 +247,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	void update_texture_box () {
-		//stdout.printf ("> update_texture_box\n");
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 
@@ -256,11 +273,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ texture_x, texture_y },
 			{ texture_width, texture_height }
 		};
+		//Util.print_rectangle ("> update_texture_box:", texture_box);
 	}
 
 	// To be called after updating texture_box.
 	void update_image_box () {
-		//stdout.printf ("> update_image_box\n");
 		uint natural_width, natural_height;
 		_image.get_natural_size (out natural_width, out natural_height);
 
@@ -288,6 +305,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ image_x, image_y },
 			{ image_width, image_height }
 		};
+		//Util.print_rectangle ("> update_image_box:", image_box);
 	}
 
 	void get_zoomed_size_for_zoom (float zoom_level, out float width, out float height) {
@@ -334,10 +352,13 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	// viewport.origin: scroll offsets
 	// viewport.size: allocation size
 	Graphene.Rect viewport;
-	// position and size of the texture node
+	// Position and size of the texture node
 	Graphene.Rect texture_box;
-	// visible area of the image
+	// Visible area of the image
 	Graphene.Rect image_box;
 	Gtk.Adjustment _hadjustment;
 	Gtk.Adjustment _vadjustment;
+
+	const float MIN_ZOOM = 0.05f;
+	const float MAX_ZOOM = 10.0f;
 }
