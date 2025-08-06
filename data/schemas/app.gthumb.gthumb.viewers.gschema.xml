@@ -44,7 +44,7 @@
       <default>''</default>
     </key>
     <key name="scroll-action" enum="app.gthumb.gthumb.ScrollAction">
-      <default>'change-volume'</default>
+      <default>'change-current-time'</default>
     </key>
     <key name="volume" type="i">
       <default>100</default>
