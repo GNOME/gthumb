@@ -35,8 +35,10 @@ const string PREF_BROWSER_OPEN_IN_FULLSCREEN = "open-files-in-fullscreen";
 const string PREF_VIEWER_SIDEBAR_VISIBLE = "sidebar-visible";
 
 const string PREF_IMAGE_ZOOM_TYPE = "zoom-type";
+const string PREF_IMAGE_SCROLL_ACTION = "scroll-action";
 
-const string PREF_VIDEO_SCREESHOT_LOCATION = "screenshot-location";
+const string PREF_VIDEO_SCREENSHOT_LOCATION = "screenshot-location";
+const string PREF_VIDEO_SCROLL_ACTION = "scroll-action";
 const string PREF_VIDEO_VOLUME = "volume";
 const string PREF_VIDEO_MUTE = "mute";
 const string PREF_VIDEO_ZOOM_TO_FIT = "zoom-to-fit";
@@ -71,8 +73,9 @@ class Gth.Settings {
 
 	public static File? get_file (GLib.Settings settings, string key) {
 		var uri = settings.get_string (key);
-		if (Strings.empty (uri))
+		if (Strings.empty (uri)) {
 			return null;
+		}
 		var home_uri = Util.uri_from_path (Environment.get_home_dir ());
 		uri = uri.replace ("file://~", home_uri);
 		return File.new_for_uri (uri);

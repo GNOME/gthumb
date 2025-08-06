@@ -4,6 +4,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window = _window;
 		image_view = new Gth.ImageView ();
 		image_view.zoom_type = settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
+		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (image_view);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		window.viewer.set_statusbar_maximized (false);
@@ -109,6 +110,22 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public void hide () {
+	}
+
+	public bool on_scroll (double x, double y, double dx, double dy) {
+		switch (scroll_action) {
+		case ScrollAction.CHANGE_FILE:
+			return window.viewer.on_scroll_change_file (dx, dy);
+
+		case ScrollAction.CHANGE_ZOOM:
+			var step = (dy < 0) ? 0.1f : -0.1f;
+			image_view.zoom = image_view.zoom + (image_view.zoom * step);
+			break;
+
+		default:
+			break;
+		}
+		return false;
 	}
 
 	void init_actions () {
@@ -248,6 +265,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	construct {
 		settings = new GLib.Settings (GTHUMB_IMAGES_SCHEMA);
+		settings.changed.connect ((key) => {
+			switch (key) {
+			case PREF_IMAGE_SCROLL_ACTION:
+				scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
+				break;
+			}
+		});
 		window = null;
 		builder = null;
 		load_job = null;
@@ -265,6 +289,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	bool dragging;
 	bool clicking;
 	ClickPoint drag_start;
+	ScrollAction scroll_action;
 
 	const float ZOOM_MIN = 0.05f;
 	const float ZOOM_MAX = 10f;

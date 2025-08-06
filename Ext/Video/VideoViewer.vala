@@ -40,6 +40,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		video_view = new Gth.VideoView ();
 		video_view.resized.connect (() => update_zoom_info ());
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
+		scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (video_view);
 		window.viewer.viewer_container.add_css_class ("video-view");
 		window.viewer.set_statusbar_maximized (true);
@@ -160,6 +161,23 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 	public void show () {}
 	public void hide () {}
+
+	public bool on_scroll (double x, double y, double dx, double dy) {
+		switch (scroll_action) {
+		case ScrollAction.CHANGE_FILE:
+			return window.viewer.on_scroll_change_file (dx, dy);
+
+		case ScrollAction.CHANGE_VOLUME:
+			var step = (dy < 0) ? 0.1f : -0.1f;
+			unowned var adj = builder.get_object ("volume_adjustment") as Gtk.Adjustment;
+			adj.value = adj.value + (adj.value * step);
+			break;
+
+		default:
+			break;
+		}
+		return false;
+	}
 
 	public bool can_save () {
 		return false;
@@ -630,11 +648,11 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		var extension = preferences.get_default_extension ();
 
 		// Destination
-		var destination = Gth.Settings.get_file (settings, PREF_VIDEO_SCREESHOT_LOCATION);
+		var destination = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);
 		if (destination == null) {
 			destination = Files.get_special_dir (UserDirectory.PICTURES);
 			destination.make_directory_with_parents (cancellable);
-			settings.set_string (PREF_VIDEO_SCREESHOT_LOCATION, destination.get_uri ());
+			settings.set_string (PREF_VIDEO_SCREENSHOT_LOCATION, destination.get_uri ());
 		}
 
 		// File
@@ -726,6 +744,13 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 	construct {
 		settings = new GLib.Settings (GTHUMB_VIDEOS_SCHEMA);
+		settings.changed.connect ((key) => {
+			switch (key) {
+			case PREF_VIDEO_SCROLL_ACTION:
+				scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
+				break;
+			}
+		});
 		window = null;
 		playbin = null;
 		video_view = null;
@@ -754,6 +779,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	int video_height;
 	bool has_audio;
 	bool has_video;
+	ScrollAction scroll_action;
 
 	const double[] Rates = {
 		0.03, 0.05, 0.12, 0.25, 0.33, 0.5, 0.75,

@@ -7,4 +7,5 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 	public void deactivate () {}
 	public void show () {}
 	public void hide () {}
+	public bool on_scroll (double x, double y, double dx, double dy) { return false; }
 }

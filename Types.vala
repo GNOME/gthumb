@@ -145,3 +145,9 @@ public enum Gth.ViewFlags {
 	NO_DELAY,
 	FULLSCREEN,
 }
+
+public enum Gth.ScrollAction {
+	CHANGE_FILE,
+	CHANGE_ZOOM,
+	CHANGE_VOLUME,
+}

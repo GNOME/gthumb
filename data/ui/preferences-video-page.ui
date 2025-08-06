@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GthPreferencesVideoPage">
-    <property name="title" translatable="yes">Video</property>
+    <property name="title" translatable="yes">Videos</property>
     <property name="tag">video</property>
     <property name="child">
       <object class="AdwToolbarView">
@@ -10,6 +10,24 @@
         </child>
         <property name="content">
           <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwComboRow" id="scroll_action">
+                    <property name="title" translatable="yes">Scroll Action</property>
+                    <signal name="notify::selected" handler="on_scroll_action_selected"/>
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item translatable="yes">Change Volume</item>
+                          <item translatable="yes">Change File</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
             <child>
               <object class="AdwPreferencesGroup">
                 <property name="title" translatable="true">Screenshots Folder</property>

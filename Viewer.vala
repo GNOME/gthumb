@@ -109,6 +109,7 @@ public class Gth.Viewer : Gtk.Box {
 		viewer_signals.add (motion_events, motion_id);
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		//scroll_events.flags = Gtk.EventControllerScrollFlags.DISCRETE;
 		var scroll_id = scroll_events.scroll.connect (on_scroll);
 		widget.add_controller (scroll_events);
 		viewer_signals.add (scroll_events, scroll_id);
@@ -204,7 +205,19 @@ public class Gth.Viewer : Gtk.Box {
 		reveal_overlay_controls ();
 	}
 
-	bool on_scroll (double dx, double dy) {
+	bool on_scroll (Gtk.EventController controller, double dx, double dy) {
+		unowned var event = controller.get_current_event ();
+		var x = -1.0, y = -1.0;
+		if (event != null) {
+			if (!event.get_position (out x, out y)) {
+				x = -1.0;
+				y = -1.0;
+			}
+		}
+		return current_viewer.on_scroll (x, y, dx, dy);
+	}
+
+	public bool on_scroll_change_file (double dx, double dy) {
 		if (dy < 0) {
 			window.browser.view_previous_file ();
 		}
