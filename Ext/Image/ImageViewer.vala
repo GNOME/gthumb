@@ -7,7 +7,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (image_view);
 		window.viewer.viewer_container.add_css_class ("image-view");
-		window.viewer.set_statusbar_maximized (false);
 		init_actions ();
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
@@ -155,6 +154,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			case "max-size":
 				image_view.zoom_type = ZoomType.MAXIMIZE;
 				break;
+			case "max-size-if-larger":
+				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+				break;
 			case "max-width":
 				image_view.zoom_type = ZoomType.MAXIMIZE_WIDTH;
 				break;
@@ -205,6 +207,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			case ZoomType.MAXIMIZE:
 				state = "max-size";
 				break;
+			case ZoomType.MAXIMIZE_IF_LARGER:
+				state = "max-size-if-larger";
+				break;
 			case ZoomType.MAXIMIZE_WIDTH:
 				state = "max-width";
 				break;
@@ -252,7 +257,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		adj.set_value (x);
 		SignalHandler.unblock (adj, zoom_adj_changed_id);
 
-		window.viewer.reveal_overlay_controls ();
+		//window.viewer.reveal_overlay_controls ();
 	}
 
 	inline double adj_to_zoom (double x) {

@@ -22,20 +22,9 @@ public class Gth.ViewerStatus : Gtk.Box {
 		zoom_info.visible = (zoom > 0);
 	}
 
-	public void set_tools (Gtk.Widget widget) {
-		viewer_tools.append (widget);
-		viewer_tools.visible = true;
-	}
-
-	public void remove_tools () {
-		Util.remove_all_children (viewer_tools);
-		viewer_tools.visible = false;
-	}
-
 	[GtkChild] unowned Gtk.Label total_files;
 	[GtkChild] unowned Gtk.Label file_position;
 	[GtkChild] unowned Gtk.Label zoom_info;
 	[GtkChild] unowned Gtk.Label pixel_info;
 	[GtkChild] unowned Adw.Spinner spinner;
-	[GtkChild] unowned Gtk.Box viewer_tools;
 }

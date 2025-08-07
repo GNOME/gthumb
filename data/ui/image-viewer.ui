@@ -5,7 +5,7 @@
     <child>
       <object class="GtkBox">
         <property name="spacing">6</property>
-        <child>
+        <!--child>
           <object class="GtkToggleButton">
             <property name="tooltip-text" translatable="yes">Set to actual size</property>
             <property name="icon-name">view-zoom-original-symbolic</property>
@@ -18,7 +18,7 @@
             <property name="icon-name">view-zoom-fit-symbolic</property>
             <property name="action-name">image.zoom-best-fit</property>
           </object>
-        </child>
+        </child-->
         <child>
           <object class="GtkMenuButton" id="zoom_button">
             <property name="direction">down</property>
@@ -58,6 +58,11 @@
         <attribute name="label" translatable="yes">Automatic</attribute>
         <attribute name="action">image.set-zoom</attribute>
         <attribute name="target">best-fit</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Full Image</attribute>
+        <attribute name="action">image.set-zoom</attribute>
+        <attribute name="target">max-size-if-larger</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Maximize Size</attribute>

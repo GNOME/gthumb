@@ -43,11 +43,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (video_view);
 		window.viewer.viewer_container.add_css_class ("video-view");
-		window.viewer.set_statusbar_maximized (true);
 		init_actions ();
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/video-viewer.ui");
-		window.viewer.status.set_tools (builder.get_object ("mediabar") as Gtk.Widget);
+		window.viewer.set_mediabar (builder.get_object ("mediabar") as Gtk.Widget);
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 		update_rate_label ();
 

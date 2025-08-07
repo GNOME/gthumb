@@ -138,10 +138,6 @@ public class Gth.Viewer : Gtk.Box {
 		right_toolbar.append (toolbar);
 	}
 
-	public void set_statusbar_maximized (bool maximized) {
-		statusbar_revealer.halign = maximized ? Gtk.Align.FILL : Gtk.Align.START;
-	}
-
 	public void before_open_page () {
 		status.set_zoom_info (0);
 		status.set_pixel_info (0, 0);
@@ -151,7 +147,7 @@ public class Gth.Viewer : Gtk.Box {
 		cancel_hide_overlay ();
 		Util.remove_all_children (left_toolbar);
 		Util.remove_all_children (right_toolbar);
-		status.remove_tools ();
+		set_mediabar (null);
 
 		foreach (unowned var revealer in overlay_controls) {
 			viewer_container.remove_overlay (revealer);
@@ -171,8 +167,10 @@ public class Gth.Viewer : Gtk.Box {
 		headerbar.show_end_title_buttons = false;
 		back_to_browser_button.visible = false;
 		fullscreen_toolbar_revealer.child = headerbar;
+		statusbar_revealer.margin_top = 72;
 		fullscreen_button.set_icon_name ("unfullscreen-symbolic");
 		fullscreen_state.save ();
+		reveal_overlay_controls (false);
 	}
 
 	public void after_unfullscreen () {
@@ -182,8 +180,10 @@ public class Gth.Viewer : Gtk.Box {
 		headerbar.show_start_title_buttons = true;
 		headerbar.show_end_title_buttons = true;
 		back_to_browser_button.visible = true;
+		statusbar_revealer.margin_top = 24;
 		fullscreen_button.set_icon_name ("fullscreen-symbolic");
 		fullscreen_state.restore ();
+		cursor = null;
 	}
 
 	public void save_preferences (bool page_visible) {
@@ -289,11 +289,26 @@ public class Gth.Viewer : Gtk.Box {
 			fullscreen_toolbar_revealer.reveal_child = reveal;
 		}
 		statusbar_revealer.reveal_child = reveal;
+		mediabar_revealer.reveal_child = reveal;
 		foreach (unowned var revealer in overlay_controls) {
 			revealer.reveal_child = reveal;
 		}
+		if (window.fullscreened) {
+			cursor = reveal ? null : new Gdk.Cursor.from_name ("none", null);
+		}
 		if (reveal) {
 			hide_overlay_after_timeout ();
+		}
+	}
+
+	public void set_mediabar (Gtk.Widget? widget) {
+		if (widget != null) {
+			mediabar_revealer.set_child (widget);
+			mediabar_revealer.visible = true;
+		}
+		else {
+			mediabar_revealer.set_child (null);
+			mediabar_revealer.visible = false;
 		}
 	}
 
@@ -334,6 +349,7 @@ public class Gth.Viewer : Gtk.Box {
 
 		add_overlay_motion_controller (fullscreen_toolbar_revealer, false);
 		add_overlay_motion_controller (statusbar_revealer, false);
+		add_overlay_motion_controller (mediabar_revealer, false);
 		init_actions ();
 	}
 
@@ -366,6 +382,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Adw.ToolbarView toolbar_view;
 	[GtkChild] unowned Gtk.Revealer fullscreen_toolbar_revealer;
 	[GtkChild] unowned Gtk.Revealer statusbar_revealer;
+	[GtkChild] unowned Gtk.Revealer mediabar_revealer;
 	[GtkChild] unowned Adw.HeaderBar headerbar;
 	[GtkChild] unowned Gtk.Button back_to_browser_button;
 	[GtkChild] unowned Gtk.Button fullscreen_button;

@@ -9,35 +9,25 @@
     </style>
     <child>
       <object class="GtkBox">
-        <style>
-          <class name="linked"/>
-        </style>
+        <property name="spacing">6</property>
         <child>
           <object class="GtkButton">
             <property name="action-name">win.view-previous</property>
+            <property name="icon-name">skip-backward-large-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Previous File</property>
             <style>
               <class name="flat"/>
             </style>
-            <child>
-              <object class="GtkImage">
-                <!--property name="icon-size">large</property-->
-                <property name="icon-name">left-symbolic</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="GtkButton">
             <property name="action-name">win.view-next</property>
+            <property name="icon-name">skip-forward-large-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Next File</property>
             <style>
               <class name="flat"/>
             </style>
-            <child>
-              <object class="GtkImage">
-                <!--property name="icon-size">large</property-->
-                <property name="icon-name">right-symbolic</property>
-              </object>
-            </child>
           </object>
         </child>
       </object>
@@ -82,15 +72,6 @@
             </style>
           </object>
         </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkBox" id="viewer_tools">
-        <property name="spacing">24</property>
-        <property name="visible">false</property>
-        <style>
-          <class name="statusbar-section"/>
-        </style>
       </object>
     </child>
     <child>
