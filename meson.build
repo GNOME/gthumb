@@ -267,6 +267,13 @@ config_file = configure_file(
   configuration : config
 )
 
+version_file = vcs_tag(
+  command: [ 'git', 'describe' ],
+  fallback: meson.project_version(),
+  input: 'Version.vala.in',
+  output: 'Version.vala'
+)
+
 gnome = import('gnome')
 resources_files = gnome.compile_resources('resources',
   'App.gresource.xml',
@@ -403,6 +410,7 @@ executable(
     savers_files,
     search_files,
     vapi_files,
+    version_file,
     video_files,
     image_files,
   ],
