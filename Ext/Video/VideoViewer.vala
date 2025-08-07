@@ -677,7 +677,14 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		var destination = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);
 		if (destination == null) {
 			destination = Files.get_special_dir (UserDirectory.PICTURES);
-			destination.make_directory_with_parents (cancellable);
+			try {
+				destination.make_directory_with_parents (cancellable);
+			}
+			catch (Error error) {
+				if (!(error is IOError.EXISTS)) {
+					throw error;
+				}
+			}
 			settings.set_string (PREF_VIDEO_SCREENSHOT_LOCATION, destination.get_uri ());
 		}
 
