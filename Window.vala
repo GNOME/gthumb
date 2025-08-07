@@ -209,6 +209,39 @@ public class Gth.Window : Adw.ApplicationWindow {
 		viewer.save_preferences (current_page == Page.VIEWER);
 	}
 
+	public GenericArray<Gth.FileData> get_selected () {
+		if (current_page == Page.VIEWER) {
+			return viewer.get_selected ();
+		}
+		return browser.get_selected ();
+	}
+
+	async void open_selected_files () {
+		var local_job = new_job ("Choose application");
+		try {
+			var files = get_selected ();
+			if (files.length == 0) {
+				throw new IOError.FAILED (_("No file selected"));
+			}
+			var app_selector = new Gth.AppSelector ();
+			var app_info = yield app_selector.select_app (this, files, local_job.cancellable);
+			var uris = new List<string>();
+			foreach (unowned var file_data in files) {
+				uris.append (file_data.file.get_uri ());
+			}
+			var context = get_display ().get_app_launch_context ();
+			context.set_timestamp (0);
+			context.set_icon (app_info.get_icon ());
+			app_info.launch_uris (uris, context);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
 	void init_actions () {
 		var action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
@@ -232,6 +265,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 				viewer.after_unfullscreen ();
 			}
 		});
+
+		action = new SimpleAction ("open-with", null);
+		action.activate.connect ((_action, param) => {
+			open_selected_files.begin ();
+		});
+		action_group.add_action (action);
 	}
 
 	[GtkChild] public unowned Gtk.Stack stack;

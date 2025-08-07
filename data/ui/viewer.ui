@@ -103,10 +103,12 @@
                     </child>
                     <child>
                       <object class="GtkPopoverMenu" id="file_context_menu">
+                        <property name="menu-model">file_menu</property>
+                        <property name="has-arrow">false</property>
+                        <property name="position">right</property>
                         <style>
                           <class name="deeper"/>
                         </style>
-                        <property name="menu-model">file_menu</property>
                       </object>
                     </child>
                   </object>

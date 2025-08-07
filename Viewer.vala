@@ -113,6 +113,15 @@ public class Gth.Viewer : Gtk.Box {
 		var scroll_id = scroll_events.scroll.connect (on_scroll);
 		widget.add_controller (scroll_events);
 		viewer_signals.add (scroll_events, scroll_id);
+
+		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_SECONDARY);
+		var click_id = click_events.pressed.connect ((n_press, x, y) => {
+			file_context_menu.pointing_to = { (int) x, (int) y, 1, 12 };
+			file_context_menu.popup ();
+		});
+		widget.add_controller (click_events);
+		viewer_signals.add (scroll_events, click_id);
 	}
 
 	public void add_viewer_overlay (Gtk.Revealer revealer) {
@@ -252,6 +261,12 @@ public class Gth.Viewer : Gtk.Box {
 		status.set_list_info (files);
 	}
 
+	public GenericArray<Gth.FileData> get_selected () {
+		var selected_files = new GenericArray<Gth.FileData>();
+		selected_files.add (current_file);
+		return selected_files;
+	}
+
 	void add_overlay_motion_controller (Gtk.Widget revealer, bool removable = true) {
 		var motion_events = new Gtk.EventControllerMotion ();
 		var enter_id = motion_events.enter.connect (() => {
@@ -354,6 +369,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Adw.HeaderBar headerbar;
 	[GtkChild] unowned Gtk.Button back_to_browser_button;
 	[GtkChild] unowned Gtk.Button fullscreen_button;
+	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 
 	weak Window _window;
 	bool active_popup = false;

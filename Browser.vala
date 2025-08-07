@@ -461,7 +461,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	GenericArray<Gth.FileData> get_selected () {
+	public GenericArray<Gth.FileData> get_selected () {
 		var selected_files = new GenericArray<Gth.FileData>();
 		var selected = file_grid.model.get_selection ();
 		for (int64 idx = 0; idx < selected.get_size (); idx++) {
@@ -677,12 +677,6 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("open-with", null);
-		action.activate.connect ((_action, param) => {
-			open_selected_files.begin ();
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction ("edit-bookmarks", null);
 		action.activate.connect ((_action, param) => {
 			var dialog = new Gth.BookmarksDialog ();
@@ -858,31 +852,6 @@ public class Gth.Browser : Gtk.Box {
 			if (search_job == local_job) {
 				search_job = null;
 			}
-		}
-	}
-
-	async void open_selected_files () {
-		var local_job = window.new_job ("Choose application");
-		try {
-			var files = get_selected ();
-			if (files.length == 0) {
-				throw new IOError.FAILED (_("No file selected"));
-			}
-			var app_selector = new Gth.AppSelector ();
-			var app_info = yield app_selector.select_app (window, files, local_job.cancellable);
-			var uris = new List<string>();
-			foreach (unowned var file_data in files)
-				uris.append (file_data.file.get_uri ());
-			var context = get_display ().get_app_launch_context ();
-			context.set_timestamp (0);
-			context.set_icon (app_info.get_icon ());
-			app_info.launch_uris (uris, context);
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
 		}
 	}
 
