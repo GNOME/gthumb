@@ -44,6 +44,10 @@ public class Gth.ImageSaver {
 			if (preferences != null) {
 				options = preferences.get_options ();
 			}
+			// TODO
+			//if (preferences.can_save_icc_profile ()) {
+			//	image.apply_icc_profile (app.color_manager, new Gth.IccProfile.sRGB (), cancellable);
+			//}
 			var bytes = save_func (image, options, cancellable);
 			if (bytes == null) {
 				throw new IOError.FAILED ("Save failed");
