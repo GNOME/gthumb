@@ -20,6 +20,9 @@
  */
 
 #include <config.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
 #include <tiff.h>
 #include <tiffio.h>
 #include "cairo-image-surface-tiff.h"
@@ -295,6 +298,21 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 			surface_row += line_step;
 		}
 	}
+
+#if HAVE_LCMS2
+
+	uint32 icc_profile_size;
+	void *icc_profile_data;
+	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
+		GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
+			cmsOpenProfileFromMem (icc_profile_data, icc_profile_size));
+		if (profile != NULL) {
+			gth_image_set_icc_profile (image, profile);
+			g_object_unref (profile);
+		}
+	}
+
+#endif
 
 stop_loading:
 
