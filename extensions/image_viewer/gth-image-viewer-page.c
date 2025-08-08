@@ -1314,8 +1314,8 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_show (self->priv->image_navigator);
 
 	self->priv->overview_revealer = gtk_revealer_new ();
-	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->overview_revealer), 200);
-	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->overview_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
+	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->overview_revealer), 100);
+	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->overview_revealer), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
 	gtk_widget_show (self->priv->overview_revealer);
 	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_revealer);
 
