@@ -282,7 +282,10 @@ wallpaper_data_new (GthBrowser *browser,
 static void
 wallpaper_data_free (WallpaperData *wdata)
 {
-	g_signal_handler_disconnect (gth_browser_get_infobar (wdata->browser), wdata->response_id);
+	if (wdata->response_id != 0) {
+		g_signal_handler_disconnect (gth_browser_get_infobar (wdata->browser), wdata->response_id);
+		wdata->response_id = 0;
+	}
 	wallpaper_style_free (&wdata->old_style);
 	wallpaper_style_free (&wdata->new_style);
 	g_free (wdata);
@@ -480,7 +483,7 @@ wallpaper_file_read_cb (GObject      *source_object,
 {
 	GthBrowser     *browser = GTH_BROWSER (user_data);
 	GFile          *wallpaper_file;
-	GError        **error = NULL;
+	GError         *error = NULL;
 	WallpaperData  *wdata;
 	gboolean        saving_wallpaper = FALSE;
 	GList          *items;
@@ -488,10 +491,10 @@ wallpaper_file_read_cb (GObject      *source_object,
 	GthFileData    *file_data;
 	const char     *mime_type;
 
-	wallpaper_file = get_new_wallpaper_file_finish (res, error);
+	wallpaper_file = get_new_wallpaper_file_finish (res, &error);
 	if (wallpaper_file == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),  _("Could not set the desktop background"), *error);
-		g_clear_error (error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),  _("Could not set the desktop background"), error);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -502,6 +505,16 @@ wallpaper_file_read_cb (GObject      *source_object,
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_data = (file_list != NULL) ? file_list->data : NULL;
 	mime_type = (file_data != NULL) ? gth_file_data_get_mime_type (file_data) : NULL;
+
+	if (!_g_mime_type_is_image (mime_type)) {
+		_g_object_list_unref (file_list);
+		_gtk_tree_path_list_free (items);
+		wallpaper_data_free (wdata);
+		g_set_error_literal (&error, GTH_ERROR, 0, _("File type not supported"));
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),  _("Could not set the desktop background"), error);
+		g_clear_error (&error);
+		return;
+	}
 
 	if (gth_main_extension_is_active ("image_viewer")
 	    && (gth_browser_get_file_modified (browser) || ! _gdk_pixbuf_mime_type_is_readable (mime_type)))
@@ -547,7 +560,7 @@ wallpaper_file_read_cb (GObject      *source_object,
 		wallpaper_data_set_new_style_file (wdata, file_data->file);
 		wallpaper_data_set (wdata);
 	}
-	else
+	else {
 		g_file_copy_async (file_data->file,
 				   wdata->new_style.file,
 				   G_FILE_COPY_OVERWRITE,
@@ -557,6 +570,7 @@ wallpaper_file_read_cb (GObject      *source_object,
 				   NULL,
 				   copy_wallpaper_ready_cb,
 				   wdata);
+	}
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
