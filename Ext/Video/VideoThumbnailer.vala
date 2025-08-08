@@ -84,8 +84,8 @@ public static int main (string[] args) {
 		}
 		Gth.Files.save_file (output_file, bytes);
 	}
-	catch (OptionError e) {
-		stderr.printf ("Error: %s\n\n", e.message);
+	catch (Error e) {
+		stderr.printf ("VideoThumbnailer: Error: %s (input_path: %s)\n\n", e.message, input_path);
 		result = 1;
 	}
 

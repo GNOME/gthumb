@@ -65,8 +65,14 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	caps.append_structure (new Gst.Structure ("video/x-raw", "format", Type.STRING, "RGB"));
 	caps.append_structure (new Gst.Structure ("video/x-raw", "format", Type.STRING, "RGBA"));
 	Signal.emit_by_name (playbin, "convert_sample", caps, out sample);
+	if (sample == null) {
+		throw new IOError.FAILED ("Could not get a sample");
+	}
 
 	var image = get_image_from_sample (sample);
+	if (image == null) {
+		throw new IOError.FAILED ("Could not get a sample");
+	}
 
 	playbin.set_state (Gst.State.NULL);
 	playbin.get_state (null, null, -1);
