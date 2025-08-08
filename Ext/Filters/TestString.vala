@@ -18,7 +18,7 @@ public class Gth.TestString : Gth.Test {
 	public override bool match (FileData file) {
 		var matches = false;
 		var value = get_file_value (file);
-		if (value == null) {
+		if ((text == null) || (value == null)) {
 			return false;
 		}
 		if (lowercase_text == null) {
