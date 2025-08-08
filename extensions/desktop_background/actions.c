@@ -366,7 +366,7 @@ wallpaper_data_set__step2 (WallpaperData *wdata)
 				  NULL);
 	gtk_info_bar_set_response_sensitive (GTK_INFO_BAR (infobar),
 					     _RESPONSE_UNDO,
-					     wdata->old_style.file != NULL);
+					     (wdata->old_style.file_light != NULL) || (wdata->old_style.file_dark != NULL));
 	wdata->response_id = g_signal_connect (infobar,
 			  	  	       "response",
 			  	  	       G_CALLBACK (infobar_response_cb),
