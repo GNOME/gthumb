@@ -278,11 +278,14 @@
                             </child>
                             <child>
                               <object class="AdwStatusPage" id="empty_folder">
-                                <property name="icon-name">folder-symbolic</property>
-                                <property name="title" translatable="true">No File</property>
                                 <style>
                                   <class name="view"/>
                                 </style>
+                                <child>
+                                  <object class="GthFolderStatus" id="folder_status">
+                                    <property name="icon-name">folder-symbolic</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>

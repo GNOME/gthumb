@@ -369,6 +369,7 @@ executable(
     'FilterFile.vala',
     'FolderTreeItem.vala',
     'FolderTree.vala',
+    'FolderStatus.vala',
     'GenericList.vala',
     'History.vala',
     'ImageLoader.vala',

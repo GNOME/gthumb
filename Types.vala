@@ -17,6 +17,8 @@ const string STANDARD_ATTRIBUTES =
 	FileAttribute.STANDARD_DISPLAY_NAME + "," +
 	FileAttribute.STANDARD_EDIT_NAME + "," +
 	FileAttribute.STANDARD_SIZE + "," +
+	FileAttribute.STANDARD_ICON + "," +
+	FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
 	FileAttribute.TIME_CREATED + "," +
 	FileAttribute.TIME_CREATED_USEC + "," +
 	FileAttribute.TIME_MODIFIED + "," +

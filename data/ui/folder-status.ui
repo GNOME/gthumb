@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthFolderStatus">
+    <property name="orientation">vertical</property>
+    <property name="halign">center</property>
+    <property name="spacing">24</property>
+    <child>
+      <object class="GtkImage" id="icon_image">
+        <property name="icon-name">folder-symbolic</property>
+        <property name="pixel-size">128</property>
+        <style>
+          <class name="dimmed"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="title_label">
+        <style>
+          <class name="title-1"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="halign">center</property>
+        <child>
+          <object class="GtkLabel" id="description_label">
+            <property name="justify">center</property>
+            <property name="max-width-chars">50</property>
+            <property name="wrap">true</property>
+            <property name="hexpand">false</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

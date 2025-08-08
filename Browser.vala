@@ -372,9 +372,38 @@ public class Gth.Browser : Gtk.Box {
 
 		status.set_list_info (total_files, total_size);
 		window.viewer.set_list_info (total_files);
-		folder_stack.set_visible_child ((total_files == 0) ? empty_folder : non_empty_folder);
+		update_folder_status ();
 
 		status.set_selection_info (0, 0);
+	}
+
+	public void update_folder_status () {
+		folder_stack.set_visible_child ((total_files == 0) ? empty_folder : non_empty_folder);
+		if (total_files == 0) {
+			var title = _("No Files");
+			if ((filter_bar.filter != null) && (filter_bar.filter.id != "")) {
+				title = _("No Matches");
+				folder_status.icon_name = "filter-symbolic";
+			}
+			else {
+				folder_status.gicon = folder_tree.current_folder.get_symbolic_icon ();
+				switch (folder_tree.current_folder.get_content_type ()) {
+				case "gthumb/search":
+					title = _("No Files Found");
+					break;
+				case "gthumb/catalog":
+					title = _("Empty Catalog");
+					break;
+				case "gthumb/library":
+					title = _("Library");
+					break;
+				default:
+					title = _("Empty Folder");
+					break;
+				}
+			}
+			folder_status.title = title;
+		}
 	}
 
 	void update_location_menu () {
@@ -1000,7 +1029,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.GridView file_grid;
 	[GtkChild] unowned Gtk.Stack folder_stack;
 	[GtkChild] unowned Gtk.Widget non_empty_folder;
-	[GtkChild] unowned Gtk.Widget empty_folder;
+	[GtkChild] public unowned Adw.StatusPage empty_folder;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
 	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
@@ -1013,6 +1042,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
 	[GtkChild] unowned Gtk.Button update_search_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
+	[GtkChild] public unowned Gth.FolderStatus folder_status;
 
 	Gth.Test general_filter;
 	Gth.Test active_filter;

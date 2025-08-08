@@ -28,6 +28,8 @@ public class Gth.UpdateSearch {
 		if ((error != null) && !(error is IOError.CANCELLED)) {
 			throw error;
 		}
+		browser.update_folder_status ();
+		browser.window.show_message ((search.files.length == 0) ? _("No files found") : _("Search terminated"));
 	}
 
 	async void update_search (Browser browser, CatalogSearch _search, File _file, Cancellable cancellable) throws Error {
@@ -47,12 +49,14 @@ public class Gth.UpdateSearch {
 
 		// Show a message on the browser.
 
-		toast = new Adw.Toast (_("Searching Files"));
+		toast = new Adw.Toast (_("Searching files…"));
 		toast.timeout = 0;
 		toast.action_name = "win.stop-search";
 		toast.button_label = _("Stop");
 		toast.use_markup = false;
 		browser.window.add_toast (toast);
+
+		browser.folder_status.title = _("Searching files…");
 
 		// Get the file test.
 
@@ -104,7 +108,7 @@ public class Gth.UpdateSearch {
 		var data = yield Files.load_contents_async (gio_file, cancellable);
 		var catalog = Catalog.new_from_data (file, data);
 		if (!(catalog is CatalogSearch)) {
-			throw new IOError.FAILED ("Not a search");
+			throw new IOError.FAILED ("Invalid catalog");
 		}
 		search = catalog as CatalogSearch;
 		yield search_and_save (browser, search, file, cancellable);
