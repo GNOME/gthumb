@@ -570,4 +570,10 @@ public class Gth.Util {
 	public static bool file_equal (File a, File b) {
 		return a.equal (b);
 	}
+
+	public static string format_double (double value, string format = "%0.2f") {
+		var buffer = new char[50];
+		value.format (buffer, format);
+		return (string) buffer;
+	}
 }

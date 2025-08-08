@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class="GtkStack" id="view_stack">
+    <child>
+      <object class="GthVideoView" id="video_view">
+      </object>
+    </child>
+    <child>
+      <object class="AdwStatusPage" id="audio_view">
+        <child>
+          <object class="GthFolderStatus" id="audio_status">
+            <property name="title"></property>
+            <property name="dimmed-icon">false</property>
+            <property name="icon-size">256</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="empty_view">
+      </object>
+    </child>
+  </object>
   <object class="AdwClamp" id="mediabar">
     <property name="maximum-size">900</property>
     <property name="unit">sp</property>
@@ -7,8 +28,7 @@
       <object class="GtkBox">
         <property name="spacing">12</property>
         <style>
-          <class name="statusbar"/>
-          <class name="floating"/>
+          <class name="mediabar"/>
         </style>
         <child>
           <object class="GtkButton" id="play_button">
@@ -20,75 +40,15 @@
             </style>
             <child>
               <object class="GtkImage" id="play_button_image">
-                <property name="icon-size">large</property>
+                <!--property name="icon-size">large</property-->
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkMenuButton" id="speed_button">
-            <property name="direction">up</property>
-            <property name="tooltip-text" translatable="yes">Playback Speed</property>
-            <property name="valign">center</property>
-            <style>
-              <class name="flat"/>
-              <class name="for_toolbar"/>
-            </style>
-            <child>
-              <object class="GtkLabel" id="speed_label">
-                <property name="label">1×</property>
-                <property name="width-chars">5</property>
-                <style>
-                  <class name="numeric"/>
-                </style>
-              </object>
-            </child>
-            <property name="popover">
-              <object class="GtkPopover">
-                <child>
-                  <object class="GtkBox">
-                    <property name="spacing">6</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkButton" id="play_faster_button">
-                        <property name="icon-name">list-add-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Faster</property>
-                        <property name="action-name">video.increase-speed</property>
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton">
-                        <property name="icon-name">one-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Normal Speed</property>
-                        <property name="action-name">video.normal-speed</property>
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="play_slower_button">
-                        <property name="icon-name">list-remove-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Slower</property>
-                        <property name="action-name">video.decrease-speed</property>
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </property>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="margin-start">24</property>
-            <property name="margin-end">24</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
             <child>
               <object class="GtkScale" id="position_scale">
                 <property name="width-request">150</property>
@@ -347,24 +307,40 @@
           </object>
         </child>
         <child>
-          <object class="GtkToggleButton" id="volume_button">
-            <property name="action-name">video.mute</property>
-            <property name="valign">center</property>
-            <style>
-              <class name="flat"/>
-            </style>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
             <child>
-              <object class="GtkImage" id="volume_icon">
+              <object class="GtkToggleButton" id="volume_button">
+                <property name="action-name">video.mute</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="flat"/>
+                </style>
+                <child>
+                  <object class="GtkImage" id="volume_icon">
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="volume_scale">
+                <property name="width-request">120</property>
+                <property name="adjustment">volume_adjustment</property>
+                <property name="round-digits">1</property>
+                <property name="draw-value">false</property>
+                <property name="margin-end">24</property>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="GtkScale" id="volume_scale">
-            <property name="width-request">120</property>
-            <property name="adjustment">volume_adjustment</property>
-            <property name="round-digits">1</property>
-            <property name="draw-value">false</property>
+          <object class="GtkButton">
+            <property name="tooltip-text" translatable="yes">Take a screenshot</property>
+            <property name="icon-name">camera-photo-symbolic</property>
+            <property name="action-name">video.save-screenshot</property>
+            <style>
+              <class name="flat"/>
+            </style>
           </object>
         </child>
         <child>
@@ -392,16 +368,55 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkBox" id="left_toolbar">
-    <child>
-      <object class="GtkButton">
-        <property name="tooltip-text" translatable="yes">Take a screenshot</property>
-        <property name="icon-name">camera-photo-symbolic</property>
-        <property name="action-name">video.save-screenshot</property>
-      </object>
-    </child>
-  </object>
   <menu id="options_menu">
+    <section>
+      <attribute name="label" translatable="yes">Playback Speed</attribute>
+      <item>
+        <attribute name="label">25%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">0.25</attribute>
+      </item>
+      <item>
+        <attribute name="label">50%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">0.50</attribute>
+      </item>
+      <item>
+        <attribute name="label">75%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">0.75</attribute>
+      </item>
+      <item>
+        <attribute name="label">Normal Speed</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">1.00</attribute>
+      </item>
+      <item>
+        <attribute name="label">125%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">1.25</attribute>
+      </item>
+      <item>
+        <attribute name="label">150%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">1.50</attribute>
+      </item>
+      <item>
+        <attribute name="label">175%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">1.75</attribute>
+      </item>
+      <item>
+        <attribute name="label">200%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">2.00</attribute>
+      </item>
+      <item>
+        <attribute name="label">400%</attribute>
+        <attribute name="action">video.set-speed</attribute>
+        <attribute name="target">4.00</attribute>
+      </item>
+    </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">Repeat</attribute>

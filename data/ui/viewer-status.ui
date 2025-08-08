@@ -2,11 +2,62 @@
 <interface>
   <template class="GthViewerStatus">
     <property name="orientation">horizontal</property>
-    <property name="spacing">0</property>
+    <property name="spacing">24</property>
+    <property name="margin-start">24</property>
     <style>
       <class name="statusbar"/>
       <class name="floating"/>
     </style>
+    <child>
+      <object class="GtkButton">
+        <property name="visible">false</property>
+        <style>
+          <class name="flat"/>
+        </style>
+        <child>
+          <object class="AdwSpinner" id="spinner">
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="pixel_info">
+        <property name="visible">false</property>
+        <style>
+          <class name="numeric"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="zoom_info">
+        <property name="visible">false</property>
+        <style>
+          <class name="numeric"/>
+          <class name="dimmed"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">0</property>
+        <child>
+          <object class="GtkLabel" id="file_position">
+            <style>
+              <class name="numeric"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="total_files">
+            <style>
+              <class name="numeric"/>
+              <class name="dimmed"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
     <child>
       <object class="GtkBox">
         <property name="spacing">6</property>
@@ -30,54 +81,6 @@
             </style>
           </object>
         </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkBox">
-        <property name="spacing">24</property>
-        <property name="margin-start">24</property>
-        <property name="margin-end">24</property>
-        <child>
-          <object class="GtkBox">
-            <property name="orientation">horizontal</property>
-            <property name="spacing">0</property>
-            <child>
-              <object class="GtkLabel" id="file_position">
-                <style>
-                  <class name="numeric"/>
-                </style>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="total_files">
-                <style>
-                  <class name="numeric"/>
-                  <class name="dimmed"/>
-                </style>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="pixel_info">
-            <style>
-              <class name="numeric"/>
-            </style>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="zoom_info">
-            <style>
-              <class name="numeric"/>
-            </style>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="AdwSpinner" id="spinner">
-        <property name="visible">false</property>
-        <property name="valign">center</property>
       </object>
     </child>
   </template>

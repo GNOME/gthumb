@@ -85,7 +85,7 @@
                         </child>
                         <child type="overlay">
                           <object class="GtkRevealer" id="statusbar_revealer">
-                            <property name="halign">start</property>
+                            <property name="halign">end</property>
                             <property name="valign">start</property>
                             <property name="margin-start">24</property>
                             <property name="margin-end">24</property>

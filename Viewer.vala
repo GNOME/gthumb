@@ -121,7 +121,7 @@ public class Gth.Viewer : Gtk.Box {
 			file_context_menu.popup ();
 		});
 		widget.add_controller (click_events);
-		viewer_signals.add (scroll_events, click_id);
+		viewer_signals.add (click_events, click_id);
 	}
 
 	public void add_viewer_overlay (Gtk.Revealer revealer) {
@@ -148,6 +148,7 @@ public class Gth.Viewer : Gtk.Box {
 		Util.remove_all_children (left_toolbar);
 		Util.remove_all_children (right_toolbar);
 		set_mediabar (null);
+		viewer_signals.disconnect_all ();
 
 		foreach (unowned var revealer in overlay_controls) {
 			viewer_container.remove_overlay (revealer);

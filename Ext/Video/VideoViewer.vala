@@ -37,18 +37,26 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		assert (video_view == null);
 
 		window = _window;
-		video_view = new Gth.VideoView ();
+
+		typeof (Gth.VideoView).ensure ();
+		typeof (Gth.FolderStatus).ensure ();
+
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/video-viewer.ui");
+		view_stack = builder.get_object ("view_stack") as Gtk.Stack;
+		video_view = builder.get_object ("video_view") as Gth.VideoView;
+		audio_view = builder.get_object ("audio_view") as Adw.StatusPage;
+		empty_view = builder.get_object ("empty_view") as Gtk.Widget;
+		audio_status = builder.get_object ("audio_status") as Gth.FolderStatus;
+
 		video_view.resized.connect (() => update_zoom_info ());
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
 		scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
-		window.viewer.set_viewer_widget (video_view);
+		window.viewer.set_viewer_widget (view_stack);
 		window.viewer.viewer_container.add_css_class ("video-view");
 		init_actions ();
 
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/video-viewer.ui");
-		window.viewer.set_mediabar (builder.get_object ("mediabar") as Gtk.Widget);
-		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
-		update_rate_label ();
+		mediabar = builder.get_object ("mediabar") as Gtk.Widget;
+		window.viewer.set_mediabar (mediabar);
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.button = Gdk.BUTTON_PRIMARY;
@@ -57,12 +65,14 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		});
 		video_view.add_controller (click_events);
 
-		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
-		menu_button.notify["active"].connect ((obj, spec) => {
-			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+		click_events = new Gtk.GestureClick ();
+		click_events.button = Gdk.BUTTON_PRIMARY;
+		click_events.pressed.connect ((n_press, x, y) => {
+			playing = !playing;
 		});
+		audio_view.add_controller (click_events);
 
-		menu_button = builder.get_object ("speed_button") as Gtk.MenuButton;
+		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
 		menu_button.notify["active"].connect ((obj, spec) => {
 			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
 		});
@@ -119,6 +129,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		if (playbin == null)
 			return;
 		reset_state ();
+		reset_view ();
 		playbin.set_state (Gst.State.NULL);
 		playbin.set ("uri", file_data.file.get_uri ());
 		playing = true;
@@ -208,10 +219,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 
 		// Rotate according to the orientation tag.
-		var videoflip = Gst.ElementFactory.make_full ("videoflip",
+		var autorotate = Gst.ElementFactory.make_full ("videoflip",
 			"video-direction", Gst.Video.OrientationMethod.AUTO);
-		if (videoflip != null) {
-			playbin.set ("video-filter", videoflip);
+		if (autorotate != null) {
+			playbin.set ("video-filter", autorotate);
 		}
 
 		// Video sink.
@@ -404,6 +415,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			break;
 
 		case Gst.MessageType.EOS:
+			stdout.printf (">> EOS\n");
 			if (loop && _playing) {
 				skip_to (0);
 			}
@@ -480,25 +492,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 	void set_rate (double value) {
 		rate = value;
-		update_rate_label ();
 		skip_to (get_current_time ());
-	}
-
-	void update_rate_label () {
-		unowned var speed_label = builder.get_object ("speed_label") as Gtk.Label;
-		double integral;
-		var fractional = Math.modf (rate, out integral);
-		double _ignored;
-		var second_digit = Math.modf (fractional * 10, out _ignored);
-		if (fractional == 0) {
-			speed_label.label = "%d×".printf ((int) integral);
-		}
-		else if (second_digit == 0) {
-			speed_label.label = "%.1f×".printf (rate);
-		}
-		else {
-			speed_label.label = "%.2f×".printf (rate);
-		}
 	}
 
 	int get_current_rate_idx () {
@@ -539,7 +533,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	void init_actions () {
-		var action_group = new SimpleActionGroup ();
+		action_group = new SimpleActionGroup ();
 		window.insert_action_group ("video", action_group);
 
 		var action = new SimpleAction ("decrease-speed", null);
@@ -575,10 +569,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-speed", VariantType.DOUBLE, new Variant.double (rate));
+		action = new SimpleAction.stateful ("set-speed", VariantType.STRING, new Variant.string (Util.format_double (rate, "%0.2f")));
 		action.activate.connect ((_action, param) => {
-			set_rate (param.get_double ());
-			_action.set_state (new Variant.double (rate));
+			set_rate (double.parse (param.get_string ()));
+			_action.set_state (new Variant.string (Util.format_double (rate, "%0.2f")));
 		});
 		action_group.add_action (action);
 
@@ -751,7 +745,17 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			}
 		}
 
+		mediabar.visible = has_video || has_audio;
+		if (has_video) {
+			view_stack.set_visible_child (video_view);
+		}
+		else {
+			audio_status.gicon = window.viewer.current_file.info.get_icon ();
+			audio_status.description = window.viewer.current_file.info.get_display_name ();
+			view_stack.set_visible_child (audio_view);
+		}
 		update_zoom_info ();
+		update_sensitivity ();
 	}
 
 	void update_zoom_info () {
@@ -763,6 +767,18 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			window.viewer.status.set_zoom_info (video_view.zoom);
 			window.viewer.status.set_pixel_info (video_width, video_height);
 		}
+	}
+
+	void update_sensitivity () {
+		Util.enable_action (action_group, "mute", has_audio);
+		Util.enable_action (action_group, "save-screenshot", has_video);
+		Util.enable_action (action_group, "next-frame", has_video);
+		Util.enable_action (action_group, "zoom-to-fit", has_video);
+	}
+
+	void reset_view () {
+		mediabar.visible = false;
+		view_stack.set_visible_child (empty_view);
 	}
 
 	void reset_state () {
@@ -797,7 +813,11 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	GLib.Settings settings;
 	weak Gth.Window window;
 	Gst.Pipeline playbin;
-	Gth.VideoView video_view;
+	unowned Gtk.Stack view_stack;
+	unowned Gth.VideoView video_view;
+	unowned Adw.StatusPage audio_view;
+	unowned Gtk.Widget empty_view;
+	unowned Gth.FolderStatus audio_status;
 	bool _zoom_to_fit;
 	bool _playing;
 	Gtk.Builder builder;
@@ -807,19 +827,21 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	double rate;
 	bool loop;
 	unowned Gtk.Revealer mediabar_revealer;
+	unowned Gtk.Widget mediabar;
 	bool paused;
 	int video_width;
 	int video_height;
 	bool has_audio;
 	bool has_video;
 	ScrollAction scroll_action;
+	SimpleActionGroup action_group;
 
 	const double[] Rates = {
-		0.03, 0.05, 0.12, 0.25, 0.33, 0.5, 0.75,
+		0.25, 0.33, 0.5, 0.75,
 		1.0, // Note: Keep NORMAL_RATE_IDX up-to-date
-		1.25, 1.5, 1.75, 2.0, 3.0, 4.0
+		1.25, 1.5, 1.75, 2.0, 4.0
 	};
-	const int NORMAL_RATE_IDX = 7;
+	const int NORMAL_RATE_IDX = 4;
 	const int MAX_ATTEMPTS = 1000;
 	const string SCREENSHOT_TYPE = "image/jpeg";
 	const string[] VOLUME_ICONS = {

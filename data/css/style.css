@@ -39,16 +39,16 @@ popover.deeper > contents {
 	padding: 4px;
 }
 
+.mediabar,
 .statusbar.floating {
 	background: var(--headerbar-bg-color);
 	border: 1px solid #445;
-	padding: 6px;
 	border-radius: 12px;
+	padding: 6px;
 }
 
-.statusbar.osd {
-	padding: 6px;
-	border-radius: 12px;
+.statusbar.floating {
+	padding: 6px 6px 6px 18px;
 }
 
 .sidebar-header,
