@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class="GtkScrolledWindow" id="main_view">
+    <child>
+      <object class="GthImageView" id="image_view">
+      </object>
+    </child>
+  </object>
   <object class="GtkBox" id="mediabar">
     <property name="spacing">6</property>
     <style>

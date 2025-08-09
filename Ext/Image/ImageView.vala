@@ -65,8 +65,13 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		get { return _hadjustment; }
 		set construct {
 			_hadjustment = value;
-			if (_hadjustment != null)
-				_hadjustment.value_changed.connect(() => queue_draw ());
+			if (_hadjustment != null) {
+				_hadjustment.value_changed.connect ((adj) => {
+					viewport.origin = { (float) adj.get_value (), viewport.origin.y };
+					update_image_box ();
+					queue_draw ();
+				});
+			}
 		}
 	}
 
@@ -74,8 +79,13 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		get { return _vadjustment; }
 		set construct {
 			_vadjustment = value;
-			if (_vadjustment != null)
-				_vadjustment.value_changed.connect(() => queue_draw ());
+			if (_vadjustment != null) {
+				_vadjustment.value_changed.connect ((adj) => {
+					viewport.origin = { viewport.origin.x, (float) adj.get_value () };
+					update_image_box ();
+					queue_draw ();
+				});
+			}
 		}
 	}
 
@@ -284,7 +294,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		x = x.clamp (0, max_x);
 		y = y.clamp (0, max_y);
 		viewport.origin = { x, y };
-		// TODO: update adjustment values
+		if (_hadjustment != null) {
+			_hadjustment.set_value (x);
+		}
+		if (_vadjustment != null) {
+			_vadjustment.set_value (y);
+		}
 	}
 
 	void update_texture_box () {
@@ -366,16 +381,18 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 		if (_vadjustment != null) {
+			_vadjustment.freeze_notify ();
 			_vadjustment.set_lower (0);
-			var upper = zoomed_height - viewport.size.height;
-			_vadjustment.set_upper ((upper > 0) ? upper : 0);
-			_vadjustment.set_page_size ((upper > 0) ? viewport.size.height : 0);
+			_vadjustment.set_upper (zoomed_height);
+			_vadjustment.set_page_size (viewport.size.height);
+			_vadjustment.thaw_notify ();
 		}
 		if (_hadjustment != null) {
+			_hadjustment.freeze_notify ();
 			_hadjustment.set_lower (0);
-			var upper = zoomed_width - viewport.size.width;
-			_vadjustment.set_upper ((upper > 0) ? upper : 0);
-			_vadjustment.set_page_size ((upper > 0) ? viewport.size.width : 0);
+			_hadjustment.set_upper (zoomed_width);
+			_hadjustment.set_page_size (viewport.size.width);
+			_hadjustment.thaw_notify ();
 		}
 	}
 

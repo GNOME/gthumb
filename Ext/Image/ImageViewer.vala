@@ -3,12 +3,14 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		assert (window == null);
 
 		window = _window;
+
+		typeof (Gth.ImageView).ensure ();
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
-		image_view = new Gth.ImageView ();
+		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.zoom_type = settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
 		image_view.transparency = settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
-		window.viewer.set_viewer_widget (image_view);
+		window.viewer.set_viewer_widget (builder.get_object ("main_view") as Gtk.Widget);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		init_actions ();
@@ -400,7 +402,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	GLib.Settings settings;
 	Gtk.Builder builder;
 	Gth.Job load_job;
-	Gth.ImageView image_view;
+	unowned Gth.ImageView image_view;
 	ulong zoom_adj_changed_id;
 	SimpleActionGroup action_group;
 	bool dragging;
