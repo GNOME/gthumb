@@ -45,6 +45,7 @@
     <file preprocess="xml-stripblanks">skip-forward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">skip-backward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">fullscreen-alt-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">exit-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
