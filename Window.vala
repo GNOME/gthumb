@@ -216,6 +216,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return browser.get_selected ();
 	}
 
+	public File get_current_file () {
+		if (current_page == Page.VIEWER) {
+			return viewer.current_file.file;
+		}
+		return null;
+	}
+
 	async void open_selected_files () {
 		var local_job = new_job ("Choose application");
 		try {

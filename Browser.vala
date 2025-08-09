@@ -589,7 +589,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("new-window", null);
 		action.activate.connect (() => {
-			var window = new Gth.Window (app, folder_tree.current_folder.file, null);
+			var window = new Gth.Window (app, folder_tree.current_folder.file, window.get_current_file ());
 			window.present ();
 		});
 		action_group.add_action (action);
