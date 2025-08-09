@@ -1,30 +1,37 @@
 public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public void activate (Gth.Window _window) {
 		assert (window == null);
+
 		window = _window;
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		image_view = new Gth.ImageView ();
 		image_view.zoom_type = settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
 		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (image_view);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		init_actions ();
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
+
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
+		window.viewer.set_mediabar (builder.get_object ("mediabar") as Gtk.Widget, Gtk.Align.CENTER);
+		zoom_info = builder.get_object ("zoom_info") as Gtk.Label;
 
 		var zoom_button = builder.get_object ("zoom_button") as Gtk.Widget;
-		zoom_button.remove_css_class ("popup");
+		zoom_button.notify["active"].connect ((obj, spec) => {
+			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+		});
 
-		unowned var adj = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
-		zoom_adj_changed_id = adj.value_changed.connect ((local_adj) => {
+		var options_button = builder.get_object ("options_button") as Gtk.Widget;
+		options_button.notify["active"].connect ((obj, spec) => {
+			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+		});
+
+		zoom_adjustment = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
+		zoom_adj_changed_id = zoom_adjustment.value_changed.connect ((local_adj) => {
 			var x = local_adj.get_value ();
 			x = (adj_to_zoom (x) - adj_to_zoom (ZOOM_ADJ_MIN)) / (adj_to_zoom (ZOOM_ADJ_MAX) - adj_to_zoom (ZOOM_ADJ_MIN));
 			var zoom = ZOOM_MIN + (x * (ZOOM_MAX - ZOOM_MIN));
 			image_view.zoom = (float) zoom.clamp (ZOOM_MIN, ZOOM_MAX);
 		});
-
-		unowned var zoom_scale = builder.get_object ("zoom_scale") as Gtk.Widget;
-		unowned var zoom_popover = builder.get_object ("zoom_popover") as Gtk.PopoverMenu;
-		zoom_popover.add_child (zoom_scale, "scale");
 
 		image_view.resized.connect (() => update_zoom_info ());
 
@@ -127,6 +134,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return false;
 	}
 
+	public bool get_pixel_size (out uint width, out uint height) {
+		if (image_view.image == null)
+			return false;
+		image_view.image.get_natural_size (out width, out height);
+		return true;
+	}
+
 	void init_actions () {
 		action_group = new SimpleActionGroup ();
 		window.insert_action_group ("image", action_group);
@@ -139,7 +153,23 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction.stateful ("zoom-best-fit", null, new Variant.boolean (false));
 		action.activate.connect ((_action, param) => {
-			image_view.zoom_type = ZoomType.BEST_FIT;
+			if (image_view.zoom_type != ZoomType.BEST_FIT) {
+				image_view.zoom_type = ZoomType.BEST_FIT;
+			}
+			else {
+				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("zoom-view-all", null, new Variant.boolean (false));
+		action.activate.connect ((_action, param) => {
+			if (image_view.zoom_type != ZoomType.MAXIMIZE_IF_LARGER) {
+				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+			}
+			else {
+				image_view.zoom_type = ZoomType.NATURAL_SIZE;
+			}
 		});
 		action_group.add_action (action);
 
@@ -181,6 +211,18 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-in", null);
+		action.activate.connect ((_action, param) => {
+			zoom_adjustment.value += zoom_adjustment.step_increment;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-out", null);
+		action.activate.connect ((_action, param) => {
+			zoom_adjustment.value -= zoom_adjustment.step_increment;
+		});
+		action_group.add_action (action);
 	}
 
 	void update_zoom_info () {
@@ -195,6 +237,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.image.get_natural_size (out width, out height);
 		window.viewer.status.set_pixel_info (width, height);
 		window.viewer.status.set_zoom_info (image_view.zoom);
+		zoom_info.label = "%d%%".printf ((int) Math.round (image_view.zoom * 100));
 
 		// Update the 'set-zoom' action state.
 		var action = action_group.lookup_action ("set-zoom") as SimpleAction;
@@ -247,6 +290,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.BEST_FIT));
 		}
 
+		action = action_group.lookup_action ("zoom-view-all") as SimpleAction;
+		if (action != null) {
+			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.MAXIMIZE_IF_LARGER));
+		}
+
 		// Update the zoom adjustment.
 		unowned var adj = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
 		SignalHandler.block (adj, zoom_adj_changed_id);
@@ -295,6 +343,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	bool clicking;
 	ClickPoint drag_start;
 	ScrollAction scroll_action;
+	unowned Gtk.Label zoom_info;
+	unowned Gtk.Adjustment zoom_adjustment;
 
 	const float ZOOM_MIN = 0.05f;
 	const float ZOOM_MAX = 10f;

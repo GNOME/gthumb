@@ -302,10 +302,11 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public void set_mediabar (Gtk.Widget? widget) {
+	public void set_mediabar (Gtk.Widget? widget, Gtk.Align halign = Gtk.Align.FILL) {
 		if (widget != null) {
 			mediabar_revealer.set_child (widget);
 			mediabar_revealer.visible = true;
+			mediabar_revealer.halign = halign;
 		}
 		else {
 			mediabar_revealer.set_child (null);

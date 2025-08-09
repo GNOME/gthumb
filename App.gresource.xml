@@ -40,6 +40,7 @@
     <file preprocess="xml-stripblanks">view-zoom-original-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-zoom-fit-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-zoom-in-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">view-zoom-out-symbolic.svg</file>
     <file preprocess="xml-stripblanks">zoom-menu-symbolic.svg</file>
     <file preprocess="xml-stripblanks">cross-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">skip-forward-large-symbolic.svg</file>

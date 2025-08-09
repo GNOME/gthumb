@@ -1,5 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class="GtkBox" id="mediabar">
+    <property name="spacing">6</property>
+    <style>
+      <class name="mediabar"/>
+      <class name="image"/>
+    </style>
+    <child>
+      <object class="GtkLabel" id="zoom_info">
+        <property name="width-chars">6</property>
+        <style>
+          <class name="numeric"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="tooltip-text" translatable="yes">Zoom Out</property>
+        <property name="icon-name">view-zoom-out-symbolic</property>
+        <property name="action-name">image.zoom-out</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="tooltip-text" translatable="yes">Zoom In</property>
+        <property name="icon-name">view-zoom-in-symbolic</property>
+        <property name="action-name">image.zoom-in</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkScale" id="zoom_scale">
+        <property name="draw-value">false</property>
+        <property name="has-origin">false</property>
+        <property name="adjustment">zoom_adjustment</property>
+        <property name="round-digits">0</property>
+        <property name="restrict-to-fill-level">false</property>
+        <property name="hexpand">true</property>
+        <property name="halign">fill</property>
+        <property name="width-request">150</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkToggleButton">
+        <property name="icon-name">view-zoom-fit-symbolic</property>
+        <property name="action-name">image.zoom-best-fit</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuButton" id="zoom_button">
+        <property name="direction">down</property>
+        <property name="icon-name">zoom-menu-symbolic</property>
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="popover">
+          <object class="GtkPopoverMenu" id="zoom_popover">
+            <property name="menu-model">zoom_menu</property>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuButton" id="options_button">
+        <property name="menu-model">options_menu</property>
+        <property name="direction">up</property>
+        <property name="icon-name">options-symbolic</property>
+        <property name="valign">center</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+  </object>
+  <menu id="options_menu">
+    <section>
+      <attribute name="label" translatable="yes">Transparency</attribute>
+      <item>
+        <attribute name="label" translatable="yes">Background</attribute>
+        <attribute name="action">image.set-transparency</attribute>
+        <attribute name="target">gray</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Checkered</attribute>
+        <attribute name="action">image.set-transparency</attribute>
+        <attribute name="target">checkered</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">White</attribute>
+        <attribute name="action">image.set-transparency</attribute>
+        <attribute name="target">white</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Black</attribute>
+        <attribute name="action">image.set-transparency</attribute>
+        <attribute name="target">black</attribute>
+      </item>
+    </section>
+  </menu>
   <object class="GtkBox" id="left_toolbar">
     <property name="spacing">6</property>
     <child>
@@ -19,20 +125,6 @@
             <property name="action-name">image.zoom-best-fit</property>
           </object>
         </child-->
-        <child>
-          <object class="GtkMenuButton" id="zoom_button">
-            <property name="direction">down</property>
-            <property name="icon-name">zoom-menu-symbolic</property>
-            <style>
-              <class name="flat"/>
-            </style>
-            <property name="popover">
-              <object class="GtkPopoverMenu" id="zoom_popover">
-                <property name="menu-model">zoom_menu</property>
-              </object>
-            </property>
-          </object>
-        </child>
       </object>
     </child>
   </object>
@@ -42,15 +134,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
     <property name="value">1</property>
-  </object>
-  <object class="GtkScale" id="zoom_scale">
-    <property name="draw-value">false</property>
-    <property name="has-origin">false</property>
-    <property name="adjustment">zoom_adjustment</property>
-    <property name="round-digits">0</property>
-    <property name="restrict-to-fill-level">false</property>
-    <property name="hexpand">true</property>
-    <property name="halign">fill</property>
   </object>
   <menu id="zoom_menu">
     <section>
@@ -105,11 +188,6 @@
         <attribute name="label" translatable="yes">300%</attribute>
         <attribute name="action">image.set-zoom</attribute>
         <attribute name="target">300</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="custom">scale</attribute>
       </item>
     </section>
   </menu>

@@ -39,7 +39,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			_zoom_type = value;
 			if (_image != null) {
 				if (_zoom_type == ZoomType.NATURAL_SIZE) {
-					set_zoom_and_update_scroll_offset (1f);
+					set_zoom_and_recenter_image (1f);
 				}
 				queue_resize ();
 			}
@@ -106,7 +106,13 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (_zoom_type.fit_to_allocation ()) {
 			set_valid_zoom (get_zoom_for_allocation (width, height));
 		}
-		update_scroll_offset ();
+		if (_first_allocation) {
+			recenter_image ();
+			_first_allocation = false;
+		}
+		else {
+			update_scroll_offset ();
+		}
 		update_texture_box ();
 		update_image_box ();
 		update_adjustments ();
@@ -187,8 +193,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 
-		var offset_x = Util.center_content (viewport.size.width, zoomed_width);
-		var offset_y = Util.center_content (viewport.size.height, zoomed_height);
+		var offset_x = Util.center_content (zoomed_width, viewport.size.width);
+		var offset_y = Util.center_content (zoomed_height, viewport.size.height);
 		set_scroll_offset (_zoom, offset_x, offset_y);
 	}
 
@@ -241,7 +247,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		var max_y = float.max (zoomed_height - viewport.size.height, 0);
 		x = x.clamp (0, max_x);
 		y = y.clamp (0, max_y);
-		//stdout.printf ("> SCROLL OFFSET: %f,%f\n", x, y);
 		viewport.origin = { x, y };
 		// TODO: update adjustment values
 	}
@@ -343,6 +348,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		_zoom_type = ZoomType.BEST_FIT;
 		_default_zoom_type = ZoomType.KEEP_PREVIOUS;
 		_zoom = 1f;
+		_first_allocation = true;
 	}
 
 	Gth.Image _image;
@@ -358,7 +364,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Graphene.Rect image_box;
 	Gtk.Adjustment _hadjustment;
 	Gtk.Adjustment _vadjustment;
+	bool _first_allocation;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
 }
+

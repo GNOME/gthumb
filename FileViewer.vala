@@ -5,6 +5,7 @@ public interface Gth.FileViewer : Object {
 	public abstract void show ();
 	public abstract void hide ();
 	public abstract bool on_scroll (double x, double y, double dx, double dy);
+	public abstract bool get_pixel_size (out uint width, out uint height);
 	//public bool can_save ();
 	//public async void save_async () throws Error;
 }

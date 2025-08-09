@@ -51,6 +51,10 @@ popover.deeper > contents {
 	padding: 6px 6px 6px 18px;
 }
 
+.mediabar.image {
+	padding: 6px 6px 6px 18px;
+}
+
 .sidebar-header,
 .sidebar-footer {
 	padding: 10px 8px;

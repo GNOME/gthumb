@@ -56,7 +56,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		init_actions ();
 
 		mediabar = builder.get_object ("mediabar") as Gtk.Widget;
-		window.viewer.set_mediabar (mediabar);
+		window.viewer.set_mediabar (mediabar, Gtk.Align.FILL);
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.button = Gdk.BUTTON_PRIMARY;
@@ -192,6 +192,12 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			break;
 		}
 		return false;
+	}
+
+	public bool get_pixel_size (out uint width, out uint height) {
+		width = video_width;
+		height = video_height;
+		return has_video;
 	}
 
 	public bool can_save () {
