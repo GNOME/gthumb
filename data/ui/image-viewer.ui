@@ -191,4 +191,18 @@
       </item>
     </section>
   </menu>
+  <menu id="context_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open _With…</attribute>
+        <attribute name="action">win.open-with</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy Image</attribute>
+        <attribute name="action">image.copy-image</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

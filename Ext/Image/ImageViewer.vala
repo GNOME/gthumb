@@ -9,7 +9,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.transparency = settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (image_view);
-		window.viewer.set_context_menu (null);
+		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		init_actions ();
 
@@ -261,6 +261,32 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			image_view.transparency = style;
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-image", null);
+		action.activate.connect (() => copy_image.begin ());
+		action_group.add_action (action);
+	}
+
+	async void copy_image () {
+		var local_job = window.new_job ("Copy image");
+		try {
+			var bytes = save_png (image_view.image, null, local_job.cancellable);
+			unowned var clipboard = window.get_clipboard ();
+			var content_provider = new Gdk.ContentProvider.for_bytes ("image/png", bytes);
+			if (!clipboard.set_content (content_provider)) {
+				throw new IOError.FAILED (_("Could not copy the image to the clipboard"));
+			}
+			var toast = new Adw.Toast (_("Copied to Clipboard"));
+			toast.set_button_label ("Open");
+			toast.set_action_name ("win.open-clipboard");
+			window.add_toast (toast);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	void update_zoom_info () {
