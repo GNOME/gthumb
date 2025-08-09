@@ -53,6 +53,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	public TransparencyStyle transparency {
+		get { return _transparency; }
+		set {
+			_transparency = value;
+			queue_draw ();
+		}
+	}
+
 	public Gtk.Adjustment hadjustment {
 		get { return _hadjustment; }
 		set construct {
@@ -125,6 +133,24 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		//Util.print_rectangle ("> image_box:", image_box);
 		//Util.print_rectangle ("> texture_box:", texture_box);
 		snapshot.save ();
+
+		bool has_alpha;
+		if (image.get_has_alpha (out has_alpha) && has_alpha) {
+			switch (_transparency) {
+			case TransparencyStyle.WHITE, TransparencyStyle.BLACK:
+				Gdk.RGBA rgba;
+				_transparency.get_rgba (out rgba);
+				snapshot.append_color (rgba, texture_box);
+				break;
+
+			case TransparencyStyle.CHECKERED:
+				var ctx = snapshot.append_cairo (texture_box);
+				ctx.rectangle (texture_box.origin.x, texture_box.origin.y, texture_box.size.width, texture_box.size.height);
+				ctx.set_source (get_transparency_pattern ());
+				ctx.fill ();
+				break;
+			}
+		}
 		var texture = _image.get_texture_for_rect (
 			(uint) image_box.origin.x,
 			(uint) image_box.origin.y,
@@ -134,6 +160,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			snapshot.append_scaled_texture (texture, Gsk.ScalingFilter.NEAREST, texture_box);
 		}
 		snapshot.restore ();
+	}
+
+	const int TRANSP_PATTERN_SIZE = 14; // pixels
+	static Cairo.Pattern transparency_pattern = null;
+
+	unowned Cairo.Pattern get_transparency_pattern () {
+		if (transparency_pattern == null) {
+			transparency_pattern = Util.build_transparency_pattern (TRANSP_PATTERN_SIZE);
+		}
+		return transparency_pattern;
 	}
 
 	public void scroll_by (float dx, float dy) {
@@ -347,6 +383,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		_image = null;
 		_zoom_type = ZoomType.BEST_FIT;
 		_default_zoom_type = ZoomType.KEEP_PREVIOUS;
+		_transparency = TransparencyStyle.GRAY;
 		_zoom = 1f;
 		_first_allocation = true;
 	}
@@ -354,6 +391,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Gth.Image _image;
 	Gth.ZoomType _zoom_type;
 	Gth.ZoomType _default_zoom_type;
+	Gth.TransparencyStyle _transparency;
 	float _zoom;
 	// viewport.origin: scroll offsets
 	// viewport.size: allocation size

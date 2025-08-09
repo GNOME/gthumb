@@ -30,12 +30,22 @@
     <value nick="change-current-time" value="3"/>
   </enum>
 
+  <enum id="app.gthumb.gthumb.TransparencyStyle">
+    <value nick="checkered" value="0"/>
+    <value nick="white" value="1"/>
+    <value nick="gray" value="2"/>
+    <value nick="black" value="3"/>
+  </enum>
+
   <schema id="app.gthumb.gthumb.viewers.images" path="/app/gthumb/gthumb/viewers/images/" gettext-domain="gthumb">
     <key name="zoom-type" enum="app.gthumb.gthumb.ZoomType">
       <default>'best-fit'</default>
     </key>
     <key name="scroll-action" enum="app.gthumb.gthumb.ScrollAction">
       <default>'change-zoom'</default>
+    </key>
+    <key name="transparency" enum="app.gthumb.gthumb.TransparencyStyle">
+      <default>'gray'</default>
     </key>
   </schema>
 

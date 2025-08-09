@@ -6,6 +6,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		image_view = new Gth.ImageView ();
 		image_view.zoom_type = settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
+		image_view.transparency = settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (image_view);
 		window.viewer.viewer_container.add_css_class ("image-view");
@@ -110,6 +111,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("image", null);
 		settings.set_enum (PREF_IMAGE_ZOOM_TYPE, image_view.zoom_type);
+		settings.set_enum (PREF_IMAGE_TRANSPARENCY, image_view.transparency);
 	}
 
 	public void show () {
@@ -221,6 +223,32 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action = new SimpleAction ("zoom-out", null);
 		action.activate.connect ((_action, param) => {
 			zoom_adjustment.value -= zoom_adjustment.step_increment;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-transparency", VariantType.STRING, new Variant.string (image_view.transparency.get_state ()));
+		action.activate.connect ((action, param) => {
+			unowned var value = param.get_string ();
+			action.set_state (new Variant.string (value));
+			var style = TransparencyStyle.GRAY;
+			switch (value) {
+			case "checkered":
+				style = TransparencyStyle.CHECKERED;
+				break;
+
+			case "white":
+				style = TransparencyStyle.WHITE;
+				break;
+
+			case "gray":
+				style = TransparencyStyle.GRAY;
+				break;
+
+			case "black":
+				style = TransparencyStyle.BLACK;
+				break;
+			}
+			image_view.transparency = style;
 		});
 		action_group.add_action (action);
 	}

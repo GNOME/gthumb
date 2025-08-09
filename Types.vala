@@ -132,7 +132,30 @@ public enum Gth.TransparencyStyle {
 	CHECKERED,
 	WHITE,
 	GRAY,
-	BLACK
+	BLACK;
+
+	public unowned string get_state () {
+		return STATE[this];
+	}
+
+	public void get_rgba (out Gdk.RGBA rgba) {
+		if (this == WHITE) {
+			rgba = { 1.0f, 1.0f, 1.0f, 1.0f };
+		}
+		else if (this == BLACK) {
+			rgba = { 0.0f, 0.0f, 0.0f, 1.0f };
+		}
+		else {
+			rgba = { 0.0f, 0.0f, 0.0f, 0.0f };
+		}
+	}
+
+	const string[] STATE = {
+		"checkered",
+		"white",
+		"gray",
+		"black",
+	};
 }
 
 public struct Gth.ClickPoint {

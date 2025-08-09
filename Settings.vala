@@ -36,6 +36,7 @@ const string PREF_VIEWER_SIDEBAR_VISIBLE = "sidebar-visible";
 
 const string PREF_IMAGE_ZOOM_TYPE = "zoom-type";
 const string PREF_IMAGE_SCROLL_ACTION = "scroll-action";
+const string PREF_IMAGE_TRANSPARENCY = "transparency";
 
 const string PREF_VIDEO_SCREENSHOT_LOCATION = "screenshot-location";
 const string PREF_VIDEO_SCROLL_ACTION = "scroll-action";
