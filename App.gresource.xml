@@ -35,7 +35,6 @@
     <file preprocess="xml-stripblanks">one-symbolic.svg</file>
     <file preprocess="xml-stripblanks">options-symbolic.svg</file>
     <file preprocess="xml-stripblanks">fullscreen-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">unfullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">image-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-zoom-original-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-zoom-fit-symbolic.svg</file>
@@ -45,6 +44,7 @@
     <file preprocess="xml-stripblanks">cross-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">skip-forward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">skip-backward-large-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">fullscreen-alt-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

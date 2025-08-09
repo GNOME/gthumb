@@ -6,6 +6,7 @@
     <property name="default_height">800</property>
     <property name="content">
       <object class="GtkStack" id="stack">
+        <!--property name="transition-type">crossfade</property-->
         <child>
           <object class="GthBrowser" id="browser">
           </object>

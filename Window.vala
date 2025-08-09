@@ -89,6 +89,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 		show_message ("Copied to Clipboard");
 	}
 
+	int browser_width;
+	int browser_height;
+
+	void save_browser_size () {
+		browser_width = get_width ();
+		browser_height = get_height ();
+	}
+
+	void restore_browser_size () {
+		set_default_size (browser_width, browser_height);
+	}
+
 	public void set_page (Page page) {
 		if (page == current_page)
 			return;
@@ -97,9 +109,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		switch (current_page) {
 		case Page.BROWSER:
 			if (previuos_page == Page.VIEWER) {
-				if (viewer.main_view.show_sidebar) {
-					browser.content_view.max_sidebar_width = viewer.main_view.max_sidebar_width;
-				}
+				restore_browser_size ();
+				//if (viewer.main_view.show_sidebar) {
+				//	browser.content_view.max_sidebar_width = viewer.main_view.max_sidebar_width;
+				//}
 				viewer.before_close_page ();
 				if ((viewer.current_file != null) && viewer.current_file.file.equal (browser.property_sidebar.current_file.file)) {
 					browser.property_sidebar.update_view ();
@@ -116,6 +129,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			break;
 		case Page.VIEWER:
 			if (previuos_page == Page.BROWSER) {
+				save_browser_size ();
 				if (browser.content_view.show_sidebar) {
 					viewer.main_view.max_sidebar_width = browser.content_view.max_sidebar_width;
 				}

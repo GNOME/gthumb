@@ -23,6 +23,13 @@
                   </object>
                 </child>
                 <child>
+                  <object class="GtkButton" id="adapt_window_button">
+                    <property name="icon-name">fullscreen-alt-symbolic</property>
+                    <property name="action-name">win.adapt-to-content</property>
+                    <property name="tooltip-text" translatable="yes">Adapt Window to Content</property>
+                  </object>
+                </child>
+                <child>
                   <object class="GtkBox" id="left_toolbar">
                   </object>
                 </child>

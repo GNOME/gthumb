@@ -169,7 +169,9 @@ public class Gth.Viewer : Gtk.Box {
 		back_to_browser_button.visible = false;
 		fullscreen_toolbar_revealer.child = headerbar;
 		statusbar_revealer.margin_top = 72;
-		fullscreen_button.set_icon_name ("unfullscreen-symbolic");
+		fullscreen_button.icon_name = "left-symbolic";
+		fullscreen_button.tooltip_text = _("Exit Fullscreen");
+		adapt_window_button.visible = false;
 		fullscreen_state.save ();
 		reveal_overlay_controls (false);
 	}
@@ -182,7 +184,9 @@ public class Gth.Viewer : Gtk.Box {
 		headerbar.show_end_title_buttons = true;
 		back_to_browser_button.visible = true;
 		statusbar_revealer.margin_top = 24;
-		fullscreen_button.set_icon_name ("fullscreen-symbolic");
+		fullscreen_button.icon_name = "fullscreen-symbolic";
+		fullscreen_button.tooltip_text = _("Fullscreen");
+		adapt_window_button.visible = true;
 		fullscreen_state.restore ();
 		cursor = null;
 	}
@@ -366,6 +370,39 @@ public class Gth.Viewer : Gtk.Box {
 			main_view.show_sidebar = Util.toggle_state (_action);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("adapt-to-content", null);
+		action.activate.connect ((_action, param) => {
+			uint width, height;
+			if (current_viewer.get_pixel_size (out width, out height)) {
+				var extra_width = (uint) (main_view.show_sidebar ? main_view.sidebar.get_width () : 0);
+				var extra_height = (uint) headerbar.get_height ();
+
+				stdout.printf ("> WINDOW SIZE: %dx%d\n", window.get_width (), window.get_height ());
+
+				unowned var display = get_display ();
+				unowned var monitor = display.get_monitor_at_surface (window.get_surface ());
+				int monitor_width = monitor.geometry.width;
+				int monitor_height = monitor.geometry.height;
+				stdout.printf ("  MONITOR: %dx%d\n", monitor_width, monitor_height);
+
+				uint max_width = (uint) ((double) monitor_width * 0.8);
+				uint max_height = (uint) ((double) monitor_height * 0.8);
+
+				var new_width = width;
+				var new_height = height;
+				Lib.scale_keeping_ratio (ref new_width, ref new_height,
+					max_width - extra_width,
+					max_height - extra_height,
+					true);
+				new_width += extra_width;
+				new_height += extra_height;
+				stdout.printf ("  NEW SIZE: %ux%u\n", new_width, new_height);
+
+				window.set_default_size ((int) new_width, (int) new_height);
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	construct {
@@ -388,6 +425,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Adw.HeaderBar headerbar;
 	[GtkChild] unowned Gtk.Button back_to_browser_button;
 	[GtkChild] unowned Gtk.Button fullscreen_button;
+	[GtkChild] unowned Gtk.Button adapt_window_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 
 	weak Window _window;
