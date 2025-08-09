@@ -43,7 +43,7 @@
         <property name="restrict-to-fill-level">false</property>
         <property name="hexpand">true</property>
         <property name="halign">fill</property>
-        <property name="width-request">150</property>
+        <property name="width-request">300</property>
       </object>
     </child>
     <child>

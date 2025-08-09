@@ -122,10 +122,10 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkPopoverMenu" id="file_context_menu">
+                      <object class="GtkPopoverMenu" id="context_menu">
                         <property name="menu-model">file_menu</property>
                         <property name="has-arrow">false</property>
-                        <property name="position">right</property>
+                        <property name="position">bottom</property>
                         <style>
                           <class name="deeper"/>
                         </style>
@@ -141,9 +141,11 @@
     </child>
   </template>
   <menu id="file_menu">
-    <item>
-      <attribute name="label" translatable="yes">Open _With…</attribute>
-      <attribute name="action">win.open-with</attribute>
-    </item>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open _With…</attribute>
+        <attribute name="action">win.open-with</attribute>
+      </item>
+    </section>
   </menu>
 </interface>

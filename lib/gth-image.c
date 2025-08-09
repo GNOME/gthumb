@@ -123,6 +123,16 @@ GthImage * gth_image_new (guint width, guint height) {
 }
 
 
+GthImage * gth_image_new_from_texture (GdkTexture* texture) {
+	g_return_val_if_fail (texture != NULL, NULL);
+	GthImage *image = gth_image_new (
+		(guint) gdk_texture_get_width (texture),
+		(guint) gdk_texture_get_height (texture));
+	gdk_texture_download (texture, image->priv->buffer, image->priv->row_stride);
+	return image;
+}
+
+
 void gth_image_init_pixels (GthImage *self, guint width, guint height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	g_return_if_fail (width > 0);

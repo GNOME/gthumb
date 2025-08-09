@@ -4,6 +4,7 @@ namespace Gth {
 	[CCode (cheader_filename = "lib/gth-image.h", type_id = "gth_image_get_type ()")]
 	public class Image : Object {
 		public Image (uint width, uint height);
+		public Image.from_texture (Gdk.Texture texture);
 		public Image dup ();
 		public void copy_metadata (Image destination);
 		public void copy_pixels (Image destination);

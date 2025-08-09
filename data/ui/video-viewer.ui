@@ -428,4 +428,18 @@
       </item>
     </section>
   </menu>
+  <menu id="context_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open _With…</attribute>
+        <attribute name="action">win.open-with</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy Frame</attribute>
+        <attribute name="action">video.copy-frame</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

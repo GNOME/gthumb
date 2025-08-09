@@ -3,7 +3,10 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 		throw new IOError.FAILED (_("Cannot load this kind of file"));
 	}
 
-	public void activate (Gth.Window _window) {}
+	public void activate (Gth.Window _window) {
+		_window.viewer.set_context_menu (null);
+	}
+
 	public void deactivate () {}
 	public void show () {}
 	public void hide () {}

@@ -218,7 +218,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 		Graphene.Point p = Graphene.Point.zero ();
 		item.compute_point (non_empty_folder, Graphene.Point.zero (), out p);
-		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
+		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 24 };
 		file_context_menu.popup ();
 	}
 

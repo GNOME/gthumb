@@ -11,6 +11,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	construct {
+		title = "Thumbnails";
+
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
 			if (closing && (jobs.size () == 0)) {
@@ -42,16 +44,38 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		child.add_controller (motion_events);
 
-		init_actions ();
-	}
+		unowned var clipboard = get_clipboard ();
+		clipboard_event = clipboard.changed.connect (() => {
+			update_sensitivity_for_clipboard ();
+		});
 
-	public Window (Gtk.Application _app, File location, File? file_to_select) {
-		Object (application: app, title: "Thumbnails");
+		init_actions ();
 		browser.window = this;
 		viewer.window = this;
+	}
+
+	ulong clipboard_event = 0;
+
+	public Window (Gtk.Application _app, File location, File? file_to_select) {
+		Object (application: app);
 		set_page (Page.BROWSER);
 		Util.next_tick (() => {
 			browser.first_load (location, file_to_select);
+		});
+	}
+
+	public Window.unsaved_image (Gtk.Application _app, FileData file, Gth.Image image) {
+		Object (application: app);
+		set_page (Page.VIEWER);
+		Util.next_tick (() => {
+			viewer.open_unsaved_image.begin (file, image, (_obj, res) => {
+				try {
+					viewer.open_unsaved_image.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+			});
 		});
 	}
 
@@ -86,7 +110,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void copy_text_to_clipboard (string text) {
 		var clipboard = get_clipboard ();
 		clipboard.set_text (text);
-		show_message ("Copied to Clipboard");
+		show_message (_("Copied to Clipboard"));
 	}
 
 	public void set_page (Page page) {
@@ -203,6 +227,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO
 	}
 
+	void update_sensitivity_for_clipboard () {
+		unowned var clipboard = get_clipboard ();
+		unowned var formats = clipboard.get_formats ();
+		var images = Gdk.ContentFormats.parse ("image/png");
+		var can_open = formats.match (images);
+		Util.enable_action (action_group, "open-clipboard", can_open);
+	}
+
 	void before_closing () {
 		if (!app.one_window () || !get_realized ()) {
 			return;
@@ -251,6 +283,32 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	public async void open_clipboard () {
+		var clipboard = get_clipboard ();
+		var local_job = new_job ("Open clipboard");
+		try {
+			var texture = yield clipboard.read_texture_async (local_job.cancellable);
+			var image = new Gth.Image.from_texture (texture);
+			var timestamp = new GLib.DateTime.now_local ();
+			var basename = timestamp.format ("Clipboard %Y-%m-%d %H-%M-%S.jpeg");
+			var file = browser.folder_tree.current_folder.file.get_child (basename);
+			var unsaved_file = new Gth.FileData (file);
+			unsaved_file.info.set_display_name (basename);
+			unsaved_file.info.set_edit_name (basename);
+			unsaved_file.set_content_type ("image/jpeg");
+			// Use this window if the viewer is ImageViewer and the file is
+			// not modified.
+			var window = new Gth.Window.unsaved_image (application, unsaved_file, image);
+			window.present ();
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
 	void init_actions () {
 		var action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
@@ -279,6 +337,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			open_selected_files.begin ();
 		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-clipboard", null);
+		action.activate.connect (() => open_clipboard.begin ());
 		action_group.add_action (action);
 	}
 

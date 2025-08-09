@@ -80,7 +80,10 @@ Gth.Image generate_video_thumbnail (File file, Cancellable cancellable) throws E
 	return image;
 }
 
-Gth.Image get_playbin_current_frame (Gst.Pipeline playbin) throws Error {
+Gth.Image get_playbin_current_frame (Gst.Pipeline? playbin) throws Error {
+	if (playbin == null) {
+		throw new IOError.FAILED ("No playbin");
+	}
 	var sink = playbin.get_by_name ("sink");
 	if (sink == null) {
 		throw new IOError.FAILED ("Playbin has no 'sink' element");
@@ -119,8 +122,8 @@ Gth.Image get_image_from_sample (Gst.Sample sample) throws Error {
 	}
 
 	Gth.Image image = null;
-	Gst.MapInfo info;
 	var memory = sample.get_buffer ().get_memory (0);
+	Gst.MapInfo info;
 	if (memory.map (out info, Gst.MapFlags.READ)) {
 		image = new Gth.Image (width, height);
 		var with_alpha = (format == "RGBA");

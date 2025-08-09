@@ -9,6 +9,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.transparency = settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (image_view);
+		window.viewer.set_context_menu (null);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		init_actions ();
 
@@ -72,6 +73,26 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.add_controller (motion_events);
 	}
 
+	public async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
+		try {
+			var icc_profile = image.get_icc_profile ();
+			if (icc_profile != null) {
+				var monitor_profile = yield window.get_monitor_profile (cancellable);
+				if (monitor_profile != null) {
+					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
+				}
+				unowned var description = icc_profile.get_description ();
+				if (description != null) {
+					file_data.info.set_attribute_string ("Loaded::Image::ColorProfile", description);
+				}
+			}
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		image_view.image = image;
+	}
+
 	public async void load (FileData file_data) throws Error {
 		if (load_job != null) {
 			load_job.cancel ();
@@ -80,18 +101,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		load_job = local_job;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
-			var icc_profile = image.get_icc_profile ();
-			if (icc_profile != null) {
-				var monitor_profile = yield window.get_monitor_profile (local_job.cancellable);
-				if (monitor_profile != null) {
-					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, local_job.cancellable);
-				}
-				unowned var description = icc_profile.get_description ();
-				if (description != null) {
-					file_data.info.set_attribute_string ("Loaded::Image::ColorProfile", description);
-				}
-			}
-			image_view.image = image;
+			yield view_image (image, file_data, local_job.cancellable);
 			file_data.set_content_type (image_view.image.get_attribute ("content-type"));
 		}
 		catch (Error error) {

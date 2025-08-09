@@ -52,6 +52,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
 		scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (view_stack);
+		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("video-view");
 		init_actions ();
 
@@ -630,6 +631,40 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			next_frame ();
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-frame", null);
+		action.activate.connect ((action, param) => copy_frame.begin ());
+		action_group.add_action (action);
+	}
+
+	async void copy_frame () {
+		var local_job = window.new_job ("Copy frame");
+		try {
+			var was_playing = playing;
+			if (was_playing) {
+				playing = false;
+			}
+			var frame = get_playbin_current_frame (playbin);
+			var bytes = save_png (frame, null, local_job.cancellable);
+			unowned var clipboard = window.get_clipboard ();
+			var content_provider = new Gdk.ContentProvider.for_bytes ("image/png", bytes);
+			if (!clipboard.set_content (content_provider)) {
+				throw new IOError.FAILED (_("Could not copy the image to the clipboard"));
+			}
+			if (was_playing) {
+				playing = true;
+			}
+			var toast = new Adw.Toast (_("Copied to Clipboard"));
+			toast.set_button_label ("Open");
+			toast.set_action_name ("win.open-clipboard");
+			window.add_toast (toast);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	bool toggle_mute () {

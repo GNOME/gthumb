@@ -41,6 +41,7 @@ struct _GthImageClass {
 GType gth_image_get_type (void);
 
 GthImage * gth_image_new (guint width, guint height);
+GthImage * gth_image_new_from_texture (GdkTexture* texture);
 void gth_image_init_pixels (GthImage *self, guint width, guint height);
 GthImage * gth_image_dup (GthImage *self);
 void gth_image_copy_pixels (GthImage *src, GthImage *dest);

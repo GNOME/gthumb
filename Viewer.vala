@@ -21,17 +21,7 @@ public class Gth.Viewer : Gtk.Box {
 		var local_job = window.new_job ("Load %s".printf (file.file.get_uri ()));
 		load_job = local_job;
 		try {
-			if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
-				if (current_viewer != null) {
-					before_close_page ();
-				}
-				current_viewer = app.get_viewer_for_type (file.get_content_type ());
-				if (current_viewer == null) {
-					throw new IOError.FAILED (_("Cannot load this kind of file"));
-				}
-				before_open_page ();
-				current_viewer.activate (window);
-			}
+			activate_viewer_for_file (file);
 			yield current_viewer.load (file);
 			if (!(ViewFlags.KEEP_CURRENT_PAGE in flags)) {
 				window.set_page (Window.Page.VIEWER);
@@ -54,6 +44,51 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		if (local_job.error != null) {
 			throw local_job.error;
+		}
+	}
+
+	public async void open_unsaved_image (FileData file, Gth.Image image) throws Error {
+		if (load_job != null) {
+			load_job.cancel ();
+		}
+		var local_job = window.new_job ("Load %s".printf (file.file.get_uri ()));
+		load_job = local_job;
+		try {
+			activate_viewer_for_file (file);
+			var image_viewer = current_viewer as ImageViewer;
+			if (image_viewer == null) {
+				throw new IOError.FAILED (_("Cannot load this kind of file"));
+			}
+			yield image_viewer.view_image (image, file, local_job.cancellable);
+			window.set_page (Window.Page.VIEWER);
+			current_file = file;
+			property_sidebar.current_file = file;
+			update_title ();
+		}
+		catch (Error error) {
+			stdout.printf ("ERROR: %s\n", error.message);
+			local_job.error = error;
+		}
+		local_job.done ();
+		if (load_job == local_job) {
+			load_job = null;
+		}
+		if (local_job.error != null) {
+			throw local_job.error;
+		}
+	}
+
+	void activate_viewer_for_file (FileData file) {
+		if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
+			if (current_viewer != null) {
+				before_close_page ();
+			}
+			current_viewer = app.get_viewer_for_type (file.get_content_type ());
+			if (current_viewer == null) {
+				throw new IOError.FAILED (_("Cannot load this kind of file"));
+			}
+			before_open_page ();
+			current_viewer.activate (window);
 		}
 	}
 
@@ -96,6 +131,10 @@ public class Gth.Viewer : Gtk.Box {
 		});
 	}
 
+	public void set_context_menu (Menu? menu) {
+		context_menu.menu_model = menu;
+	}
+
 	public void set_viewer_widget (Gtk.Widget? widget) {
 		if (viewer_container.child == widget) {
 			return;
@@ -117,8 +156,8 @@ public class Gth.Viewer : Gtk.Box {
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
 		var click_id = click_events.pressed.connect ((n_press, x, y) => {
-			file_context_menu.pointing_to = { (int) x, (int) y, 1, 12 };
-			file_context_menu.popup ();
+			context_menu.pointing_to = { (int) x, (int) y, 1, 24 };
+			context_menu.popup ();
 		});
 		widget.add_controller (click_events);
 		viewer_signals.add (click_events, click_id);
@@ -426,7 +465,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Button back_to_browser_button;
 	[GtkChild] unowned Gtk.Button fullscreen_button;
 	[GtkChild] unowned Gtk.Button adapt_window_button;
-	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
+	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 
 	weak Window _window;
 	bool active_popup = false;
