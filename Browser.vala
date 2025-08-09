@@ -1020,6 +1020,18 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	int browser_width = -1;
+	int browser_height = -1;
+
+	public void save_window_size () {
+		browser_width = window.get_width ();
+		browser_height = window.get_height ();
+	}
+
+	public void restore_window_size () {
+		window.set_default_size (browser_width, browser_height);
+	}
+
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] unowned Gth.FilterBar filter_bar;
