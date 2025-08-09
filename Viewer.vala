@@ -399,7 +399,7 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	void init_actions () {
-		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/app-menu.ui");
+		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/viewer-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
 		var action_group = window.action_group;
