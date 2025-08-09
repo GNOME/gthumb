@@ -348,7 +348,7 @@ subdir('Ext')
 subdir('Dialogs')
 
 executable(
-  'gthumb',
+  'gthumb4',
   sources: [
     'ActionList.vala',
     'ActionPopover.vala',
