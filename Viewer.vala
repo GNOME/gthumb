@@ -289,9 +289,17 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void update_title () {
+		var title = new StringBuilder ();
+		string state = null;
 		if (current_file != null) {
-			window.title = current_file.info.get_display_name ();
+			title.append (current_file.info.get_display_name ());
+			if (current_file.get_is_modified ()) {
+				// Translators: text added to the window title when the image is modified and unsaved.
+				state = _("modified");
+			}
 		}
+		window.title = title.str;
+		set_header_state (state);
 	}
 
 	public void set_file_position (uint _position) {
@@ -359,6 +367,15 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
+	public void set_header_state (string? state) {
+		if (state != null) {
+			header_state.label = state;
+			header_state.visible = true;
+		}
+		else {
+			header_state.visible = false;
+		}
+	}
 
 	public void release_resources () {
 		stdout.printf ("> Viewer.release_resources\n");
@@ -369,6 +386,7 @@ public class Gth.Viewer : Gtk.Box {
 			current_viewer.release_resources ();
 		}
 	}
+
 	void hide_overlay_after_timeout () {
 		if (hide_mediabar_id != 0) {
 			Source.remove (hide_mediabar_id);
@@ -392,6 +410,7 @@ public class Gth.Viewer : Gtk.Box {
 	void init () {
 		current_file = null;
 		position = -1;
+		window.bind_property ("title", header_title, "title", BindingFlags.SYNC_CREATE);
 
 		property_sidebar.resizer.add_handle (main_view, Gtk.PackType.START);
 		property_sidebar.resizer.started.connect ((obj) => {
@@ -479,6 +498,8 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Button fullscreen_button;
 	[GtkChild] unowned Gtk.Button adapt_window_button;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
+	[GtkChild] unowned Adw.WindowTitle header_title;
+	[GtkChild] unowned Gtk.Label header_state;
 
 	weak Window _window;
 	bool active_popup = false;

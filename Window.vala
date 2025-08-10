@@ -296,6 +296,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.info.set_display_name (basename);
 			unsaved_file.info.set_edit_name (basename);
 			unsaved_file.set_content_type ("image/jpeg");
+			unsaved_file.set_is_modified (true);
 			// Use this window if the viewer is ImageViewer and the file is
 			// not modified.
 			var window = new Gth.Window.unsaved_image (application, unsaved_file, image);

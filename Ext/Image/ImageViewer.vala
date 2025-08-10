@@ -85,7 +85,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				}
 				unowned var description = icc_profile.get_description ();
 				if (description != null) {
-					file_data.info.set_attribute_string ("Loaded::Image::ColorProfile", description);
+					file_data.info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, description);
 				}
 			}
 		}

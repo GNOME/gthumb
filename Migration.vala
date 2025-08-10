@@ -18,7 +18,7 @@ public class Gth.Migration {
 		metadata.add ("gth::file::display-size", "Private::File::DisplaySize");
 		metadata.add ("gth::file::display-mtime", "Private::File::DisplayMtime");
 		metadata.add ("gth::file::location", "Private::File::Location");
-		metadata.add ("gth::file::is-modified", "Loaded::Image::IsModified");
+		metadata.add ("gth::file::is-modified", PrivateAttribute.LOADED_IMAGE_IS_MODIFIED);
 		metadata.add ("general::dimensions", "Frame::Pixels");
 		metadata.add ("general::duration", "Metadata::Duration");
 		metadata.add ("general::title", "Metadata::Title");

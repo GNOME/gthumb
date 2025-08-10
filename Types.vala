@@ -177,3 +177,8 @@ public enum Gth.ScrollAction {
 	CHANGE_VOLUME,
 	CHANGE_CURRENT_TIME,
 }
+
+namespace Gth.PrivateAttribute {
+	const string LOADED_IMAGE_IS_MODIFIED = "Loaded::Image::IsModified";
+	const string LOADED_IMAGE_COLOR_PROFILE = "Loaded::Image::ColorProfile";
+}

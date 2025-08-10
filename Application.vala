@@ -107,12 +107,12 @@ public class Gth.Application : Adw.Application {
 		// Translators: the file modified time.
 		MetadataInfo.register ("Private::File::DisplayMtime", N_("Modified"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Private::File::Location", N_("Folder"), "File", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-		MetadataInfo.register ("Loaded::Image::IsModified", null, "File", MetadataFlags.HIDDEN);
+		MetadataInfo.register (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, null, "File", MetadataFlags.HIDDEN);
 
 		// Translators: width and height of images or videos.
 		MetadataInfo.register ("Frame::Pixels", N_("Pixels"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Duration", N_("Duration"), "File", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Loaded::Image::ColorProfile", N_("Color Profile"), "File", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		MetadataInfo.register (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, N_("Color Profile"), "File", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
 		MetadataInfo.register ("Metadata::Title", N_("Title"), "Comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Description", N_("Comment"), "Comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
@@ -629,12 +629,12 @@ public class Gth.Application : Adw.Application {
 		return get_viewer_type_for_content_type (content_type) == viewer_type;
 	}
 
-	public inline Gth.Job new_job (string description, string? status = null, bool background = false) {
-		return jobs.new_job (description, status, background);
+	public inline Gth.Job new_job (string description, bool foreground = false) {
+		return jobs.new_job (description, foreground);
 	}
 
-	public inline Gth.Job new_background_job (string description, string? status = null) {
-		return new_job (description, status, true);
+	public inline Gth.Job new_foreground_job (string description) {
+		return jobs.new_job (description, true);
 	}
 
 	public void foreach_window (Gth.WindowFunc func) {

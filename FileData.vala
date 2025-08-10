@@ -40,7 +40,7 @@ public class Gth.FileData : Object {
 	const string[] PRESERVE_ATTRIBUTES = {
 		FileAttribute.STANDARD_CONTENT_TYPE,
 		FileAttribute.STANDARD_FAST_CONTENT_TYPE,
-		"Loaded::Image::ColorProfile",
+		PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE,
 	};
 
 	public void update_info (FileInfo _info) {
@@ -371,5 +371,14 @@ public class Gth.FileData : Object {
 			}
 		}
 		return null;
+	}
+
+	public void set_is_modified (bool value) {
+		info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, value);
+	}
+
+	public bool get_is_modified () {
+		return info.has_attribute (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED)
+			&& info.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED);
 	}
 }

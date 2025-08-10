@@ -5,6 +5,24 @@
       <object class="AdwToolbarView" id="toolbar_view">
         <child type="top">
           <object class="AdwHeaderBar" id="headerbar">
+            <property name="title-widget">
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="AdwWindowTitle" id="header_title">
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="header_state">
+                    <style>
+                      <class name="title"/>
+                      <class name="warning"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </property>
             <child type="start">
               <object class="GtkBox">
                 <property name="orientation">horizontal</property>
