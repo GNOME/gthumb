@@ -1,7 +1,7 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/preferences-dialog.ui")]
 public class Gth.PreferencesDialog : Adw.Dialog {
 	public void show_message (string text) {
-		toast_overlay.add_toast (new Adw.Toast (text));
+		toast_overlay.add_toast (Util.new_literal_toast (text));
 	}
 
 	construct {

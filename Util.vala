@@ -598,4 +598,10 @@ public class Gth.Util {
 		transparency_pattern.set_extend (Cairo.Extend.REPEAT);
 		return transparency_pattern;
 	}
+
+	public static Adw.Toast new_literal_toast (string title) {
+		var toast = new Adw.Toast (title);
+		toast.use_markup = false;
+		return toast;
+	}
 }

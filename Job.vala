@@ -56,14 +56,18 @@ public class Gth.Job : Object {
 	}
 
 	public void done () {
-		if (terminated)
+		if (terminated) {
 			return;
+		}
 		time_terminated = new GLib.DateTime.now ();
 		if (state == State.RUNNING) {
 			state = State.COMPLETED;
 			progress = 1.0f;
 		}
 		terminated = true;
+		if (toast != null) {
+			toast.dismiss ();
+		}
 		//stdout.printf ("  JOB TERMINATED [%p] [%s] (state: %s) (seconds: %d): %s\n",
 		//	this,
 		//	time_terminated.format ("%H:%M:%S"),

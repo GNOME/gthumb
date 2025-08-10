@@ -89,13 +89,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void show_message (string message) {
-		add_toast (new Adw.Toast (message));
+		add_toast (Util.new_literal_toast (message));
 	}
 
 	public void show_error (Error error) {
 		if (error is IOError.CANCELLED)
 			return;
-		var toast = new Adw.Toast (error.message);
+		var toast = Util.new_literal_toast (error.message);
 		toast.priority = Adw.ToastPriority.HIGH;
 		add_toast (toast);
 	}
@@ -168,7 +168,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void add_job (Gth.Job job) {
 		jobs.add_job (job);
 		if (job.foreground) {
-			var toast = new Adw.Toast (job.description);
+			var toast = Util.new_literal_toast (job.description);
 			toast.button_label = _("Cancel");
 			toast.action_name = "win.cancel-job";
 			toast.action_target = new Variant.uint64 (job.id);

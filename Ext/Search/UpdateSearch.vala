@@ -49,11 +49,10 @@ public class Gth.UpdateSearch {
 
 		// Show a message on the browser.
 
-		toast = new Adw.Toast (_("Searching files…"));
+		toast = Util.new_literal_toast (_("Searching files…"));
 		toast.timeout = 0;
 		toast.action_name = "win.stop-search";
 		toast.button_label = _("Stop");
-		toast.use_markup = false;
 		browser.window.add_toast (toast);
 
 		browser.folder_status.title = _("Searching files…");

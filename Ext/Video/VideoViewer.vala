@@ -660,16 +660,14 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			if (was_playing) {
 				playing = true;
 			}
-			local_job.toast.action_name = null;
-			local_job.toast.action_target = null;
 
-			local_job.toast.title = _("Copied to Clipboard");
-			local_job.toast.button_label = _("Open");
-			local_job.toast.action_name = "win.open-clipboard";
-			local_job.toast.action_target = null;
+			var toast = Util.new_literal_toast (_("Copied to Clipboard"));
+			toast.button_label = _("Open");
+			toast.action_name = "win.open-clipboard";
+			toast.priority = Adw.ToastPriority.HIGH;
+			window.add_toast (toast);
 		}
 		catch (Error error) {
-			local_job.toast.dismiss ();
 			window.show_error (error);
 		}
 		finally {
@@ -754,7 +752,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 
 		// Translators: '%s' is replaced with a filename (do not change it).
-		var toast = new Adw.Toast (_("Saved %s").printf (file.get_path ()));
+		var toast = Util.new_literal_toast (_("Saved %s").printf (file.get_path ()));
 		toast.button_label = _("Open");
 		toast.action_name = ("app.open-new-window");
 		toast.action_target = new Variant.string (file.get_uri ());

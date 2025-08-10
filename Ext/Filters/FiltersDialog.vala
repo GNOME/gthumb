@@ -106,7 +106,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 			return true;
 		}
 		catch (Error error) {
-			add_toast (new Adw.Toast (error.message));
+			add_toast (Util.new_literal_toast (error.message));
 			return false;
 		}
 	}

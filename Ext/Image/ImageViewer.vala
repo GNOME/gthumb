@@ -285,9 +285,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			if (!clipboard.set_content (content_provider)) {
 				throw new IOError.FAILED (_("Could not copy the image to the clipboard"));
 			}
-			var toast = new Adw.Toast (_("Copied to Clipboard"));
-			toast.set_button_label ("Open");
-			toast.set_action_name ("win.open-clipboard");
+			var toast = Util.new_literal_toast (_("Copied to Clipboard"));
+			toast.button_label = _("Open");
+			toast.action_name = "win.open-clipboard";
 			window.add_toast (toast);
 		}
 		catch (Error error) {

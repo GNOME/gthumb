@@ -43,7 +43,7 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 			yield app.bookmarks.save_app_bookmarks ();
 		}
 		catch (Error error) {
-			add_toast (new Adw.Toast (error.message));
+			add_toast (Util.new_literal_toast (error.message));
 		}
 	}
 
@@ -56,7 +56,7 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 			yield app.bookmarks.save_app_bookmarks ();
 		}
 		catch (Error error) {
-			add_toast (new Adw.Toast (error.message));
+			add_toast (Util.new_literal_toast (error.message));
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 			pop_subpage ();
 		}
 		catch (Error error) {
-			add_toast (new Adw.Toast (error.message));
+			add_toast (Util.new_literal_toast (error.message));
 		}
 	}
 
