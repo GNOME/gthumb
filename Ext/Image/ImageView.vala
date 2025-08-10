@@ -64,9 +64,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public Gtk.Adjustment hadjustment {
 		get { return _hadjustment; }
 		set construct {
+			if (_hadjustment != null) {
+				_hadjustment.disconnect (hadj_changed_id);
+			}
 			_hadjustment = value;
 			if (_hadjustment != null) {
-				_hadjustment.value_changed.connect ((adj) => {
+				hadj_changed_id = _hadjustment.value_changed.connect ((adj) => {
 					viewport.origin = { (float) adj.get_value (), viewport.origin.y };
 					update_image_box ();
 					queue_draw ();
@@ -78,9 +81,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public Gtk.Adjustment vadjustment {
 		get { return _vadjustment; }
 		set construct {
+			if (_vadjustment != null) {
+				_vadjustment.disconnect (vadj_changed_id);
+			}
 			_vadjustment = value;
 			if (_vadjustment != null) {
-				_vadjustment.value_changed.connect ((adj) => {
+				vadj_changed_id = _vadjustment.value_changed.connect ((adj) => {
 					viewport.origin = { viewport.origin.x, (float) adj.get_value () };
 					update_image_box ();
 					queue_draw ();
@@ -295,10 +301,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		y = y.clamp (0, max_y);
 		viewport.origin = { x, y };
 		if (_hadjustment != null) {
+			SignalHandler.block (_hadjustment, hadj_changed_id);
 			_hadjustment.set_value (x);
+			SignalHandler.unblock (_hadjustment, hadj_changed_id);
 		}
 		if (_vadjustment != null) {
+			SignalHandler.block (_vadjustment, vadj_changed_id);
 			_vadjustment.set_value (y);
+			SignalHandler.unblock (_vadjustment, vadj_changed_id);
 		}
 	}
 
@@ -383,15 +393,27 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (_vadjustment != null) {
 			_vadjustment.freeze_notify ();
 			_vadjustment.set_lower (0);
-			_vadjustment.set_upper (zoomed_height);
-			_vadjustment.set_page_size (viewport.size.height);
+			if (zoomed_height > viewport.size.height) {
+				_vadjustment.set_upper (zoomed_height);
+				_vadjustment.set_page_size (viewport.size.height);
+			}
+			else {
+				_vadjustment.set_upper (zoomed_height);
+				_vadjustment.set_page_size (zoomed_height);
+			}
 			_vadjustment.thaw_notify ();
 		}
 		if (_hadjustment != null) {
 			_hadjustment.freeze_notify ();
 			_hadjustment.set_lower (0);
-			_hadjustment.set_upper (zoomed_width);
-			_hadjustment.set_page_size (viewport.size.width);
+			if (zoomed_width > viewport.size.width) {
+				_hadjustment.set_upper (zoomed_width);
+				_hadjustment.set_page_size (viewport.size.width);
+			}
+			else {
+				_hadjustment.set_upper (zoomed_width);
+				_hadjustment.set_page_size (zoomed_width);
+			}
 			_hadjustment.thaw_notify ();
 		}
 	}
@@ -403,6 +425,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		_transparency = TransparencyStyle.GRAY;
 		_zoom = 1f;
 		_first_allocation = true;
+		hadj_changed_id = 0;
+		vadj_changed_id = 0;
 	}
 
 	Gth.Image _image;
@@ -420,6 +444,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Gtk.Adjustment _hadjustment;
 	Gtk.Adjustment _vadjustment;
 	bool _first_allocation;
+	ulong hadj_changed_id;
+	ulong vadj_changed_id;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
