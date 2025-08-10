@@ -59,7 +59,7 @@ public class Gth.VideoView : Gtk.Widget {
 		snapshot.restore ();
 	}
 
-	public void deactivate () {
+	public void release_resources () {
 		set_paintable (null);
 	}
 

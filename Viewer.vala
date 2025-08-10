@@ -183,11 +183,9 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void before_close_page () {
-		cancel_hide_overlay ();
 		Util.remove_all_children (left_toolbar);
 		Util.remove_all_children (right_toolbar);
 		set_mediabar (null);
-		viewer_signals.disconnect_all ();
 
 		foreach (unowned var revealer in overlay_controls) {
 			viewer_container.remove_overlay (revealer);
@@ -196,8 +194,9 @@ public class Gth.Viewer : Gtk.Box {
 
 		if (current_viewer != null) {
 			current_viewer.deactivate ();
-			current_viewer = null;
+			current_viewer.save_preferences ();
 		}
+		release_resources ();
 	}
 
 	public void after_fullscreen () {
@@ -242,8 +241,7 @@ public class Gth.Viewer : Gtk.Box {
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) main_view.max_sidebar_width);
 		}
 		if (current_viewer != null) {
-			current_viewer.deactivate ();
-			current_viewer = null;
+			current_viewer.save_preferences ();
 		}
 	}
 
@@ -326,6 +324,10 @@ public class Gth.Viewer : Gtk.Box {
 			viewer_signals.add (motion_events, enter_id);
 			viewer_signals.add (motion_events, leave_id);
 		}
+		else {
+			fixed_signals.add (motion_events, enter_id);
+			fixed_signals.add (motion_events, leave_id);
+		}
 	}
 
 	public void reveal_overlay_controls (bool reveal = true) {
@@ -357,6 +359,16 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
+
+	public void release_resources () {
+		stdout.printf ("> Viewer.release_resources\n");
+		viewer_signals.disconnect_all ();
+		fixed_signals.disconnect_all ();
+		cancel_hide_overlay ();
+		if (current_viewer != null) {
+			current_viewer.release_resources ();
+		}
+	}
 	void hide_overlay_after_timeout () {
 		if (hide_mediabar_id != 0) {
 			Source.remove (hide_mediabar_id);
@@ -447,6 +459,7 @@ public class Gth.Viewer : Gtk.Box {
 	construct {
 		fullscreen_state = new FullscreenState (this);
 		viewer_signals = new RegisteredSignals ();
+		fixed_signals = new RegisteredSignals ();
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
@@ -475,6 +488,7 @@ public class Gth.Viewer : Gtk.Box {
 	double last_y = 0.0;
 	List<weak Gtk.Revealer> overlay_controls = null;
 	RegisteredSignals viewer_signals;
+	RegisteredSignals fixed_signals;
 	FullscreenState fullscreen_state;
 
 	const double MOTION_THRESHOLD = 1.0;

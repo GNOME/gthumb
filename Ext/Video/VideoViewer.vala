@@ -53,7 +53,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		window.viewer.set_viewer_widget (view_stack);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("video-view");
-		init_actions ();
 
 		mediabar = builder.get_object ("mediabar") as Gtk.Widget;
 		window.viewer.set_mediabar (mediabar, Gtk.Align.FILL);
@@ -123,6 +122,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		widget.add_controller (motion_events);
 
 		create_playbin ();
+		init_actions ();
 	}
 
 	public async void load (FileData file_data) throws Error {
@@ -138,6 +138,22 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	public void deactivate () {
+		window.viewer.viewer_container.remove_css_class ("video-view");
+		window.insert_action_group ("video", null);
+	}
+
+	public void save_preferences () {
+		if (playbin != null) {
+			double volume;
+			bool mute;
+			playbin.get ("volume", out volume, "mute", out mute);
+			settings.set_int (PREF_VIDEO_VOLUME, (int) (volume * 100.0));
+			settings.set_boolean (PREF_VIDEO_MUTE, mute);
+			settings.set_boolean (PREF_VIDEO_ZOOM_TO_FIT, _zoom_to_fit);
+		}
+	}
+
+	public void release_resources () {
 		if (update_volume_id != 0) {
 			Source.remove (update_volume_id);
 			update_volume_id = 0;
@@ -146,19 +162,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			Source.remove (progress_id);
 			progress_id = 0;
 		}
-		window.viewer.viewer_container.remove_css_class ("video-view");
-		window.insert_action_group ("video", null);
 		if (video_view != null) {
-			video_view.deactivate ();
+			video_view.release_resources ();
 		}
 		if (playbin != null) {
-			double volume;
-			bool mute;
-			playbin.get ("volume", out volume, "mute", out mute);
-			settings.set_int (PREF_VIDEO_VOLUME, (int) (volume * 100.0));
-			settings.set_boolean (PREF_VIDEO_MUTE, mute);
-			settings.set_boolean (PREF_VIDEO_ZOOM_TO_FIT, _zoom_to_fit);
-
 			playbin.set_state (Gst.State.NULL);
 			wait_playbin_state_change_to_complete ();
 

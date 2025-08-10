@@ -13,8 +13,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window.viewer.set_viewer_widget (builder.get_object ("main_view") as Gtk.Widget);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
-		init_actions ();
-
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 		window.viewer.set_mediabar (builder.get_object ("mediabar") as Gtk.Widget, Gtk.Align.CENTER);
 		zoom_info = builder.get_object ("zoom_info") as Gtk.Label;
@@ -73,6 +71,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			}
 		});
 		image_view.add_controller (motion_events);
+
+		init_actions ();
 	}
 
 	public async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
@@ -122,8 +122,15 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public void deactivate () {
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("image", null);
+	}
+
+	public void save_preferences () {
 		settings.set_enum (PREF_IMAGE_ZOOM_TYPE, image_view.zoom_type);
 		settings.set_enum (PREF_IMAGE_TRANSPARENCY, image_view.transparency);
+	}
+
+	public void release_resources () {
+		// TODO
 	}
 
 	public void show () {

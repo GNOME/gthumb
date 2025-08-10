@@ -236,11 +236,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void before_closing () {
-		if (!app.one_window () || !get_realized ()) {
-			return;
+		if (app.one_window () && get_realized ()) {
+			browser.save_preferences (current_page == Page.BROWSER);
+			viewer.save_preferences (current_page == Page.VIEWER);
 		}
-		browser.save_preferences (current_page == Page.BROWSER);
-		viewer.save_preferences (current_page == Page.VIEWER);
+		viewer.release_resources ();
 	}
 
 	public GenericArray<Gth.FileData> get_selected () {

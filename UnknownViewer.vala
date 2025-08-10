@@ -8,6 +8,8 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 	}
 
 	public void deactivate () {}
+	public void save_preferences () {}
+	public void release_resources () {}
 	public void show () {}
 	public void hide () {}
 
