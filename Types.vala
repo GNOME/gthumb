@@ -166,7 +166,6 @@ public struct Gth.ClickPoint {
 [Flags]
 public enum Gth.ViewFlags {
 	DEFAULT,
-	KEEP_CURRENT_PAGE,
 	NO_DELAY,
 	FULLSCREEN,
 }
