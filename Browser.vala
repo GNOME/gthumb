@@ -100,7 +100,9 @@ public class Gth.Browser : Gtk.Box {
 		update_title ();
 		update_load_sensitivity ();
 		update_location_commands ();
-		if (folder_tree.current_folder.file.has_uri_scheme ("catalog")) {
+		var is_catalog = folder_tree.current_folder.file.has_uri_scheme ("catalog");
+		set_sidebar_state (is_catalog ? SidebarState.CATALOGS : SidebarState.FILES);
+		if (is_catalog) {
 			last_catalog = folder_tree.current_folder.file;
 		}
 		else {
@@ -116,20 +118,15 @@ public class Gth.Browser : Gtk.Box {
 		thumbnailer.queue_load_next ();
 	}
 
-	public async void open_location_async (File location) throws Error {
-		window.set_page (Window.Page.BROWSER);
-		set_sidebar_state (location.has_uri_scheme ("catalog") ? SidebarState.CATALOGS : SidebarState.FILES);
-		yield load_folder (location, LoadAction.OPEN);
+	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN) throws Error {
+		yield window.set_page (Window.Page.BROWSER);
+		yield load_folder (location, load_action);
 	}
 
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
-		window.set_page (Window.Page.BROWSER);
-		if (load_action.changes_current_folder ()) {
-			set_sidebar_state (location.has_uri_scheme ("catalog") ? SidebarState.CATALOGS : SidebarState.FILES);
-		}
-		load_folder.begin (location, load_action, (_obj, res) => {
+		open_location_async.begin (location, load_action, (_obj, res) => {
 			try {
-				load_folder.end (res);
+				open_location_async.end (res);
 				if (file_to_select != null) {
 					select_file (file_to_select, SelectFile.SCROLL_TO_FILE);
 				}
@@ -151,7 +148,7 @@ public class Gth.Browser : Gtk.Box {
 		open_location (home);
 	}
 
-	public void first_load (File location, File? file_to_select) {
+	public async void first_load () {
 		filter_bar.set_active_filter (active_filter);
 		if (app.one_window ()) {
 			// Restore the last saved history.
@@ -168,11 +165,8 @@ public class Gth.Browser : Gtk.Box {
 				}
 			}
 		}
-		app.bookmarks.load_from_file.begin ((_obj, res) => {
-			app.bookmarks.load_from_file.end (res);
-			update_bookmarks_menu ();
-			open_location (location, LoadAction.OPEN, file_to_select);
-		});
+		yield app.bookmarks.load_from_file ();
+		update_bookmarks_menu ();
 	}
 
 	public void reload () {
@@ -589,8 +583,9 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("new-window", null);
 		action.activate.connect (() => {
-			var window = new Gth.Window (app, folder_tree.current_folder.file, window.get_current_file ());
-			window.present ();
+			var new_window = new Gth.Window (window.application);
+			new_window.browser.open_location (folder_tree.current_folder.file, LoadAction.OPEN, window.get_current_file ());
+			new_window.present ();
 		});
 		action_group.add_action (action);
 

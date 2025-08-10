@@ -23,9 +23,7 @@ public class Gth.Viewer : Gtk.Box {
 		try {
 			activate_viewer_for_file (file);
 			yield current_viewer.load (file);
-			if (!(ViewFlags.KEEP_CURRENT_PAGE in flags)) {
-				window.set_page (Window.Page.VIEWER);
-			}
+			yield window.set_page (Window.Page.VIEWER);
 			current_file = file;
 			property_sidebar.current_file = file;
 			update_title ();
@@ -47,7 +45,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public async void open_unsaved_image (FileData file, Gth.Image image) throws Error {
+	public async void open_unsaved_image (FileData file, Gth.Image image) {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
@@ -60,21 +58,17 @@ public class Gth.Viewer : Gtk.Box {
 				throw new IOError.FAILED (_("Cannot load this kind of file"));
 			}
 			yield image_viewer.view_image (image, file, local_job.cancellable);
-			window.set_page (Window.Page.VIEWER);
+			yield window.set_page (Window.Page.VIEWER);
 			current_file = file;
 			property_sidebar.current_file = file;
 			update_title ();
 		}
 		catch (Error error) {
-			stdout.printf ("ERROR: %s\n", error.message);
-			local_job.error = error;
+			window.show_error (error);
 		}
 		local_job.done ();
 		if (load_job == local_job) {
 			load_job = null;
-		}
-		if (local_job.error != null) {
-			throw local_job.error;
 		}
 	}
 

@@ -56,27 +56,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	ulong clipboard_event = 0;
 
-	public Window (Gtk.Application _app, File location, File? file_to_select) {
+	public Window (Gtk.Application _app) {
 		Object (application: app);
-		set_page (Page.BROWSER);
-		Util.next_tick (() => {
-			browser.first_load (location, file_to_select);
-		});
-	}
-
-	public Window.unsaved_image (Gtk.Application _app, FileData file, Gth.Image image) {
-		Object (application: app);
-		set_page (Page.VIEWER);
-		Util.next_tick (() => {
-			viewer.open_unsaved_image.begin (file, image, (_obj, res) => {
-				try {
-					viewer.open_unsaved_image.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-			});
-		});
 	}
 
 	public void add_toast (Adw.Toast toast) {
@@ -115,11 +96,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 		show_message (_("Copied to Clipboard"));
 	}
 
-	public void set_page (Page page) {
-		if (page == current_page)
+	public async void set_page (Page new_page) {
+		if (new_page == current_page) {
 			return;
+		}
+		if ((current_page == Page.VIEWER) && viewer.current_file.get_is_modified ()) {
+			// TODO: ask whether to save
+		}
 		var previuos_page = current_page;
-		current_page = page;
+		current_page = new_page;
 		switch (current_page) {
 		case Page.BROWSER:
 			if (previuos_page == Page.VIEWER) {
@@ -139,6 +124,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 			}
 			stack.set_visible_child (browser);
+			if (previuos_page == Page.NONE) {
+				yield browser.first_load ();
+			}
 			browser.update_title ();
 			break;
 		case Page.VIEWER:
@@ -308,7 +296,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.set_is_modified (true);
 			// Use this window if the viewer is ImageViewer and the file is
 			// not modified.
-			var window = new Gth.Window.unsaved_image (application, unsaved_file, image);
+			var window = new Gth.Window (application);
+			window.viewer.open_unsaved_image.begin (unsaved_file, image);
 			window.present ();
 		}
 		catch (Error error) {
@@ -322,8 +311,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 	void init_actions () {
 		var action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
+			var next_page = Page.NONE;
 			if (current_page == Page.VIEWER) {
-				set_page (Page.BROWSER);
+				 next_page = Page.BROWSER;
+			}
+			if (next_page != Page.NONE) {
+				set_page.begin (next_page);
 			}
 		});
 		action_group.add_action (action);

@@ -833,11 +833,9 @@ public class Gth.Application : Adw.Application {
 		}
 
 		if (window == null) {
-			window = new Gth.Window (this, location, file_to_select);
+			window = new Gth.Window (this);
 		}
-		else {
-			window.browser.open_location (location, LoadAction.OPEN, file_to_select);
-		}
+		window.browser.open_location (location, LoadAction.OPEN, file_to_select);
 
 		if (!arg_slideshow) {
 			window.present ();
