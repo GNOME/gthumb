@@ -193,8 +193,9 @@ public class Gth.Viewer : Gtk.Box {
 		if (current_viewer != null) {
 			current_viewer.deactivate ();
 			current_viewer.save_preferences ();
+			current_viewer.release_resources ();
+			current_viewer = null;
 		}
-		release_resources ();
 	}
 
 	public void after_fullscreen () {
@@ -376,7 +377,6 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void release_resources () {
-		stdout.printf ("> Viewer.release_resources\n");
 		viewer_signals.disconnect_all ();
 		fixed_signals.disconnect_all ();
 		cancel_hide_overlay ();
