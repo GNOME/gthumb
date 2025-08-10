@@ -95,7 +95,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void show_error (Error error) {
 		if (error is IOError.CANCELLED)
 			return;
-		show_message (error.message);
+		var toast = new Adw.Toast (error.message);
+		toast.priority = Adw.ToastPriority.HIGH;
+		add_toast (toast);
 	}
 
 	public void edge_reached (string? msg = null) {
@@ -153,20 +155,27 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_sensitivity ();
 	}
 
-	public Gth.Job new_job (string description, string? status = null) {
-		var job = app.new_job (description, status);
+	public Gth.Job new_job (string description, bool foreground = false) {
+		var job = app.new_job (description, foreground);
 		add_job (job);
 		return job;
 	}
 
-	public Gth.Job new_background_job (string description, string? status = null) {
-		var job = app.new_job (description, status, true);
-		add_job (job);
-		return job;
+	public inline Gth.Job new_foreground_job (string description) {
+		return new_job (description, true);
 	}
 
 	public void add_job (Gth.Job job) {
 		jobs.add_job (job);
+		if (job.foreground) {
+			var toast = new Adw.Toast (job.description);
+			toast.button_label = _("Cancel");
+			toast.action_name = "win.cancel-job";
+			toast.action_target = new Variant.uint64 (job.id);
+			toast.priority = Adw.ToastPriority.HIGH;
+			job.toast = toast;
+			add_toast (toast);
+		}
 	}
 
 	public void cancel_jobs () {
@@ -342,6 +351,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("open-clipboard", null);
 		action.activate.connect (() => open_clipboard.begin ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("cancel-job", VariantType.UINT64);
+		action.activate.connect ((_action, param) => {
+			var id = param.get_uint64 ();
+			// TODO
+		});
 		action_group.add_action (action);
 	}
 

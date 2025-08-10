@@ -611,7 +611,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("save-screenshot", null);
 		action.activate.connect ((_action, param) => {
-			var local_job = window.new_job ("Save screenshot");
+			var local_job = window.new_foreground_job (_("Saving file"));
 			save_screenshot.begin (local_job.cancellable, (_obj, res) => {
 				try {
 					save_screenshot.end (res);
@@ -644,7 +644,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	async void copy_frame () {
-		var local_job = window.new_job ("Copy frame");
+		var local_job = window.new_foreground_job (_("Copying image to the clipboard"));
 		try {
 			var was_playing = playing;
 			if (was_playing) {
@@ -660,12 +660,16 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			if (was_playing) {
 				playing = true;
 			}
-			var toast = new Adw.Toast (_("Copied to Clipboard"));
-			toast.set_button_label ("Open");
-			toast.set_action_name ("win.open-clipboard");
-			window.add_toast (toast);
+			local_job.toast.action_name = null;
+			local_job.toast.action_target = null;
+
+			local_job.toast.title = _("Copied to Clipboard");
+			local_job.toast.button_label = _("Open");
+			local_job.toast.action_name = "win.open-clipboard";
+			local_job.toast.action_target = null;
 		}
 		catch (Error error) {
+			local_job.toast.dismiss ();
 			window.show_error (error);
 		}
 		finally {
@@ -751,9 +755,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		// Translators: '%s' is replaced with a filename (do not change it).
 		var toast = new Adw.Toast (_("Saved %s").printf (file.get_path ()));
-		toast.set_button_label ("Open");
-		toast.set_action_name ("app.open-new-window");
-		toast.set_action_target_value (new Variant.string (file.get_uri ()));
+		toast.button_label = _("Open");
+		toast.action_name = ("app.open-new-window");
+		toast.action_target = new Variant.string (file.get_uri ());
 		window.add_toast (toast);
 	}
 
