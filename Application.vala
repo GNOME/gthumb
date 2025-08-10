@@ -36,7 +36,10 @@ public class Gth.Application : Adw.Application {
 		quitting = false;
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
-			foreach_window ((win) => win.browser.status.set_n_jobs (jobs.size ()));
+			foreach_window ((win) => {
+				win.browser.status.set_n_jobs (jobs.size ());
+				win.viewer.status.set_n_jobs (jobs.size ());
+			});
 		});
 		io_factory = new Work.Factory (get_workers (MAX_IO_WORKERS));
 		image_loader = new ImageLoader (io_factory);

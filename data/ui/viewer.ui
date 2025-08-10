@@ -120,6 +120,7 @@
                             <property name="reveal-child">true</property>
                             <child>
                               <object class="GthViewerStatus" id="status">
+                                <property name="visible">false</property>
                               </object>
                             </child>
                           </object>

@@ -47,7 +47,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		empty_view = builder.get_object ("empty_view") as Gtk.Widget;
 		audio_status = builder.get_object ("audio_status") as Gth.FolderStatus;
 
-		video_view.resized.connect (() => update_zoom_info ());
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
 		scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (view_stack);
@@ -803,19 +802,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			audio_status.description = window.viewer.current_file.info.get_display_name ();
 			view_stack.set_visible_child (audio_view);
 		}
-		update_zoom_info ();
 		update_sensitivity ();
-	}
-
-	void update_zoom_info () {
-		if (!has_video || (video_width == 0) || (video_height == 0)) {
-			window.viewer.status.set_zoom_info (0);
-			window.viewer.status.set_pixel_info (0, 0);
-		}
-		else {
-			window.viewer.status.set_zoom_info (video_view.zoom);
-			window.viewer.status.set_pixel_info (video_width, video_height);
-		}
 	}
 
 	void update_sensitivity () {

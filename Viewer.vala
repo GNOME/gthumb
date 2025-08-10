@@ -178,8 +178,6 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void before_open_page () {
-		status.set_zoom_info (0);
-		status.set_pixel_info (0, 0);
 	}
 
 	public void before_close_page () {

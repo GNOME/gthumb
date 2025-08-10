@@ -300,16 +300,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	void update_zoom_info () {
 		if (image_view.image == null) {
-			window.viewer.status.set_pixel_info (0, 0);
-			window.viewer.status.set_zoom_info (0);
 			return;
 		}
 
 		// Update the statusbar.
 		uint width, height;
 		image_view.image.get_natural_size (out width, out height);
-		window.viewer.status.set_pixel_info (width, height);
-		window.viewer.status.set_zoom_info (image_view.zoom);
 		zoom_info.label = "%d%%".printf ((int) Math.round (image_view.zoom * 100));
 
 		// Update the 'set-zoom' action state.
