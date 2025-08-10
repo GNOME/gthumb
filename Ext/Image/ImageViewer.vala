@@ -168,7 +168,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		var action = new SimpleAction.stateful ("zoom-100", null, new Variant.boolean (false));
 		action.activate.connect ((action, param) => {
-			image_view.zoom_type = ZoomType.NATURAL_SIZE;
+			if (image_view.zoom_type != ZoomType.NATURAL_SIZE) {
+				image_view.zoom_type = ZoomType.NATURAL_SIZE;
+			}
+			else {
+				image_view.zoom_type = ZoomType.BEST_FIT;
+			}
 		});
 		action_group.add_action (action);
 
@@ -189,7 +194,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 			}
 			else {
-				image_view.zoom_type = ZoomType.NATURAL_SIZE;
+				image_view.zoom_type = ZoomType.BEST_FIT;
 			}
 		});
 		action_group.add_action (action);
