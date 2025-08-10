@@ -175,9 +175,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	public void show () {}
-	public void hide () {}
-
 	public bool on_scroll (double x, double y, double dx, double dy) {
 		switch (scroll_action) {
 		case ScrollAction.CHANGE_FILE:
