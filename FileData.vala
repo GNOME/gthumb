@@ -33,6 +33,9 @@ public class Gth.FileData : Object {
 	}
 
 	public void set_file (File _file) {
+		if (_file == file) {
+			return;
+		}
 		file = _file;
 		sort_key = null;
 	}
@@ -380,5 +383,10 @@ public class Gth.FileData : Object {
 	public bool get_is_modified () {
 		return info.has_attribute (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED)
 			&& info.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED);
+	}
+
+	public bool get_attribute_boolean (string attr_id) {
+		return info.has_attribute (attr_id)
+			&& info.get_attribute_boolean (attr_id);
 	}
 }

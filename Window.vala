@@ -171,7 +171,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs.add_job (job);
 		if (job.foreground) {
 			var toast = Util.new_literal_toast (job.description);
-			toast.button_label = _("Cancel");
+			toast.button_label = _("_Cancel");
 			toast.action_name = "win.cancel-job";
 			toast.action_target = new Variant.uint64 (job.id);
 			toast.priority = Adw.ToastPriority.HIGH;
@@ -301,13 +301,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var texture = yield clipboard.read_texture_async (local_job.cancellable);
 			var image = new Gth.Image.from_texture (texture);
 			var timestamp = new GLib.DateTime.now_local ();
-			var basename = timestamp.format ("Clipboard %Y-%m-%d %H-%M-%S.jpeg");
+			var basename = _("Clipboard") + timestamp.format (" %Y-%m-%d %H-%M-%S.jpeg");
 			var file = browser.folder_tree.current_folder.file.get_child (basename);
 			var unsaved_file = new Gth.FileData (file);
 			unsaved_file.info.set_display_name (basename);
 			unsaved_file.info.set_edit_name (basename);
 			unsaved_file.set_content_type ("image/jpeg");
 			unsaved_file.set_is_modified (true);
+			unsaved_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD, true);
 			// Use this window if the viewer is ImageViewer and the file is
 			// not modified.
 			var window = new Gth.Window (application);

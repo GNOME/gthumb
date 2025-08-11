@@ -27,8 +27,24 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry">
-                    <property name="halign">fill</property>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkEntry" id="entry">
+                        <property name="halign">fill</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="error_label">
+                        <property name="wrap">true</property>
+                        <property name="justify">center</property>
+                        <property name="visible">false</property>
+                        <style>
+                          <class name="error"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -43,14 +59,14 @@
                 </style>
                 <child>
                   <object class="GtkButton">
-                    <property name="label">_Cancel</property>
+                    <property name="label" translatable="yes">_Cancel</property>
                     <property name="use_underline">true</property>
                     <signal name="clicked" handler="on_cancel_clicked"/>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="save_button">
-                    <property name="label">_Save</property>
+                    <property name="label" translatable="yes">_Save</property>
                     <property name="use_underline">true</property>
                     <style>
                       <class name="suggested-action"/>

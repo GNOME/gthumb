@@ -11,7 +11,7 @@
             <property name="show-start-title-buttons">false</property>
             <child type="end">
               <object class="GtkButton">
-                <property name="label" translatable="yes">Save</property>
+                <property name="label" translatable="yes">_Save</property>
                 <signal name="clicked" handler="on_save" />
                 <style>
                   <class name="suggested-action"/>

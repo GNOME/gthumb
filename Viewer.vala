@@ -74,7 +74,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	public async void ask_whether_to_save () throws Error {
 		var dialog = new Adw.AlertDialog (
-			_("Save File?"),
+			_("File Modified"),
 			_("If you don’t save, changes to the file will be permanently lost.")
 		);
 		dialog.add_responses (
@@ -86,7 +86,6 @@ public class Gth.Viewer : Gtk.Box {
 		dialog.set_response_appearance ("save", Adw.ResponseAppearance.SUGGESTED);
 		dialog.default_response = "save";
 		dialog.close_response = "cancel";
-		//dialog.prefer_wide_layout = true;
 		var response = yield dialog.choose (window, null);
 		if (response == "cancel") {
 			throw new IOError.CANCELLED ("Cancelled");
@@ -94,7 +93,7 @@ public class Gth.Viewer : Gtk.Box {
 		if (response == "discard") {
 			return;
 		}
-		yield current_viewer.save_as (current_file.file, current_file.get_content_type ());
+		yield current_viewer.save ();
 	}
 
 	void activate_viewer_for_file (FileData file) {

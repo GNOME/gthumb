@@ -156,30 +156,111 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return true;
 	}
 
-	public override async void save_as (File file, string content_type) throws Error {
+	public override async void save () throws Error {
 		var local_job = window.new_job ("Saving File");
+		var current_file = window.viewer.current_file;
 		try {
 			// TODO: load the original image if a lower quality version was loaded.
-			yield save_image_as (image_view.image, file, content_type, local_job.cancellable);
+
+			// Save LOADED_IMAGE_IS_MODIFIED into LOADED_IMAGE_WAS_MODIFIED
+			// to allow the exiv2 metadata writer to not change some fields if the
+			// content wasn't modified.
+
+			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED,
+				current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED));
+
+			// The LOADED_IMAGE_IS_MODIFIED attribute must be set to false before
+			// saving the file to avoid a scenario where the user is asked whether
+			// he wants to save the file after saving it.
+
+			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, false);
+
+			if (current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)) {
+				// Ask the filename
+				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
+				read_filename.default_value = current_file.info.get_edit_name ();
+				var filename = yield read_filename.read_value (window, local_job.cancellable);
+				if (filename == null) {
+					throw new IOError.CANCELLED ("Cancelled");
+				}
+
+				// Save
+				var file = current_file.file.get_parent ().get_child_for_display_name (filename);
+				var extension = Util.get_extension (filename);
+				var content_type = app.get_content_type_from_extension (extension);
+				var new_file = yield save_as (file, content_type, local_job.cancellable);
+				current_file.set_file (new_file);
+			}
+			else {
+				var new_file = yield replace (local_job.cancellable);
+				current_file.set_file (new_file);
+			}
+		}
+		catch (Error error) {
+			// Reset the LOADED_IMAGE_IS_MODIFIED flag if not saved.
+			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED,
+				current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED));
+			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED, false);
+			throw error;
 		}
 		finally {
 			local_job.done ();
 		}
 	}
 
-	async void save_image_as (Gth.Image image, File file, string content_type, Cancellable cancellable) throws Error {
+	async File? replace (Cancellable cancellable) throws Error {
+		var current_file = window.viewer.current_file;
+		var overwrite_request = OverwriteRequest.NONE;
+
 		try {
-			yield app.image_saver.create_file (file, content_type, image, cancellable);
-			return;
+			yield app.image_saver.replace_file (image_view.image,
+					image_view.image.get_attribute ("etag"),
+					current_file.file,
+					current_file.get_content_type (),
+					cancellable);
+			return current_file.file;
 		}
 		catch (Error error) {
-			if (!(error is IOError.EXISTS)) {
+			if (error is IOError.WRONG_ETAG) {
+				overwrite_request = OverwriteRequest.WRONG_ETAG;
+			}
+			else {
 				throw error;
 			}
 		}
-		// File exists
+
+		// File changed after being loaded.
+		return yield ask_to_overwrite (overwrite_request, current_file.file,
+			current_file.get_content_type (), cancellable);
+	}
+
+	async File? save_as (File file, string content_type, Cancellable cancellable) throws Error {
+		var overwrite_request = OverwriteRequest.NONE;
+
+		try {
+			yield app.image_saver.create_file (image_view.image, file, content_type, cancellable);
+			return file;
+		}
+		catch (Error error) {
+			if (error is IOError.EXISTS) {
+				overwrite_request = OverwriteRequest.FILE_EXISTS;
+			}
+			else if (error is IOError.WRONG_ETAG) {
+				overwrite_request = OverwriteRequest.WRONG_ETAG;
+			}
+			else {
+				throw error;
+			}
+		}
+
+		// File exists or changed after being loaded.
+		return yield ask_to_overwrite (overwrite_request, file,
+			content_type, cancellable);
+	}
+
+	async File? ask_to_overwrite (OverwriteRequest request, File file, string content_type, Cancellable cancellable) throws Error {
 		var overwrite = new OverwriteDialog (window);
-		var result = yield overwrite.ask_image (file, image, cancellable);
+		var result = yield overwrite.ask_image (file, image_view.image, request, cancellable);
 		switch (result) {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");
@@ -188,15 +269,18 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			break;
 
 		case OverwriteResponse.OVERWRITE:
-			yield app.image_saver.replace_file (file, content_type, image, cancellable);
-			break;
+			yield app.image_saver.replace_file (image_view.image, null,
+				file, content_type, cancellable);
+			return file;
 
 		case OverwriteResponse.RENAME:
 			var parent = file.get_parent ();
 			var new_file = parent.get_child_for_display_name (overwrite.new_name);
-			yield save_image_as (image, new_file, content_type, cancellable);
-			break;
+			var new_content_type = app.get_content_type_from_name (new_file);
+			yield save_as (new_file, new_content_type, cancellable);
+			return new_file;
 		}
+		return null;
 	}
 
 	void init_actions () {

@@ -13,13 +13,13 @@
             <property name="show-end-title-buttons">false</property>
             <child type="start">
               <object class="GtkButton">
-                <property name="label">Cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
                 <signal name="clicked" handler="on_cancel" />
               </object>
             </child>
             <child type="end">
               <object class="GtkButton">
-                <property name="label" translatable="yes" context="Verb">Search</property>
+                <property name="label" translatable="yes" context="Verb">_Search</property>
                 <signal name="clicked" handler="on_search" />
                 <style>
                   <class name="suggested-action"/>

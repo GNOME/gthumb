@@ -203,10 +203,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		return has_video;
 	}
 
-	public bool can_save () {
-		return false;
-	}
-
 	//public async void save_async () throws Error;
 
 	void create_playbin () {
@@ -741,7 +737,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			throw new IOError.FAILED (_("Invalid filename"));
 		}
 
-		yield app.image_saver.replace_file (file, SCREENSHOT_TYPE, screenshot, cancellable);
+		yield app.image_saver.replace_file (screenshot, null, file, SCREENSHOT_TYPE, cancellable);
 
 		if (was_playing) {
 			playing = true;

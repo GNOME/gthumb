@@ -382,10 +382,24 @@ gboolean gth_image_get_original_image_size (GthImage *self, guint *width, guint 
 
 void gth_image_set_attribute (GthImage *self, const char *key, const char *value) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
-	if (self->priv->attributes == NULL) {
-		self->priv->attributes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	if (value == NULL) {
+		gth_image_remove_attribute (self, key);
 	}
-	g_hash_table_insert (self->priv->attributes, g_strdup (key), g_strdup (value));
+	else {
+		if (self->priv->attributes == NULL) {
+			self->priv->attributes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+		}
+		g_hash_table_insert (self->priv->attributes, g_strdup (key), g_strdup (value));
+	}
+}
+
+
+gboolean gth_image_remove_attribute (GthImage *self, const char *key) {
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	if (self->priv->attributes == NULL) {
+		return false;
+	}
+	return g_hash_table_remove (self->priv->attributes, key);
 }
 
 

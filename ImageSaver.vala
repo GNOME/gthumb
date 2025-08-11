@@ -5,7 +5,7 @@ public class Gth.ImageSaver {
 		factory = _factory;
 	}
 
-	public async void save_to_stream (OutputStream stream, string content_type, Image image, Cancellable cancellable) throws Error {
+	public async void save_to_stream (Image image, OutputStream stream, string content_type, Cancellable cancellable) throws Error {
 		var job = new Job (save_to_stream.callback);
 		job.stream = stream;
 		job.content_type = content_type;
@@ -18,14 +18,22 @@ public class Gth.ImageSaver {
 		}
 	}
 
-	public async void replace_file (File file, string content_type, Image image, Cancellable cancellable) throws Error {
-		var stream = yield file.replace_async (null, false, FileCreateFlags.NONE, Priority.DEFAULT, cancellable);
-		yield save_to_stream (stream, content_type, image, cancellable);
+	public async void replace_file (Image image, string? etag, File file, string content_type, Cancellable cancellable) throws Error {
+		var stream = yield file.replace_async (etag, false,
+			FileCreateFlags.NONE, Priority.DEFAULT,
+			cancellable);
+		yield save_to_stream (image, stream, content_type, cancellable);
+		stream.close ();
+		image.set_attribute ("etag", stream.get_etag ());
 	}
 
-	public async void create_file (File file, string content_type, Image image, Cancellable cancellable) throws Error {
-		var stream = yield file.create_async (FileCreateFlags.NONE, Priority.DEFAULT, cancellable);
-		yield save_to_stream (stream, content_type, image, cancellable);
+	public async void create_file (Image image, File file, string content_type, Cancellable cancellable) throws Error {
+		var stream = yield file.create_async (FileCreateFlags.NONE,
+			Priority.DEFAULT,
+			cancellable);
+		yield save_to_stream (image, stream, content_type, cancellable);
+		stream.close ();
+		image.set_attribute ("etag", stream.get_etag ());
 	}
 
 	class Job : Work.Job {

@@ -11,6 +11,7 @@ public class Gth.Application : Adw.Application {
 	public HashTable<string, Gth.LoadFileFunc> external_loaders;
 	public HashTable<string, Gth.SaveFunc> savers;
 	public HashTable<string, GLib.Type> saver_preferences;
+	public HashTable<string, string> saver_extensions;
 	public HashTable<string, GLib.Type> viewers;
 	public Gth.FilterFile filter_file;
 	public bool restart;
@@ -312,6 +313,7 @@ public class Gth.Application : Adw.Application {
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);
+		saver_extensions = new HashTable<string, string>(str_hash, str_equal);
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
 		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
 	}
@@ -586,11 +588,29 @@ public class Gth.Application : Adw.Application {
 		savers.set (content_type, func);
 		if (options_type != 0) {
 			saver_preferences.set (content_type, options_type);
+			var options = Object.new (options_type) as Gth.SaverPreferences;
+			var extension_v = options.get_extensions ().split(",");
+			foreach (unowned var extension in extension_v) {
+				saver_extensions.set (extension, content_type);
+			}
 		}
 	}
 
 	public SaveFunc? get_save_func (string content_type) {
 		return savers.get (content_type);
+	}
+
+	public bool can_save_extension (string extension) {
+		return saver_extensions.contains (extension);
+	}
+
+	public unowned string get_content_type_from_name (File file) {
+		var extension = Util.get_extension (file.get_basename ());
+		return saver_extensions.get (extension);
+	}
+
+	public unowned string get_content_type_from_extension (string extension) {
+		return saver_extensions.get (extension);
 	}
 
 	public SaverPreferences? get_saver_preferences (string content_type) {

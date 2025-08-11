@@ -19,7 +19,8 @@ namespace Gth {
 		public void set_natural_size (uint width, uint height);
 		public bool get_natural_size (out uint width, out uint height);
 		public bool get_original_image_size (out uint width, out uint height);
-		public void set_attribute (string key, string value);
+		public void set_attribute (string key, string? value);
+		public bool remove_attribute (string key);
 		public unowned string get_attribute (string key);
 		public virtual bool get_can_scale ();
 		public virtual Image scale (double factor);

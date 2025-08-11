@@ -67,6 +67,7 @@ gboolean gth_image_get_original_image_size (GthImage *self, guint *width, guint 
 
 // Attributes
 void gth_image_set_attribute (GthImage *self, const char *key, const char *value);
+gboolean gth_image_remove_attribute (GthImage *self, const char *key);
 const char * gth_image_get_attribute (GthImage *self, const char *key);
 GHashTable * gth_image_get_attributes (GthImage *self);
 

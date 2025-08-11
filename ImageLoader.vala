@@ -21,7 +21,12 @@ public class Gth.ImageLoader {
 
 	public async Image? load_file (File file, Cancellable cancellable, uint requested_size = 0) throws Error {
 		var stream = yield file.read_async (Priority.DEFAULT, cancellable);
-		return yield load_stream (stream, file, cancellable, requested_size);
+		var image = yield load_stream (stream, file, cancellable, requested_size);
+		var info = yield stream.query_info_async (FileAttribute.ETAG_VALUE, Priority.DEFAULT, cancellable);
+		if (info.has_attribute (FileAttribute.ETAG_VALUE)) {
+			image.set_attribute ("etag", info.get_attribute_string (FileAttribute.ETAG_VALUE));
+		}
+		return image;
 	}
 
 	class Job : Work.Job {

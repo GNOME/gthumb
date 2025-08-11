@@ -21,9 +21,6 @@ public Gth.Image load_video_thumbnail (File file, uint requested_size, Cancellab
 			return image;
 		}
 	}
-	catch (Error error) {
-		throw error;
-	}
 	finally {
 		if (id != 0) {
 			cancellable.disconnect (id);

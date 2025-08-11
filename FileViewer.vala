@@ -6,5 +6,5 @@ public interface Gth.FileViewer : Object {
 	public abstract void release_resources ();
 	public abstract bool on_scroll (double x, double y, double dx, double dy);
 	public abstract bool get_pixel_size (out uint width, out uint height);
-	public virtual async void save_as (File file, string content_type) throws Error {}
+	public virtual async void save () throws Error {}
 }

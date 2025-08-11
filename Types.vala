@@ -179,5 +179,7 @@ public enum Gth.ScrollAction {
 
 namespace Gth.PrivateAttribute {
 	const string LOADED_IMAGE_IS_MODIFIED = "Loaded::Image::IsModified";
+	const string LOADED_IMAGE_WAS_MODIFIED = "Loaded::Image::WasModified";
 	const string LOADED_IMAGE_COLOR_PROFILE = "Loaded::Image::ColorProfile";
+	const string LOADED_IMAGE_FROM_CLIPBOARD = "Loaded::Image::FromClipboard";
 }
