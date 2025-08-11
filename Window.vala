@@ -101,7 +101,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 			return;
 		}
 		if ((current_page == Page.VIEWER) && viewer.current_file.get_is_modified ()) {
-			// TODO: ask whether to save
+			try {
+				yield viewer.ask_whether_to_save ();
+			}
+			catch (Error error) {
+				show_error (error);
+				return;
+			}
 		}
 		var previuos_page = current_page;
 		current_page = new_page;

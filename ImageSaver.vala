@@ -18,8 +18,13 @@ public class Gth.ImageSaver {
 		}
 	}
 
-	public async void save_to_file (File file, string content_type, Image image, Cancellable cancellable) throws Error {
+	public async void replace_file (File file, string content_type, Image image, Cancellable cancellable) throws Error {
 		var stream = yield file.replace_async (null, false, FileCreateFlags.NONE, Priority.DEFAULT, cancellable);
+		yield save_to_stream (stream, content_type, image, cancellable);
+	}
+
+	public async void create_file (File file, string content_type, Image image, Cancellable cancellable) throws Error {
+		var stream = yield file.create_async (FileCreateFlags.NONE, Priority.DEFAULT, cancellable);
 		yield save_to_stream (stream, content_type, image, cancellable);
 	}
 

@@ -156,6 +156,49 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return true;
 	}
 
+	public override async void save_as (File file, string content_type) throws Error {
+		var local_job = window.new_job ("Saving File");
+		try {
+			// TODO: load the original image if a lower quality version was loaded.
+			yield save_image_as (image_view.image, file, content_type, local_job.cancellable);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void save_image_as (Gth.Image image, File file, string content_type, Cancellable cancellable) throws Error {
+		try {
+			yield app.image_saver.create_file (file, content_type, image, cancellable);
+			return;
+		}
+		catch (Error error) {
+			if (!(error is IOError.EXISTS)) {
+				throw error;
+			}
+		}
+		// File exists
+		var overwrite = new OverwriteDialog (window);
+		var result = yield overwrite.ask_image (file, image, cancellable);
+		switch (result) {
+		case OverwriteResponse.CANCEL:
+			throw new IOError.CANCELLED ("Cancelled");
+
+		case OverwriteResponse.SKIP:
+			break;
+
+		case OverwriteResponse.OVERWRITE:
+			yield app.image_saver.replace_file (file, content_type, image, cancellable);
+			break;
+
+		case OverwriteResponse.RENAME:
+			var parent = file.get_parent ();
+			var new_file = parent.get_child_for_display_name (overwrite.new_name);
+			yield save_image_as (image, new_file, content_type, cancellable);
+			break;
+		}
+	}
+
 	void init_actions () {
 		action_group = new SimpleActionGroup ();
 		window.insert_action_group ("image", action_group);

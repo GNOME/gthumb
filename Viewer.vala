@@ -72,6 +72,31 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
+	public async void ask_whether_to_save () throws Error {
+		var dialog = new Adw.AlertDialog (
+			_("Save File?"),
+			_("If you don’t save, changes to the file will be permanently lost.")
+		);
+		dialog.add_responses (
+			"cancel",  _("_Cancel"),
+			"discard", _("_Discard"),
+			"save", _("_Save")
+		);
+		dialog.set_response_appearance ("discard", Adw.ResponseAppearance.DESTRUCTIVE);
+		dialog.set_response_appearance ("save", Adw.ResponseAppearance.SUGGESTED);
+		dialog.default_response = "save";
+		dialog.close_response = "cancel";
+		//dialog.prefer_wide_layout = true;
+		var response = yield dialog.choose (window, null);
+		if (response == "cancel") {
+			throw new IOError.CANCELLED ("Cancelled");
+		}
+		if (response == "discard") {
+			return;
+		}
+		yield current_viewer.save_as (current_file.file, current_file.get_content_type ());
+	}
+
 	void activate_viewer_for_file (FileData file) {
 		if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
 			if (current_viewer != null) {

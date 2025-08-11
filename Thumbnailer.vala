@@ -236,7 +236,7 @@ public class Gth.Thumbnailer {
 	async void save_thumbnail_to_cache (FileData file_data, Gth.Image thumbnail, Cancellable cancellable) throws Error {
 		try {
 			var thumbnail_file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.WRITE, cancellable);
-			yield app.image_saver.save_to_file (thumbnail_file, "image/png", thumbnail, cancellable);
+			yield app.image_saver.replace_file (thumbnail_file, "image/png", thumbnail, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_thumbnail_to_cache: %s\n", error.message);
@@ -251,7 +251,7 @@ public class Gth.Thumbnailer {
 			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (file_data.file, FileIntent.WRITE);
 			var thumbnail = new Gth.Image (1, 1);
 			set_file_attributes_to_image (thumbnail, file_data);
-			yield app.image_saver.save_to_file (thumbnail_file, "image/png", thumbnail, cancellable);
+			yield app.image_saver.replace_file (thumbnail_file, "image/png", thumbnail, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_failed_thumbnail_to_cache: %s\n", error.message);

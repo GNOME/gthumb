@@ -397,6 +397,7 @@ executable(
     'ViewerStatus.vala',
     'Viewer.vala',
     'Window.vala',
+    'ReadText.vala',
     bookmarks_files,
     catalogs_files,
     comments_files,

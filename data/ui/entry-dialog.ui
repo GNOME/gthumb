@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthEntryDialog">
+    <property name="content-width">500</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
+        <style>
+          <class name="dialog-content"/>
+        </style>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">24</property>
+            <style>
+              <class name="message-area"/>
+            </style>
+            <child>
+              <object class="GtkLabel" id="title_label">
+                <property name="halign">center</property>
+                <style>
+                  <class name="title-2"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry">
+                <property name="halign">fill</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">12</property>
+            <property name="halign">end</property>
+            <style>
+              <class name="response-area"/>
+            </style>
+            <child>
+              <object class="GtkButton">
+                <property name="label">_Cancel</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_cancel_clicked"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="save_button">
+                <property name="label">_Save</property>
+                <property name="use_underline">true</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+                <signal name="clicked" handler="on_save_clicked"/>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
