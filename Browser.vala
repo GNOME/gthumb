@@ -23,6 +23,7 @@ public class Gth.Browser : Gtk.Box {
 	public int thumbnail_size;
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;
+	public bool never_loaded;
 
 	construct {
 		visible_files = new GenericList<FileData>();
@@ -33,6 +34,7 @@ public class Gth.Browser : Gtk.Box {
 		actions_category = new ActionCategory ("", -1);
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		parents_category = new ActionCategory (_("Path"), 1);
+		never_loaded = true;
 	}
 
 	void init () {
@@ -149,6 +151,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public async void first_load () {
+		never_loaded = false;
 		filter_bar.set_active_filter (active_filter);
 		if (app.one_window ()) {
 			// Restore the last saved history.

@@ -113,7 +113,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		current_page = new_page;
 		switch (current_page) {
 		case Page.BROWSER:
-			if (previuos_page == Page.VIEWER) {
+			if (!browser.never_loaded && (previuos_page == Page.VIEWER)) {
 				//if (viewer.main_view.show_sidebar) {
 				//	browser.content_view.max_sidebar_width = viewer.main_view.max_sidebar_width;
 				//}
@@ -130,8 +130,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 			}
 			stack.set_visible_child (browser);
-			if (previuos_page == Page.NONE) {
+			if (browser.never_loaded) {
 				yield browser.first_load ();
+				if (previuos_page == Page.VIEWER) {
+					if (viewer.current_file != null) {
+						browser.open_location (
+							viewer.current_file.file.get_parent (),
+							LoadAction.OPEN,
+							viewer.current_file.file);
+					}
+				}
 			}
 			browser.update_title ();
 			break;
