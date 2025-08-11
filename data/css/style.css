@@ -144,3 +144,8 @@ popover.button-list button {
 .dialog-content > .response-area {
 	padding: 12px 24px 24px;
 }
+
+.dialog-content > .response-area > .text-button {
+	padding: 10px 20px;
+	border-radius: 12px;
+}
