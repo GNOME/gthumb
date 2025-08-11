@@ -607,7 +607,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("save-screenshot", null);
 		action.activate.connect ((_action, param) => {
-			var local_job = window.new_foreground_job (_("Saving file"));
+			var local_job = window.new_foreground_job (_("Saving File"));
 			save_screenshot.begin (local_job.cancellable, (_obj, res) => {
 				try {
 					save_screenshot.end (res);
@@ -640,7 +640,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	async void copy_frame () {
-		var local_job = window.new_foreground_job (_("Copying image to the clipboard"));
+		var local_job = window.new_foreground_job (_("Copying to the Clipboard"));
 		try {
 			var was_playing = playing;
 			if (was_playing) {
@@ -657,7 +657,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 				playing = true;
 			}
 
-			var toast = Util.new_literal_toast (_("Copied to Clipboard"));
+			var toast = Util.new_literal_toast (_("Copied to the Clipboard"));
 			toast.button_label = _("Open");
 			toast.action_name = "win.open-clipboard";
 			toast.priority = Adw.ToastPriority.HIGH;
