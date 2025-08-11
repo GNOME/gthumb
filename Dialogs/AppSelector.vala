@@ -1,6 +1,4 @@
 public class Gth.AppSelector : Object {
-	public signal void trying (Gdk.RGBA new_color);
-
 	public async AppInfo? select_app (Gtk.Window? parent, GenericArray<Gth.FileData> files, Cancellable? cancellable = null) throws Error {
 		callback = select_app.callback;
 		dialog = new AppSelectorDialog (parent, files);
