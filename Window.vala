@@ -25,6 +25,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		insert_action_group ("win", action_group);
 
 		close_request.connect (() => {
+			if (file_not_saved ()) {
+				save_and_close.begin ();
+				return true;
+			}
 			closing = true;
 			if (jobs.size () > 0) {
 				jobs.cancel_all ();
@@ -94,6 +98,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var clipboard = get_clipboard ();
 		clipboard.set_text (text);
 		show_message (_("Copied to Clipboard"));
+	}
+
+	bool file_not_saved () {
+		return (current_page == Page.VIEWER) && viewer.current_file.get_is_modified ();
+	}
+
+	async void save_and_close () {
+		try {
+			yield viewer.ask_whether_to_save ();
+		}
+		catch (Error error) {
+			show_error (error);
+			return;
+		}
+		close ();
 	}
 
 	public async void set_page (Page new_page) {

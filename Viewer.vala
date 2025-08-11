@@ -91,6 +91,7 @@ public class Gth.Viewer : Gtk.Box {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
 		if (response == "discard") {
+			current_file.set_is_modified (false);
 			return;
 		}
 		yield current_viewer.save ();

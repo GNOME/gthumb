@@ -173,7 +173,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			// saving the file to avoid a scenario where the user is asked whether
 			// he wants to save the file after saving it.
 
-			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, false);
+			current_file.set_is_modified (false);
 
 			if (current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)) {
 				// Ask the filename
@@ -198,9 +198,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 		catch (Error error) {
 			// Reset the LOADED_IMAGE_IS_MODIFIED flag if not saved.
-			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED,
-				current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED));
-			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED, false);
+			current_file.set_is_modified (current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED));
+			current_file.info.remove_attribute (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED);
 			throw error;
 		}
 		finally {
