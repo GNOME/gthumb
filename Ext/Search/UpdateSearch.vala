@@ -29,7 +29,7 @@ public class Gth.UpdateSearch {
 			throw error;
 		}
 		browser.update_folder_status ();
-		browser.window.show_message ((search.files.length == 0) ? _("No files found") : _("Search terminated"));
+		browser.window.show_message (_("Search terminated"));
 	}
 
 	async void update_search (Browser browser, CatalogSearch _search, File _file, Cancellable cancellable) throws Error {
