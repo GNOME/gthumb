@@ -652,12 +652,8 @@ public class Gth.Application : Adw.Application {
 		return get_viewer_type_for_content_type (content_type) == viewer_type;
 	}
 
-	public inline Gth.Job new_job (string description, bool foreground = false) {
-		return jobs.new_job (description, foreground);
-	}
-
-	public inline Gth.Job new_foreground_job (string description) {
-		return jobs.new_job (description, true);
+	public inline Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT) {
+		return jobs.new_job (description, flags);
 	}
 
 	public void foreach_window (Gth.WindowFunc func) {

@@ -603,7 +603,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("save-screenshot", null);
 		action.activate.connect ((_action, param) => {
-			var local_job = window.new_foreground_job (_("Saving File"));
+			var local_job = window.new_job (_("Saving File"), JobFlags.FOREGROUND);
 			save_screenshot.begin (local_job.cancellable, (_obj, res) => {
 				try {
 					save_screenshot.end (res);
@@ -636,7 +636,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	async void copy_frame () {
-		var local_job = window.new_foreground_job (_("Copying to the Clipboard"));
+		var local_job = window.new_job (_("Copying to the Clipboard"), JobFlags.FOREGROUND);
 		try {
 			var was_playing = playing;
 			if (was_playing) {

@@ -117,15 +117,15 @@ public class Gth.JobQueue : Object {
 		queue = new Queue<Gth.Job>();
 	}
 
-	public Gth.Job new_job (string description, bool foreground = false) {
+	public Gth.Job new_job (string description, JobFlags flags) {
 		var job = new Gth.Job ();
 		job.description = description;
-		job.foreground = foreground;
-		//stdout.printf ("  NEW JOB [%p] [%s]: %s%s\n",
+		job.foreground = JobFlags.FOREGROUND in flags;
+		//stdout.printf ("  NEW %sJOB [%p] [%s]: %s\n",
+		//	(job.foreground ? "FOREGROUND " : ""),
 		//	job,
 		//	job.time_started.format ("%H:%M:%S"),
-		//	job.description,
-		//	job.foreground ? " (foreground)" : "");
+		//	job.description);
 		add_job (job);
 		return job;
 	}
@@ -168,4 +168,12 @@ public class Gth.JobQueue : Object {
 	}
 
 	public signal void size_changed ();
+}
+
+public delegate void Gth.JobFunc (Gth.Job job) throws Error;
+
+[Flags]
+public enum Gth.JobFlags {
+	DEFAULT,
+	FOREGROUND,
 }

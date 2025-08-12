@@ -176,14 +176,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_sensitivity ();
 	}
 
-	public Gth.Job new_job (string description, bool foreground = false) {
-		var job = app.new_job (description, foreground);
+	public Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT) {
+		var job = app.new_job (description, flags);
 		add_job (job);
 		return job;
 	}
 
-	public inline Gth.Job new_foreground_job (string description) {
-		return new_job (description, true);
+	public void with_new_job (string description, JobFlags flags, JobFunc func) {
+		var local_job = new_job (description, flags);
+		try {
+			func (local_job);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	public void add_job (Gth.Job job) {
