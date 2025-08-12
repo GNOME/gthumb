@@ -14,10 +14,18 @@ public class Gth.Viewer : Gtk.Box {
 	Gth.Job load_job = null;
 	FileViewer current_viewer = null;
 
-	public async void load_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT) throws Error {
+	async void load_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT) throws Error {
+		// Ask to save the current file if modified
+		if ((current_file != null) && current_file.get_is_modified ()) {
+			yield ask_whether_to_save ();
+		}
+
+		// Cancel the previous job
 		if (load_job != null) {
 			load_job.cancel ();
 		}
+
+		// Load
 		var local_job = window.new_job ("Load %s".printf (file.file.get_uri ()));
 		load_job = local_job;
 		try {
