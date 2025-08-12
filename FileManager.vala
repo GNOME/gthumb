@@ -42,5 +42,17 @@ public class Gth.FileManager {
 		app.monitor.files_deleted (deleted_files);
 	}
 
+	public async void trash_files (GenericList<FileData> files, Job job) throws Error {
+		var iter = files.iterator ();
+		var deleted_files = new GenericList<File>();
+		while (iter.next ()) {
+			var file = iter.get ().file;
+			yield file.trash_async (Priority.DEFAULT, job.cancellable);
+			job.progress = (float) iter.index () / files.model.n_items;
+			deleted_files.model.append (file);
+		}
+		app.monitor.files_deleted (deleted_files);
+	}
+
 	weak Window window;
 }

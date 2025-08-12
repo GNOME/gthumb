@@ -752,7 +752,7 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect (() => reload ());
 		action_group.add_action (action);
 
-		action = new SimpleAction ("delete", null);
+		action = new SimpleAction ("delete-files", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
 			if (files.is_empty ()) {
@@ -760,6 +760,18 @@ public class Gth.Browser : Gtk.Box {
 			}
 			window.with_new_job (_("Deleting Files"), JobFlags.FOREGROUND, (job) => {
 				window.file_manager.delete_files.begin (files, job);
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("trash-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if (files.is_empty ()) {
+				return;
+			}
+			window.with_new_job (_("Deleting Files"), JobFlags.FOREGROUND, (job) => {
+				window.file_manager.trash_files.begin (files, job);
 			});
 		});
 		action_group.add_action (action);
