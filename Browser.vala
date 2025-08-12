@@ -26,6 +26,7 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.FileSorter file_sorter;
 	public Gth.FileFilter file_filter;
 
+	RegisteredSignals signals;
 	construct {
 		thumbnailer = new Thumbnailer (this);
 		history = new History (this);
@@ -35,6 +36,17 @@ public class Gth.Browser : Gtk.Box {
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		parents_category = new ActionCategory (_("Path"), 1);
 		never_loaded = true;
+		signals = new RegisteredSignals ();
+		var files_deleted_event = app.monitor.files_deleted.connect ((files) => {
+			foreach (unowned var file in files) {
+				var iter = folder_tree.current_children.iterator ();
+				var pos = iter.find_first ((file_data) => file_data.file.equal (file));
+				if (pos >= 0) {
+					folder_tree.current_children.model.remove ((uint) pos);
+				}
+			}
+		});
+		signals.add (app.monitor, files_deleted_event);
 	}
 
 	void init () {
@@ -441,6 +453,18 @@ public class Gth.Browser : Gtk.Box {
 		return file_data?.file;
 	}
 
+	public GenericList<FileData> get_selected_files () {
+		var files = new GenericList<FileData> ();
+		var selection = file_grid.model.get_selection ();
+		var n_selected = selection.get_size ();
+		for (var i = 0; i < n_selected; i++) {
+			var pos = selection.get_nth (i);
+			var selected_file = file_grid.model.get_item (pos) as FileData;
+			files.model.append (selected_file);
+		}
+		return files;
+	}
+
 	bool is_selected (File file) {
 		var selection = file_grid.model.get_selection ();
 		for (int64 idx = 0; idx < selection.get_size (); idx++) {
@@ -727,6 +751,18 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("reload", null);
 		action.activate.connect (() => reload ());
 		action_group.add_action (action);
+
+		action = new SimpleAction ("delete", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if (files.is_empty ()) {
+				return;
+			}
+			window.with_new_job (_("Deleting Files"), JobFlags.FOREGROUND, (job) => {
+				window.file_manager.delete_files.begin (files, job);
+			});
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {
@@ -883,6 +919,10 @@ public class Gth.Browser : Gtk.Box {
 				search_job = null;
 			}
 		}
+	}
+
+	public void release_resources () {
+		signals.disconnect_all ();
 	}
 
 	public void save_preferences (bool page_visible) {

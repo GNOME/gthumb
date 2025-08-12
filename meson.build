@@ -399,6 +399,7 @@ executable(
     'Window.vala',
     'ReadText.vala',
     'ReadFilename.vala',
+    'FileManager.vala',
     bookmarks_files,
     catalogs_files,
     comments_files,

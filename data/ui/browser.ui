@@ -320,9 +320,17 @@
     </child>
   </template>
   <menu id="file_menu">
-    <item>
-      <attribute name="label" translatable="yes">Open _With…</attribute>
-      <attribute name="action">win.open-with</attribute>
-    </item>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open _With…</attribute>
+        <attribute name="action">win.open-with</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">win.delete</attribute>
+      </item>
+    </section>
   </menu>
 </interface>

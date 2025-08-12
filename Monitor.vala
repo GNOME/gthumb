@@ -1,4 +1,4 @@
-public class Gth.Monitor {
+public class Gth.Monitor : Object {
 	public enum Event {
 		CREATED,
 		DELETED,
@@ -16,4 +16,6 @@ public class Gth.Monitor {
 	// public signal void metadata_changed (Gth.FileData file);
 
 	public signal void file_changed (File file, Event event);
+
+	public signal void files_deleted (GenericList<File> files);
 }

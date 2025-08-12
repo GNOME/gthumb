@@ -3,6 +3,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public Gth.JobQueue jobs;
 	public bool closing;
 	public SimpleActionGroup action_group;
+	public FileManager file_manager;
 
 	public enum Page {
 		NONE = 0,
@@ -20,6 +21,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				close ();
 			}
 		});
+		file_manager = new FileManager (this);
 		closing = false;
 		action_group = new SimpleActionGroup ();
 		insert_action_group ("win", action_group);
@@ -203,6 +205,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			toast.action_name = "win.cancel-job";
 			toast.action_target = new Variant.uint64 (job.id);
 			toast.priority = Adw.ToastPriority.HIGH;
+			toast.timeout = 0;
 			job.toast = toast;
 			add_toast (toast);
 		}
@@ -280,6 +283,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			viewer.save_preferences (current_page == Page.VIEWER);
 		}
 		viewer.release_resources ();
+		browser.release_resources ();
 	}
 
 	public GenericArray<Gth.FileData> get_selected () {
