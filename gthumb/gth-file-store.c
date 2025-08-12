@@ -806,7 +806,7 @@ _gth_file_store_update_visibility (GthFileStore *file_store,
 	GthFileRow **new_rows = NULL;
 	guint        new_rows_n = 0;
 	int          i;
-	GList       *files;
+	GthFileData **files;
 	GHashTable  *files_index;
 	GList       *scan;
 	GthFileData *file;
@@ -880,7 +880,7 @@ g_print ("UPDATE VISIBILITY\n");
 	/* store the new_rows file positions in an hash table for
 	 * faster searching. */
 	files_index = g_hash_table_new (g_direct_hash, g_direct_equal);
-	files = NULL;
+	files = g_malloc (sizeof (GthFileData*) * (all_rows_n + 1));
 	for (i = 0; i < all_rows_n; i++) {
 		GthFileRow *row = all_rows[i];
 
@@ -889,12 +889,12 @@ g_print ("UPDATE VISIBILITY\n");
 		 * present and when the file is in the first position.
 		 * (g_hash_table_lookup returns NULL if the file is not present) */
 		g_hash_table_insert (files_index, row->file_data, GINT_TO_POINTER (i + 1));
-		files = g_list_prepend (files, g_object_ref (row->file_data));
+		files[i] = g_object_ref (row->file_data);
 	}
-	files = g_list_reverse (files);
+	files[i++] = NULL;
 
 	new_rows_n = 0;
-	gth_test_set_file_list (file_store->priv->filter, files);
+	gth_test_take_files (file_store->priv->filter, files, all_rows_n);
 	while ((file = gth_test_get_next (file_store->priv->filter)) != NULL) {
 		i = GPOINTER_TO_INT (g_hash_table_lookup (files_index, file));
 		g_assert (i != 0);
@@ -904,7 +904,6 @@ g_print ("UPDATE VISIBILITY\n");
 		new_rows_n++;
 	}
 
-	_g_object_list_unref (files);
 	g_hash_table_unref (files_index);
 
 	/* create the new visible rows array */

@@ -178,12 +178,13 @@ qsort_campare_func (gconstpointer a,
 
 
 static void
-gth_filter_set_file_list (GthTest *test,
-			  GList   *files)
+gth_filter_take_files (GthTest      *test,
+		       GthFileData **files,
+		       int           n_files)
 {
 	GthFilter *filter = GTH_FILTER (test);
 
-	GTH_TEST_CLASS (gth_filter_parent_class)->set_file_list (test, files);
+	GTH_TEST_CLASS (gth_filter_parent_class)->take_files (test, files, n_files);
 
 	if ((filter->priv->limit_type != GTH_LIMIT_TYPE_NONE)
 	    && (filter->priv->sort_name != NULL)
@@ -451,7 +452,7 @@ gth_filter_class_init (GthFilterClass *klass)
 
 	test_class = GTH_TEST_CLASS (klass);
 	test_class->get_attributes = gth_filter_get_attributes;
-	test_class->set_file_list = gth_filter_set_file_list;
+	test_class->take_files = gth_filter_take_files;
 	test_class->match = gth_filter_match;
 	test_class->create_control = gth_filter_real_create_control;
 }

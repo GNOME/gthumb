@@ -89,8 +89,9 @@ struct _GthTestClass {
 	void          (*focus_control)        (GthTest     *test);
 	GthMatch      (*match)                (GthTest     *test,
 			                       GthFileData *fdata);
-	void          (*set_file_list)        (GthTest     *test,
-					       GList       *files);
+	void          (*take_files)           (GthTest     *test,
+					       GthFileData **files,
+					       int          n_files);
 	GthFileData * (*get_next)             (GthTest     *test);
 };
 
@@ -109,8 +110,9 @@ void          gth_test_focus_control       (GthTest      *test);
 void          gth_test_changed             (GthTest      *test);
 GthMatch      gth_test_match               (GthTest      *test,
 					    GthFileData  *fdata);
-void          gth_test_set_file_list       (GthTest      *test,
-					    GList        *files);
+void          gth_test_take_files          (GthTest      *test,
+					    GthFileData **files,
+					    int           n_files);
 GthFileData * gth_test_get_next            (GthTest      *test);
 
 G_END_DECLS

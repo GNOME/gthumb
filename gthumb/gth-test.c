@@ -75,6 +75,20 @@ gth_test_error_quark (void)
 
 
 static void
+_free_files (GthTest *self)
+{
+	if (self->files == NULL) {
+		return;
+	}
+	for (int i = 0; i < self->n_files; i++) {
+		g_object_unref (self->files[i]);
+	}
+	g_free (self->files);
+	self->files = NULL;
+}
+
+
+static void
 gth_test_finalize (GObject *object)
 {
 	GthTest *self;
@@ -84,7 +98,7 @@ gth_test_finalize (GObject *object)
 	g_free (self->priv->id);
 	g_free (self->priv->attributes);
 	g_free (self->priv->display_name);
-	g_free (self->files);
+	_free_files (self);
 
 	G_OBJECT_CLASS (gth_test_parent_class)->finalize (object);
 }
@@ -128,21 +142,16 @@ base_match (GthTest     *self,
 
 
 static void
-base_set_file_list (GthTest *self,
-	 	    GList   *files)
+base_take_files (GthTest      *self,
+		 GthFileData **files,
+		int           n_files)
 {
-	GList *scan;
-	int    i;
-
-	self->n_files = g_list_length (files);
-
-	g_free (self->files);
-	self->files = g_malloc (sizeof (GthFileData*) * (self->n_files + 1));
-
-	for (scan = files, i = 0; scan; scan = scan->next)
-		self->files[i++] = scan->data;
-	self->files[i++] = NULL;
-
+	if (files == self->files) {
+		return;
+	}
+	_free_files (self);
+	self->n_files = n_files;
+	self->files = files;
 	self->iterator = 0;
 }
 
@@ -170,8 +179,7 @@ base_get_next (GthTest *self)
 		file = NULL;
 
 	if (file == NULL) {
-		g_free (self->files);
-		self->files = NULL;
+		_free_files (self);
 	}
 
 	return file;
@@ -278,7 +286,7 @@ gth_test_class_init (GthTestClass *klass)
 	klass->update_from_control = base_update_from_control;
 	klass->focus_control = base_focus_control;
 	klass->match = base_match;
-	klass->set_file_list = base_set_file_list;
+	klass->take_files = base_take_files;
 	klass->get_next = base_get_next;
 
 	/* properties */
@@ -417,10 +425,11 @@ gth_test_match (GthTest     *self,
 }
 
 void
-gth_test_set_file_list (GthTest *self,
-		        GList   *files)
+gth_test_take_files (GthTest      *self,
+			GthFileData **files,
+			int           n_files)
 {
-	GTH_TEST_GET_CLASS (self)->set_file_list (self, files);
+	GTH_TEST_GET_CLASS (self)->take_files (self, files, n_files);
 }
 
 
