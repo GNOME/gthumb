@@ -35,7 +35,7 @@ public class Gth.FolderTree : Gtk.Box {
 	construct {
 		current_root = null;
 		current_folder = null;
-		current_children = null;
+		current_children = new GenericList<FileData>();
 		roots = new GenericList<FileData>();
 		show_hidden = false;
 		sort = { null, false };
@@ -239,7 +239,7 @@ public class Gth.FolderTree : Gtk.Box {
 					current_root = yield source.read_metadata (root, "*", local_job.cancellable);
 				}
 				current_folder = file_data;
-				current_children = children;
+				current_children.copy (children);
 			}
 
 			//if (load_action != LoadAction.OPEN_FROM_HISTORY) {

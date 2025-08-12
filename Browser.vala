@@ -14,8 +14,7 @@ public class Gth.Browser : Gtk.Box {
 		CATALOGS,
 	}
 
-	public GenericList<FileData> visible_files;
-	public Gth.Sort sort = { null, false };
+	public IterableList<FileData> visible_files;
 	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
 	SidebarState sidebar_state = SidebarState.NONE;
@@ -24,9 +23,10 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;
 	public bool never_loaded;
+	public Gth.FileSorter file_sorter;
+	public Gth.FileFilter file_filter;
 
 	construct {
-		visible_files = new GenericList<FileData>();
 		thumbnailer = new Thumbnailer (this);
 		history = new History (this);
 		current_parents = null;
@@ -74,14 +74,17 @@ public class Gth.Browser : Gtk.Box {
 		content_view.max_sidebar_width = (double) app.settings.get_int (PREF_BROWSER_PROPERTIES_WIDTH);
 
 		// Restore settings.
-		sort = {
+
+		file_sorter.set_order (
 			app.migration.test.get_new_key (app.settings.get_string (PREF_BROWSER_SORT_TYPE)),
-			app.settings.get_boolean (PREF_BROWSER_SORT_INVERSE)
-		};
+			app.settings.get_boolean (PREF_BROWSER_SORT_INVERSE));
+
 		general_filter = app.get_general_filter ();
 		active_filter = app.get_last_active_filter ();
-		fast_file_type = app.settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
 		show_hidden_files = app.settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
+		file_filter.update_filter ();
+
+		fast_file_type = app.settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
 		thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 		folder_tree.sort = {
 			app.settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE),
@@ -96,9 +99,10 @@ public class Gth.Browser : Gtk.Box {
 
 	async void load_folder (File location, LoadAction load_action) throws Error {
 		thumbnailer.cancel ();
+		freeze_thumbnail_list ();
 		folder_tree.list_attributes = get_list_attributes (true);
 		yield folder_tree.load_folder (location, load_action);
-		update_thumbnail_list ();
+		thaw_thumbnail_list ();
 		update_title ();
 		update_load_sensitivity ();
 		update_location_commands ();
@@ -179,9 +183,12 @@ public class Gth.Browser : Gtk.Box {
 		open_location (folder_tree.current_folder.file, LoadAction.OPEN_FROM_HISTORY);
 	}
 
-	public void update_sort_order (string name, bool inverse) {
-		sort = { name, inverse };
-		update_thumbnail_list ();
+	public void set_file_order (string name, bool inverse) {
+		file_sorter.set_order (name, inverse);
+	}
+
+	public void set_file_inverse_order (bool inverse) {
+		file_sorter.set_inverse (inverse);
 	}
 
 	void set_sidebar_state (SidebarState state) {
@@ -206,7 +213,8 @@ public class Gth.Browser : Gtk.Box {
 	void set_show_hidden (bool show) {
 		show_hidden_files = show;
 		folder_tree.show_hidden = show_hidden_files;
-		update_thumbnail_list ();
+		file_filter.update_filter ();
+		update_total_files ();
 	}
 
 	public void open_file_context_menu (Gth.FileListItem item, int x, int y) {
@@ -261,20 +269,18 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		// Attributes required by the filter.
-		unowned var filter = get_file_filter ();
-		if (filter.has_attributes ()) {
-			attributes.append (",");
-			attributes.append (filter.attributes);
+		if (file_filter.filter != null) {
+			if (file_filter.filter.has_attributes ()) {
+				attributes.append (",");
+				attributes.append (file_filter.filter.attributes);
+			}
 		}
 
 		// Attributes required for sorting.
-		if (sort.name != null) {
-			var sort_info = app.get_sorter_by_id (sort.name);
-			if (sort_info != null) {
-				if (!Strings.empty (sort_info.required_attributes)) {
-					attributes.append (",");
-					attributes.append (sort_info.required_attributes);
-				}
+		if (file_sorter.sort_info != null) {
+			if (!Strings.empty (file_sorter.sort_info.required_attributes)) {
+				attributes.append (",");
+				attributes.append (file_sorter.sort_info.required_attributes);
 			}
 		}
 
@@ -298,21 +304,18 @@ public class Gth.Browser : Gtk.Box {
 		return list_attributes;
 	}
 
-	Gth.Filter? file_filter = null;
-
-	unowned Gth.Filter get_file_filter (bool recalc = false) {
-		if ((file_filter == null) || recalc) {
-			file_filter = app.add_general_filter (active_filter);
-			if (!show_hidden_files) {
-				file_filter.tests.add (new Gth.TestVisible ());
-			}
+	Gth.Filter get_file_filter () {
+		var filter = app.add_general_filter (active_filter);
+		if (!show_hidden_files) {
+			filter.tests.add (new Gth.TestVisible ());
 		}
-		return file_filter;
+		return filter;
 	}
 
 	void update_active_filter () {
 		active_filter = filter_bar.filter.duplicate ();
-		update_thumbnail_list ();
+		file_filter.update_filter ();
+		update_total_files ();
 	}
 
 	public void update_title () {
@@ -325,52 +328,37 @@ public class Gth.Browser : Gtk.Box {
 		location_button.label = window.title;
 	}
 
-	void update_thumbnail_list () {
-		// Filter the files.
-		var visible_children = new GenericList<FileData>();
-		var filter = get_file_filter (true);
-		var iter = filter.iterator (folder_tree.current_children);
-		while (iter.next ()) {
-			visible_children.model.append (iter.get ());
-		}
+	Gtk.SelectionModel grid_model = null;
+	ListModel sorted_model = null;
+	ListModel filtered_model = null;
 
-		// Sort the files.
-		Gth.Sort local_sort = {
-			folder_tree.current_folder.get_sort_name (sort.name),
-			folder_tree.current_folder.get_inverse_order (sort.inverse)
-		};
-		if ((local_sort.name != filter.sort.name) || (local_sort.inverse != filter.sort.inverse)) {
-			unowned var sort_info = app.get_sorter_by_id (local_sort.name);
-			if (sort_info == null) {
-				sort_info = app.get_sorter_by_id ("File::Name");
-			}
-			if (sort_info.cmp_func != null) {
-				visible_children.model.sort ((a, b) => {
-					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (local_sort.inverse)
-						result *= -1;
-					return result;
-				});
-			}
-		}
-
-		// Update the view model.
-		var grid_model = file_grid.model;
+	void freeze_thumbnail_list () {
+		grid_model = file_grid.model;
+		sorted_model = file_sort_model.model;
+		filtered_model = file_filter_model.model;
 		file_grid.model = null;
-		visible_files.model.remove_all ();
+		file_sort_model.model = null;
+		file_filter_model.model = null;
+	}
+
+	void update_total_files () {
 		total_files = 0;
 		total_size = 0;
-		foreach (unowned var file in visible_children) {
-			visible_files.model.append (file);
+		foreach (unowned var file in visible_files) {
 			total_files++;
 			total_size += file.info.get_size ();
 		}
-		file_grid.model = grid_model;
-
 		status.set_list_info (total_files, total_size);
 		window.viewer.set_list_info (total_files);
 		update_folder_status ();
+	}
 
+	void thaw_thumbnail_list () {
+		file_filter.reset ();
+		file_filter_model.model = filtered_model;
+		file_sort_model.model = sorted_model;
+		file_grid.model = grid_model;
+		update_total_files ();
 		status.set_selection_info (0, 0);
 	}
 
@@ -454,9 +442,9 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	bool is_selected (File file) {
-		var selected = file_grid.model.get_selection ();
-		for (int64 idx = 0; idx < selected.get_size (); idx++) {
-			var pos = selected.get_nth ((uint) idx);
+		var selection = file_grid.model.get_selection ();
+		for (int64 idx = 0; idx < selection.get_size (); idx++) {
+			var pos = selection.get_nth ((uint) idx);
 			var selected_file = file_grid.model.get_item (pos) as FileData;
 			if (selected_file.file.equal (file)) {
 				return true;
@@ -563,14 +551,18 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-sort-name", GLib.VariantType.STRING, new Variant.string (sort.name ?? ""));
+		action = new SimpleAction.stateful ("set-sort-name",
+			GLib.VariantType.STRING,
+			new Variant.string (file_sorter.name ?? ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-inverse-order", GLib.VariantType.BOOLEAN, new Variant.boolean (sort.inverse));
+		action = new SimpleAction.stateful ("set-inverse-order",
+			GLib.VariantType.BOOLEAN,
+			new Variant.boolean (file_sorter.inverse));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
 			// TODO
@@ -743,8 +735,19 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
+	Gtk.SortListModel file_sort_model;
+	Gtk.FilterListModel file_filter_model;
+
 	void init_file_grid () {
-		file_grid.model = new Gtk.MultiSelection (visible_files.model);
+		file_filter = new Gth.FileFilter (this);
+		file_filter_model = new Gtk.FilterListModel (folder_tree.current_children.model, file_filter);
+
+		file_sorter = new Gth.FileSorter (this);
+		file_sort_model = new Gtk.SortListModel (file_filter_model, file_sorter);
+
+		visible_files = new IterableList<FileData> ((ListModel) file_sort_model);
+
+		file_grid.model = new Gtk.MultiSelection (file_sort_model);
 		file_grid.model.selection_changed.connect (() => {
 			update_selection_info ();
 		});
@@ -915,9 +918,9 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 
-		if (sort.name != null) {
-			app.settings.set_string (PREF_BROWSER_SORT_TYPE, app.migration.test.get_old_key (sort.name));
-			app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, sort.inverse);
+		if (file_sorter.name != null) {
+			app.settings.set_string (PREF_BROWSER_SORT_TYPE, app.migration.test.get_old_key (file_sorter.name));
+			app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, file_sorter.inverse);
 		}
 
 		if (folder_tree.sort.name != null) {
@@ -981,13 +984,11 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		folder_tree.current_children.model.append (file_data);
-
-		var filter = get_file_filter ();
-		if (!filter.match (file_data)) {
+		file_filter.reset ();
+		if ((file_filter.filter != null) && !file_filter.filter.match (file_data)) {
 			return;
 		}
 
-		visible_files.model.append (file_data);
 		total_files++;
 		total_size += file_data.info.get_size ();
 
@@ -1055,7 +1056,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Gth.FolderStatus folder_status;
 
 	Gth.Test general_filter;
-	Gth.Test active_filter;
+	public Gth.Test active_filter;
 	Gth.Thumbnailer thumbnailer;
 	Gth.History history;
 	double initial_sidebar_width;
@@ -1070,4 +1071,97 @@ public class Gth.Browser : Gtk.Box {
 	ActionCategory parents_category;
 	uint total_files = 0;
 	uint64 total_size = 0;
+}
+
+public class Gth.FileSorter : Gtk.Sorter {
+	public string name;
+	public bool inverse;
+	public weak Gth.SortInfo? sort_info;
+
+	public FileSorter (Browser _browser) {
+		name = null;
+		inverse = false;
+		sort_info = null;
+		browser = _browser;
+	}
+
+	public void set_order (string _name, bool _inverse) {
+		name = _name;
+		inverse = _inverse;
+		sort_info = app.get_sorter_by_id (name);
+		if (sort_info == null) {
+			sort_info = app.get_sorter_by_id ("File::Name");
+		}
+		changed (Gtk.SorterChange.DIFFERENT);
+	}
+
+	public void set_inverse (bool _inverse) {
+		if (inverse == _inverse) {
+			return;
+		}
+		inverse = _inverse;
+		changed (Gtk.SorterChange.INVERTED);
+	}
+
+	public int cmp_func (Object a, Object b) {
+		var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+		return inverse ? -result : result;
+	}
+
+	public override Gtk.Ordering compare (Object? a, Object? b) {
+		var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+		if (result == 0) {
+			return Gtk.Ordering.EQUAL;
+		}
+		if (inverse) {
+			result = -result;
+		}
+		return (result < 0) ? Gtk.Ordering.SMALLER : Gtk.Ordering.LARGER;
+	}
+
+	public override Gtk.SorterOrder get_order () {
+		return Gtk.SorterOrder.TOTAL;
+	}
+
+	weak Browser browser;
+}
+
+public class Gth.FileFilter : Gtk.Filter {
+	public Gth.Filter filter;
+
+	public FileFilter (Browser _browser) {
+		filter = null;
+		browser = _browser;
+		visible = new GenericSet<File> (Util.file_hash, Util.file_equal);
+	}
+
+	public void update_filter () {
+		filter = app.add_general_filter (browser.active_filter);
+		if (!browser.show_hidden_files) {
+			filter.tests.add (new Gth.TestVisible ());
+		}
+		reset ();
+	}
+
+	public void reset () {
+		visible.remove_all ();
+		var iter = filter.iterator (browser.folder_tree.current_children);
+		while (iter.next ()) {
+			unowned var file_data = iter.get ();
+			visible.add (file_data.file);
+		}
+		changed (Gtk.FilterChange.DIFFERENT);
+	}
+
+	public override bool match (Object? item) {
+		unowned var file_data = (FileData) item;
+		return visible.contains (file_data.file);
+	}
+
+	public override Gtk.FilterMatch get_strictness () {
+		return Gtk.FilterMatch.SOME;
+	}
+
+	weak Browser browser;
+	GenericSet<File> visible;
 }

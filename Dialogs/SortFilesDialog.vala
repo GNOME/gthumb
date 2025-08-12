@@ -4,8 +4,8 @@ public class Gth.SortFilesDialog : Adw.PreferencesDialog {
 		browser = _browser;
 
 		sort = {
-			browser.folder_tree.current_folder.get_sort_name (browser.sort.name),
-			browser.folder_tree.current_folder.get_inverse_order (browser.sort.inverse)
+			browser.folder_tree.current_folder.get_sort_name (browser.file_sorter.name),
+			browser.folder_tree.current_folder.get_inverse_order (browser.file_sorter.inverse)
 		};
 
 		Gtk.CheckButton first_check_button = null;
@@ -25,7 +25,7 @@ public class Gth.SortFilesDialog : Adw.PreferencesDialog {
 			}
 			check_button.toggled.connect (() => {
 				sort.name = id;
-				browser.update_sort_order (sort.name, sort.inverse);
+				browser.set_file_order (sort.name, sort.inverse);
 			});
 			row.add_prefix (check_button);
 			row.activatable_widget = check_button;
@@ -36,7 +36,7 @@ public class Gth.SortFilesDialog : Adw.PreferencesDialog {
 		inverse_order_switch.active = sort.inverse;
 		inverse_order_switch.notify["active"].connect (() => {
 			sort.inverse = inverse_order_switch.active;
-			browser.update_sort_order (sort.name, sort.inverse);
+			browser.set_file_inverse_order (sort.inverse);
 		});
 	}
 

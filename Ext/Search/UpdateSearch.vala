@@ -115,5 +115,5 @@ public class Gth.UpdateSearch {
 
 	CatalogSearch search;
 	Adw.Toast toast;
-	GenericList.Iterator<SearchSource> source_iterator;
+	Gth.ListIterator<SearchSource> source_iterator;
 }
