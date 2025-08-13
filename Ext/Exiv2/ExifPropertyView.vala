@@ -3,7 +3,7 @@ public class Gth.ExifPropertyView : Gth.FilePropertyView {
 		filter = FilePropertyView.Filter.EXIF;
 	}
 
-	public override unowned string get_name () {
+	public override unowned string get_id () {
 		return "exif-properties";
 	}
 

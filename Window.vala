@@ -174,6 +174,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 			stack.set_visible_child (viewer);
 			viewer.update_title ();
 			break;
+		case Page.NONE:
+			break;
 		}
 		update_sensitivity ();
 	}
@@ -228,7 +230,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	IccProfile monitor_profile = null;
 	bool no_monitor_profile = false;
 
-	public async IccProfile get_monitor_profile (Cancellable cancellable) {
+	public async IccProfile? get_monitor_profile (Cancellable cancellable) {
 		if (no_monitor_profile) {
 			return null;
 		}
@@ -281,7 +283,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return browser.get_selected ();
 	}
 
-	public File get_current_file () {
+	public File? get_current_file () {
 		if (current_page == Page.VIEWER) {
 			return viewer.current_file.file;
 		}
@@ -394,7 +396,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("cancel-job", VariantType.UINT64);
 		action.activate.connect ((_action, param) => {
-			var id = param.get_uint64 ();
+			// var id = param.get_uint64 ();
 			// TODO
 		});
 		action_group.add_action (action);

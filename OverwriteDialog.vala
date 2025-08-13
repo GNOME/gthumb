@@ -18,16 +18,26 @@ public class Gth.OverwriteDialog : Object {
 
 	public async OverwriteResponse ask_image (Gth.Image image, File destination, OverwriteRequest request, Cancellable cancellable) {
 		// TODO: load the destination thumbnail, make the image thumbnail
-		destination_info = yield Files.query_info (destination, REQUIRED_ATTRIBUTES, cancellable);
+		try {
+			destination_info = yield Files.query_info (destination, REQUIRED_ATTRIBUTES, cancellable);
+		}
+		catch (Error error) {
+			return OverwriteResponse.CANCEL;
+		}
 		var dialog = new_dialog (request, destination_info);
 		return yield ask (dialog, request, cancellable);
 	}
 
 	public async OverwriteResponse ask_file (File source, File destination, OverwriteRequest request, Cancellable cancellable) {
 		// TODO: load the source and destination thumbnails
-		destination_info = yield Files.query_info (destination, REQUIRED_ATTRIBUTES, cancellable);
-		if (destination.equal (source)) {
-			request = OverwriteRequest.SAME_FILE;
+		try {
+			destination_info = yield Files.query_info (destination, REQUIRED_ATTRIBUTES, cancellable);
+			if (destination.equal (source)) {
+				request = OverwriteRequest.SAME_FILE;
+			}
+		}
+		catch (Error error) {
+			return OverwriteResponse.CANCEL;
 		}
 		var dialog = new_dialog (request, destination_info);
 		return yield ask (dialog, request, cancellable);
@@ -35,16 +45,11 @@ public class Gth.OverwriteDialog : Object {
 
 	async OverwriteResponse ask (Adw.AlertDialog dialog, OverwriteRequest request, Cancellable cancellable) {
 		while (true) {
-			try {
-				var response = yield dialog.choose (parent, cancellable);
-				if (response == "overwrite") {
-					return OverwriteResponse.OVERWRITE;
-				}
-				if (response != "rename") {
-					return OverwriteResponse.CANCEL;
-				}
+			var response = yield dialog.choose (parent, cancellable);
+			if (response == "overwrite") {
+				return OverwriteResponse.OVERWRITE;
 			}
-			catch (Error error) {
+			if (response != "rename") {
 				return OverwriteResponse.CANCEL;
 			}
 
@@ -93,6 +98,9 @@ public class Gth.OverwriteDialog : Object {
 				"cancel",  _("_Cancel"),
 				"rename", _("_Rename")
 			);
+			break;
+
+		case OverwriteRequest.NONE:
 			break;
 		}
 

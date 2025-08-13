@@ -203,7 +203,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		list_view.header_factory = header_factory;
 	}
 
-	public virtual unowned string get_name () {
+	public virtual unowned string get_id () {
 		return "file-properties";
 	}
 

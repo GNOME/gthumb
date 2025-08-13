@@ -65,14 +65,14 @@ public class Gth.PropertySidebar : Gtk.Box {
 		var button = new Gtk.ToggleButton ();
 		button.child = new Gtk.Label (view.get_title ());
 		button.action_name = "sidebar.set-view";
-		button.action_target = new Variant.string (view.get_name ());
+		button.action_target = new Variant.string (view.get_id ());
 		button.hexpand = true;
 		button.add_css_class ("flat");
 		header.append (button);
 
-		stack.add_named (view, view.get_name ());
+		stack.add_named (view, view.get_id ());
 
-		pages.add ({ view, button, view.get_name () });
+		pages.add ({ view, button, view.get_id () });
 	}
 
 	[GtkCallback]

@@ -8,7 +8,7 @@ public class Gth.AppSelector : Object {
 		});
 		dialog.close_request.connect (() => {
 			if (callback != null) {
-				Idle.add (callback);
+				Idle.add ((owned) callback);
 				callback = null;
 			}
 			return false;

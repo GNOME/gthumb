@@ -3,7 +3,7 @@ public class Gth.IptcPropertyView : Gth.FilePropertyView {
 		filter = FilePropertyView.Filter.IPTC;
 	}
 
-	public override unowned string get_name () {
+	public override unowned string get_id () {
 		return "iptc-properties";
 	}
 

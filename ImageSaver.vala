@@ -6,7 +6,8 @@ public class Gth.ImageSaver {
 	}
 
 	public async void save_to_stream (Image image, OutputStream stream, string content_type, Cancellable cancellable) throws Error {
-		var job = new Job (save_to_stream.callback);
+		var job = new Job ();
+		job.callback = save_to_stream.callback;
 		job.stream = stream;
 		job.content_type = content_type;
 		job.image = image;
@@ -42,8 +43,7 @@ public class Gth.ImageSaver {
 		public Image image;
 		public Cancellable cancellable;
 
-		public Job (SourceFunc callback) {
-			base (callback);
+		public Job () {
 			image = null;
 		}
 

@@ -107,7 +107,11 @@ public class Gth.Catalog : Object {
 		}
 		info.set_sort_order (1);
 		info.set_attribute_boolean ("gthumb::no-child", true);
-		basename = Filename.to_utf8 (basename, -1, null, null);
+		try {
+			basename = Filename.to_utf8 (basename, -1, null, null);
+		}
+		catch (Error error) {
+		}
 		basename = Util.remove_extension (basename);
 		info.set_display_name (basename);
 		info.set_edit_name (basename);
@@ -168,8 +172,13 @@ public class Gth.Catalog : Object {
 		}
 	}
 
-	public Gth.Catalog duplicate () {
-		return Catalog.new_from_data (file, to_xml ());
+	public Gth.Catalog? duplicate () {
+		try {
+			return Catalog.new_from_data (file, to_xml ());
+		}
+		catch (Error error) {
+			return null;
+		}
 	}
 
 	public virtual void update_file_info (FileInfo info) {
@@ -209,8 +218,13 @@ public class Gth.Catalog : Object {
 		}
 		else if (file != null) {
 			var basename = file.get_basename ();
-			var edit_name = Filename.to_utf8 (basename, -1, null, null);
-			info.set_edit_name (edit_name);
+			try {
+				var edit_name = Filename.to_utf8 (basename, -1, null, null);
+				info.set_edit_name (edit_name);
+			}
+			catch (Error error) {
+				info.set_edit_name (basename);
+			}
 		}
 
 		// Sort order

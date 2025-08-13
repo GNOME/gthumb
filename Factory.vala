@@ -5,17 +5,17 @@ public class Work.Factory {
 		jobs = new AsyncQueue<Work.Job>();
 		n_workers = _n_workers;
 		workers = new Queue<Thread<void>>();
-		ThreadFunc<void> worker_func = () => {
-			var buffer = new uint8[BUFFER_SIZE];
-			while (true) {
-				var job = jobs.pop ();
-				if (job.operation == Job.Operation.EXIT)
-					break;
-				job.try_run (buffer);
-			}
-		};
 		for (uint i = 0; i < n_workers; i++) {
-			workers.push_head (new Thread<void> ("Factory::Worker%u".printf (i), worker_func));
+			ThreadFunc<void> worker_func = () => {
+				var buffer = new uint8[BUFFER_SIZE];
+				while (true) {
+					var job = jobs.pop ();
+					if (job.operation == Job.Operation.EXIT)
+						break;
+					job.try_run (buffer);
+				}
+			};
+			workers.push_head (new Thread<void> ("Factory::Worker%u".printf (i), (owned) worker_func));
 		}
 	}
 
@@ -51,9 +51,8 @@ public class Work.Job {
 	public SourceFunc callback;
 	public Error error;
 
-	public Job (SourceFunc _callback) {
+	public Job () {
 		operation = Operation.RUN;
-		callback = _callback;
 		error = null;
 	}
 

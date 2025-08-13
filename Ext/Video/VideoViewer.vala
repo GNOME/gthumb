@@ -48,7 +48,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		audio_status = builder.get_object ("audio_status") as Gth.FolderStatus;
 
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
-		scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
+		scroll_action = (ScrollAction) settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (view_stack);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("video-view");
@@ -72,12 +72,12 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
 		menu_button.notify["active"].connect ((obj, spec) => {
-			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+			window.viewer.on_actived_popup (((Gtk.MenuButton) obj).active);
 		});
 
 		menu_button = builder.get_object ("options_button") as Gtk.MenuButton;
 		menu_button.notify["active"].connect ((obj, spec) => {
-			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+			window.viewer.on_actived_popup (((Gtk.MenuButton) obj).active);
 		});
 
 		unowned var adj = builder.get_object ("position_adjustment") as Gtk.Adjustment;
@@ -825,7 +825,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		settings.changed.connect ((key) => {
 			switch (key) {
 			case PREF_VIDEO_SCROLL_ACTION:
-				scroll_action = settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
+				scroll_action = (ScrollAction) settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 				break;
 			}
 		});
@@ -855,7 +855,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	ulong volume_changed_id;
 	double rate;
 	bool loop;
-	unowned Gtk.Revealer mediabar_revealer;
 	unowned Gtk.Widget mediabar;
 	bool paused;
 	int video_width;

@@ -27,7 +27,7 @@ public class Gth.ReadText : Object {
 		});
 		dialog.closed.connect (() => {
 			if (callback != null) {
-				Idle.add (callback);
+				Idle.add ((owned) callback);
 				callback = null;
 			}
 		});
@@ -41,7 +41,7 @@ public class Gth.ReadText : Object {
 			if (is_filename) {
 				var ext_start = Util.get_extension_start (default_value);
 				if (ext_start > 1) {
-					dialog.entry.select_region (0, default_value.char_count (ext_start - 1));
+					dialog.entry.select_region (0, default_value.char_count (ext_start));
 				}
 			}
 		});

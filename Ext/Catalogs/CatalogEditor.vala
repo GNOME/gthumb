@@ -1,5 +1,5 @@
 public class Gth.CatalogEditor : Object {
-	public async Gth.Catalog? edit_catalog (Gtk.Window? parent, File file = null, Cancellable? cancellable = null) throws Error {
+	public async Gth.Catalog? edit_catalog (Gtk.Window? parent, File? file = null, Cancellable? cancellable = null) throws Error {
 		callback = edit_catalog.callback;
 		dialog = new CatalogDialog ();
 		dialog.transient_for = parent;
@@ -9,7 +9,7 @@ public class Gth.CatalogEditor : Object {
 		});
 		dialog.close_request.connect (() => {
 			if (callback != null) {
-				Idle.add (callback);
+				Idle.add ((owned) callback);
 				callback = null;
 			}
 			return false;
@@ -62,10 +62,7 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 		set_catalog (catalog);
 	}
 
-	public Catalog? get_catalog () throws Error {
-		if (catalog is CatalogSearch) {
-			rules_group.update_from_options ();
-		}
+	public Catalog get_catalog () {
 		return catalog;
 	}
 
@@ -80,13 +77,17 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 
 	[GtkCallback]
 	private void on_save (Gtk.Button source) {
-		changed ();
-		catalog.name = name_row.get_text ();
-		catalog.date = time_selector.get_time ();
-		if (catalog is CatalogSearch) {
-			rules_group.update_from_options ();
+		try {
+			catalog.name = name_row.get_text ();
+			catalog.date = time_selector.get_time ();
+			if (catalog is CatalogSearch) {
+				rules_group.update_from_options ();
+			}
+			changed ();
 		}
-		changed ();
+		catch (Error error) {
+			// TODO: show error
+		}
 	}
 
 	void set_catalog (Catalog _catalog) {

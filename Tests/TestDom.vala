@@ -81,15 +81,21 @@ void check_xml (Dom.Document doc, string expected) {
 }
 
 void check_loaded_xml (Dom.Document doc) {
-	var xml = doc.to_xml ();
-	var loaded_doc = new Dom.Document ();
-	loaded_doc.load_xml (xml);
-	var loaded_xml = loaded_doc.to_xml ();
-	if (xml != loaded_xml) {
-		stderr.printf ("Expected:\n");
-		stderr.printf ("%s", xml);
-		stderr.printf ("\nGot:\n");
-		stderr.printf ("%s", loaded_xml);
+	try {
+		var xml = doc.to_xml ();
+		var loaded_doc = new Dom.Document ();
+		loaded_doc.load_xml (xml);
+		var loaded_xml = loaded_doc.to_xml ();
+		if (xml != loaded_xml) {
+			stderr.printf ("Expected:\n");
+			stderr.printf ("%s", xml);
+			stderr.printf ("\nGot:\n");
+			stderr.printf ("%s", loaded_xml);
+			n_errors++;
+		}
+	}
+	catch (Error error) {
+		stderr.printf ("%s", error.message);
 		n_errors++;
 	}
 	n_tests++;

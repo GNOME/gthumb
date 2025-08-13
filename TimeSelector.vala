@@ -24,7 +24,7 @@ public class Gth.TimeSelector : Gtk.Box {
 			}
 		});
 		date_entry.changed.connect (() => {
-			var date = new GLib.Date ();
+			GLib.Date date;
 			date.set_parse (date_entry.text);
 			selected_date = Date.from_gdate (date);
 		});

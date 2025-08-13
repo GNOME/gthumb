@@ -78,7 +78,6 @@ public class Gth.Comment : Object {
 		if (buffer[0] != '<') {
 			if (!Zip.decompress (buffer, out unzipped_buffer)) {
 				throw new IOError.INVALID_DATA ("Could not unzip the content");
-				return;
 			}
 			buffer = unzipped_buffer;
 		}

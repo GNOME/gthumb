@@ -76,8 +76,6 @@ public class Gth.Strings {
 			str_offset = str.data.length;
 		if ((str_offset == 0) && (trail_offset == 0))
 			return true;
-		var str_size = str_offset;
-		var trail_size = trail_offset;
 		unichar str_ch = 0;
 		unichar trail_ch = 0;
 		while (trail.get_prev_char (ref trail_offset, out trail_ch)

@@ -7,9 +7,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		typeof (Gth.ImageView).ensure ();
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.zoom_type = settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
-		image_view.transparency = settings.get_enum (PREF_IMAGE_TRANSPARENCY);
-		scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
+		image_view.zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
+		image_view.transparency = (TransparencyStyle) settings.get_enum (PREF_IMAGE_TRANSPARENCY);
+		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (builder.get_object ("main_view") as Gtk.Widget);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
@@ -19,12 +19,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		var zoom_button = builder.get_object ("zoom_button") as Gtk.Widget;
 		zoom_button.notify["active"].connect ((obj, spec) => {
-			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+			window.viewer.on_actived_popup (((Gtk.MenuButton) obj).active);
 		});
 
 		var options_button = builder.get_object ("options_button") as Gtk.Widget;
 		options_button.notify["active"].connect ((obj, spec) => {
-			window.viewer.on_actived_popup ((obj as Gtk.MenuButton).active);
+			window.viewer.on_actived_popup (((Gtk.MenuButton) obj).active);
 		});
 
 		zoom_adjustment = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
@@ -150,8 +150,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public bool get_pixel_size (out uint width, out uint height) {
-		if (image_view.image == null)
+		if (image_view.image == null) {
+			width = 0;
+			height = 0;
 			return false;
+		}
 		image_view.image.get_natural_size (out width, out height);
 		return true;
 	}
@@ -264,9 +267,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");
 
-		case OverwriteResponse.SKIP:
-			break;
-
 		case OverwriteResponse.OVERWRITE:
 			yield app.image_saver.replace_file (image_view.image, null,
 				file, content_type, cancellable);
@@ -278,6 +278,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			var new_content_type = app.get_content_type_from_name (new_file);
 			yield save_as (new_file, new_content_type, cancellable);
 			return new_file;
+
+		default:
+			break;
 		}
 		return null;
 	}
@@ -515,7 +518,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		settings.changed.connect ((key) => {
 			switch (key) {
 			case PREF_IMAGE_SCROLL_ACTION:
-				scroll_action = settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
+				scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 				break;
 			}
 		});

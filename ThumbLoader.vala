@@ -6,7 +6,8 @@ public class Gth.ThumbLoader {
 	}
 
 	public async Image? load_if_valid (File thumb_file, FileData file_data, Cancellable cancellable) throws Error {
-		var job = new Job (load_if_valid.callback);
+		var job = new Job ();
+		job.callback = load_if_valid.callback;
 		job.thumb_file = thumb_file;
 		job.file_data = file_data;
 		job.cancellable = cancellable;
@@ -24,8 +25,7 @@ public class Gth.ThumbLoader {
 		public Cancellable cancellable;
 		public Image image;
 
-		public Job (SourceFunc callback) {
-			base (callback);
+		public Job () {
 			image = null;
 		}
 

@@ -136,7 +136,7 @@ class Gth.History {
 			foreach (unowned var file in files) {
 				var uri = file.get_uri ();
 				bookmarks.set_is_private (uri, true);
-				bookmarks.add_application (uri, null, null);
+				bookmarks.add_application (uri, "", "");
 				idx++;
 				if (idx >= MAX_HISTORY_LENGTH) {
 					break;

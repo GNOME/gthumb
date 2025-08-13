@@ -44,7 +44,7 @@ public class Gth.Job : Object {
 		if (state != State.RUNNING) {
 			return false;
 		}
-		var time_cancelled = new GLib.DateTime.now ();
+		//var time_cancelled = new GLib.DateTime.now ();
 		//stdout.printf ("  JOB CANCELLED [%p] [%s]: %s\n",
 		//	this,
 		//	time_cancelled.format ("%H:%M:%S"),

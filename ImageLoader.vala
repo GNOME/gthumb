@@ -6,7 +6,8 @@ public class Gth.ImageLoader {
 	}
 
 	public async Image? load_stream (InputStream stream, File? file, Cancellable cancellable, uint requested_size = 0) throws Error {
-		var job = new Job (load_stream.callback);
+		var job = new Job ();
+		job.callback = load_stream.callback;
 		job.stream = stream;
 		job.file = file;
 		job.cancellable = cancellable;
@@ -36,8 +37,7 @@ public class Gth.ImageLoader {
 		public uint requested_size;
 		public Image image;
 
-		public Job (SourceFunc callback) {
-			base (callback);
+		public Job () {
 			image = null;
 		}
 
@@ -72,7 +72,7 @@ public class Gth.ImageLoader {
 }
 
 [CCode (has_target = false)]
-public delegate Gth.Image Gth.LoadFunc (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
+public delegate Gth.Image? Gth.LoadFunc (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
 
 [CCode (has_target = false)]
-public delegate Gth.Image Gth.LoadFileFunc (File file, uint requested_size, Cancellable cancellable) throws Error;
+public delegate Gth.Image? Gth.LoadFileFunc (File file, uint requested_size, Cancellable cancellable) throws Error;

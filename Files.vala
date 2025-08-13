@@ -108,7 +108,7 @@ public class Gth.Files {
 
 	const uint8[] ZERO = {0};
 
-	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable = null, uint8[] buffer, bool add_zero = false) throws Error {
+	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable, uint8[] buffer, bool add_zero= false) throws Error {
 		var result = new ByteArray ();
 		while (true) {
 			var size = stream.read (buffer, cancellable);
@@ -187,7 +187,7 @@ public class Gth.Files {
 				cancellable);
 	}
 
-	public static async void make_directory_async (File dir, Cancellable cancellable) {
+	public static async void make_directory_async (File dir, Cancellable cancellable) throws Error {
 		try {
 			yield dir.make_directory_async (Priority.DEFAULT, cancellable);
 		}
@@ -200,7 +200,7 @@ public class Gth.Files {
 
 	public static async bool query_exists (File file, Cancellable cancellable) {
 		try {
-			var info = yield file.query_info_async (FileAttribute.STANDARD_TYPE,
+			yield file.query_info_async (FileAttribute.STANDARD_TYPE,
 				FileQueryInfoFlags.NONE,
 				Priority.DEFAULT,
 				cancellable);

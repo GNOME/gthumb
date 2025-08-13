@@ -165,6 +165,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				ctx.set_source (get_transparency_pattern ());
 				ctx.fill ();
 				break;
+
+			case TransparencyStyle.GRAY:
+				break;
 			}
 		}
 		var texture = _image.get_texture_for_rect (

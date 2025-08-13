@@ -199,7 +199,7 @@ public class Gth.FileData : Object {
 		return embedded_rating;
 	}
 
-	string get_first_available_attribute (string id_list) {
+	string? get_first_available_attribute (string id_list) {
 		if (info.has_attribute (id_list)) {
 			return id_list;
 		}
@@ -220,7 +220,7 @@ public class Gth.FileData : Object {
 		return id != null;
 	}
 
-	public string get_attribute_as_string (string id_list) {
+	public string? get_attribute_as_string (string id_list) {
 		var id = get_first_available_attribute (id_list);
 		if (id == null) {
 			return null;
@@ -257,7 +257,7 @@ public class Gth.FileData : Object {
 				}
 			}
 			else if (obj is StringList) {
-				value = (obj as StringList).join (" ");
+				value = ((StringList) obj).join (" ");
 			}
 		}
 		if (value == null) {
@@ -297,7 +297,6 @@ public class Gth.FileData : Object {
 
 	public void set_thumbnail (Gth.Image image, uint cache_size) {
 		thumbnail_image = image;
-		uint width, height;
 		thumbnail_size = cache_size;
 		thumbnail_texture = thumbnail_image.get_texture ();
 		thumbnail_state = ThumbnailState.LOADED;

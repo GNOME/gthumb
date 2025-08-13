@@ -1,6 +1,6 @@
 using Gth;
 
-public Gth.Image load_video_thumbnail (File file, uint requested_size, Cancellable cancellable) throws Error {
+public Gth.Image? load_video_thumbnail (File file, uint requested_size, Cancellable cancellable) throws Error {
 	var command = Path.build_filename (Config.PRIVEXECDIR, "video-thumbnailer");
 	var tmp_output = Files.get_temp_file (".png");
 	string[] argv = {

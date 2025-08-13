@@ -105,7 +105,7 @@ public class Gth.Viewer : Gtk.Box {
 		yield current_viewer.save ();
 	}
 
-	void activate_viewer_for_file (FileData file) {
+	void activate_viewer_for_file (FileData file) throws Error {
 		if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
 			if (current_viewer != null) {
 				before_close_page ();
@@ -240,10 +240,10 @@ public class Gth.Viewer : Gtk.Box {
 	public void after_fullscreen () {
 		var local_headerbar = headerbar;
 		toolbar_view.remove (headerbar);
-		headerbar.show_start_title_buttons = false;
-		headerbar.show_end_title_buttons = false;
+		local_headerbar.show_start_title_buttons = false;
+		local_headerbar.show_end_title_buttons = false;
 		back_to_browser_button.visible = false;
-		fullscreen_toolbar_revealer.child = headerbar;
+		fullscreen_toolbar_revealer.child = local_headerbar;
 		statusbar_revealer.margin_top = 72;
 		fullscreen_button.icon_name = "exit-symbolic";
 		fullscreen_button.tooltip_text = _("Exit Fullscreen");
@@ -255,9 +255,9 @@ public class Gth.Viewer : Gtk.Box {
 	public void after_unfullscreen () {
 		var local_headerbar = headerbar;
 		fullscreen_toolbar_revealer.child = null;
-		toolbar_view.add_top_bar (headerbar);
-		headerbar.show_start_title_buttons = true;
-		headerbar.show_end_title_buttons = true;
+		toolbar_view.add_top_bar (local_headerbar);
+		local_headerbar.show_start_title_buttons = true;
+		local_headerbar.show_end_title_buttons = true;
 		back_to_browser_button.visible = true;
 		statusbar_revealer.margin_top = 24;
 		fullscreen_button.icon_name = "fullscreen-symbolic";

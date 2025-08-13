@@ -103,7 +103,7 @@ public class Gth.Bookmarks {
 			foreach (unowned var entry in entries) {
 				var uri = entry.file.get_uri ();
 				bookmark_content.set_is_private (uri, true);
-				bookmark_content.add_application (uri, null, null);
+				bookmark_content.add_application (uri, "", "");
 				bookmark_content.set_title (uri, entry.display_name);
 			}
 			var content = bookmark_content.to_data (null);

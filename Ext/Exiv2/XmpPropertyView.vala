@@ -3,7 +3,7 @@ public class Gth.XmpPropertyView : Gth.FilePropertyView {
 		filter = FilePropertyView.Filter.XMP;
 	}
 
-	public override unowned string get_name () {
+	public override unowned string get_id () {
 		return "xmp-properties";
 	}
 

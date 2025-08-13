@@ -8,7 +8,7 @@ public class Gth.FolderSelector : Object {
 		});
 		dialog.close_request.connect (() => {
 			if (callback != null) {
-				Idle.add (callback);
+				Idle.add ((owned) callback);
 				callback = null;
 			}
 			return false;
@@ -49,9 +49,9 @@ class Gth.FolderSelectorDialog : Adw.ApplicationWindow {
 		else
 			selected_folder = Files.get_home ();
 		folder_tree.load.connect ((location, action) => {
-			load_folder (location, action);
+			load_folder.begin (location, action);
 		});
-		folder_tree.load_folder (selected_folder);
+		folder_tree.load_folder.begin (selected_folder);
 	}
 
 	[GtkCallback]

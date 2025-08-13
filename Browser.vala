@@ -227,6 +227,8 @@ public class Gth.Browser : Gtk.Box {
 			vfs_button.active = false;
 			catalog_button.active = true;
 			break;
+		case SidebarState.NONE:
+			break;
 		}
 	}
 
@@ -322,14 +324,6 @@ public class Gth.Browser : Gtk.Box {
 		// Save in a variable to avoid recalculation.
 		list_attributes = attributes.str;
 		return list_attributes;
-	}
-
-	Gth.Filter get_file_filter () {
-		var filter = app.add_general_filter (active_filter);
-		if (!show_hidden_files) {
-			filter.tests.add (new Gth.TestVisible ());
-		}
-		return filter;
 	}
 
 	void update_active_filter () {
@@ -890,7 +884,7 @@ public class Gth.Browser : Gtk.Box {
 
 	void init_folder_tree () {
 		folder_tree.load.connect ((location, action) => {
-			load_folder (location, action);
+			load_folder.begin (location, action);
 		});
 	}
 
@@ -1267,7 +1261,7 @@ public class Gth.Browser : Gtk.Box {
 		clipboard.set_content (provider);
 	}
 
-	async void paste_files_from_clipboard (Job job) {
+	async void paste_files_from_clipboard (Job job) throws Error {
 		unowned var clipboard = get_clipboard ();
 		unowned string mime_type;
 		var stream = yield clipboard.read_async (
@@ -1316,7 +1310,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
 	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
-	[GtkChild] unowned Gtk.Stack second_sidebar_stack;
+	//[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
 	[GtkChild] unowned Gth.ActionList location_actions;
@@ -1330,8 +1324,6 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.Test active_filter;
 	Gth.Thumbnailer thumbnailer;
 	Gth.History history;
-	double initial_sidebar_width;
-	double initial_second_sidebar_width;
 	weak Window _window;
 	Queue<File> current_parents;
 	File last_folder = null;
