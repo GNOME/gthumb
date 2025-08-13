@@ -29,6 +29,15 @@ int main (string[] args) {
 	test_get_digits (-100, 4);
 	test_get_digits (-101, 4);
 
+	test_uri_from_path ("", "file://");
+	test_uri_from_path ("/", "file:///");
+	test_uri_from_path ("/a", "file:///a");
+	test_uri_from_path ("/a/", "file:///a/");
+	test_uri_from_path ("/a/b", "file:///a/b");
+	test_uri_from_path ("/a/b c", "file:///a/b%20c");
+	test_uri_from_path ("/a/b:c", "file:///a/b%3Ac");
+	test_uri_from_path ("/日/本", "file:///日/本");
+
 	print ("\n");
 	print ("tests: %d\n", n_tests);
 	print ("errors: %d\n", n_errors);
@@ -48,6 +57,15 @@ void test_remove_extension (string filename, string expected) {
 	var result = Gth.Util.remove_extension (filename);
 	if (result != expected) {
 		stderr.printf ("> remove_extension ('%s')  expecting: '%s'  got: '%s'\n", filename, expected, result);
+		n_errors++;
+	}
+	n_tests++;
+}
+
+void test_uri_from_path (string filename, string expected) {
+	var result = Gth.Util.uri_from_path (filename);
+	if (result != expected) {
+		stderr.printf ("> uri_from_path ('%s')  expecting: '%s'  got: '%s'\n", filename, expected, result);
 		n_errors++;
 	}
 	n_tests++;

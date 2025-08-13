@@ -67,7 +67,7 @@ namespace Gth.Util {
 	}
 
 	public static string uri_from_path (string path) {
-		return "file://" + GLib.Uri.unescape_string (path, GLib.Uri.RESERVED_CHARS_ALLOWED_IN_PATH);
+		return "file://" + GLib.Uri.escape_string (path, "/", true);
 	}
 
 	public static string concat_attributes (string? attributes, string? other_attributes) {
