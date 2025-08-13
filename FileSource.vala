@@ -41,6 +41,8 @@ public abstract class Gth.FileSource : Object {
 		});
 		return list;
 	}
+
+	public abstract async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error;
 }
 
 [Flags]

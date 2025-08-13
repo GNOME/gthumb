@@ -259,9 +259,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 	void update_sensitivity_for_clipboard () {
 		unowned var clipboard = get_clipboard ();
 		unowned var formats = clipboard.get_formats ();
-		var images = Gdk.ContentFormats.parse ("image/png");
-		var can_open = formats.match (images);
+		var can_open = formats.match (Gdk.ContentFormats.parse ("image/png"));
 		Util.enable_action (action_group, "open-clipboard", can_open);
+		var can_paste = formats.match (new Gdk.ContentFormats ({ "gthumb/cut-files", "text/uri-list" }));
+		Util.enable_action (action_group, "paste-files", can_paste);
 	}
 
 	void before_closing () {

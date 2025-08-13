@@ -183,4 +183,8 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 	public override void monitor_directory (File file, bool activate) {
 		// TODO
 	}
+
+	public override async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error {
+		// TODO: add to catalog
+	}
 }

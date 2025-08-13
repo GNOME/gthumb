@@ -225,6 +225,10 @@ public class Gth.FileSourceVfs : FileSource {
 		// TODO
 	}
 
+	public override async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error {
+		yield window.file_manager.copy_files (files, destination, job);
+	}
+
 	void read_metadata_attributes (FileData file_data, string[] metadata_attributes_v, Cancellable cancellable) {
 		if (metadata_attributes_v.length > 0) {
 			foreach (unowned var provider in app.metadata_providers) {

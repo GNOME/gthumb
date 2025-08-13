@@ -35,12 +35,12 @@ public class Gth.FileManager {
 		yield operation.delete_files (files, job);
 	}
 
-	public async void trash_files (GenericList<FileData> files, Job job) throws Error {
+	public async void trash_files (GenericList<File> files, Job job) throws Error {
 		var deleted_files = new GenericList<File>();
 		try {
 			var iter = files.iterator ();
 			while (iter.next ()) {
-				var file = iter.get ().file;
+				var file = iter.get ();
 				yield file.trash_async (Priority.DEFAULT, job.cancellable);
 				job.progress = (float) iter.index () / files.model.n_items;
 				deleted_files.model.append (file);
@@ -51,13 +51,16 @@ public class Gth.FileManager {
 		}
 	}
 
-	public async void copy_files (GenericList<FileData> files, Job job) throws Error {
+	public async void copy_files_ask_destination (GenericList<File> files, Job job) throws Error {
 		var dialog = new Gtk.FileDialog ();
 		dialog.modal = true;
 		dialog.title = _("Copy");
 		dialog.initial_folder = window.get_current_vfs_folder ();
 		var destination = yield dialog.select_folder (window, job.cancellable);
+		yield copy_files (files, destination, job);
+	}
 
+	public async void copy_files (GenericList<File> files, File destination, Job job) throws Error {
 		var operation = new CopyOperation (window);
 		try {
 			yield operation.copy_files (files, destination, job.cancellable);
@@ -67,13 +70,16 @@ public class Gth.FileManager {
 		}
 	}
 
-	public async void move_files (GenericList<FileData> files, Job job) throws Error {
+	public async void move_files_ask_destination (GenericList<File> files, Job job) throws Error {
 		var dialog = new Gtk.FileDialog ();
 		dialog.modal = true;
 		dialog.title = _("Move");
 		dialog.initial_folder = window.get_current_vfs_folder ();
 		var destination = yield dialog.select_folder (window, job.cancellable);
+		yield move_files (files, destination, job);
+	}
 
+	public async void move_files (GenericList<File> files, File destination, Job job) throws Error {
 		var operation = new CopyOperation (window);
 		try {
 			yield operation.move_files (files, destination, job.cancellable);
@@ -100,20 +106,20 @@ class Gth.CopyOperation {
 		last_overwrite_response = OverwriteResponse.NONE;
 	}
 
-	public async void copy_files (GenericList<FileData> files, File destination_dir, Cancellable cancellable) throws Error {
+	public async void copy_files (GenericList<File> files, File destination_dir, Cancellable cancellable) throws Error {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
-		foreach (unowned var file_data in files) {
-			yield copy_file (file_data.file, destination_dir, CopyFlags.DEFAULT, cancellable);
+		foreach (unowned var file in files) {
+			yield copy_file (file, destination_dir, CopyFlags.DEFAULT, cancellable);
 			current_file++;
 		}
 	}
 
-	public async void move_files (GenericList<FileData> files, File destination_dir, Cancellable cancellable) throws Error {
+	public async void move_files (GenericList<File> files, File destination_dir, Cancellable cancellable) throws Error {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
-		foreach (unowned var file_data in files) {
-			yield copy_file (file_data.file, destination_dir, CopyFlags.MOVE, cancellable);
+		foreach (unowned var file in files) {
+			yield copy_file (file, destination_dir, CopyFlags.MOVE, cancellable);
 			current_file++;
 		}
 	}

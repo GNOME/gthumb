@@ -461,7 +461,19 @@ public class Gth.Browser : Gtk.Box {
 		return file_data?.file;
 	}
 
-	public GenericList<FileData> get_selected_files () {
+	public GenericList<File> get_selected_files () {
+		var files = new GenericList<File> ();
+		var selection = file_grid.model.get_selection ();
+		var n_selected = selection.get_size ();
+		for (var i = 0; i < n_selected; i++) {
+			var pos = selection.get_nth (i);
+			var selected_file = file_grid.model.get_item (pos) as FileData;
+			files.model.append (selected_file.file);
+		}
+		return files;
+	}
+
+	public GenericList<FileData> get_selected_file_data_list () {
 		var files = new GenericList<FileData> ();
 		var selection = file_grid.model.get_selection ();
 		var n_selected = selection.get_size ();
@@ -762,7 +774,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("delete-files", null);
 		action.activate.connect (() => {
-			var files = get_selected_files ();
+			var files = get_selected_file_data_list ();
 			if (files.is_empty ()) {
 				return;
 			}
@@ -809,9 +821,9 @@ public class Gth.Browser : Gtk.Box {
 				return;
 			}
 			var local_job = window.new_job (_("Copying Files"), JobFlags.FOREGROUND);
-			window.file_manager.copy_files.begin (files, local_job, (_obj, res) => {
+			window.file_manager.copy_files_ask_destination.begin (files, local_job, (_obj, res) => {
 				try {
-					window.file_manager.copy_files.end (res);
+					window.file_manager.copy_files_ask_destination.end (res);
 				}
 				catch (Error error) {
 					window.show_error (error);
@@ -830,9 +842,40 @@ public class Gth.Browser : Gtk.Box {
 				return;
 			}
 			var local_job = window.new_job (_("Moving Files"), JobFlags.FOREGROUND);
-			window.file_manager.move_files.begin (files, local_job, (_obj, res) => {
+			window.file_manager.move_files_ask_destination.begin (files, local_job, (_obj, res) => {
 				try {
-					window.file_manager.move_files.end (res);
+					window.file_manager.move_files_ask_destination.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			copy_files_to_clipboard (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("cut-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			cut_files_to_clipboard (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("paste-files", null);
+		action.activate.connect (() => {
+			var local_job = window.new_job ("Paste Files");
+			paste_files_from_clipboard.begin (local_job, (_obj, res) => {
+				try {
+					paste_files_from_clipboard.end (res);
 				}
 				catch (Error error) {
 					window.show_error (error);
@@ -1180,6 +1223,82 @@ public class Gth.Browser : Gtk.Box {
 			{
 				property_sidebar.current_file = null;
 			}
+		}
+	}
+
+	void copy_files_to_clipboard (GenericList<File> files) {
+		var text = new StringBuilder ();
+		var uri_list = new StringBuilder ();
+		foreach (unowned var file in files) {
+			if (text.len > 0) {
+				text.append ("\n");
+			}
+			if (file.get_uri_scheme () == "file") {
+				text.append (file.get_path ());
+			}
+			else {
+				text.append (file.get_uri ());
+			}
+
+			if (uri_list.len > 0) {
+				uri_list.append ("\n");
+			}
+			uri_list.append (file.get_uri ());
+		}
+
+		unowned var clipboard = get_clipboard ();
+		var text_provider = new Gdk.ContentProvider.for_bytes ("text/plain", new Bytes (text.str.data));
+		var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
+		var provider = new Gdk.ContentProvider.union ({ text_provider, uri_provider });
+		clipboard.set_content (provider);
+	}
+
+	void cut_files_to_clipboard (GenericList<File> files) {
+		var uri_list = new StringBuilder ();
+		foreach (unowned var file in files) {
+			if (uri_list.len > 0) {
+				uri_list.append ("\n");
+			}
+			uri_list.append (file.get_uri ());
+		}
+
+		unowned var clipboard = get_clipboard ();
+		var provider = new Gdk.ContentProvider.for_bytes ("gthumb/cut-files", new Bytes (uri_list.str.data));
+		clipboard.set_content (provider);
+	}
+
+	async void paste_files_from_clipboard (Job job) {
+		unowned var clipboard = get_clipboard ();
+		unowned string mime_type;
+		var stream = yield clipboard.read_async (
+			{ "text/uri-list", "gthumb/cut-files" },
+			Priority.DEFAULT,
+			job.cancellable,
+			out mime_type);
+		var bytes = yield Files.read_all_async (stream, job.cancellable);
+		unowned var text = (string) bytes.get_data ();
+		//stdout.printf ("> text: '%s'\n", text);
+		//stdout.printf ("> type: '%s'\n", mime_type);
+		var uris = text.split_set ("\n\r");
+		var files = new GenericList<File> ();
+		foreach (unowned var uri in uris) {
+			files.model.append (File.new_for_uri (uri));
+		}
+		if (mime_type == "gthumb/cut-files") {
+			var source = app.get_source_for_file (folder_tree.current_folder.file);
+			if (!(source is FileSourceVfs)) {
+				throw new IOError.FAILED (_("Cannot move files here"));
+			}
+			yield window.file_manager.move_files (files,
+				folder_tree.current_folder.file,
+				job);
+		}
+		else {
+			var source = app.get_source_for_file (folder_tree.current_folder.file);
+			yield source.copy_files (window,
+				files,
+				folder_tree.current_folder.file,
+				job);
 		}
 	}
 
