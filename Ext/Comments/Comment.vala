@@ -37,7 +37,7 @@ public class Gth.Comment : Object {
 					break;
 
 				case "time":
-					var exif_time = Util.get_time_from_exif_date (child.get_attribute ("value"));
+					var exif_time = DateTime.get_from_exif_date (child.get_attribute ("value"));
 					if (exif_time != null) {
 						time.copy (exif_time);
 					}

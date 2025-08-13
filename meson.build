@@ -393,6 +393,7 @@ executable(
     'Types.vala',
     'UnknownViewer.vala',
     'UserDir.vala',
+    'Misc.vala',
     'Util.vala',
     'ViewerStatus.vala',
     'Viewer.vala',
@@ -449,6 +450,27 @@ if get_option('build-tests')
       ],
       dependencies: dependencies,
       vala_args: '--define=TEST_XML',
+    )
+  )
+
+  test('util',
+    executable('test-util',
+      sources: [
+        'Strings.vala',
+        'Util.vala',
+        'Tests/TestUtil.vala',
+      ],
+      dependencies: dependencies,
+    )
+  )
+
+  test('strings',
+    executable('test-strings',
+      sources: [
+        'Strings.vala',
+        'Tests/TestStrings.vala',
+      ],
+      dependencies: dependencies,
     )
   )
 endif

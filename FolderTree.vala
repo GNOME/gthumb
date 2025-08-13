@@ -172,7 +172,7 @@ public class Gth.FolderTree : Gtk.Box {
 		load_job = local_job;
 		try {
 			// Mount the location if required.
-			Gth.FileData nearest_root = Util.get_nearest_parent (location, app.roots);
+			Gth.FileData nearest_root = get_nearest_parent (location, app.roots);
 			//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
 
 			var try_again = false;
@@ -201,7 +201,7 @@ public class Gth.FolderTree : Gtk.Box {
 			if (try_again) {
 				// TODO: update the window bookmarks as well.
 				yield app.update_roots ();
-				nearest_root = Util.get_nearest_parent (location, app.roots);
+				nearest_root = get_nearest_parent (location, app.roots);
 				if ((nearest_root == null) || (nearest_root.info.get_file_type () != FileType.DIRECTORY)) {
 					throw new IOError.NOT_MOUNTED (_("Location not available"));
 				}
@@ -454,5 +454,26 @@ public class Gth.FolderTree : Gtk.Box {
 		if (position >= 0) {
 			view.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
 		}
+	}
+
+	FileData? get_nearest_parent (File file, GenericList<FileData> locations) {
+		FileData nearest_parent = null;
+		var file_uri = Uri.parse (file.get_uri (), UriFlags.PARSE_RELAXED);
+		var file_path = file_uri.get_path ();
+		var max_length = 0;
+		foreach (unowned var location in locations) {
+			var location_uri = Uri.parse (location.file.get_uri (), UriFlags.PARSE_RELAXED);
+			if (location_uri.get_scheme () == file_uri.get_scheme ()) {
+				var location_path = location_uri.get_path ();
+				if (file_path.has_prefix (location_path)) {
+					var len = location_path.length;
+					if (len > max_length) {
+						nearest_parent = location;
+						max_length = len;
+					}
+				}
+			}
+		}
+		return nearest_parent;
 	}
 }

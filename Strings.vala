@@ -83,10 +83,11 @@ public class Gth.Strings {
 		while (trail.get_prev_char (ref trail_offset, out trail_ch)
 			&& str.get_prev_char (ref str_offset, out str_ch))
 		{
-			if (str_ch != trail_ch)
+			if (str_ch != trail_ch) {
 				return false;
+			}
 		}
-		return (str_offset >= 0) && (trail_offset == -1);
+		return (str_offset >= 0) && (trail_offset <= 0);
 	}
 
 	public static unowned string unowned_substring (string str, int offset) {
