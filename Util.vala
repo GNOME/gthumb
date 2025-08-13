@@ -13,8 +13,8 @@ namespace Gth.Util {
 			digits++;
 			number = -number;
 		}
-		while (number > 10) {
-			number = digits / 10;
+		while (number >= 10) {
+			number = number / 10;
 			digits++;
 		}
 		return digits;
