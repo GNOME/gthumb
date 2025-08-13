@@ -32,7 +32,6 @@ gboolean exiv2_read_metadata_from_buffer (
 int exiv2_get_coordinates (GFileInfo *info, double *out_latitude, double *out_longitude);
 char * exiv2_decimal_coordinates_to_string (double latitude, double longitude);
 
-// GFile *    exiv2_get_sidecar                (GFile             *file);
 // gboolean   exiv2_read_sidecar               (GFile             *file,
 					     // GFileInfo         *info,
 					     // gboolean           update_general_attributes);

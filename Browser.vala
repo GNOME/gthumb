@@ -26,7 +26,6 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.FileSorter file_sorter;
 	public Gth.FileFilter file_filter;
 
-	RegisteredSignals signals;
 	construct {
 		thumbnailer = new Thumbnailer (this);
 		history = new History (this);
@@ -36,17 +35,6 @@ public class Gth.Browser : Gtk.Box {
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		parents_category = new ActionCategory (_("Path"), 1);
 		never_loaded = true;
-		signals = new RegisteredSignals ();
-		var files_deleted_event = app.monitor.files_deleted.connect ((files) => {
-			foreach (unowned var file in files) {
-				var iter = folder_tree.current_children.iterator ();
-				var pos = iter.find_first ((file_data) => file_data.file.equal (file));
-				if (pos >= 0) {
-					folder_tree.current_children.model.remove ((uint) pos);
-				}
-			}
-		});
-		signals.add (app.monitor, files_deleted_event);
 	}
 
 	void init () {
@@ -107,6 +95,26 @@ public class Gth.Browser : Gtk.Box {
 		open_in_fullscreen = app.settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
 
 		init_actions ();
+	}
+
+	async void add_files (GenericList<File> files) {
+		freeze_thumbnail_list ();
+		var attributes = get_list_attributes ();
+		var local_job = window.new_job ("Add Files");
+		foreach (var file in files) {
+			try {
+				var info = yield Files.query_info (file, attributes, local_job.cancellable);
+				var file_data = new FileData (file, info);
+				folder_tree.current_children.model.append (file_data);
+			}
+			catch (Error error) {
+				if (error is IOError.CANCELLED) {
+					break;
+				}
+			}
+		}
+		local_job.done ();
+		thaw_thumbnail_list ();
 	}
 
 	async void load_folder (File location, LoadAction load_action) throws Error {
@@ -758,8 +766,17 @@ public class Gth.Browser : Gtk.Box {
 			if (files.is_empty ()) {
 				return;
 			}
-			window.with_new_job (_("Deleting Files"), JobFlags.FOREGROUND, (job) => {
-				window.file_manager.delete_files.begin (files, job);
+			var local_job = window.new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+			window.file_manager.delete_files.begin (files, local_job, (_obj, res) => {
+				try {
+					window.file_manager.delete_files.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
 			});
 		});
 		action_group.add_action (action);
@@ -770,8 +787,59 @@ public class Gth.Browser : Gtk.Box {
 			if (files.is_empty ()) {
 				return;
 			}
-			window.with_new_job (_("Deleting Files"), JobFlags.FOREGROUND, (job) => {
-				window.file_manager.trash_files.begin (files, job);
+			var local_job = window.new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+			window.file_manager.trash_files.begin (files, local_job, (_obj, res) => {
+				try {
+					window.file_manager.trash_files.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-files-to", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if (files.is_empty ()) {
+				return;
+			}
+			var local_job = window.new_job (_("Copying Files"), JobFlags.FOREGROUND);
+			window.file_manager.copy_files.begin (files, local_job, (_obj, res) => {
+				try {
+					window.file_manager.copy_files.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("move-files-to", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if (files.is_empty ()) {
+				return;
+			}
+			var local_job = window.new_job (_("Moving Files"), JobFlags.FOREGROUND);
+			window.file_manager.move_files.begin (files, local_job, (_obj, res) => {
+				try {
+					window.file_manager.move_files.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
 			});
 		});
 		action_group.add_action (action);
@@ -934,7 +1002,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void release_resources () {
-		signals.disconnect_all ();
+		// signals.disconnect_all ();
 	}
 
 	public void save_preferences (bool page_visible) {
@@ -1081,6 +1149,38 @@ public class Gth.Browser : Gtk.Box {
 
 	public void restore_window_size () {
 		window.set_default_size (browser_width, browser_height);
+	}
+
+	public void files_created (File parent, GenericList<File> files) {
+		if (!folder_tree.current_folder.file.equal (parent)) {
+			return;
+		}
+		var new_files = new GenericList<File>();
+		foreach (unowned var file in files) {
+			var iter = folder_tree.current_children.iterator ();
+			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
+			if (pos < 0) {
+				new_files.model.append (file);
+			}
+		}
+		if (!new_files.is_empty ()) {
+			add_files.begin (new_files);
+		}
+	}
+
+	public void files_deleted (GenericList<File> files) {
+		foreach (unowned var file in files) {
+			var iter = folder_tree.current_children.iterator ();
+			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
+			if (pos >= 0) {
+				folder_tree.current_children.model.remove ((uint) pos);
+			}
+			if ((property_sidebar.current_file != null)
+				&& property_sidebar.current_file.file.equal (file))
+			{
+				property_sidebar.current_file = null;
+			}
+		}
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView main_view;

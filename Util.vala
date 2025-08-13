@@ -360,7 +360,7 @@ public class Gth.Util {
 	}
 
 	public static string remove_extension (string filename) {
-		var ext_idx = filename.last_index_of_char ('.');
+		var ext_idx = Util.get_extension_start (filename);
 		if (ext_idx < 0)
 			return filename;
 		return filename.substring (0, ext_idx);
@@ -603,5 +603,11 @@ public class Gth.Util {
 		var toast = new Adw.Toast (title);
 		toast.use_markup = false;
 		return toast;
+	}
+
+	public static File get_xmp_sidecar (File file) {
+		var uri = file.get_uri ();
+		var sidecar_uri = Util.remove_extension (uri) + ".xmp";
+		return File.new_for_uri (sidecar_uri);
 	}
 }

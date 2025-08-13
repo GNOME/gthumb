@@ -328,8 +328,52 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">win.delete</attribute>
+        <!-- Translators: it's a verb, as in "Rename Files" -->
+        <attribute name="label" translatable="yes">Rename</attribute>
+        <attribute name="action">win.rename-files</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Duplicate Files" -->
+        <attribute name="label" translatable="yes">Duplicate</attribute>
+        <attribute name="action">win.duplicate-files</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <!-- Translators: it's a verb, as in "Cut Files" -->
+        <attribute name="label" translatable="yes">Cut</attribute>
+        <attribute name="verb-icon">edit-cut-symbolic</attribute>
+        <attribute name="action">win.cut-files</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Copy Files" -->
+        <attribute name="label" translatable="yes">Copy</attribute>
+        <attribute name="verb-icon">edit-copy-symbolic</attribute>
+        <attribute name="action">win.copy-files</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Paste Files" -->
+        <attribute name="label" translatable="yes">Paste</attribute>
+        <attribute name="verb-icon">edit-paste-symbolic</attribute>
+        <attribute name="action">win.paste-files</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy to…</attribute>
+        <attribute name="action">win.copy-files-to</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Move to…</attribute>
+        <attribute name="action">win.move-files-to</attribute>
+      </item>
+      <!--item>
+        <attribute name="label" translatable="yes">Move to Trash</attribute>
+        <attribute name="action">win.trash-files</attribute>
+      </item-->
+      <item>
+        <attribute name="label" translatable="yes">Delete…</attribute>
+        <attribute name="action">win.delete-files</attribute>
       </item>
     </section>
   </menu>

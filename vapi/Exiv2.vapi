@@ -14,8 +14,6 @@ namespace Exiv2 {
 		FileInfo info,
 		bool update_general_attributes) throws Error;
 
-	// public static File get_sidecar (File file);
-
 	// public static bool read_sidecar (
 	// 	File file,
 	// 	FileInfo info,

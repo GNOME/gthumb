@@ -259,7 +259,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	async File? ask_to_overwrite (OverwriteRequest request, File file, string content_type, Cancellable cancellable) throws Error {
 		var overwrite = new OverwriteDialog (window);
-		var result = yield overwrite.ask_image (file, image_view.image, request, cancellable);
+		var result = yield overwrite.ask_image (image_view.image, file, request, cancellable);
 		switch (result) {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");

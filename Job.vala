@@ -170,7 +170,6 @@ public class Gth.JobQueue : Object {
 	public signal void size_changed ();
 }
 
-public delegate void Gth.JobFunc (Gth.Job job) throws Error;
 
 [Flags]
 public enum Gth.JobFlags {

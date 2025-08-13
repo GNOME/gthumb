@@ -147,7 +147,19 @@ public class Gth.Viewer : Gtk.Box {
 		return (load_job != null) && load_job.is_running ();
 	}
 
+	uint view_timeout = 0;
+
 	public void view_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT) {
+		if (view_timeout != 0) {
+			Source.remove (view_timeout);
+			view_timeout = 0;
+		}
+		//if (!(ViewFlags.NO_DELAY in flags)) {
+		//	view_timeout = Util.after_timeout (150, () => {
+		//		view_file (file, flags | ViewFlags.NO_DELAY);
+		//	});
+		//	return;
+		//}
 		load_file.begin (file, flags, (_obj, res) => {
 			try {
 				load_file.end (res);
@@ -406,6 +418,10 @@ public class Gth.Viewer : Gtk.Box {
 	public void release_resources () {
 		viewer_signals.disconnect_all ();
 		fixed_signals.disconnect_all ();
+		if (view_timeout != 0) {
+			Source.remove (view_timeout);
+			view_timeout = 0;
+		}
 		cancel_hide_overlay ();
 		if (current_viewer != null) {
 			current_viewer.release_resources ();

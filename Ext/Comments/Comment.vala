@@ -64,8 +64,12 @@ public class Gth.Comment : Object {
 		var parent = file.get_parent ();
 		if (parent == null)
 			return null;
-		var comment_dir = parent.get_child (".comments");
+		var comment_dir = Comment.get_comment_destination (parent);
 		return comment_dir.get_child (file.get_basename () + ".xml");
+	}
+
+	public static File get_comment_destination (File destination) {
+		return destination.get_child (".comments");
 	}
 
 	public void load_bytes (Bytes bytes) throws Error {

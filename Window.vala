@@ -184,19 +184,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return job;
 	}
 
-	public void with_new_job (string description, JobFlags flags, JobFunc func) {
-		var local_job = new_job (description, flags);
-		try {
-			func (local_job);
-		}
-		catch (Error error) {
-			show_error (error);
-		}
-		finally {
-			local_job.done ();
-		}
-	}
-
 	public void add_job (Gth.Job job) {
 		jobs.add_job (job);
 		if (job.foreground) {
@@ -296,6 +283,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public File get_current_file () {
 		if (current_page == Page.VIEWER) {
 			return viewer.current_file.file;
+		}
+		return null;
+	}
+
+	public File? get_current_vfs_folder () {
+		if (current_page == Page.VIEWER) {
+			return viewer.current_file.file.get_parent ();
+		}
+		var source = app.get_source_for_file (browser.folder_tree.current_folder.file);
+		if (source is FileSourceVfs) {
+			return browser.folder_tree.current_folder.file;
 		}
 		return null;
 	}

@@ -186,6 +186,30 @@ public class Gth.Files {
 				Priority.DEFAULT,
 				cancellable);
 	}
+
+	public static async void make_directory_async (File dir, Cancellable cancellable) {
+		try {
+			yield dir.make_directory_async (Priority.DEFAULT, cancellable);
+		}
+		catch (Error error) {
+			if (!(error is IOError.EXISTS)) {
+				throw error;
+			}
+		}
+	}
+
+	public static async bool query_exists (File file, Cancellable cancellable) {
+		try {
+			var info = yield file.query_info_async (FileAttribute.STANDARD_TYPE,
+				FileQueryInfoFlags.NONE,
+				Priority.DEFAULT,
+				cancellable);
+			return true;
+		}
+		catch (Error error) {
+			return false;
+		}
+	}
 }
 
 public enum Gth.FileIntent {
