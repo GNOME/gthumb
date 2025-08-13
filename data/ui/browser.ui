@@ -267,8 +267,8 @@
                                 <child>
                                   <object class="GtkPopoverMenu" id="file_context_menu">
                                     <property name="menu-model">file_menu</property>
-                                    <property name="has-arrow">false</property>
-                                    <property name="position">right</property>
+                                    <property name="has-arrow">true</property>
+                                    <property name="position">bottom</property>
                                     <style>
                                       <class name="deeper"/>
                                     </style>
@@ -360,11 +360,11 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Copy to…</attribute>
+        <attribute name="label" translatable="yes">Copy To…</attribute>
         <attribute name="action">win.copy-files-to</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Move to…</attribute>
+        <attribute name="label" translatable="yes">Move To…</attribute>
         <attribute name="action">win.move-files-to</attribute>
       </item>
       <!--item>
@@ -372,7 +372,7 @@
         <attribute name="action">win.trash-files</attribute>
       </item-->
       <item>
-        <attribute name="label" translatable="yes">Delete…</attribute>
+        <attribute name="label" translatable="yes">Delete</attribute>
         <attribute name="action">win.delete-files</attribute>
       </item>
     </section>

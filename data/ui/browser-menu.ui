@@ -13,11 +13,11 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Sort Files…</attribute>
+        <attribute name="label" translatable="yes">_Sort Files</attribute>
         <attribute name="action">win.sort-files</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_Sort Folders…</attribute>
+        <attribute name="label" translatable="yes">_Sort Folders</attribute>
         <attribute name="action">win.sort-folders</attribute>
       </item>
       <item>

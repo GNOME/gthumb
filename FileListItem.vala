@@ -104,7 +104,6 @@ public class Gth.FileListItem : Gtk.Box {
 			break;
 
 		case ThumbnailState.BROKEN:
-			//icon.gicon = Util.get_themed_icon ("thumbnail-error-symbolic") as Icon;
 			icon.gicon = file_data.get_symbolic_icon ();
 			icon.visible = true;
 			preview.visible = false;
