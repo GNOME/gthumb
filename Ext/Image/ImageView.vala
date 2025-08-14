@@ -176,7 +176,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			(uint) image_box.size.width,
 			(uint) image_box.size.height);
 		if (texture != null) {
-			snapshot.append_scaled_texture (texture, Gsk.ScalingFilter.NEAREST, texture_box);
+			snapshot.append_scaled_texture (texture, Gsk.ScalingFilter.LINEAR, texture_box);
 		}
 		snapshot.restore ();
 	}
