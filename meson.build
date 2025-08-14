@@ -400,8 +400,6 @@ executable(
     'Window.vala',
     'ReadText.vala',
     'ReadFilename.vala',
-    'FileManager.vala',
-    'OverwriteDialog.vala',
     bookmarks_files,
     catalogs_files,
     comments_files,
