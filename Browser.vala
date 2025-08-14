@@ -245,8 +245,15 @@ public class Gth.Browser : Gtk.Box {
 		}
 		Graphene.Point p = Graphene.Point.zero ();
 		item.compute_point (non_empty_folder, Graphene.Point.zero (), out p);
-		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 24 };
+		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
 		file_context_menu.popup ();
+	}
+
+	public void open_context_menu (int x, int y) {
+		Graphene.Point p = Graphene.Point.zero ();
+		file_grid.compute_point (folder_stack.get_visible_child (), Graphene.Point.zero (), out p);
+		context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
+		context_menu.popup ();
 	}
 
 	void update_load_sensitivity () {
@@ -976,6 +983,20 @@ public class Gth.Browser : Gtk.Box {
 
 		file_grid.vadjustment.changed.connect (() => { after_grid_vadj_changed (); });
 		file_grid.vadjustment.value_changed.connect (() => { after_grid_vadj_changed (); });
+
+		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_SECONDARY);
+		click_events.pressed.connect ((n_press, x, y) => {
+			open_context_menu ((int) x, (int) y);
+		});
+		non_empty_folder.add_controller (click_events);
+
+		click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_SECONDARY);
+		click_events.pressed.connect ((n_press, x, y) => {
+			open_context_menu ((int) x, (int) y);
+		});
+		empty_folder.add_controller (click_events);
 	}
 
 	public Gth.FileData? get_next_file_for_thumbnailer () {
@@ -1344,6 +1365,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
 	[GtkChild] unowned Gtk.Button update_search_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
+	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] public unowned Gth.FolderStatus folder_status;
 
 	Gth.Test general_filter;
