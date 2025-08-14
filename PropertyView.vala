@@ -1,5 +1,5 @@
 public interface Gth.PropertyView : Gtk.Widget {
-	public abstract unowned string get_name ();
+	public abstract unowned string get_id ();
 	public abstract unowned string get_title ();
 	public abstract unowned string get_icon ();
 	public abstract bool can_view (Gth.FileData file_data);
