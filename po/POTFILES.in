@@ -10,16 +10,13 @@ data/gschemas/org.gnome.gthumb.comments.gschema.xml
 data/gschemas/org.gnome.gthumb.contact-sheet.gschema.xml
 data/gschemas/org.gnome.gthumb.convert-format.gschema.xml
 data/gschemas/org.gnome.gthumb.crop.gschema.xml
-data/gschemas/org.gnome.gthumb.facebook.gschema.xml
 data/gschemas/org.gnome.gthumb.file-manager.gschema.xml
-data/gschemas/org.gnome.gthumb.flickr.gschema.xml
 data/gschemas/org.gnome.gthumb.gschema.xml
 data/gschemas/org.gnome.gthumb.gstreamer-tools.gschema.xml
 data/gschemas/org.gnome.gthumb.image-print.gschema.xml
 data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml
 data/gschemas/org.gnome.gthumb.importer.gschema.xml
 data/gschemas/org.gnome.gthumb.photo-importer.gschema.xml
-data/gschemas/org.gnome.gthumb.picasaweb.gschema.xml
 data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml
 data/gschemas/org.gnome.gthumb.rename-series.gschema.xml
 data/gschemas/org.gnome.gthumb.resize-images.gschema.xml
