@@ -332,6 +332,10 @@
   <menu id="file_menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">Open in New Window</attribute>
+        <attribute name="action">win.view-new-window</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">Open _With…</attribute>
         <attribute name="action">win.open-with</attribute>
       </item>
@@ -370,6 +374,12 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Select All</attribute>
+        <attribute name="action">win.select-all</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Copy To…</attribute>
         <attribute name="action">win.copy-files-to</attribute>
       </item>
@@ -392,8 +402,11 @@
       <item>
         <!-- Translators: it's a verb, as in "Paste Files" -->
         <attribute name="label" translatable="yes">Paste</attribute>
-        <attribute name="verb-icon">edit-paste-symbolic</attribute>
         <attribute name="action">win.paste-files</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Select All</attribute>
+        <attribute name="action">win.select-all</attribute>
       </item>
     </section>
   </menu>

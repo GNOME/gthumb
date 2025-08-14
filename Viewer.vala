@@ -53,6 +53,39 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
+	public async void open_file (File file) {
+		if (load_job != null) {
+			load_job.cancel ();
+		}
+		var local_job = window.new_job ("Load %s".printf (file.get_uri ()));
+		load_job = local_job;
+		try {
+			var source = new FileSourceVfs ();
+			var file_data = yield source.read_metadata (file, "*", local_job.cancellable);
+			activate_viewer_for_file (file_data);
+			var image_viewer = current_viewer as ImageViewer;
+			if (image_viewer == null) {
+				throw new IOError.FAILED (_("Cannot load this kind of file"));
+			}
+			yield load_file (file_data);
+			if (window.browser.never_loaded) {
+				yield window.browser.first_load ();
+				yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
+				var position = window.browser.get_file_position (file_data.file);
+				if (position != uint.MAX) {
+					set_file_position (position);
+				}
+			}
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		local_job.done ();
+		if (load_job == local_job) {
+			load_job = null;
+		}
+	}
+
 	public async void open_unsaved_image (FileData file, Gth.Image image) {
 		if (load_job != null) {
 			load_job.cancel ();
@@ -336,7 +369,9 @@ public class Gth.Viewer : Gtk.Box {
 				state = _("modified");
 			}
 		}
-		window.title = title.str;
+		if (window.current_page == Window.Page.VIEWER) {
+			window.title = title.str;
+		}
 		set_header_state (state);
 	}
 
@@ -508,7 +543,7 @@ public class Gth.Viewer : Gtk.Box {
 					true);
 				new_width += extra_width;
 				new_height += extra_height;
-				stdout.printf ("  NEW SIZE: %ux%u\n", new_width, new_height);
+				//stdout.printf ("  NEW SIZE: %ux%u\n", new_width, new_height);
 
 				window.set_default_size ((int) new_width, (int) new_height);
 			}

@@ -64,9 +64,9 @@ public class Gth.Browser : Gtk.Box {
 		});
 
 		// Restore the window size.
-		var width = app.settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
-		var height = app.settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
-		window.set_default_size (width, height);
+		browser_width = app.settings.get_int (PREF_BROWSER_WINDOW_WIDTH);
+		browser_height = app.settings.get_int (PREF_BROWSER_WINDOW_HEIGHT);
+		window.set_default_size (browser_width, browser_height);
 		if (app.settings.get_boolean (PREF_BROWSER_WINDOW_MAXIMIZED)) {
 			window.maximize ();
 		}
@@ -117,7 +117,7 @@ public class Gth.Browser : Gtk.Box {
 		thaw_thumbnail_list ();
 	}
 
-	async void load_folder (File location, LoadAction load_action) throws Error {
+	public async void load_folder (File location, LoadAction load_action) throws Error {
 		thumbnailer.cancel ();
 		freeze_thumbnail_list ();
 		folder_tree.list_attributes = get_list_attributes (true);
@@ -340,13 +340,17 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void update_title () {
+		string title;
 		if (folder_tree.current_folder != null) {
-			window.title = folder_tree.current_folder.info.get_display_name ();
+			title = folder_tree.current_folder.info.get_display_name ();
 		}
 		else {
-			window.title = "Thumbnails";
+			title = "Thumbnails";
 		}
-		location_button.label = window.title;
+		if (window.current_page == Window.Page.BROWSER) {
+			window.title = title;
+		}
+		location_button.label = title;
 	}
 
 	Gtk.SelectionModel grid_model = null;
@@ -507,6 +511,12 @@ public class Gth.Browser : Gtk.Box {
 		var iter = visible_files.iterator ();
 		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 		select_position (pos, flags);
+	}
+
+	public uint get_file_position (File file) {
+		var iter = visible_files.iterator ();
+		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
+		return (pos >= 0) ? (uint) pos : uint.MAX;
 	}
 
 	public void select_position (int position, SelectFile flags = SelectFile.DEFAULT) {
@@ -913,6 +923,25 @@ public class Gth.Browser : Gtk.Box {
 			});
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("select-all", null);
+		action.activate.connect (() => {
+			grid_model.select_all ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("view-new-window", null);
+		action.activate.connect (() => {
+			var file = get_selected_file ();
+			if (file == null) {
+				window.show_error (new IOError.FAILED (_("No file selected")));
+				return;
+			}
+			var new_window = new Gth.Window (window.application);
+			new_window.viewer.open_file.begin (file);
+			new_window.present ();
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {
@@ -1232,7 +1261,9 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void restore_window_size () {
-		window.set_default_size (browser_width, browser_height);
+		if ((browser_width != -1) && (browser_height != -1)) {
+			window.set_default_size (browser_width, browser_height);
+		}
 	}
 
 	public void files_created (File parent, GenericList<File> files) {

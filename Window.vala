@@ -4,6 +4,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public bool closing;
 	public SimpleActionGroup action_group;
 	public FileManager file_manager;
+	public Page current_page;
 
 	public enum Page {
 		NONE = 0,
@@ -13,6 +14,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	construct {
 		title = "Thumbnails";
+		current_page = Page.NONE;
 
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
@@ -140,7 +142,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 				//}
 				viewer.before_close_page ();
 				browser.restore_window_size ();
-				if ((viewer.current_file != null) && viewer.current_file.file.equal (browser.property_sidebar.current_file.file)) {
+				if ((viewer.current_file != null)
+					&& (browser.property_sidebar.current_file != null)
+					&& viewer.current_file.file.equal (browser.property_sidebar.current_file.file))
+				{
 					browser.property_sidebar.update_view ();
 				}
 				else if (viewer.position >= 0) {
@@ -406,6 +411,4 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] public unowned Gth.Browser browser;
 	[GtkChild] public unowned Gth.Viewer viewer;
 	public unowned Gth.SidebarResizer active_resizer;
-
-	Page current_page = Page.NONE;
 }
