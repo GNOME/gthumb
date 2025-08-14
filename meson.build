@@ -404,6 +404,7 @@ executable(
     catalogs_files,
     comments_files,
     config_file,
+    desktop_background_files,
     dialogs_files,
     exiv2_files,
     file_manager_files,

@@ -1,6 +1,7 @@
 subdir('Bookmarks')
 subdir('Catalogs')
 subdir('Comments')
+subdir('DesktopBackground')
 subdir('Exiv2')
 subdir('FileManager')
 subdir('Filters')

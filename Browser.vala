@@ -458,12 +458,19 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public File? get_selected_file () {
+		var file_data = get_selected_file_data ();
+		return (file_data != null) ? file_data.file : null;
+	}
+
+	public FileData? get_selected_file_data () {
 		var selected = file_grid.model.get_selection ();
-		if (selected.get_size () != 1)
+		if (selected.get_size () != 1) {
+			// TODO: the last context menu item.
 			return null;
+		}
 		var pos = selected.get_nth (0);
 		var file_data = file_grid.model.get_item (pos) as FileData;
-		return file_data?.file;
+		return file_data;
 	}
 
 	public GenericList<File> get_selected_files () {

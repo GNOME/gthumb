@@ -5,6 +5,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public SimpleActionGroup action_group;
 	public FileManager file_manager;
 	public Page current_page;
+	[GtkChild] public unowned Gtk.Stack stack;
+	[GtkChild] public unowned Gth.Browser browser;
+	[GtkChild] public unowned Gth.Viewer viewer;
+	public unowned Gth.SidebarResizer active_resizer;
 
 	public enum Page {
 		NONE = 0,
@@ -232,6 +236,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return monitor.description;
 	}
 
+	public void get_monitor_geometry (out int width, out int height) {
+		unowned var display = get_display ();
+		unowned var monitor = display.get_monitor_at_surface (get_surface ());
+		width = monitor.geometry.width;
+		height = monitor.geometry.height;
+	}
+
 	IccProfile monitor_profile = null;
 	bool no_monitor_profile = false;
 
@@ -281,18 +292,31 @@ public class Gth.Window : Adw.ApplicationWindow {
 		browser.release_resources ();
 	}
 
-	public GenericArray<Gth.FileData> get_selected () {
-		if (current_page == Page.VIEWER) {
+	public GenericArray<Gth.FileData>? get_selected () {
+		switch (current_page) {
+		case Page.BROWSER:
+			return browser.get_selected ();
+		case Page.VIEWER:
 			return viewer.get_selected ();
+		default:
+			return null;
 		}
-		return browser.get_selected ();
+	}
+
+	public FileData? get_current_file_data () {
+		switch (current_page) {
+		case Page.BROWSER:
+			return browser.get_selected_file_data ();
+		case Page.VIEWER:
+			return viewer.current_file;
+		default:
+			return null;
+		}
 	}
 
 	public File? get_current_file () {
-		if (current_page == Page.VIEWER) {
-			return viewer.current_file.file;
-		}
-		return null;
+		var file_data = get_current_file_data ();
+		return (file_data != null) ? file_data.file : null;
 	}
 
 	public File? get_current_vfs_folder () {
@@ -405,10 +429,50 @@ public class Gth.Window : Adw.ApplicationWindow {
 			// TODO
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("set-desktop-background", null);
+		action.activate.connect (() => {
+			var file_data = get_current_file_data ();
+			if (file_data == null) {
+				show_error (new IOError.FAILED (_("No file selected")));
+				return;
+			}
+			desktop_background = new DesktopBackground (this);
+			var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
+			desktop_background.set_file.begin (file_data, local_job.cancellable, (_obj, res) => {
+				try {
+					desktop_background.set_file.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("undo-desktop-background", null);
+		action.activate.connect (() => {
+			if (desktop_background == null) {
+				return;
+			}
+			var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
+			desktop_background.undo.begin (local_job.cancellable, (_obj, res) => {
+				try {
+					desktop_background.undo.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
 	}
 
-	[GtkChild] public unowned Gtk.Stack stack;
-	[GtkChild] public unowned Gth.Browser browser;
-	[GtkChild] public unowned Gth.Viewer viewer;
-	public unowned Gth.SidebarResizer active_resizer;
+	DesktopBackground desktop_background = null;
 }

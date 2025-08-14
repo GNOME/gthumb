@@ -524,13 +524,11 @@ public class Gth.Viewer : Gtk.Box {
 				var extra_width = (uint) (main_view.show_sidebar ? main_view.sidebar.get_width () : 0);
 				var extra_height = (uint) headerbar.get_height ();
 
-				stdout.printf ("> WINDOW SIZE: %dx%d\n", window.get_width (), window.get_height ());
+				//stdout.printf ("> WINDOW SIZE: %dx%d\n", window.get_width (), window.get_height ());
 
-				unowned var display = get_display ();
-				unowned var monitor = display.get_monitor_at_surface (window.get_surface ());
-				int monitor_width = monitor.geometry.width;
-				int monitor_height = monitor.geometry.height;
-				stdout.printf ("  MONITOR: %dx%d\n", monitor_width, monitor_height);
+				int monitor_width, monitor_height;
+				window.get_monitor_geometry (out monitor_width, out monitor_height);
+				//stdout.printf ("  MONITOR: %dx%d\n", monitor_width, monitor_height);
 
 				uint max_width = (uint) ((double) monitor_width * 0.8);
 				uint max_height = (uint) ((double) monitor_height * 0.8);

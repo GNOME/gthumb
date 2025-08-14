@@ -342,14 +342,8 @@
     </section>
     <section>
       <item>
-        <!-- Translators: it's a verb, as in "Rename Files" -->
-        <attribute name="label" translatable="yes">Rename</attribute>
-        <attribute name="action">win.rename-files</attribute>
-      </item>
-      <item>
-        <!-- Translators: it's a verb, as in "Duplicate Files" -->
-        <attribute name="label" translatable="yes">Duplicate</attribute>
-        <attribute name="action">win.duplicate-files</attribute>
+        <attribute name="label" translatable="yes">Set as Desktop Background</attribute>
+        <attribute name="action">win.set-desktop-background</attribute>
       </item>
     </section>
     <section>
@@ -387,10 +381,22 @@
         <attribute name="label" translatable="yes">Move To…</attribute>
         <attribute name="action">win.move-files-to</attribute>
       </item>
-      <!--item>
+      <item>
+        <!-- Translators: it's a verb, as in "Rename Files" -->
+        <attribute name="label" translatable="yes">Rename</attribute>
+        <attribute name="action">win.rename-files</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Duplicate Files" -->
+        <attribute name="label" translatable="yes">Duplicate</attribute>
+        <attribute name="action">win.duplicate-files</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Move to Trash</attribute>
         <attribute name="action">win.trash-files</attribute>
-      </item-->
+      </item>
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
         <attribute name="action">win.delete-files</attribute>
