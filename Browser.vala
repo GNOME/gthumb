@@ -880,6 +880,32 @@ public class Gth.Browser : Gtk.Box {
 			});
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("duplicate-files", null);
+		action.activate.connect (() => {
+			var source = app.get_source_for_file (folder_tree.current_folder.file);
+			if (!(source is FileSourceVfs)) {
+				window.show_error (new IOError.FAILED (_("Cannot move files here")));
+				return;
+			}
+			var files = get_selected_files ();
+			if (files.is_empty ()) {
+				return;
+			}
+			var local_job = window.new_job (_("Duplicating Files"), JobFlags.FOREGROUND);
+			window.file_manager.duplicate_files.begin (files, folder_tree.current_folder.file, local_job, (_obj, res) => {
+				try {
+					window.file_manager.duplicate_files.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {

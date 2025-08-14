@@ -38,6 +38,12 @@ int main (string[] args) {
 	test_uri_from_path ("/a/b:c", "file:///a/b%3Ac");
 	test_uri_from_path ("/日/本", "file:///日/本");
 
+	test_get_duplicated ("file:///abc.txt", "file:///abc%20(2).txt");
+	test_get_duplicated ("file:///abc%20(2).txt", "file:///abc%20(3).txt");
+	test_get_duplicated ("file:///abc%20().txt", "file:///abc%20()%20(2).txt");
+	test_get_duplicated ("file:///abc%20(-1).txt", "file:///abc%20(-1)%20(2).txt");
+	test_get_duplicated ("file:///abc%20(x).txt", "file:///abc%20(x)%20(2).txt");
+
 	print ("\n");
 	print ("tests: %d\n", n_tests);
 	print ("errors: %d\n", n_errors);
@@ -66,6 +72,16 @@ void test_uri_from_path (string filename, string expected) {
 	var result = Gth.Util.uri_from_path (filename);
 	if (result != expected) {
 		stderr.printf ("> uri_from_path ('%s')  expecting: '%s'  got: '%s'\n", filename, expected, result);
+		n_errors++;
+	}
+	n_tests++;
+}
+
+void test_get_duplicated (string uri, string expected) {
+	var file_result = Gth.Util.get_duplicated (File.new_for_uri (uri));
+	var result = file_result.get_uri ();
+	if (result != expected) {
+		stderr.printf ("> get_duplicated ('%s')  expecting: '%s'  got: '%s'\n", uri, expected, result);
 		n_errors++;
 	}
 	n_tests++;

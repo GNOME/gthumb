@@ -90,6 +90,16 @@ public class Gth.FileManager {
 		}
 	}
 
+	public async void duplicate_files (GenericList<File> files, File destination, Job job) throws Error {
+		var operation = new CopyOperation (window);
+		try {
+			yield operation.duplicate_files (files, destination, job.cancellable);
+		}
+		finally {
+			app.monitor.files_created (destination, operation.created_files);
+		}
+	}
+
 	weak Window window;
 }
 
@@ -120,6 +130,15 @@ class Gth.CopyOperation {
 		current_file = 0;
 		foreach (unowned var file in files) {
 			yield copy_file (file, destination_dir, CopyFlags.MOVE, cancellable);
+			current_file++;
+		}
+	}
+
+	public async void duplicate_files (GenericList<File> files, File destination_dir, Cancellable cancellable) throws Error {
+		total_files = files.model.get_n_items ();
+		current_file = 0;
+		foreach (unowned var file in files) {
+			yield copy_file (file, destination_dir, CopyFlags.DUPLICATE, cancellable);
 			current_file++;
 		}
 	}
@@ -200,7 +219,11 @@ class Gth.CopyOperation {
 			}
 		}
 		catch (Error error) {
-			if (!(CopyFlags.OVERWRITE in flags) && (error is IOError.EXISTS)) {
+			if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags) && (CopyFlags.DUPLICATE in flags)) {
+				var new_destination_file = Util.get_duplicated (destination_file);
+				saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, cancellable);
+			}
+			else if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags)) {
 				if (last_overwrite_response == OverwriteResponse.SKIP_ALL) {
 					return null;
 				}
@@ -262,6 +285,7 @@ public enum Gth.CopyFlags {
 	OVERWRITE,
 	IGNORE_ERRORS,
 	MOVE,
+	DUPLICATE,
 	ALL_METADATA,
 }
 

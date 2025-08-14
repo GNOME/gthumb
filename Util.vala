@@ -136,4 +136,39 @@ namespace Gth.Util {
 		}
 		return matches_all;
 	}
+
+	public static File get_duplicated (File file) {
+		var uri = file.get_uri ();
+		string uri_no_ext;
+		string ext;
+		var ext_start = Util.get_extension_start (uri);
+		if (ext_start > 0) {
+			uri_no_ext = uri.slice (0, ext_start);
+			ext = uri.slice (ext_start, uri.length);
+		}
+		else {
+			uri_no_ext = uri;
+			ext = "";
+		}
+		var new_uri = new StringBuilder ();
+		try {
+			var regex = new Regex ("^(.*)%20\\(([0-9]+)\\)$");
+			MatchInfo info;
+			regex.match (uri_no_ext, 0, out info);
+			if (info.matches ()) {
+				new_uri.append (info.fetch (1));
+				var n = uint.parse (info.fetch (2), 10);
+				new_uri.append_printf ("%%20(%u)", n + 1);
+			}
+			else {
+				throw new IOError.FAILED ("Not a duplicate");
+			}
+		}
+		catch (Error error) {
+			new_uri.append (uri_no_ext);
+			new_uri.append ("%20(2)");
+		}
+		new_uri.append (ext);
+		return File.new_for_uri (new_uri.str);
+	}
 }
