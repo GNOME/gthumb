@@ -332,6 +332,10 @@
   <menu id="file_menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">Open Fullscreen</attribute>
+        <attribute name="action">win.view-fullscreen</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">Open in New Window</attribute>
         <attribute name="action">win.view-new-window</attribute>
       </item>

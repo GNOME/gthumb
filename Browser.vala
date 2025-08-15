@@ -457,20 +457,27 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public File? get_selected_file () {
-		var file_data = get_selected_file_data ();
-		return (file_data != null) ? file_data.file : null;
-	}
-
-	public FileData? get_selected_file_data () {
+	public uint get_selected_position () {
 		var selected = file_grid.model.get_selection ();
 		if (selected.get_size () != 1) {
 			// TODO: the last context menu item.
+			return uint.MAX;
+		}
+		return selected.get_nth (0);
+	}
+
+	public FileData? get_selected_file_data () {
+		var pos = get_selected_position ();
+		if (pos == uint.MAX) {
 			return null;
 		}
-		var pos = selected.get_nth (0);
 		var file_data = file_grid.model.get_item (pos) as FileData;
 		return file_data;
+	}
+
+	public File? get_selected_file () {
+		var file_data = get_selected_file_data ();
+		return (file_data != null) ? file_data.file : null;
 	}
 
 	public GenericList<File> get_selected_files () {
@@ -947,6 +954,15 @@ public class Gth.Browser : Gtk.Box {
 			var new_window = new Gth.Window (window.application);
 			new_window.viewer.open_file.begin (file);
 			new_window.present ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("view-fullscreen", null);
+		action.activate.connect (() => {
+			var position = get_selected_position ();
+			if (position != uint.MAX) {
+				view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
+			}
 		});
 		action_group.add_action (action);
 	}
