@@ -9,20 +9,23 @@ public class Gth.Bookmarks {
 		system_bookmarks = new GenericList<ActionInfo> ();
 		roots_category = new ActionCategory (_("Locations"), 0);
 		system_bookmarks_category = new ActionCategory (_("System Bookmarks"), 2);
+		locations = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		loaded = false;
 	}
 
 	public async void load_from_file () {
-		if (loaded)
+		if (loaded) {
 			return;
+		}
+		locations.remove_all ();
+		yield update_root_menu ();
 		yield load_app_bookmarks ();
 		yield load_system_bookmarks ();
-		yield update_root_menu ();
 		loaded = true;
 		app.monitor.bookmarks_changed ();
 	}
 
-	public async void load_app_bookmarks () {
+	async void load_app_bookmarks () {
 		entries.model.remove_all ();
 		var local_job = app.new_job ("Load bookmarks");
 		try {
@@ -37,6 +40,7 @@ public class Gth.Bookmarks {
 				var file = File.new_for_uri (uri);
 				var name = bookmarks.get_title (uri);
 				entries.model.append (new BookmarkEntry (file, name));
+				locations.add (file);
 			}
 		}
 		catch (Error error) {
@@ -51,7 +55,7 @@ public class Gth.Bookmarks {
 		return menu_item;
 	}
 
-	public async void load_system_bookmarks () {
+	async void load_system_bookmarks () {
 		system_bookmarks.model.remove_all ();
 #if FLATPAK_BUILD
 		var path = Path.build_filename (g_get_home (), ".config", "gtk-3.0", "bookmarks");
@@ -67,13 +71,19 @@ public class Gth.Bookmarks {
 			foreach (unowned var line in lines) {
 				var components = line.split (" ", 2);
 				unowned var uri = components[0];
-				if (Strings.empty (uri))
+				if (Strings.empty (uri)) {
 					continue;
+				}
+				var file = File.new_for_uri (uri);
+				if (locations.contains (file)) {
+					continue;
+				}
 				var after_space = line.index_of_char (' ');
 				unowned var name = (after_space > 0) ? Strings.unowned_substring (line, after_space + 1) : null;
-				var action = new ActionInfo.for_file ("win.load-location", File.new_for_uri (uri), name);
+				var action = new ActionInfo.for_file ("win.load-location", file, name);
 				action.category = system_bookmarks_category;
 				system_bookmarks.model.append (action);
+				locations.add (file);
 			}
 		}
 		catch (Error error) {
@@ -82,7 +92,7 @@ public class Gth.Bookmarks {
 		local_job.done ();
 	}
 
-	public async void update_root_menu () {
+	async void update_root_menu () {
 		var root_list = yield app.update_roots ();
 		roots.model.remove_all ();
 		foreach (unowned var file_data in root_list) {
@@ -93,6 +103,7 @@ public class Gth.Bookmarks {
 			);
 			action.category = roots_category;
 			roots.model.append (action);
+			locations.add (file_data.file);
 		}
 	}
 
@@ -138,6 +149,7 @@ public class Gth.Bookmarks {
 
 	ActionCategory roots_category;
 	ActionCategory system_bookmarks_category;
+	GenericSet<File> locations;
 	bool loaded;
 }
 
