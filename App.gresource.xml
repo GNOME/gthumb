@@ -9,7 +9,6 @@
     <file preprocess="xml-stripblanks">delete-item-symbolic.svg</file>
     <file preprocess="xml-stripblanks">document-properties-symbolic.svg</file>
     <file preprocess="xml-stripblanks">edit-item-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">exit-symbolic.svg</file>
     <file preprocess="xml-stripblanks">filter-symbolic.svg</file>
     <file preprocess="xml-stripblanks">folder-symbolic.svg</file>
     <file preprocess="xml-stripblanks">fullscreen-alt-symbolic.svg</file>
@@ -29,6 +28,7 @@
     <file preprocess="xml-stripblanks">skip-backward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">skip-forward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">table-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">unfullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">user-home-symbolic.svg</file>
     <file preprocess="xml-stripblanks">view-refresh-symbolic.svg</file>
