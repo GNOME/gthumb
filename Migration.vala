@@ -33,7 +33,21 @@ public class Gth.Migration {
 		metadata.add ("image::height", "Frame::Height");
 		metadata.add ("frame::width", "Frame::Width");
 		metadata.add ("frame::height", "Frame::Height");
-		metadata.add ("Embedded::Image::Orientation", "Embedded::Photo::Orientation");
+		metadata.add ("Embedded::Image::Orientation", "Photo::Orientation");
+		metadata.add ("Embedded::Photo::Copyright", "Metadata::Copyright");
+		metadata.add ("Embedded::Photo::Author", "Metadata::Author");
+		metadata.add ("Embedded::Photo::Coordinates", "Metadata::Coordinates");
+		metadata.add ("audio-video::general::artist", "Media::Artist");
+		metadata.add ("audio-video::general::album", "Media::Album");
+		metadata.add ("audio-video::general::bitrate", "Media::Bitrate");
+		metadata.add ("audio-video::general::encoder", "Media::Encoder");
+		metadata.add ("audio-video::video::codec", "Video::Codec");
+		metadata.add ("audio-video::video::framerate", "Video::Framerate");
+		metadata.add ("audio-video::video::width", "Video::Width");
+		metadata.add ("audio-video::video::height", "Video::Height");
+		metadata.add ("audio-video::audio::codec", "Audio::Codec");
+		metadata.add ("audio-video::audio::channels", "Audio::Channels");
+		metadata.add ("audio-video::audio::samplerate", "Audio::Samplerate");
 
 		test = new MigrationMap ();
 		test.add ("file::is_visible", "Permission::Visible");

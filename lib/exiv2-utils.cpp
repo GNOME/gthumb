@@ -540,17 +540,17 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 		exiv2_update_general_attributes (info);
 	}
 
-	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::Orientation", _ORIENTATION_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::Orientation", _ORIENTATION_TAG_NAMES);
 
-	set_attribute_from_tagset (info, "Embedded::Photo::Aperture", _APERTURE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::ISOSpeed", _ISOSPEED_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::ExposureTime", _EXPOSURE_TIME_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::ShutterSpeed", _SHUTTER_SPEED_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::FocalLength", _FOCAL_LENGTH_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::Flash", _FLASH_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::Author", _AUTHOR_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Photo::Copyright", _COPYRIGHT_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::Aperture", _APERTURE_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::ISOSpeed", _ISOSPEED_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::ExposureTime", _EXPOSURE_TIME_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::ShutterSpeed", _SHUTTER_SPEED_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::FocalLength", _FOCAL_LENGTH_TAG_NAMES);
+	set_attribute_from_tagset (info, "Photo::Flash", _FLASH_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::Author", _AUTHOR_TAG_NAMES);
+	set_attribute_from_tagset (info, "Metadata::Copyright", _COPYRIGHT_TAG_NAMES);
 
 	GObject *make_metadata = get_attribute_from_tagset (info, _MAKE_TAG_NAMES);
 	if (make_metadata != NULL) {
@@ -589,7 +589,7 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 
 			set_file_info (
 				info,
-				"Embedded::Photo::CameraModel",
+				"Photo::CameraModel",
 				NULL,
 				full_formatted_value->str,
 				full_raw_value->str,
@@ -608,7 +608,7 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 		}
 	}
 
-	/* Embedded::Photo::Exposure */
+	/* Photo::Exposure */
 
 	GObject *aperture;
 	GObject *iso_speed;
@@ -670,7 +670,7 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 	}
 
 	set_file_info (info,
-		       "Embedded::Photo::Exposure",
+		       "Photo::Exposure",
 		       _("Exposure"),
 		       exposure->str,
 		       NULL,
@@ -686,10 +686,10 @@ static void set_attributes_from_tagsets (GFileInfo *info, gboolean update_genera
 		GthMetadata *metadata = gth_metadata_new_for_point (latitude, longitude);
 		char *formatted = exiv2_decimal_coordinates_to_string (latitude, longitude);
 		g_object_set (metadata,
-			"id", "Embedded::Photo::Coordinates",
+			"id", "Metadata::Coordinates",
 			"formatted", formatted,
 			NULL);
-		g_file_info_set_attribute_object (info, "Embedded::Photo::Coordinates", G_OBJECT (metadata));
+		g_file_info_set_attribute_object (info, "Metadata::Coordinates", G_OBJECT (metadata));
 
 		g_free (formatted);
 		g_object_unref (metadata);

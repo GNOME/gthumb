@@ -4,20 +4,25 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		NONE,
 		EXIF,
 		IPTC,
-		XMP;
+		XMP,
+		OTHER;
 
 		public bool view_embedded () {
 			return this != NONE;
 		}
 
-		public bool matches (string property) {
+		public bool matches (MetadataInfo info) {
 			if (this == NONE) {
-				return !property.has_prefix ("Exif")
-					&& !property.has_prefix ("Iptc")
-					&& !property.has_prefix ("Xmp");
+				return !info.id.has_prefix ("Exif")
+					&& !info.id.has_prefix ("Iptc")
+					&& !info.id.has_prefix ("Xmp")
+					&& (info.category != "Other");
+			}
+			else if (this == OTHER) {
+				return info.category == "Other";
 			}
 			else {
-				return property.has_prefix (PREFIX[this]);
+				return info.id.has_prefix (PREFIX[this]);
 			}
 		}
 
@@ -97,7 +102,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (file_data != null) {
 				var win = app.active_window as Gth.Window;
 				if (win != null) {
-					var metadata = file_data.info.get_attribute_object ("Embedded::Photo::Coordinates") as Gth.Metadata;
+					var metadata = file_data.info.get_attribute_object ("Metadata::Coordinates") as Gth.Metadata;
 					double lat, long;
 					if ((metadata != null) && metadata.get_point (out lat, out long)) {
 						try {
@@ -118,7 +123,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		actions = new HashTable<string, Action> (str_hash, str_equal);
 		actions.set ("standard::display-name", new Action ("property.copy-path", "edit-copy-symbolic", _("Copy Path")));
 		actions.set ("Private::File::Location", new Action ("property.open-folder", "folder-symbolic", _("Open")));
-		actions.set ("Embedded::Photo::Coordinates", new Action ("property.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
+		actions.set ("Metadata::Coordinates", new Action ("property.open-map", "map-marker-symbolic", _("View on OpenStreetMap")));
 		actions.set ("Private::File::DisplaySize", new Action.with_details ("Private::File::Size"));
 		actions.set ("Private::File::ContentType", new Action.with_details ("standard::content-type,standard::fast-content-type"));
 
@@ -198,7 +203,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			var list_header = item as Gtk.ListHeader;
 			var label = list_header.child as Gtk.Label;
 			var property = list_header.item as Property;
-			label.label = (property.category != null) ? property.category.display_name : "";
+			label.label = (property.category != null) ? _(property.category.display_name) : "";
 		});
 		list_view.header_factory = header_factory;
 	}
@@ -216,8 +221,9 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	}
 
 	public virtual bool can_view (Gth.FileData file_data) {
-		if (filter == Filter.NONE)
+		if (filter == Filter.NONE) {
 			return true;
+		}
 		var data_available = false;
 		foreach (unowned var info in MetadataInfo.get_all ()) {
 			if (info.id == null) {
@@ -226,7 +232,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
 				continue;
 			}
-			if (filter.matches (info.id)) {
+			if (filter.matches (info)) {
 				var value = file_data.get_attribute_as_string (info.id);
 				if (!Strings.empty (value)) {
 					data_available = true;
@@ -249,7 +255,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (!(MetadataFlags.ALLOW_IN_PROPERTIES_VIEW in info.flags)) {
 				continue;
 			}
-			if (!filter.matches (info.id)) {
+			if (!filter.matches (info)) {
 				continue;
 			}
 			var value = file_data.get_attribute_as_string (info.id);

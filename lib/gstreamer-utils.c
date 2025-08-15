@@ -266,14 +266,11 @@ static void tag_iterate (const GstTagList *list, const char *tag, GFileInfo *inf
 	if (strcmp (tag, "container-format") == 0) {
 		tag_key = "Metadata::Format";
 	}
-	else if (strcmp (tag, "bitrate") == 0) {
-		tag_key = "Media::Bitrate";
-	}
-	else if (strcmp (tag, "encoder") == 0) {
-		tag_key = "Media::Encoder";
-	}
 	else if (strcmp (tag, "title") == 0) {
 		tag_key = "Metadata::Title";
+	}
+	else if (strcmp (tag, "description") == 0) {
+		tag_key = "Metadata::Description";
 	}
 	else if (strcmp (tag, "artist") == 0) {
 		tag_key = "Media::Artist";
@@ -281,23 +278,26 @@ static void tag_iterate (const GstTagList *list, const char *tag, GFileInfo *inf
 	else if (strcmp (tag, "album") == 0) {
 		tag_key = "Media::Album";
 	}
-	else if (strcmp (tag, "audio-codec") == 0) {
-		tag_key = "Media::Audio::Codec";
-	}
 	else if (strcmp (tag, "video-codec") == 0) {
-		tag_key = "Media::Video::Codec";
+		tag_key = "Video::Codec";
+	}
+	else if (strcmp (tag, "audio-codec") == 0) {
+		tag_key = "Audio::Codec";
+	}
+	else if (strcmp (tag, "encoder") == 0) {
+		tag_key = "Media::Encoder";
 	}
 
 	char *attribute = NULL;
 	if (tag_key == NULL) {
-		attribute = g_strconcat ("Media::Other::", tag, NULL);
+		attribute = g_strconcat ("Media::", tag, NULL);
 
 		GthMetadataInfo *metadata_info = gth_metadata_info_get (attribute);
 		if (metadata_info == NULL) {
 			metadata_info = gth_metadata_info_register (
 				attribute,
 				gst_tag_get_nick (tag),
-				"Media::Other",
+				"Other",
 				GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
 				NULL
 			);

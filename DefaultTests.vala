@@ -166,9 +166,9 @@ public class Gth.TestFileModifiedTime : Gth.TestDate {
 
 public class Gth.TestTimeOriginal : Gth.TestDate {
 	construct {
-		id = "Embedded::Photo::DateTimeOriginal";
+		id = "Photo::DateTimeOriginal";
 		display_name = _("Created (Original)");
-		attributes = "Embedded::Photo::DateTimeOriginal";
+		attributes = "Photo::DateTimeOriginal";
 	}
 
 	public override Gth.DateTime? get_file_value (FileData file) {

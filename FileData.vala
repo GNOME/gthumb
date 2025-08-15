@@ -145,7 +145,7 @@ public class Gth.FileData : Object {
 	public unowned Gth.DateTime get_embedded_original_time () {
 		if (embedded_otime == null) {
 			embedded_otime = new Gth.DateTime ();
-			var metadata = info.get_attribute_object ("Embedded::Photo::DateTimeOriginal") as Gth.Metadata;
+			var metadata = info.get_attribute_object ("Photo::DateTimeOriginal") as Gth.Metadata;
 			if (metadata != null) {
 				var time = DateTime.get_from_exif_date (metadata.get_raw ());
 				if (time != null)

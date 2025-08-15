@@ -13,7 +13,7 @@
           </object>
         </property>
         <child type="bottom">
-          <object class="GtkBox">
+          <object class="GtkBox" id="bottom_bar">
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <style>
@@ -37,9 +37,10 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox" id="header">
+              <object class="AdwWrapBox" id="header">
                 <property name="orientation">horizontal</property>
-                <property name="spacing">6</property>
+                <property name="child-spacing">6</property>
+                <property name="line-spacing">6</property>
               </object>
             </child>
           </object>

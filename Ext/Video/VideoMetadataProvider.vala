@@ -1,12 +1,15 @@
 public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"Metadata::Title",
+		"Metadata::Description",
 		"Metadata::Format",
 		"Metadata::Duration",
 		"Frame::Pixels",
 		"Frame::Width",
 		"Frame::Height",
-		"Media::*"
+		"Media::*",
+		"Audio::*",
+		"Video::*",
 	};
 
 	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {

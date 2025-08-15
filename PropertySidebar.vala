@@ -27,16 +27,41 @@ public class Gth.PropertySidebar : Gtk.Box {
 	}
 
 	public void update_view () {
+		string first_visible_page = null;
+		var active_page_is_empty = false;
+		var always_show_exif = Util.content_type_is_image (_file.get_content_type ());
+		var visible_pages = 0;
 		foreach (unowned var page in pages) {
 			if ((_file != null) && page.view.can_view (_file)) {
 				page.view.set_file (_file);
 				page.button.sensitive = true;
+				page.button.visible = true;
+				 if (first_visible_page == null) {
+					first_visible_page = page.name;
+				}
+				visible_pages++;
 			}
 			else {
 				page.view.set_file (null);
 				page.button.sensitive = false;
+				if (page.name == "other-properties") {
+					page.button.visible = false;
+				}
+				else {
+					page.button.visible = always_show_exif;
+				}
+				if (page.button.active) {
+					active_page_is_empty = true;
+				}
 			}
 		}
+		if (active_page_is_empty) {
+			if (first_visible_page == null) {
+				first_visible_page = "file-properties";
+			}
+			set_page (first_visible_page);
+		}
+		bottom_bar.visible = (visible_pages > 0) || search_bar.visible;
 	}
 
 	construct {
@@ -57,16 +82,21 @@ public class Gth.PropertySidebar : Gtk.Box {
 		add_page (new Gth.ExifPropertyView ());
 		add_page (new Gth.IptcPropertyView ());
 		add_page (new Gth.XmpPropertyView ());
-		//add_page (new Gth.MetadataView ());
+		add_page (new Gth.OtherPropertyView ());
 		set_page ("file-properties");
 	}
 
-	void add_page (Gth.PropertyView view) {
+	void add_page (Gth.PropertyView view, bool use_icon = false) {
 		var button = new Gtk.ToggleButton ();
-		button.child = new Gtk.Label (view.get_title ());
+		if (use_icon) {
+			button.child = new Gtk.Image.from_icon_name (view.get_icon ());
+			button.tooltip_text = view.get_title ();
+		}
+		else {
+			button.child = new Gtk.Label (view.get_title ());
+		}
 		button.action_name = "sidebar.set-view";
 		button.action_target = new Variant.string (view.get_id ());
-		button.hexpand = true;
 		button.add_css_class ("flat");
 		header.append (button);
 
@@ -85,9 +115,10 @@ public class Gth.PropertySidebar : Gtk.Box {
 		}
 	}
 
-	[GtkChild] unowned Gtk.Box header;
+	[GtkChild] unowned Adw.WrapBox header;
 	[GtkChild] unowned Gtk.Stack stack;
 	[GtkChild] unowned Gtk.Box search_bar;
+	[GtkChild] unowned Gtk.Box bottom_bar;
 	[GtkChild] public unowned Gth.SidebarResizer resizer;
 
 	struct PageInfo {

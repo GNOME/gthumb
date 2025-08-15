@@ -1,4 +1,4 @@
-public class Gth.MetadataProviderExiv2 : Gth.MetadataProvider {
+public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 	GLib.Settings settings;
 
 	construct {
@@ -9,7 +9,7 @@ public class Gth.MetadataProviderExiv2 : Gth.MetadataProvider {
 		"Exif::*",
 		"Xmp::*",
 		"Iptc::*",
-		"Embedded::Photo::*",
+		"Photo::*",
 		"Metadata::DateTime",
 		"Metadata::Title",
 		"Metadata::Description",
@@ -38,7 +38,7 @@ public class Gth.MetadataProviderExiv2 : Gth.MetadataProvider {
 				update_general_attributes);
 		}
 		catch (Error error) {
-			stdout.printf ("ERROR MetadataProviderExiv2.read: %s\n", error.message);
+			stdout.printf ("ERROR ExivMetadataProvider.read: %s\n", error.message);
 		}
 	}
 
