@@ -12,7 +12,7 @@ public class Gth.ActionPopover : Gtk.Popover {
 
 		scrolled_window = new Gtk.ScrolledWindow ();
 		scrolled_window.hscrollbar_policy = Gtk.PolicyType.NEVER;
-		scrolled_window.vscrollbar_policy = Gtk.PolicyType.EXTERNAL;
+		scrolled_window.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 		scrolled_window.max_content_height = DEFAULT_MAX_CONTENT_HEIGHT;
 		scrolled_window.propagate_natural_height = true;
 		child = scrolled_window;
@@ -21,7 +21,7 @@ public class Gth.ActionPopover : Gtk.Popover {
 		scrolled_window.child = actions;
 	}
 
-	const int DEFAULT_MAX_CONTENT_HEIGHT = 500;
+	const int DEFAULT_MAX_CONTENT_HEIGHT = 800;
 
 	Gtk.ScrolledWindow scrolled_window;
 }
