@@ -322,6 +322,9 @@ tag_iterate (const GstTagList *list,
 	else if (strcmp (tag, "title") == 0) {
 		tag_key = "general::title";
 	}
+	else if (strcmp (tag, "description") == 0) {
+		tag_key = "general::description";
+	}
 	else if (strcmp (tag, "artist") == 0) {
 		tag_key = "audio-video::general::artist";
 	}

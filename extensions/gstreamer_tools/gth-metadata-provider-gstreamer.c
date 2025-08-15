@@ -43,6 +43,7 @@ gth_metadata_provider_gstreamer_can_read (GthMetadataProvider  *self,
 	}
 
 	return _g_file_attributes_matches_any_v ("general::title,"
+						 "general::description,"
 						 "general::format,"
 						 "general::dimensions,"
 						 "general::duration,"
