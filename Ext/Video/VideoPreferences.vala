@@ -1,5 +1,5 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/preferences-video-page.ui")]
-public class Gth.PreferencesVideoPage : Adw.NavigationPage {
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/video-preferences.ui")]
+public class Gth.VideoPreferences : Adw.NavigationPage {
 	[GtkCallback]
 	void on_select_folder (Adw.ActionRow row) {
 		var initial_folder = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);

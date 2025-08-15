@@ -1,4 +1,4 @@
-public class Gth.MetadataProviderComment : Gth.MetadataProvider {
+public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"comment::*",
 		"Metadata::DateTime",

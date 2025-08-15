@@ -1,270 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
-  <object class="GtkBox" id="browser_page">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">20</property>
-    <child>
-      <object class="GtkBox" id="box2">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkLabel" id="label4">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Caption</property>
-            <property name="use-markup">True</property>
-            <property name="xalign">0</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
+  <template class="GthBrowserPreferences">
+    <property name="title" translatable="yes">Browser</property>
+    <property name="tag">browser</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
         </child>
-        <child>
-          <object class="GtkScrolledWindow" id="caption_scrolledwindow">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="margin-left">12</property>
-            <property name="shadow-type">in</property>
+        <property name="content">
+          <object class="AdwPreferencesPage">
             <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="box4">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Behavior</property>
-            <property name="use-markup">True</property>
-            <property name="xalign">0</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box5">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="margin-left">12</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <child>
-              <object class="GtkRadioButton" id="single_click_radiobutton">
-                <property name="label" translatable="yes">_Single click to open files</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="use-underline">True</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkRadioButton" id="double_click_radiobutton">
-                <property name="label" translatable="yes">_Double click to open files</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="use-underline">True</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-                <property name="group">single_click_radiobutton</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="open_in_fullscreen_checkbutton">
-                <property name="label" translatable="yes">_Open files in fullscreen mode</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="use-underline">True</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="box3">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkLabel" id="label8">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Other</property>
-            <property name="use-markup">True</property>
-            <property name="xalign">0</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box1">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="margin-left">12</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <child>
-              <object class="GtkBox" id="box7">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="spacing">6</property>
+              <object class="AdwPreferencesGroup">
                 <child>
-                  <object class="GtkLabel" id="label9">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Thumbnail _size:</property>
-                    <property name="use-underline">True</property>
-                    <property name="mnemonic-widget">thumbnail_size_combobox</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="thumbnail_size_box">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkComboBoxText" id="thumbnail_size_combobox">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <items>
-                          <item>48</item>
-                          <item>64</item>
-                          <item>85</item>
-                          <item>95</item>
-                          <item>112</item>
-                          <item>128</item>
-                          <item>164</item>
-                          <item>200</item>
-                          <item>256</item>
-                          <item>512</item>
-                          <item>768</item>
-                          <item>1024</item>
-                        </items>
+                  <object class="AdwActionRow" id="thumbnail_size">
+                    <property name="title" translatable="yes">Thumbnail Size</property>
+                    <child type="suffix">
+                      <object class="GtkScale">
+                        <property name="valign">center</property>
+                        <property name="adjustment">thumbnail_size_adjustment</property>
+                        <property name="digits">0</property>
+                        <property name="draw-value">true</property>
+                        <property name="round-digits">1</property>
+                        <property name="value-pos">left</property>
+                        <property name="width-request">250</property>
+                        <marks>
+                          <mark value="128" position="bottom" />
+                          <mark value="256" position="bottom" />
+                          <mark value="384" position="bottom" />
+                          <mark value="512" position="bottom" />
+                        </marks>
+                        <signal name="change_value" handler="on_thumbnail_size_change_value"/>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="slow_mime_type_checkbutton">
-                <property name="label" translatable="yes">D_etermine image type from content (slower)</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="use-underline">True</property>
-                <property name="draw-indicator">True</property>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Caption</property>
+                <child>
+                  <object class="AdwComboRow" id="caption_first_row">
+                    <property name="title" translatable="yes">First Row</property>
+                    <property name="model">caption_model</property>
+                    <signal name="notify::selected" handler="on_caption_selected"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwComboRow" id="caption_second_row">
+                    <property name="title" translatable="yes">Second Row</property>
+                    <property name="model">caption_model</property>
+                    <signal name="notify::selected" handler="on_caption_selected"/>
+                  </object>
+                </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
+        </property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing>
-    </child>
+    </property>
+  </template>
+  <object class="GtkAdjustment" id="thumbnail_size_adjustment">
+    <property name="lower">128</property>
+    <property name="upper">512</property>
+    <property name="step-increment">32</property>
+    <property name="page-increment">128</property>
+    <property name="value">256</property>
+    <signal name="value_changed" handler="on_thumbnail_size_changed"/>
+  </object>
+  <object class="GtkStringList" id="caption_model">
   </object>
 </interface>

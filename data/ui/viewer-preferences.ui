@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthPreferencesVideoPage">
-    <property name="title" translatable="yes">Videos</property>
-    <property name="tag">video</property>
+  <template class="GthViewerPreferences">
+    <property name="title" translatable="yes">Images</property>
+    <property name="tag">viewer</property>
     <property name="child">
       <object class="AdwToolbarView">
         <child type="top">
@@ -19,28 +19,11 @@
                     <property name="model">
                       <object class="GtkStringList">
                         <items>
-                          <item translatable="yes">Change Time</item>
-                          <item translatable="yes">Change Volume</item>
+                          <item translatable="yes">Change Zoom</item>
                           <item translatable="yes">Change File</item>
                         </items>
                       </object>
                     </property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwPreferencesGroup">
-                <property name="title" translatable="true">Screenshots Folder</property>
-                <property name="description" translatable="true">Folder where to save the screenshots.</property>
-                <child>
-                  <object class="AdwActionRow" id="screenshot_folder">
-                    <property name="activatable">true</property>
-                    <child type="prefix">
-                      <object class="GtkImage" id="folder_icon">
-                      </object>
-                    </child>
-                    <signal name="activated" handler="on_select_folder"/>
                   </object>
                 </child>
               </object>

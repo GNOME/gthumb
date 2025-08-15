@@ -1,5 +1,5 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/preferences-saving-page.ui")]
-public class Gth.PreferencesSavingPage : Adw.NavigationPage {
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/savers-preferences.ui")]
+public class Gth.SaversPreferences : Adw.NavigationPage {
 	construct {
 		saver_preferences = new GenericArray<SaverPreferences> ();
 		foreach (unowned var type in app.saver_preferences.get_values ()) {

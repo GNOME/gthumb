@@ -1,4 +1,4 @@
-public class Gth.MetadataProviderFile : Gth.MetadataProvider {
+public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"Private::File::Size",
 		"Private::File::DisplaySize",

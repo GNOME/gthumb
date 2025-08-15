@@ -53,8 +53,10 @@
     <file preprocess="xml-stripblanks">bookmark-row.ui</file>
     <file preprocess="xml-stripblanks">bookmarks-dialog.ui</file>
     <file preprocess="xml-stripblanks">browser-menu.ui</file>
+    <file preprocess="xml-stripblanks">browser-preferences.ui</file>
     <file preprocess="xml-stripblanks">browser.ui</file>
     <file preprocess="xml-stripblanks">catalog-dialog.ui</file>
+    <file preprocess="xml-stripblanks">entry-dialog.ui</file>
     <file preprocess="xml-stripblanks">file-property-item.ui</file>
     <file preprocess="xml-stripblanks">file-property-view.ui</file>
     <file preprocess="xml-stripblanks">filter-bar.ui</file>
@@ -63,18 +65,15 @@
     <file preprocess="xml-stripblanks">filters-dialog.ui</file>
     <file preprocess="xml-stripblanks">folder-selector-dialog.ui</file>
     <file preprocess="xml-stripblanks">folder-status.ui</file>
+    <file preprocess="xml-stripblanks">general-preferences.ui</file>
     <file preprocess="xml-stripblanks">image-viewer.ui</file>
     <file preprocess="xml-stripblanks">jpeg-preferences.ui</file>
     <file preprocess="xml-stripblanks">metadata-view.ui</file>
     <file preprocess="xml-stripblanks">png-preferences.ui</file>
-    <file preprocess="xml-stripblanks">preferences-browser-page.ui</file>
     <file preprocess="xml-stripblanks">preferences-dialog.ui</file>
-    <file preprocess="xml-stripblanks">preferences-general-page.ui</file>
-    <file preprocess="xml-stripblanks">preferences-saving-page.ui</file>
-    <file preprocess="xml-stripblanks">preferences-video-page.ui</file>
-    <file preprocess="xml-stripblanks">preferences-viewer-page.ui</file>
     <file preprocess="xml-stripblanks">property-sidebar.ui</file>
     <file preprocess="xml-stripblanks">saver-preferences-page.ui</file>
+    <file preprocess="xml-stripblanks">savers-preferences.ui</file>
     <file preprocess="xml-stripblanks">search-dialog.ui</file>
     <file preprocess="xml-stripblanks">search-source-editor-group.ui</file>
     <file preprocess="xml-stripblanks">search-source-row.ui</file>
@@ -82,11 +81,12 @@
     <file preprocess="xml-stripblanks">sort-folders-dialog.ui</file>
     <file preprocess="xml-stripblanks">status.ui</file>
     <file preprocess="xml-stripblanks">test-expr-editor-group.ui</file>
+    <file preprocess="xml-stripblanks">video-preferences.ui</file>
     <file preprocess="xml-stripblanks">video-viewer.ui</file>
     <file preprocess="xml-stripblanks">viewer-menu.ui</file>
+    <file preprocess="xml-stripblanks">viewer-preferences.ui</file>
     <file preprocess="xml-stripblanks">viewer-status.ui</file>
     <file preprocess="xml-stripblanks">viewer.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
-    <file preprocess="xml-stripblanks">entry-dialog.ui</file>
   </gresource>
 </gresources>

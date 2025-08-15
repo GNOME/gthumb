@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthPreferencesSavingPage">
+  <template class="GthSaversPreferences">
     <property name="title" translatable="yes">Saving</property>
     <property name="tag">saving</property>
     <property name="child">

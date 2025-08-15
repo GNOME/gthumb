@@ -141,10 +141,10 @@ public class Gth.Application : Adw.Application {
 		ExifMetadata.register_info ();
 
 		metadata_providers = new GenericArray<MetadataProvider>();
-		register_metadata_provider (typeof (MetadataProviderFile));
+		register_metadata_provider (typeof (FileMetadataProvider));
 		register_metadata_provider (typeof (ExivMetadataProvider));
-		register_metadata_provider (typeof (MetadataProviderImage));
-		register_metadata_provider (typeof (MetadataProviderComment));
+		register_metadata_provider (typeof (ImageMetadataProvider));
+		register_metadata_provider (typeof (CommentMetadataProvider));
 		register_metadata_provider (typeof (VideoMetadataProvider));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);

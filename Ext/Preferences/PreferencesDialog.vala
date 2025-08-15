@@ -11,7 +11,7 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 		pages.model.append (new PageInfo ("viewer", _("Images")));
 #if HAVE_GSTREAMER
 		pages.model.append (new PageInfo ("video", _("Videos")));
-		content_view.add (new Gth.PreferencesVideoPage ());
+		content_view.add (new Gth.VideoPreferences ());
 #endif
 		//pages.model.append (new PageInfo ("presentation", _("Presentation")));
 		// Translators: section for the file saving options in the preferences dialog.
@@ -49,10 +49,10 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 	[GtkChild] unowned Gtk.ListBox page_list;
 	[GtkChild] unowned Adw.NavigationView content_view;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
-	[GtkChild] unowned Gth.PreferencesGeneralPage general_page;
-	[GtkChild] unowned Gth.PreferencesBrowserPage browser_page;
-	[GtkChild] unowned Gth.PreferencesSavingPage saving_page;
-	[GtkChild] unowned Gth.PreferencesViewerPage viewer_page;
+	[GtkChild] unowned Gth.GeneralPreferences general_page;
+	[GtkChild] unowned Gth.BrowserPreferences browser_page;
+	[GtkChild] unowned Gth.SaversPreferences saving_page;
+	[GtkChild] unowned Gth.ViewerPreferences viewer_page;
 
 	GenericList<PageInfo?> pages;
 }

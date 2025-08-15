@@ -1,4 +1,4 @@
-public class Gth.MetadataProviderImage : Gth.MetadataProvider {
+public class Gth.ImageMetadataProvider : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"Frame::Pixels",
 		"Frame::Width",

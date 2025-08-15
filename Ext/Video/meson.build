@@ -1,6 +1,6 @@
 video_files = files(
   'OtherPropertyView.vala',
-  'PreferencesVideoPage.vala',
+  'VideoPreferences.vala',
   'Util.vala',
   'VideoMetadata.vala',
   'VideoMetadataProvider.vala',

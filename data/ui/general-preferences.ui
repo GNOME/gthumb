@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthPreferencesGeneralPage">
+  <template class="GthGeneralPreferences">
     <property name="title" translatable="yes">General</property>
     <property name="tag">general</property>
     <property name="child">

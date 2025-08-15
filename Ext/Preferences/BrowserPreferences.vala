@@ -1,5 +1,5 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/preferences-browser-page.ui")]
-public class Gth.PreferencesBrowserPage : Adw.NavigationPage {
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/browser-preferences.ui")]
+public class Gth.BrowserPreferences : Adw.NavigationPage {
 	construct {
 		settings = new GLib.Settings (GTHUMB_SCHEMA);
 		constructing = true;
