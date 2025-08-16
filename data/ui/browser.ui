@@ -48,7 +48,7 @@
                     </style>
                     <child>
                       <object class="GtkToggleButton" id="vfs_button">
-                        <property name="icon-name">folder-symbolic</property>
+                        <property name="icon-name">gth-folder-symbolic</property>
                         <property name="action-name">win.show-folders</property>
                         <property name="tooltip-text" translatable="yes">Folders</property>
                         <property name="hexpand">true</property>
@@ -59,7 +59,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="catalog_button">
-                        <property name="icon-name">library-symbolic</property>
+                        <property name="icon-name">gth-library-symbolic</property>
                         <property name="action-name">win.show-catalogs</property>
                         <property name="tooltip-text" translatable="yes">Catalogs</property>
                         <property name="hexpand">true</property>
@@ -86,7 +86,7 @@
                     </child>
                     <child>
                       <object class="GtkMenuButton">
-                        <property name="icon-name">user-bookmarks-symbolic</property>
+                        <property name="icon-name">gth-user-bookmarks-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Bookmarks</property>
                         <property name="hexpand">true</property>
                         <style>
@@ -100,7 +100,7 @@
                     </child>
                     <child>
                       <object class="GtkMenuButton">
-                        <property name="icon-name">clock-alt-symbolic</property>
+                        <property name="icon-name">gth-clock-alt-symbolic</property>
                         <property name="tooltip-text" translatable="yes">History</property>
                         <property name="hexpand">true</property>
                         <style>
@@ -186,7 +186,7 @@
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkButton" id="update_search_button">
-                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="icon-name">gth-view-refresh-symbolic</property>
                         <property name="action-name">win.update-search</property>
                         <property name="tooltip-text" translatable="true">Search Again</property>
                         <style>
@@ -196,7 +196,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="edit_catalog_button">
-                        <property name="icon-name">document-properties-symbolic</property>
+                        <property name="icon-name">gth-document-properties-symbolic</property>
                         <property name="action-name">win.edit-catalog</property>
                         <property name="tooltip-text" translatable="true">Catalog Properties</property>
                         <style>
@@ -206,7 +206,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton">
-                        <property name="icon-name">info-outline-symbolic</property>
+                        <property name="icon-name">gth-info-outline-symbolic</property>
                         <property name="action-name">win.browser-properties</property>
                         <property name="tooltip-text" translatable="true">Properties</property>
                       </object>
@@ -291,7 +291,7 @@
                                 </style>
                                 <child>
                                   <object class="GthFolderStatus" id="folder_status">
-                                    <property name="icon-name">folder-symbolic</property>
+                                    <property name="icon-name">gth-folder-symbolic</property>
                                   </object>
                                 </child>
                               </object>

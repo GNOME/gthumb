@@ -23,7 +23,7 @@
     <child>
       <object class="GtkButton">
         <property name="tooltip-text" translatable="yes">Zoom Out</property>
-        <property name="icon-name">view-zoom-out-symbolic</property>
+        <property name="icon-name">gth-view-zoom-out-symbolic</property>
         <property name="action-name">image.zoom-out</property>
         <style>
           <class name="flat"/>
@@ -33,7 +33,7 @@
     <child>
       <object class="GtkButton">
         <property name="tooltip-text" translatable="yes">Zoom In</property>
-        <property name="icon-name">view-zoom-in-symbolic</property>
+        <property name="icon-name">gth-view-zoom-in-symbolic</property>
         <property name="action-name">image.zoom-in</property>
         <style>
           <class name="flat"/>
@@ -54,7 +54,7 @@
     </child>
     <child>
       <object class="GtkToggleButton">
-        <property name="icon-name">view-zoom-original-symbolic</property>
+        <property name="icon-name">gth-view-zoom-original-symbolic</property>
         <property name="action-name">image.zoom-100</property>
         <property name="tooltip-text" translatable="yes">100%</property>
         <style>
@@ -64,7 +64,7 @@
     </child>
     <child>
       <object class="GtkToggleButton">
-        <property name="icon-name">view-zoom-fit-symbolic</property>
+        <property name="icon-name">gth-view-zoom-fit-symbolic</property>
         <property name="action-name">image.zoom-view-all</property>
         <property name="tooltip-text" translatable="yes">Full Image</property>
         <style>
@@ -75,7 +75,7 @@
     <child>
       <object class="GtkMenuButton" id="zoom_button">
         <property name="direction">down</property>
-        <property name="icon-name">zoom-menu-symbolic</property>
+        <property name="icon-name">gth-zoom-menu-symbolic</property>
         <style>
           <class name="flat"/>
         </style>
@@ -90,7 +90,7 @@
       <object class="GtkMenuButton" id="options_button">
         <property name="menu-model">options_menu</property>
         <property name="direction">up</property>
-        <property name="icon-name">options-symbolic</property>
+        <property name="icon-name">gth-options-symbolic</property>
         <property name="valign">center</property>
         <style>
           <class name="flat"/>
@@ -131,14 +131,14 @@
         <!--child>
           <object class="GtkToggleButton">
             <property name="tooltip-text" translatable="yes">Set to actual size</property>
-            <property name="icon-name">view-zoom-original-symbolic</property>
+            <property name="icon-name">gth-view-zoom-original-symbolic</property>
             <property name="action-name">image.zoom-100</property>
           </object>
         </child>
         <child>
           <object class="GtkToggleButton">
             <property name="tooltip-text" translatable="yes">Fit to the available space</property>
-            <property name="icon-name">view-zoom-fit-symbolic</property>
+            <property name="icon-name">gth-view-zoom-fit-symbolic</property>
             <property name="action-name">image.zoom-best-fit</property>
           </object>
         </child-->

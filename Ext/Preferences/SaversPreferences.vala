@@ -13,7 +13,7 @@ public class Gth.SaversPreferences : Adw.NavigationPage {
 		foreach (unowned var preferences in saver_preferences) {
 			var row = new Adw.ActionRow ();
 			row.title = preferences.get_display_name ();
-			row.add_suffix (new Gtk.Image.from_icon_name ("right-symbolic"));
+			row.add_suffix (new Gtk.Image.from_icon_name ("go-next-symbolic"));
 			row.activatable = true;
 			type_list.append (row);
 		}

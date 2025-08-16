@@ -21,13 +21,13 @@
         <property name="spacing">12</property>
         <child>
           <object class="GtkButton" id="edit_button">
-            <property name="icon-name">edit-item-symbolic</property>
+            <property name="icon-name">gth-edit-item-symbolic</property>
             <property name="valign">center</property>
           </object>
         </child>
         <child>
           <object class="GtkButton" id="delete_button">
-            <property name="icon-name">delete-item-symbolic</property>
+            <property name="icon-name">gth-delete-item-symbolic</property>
             <property name="valign">center</property>
             <style>
               <class name="destructive-action"/>

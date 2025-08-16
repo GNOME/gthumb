@@ -29,20 +29,20 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkButton" id="back_to_browser_button">
-                    <property name="icon-name">left-symbolic</property>
+                    <property name="icon-name">go-previous-symbolic</property>
                     <property name="action-name">win.pop-page</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="fullscreen_button">
-                    <property name="icon-name">fullscreen-symbolic</property>
+                    <property name="icon-name">gth-fullscreen-symbolic</property>
                     <property name="action-name">win.toggle-fullscreen</property>
                     <property name="tooltip-text" translatable="yes">Fullscreen</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="adapt_window_button">
-                    <property name="icon-name">fullscreen-alt-symbolic</property>
+                    <property name="icon-name">gth-fullscreen-alt-symbolic</property>
                     <property name="action-name">win.adapt-to-content</property>
                     <property name="tooltip-text" translatable="yes">Adapt Window to Content</property>
                   </object>
@@ -63,7 +63,7 @@
                   </child>
                   <child>
                     <object class="GtkToggleButton">
-                      <property name="icon-name">info-outline-symbolic</property>
+                      <property name="icon-name">gth-info-outline-symbolic</property>
                       <property name="action-name">win.viewer-properties</property>
                     </object>
                   </child>

@@ -12,6 +12,6 @@ public class Gth.OtherPropertyView : Gth.FilePropertyView {
 	}
 
 	public override unowned string get_icon () {
-		return "open-book-symbolic";
+		return "gth-open-book-symbolic";
 	}
 }

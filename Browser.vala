@@ -393,7 +393,7 @@ public class Gth.Browser : Gtk.Box {
 			var title = _("No Files");
 			if ((filter_bar.filter != null) && (filter_bar.filter.id != "")) {
 				title = _("No Matches");
-				folder_status.icon_name = "filter-symbolic";
+				folder_status.icon_name = "gth-filter-symbolic";
 			}
 			else {
 				folder_status.gicon = folder_tree.current_folder.get_symbolic_icon ();

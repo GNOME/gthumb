@@ -73,7 +73,7 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 
 		Gtk.Widget row = null;
 
-		var delete_button = new Gtk.Button.from_icon_name ("list-delete-symbolic");
+		var delete_button = new Gtk.Button.from_icon_name ("gth-list-delete-symbolic");
 		delete_button.add_css_class ("flat");
 		delete_button.add_css_class ("circular");
 		delete_button.valign = Gtk.Align.CENTER;
@@ -165,7 +165,7 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 		row.action_name = "expr.add-rule";
 		row.action_target = test.id;
 
-		var icon = new Gtk.Image.from_icon_name ("list-add-symbolic");
+		var icon = new Gtk.Image.from_icon_name ("gth-list-add-symbolic");
 		row.add_suffix (icon);
 
 		return row;

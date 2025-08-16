@@ -278,7 +278,7 @@ public class Gth.Viewer : Gtk.Box {
 		back_to_browser_button.visible = false;
 		fullscreen_toolbar_revealer.child = local_headerbar;
 		statusbar_revealer.margin_top = 72;
-		fullscreen_button.icon_name = "unfullscreen-symbolic";
+		fullscreen_button.icon_name = "gth-unfullscreen-symbolic";
 		fullscreen_button.tooltip_text = _("Exit Fullscreen");
 		adapt_window_button.visible = false;
 		fullscreen_state.save ();
@@ -293,7 +293,7 @@ public class Gth.Viewer : Gtk.Box {
 		local_headerbar.show_end_title_buttons = true;
 		back_to_browser_button.visible = true;
 		statusbar_revealer.margin_top = 24;
-		fullscreen_button.icon_name = "fullscreen-symbolic";
+		fullscreen_button.icon_name = "gth-fullscreen-symbolic";
 		fullscreen_button.tooltip_text = _("Fullscreen");
 		adapt_window_button.visible = true;
 		fullscreen_state.restore ();

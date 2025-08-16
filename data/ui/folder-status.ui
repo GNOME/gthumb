@@ -6,7 +6,7 @@
     <property name="spacing">24</property>
     <child>
       <object class="GtkImage" id="icon_image">
-        <property name="icon-name">folder-symbolic</property>
+        <property name="icon-name">gth-folder-symbolic</property>
         <property name="pixel-size">128</property>
         <style>
           <class name="dimmed"/>

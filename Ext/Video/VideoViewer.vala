@@ -313,7 +313,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		unowned var play_button = builder.get_object ("play_button") as Gtk.Button;
 		unowned var play_icon = builder.get_object ("play_button_image") as Gtk.Image;
 		if ((old_state != Gst.State.PLAYING) && (new_state == Gst.State.PLAYING)) {
-			play_icon.set_from_icon_name ("pause-large-symbolic");
+			play_icon.set_from_icon_name ("gth-pause-large-symbolic");
 			play_button.set_tooltip_text (_("Pause"));
 			if (progress_id == 0) {
 				progress_id = Timeout.add_seconds (1, () => {
@@ -327,7 +327,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 				Source.remove (progress_id);
 				progress_id = 0;
 			}
-			play_icon.set_from_icon_name ("play-large-symbolic");
+			play_icon.set_from_icon_name ("gth-play-large-symbolic");
 			play_button.set_tooltip_text (_("Play"));
 		}
 	}

@@ -78,7 +78,7 @@ public class Gth.Catalog : Object {
 	public static void update_file_info_for_library (File file, FileInfo info) {
 		info.set_file_type (FileType.DIRECTORY);
 		info.set_content_type ("gthumb/library");
-		info.set_symbolic_icon (new ThemedIcon ("library-symbolic"));
+		info.set_symbolic_icon (new ThemedIcon ("gth-library-symbolic"));
 		info.set_sort_order (0);
 		var basename = file.get_basename ();
 		if ((basename == null) || (basename == "/")) {
@@ -96,14 +96,14 @@ public class Gth.Catalog : Object {
 		}
 		info.set_file_type (FileType.DIRECTORY);
 		var is_search = basename.has_suffix (".search");
-		info.set_symbolic_icon (new ThemedIcon ("cross-large-symbolic"));
+		info.set_symbolic_icon (new ThemedIcon ("gth-cross-large-symbolic"));
 		if (is_search) {
 			info.set_content_type ("gthumb/search");
-			//info.set_symbolic_icon (new ThemedIcon ("search-symbolic"));
+			//info.set_symbolic_icon (new ThemedIcon ("gth-search-symbolic"));
 		}
 		else {
 			info.set_content_type ("gthumb/catalog");
-			//info.set_symbolic_icon (new ThemedIcon ("catalog-symbolic"));
+			//info.set_symbolic_icon (new ThemedIcon ("gth-catalog-symbolic"));
 		}
 		info.set_sort_order (1);
 		info.set_attribute_boolean ("gthumb::no-child", true);
@@ -184,7 +184,7 @@ public class Gth.Catalog : Object {
 	public virtual void update_file_info (FileInfo info) {
 		info.set_file_type (FileType.DIRECTORY);
 		info.set_content_type ("gthumb/catalog");
-		info.set_symbolic_icon (new ThemedIcon ("catalog-symbolic"));
+		info.set_symbolic_icon (new ThemedIcon ("gth-catalog-symbolic"));
 		info.set_sort_order (1);
 		info.set_attribute_boolean ("gthumb::no-child", true);
 

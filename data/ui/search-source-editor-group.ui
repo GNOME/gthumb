@@ -9,7 +9,7 @@
         </style>
         <child>
           <object class="AdwButtonContent">
-            <property name="icon-name">list-add-symbolic</property>
+            <property name="icon-name">gth-list-add-symbolic</property>
             <property name="label" translatable="yes">_Add</property>
             <property name="use-underline">true</property>
           </object>

@@ -42,7 +42,7 @@
         <child>
           <object class="GtkButton">
             <property name="action-name">win.view-previous</property>
-            <property name="icon-name">skip-backward-large-symbolic</property>
+            <property name="icon-name">gth-skip-backward-large-symbolic</property>
             <property name="tooltip-text" translatable="yes">Previous File</property>
             <style>
               <class name="flat"/>
@@ -52,7 +52,7 @@
         <child>
           <object class="GtkButton">
             <property name="action-name">win.view-next</property>
-            <property name="icon-name">skip-forward-large-symbolic</property>
+            <property name="icon-name">gth-skip-forward-large-symbolic</property>
             <property name="tooltip-text" translatable="yes">Next File</property>
             <style>
               <class name="flat"/>

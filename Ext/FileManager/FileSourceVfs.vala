@@ -90,10 +90,10 @@ public class Gth.FileSourceVfs : FileSource {
 			}
 			catch (Error error) {
 			}
-			icon_name = "folder-symbolic";
+			icon_name = "gth-folder-symbolic";
 		}
 		else {
-			icon_name = "folder-remote-symbolic";
+			icon_name = "gth-folder-remote-symbolic";
 		}
 		if (info == null) {
 			info = new FileInfo ();

@@ -16,7 +16,7 @@ public class Gth.TimeSelector : Gtk.Box {
 		selected_time = Gth.Time ();
 
 		date_entry = new Gtk.Entry ();
-		date_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "calendar-symbolic");
+		date_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "gth-calendar-symbolic");
 		date_entry.width_chars = 10;
 		date_entry.icon_press.connect ((icon_pos) => {
 			if (icon_pos == Gtk.EntryIconPosition.SECONDARY) {
