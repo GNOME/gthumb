@@ -29,7 +29,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 	public void update_view () {
 		string first_visible_page = null;
 		var active_page_is_empty = false;
-		var always_show_exif = Util.content_type_is_image (_file.get_content_type ());
+		var always_show_exif = (_file != null) ? Util.content_type_is_image (_file.get_content_type ()) : true;
 		var visible_pages = 0;
 		foreach (unowned var page in pages) {
 			if ((_file != null) && page.view.can_view (_file)) {
