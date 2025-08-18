@@ -386,6 +386,7 @@ executable(
     'SidebarResizer.vala',
     'Status.vala',
     'Strings.vala',
+    'Template.vala',
     'ThumbLoader.vala',
     'Thumbnailer.vala',
     'TimeSelector.vala',
@@ -468,6 +469,17 @@ if get_option('build-tests')
       sources: [
         'Strings.vala',
         'Tests/TestStrings.vala',
+      ],
+      dependencies: dependencies,
+    )
+  )
+
+  test('template',
+    executable('test-template',
+      sources: [
+        'Strings.vala',
+        'Template.vala',
+        'Tests/TestTemplate.vala',
       ],
       dependencies: dependencies,
     )
