@@ -64,6 +64,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 		init_actions ();
 		browser.window = this;
 		viewer.window = this;
+
+		tool_actions_category = new ActionCategory ("", -1);
+		scripts_category = new ActionCategory (_("Scripts"), 1);
 	}
 
 	ulong clipboard_event = 0;
@@ -126,6 +129,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public async void set_page (Page new_page) {
 		if (new_page == current_page) {
 			return;
+		}
+		if (current_page == Page.NONE) {
+			yield app.scripts.load_from_file ();
+			update_scripts_actions ();
 		}
 		if ((current_page == Page.VIEWER) && viewer.current_file.get_is_modified ()) {
 			try {
@@ -385,6 +392,34 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	void update_scripts_actions () {
+		ActionList[] menus = {
+			browser.tools_popover.actions,
+			viewer.tools_popover.actions,
+		};
+		foreach (var menu in menus) {
+			menu.remove_all_actions ();
+
+			// Actions
+			var action = new ActionInfo ("win.edit-tools", null, _("Personalize…"));
+			action.category = tool_actions_category;
+			menu.append_action (action);
+
+			// Scripts
+			foreach (unowned var script in app.scripts.entries) {
+				if (!script.visible) {
+					continue;
+				}
+				action = new ActionInfo ("win.exec-script",
+					new Variant.string (script.id),
+					script.display_name,
+					new ThemedIcon ("gth-script-symbolic"));
+				action.category = scripts_category;
+				menu.append_action (action);
+			}
+		}
+	}
+
 	void init_actions () {
 		var action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
@@ -475,4 +510,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	DesktopBackground desktop_background = null;
+	ActionCategory tool_actions_category;
+	ActionCategory scripts_category;
 }

@@ -1420,6 +1420,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] public unowned Gth.FolderStatus folder_status;
+	[GtkChild] public unowned Gth.ActionPopover tools_popover;
 
 	Gth.Test general_filter;
 	Gth.Thumbnailer thumbnailer;

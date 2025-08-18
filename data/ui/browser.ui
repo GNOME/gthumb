@@ -189,6 +189,7 @@
                         <property name="icon-name">gth-view-refresh-symbolic</property>
                         <property name="action-name">win.update-search</property>
                         <property name="tooltip-text" translatable="true">Search Again</property>
+                        <property name="visible">false</property>
                         <style>
                           <class name="flat"/>
                         </style>
@@ -199,9 +200,20 @@
                         <property name="icon-name">gth-document-properties-symbolic</property>
                         <property name="action-name">win.edit-catalog</property>
                         <property name="tooltip-text" translatable="true">Catalog Properties</property>
+                        <property name="visible">false</property>
                         <style>
                           <class name="flat"/>
                         </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton">
+                        <property name="icon-name">gth-tools-symbolic</property>
+                        <property name="tooltip-text" translatable="true">Tools</property>
+                        <property name="popover">
+                          <object class="GthActionPopover" id="tools_popover">
+                          </object>
+                        </property>
                       </object>
                     </child>
                     <child>

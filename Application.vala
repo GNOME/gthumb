@@ -25,6 +25,7 @@ public class Gth.Application : Adw.Application {
 	public Monitor monitor;
 	public Bookmarks bookmarks;
 	public Migration migration;
+	public Scripts scripts;
 
 	public Application () {
 		Object (
@@ -51,6 +52,7 @@ public class Gth.Application : Adw.Application {
 		monitor = new Monitor ();
 		bookmarks = new Bookmarks ();
 		migration = new Migration ();
+		scripts = new Scripts ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();

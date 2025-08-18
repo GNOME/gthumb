@@ -62,6 +62,16 @@
                     </object>
                   </child>
                   <child>
+                    <object class="GtkMenuButton">
+                      <property name="icon-name">gth-tools-symbolic</property>
+                      <property name="tooltip-text" translatable="true">Tools</property>
+                      <property name="popover">
+                        <object class="GthActionPopover" id="tools_popover">
+                        </object>
+                      </property>
+                    </object>
+                  </child>
+                  <child>
                     <object class="GtkToggleButton">
                       <property name="icon-name">gth-info-outline-symbolic</property>
                       <property name="action-name">win.viewer-properties</property>

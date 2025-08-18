@@ -131,18 +131,21 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 		if (_zoom_type.fit_to_allocation ()) {
 			set_valid_zoom (get_zoom_for_allocation (width, height));
-		}
-		if (_first_allocation) {
 			recenter_image ();
-			_first_allocation = false;
 		}
 		else {
-			update_scroll_offset ();
+			if (_first_allocation) {
+				recenter_image ();
+			}
+			else {
+				update_scroll_offset ();
+			}
 		}
 		update_texture_box ();
 		update_image_box ();
 		update_adjustments ();
 		resized ();
+		_first_allocation = false;
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {

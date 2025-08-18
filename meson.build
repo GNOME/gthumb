@@ -414,6 +414,7 @@ executable(
     preferences_files,
     resources_files,
     savers_files,
+    scripts_files,
     search_files,
     vapi_files,
     version_file,

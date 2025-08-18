@@ -574,6 +574,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] unowned Adw.WindowTitle header_title;
 	[GtkChild] unowned Gtk.Label header_state;
+	[GtkChild] public unowned Gth.ActionPopover tools_popover;
 
 	weak Window _window;
 	bool active_popup = false;
