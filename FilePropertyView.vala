@@ -122,7 +122,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 
 		actions = new HashTable<string, Action> (str_hash, str_equal);
 		actions.set ("standard::display-name", new Action ("property.copy-path", "edit-copy-symbolic", _("Copy Path")));
-		actions.set ("Private::File::Location", new Action ("property.open-folder", "gth-folder-symbolic", _("Open")));
+		actions.set ("Private::File::Location", new Action ("property.open-folder", "folder-symbolic", _("Open")));
 		actions.set ("Metadata::Coordinates", new Action ("property.open-map", "gth-map-marker-symbolic", _("View on OpenStreetMap")));
 		actions.set ("Private::File::DisplaySize", new Action.with_details ("Private::File::Size"));
 		actions.set ("Private::File::ContentType", new Action.with_details ("standard::content-type,standard::fast-content-type"));

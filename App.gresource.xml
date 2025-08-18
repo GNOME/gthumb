@@ -10,7 +10,6 @@
     <file preprocess="xml-stripblanks">gth-document-properties-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-edit-item-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-filter-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-folder-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-fullscreen-alt-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-fullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-info-outline-symbolic.svg</file>
@@ -25,7 +24,6 @@
     <file preprocess="xml-stripblanks">gth-search-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-skip-backward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-skip-forward-large-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-table-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-unfullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-user-home-symbolic.svg</file>

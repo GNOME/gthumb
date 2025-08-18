@@ -48,7 +48,7 @@
                     </style>
                     <child>
                       <object class="GtkToggleButton" id="vfs_button">
-                        <property name="icon-name">gth-folder-symbolic</property>
+                        <property name="icon-name">folder-symbolic</property>
                         <property name="action-name">win.show-folders</property>
                         <property name="tooltip-text" translatable="yes">Folders</property>
                         <property name="hexpand">true</property>
@@ -291,7 +291,7 @@
                                 </style>
                                 <child>
                                   <object class="GthFolderStatus" id="folder_status">
-                                    <property name="icon-name">gth-folder-symbolic</property>
+                                    <property name="icon-name">folder-symbolic</property>
                                   </object>
                                 </child>
                               </object>
