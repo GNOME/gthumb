@@ -318,60 +318,6 @@ public class Gth.Application : Adw.Application {
 		return filter;
 	}
 
-	bool active_filter_loaded = false;
-
-	public Gth.Test? get_last_active_filter () {
-		if (active_filter_loaded) {
-			// Restore the filter only in the first window.
-			// TODO: use the active window filter.
-			return null;
-		}
-		Gth.Test filter = null;
-		var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, "active_filter.xml");
-		if (file != null) {
-			try {
-				var doc = new Dom.Document ();
-				doc.load_file (file);
-				if (doc.first_child != null) {
-					var id = doc.first_child.get_attribute ("id");
-					if (!Strings.empty (id)) {
-						var test = get_test_by_id (id);
-						if (test != null) {
-							filter = test.duplicate ();
-						}
-						else {
-							filter = new Gth.Filter ();
-						}
-						filter.load_from_element (doc.first_child);
-					}
-				}
-			}
-			catch (Error error) {
-				// Ignored.
-			}
-		}
-		active_filter_loaded = true;
-		return filter;
-	}
-
-	public void save_active_filter (Gth.Test? test) {
-		var file = Gth.UserDir.get_config_file (Gth.FileIntent.WRITE, "active_filter.xml");
-		if (file == null)
-			return;
-
-		var content = "";
-		if (test != null) {
-			var doc = new Dom.Document ();
-			doc.append_child (test.create_element (doc));
-			content = doc.to_xml ();
-		}
-		try {
-			Files.save_content (file, content, null);
-		}
-		catch (Error error) {
-		}
-	}
-
 	public GenericList<Gth.Test> get_visible_filters () {
 		var filters = new GenericList<Gth.Test>();
 

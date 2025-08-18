@@ -94,6 +94,52 @@ public class Gth.FilterBar : Gtk.Box {
 		}
 	}
 
+	public void restore_from_file () {
+		Gth.Test filter = null;
+		var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, "active_filter.xml");
+		if (file != null) {
+			try {
+				var doc = new Dom.Document ();
+				doc.load_file (file);
+				if (doc.first_child != null) {
+					var id = doc.first_child.get_attribute ("id");
+					if (!Strings.empty (id)) {
+						var test = app.get_test_by_id (id);
+						if (test != null) {
+							filter = test.duplicate ();
+						}
+						else {
+							filter = new Gth.Filter ();
+						}
+						filter.load_from_element (doc.first_child);
+					}
+				}
+			}
+			catch (Error error) {
+				// Ignored.
+			}
+		}
+		set_active_filter (filter);
+	}
+
+	public void save_to_file () {
+		var file = Gth.UserDir.get_config_file (Gth.FileIntent.WRITE, "active_filter.xml");
+		if (file == null)
+			return;
+
+		var content = "";
+		if (filter != null) {
+			var doc = new Dom.Document ();
+			doc.append_child (filter.create_element (doc));
+			content = doc.to_xml ();
+		}
+		try {
+			Files.save_content (file, content, null);
+		}
+		catch (Error error) {
+		}
+	}
+
 	ulong options_changed_id = 0;
 
 	bool set_selected (int idx) {

@@ -80,7 +80,6 @@ public class Gth.Browser : Gtk.Box {
 			app.settings.get_boolean (PREF_BROWSER_SORT_INVERSE));
 
 		general_filter = app.get_general_filter ();
-		active_filter = app.get_last_active_filter ();
 		show_hidden_files = app.settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
 		file_filter.update_filter ();
 
@@ -176,18 +175,19 @@ public class Gth.Browser : Gtk.Box {
 
 	public async void first_load () {
 		never_loaded = false;
-		filter_bar.set_active_filter (active_filter);
 		if (app.one_window ()) {
-			// Restore the last saved history.
+			// Restore the saved settings.
 			history.restore_from_file ();
+			filter_bar.restore_from_file ();
 		}
 		else {
-			// Copy the previously focused window history.
+			// Copy the settings from the previously focused window.
 			unowned var windows = app.get_windows ();
-			foreach (unowned var w in windows) {
-				if ((w != window) && (w is Gth.Window)) {
-					var previous_window = w as Gth.Window;
+			foreach (unowned var win in windows) {
+				if ((win != window) && (win is Gth.Window)) {
+					var previous_window = win as Gth.Window;
 					history.copy (previous_window.browser.history);
+					filter_bar.set_active_filter (previous_window.browser.filter_bar.filter);
 					break;
 				}
 			}
@@ -334,7 +334,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void update_active_filter () {
-		active_filter = filter_bar.filter.duplicate ();
 		file_filter.update_filter ();
 		update_total_files ();
 	}
@@ -1184,7 +1183,7 @@ public class Gth.Browser : Gtk.Box {
 			app.settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
 		}
 
-		app.save_active_filter (filter_bar.filter);
+		filter_bar.save_to_file ();
 		history.save_to_file ();
 	}
 
@@ -1399,7 +1398,7 @@ public class Gth.Browser : Gtk.Box {
 
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
-	[GtkChild] unowned Gth.FilterBar filter_bar;
+	[GtkChild] public unowned Gth.FilterBar filter_bar;
 	[GtkChild] unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
 	[GtkChild] unowned Gth.ActionPopover history_popover;
@@ -1423,7 +1422,6 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Gth.FolderStatus folder_status;
 
 	Gth.Test general_filter;
-	public Gth.Test active_filter;
 	Gth.Thumbnailer thumbnailer;
 	Gth.History history;
 	weak Window _window;
@@ -1501,7 +1499,7 @@ public class Gth.FileFilter : Gtk.Filter {
 	}
 
 	public void update_filter () {
-		filter = app.add_general_filter (browser.active_filter);
+		filter = app.add_general_filter (browser.filter_bar.filter);
 		if (!browser.show_hidden_files) {
 			filter.tests.add (new Gth.TestVisible ());
 		}
