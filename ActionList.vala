@@ -95,7 +95,6 @@ public class Gth.ActionList : Gtk.Box {
 }
 
 public class Gth.ActionInfo : Object {
-	public Type type;
 	public string name;
 	public Variant? value;
 	public string display_name;
