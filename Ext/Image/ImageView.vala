@@ -69,6 +69,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			_hadjustment = value;
 			if (_hadjustment != null) {
+				update_adjustments ();
 				hadj_changed_id = _hadjustment.value_changed.connect ((adj) => {
 					viewport.origin = { (float) adj.get_value (), viewport.origin.y };
 					update_image_box ();
@@ -86,6 +87,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			_vadjustment = value;
 			if (_vadjustment != null) {
+				update_adjustments ();
 				vadj_changed_id = _vadjustment.value_changed.connect ((adj) => {
 					viewport.origin = { viewport.origin.x, (float) adj.get_value () };
 					update_image_box ();
@@ -404,6 +406,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				_vadjustment.set_upper (zoomed_height);
 				_vadjustment.set_page_size (zoomed_height);
 			}
+			_vadjustment.set_value (viewport.origin.y);
 			_vadjustment.thaw_notify ();
 		}
 		if (_hadjustment != null) {
@@ -417,6 +420,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				_hadjustment.set_upper (zoomed_width);
 				_hadjustment.set_page_size (zoomed_width);
 			}
+			_hadjustment.set_value (viewport.origin.x);
 			_hadjustment.thaw_notify ();
 		}
 	}
