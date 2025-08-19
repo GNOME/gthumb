@@ -144,10 +144,15 @@ _apply_transformation_async_thread (GTask        *task,
 	// Change orientation
 	GthTransform orientation = GTH_TRANSFORM_NONE;
 	GthMetadata *metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Exif::Image::Orientation");
-	if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL)) {
-		orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+	if (tdata->flags & GTH_TRANSFORM_FLAG_RESET) {
+		orientation = tdata->transform;
 	}
-	orientation = get_next_transformation (orientation, tdata->transform);
+	else {
+		if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL)) {
+			orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+		}
+		orientation = get_next_transformation (orientation, tdata->transform);
+	}
 	char *raw_orientation = g_strdup_printf ("%d", orientation);
 	if (metadata == NULL) {
 		metadata = g_object_new (GTH_TYPE_METADATA,

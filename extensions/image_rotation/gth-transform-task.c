@@ -117,7 +117,7 @@ file_info_ready_cb (GList    *files,
 
 	apply_transformation_async (self->priv->file_data,
 		self->priv->transform,
-		GTH_TRANSFORM_FLAG_DEFAULT,
+		GTH_TRANSFORM_FLAG_LOAD_METADATA,
 		gth_task_get_cancellable (GTH_TASK (self)),
 		transform_file_ready_cb,
 		self);
@@ -139,7 +139,8 @@ transform_current_file (GthTransformTask *self)
 	singleton = g_list_append (NULL, g_object_ref (file));
 	_g_query_all_metadata_async (singleton,
 				     GTH_LIST_DEFAULT,
-				     "*",
+				     (G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE ","
+				      G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME),
 				     gth_task_get_cancellable (GTH_TASK (self)),
 				     file_info_ready_cb,
 				     self);
