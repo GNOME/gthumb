@@ -70,51 +70,20 @@ transform_next_file (GthTransformTask *self)
 
 
 static void
-trim_response_cb (JpegMcuAction action,
-		  gpointer      user_data)
+transform_file_ready_cb (GObject *source_object,
+			 GAsyncResult *res,
+			 gpointer user_data)
 {
 	GthTransformTask *self = user_data;
+	GError *error = NULL;
 
-	gth_task_dialog (GTH_TASK (self), FALSE, NULL);
-
-	if (action != JPEG_MCU_ACTION_ABORT) {
-		self->priv->default_action = action;
-		transform_current_file (self);
-	}
-	else
-		transform_next_file (self);
-}
-
-
-static void
-transform_file_ready_cb (GError   *error,
-			 gpointer  user_data)
-{
-	GthTransformTask *self = user_data;
-	GFile            *parent;
-	GList            *file_list;
-
-	if (error != NULL) {
-		if (g_error_matches (error, JPEG_ERROR, JPEG_ERROR_MCU)) {
-			GtkWidget *dialog;
-
-			g_clear_error (&error);
-
-			dialog = ask_whether_to_trim (GTK_WINDOW (self->priv->browser),
-						      self->priv->file_data,
-						      trim_response_cb,
-						      self);
-			gth_task_dialog (GTH_TASK (self), TRUE, dialog);
-
-			return;
-		}
-
+	if (!apply_transformation_finish (res, &error)) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	parent = g_file_get_parent (self->priv->file_data->file);
-	file_list = g_list_append (NULL, self->priv->file_data->file);
+	GFile *parent = g_file_get_parent (self->priv->file_data->file);
+	GList *file_list = g_list_append (NULL, self->priv->file_data->file);
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    parent,
 				    file_list,
@@ -149,11 +118,11 @@ file_info_ready_cb (GList    *files,
 			   (double) (self->priv->n_image + 1) / (self->priv->n_images + 1));
 
 	apply_transformation_async (self->priv->file_data,
-				    self->priv->transform,
-				    self->priv->default_action,
-				    gth_task_get_cancellable (GTH_TASK (self)),
-				    transform_file_ready_cb,
-				    self);
+		self->priv->transform,
+		GTH_TRANSFORM_FLAG_DEFAULT,
+		gth_task_get_cancellable (GTH_TASK (self)),
+		transform_file_ready_cb,
+		self);
 }
 
 

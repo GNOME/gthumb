@@ -50,7 +50,7 @@ typedef enum {
 
 /* The GthTransform numeric values range from 1 to 8, corresponding to
  * the valid range of Exif orientation tags.  The name associated with each
- * numeric valid describes the data transformation required that will allow
+ * numeric value describes the data transformation required that will allow
  * the orientation value to be reset to "1" without changing the displayed
  * image.
  * GthTransform and ExifShort values are interchangeably in a number of

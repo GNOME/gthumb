@@ -2458,12 +2458,14 @@ save_resized_image (gpointer data)
 
 
 static void
-transformation_ready_cb (GError   *error,
-			 gpointer  user_data)
+transformation_ready_cb (GObject *source_object,
+			 GAsyncResult *res,
+			 gpointer user_data)
 {
 	GthWebExporter *self = user_data;
+	GError *error = NULL;
 
-	if (error != NULL) {
+	if (!apply_transformation_finish (res, &error)) {
 		cleanup_and_terminate (self, error);
 		return;
 	}
@@ -2509,7 +2511,7 @@ copy_current_file (GthWebExporter *self)
 			file_data = gth_file_data_new (destination, image_data->file_data->info);
 			apply_transformation_async (file_data,
 						    GTH_TRANSFORM_NONE,
-						    JPEG_MCU_ACTION_TRIM,
+						    GTH_TRANSFORM_FLAG_CHANGE_IMAGE | GTH_TRANSFORM_FLAG_LOAD_METADATA,
 						    gth_task_get_cancellable (GTH_TASK (self)),
 						    transformation_ready_cb,
 						    self);

@@ -24,111 +24,8 @@
 #include <sys/types.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
-#ifdef HAVE_LIBJPEG
-#include <extensions/jpeg_utils/jpegtran.h>
-#endif
+#include <extensions/exiv2_tools/exiv2-utils.h>
 #include "rotation-utils.h"
-
-
-enum {
-	GTH_RESPONSE_TRIM
-};
-
-
-typedef struct {
-	GtkWidget        *dialog;
-	TrimResponseFunc  done_func;
-	gpointer          done_data;
-} AskTrimData;
-
-
-static void
-ask_whether_to_trim_response_cb (GtkDialog *dialog,
-                                 gint       response,
-                                 gpointer   user_data)
-{
-	AskTrimData *data = user_data;
-
- 	gtk_widget_destroy (data->dialog);
-
-	if (data->done_func != NULL) {
-		JpegMcuAction action;
-
-		switch (response) {
-		case GTH_RESPONSE_TRIM:
-			action = JPEG_MCU_ACTION_TRIM;
-			break;
-		case GTK_RESPONSE_OK:
-			action = JPEG_MCU_ACTION_DONT_TRIM;
-			break;
-		default:
-			action = JPEG_MCU_ACTION_ABORT;
-			break;
-		}
-		data->done_func (action, data->done_data);
-	}
-
-	g_free (data);
-}
-
-
-GtkWidget *
-ask_whether_to_trim (GtkWindow        *parent_window,
-		     GthFileData      *file_data,
-		     TrimResponseFunc  done_func,
-		     gpointer          done_data)
-{
-	AskTrimData *data;
-	char        *filename;
-	char        *msg;
-
-	/* If the user disabled the warning dialog trim the image */
-
-	/* FIXME
-	 if (! eel_gconf_get_boolean (PREF_MSG_JPEG_MCU_WARNING, TRUE)) {
-		if (done_func != NULL)
-			done_func (JPEG_MCU_ACTION_TRIM, done_data);
-		return;
-	}
-	*/
-
-	/*
-	 * Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
-	 * Warn about possible image distortions along one or more edges.
-	 */
-
-	data = g_new0 (AskTrimData, 1);
-	data->done_func = done_func;
-	data->done_data = done_data;
-
-	filename = g_file_get_parse_name (file_data->file);
-	msg = g_strdup_printf (_("Problem transforming the image: %s"), filename);
-	data->dialog = _gtk_message_dialog_new (parent_window,
-						GTK_DIALOG_MODAL,
-						_GTK_ICON_NAME_DIALOG_WARNING,
-						msg,
-						_("This transformation may introduce small image distortions along "
-                                                  "one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
-						  "is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
-						  "transformation to return to the original image.\n\nYou can also choose to discard (or trim) any "
-						  "untransformable edge pixels. For practical use, this mode gives the best looking results, "
-						  "but the transformation is not strictly lossless anymore."),
-						_("_Trim"), GTH_RESPONSE_TRIM,
-					        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-					        _("_Accept distortion"), GTK_RESPONSE_OK,
-					        NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK);
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "response",
-			  G_CALLBACK (ask_whether_to_trim_response_cb),
-			  data);
-	gtk_widget_show (data->dialog);
-
-	g_free (msg);
-	g_free (filename);
-
-	return data->dialog;
-}
 
 
 /* -- get_next_transformation -- */
@@ -204,156 +101,168 @@ get_next_transformation (GthTransform original,
 
 
 typedef struct {
-	GthFileData   *file_data;
-	GthTransform   transform;
-	JpegMcuAction  mcu_action;
-	GCancellable  *cancellable;
-	ReadyFunc      ready_func;
-	gpointer       user_data;
-} TransformatioData;
+	GthFileData *file_data;
+	GthTransform transform;
+	GthTransformFlags flags;
+} TransformationData;
 
 
 static void
-transformation_data_free (TransformatioData *tdata)
+transformation_data_free (TransformationData *tdata)
 {
 	_g_object_unref (tdata->file_data);
-	_g_object_unref (tdata->cancellable);
 	g_free (tdata);
 }
 
 
-#ifdef HAVE_LIBJPEG
 static void
-write_file_ready_cb (void     **buffer,
-		     gsize      count,
-		     GError    *error,
-		     gpointer   user_data)
+_apply_transformation_async_thread (GTask        *task,
+				    gpointer      source_object,
+				    gpointer      task_data,
+				    GCancellable *cancellable)
 {
-	TransformatioData *tdata = user_data;
+	TransformationData *tdata = g_task_get_task_data (task);
+	GError *error = NULL;
+	guint8 *buffer;
+	gsize size;
 
-	tdata->ready_func (error, tdata->user_data);
-	transformation_data_free (tdata);
-}
-#endif /* HAVE_LIBJPEG */
-
-
-static void
-pixbuf_saved_cb (GthFileData *file_data,
-		 GError      *error,
-		 gpointer     user_data)
-{
-	TransformatioData *tdata = user_data;
-
-	tdata->ready_func (error, tdata->user_data);
-	transformation_data_free (tdata);
-}
-
-
-static void
-file_buffer_ready_cb (void     **buffer,
-		      gsize      count,
-		      GError    *error,
-		      gpointer   user_data)
-{
-	TransformatioData *tdata = user_data;
-	GthMetadata       *metadata;
-	GthTransform       orientation;
-
-	if (error != NULL) {
-		tdata->ready_func (error, tdata->user_data);
-		transformation_data_free (tdata);
+	// Load the file
+	if (!_g_file_load_in_buffer (tdata->file_data->file, (void **) &buffer, &size, cancellable, &error)) {
+		g_task_return_error (task, error);
 		return;
 	}
 
-	orientation = GTH_TRANSFORM_NONE;
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Embedded::Image::Orientation");
-	if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL))
-		orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
-	orientation = get_next_transformation (orientation, tdata->transform);
-
-#ifdef HAVE_LIBJPEG
-	if (g_content_type_equals (gth_file_data_get_mime_type (tdata->file_data), "image/jpeg")) {
-		void  *out_buffer;
-		gsize  out_buffer_size;
-
-		if (! jpegtran (*buffer,
-				count,
-				&out_buffer,
-				&out_buffer_size,
-				orientation,
-				tdata->mcu_action,
-				&error))
-		{
-			tdata->ready_func (error, tdata->user_data);
-			transformation_data_free (tdata);
+	// Read the exif orientation
+	if (tdata->flags & GTH_TRANSFORM_FLAG_LOAD_METADATA) {
+		if (!exiv2_read_metadata_from_buffer (buffer, size, tdata->file_data->info, false, &error)) {
+			g_free (buffer);
+			g_task_return_error (task, error);
 			return;
 		}
-
-		_g_file_write_async (tdata->file_data->file,
-				     out_buffer,
-		    		     out_buffer_size,
-		    		     TRUE,
-				     G_PRIORITY_DEFAULT,
-				     tdata->cancellable,
-				     write_file_ready_cb,
-				     tdata);
 	}
-	else
-#endif /* HAVE_LIBJPEG */
-	{
+
+	// Change orientation
+	GthTransform orientation = GTH_TRANSFORM_NONE;
+	GthMetadata *metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Exif::Image::Orientation");
+	if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL)) {
+		orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+	}
+	orientation = get_next_transformation (orientation, tdata->transform);
+	char *raw_orientation = g_strdup_printf ("%d", orientation);
+	if (metadata == NULL) {
+		metadata = gth_metadata_new ();
+		g_object_set (metadata,
+			"id", "Exif::Image::Orientation",
+			"value-type", "Short",
+			"raw", raw_orientation,
+			NULL);
+		g_file_info_set_attribute_object (tdata->file_data->info,
+			"Exif::Image::Orientation",
+			G_OBJECT (metadata));
+	}
+	else {
+		g_object_set (metadata, "raw", raw_orientation, NULL);
+	}
+	g_free (raw_orientation);
+
+	const char *mime_type = gth_file_data_get_mime_type (tdata->file_data);
+	gboolean change_orientation_tag = !(tdata->flags & GTH_TRANSFORM_FLAG_CHANGE_IMAGE) &&
+		(g_content_type_equals (mime_type, "image/jpeg")
+			|| g_content_type_equals (mime_type, "image/tiff")
+			|| g_content_type_equals (mime_type, "image/webp"));
+
+	if (change_orientation_tag) {
+		// Change the exif orientation.
+		if (!exiv2_write_metadata_to_buffer ((void **) &buffer, &size, tdata->file_data->info, NULL, &error)) {
+			g_free (buffer);
+			g_task_return_error (task, error);
+			return;
+		}
+	}
+	else if (orientation != GTH_TRANSFORM_NONE) {
+		// Rotate the image
 		GInputStream    *istream;
 		GthImage        *image;
 		cairo_surface_t *surface;
 		cairo_surface_t *transformed;
 
-		istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
-		image = gth_image_new_from_stream (istream, -1, NULL, NULL, tdata->cancellable, &error);
+		istream = g_memory_input_stream_new_from_data (buffer, size, NULL);
+		image = gth_image_new_from_stream (istream, -1, NULL, NULL, cancellable, &error);
+		g_object_unref (istream);
+		g_free (buffer);
 		if (image == NULL) {
-			tdata->ready_func (error, tdata->user_data);
-			transformation_data_free (tdata);
+			g_task_return_error (task, error);
 			return;
 		}
 
+		buffer = NULL;
 		surface = gth_image_get_cairo_surface (image);
 		transformed = _cairo_image_surface_transform (surface, orientation);
 		gth_image_set_cairo_surface (image, transformed);
-		gth_image_save_to_file (image,
-					gth_file_data_get_mime_type (tdata->file_data),
-					tdata->file_data,
-					TRUE,
-					tdata->cancellable,
-					pixbuf_saved_cb,
-					tdata);
+		gboolean saved = gth_image_save_to_buffer (image,
+			mime_type,
+			tdata->file_data,
+			(char**) &buffer,
+			&size,
+			cancellable,
+			&error);
 
 		cairo_surface_destroy (transformed);
 		cairo_surface_destroy (surface);
 		g_object_unref (image);
-		g_object_unref (istream);
+
+		if (!saved) {
+			g_free (buffer);
+			g_task_return_error (task, error);
+			return;
+		}
+	}
+
+	// Save buffer to file.
+	gboolean file_saved = _g_file_write (tdata->file_data->file,
+		FALSE,
+		G_FILE_CREATE_REPLACE_DESTINATION,
+		buffer,
+		size,
+		cancellable,
+		&error);
+	g_free (buffer);
+
+	if (!file_saved) {
+		g_task_return_error (task, error);
+	}
+	else {
+		g_task_return_boolean (task, true);
 	}
 }
 
 
 void
-apply_transformation_async (GthFileData   *file_data,
-			    GthTransform   transform,
-			    JpegMcuAction  mcu_action,
-			    GCancellable  *cancellable,
-			    ReadyFunc      ready_func,
-			    gpointer       user_data)
+apply_transformation_async (GthFileData         *file_data,
+			    GthTransform         transform,
+			    GthTransformFlags    flags,
+			    GCancellable        *cancellable,
+			    GAsyncReadyCallback  callback,
+			    gpointer             user_data)
 {
-	TransformatioData *tdata;
+	TransformationData *tdata;
 
-	tdata = g_new0 (TransformatioData, 1);
+	tdata = g_new0 (TransformationData, 1);
 	tdata->file_data = g_object_ref (file_data);
 	tdata->transform = transform;
-	tdata->mcu_action = mcu_action;
-	tdata->cancellable = _g_object_ref (cancellable);
-	tdata->ready_func = ready_func;
-	tdata->user_data = user_data;
+	tdata->flags = flags;
 
-	_g_file_load_async (tdata->file_data->file,
-			    G_PRIORITY_DEFAULT,
-			    tdata->cancellable,
-			    file_buffer_ready_cb,
-			    tdata);
+	GTask *task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, tdata, (GDestroyNotify) transformation_data_free);
+	g_task_run_in_thread (task, _apply_transformation_async_thread);
+
+	g_object_unref (task);
+}
+
+
+gboolean
+apply_transformation_finish (GAsyncResult *result,
+			     GError **error)
+{
+	return g_task_propagate_boolean (G_TASK (result), error);
 }

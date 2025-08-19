@@ -26,6 +26,7 @@
 #if HAVE_LCMS2
 #include <lcms2.h>
 #endif
+#include <extensions/jpeg_utils/jpeg-info.h> // For reading EXIF data
 #include <gthumb.h>
 #include "cairo-image-surface-webp.h"
 
@@ -47,85 +48,97 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 	GthImage                  *image;
 	WebPDecoderConfig          config;
 	guchar                    *buffer;
-	gsize                      bytes_read;
+	gsize                      buffer_size;
 	int                        width, height;
 	cairo_surface_t           *surface;
 	cairo_surface_metadata_t  *metadata;
-	WebPIDecoder              *idec;
 
 	image = gth_image_new ();
 
-	if (! WebPInitDecoderConfig (&config))
+	if (!WebPInitDecoderConfig (&config)) {
 		return image;
+	}
 
-	buffer = g_new (guchar, BUFFER_SIZE);
-	if (! g_input_stream_read_all (istream,
-				       buffer,
-				       BUFFER_SIZE,
-				       &bytes_read,
-				       cancellable,
-				       error))
+	if (!_g_input_stream_read_all (istream,
+		(void **) &buffer,
+		&buffer_size,
+		cancellable,
+		error))
 	{
+		return image;
+	}
+
+	if (WebPGetFeatures (buffer, buffer_size, &config.input) != VP8_STATUS_OK) {
 		g_free (buffer);
 		return image;
 	}
 
-	if (WebPGetFeatures (buffer, bytes_read, &config.input) != VP8_STATUS_OK) {
-		g_free (buffer);
-		return image;
-	}
+	WebPData webp_data = { .bytes = (uint8_t*) buffer, .size = (size_t) buffer_size };
+	WebPDemuxer* demux = WebPDemux (&webp_data);
+	uint32_t flags = WebPDemuxGetI (demux, WEBP_FF_FORMAT_FLAGS);
+
+	GthTransform orientation = GTH_TRANSFORM_NONE;
 
 #if HAVE_LCMS2
+	GthICCProfile *profile = NULL;
+
 	// Read the ICC profile.
-	WebPData webp_data = { .bytes = (uint8_t*) buffer, .size = (size_t) bytes_read };
-	WebPDemuxState demux_state;
-	WebPDemuxer* demux = WebPDemuxPartial (&webp_data, &demux_state);
-	if ((demux_state == WEBP_DEMUX_PARSED_HEADER) || (demux_state == WEBP_DEMUX_DONE)) {
-		uint32_t flags = WebPDemuxGetI (demux, WEBP_FF_FORMAT_FLAGS);
-		if (flags & ICCP_FLAG) {
-			WebPChunkIterator chunk_iter;
-			WebPDemuxGetChunk (demux, "ICCP", 1, &chunk_iter);
-			GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
-				cmsOpenProfileFromMem (chunk_iter.chunk.bytes,chunk_iter.chunk.size));
-			if (profile != NULL) {
-				gth_image_set_icc_profile (image, profile);
-				g_object_unref (profile);
-			}
-			WebPDemuxReleaseChunkIterator (&chunk_iter);
-		}
+	if (flags & ICCP_FLAG) {
+		WebPChunkIterator chunk_iter;
+		WebPDemuxGetChunk (demux, "ICCP", 1, &chunk_iter);
+		profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
+			cmsOpenProfileFromMem (chunk_iter.chunk.bytes, chunk_iter.chunk.size));
+		WebPDemuxReleaseChunkIterator (&chunk_iter);
 	}
-	WebPDemuxDelete (demux);
 #endif
 
-	width = config.input.width;
-	height = config.input.height;
-
-	if (original_width != NULL)
-		*original_width = width;
-	if (original_height != NULL)
-		*original_height = height;
-	if (loaded_original != NULL)
-		*loaded_original = TRUE;
-
-#if SCALING_WORKS
-	if (requested_size > 0)
-		scale_keeping_ratio (&width, &height, requested_size, requested_size, FALSE);
+	if (flags & EXIF_FLAG) {
+		WebPChunkIterator chunk_iter;
+		WebPDemuxGetChunk (demux, "EXIF", 1, &chunk_iter);
+		JpegInfoData jpeg_info;
+		_jpeg_info_data_init (&jpeg_info);
+		if (_read_exif_data_tags ((guchar*) chunk_iter.chunk.bytes, chunk_iter.chunk.size,
+			_JPEG_INFO_EXIF_ORIENTATION | _JPEG_INFO_ICC_PROFILE,
+			&jpeg_info))
+		{
+#if HAVE_LCMS2
+			if ((profile == NULL) && (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE)) {
+				if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB) {
+					profile = gth_icc_profile_new_srgb ();
+				}
+				else if (jpeg_info.color_space == GTH_COLOR_SPACE_ADOBERGB) {
+					profile = gth_icc_profile_new_adobergb ();
+				}
+			}
 #endif
+			if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION) {
+				orientation = jpeg_info.orientation;
+			}
+		}
+		WebPDemuxReleaseChunkIterator (&chunk_iter);
+	}
+#if HAVE_LCMS2
+	if (profile != NULL) {
+		gth_image_set_icc_profile (image, profile);
+		g_object_unref (profile);
+	}
+#endif
+
+	WebPIterator iter;
+	if (!WebPDemuxGetFrame (demux, 1, &iter)) {
+		g_free (buffer);
+		WebPDemuxDelete (demux);
+		return image;
+	}
+
+	width = iter.width;
+	height = iter.height;
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	metadata = _cairo_image_surface_get_metadata (surface);
-	_cairo_metadata_set_has_alpha (metadata, config.input.has_alpha);
+	_cairo_metadata_set_has_alpha (metadata, iter.has_alpha);
 
 	config.options.no_fancy_upsampling = 1;
-
-#if SCALING_WORKS
-	if (requested_size > 0) {
-		config.options.use_scaling = 1;
-		config.options.scaled_width = width;
-		config.options.scaled_height = height;
-	}
-#endif
-
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	config.output.colorspace = MODE_bgrA;
 #elif G_BYTE_ORDER == G_BIG_ENDIAN
@@ -138,35 +151,37 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 	config.output.width = width;
 	config.output.height = height;
 
-	idec = WebPINewDecoder (&config.output);
-	if (idec == NULL) {
-		cairo_surface_destroy (surface);
-		g_free (buffer);
-		return image;
-	}
+	WebPDecode (iter.fragment.bytes, iter.fragment.size, &config);
 
-	while (TRUE) {
-		VP8StatusCode status = WebPIAppend (idec, buffer, bytes_read);
-		if ((status != VP8_STATUS_OK) && (status != VP8_STATUS_SUSPENDED))
-			break;
-
-		gssize signed_bytes_read = g_input_stream_read (istream,
-							       buffer,
-							       BUFFER_SIZE,
-							       cancellable,
-							       error);
-		if (signed_bytes_read <= 0)
-			break;
-		bytes_read = signed_bytes_read;
-	}
+	WebPDemuxReleaseIterator (&iter);
+	WebPDemuxDelete (demux);
 
 	cairo_surface_mark_dirty (surface);
-	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
+	if (orientation != GTH_TRANSFORM_NONE) {
+		cairo_surface_t *rotated = _cairo_image_surface_transform (surface, orientation);
+		cairo_surface_destroy (surface);
+		surface = rotated;
+		if ((orientation == GTH_TRANSFORM_ROTATE_90)
+			|| (orientation == GTH_TRANSFORM_ROTATE_270)
+			|| (orientation == GTH_TRANSFORM_TRANSPOSE)
+			|| (orientation == GTH_TRANSFORM_TRANSVERSE))
+		{
+			int tmp = width;
+			width = height;
+			height = tmp;
+		}
+	}
+	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS) {
 		gth_image_set_cairo_surface (image, surface);
+	}
 	cairo_surface_destroy (surface);
 
-	WebPIDelete (idec);
-	WebPFreeDecBuffer (&config.output);
+	if (original_width != NULL)
+		*original_width = width;
+	if (original_height != NULL)
+		*original_height = height;
+	if (loaded_original != NULL)
+		*loaded_original = TRUE;
 
 	g_free (buffer);
 

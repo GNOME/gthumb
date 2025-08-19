@@ -1296,8 +1296,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		g_object_unref (thumbnail_data);
 		cairo_surface_destroy (thumbnail);
 	}
-	else
+	else if (g_file_info_get_attribute_boolean (info, "gth::file::image-changed")) {
 		thumb.erase();
+	}
 
 	if (surface != NULL)
 		cairo_surface_destroy (surface);

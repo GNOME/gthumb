@@ -128,9 +128,7 @@ endif
 libz_dep = dependency('zlib')
 libm_dep = c_comp.find_library('m')
 libjpeg_dep = c_comp.find_library('jpeg')
-if libjpeg_dep.found()
-  jpeg_deps = [ libm_dep, libz_dep, libjpeg_dep ]
-endif
+jpeg_deps = [ libm_dep, libz_dep, libjpeg_dep ]
 
 code = '''#include <stdio.h>
 #include <jpeglib.h>

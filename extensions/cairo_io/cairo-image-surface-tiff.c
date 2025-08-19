@@ -25,6 +25,7 @@
 #endif
 #include <tiff.h>
 #include <tiffio.h>
+#include <extensions/jpeg_utils/jpeg-info.h> // For reading EXIF data
 #include "cairo-image-surface-tiff.h"
 
 
@@ -117,16 +118,16 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 	gboolean		 first_directory;
 	int			 best_directory;
 	int        		 max_width, max_height, min_diff;
-	uint32			 image_width;
-	uint32			 image_height;
-	uint32			 spp;
-	uint16			 extrasamples;
-	uint16			*sampleinfo;
-	uint16			 orientation;
+	uint32_t		 image_width;
+	uint32_t		 image_height;
+	uint32_t		 spp;
+	uint16_t		 extrasamples;
+	uint16_t		*sampleinfo;
+	uint16_t		 orientation;
 	char			 emsg[1024];
 	cairo_surface_t		*surface;
 	cairo_surface_metadata_t*metadata;
-	uint32			*raster;
+	uint32_t		*raster;
 
 	image = gth_image_new ();
 	handle.cancellable = cancellable;
@@ -224,22 +225,58 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 		return image;
 	}
 
-	/* read the image */
+	/* Read the image */
 
 	TIFFSetDirectory (tif, best_directory);
 	TIFFGetField (tif, TIFFTAG_IMAGEWIDTH, &image_width);
 	TIFFGetField (tif, TIFFTAG_IMAGELENGTH, &image_height);
 	TIFFGetField (tif, TIFFTAG_SAMPLESPERPIXEL, &spp);
 	TIFFGetFieldDefaulted (tif, TIFFTAG_EXTRASAMPLES, &extrasamples, &sampleinfo);
-	if (TIFFGetFieldDefaulted (tif, TIFFTAG_ORIENTATION, &orientation) != 1)
+	if (TIFFGetField (tif, TIFFTAG_ORIENTATION, &orientation) != 1) {
 		orientation = ORIENTATION_TOPLEFT;
+	}
+	//g_print ("> orientation: %u\n", orientation);
 
-	if (original_width_p)
-		*original_width_p = max_width;
-	if (original_height_p)
-		*original_height_p = max_height;
-	if (loaded_original_p)
-		*loaded_original_p = (max_width == image_width);
+#if HAVE_LCMS2
+	GthICCProfile *profile = NULL;
+
+	uint32_t icc_profile_size;
+	void *icc_profile_data;
+	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
+		profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
+			cmsOpenProfileFromMem (icc_profile_data, icc_profile_size));
+	}
+
+#endif
+
+	toff_t exif_offset;
+	if (TIFFGetField (tif, TIFFTAG_EXIFIFD, &exif_offset) == 1) {
+		//g_print ("EXIF %ld\n", exif_offset);
+		if (TIFFReadEXIFDirectory (tif, exif_offset)) {
+			uint16_t exif_orientation;
+			if (TIFFGetField (tif, TIFFTAG_ORIENTATION, &exif_orientation) == 1) {
+				//g_print ("> exif_orientation: %u\n", exif_orientation);
+				orientation = exif_orientation;
+			}
+
+			uint16_t colorspace;
+			if (TIFFGetField (tif, EXIFTAG_COLORSPACE, &colorspace) == 1) {
+				//g_print ("> colorspace: %u\n", colorspace);
+				if (colorspace == 1) { // GTH_COLOR_SPACE_SRGB
+					profile = gth_icc_profile_new_srgb ();
+				}
+			}
+		}
+	}
+
+#if HAVE_LCMS2
+	if (profile != NULL) {
+		gth_image_set_icc_profile (image, profile);
+		g_object_unref (profile);
+	}
+#endif
+
+	TIFFSetDirectory (tif, best_directory);
 
 	surface = _cairo_image_surface_create (CAIRO_FORMAT_ARGB32, image_width, image_height);
 	if (surface == NULL) {
@@ -256,7 +293,7 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 	_cairo_metadata_set_has_alpha (metadata, (extrasamples == 1) || (spp == 4));
 	_cairo_metadata_set_original_size (metadata, max_width, max_height);
 
-	raster = (uint32*) _TIFFmalloc (image_width * image_height * sizeof (uint32));
+	raster = (uint32_t*) _TIFFmalloc (image_width * image_height * sizeof (uint32_t));
 	if (raster == NULL) {
 		cairo_surface_destroy (surface);
 		TIFFClose (tif);
@@ -269,11 +306,11 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 	}
 
 	if (TIFFReadRGBAImageOriented (tif, image_width, image_height, raster, orientation, 0)) {
-		guchar *surface_row;
-		int     line_step;
-		int     x, y, temp;
-		guchar  r, g, b, a;
-		uint32 *src_pixel;
+		guchar   *surface_row;
+		int       line_step;
+		int       x, y, temp;
+		guchar    r, g, b, a;
+		uint32_t *src_pixel;
 
 		surface_row = _cairo_image_surface_flush_and_get_data (surface);
 		line_step = cairo_image_surface_get_stride (surface);
@@ -299,26 +336,35 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 		}
 	}
 
-#if HAVE_LCMS2
-
-	uint32 icc_profile_size;
-	void *icc_profile_data;
-	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
-		GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
-			cmsOpenProfileFromMem (icc_profile_data, icc_profile_size));
-		if (profile != NULL) {
-			gth_image_set_icc_profile (image, profile);
-			g_object_unref (profile);
-		}
-	}
-
-#endif
-
 stop_loading:
 
 	cairo_surface_mark_dirty (surface);
-	if (! g_cancellable_is_cancelled (cancellable))
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		GthTransform transform = (GthTransform) orientation;
+		if (transform != GTH_TRANSFORM_NONE) {
+			//g_print ("> transform: %d\n", transform);
+			cairo_surface_t *rotated = _cairo_image_surface_transform (surface, transform);
+			cairo_surface_destroy (surface);
+			surface = rotated;
+			if ((transform == GTH_TRANSFORM_ROTATE_90)
+				|| (transform == GTH_TRANSFORM_ROTATE_270)
+				|| (transform == GTH_TRANSFORM_TRANSPOSE)
+				|| (transform == GTH_TRANSFORM_TRANSVERSE))
+			{
+				int tmp = max_width;
+				max_width = max_height;
+				max_height = tmp;
+			}
+		}
 		gth_image_set_cairo_surface (image, surface);
+
+		if (original_width_p)
+			*original_width_p = max_width;
+		if (original_height_p)
+			*original_height_p = max_height;
+		if (loaded_original_p)
+			*loaded_original_p = (max_width == image_width);
+	}
 
 	_TIFFfree (raster);
 	cairo_surface_destroy (surface);

@@ -27,20 +27,21 @@
 #include <gthumb.h>
 #include <extensions/jpeg_utils/jpegtran.h>
 
+typedef enum {
+	GTH_TRANSFORM_FLAG_DEFAULT,
+	GTH_TRANSFORM_FLAG_CHANGE_IMAGE,
+	GTH_TRANSFORM_FLAG_LOAD_METADATA
+} GthTransformFlags;
 
-typedef void (*TrimResponseFunc) (JpegMcuAction action, gpointer user_data);
-
-GtkWidget *     ask_whether_to_trim            (GtkWindow        *parent_window,
-		     				GthFileData      *file_data,
-		     				TrimResponseFunc  done_func,
-		     				gpointer          done_data);
-GthTransform	get_next_transformation	       (GthTransform      original,
-						GthTransform      transform);
-void            apply_transformation_async     (GthFileData      *file_data,
-						GthTransform      transform,
-						JpegMcuAction     mcu_action,
-						GCancellable     *cancellable,
-						ReadyFunc         ready_func,
-						gpointer          data);
+GthTransform	get_next_transformation		(GthTransform  original,
+						 GthTransform transform);
+void		apply_transformation_async	(GthFileData *file_data,
+						 GthTransform transform,
+						 GthTransformFlags flags,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback ready_func,
+						 gpointer data);
+gboolean	apply_transformation_finish	(GAsyncResult *result,
+						 GError **error);
 
 #endif /* ROTATION_UTILS_H */

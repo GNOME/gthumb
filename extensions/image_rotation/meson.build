@@ -9,10 +9,10 @@ source_files = files(
 
 image_rotation_mod = shared_library('image_rotation',
   sources : source_files,
-  dependencies : [ extension_common_deps, jpeg_deps ],
+  dependencies : [ extension_common_deps, exiv2_dep ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
-  link_with : jpeg_utils_mod,
+  link_with : exiv2_tools_mod,
   override_options : [ 'b_lundef=false' ],
   install : true,
   install_dir : extensions_install_dir,

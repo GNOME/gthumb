@@ -9,6 +9,7 @@ subdir('catalogs')
 subdir('edit_metadata')
 if use_exiv2
   subdir('exiv2_tools')
+  subdir('image_rotation')
 endif
 
 # after exiv2
@@ -18,7 +19,6 @@ subdir('comments')
 subdir('jpeg_utils')
 subdir('cairo_io')
 subdir('image_viewer')
-subdir('image_rotation')
 subdir('importer')
 
 # list tools
