@@ -30,7 +30,6 @@ struct _GthTransformTaskPrivate {
 	GList         *current;
 	GthFileData   *file_data;
 	GthTransform   transform;
-	JpegMcuAction  default_action;
 	int            n_image;
 	int            n_images;
 };
@@ -63,7 +62,6 @@ static void
 transform_next_file (GthTransformTask *self)
 {
 	self->priv->n_image++;
-	/*self->priv->default_action = JPEG_MCU_ACTION_ABORT;*/
 	self->priv->current = self->priv->current->next;
 	transform_current_file (self);
 }
@@ -184,7 +182,6 @@ static void
 gth_transform_task_init (GthTransformTask *self)
 {
 	self->priv = gth_transform_task_get_instance_private (self);
-	self->priv->default_action = JPEG_MCU_ACTION_ABORT;
 	self->priv->file_data = NULL;
 }
 

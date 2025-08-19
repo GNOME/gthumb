@@ -29,14 +29,6 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	/**
-	 * Called after successfully rotating a jpeg image
-	 *
-	 * @info (JpegTranInfo *): the transformation info as described in
-	 * extensions/jpeg_utils/jpegtran.h
-	 **/
-	gth_hook_register ("jpegtran-after", 1);
-
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ir__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-selection-changed", 10, G_CALLBACK (ir__gth_browser_selection_changed_cb), NULL);
 	gth_hook_add_callback ("gth-browser-activate-viewer-page", 10, G_CALLBACK (ir__gth_browser_activate_viewer_page_cb), NULL);

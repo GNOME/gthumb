@@ -2,15 +2,8 @@ source_files = files(
   'jmemorydest.c',
   'jmemorysrc.c',
   'jpeg-info.c',
-  'jpegtran.c',
   'main.c'
 )
-
-if have_libjpeg_80
-  source_files += files('transupp-80.c')
-else
-  source_files += files('transupp-62.c')
-endif
 
 jpeg_utils_mod = shared_library('jpeg_utils',
   sources : source_files,

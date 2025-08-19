@@ -56,8 +56,7 @@ GthTask *   gth_import_task_new              (GthBrowser         *browser,
 					      const char         *event_name,
 					      char              **tags,
 					      gboolean            delete_imported,
-					      gboolean            overwrite_files,
-					      gboolean            adjust_orientation);
+					      gboolean            overwrite_files);
 gboolean    gth_import_task_check_free_space (GFile              *destination,
 					      GList              *files, /* GthFileData list */
 					      GError            **error);

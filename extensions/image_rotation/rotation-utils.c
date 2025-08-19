@@ -150,8 +150,7 @@ _apply_transformation_async_thread (GTask        *task,
 	orientation = get_next_transformation (orientation, tdata->transform);
 	char *raw_orientation = g_strdup_printf ("%d", orientation);
 	if (metadata == NULL) {
-		metadata = gth_metadata_new ();
-		g_object_set (metadata,
+		metadata = g_object_new (GTH_TYPE_METADATA,
 			"id", "Exif::Image::Orientation",
 			"value-type", "Short",
 			"raw", raw_orientation,
@@ -173,6 +172,7 @@ _apply_transformation_async_thread (GTask        *task,
 
 	if (change_orientation_tag) {
 		// Change the exif orientation.
+		update_exif_dimensions (tdata->file_data->info, tdata->transform);
 		if (!exiv2_write_metadata_to_buffer ((void **) &buffer, &size, tdata->file_data->info, NULL, &error)) {
 			g_free (buffer);
 			g_task_return_error (task, error);

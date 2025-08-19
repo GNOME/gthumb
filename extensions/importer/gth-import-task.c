@@ -44,7 +44,6 @@ struct _GthImportTaskPrivate {
 	GTimeVal             import_start_time;
 	gboolean             delete_imported;
 	gboolean             overwrite_files;
-	gboolean             adjust_orientation;
 
 	GHashTable          *catalogs;
 	gsize                tot_size;
@@ -464,38 +463,6 @@ write_file_to_destination (GthImportTask *self,
 
 		self->priv->buffer = NULL; /* the buffer will be deallocated in _g_file_write_async */
 
-#ifdef HAVE_LIBJPEG
-		if (self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation")) {
-			if (g_content_type_equals (gth_file_data_get_mime_type (self->priv->destination_file), "image/jpeg")) {
-				GthTransform  orientation;
-				GthMetadata  *metadata;
-
-				orientation = GTH_TRANSFORM_NONE;
-				metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Image::Orientation");
-				if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL))
-					orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
-
-				if (orientation != GTH_TRANSFORM_NONE) {
-					void  *out_buffer;
-					gsize  out_buffer_size;
-
-					if (jpegtran (buffer,
-						      buffer_size,
-						      &out_buffer,
-						      &out_buffer_size,
-						      orientation,
-						      JPEG_MCU_ACTION_ABORT,
-						      NULL))
-					{
-						g_free (buffer);
-						buffer = out_buffer;
-						buffer_size = out_buffer_size;
-					}
-				}
-			}
-		}
-#endif /* HAVE_LIBJPEG */
-
 		_g_file_write_async (self->priv->destination_file->file,
 				     buffer,
 				     buffer_size,
@@ -600,7 +567,6 @@ static void
 import_current_file (GthImportTask *self)
 {
 	GthFileData *file_data;
-	gboolean     adjust_image_orientation;
 	gboolean     need_image_metadata;
 
 	g_free (self->priv->buffer);
@@ -661,8 +627,7 @@ import_current_file (GthImportTask *self)
 	file_data = self->priv->current->data;
 	self->priv->current_file_size = g_file_info_get_size (file_data->info);
 
-	adjust_image_orientation = self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation");
-	need_image_metadata = (_g_utf8_find_str (self->priv->subfolder_template, "%D") != NULL) || adjust_image_orientation;
+	need_image_metadata = (_g_utf8_find_str (self->priv->subfolder_template, "%D") != NULL);
 
 	if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data)) && need_image_metadata) {
 		gth_task_progress (GTH_TASK (self),
@@ -787,8 +752,7 @@ gth_import_task_new (GthBrowser         *browser,
 		     const char         *event_name,
 		     char              **tags,
 		     gboolean            delete_imported,
-		     gboolean            overwrite_files,
-		     gboolean            adjust_orientation)
+		     gboolean            overwrite_files)
 {
 	GthImportTask *self;
 
@@ -802,7 +766,6 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->delete_imported = delete_imported;
 	self->priv->overwrite_files = overwrite_files;
 	self->priv->default_response = overwrite_files ? GTH_OVERWRITE_RESPONSE_ALWAYS_YES : GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
-	self->priv->adjust_orientation = adjust_orientation;
 
 	return (GthTask *) self;
 }

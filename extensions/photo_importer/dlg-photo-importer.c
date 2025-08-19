@@ -124,8 +124,7 @@ destroy_dialog (gpointer user_data)
 						    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))),
 						    tags,
 						    delete_imported,
-						    FALSE,
-						    g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION));
+						    FALSE);
 			gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 			g_strfreev (tags);

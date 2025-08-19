@@ -1738,3 +1738,23 @@ exiv2_generate_thumbnail (const char *uri,
 
 	return pixbuf;
 }
+
+
+void
+update_exif_dimensions (GFileInfo    *info,
+		        GthTransform  transform)
+{
+	g_return_if_fail (info != NULL);
+
+	if ((transform == GTH_TRANSFORM_ROTATE_90)
+	    || (transform == GTH_TRANSFORM_ROTATE_270)
+	    || (transform == GTH_TRANSFORM_TRANSPOSE)
+	    || (transform == GTH_TRANSFORM_TRANSVERSE))
+	{
+		_g_file_info_swap_attributes (info, "Exif::Photo::PixelXDimension", "Exif::Photo::PixelYDimension");
+		_g_file_info_swap_attributes (info, "Exif::Image::XResolution", "Exif::Image::YResolution");
+		_g_file_info_swap_attributes (info, "Exif::Photo::FocalPlaneXResolution", "Exif::Photo::FocalPlaneYResolution");
+		_g_file_info_swap_attributes (info, "Exif::Image::ImageWidth", "Exif::Image::ImageLength");
+		_g_file_info_swap_attributes (info, "Exif::Iop::RelatedImageWidth", "Exif::Iop::RelatedImageLength");
+	}
+}

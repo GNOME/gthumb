@@ -22,9 +22,6 @@
     <key name="delete-from-device" type="b">
       <default>false</default>
     </key>
-    <key name="adjust-orientation" type="b">
-      <default>false</default>
-    </key>
     <key name="filter" type="s">
       <default>'file::type::is_media'</default>
     </key>

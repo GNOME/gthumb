@@ -130,14 +130,6 @@ libm_dep = c_comp.find_library('m')
 libjpeg_dep = c_comp.find_library('jpeg')
 jpeg_deps = [ libm_dep, libz_dep, libjpeg_dep ]
 
-code = '''#include <stdio.h>
-#include <jpeglib.h>
-#if JPEG_LIB_VERSION < 80
-#error "wrong version"
-#endif
-int main(int c, char**v) { return 0; }'''
-have_libjpeg_80 = c_comp.compiles(code, name : 'libjpeg version is 8 or greater', dependencies : jpeg_deps)
-
 have_progressive_jpeg = c_comp.has_function('jpeg_simple_progression', prefix : '#include <stdio.h>\n#include<jpeglib.h>', dependencies : jpeg_deps)
 
 # tiff
@@ -277,9 +269,6 @@ else
   endif
 endif
 config_data.set('HAVE_LIBJPEG', 1)
-if have_libjpeg_80
-  config_data.set('HAVE_LIBJPEG_80', 1)
-endif
 if have_progressive_jpeg
   config_data.set('HAVE_PROGRESSIVE_JPEG', 1)
 endif
@@ -376,7 +365,6 @@ summary = [
   '      libchamplain: @0@'.format(use_libchamplain),
   '             lcms2: @0@'.format(use_lcms2),
   '            colord: @0@'.format(use_colord),
-  '       libjpeg >=8: @0@'.format(have_libjpeg_80),
   '  progressive jpeg: @0@'.format(have_progressive_jpeg),
   '              tiff: @0@'.format(use_libtiff),
   '              webp: @0@'.format(use_libwebp),

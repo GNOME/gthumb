@@ -64,6 +64,8 @@ gboolean   exiv2_clear_metadata             (void             **buffer,
 GdkPixbuf *exiv2_generate_thumbnail         (const char        *uri,
 					     const char        *mime_type,
 					     int                size);
+void      update_exif_dimensions            (GFileInfo         *info,
+					     GthTransform       transform);
 
 G_END_DECLS
 

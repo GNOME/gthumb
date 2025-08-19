@@ -25,7 +25,6 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include <extensions/jpeg_utils/jpegtran.h>
 
 typedef enum {
 	GTH_TRANSFORM_FLAG_DEFAULT,

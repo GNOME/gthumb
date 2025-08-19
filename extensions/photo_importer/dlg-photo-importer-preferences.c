@@ -44,16 +44,6 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-adjust_orientation_checkbutton_toggled_cb (GtkToggleButton *button,
-					   DialogData      *data)
-{
-	g_settings_set_boolean (data->settings,
-				PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION,
-				gtk_toggle_button_get_active (button));
-}
-
-
-static void
 delete_files_checkbutton_toggled_cb (GtkToggleButton *button,
 					   DialogData      *data)
 {
@@ -89,8 +79,6 @@ dlg_photo_importer_preferences (GtkWindow *parent)
 
 	/* Set widgets data. */
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "adjust_orientation_checkbutton")),
-				      g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "delete_files_checkbutton")),
 				      g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_DELETE_FROM_DEVICE));
 
@@ -104,10 +92,6 @@ dlg_photo_importer_preferences (GtkWindow *parent)
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (gtk_builder_get_object (data->builder, "adjust_orientation_checkbutton"),
-			  "clicked",
-			  G_CALLBACK (adjust_orientation_checkbutton_toggled_cb),
-			  data);
 	g_signal_connect (gtk_builder_get_object (data->builder, "delete_files_checkbutton"),
 			  "clicked",
 			  G_CALLBACK (delete_files_checkbutton_toggled_cb),

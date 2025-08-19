@@ -23,7 +23,6 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include <extensions/jpeg_utils/jpegtran.h>
 #include "gth-edit-iptc-page.h"
 #include "gth-metadata-provider-exiv2.h"
 #include "exiv2-utils.h"
@@ -179,53 +178,6 @@ GthMetadataInfo exiv2_metadata_info[] = {
 
 
 static void
-update_exif_dimensions (GFileInfo    *info,
-		        GthTransform  transform)
-{
-	g_return_if_fail (info != NULL);
-
-	if ((transform == GTH_TRANSFORM_ROTATE_90)
-	    || (transform == GTH_TRANSFORM_ROTATE_270)
-	    || (transform == GTH_TRANSFORM_TRANSPOSE)
-	    || (transform == GTH_TRANSFORM_TRANSVERSE))
-	{
-		_g_file_info_swap_attributes (info, "Exif::Photo::PixelXDimension", "Exif::Photo::PixelYDimension");
-		_g_file_info_swap_attributes (info, "Exif::Image::XResolution", "Exif::Image::YResolution");
-		_g_file_info_swap_attributes (info, "Exif::Photo::FocalPlaneXResolution", "Exif::Photo::FocalPlaneYResolution");
-		_g_file_info_swap_attributes (info, "Exif::Image::ImageWidth", "Exif::Image::ImageLength");
-		_g_file_info_swap_attributes (info, "Exif::Iop::RelatedImageWidth", "Exif::Iop::RelatedImageLength");
-	}
-}
-
-
-static void
-exiv2_jpeg_tran_cb (JpegTranInfo *tran_info)
-{
-	GFileInfo *info;
-
-	info = g_file_info_new ();
-	if (exiv2_read_metadata_from_buffer (tran_info->in_buffer,
-					     tran_info->in_buffer_size,
-					     info,
-					     FALSE,
-					     NULL))
-	{
-		GthMetadata *metadata;
-
-		update_exif_dimensions (info, tran_info->transformation);
-
-		metadata = g_object_new (GTH_TYPE_METADATA, "raw", "1", NULL);
-		g_file_info_set_attribute_object (info, "Exif::Image::Orientation", G_OBJECT (metadata));
-		exiv2_write_metadata_to_buffer (tran_info->out_buffer, tran_info->out_buffer_size, info, NULL, NULL);
-
-		g_object_unref (metadata);
-	}
-
-	g_object_unref (info);
-}
-
-
-static void
 exiv2_delete_metadata_cb (GFile  *file,
 			  void  **buffer,
 			  gsize  *size)
@@ -296,8 +248,6 @@ gthumb_extension_activate (void)
 		gth_hook_add_callback ("delete-metadata", 10, G_CALLBACK (exiv2_delete_metadata_cb), NULL);
 	}
 	gth_hook_add_callback ("save-image", 10, G_CALLBACK (exiv2_write_metadata), NULL);
-	if (gth_hook_present ("jpegtran-after"))
-		gth_hook_add_callback ("jpegtran-after", 10, G_CALLBACK (exiv2_jpeg_tran_cb), NULL);
 	gth_hook_add_callback ("generate-thumbnail", 10, G_CALLBACK (exiv2_generate_thumbnail), NULL);
 	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (exiv2_add_sidecars_cb), NULL);
 
