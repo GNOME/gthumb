@@ -1,6 +1,7 @@
 source_files = files(
   'actions.c',
   'callbacks.c',
+  'gth-apply-orientation-task.c',
   'gth-reset-orientation-task.c',
   'gth-transform-task.c',
   'main.c',

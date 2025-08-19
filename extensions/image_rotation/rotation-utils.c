@@ -133,7 +133,7 @@ _apply_transformation_async_thread (GTask        *task,
 	}
 
 	// Read the exif orientation
-	if (tdata->flags & GTH_TRANSFORM_FLAG_LOAD_METADATA) {
+	if (!(tdata->flags & GTH_TRANSFORM_FLAG_SKIP_METADATA)) {
 		if (!exiv2_read_metadata_from_buffer (buffer, size, tdata->file_data->info, false, &error)) {
 			g_free (buffer);
 			g_task_return_error (task, error);
@@ -184,12 +184,10 @@ _apply_transformation_async_thread (GTask        *task,
 			return;
 		}
 	}
-	else if (orientation != GTH_TRANSFORM_NONE) {
+	else if ((tdata->transform != GTH_TRANSFORM_NONE) || (tdata->flags & GTH_TRANSFORM_FLAG_ALWAYS_SAVE)) {
 		// Rotate the image
 		GInputStream    *istream;
 		GthImage        *image;
-		cairo_surface_t *surface;
-		cairo_surface_t *transformed;
 
 		istream = g_memory_input_stream_new_from_data (buffer, size, NULL);
 		image = gth_image_new_from_stream (istream, -1, NULL, NULL, cancellable, &error);
@@ -200,10 +198,15 @@ _apply_transformation_async_thread (GTask        *task,
 			return;
 		}
 
+		if (tdata->transform != GTH_TRANSFORM_NONE) {
+			cairo_surface_t *surface = gth_image_get_cairo_surface (image);
+			cairo_surface_t *transformed = _cairo_image_surface_transform (surface, tdata->transform);
+			gth_image_set_cairo_surface (image, transformed);
+			cairo_surface_destroy (transformed);
+			cairo_surface_destroy (surface);
+		}
+
 		buffer = NULL;
-		surface = gth_image_get_cairo_surface (image);
-		transformed = _cairo_image_surface_transform (surface, orientation);
-		gth_image_set_cairo_surface (image, transformed);
 		gboolean saved = gth_image_save_to_buffer (image,
 			mime_type,
 			tdata->file_data,
@@ -212,8 +215,6 @@ _apply_transformation_async_thread (GTask        *task,
 			cancellable,
 			&error);
 
-		cairo_surface_destroy (transformed);
-		cairo_surface_destroy (surface);
 		g_object_unref (image);
 
 		if (!saved) {
@@ -221,6 +222,12 @@ _apply_transformation_async_thread (GTask        *task,
 			g_task_return_error (task, error);
 			return;
 		}
+	}
+	else {
+		// No changes
+		g_free (buffer);
+		g_task_return_boolean (task, true);
+		return;
 	}
 
 	// Save buffer to file.

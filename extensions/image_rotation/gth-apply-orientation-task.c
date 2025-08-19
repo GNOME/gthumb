@@ -20,11 +20,11 @@
  */
 
 #include <config.h>
-#include "gth-reset-orientation-task.h"
+#include "gth-apply-orientation-task.h"
 #include "rotation-utils.h"
 
 
-struct _GthResetOrientationTaskPrivate {
+struct _GthApplyOrientationTaskPrivate {
 	GthBrowser    *browser;
 	GList         *file_list;
 	GList         *current;
@@ -34,31 +34,31 @@ struct _GthResetOrientationTaskPrivate {
 };
 
 
-G_DEFINE_TYPE_WITH_CODE (GthResetOrientationTask,
-			 gth_reset_orientation_task,
+G_DEFINE_TYPE_WITH_CODE (GthApplyOrientationTask,
+			 gth_apply_orientation_task,
 			 GTH_TYPE_TASK,
-			 G_ADD_PRIVATE (GthResetOrientationTask))
+			 G_ADD_PRIVATE (GthApplyOrientationTask))
 
 
 static void
-gth_reset_orientation_task_finalize (GObject *object)
+gth_apply_orientation_task_finalize (GObject *object)
 {
-	GthResetOrientationTask *self;
+	GthApplyOrientationTask *self;
 
-	self = GTH_RESET_ORIENTATION_TASK (object);
+	self = GTH_APPLY_ORIENTATION_TASK (object);
 
 	_g_object_unref (self->priv->file_data);
 	_g_object_list_unref (self->priv->file_list);
 
-	G_OBJECT_CLASS (gth_reset_orientation_task_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_apply_orientation_task_parent_class)->finalize (object);
 }
 
 
-static void transform_current_file (GthResetOrientationTask *self);
+static void transform_current_file (GthApplyOrientationTask *self);
 
 
 static void
-transform_next_file (GthResetOrientationTask *self)
+transform_next_file (GthApplyOrientationTask *self)
 {
 	self->priv->n_image++;
 	self->priv->current = self->priv->current->next;
@@ -71,7 +71,7 @@ transform_file_ready_cb (GObject *source_object,
 			 GAsyncResult *res,
 			 gpointer user_data)
 {
-	GthResetOrientationTask *self = user_data;
+	GthApplyOrientationTask *self = user_data;
 	GError *error = NULL;
 
 	if (!apply_transformation_finish (res, &error)) {
@@ -98,7 +98,7 @@ file_info_ready_cb (GList    *files,
 		    GError   *error,
 		    gpointer  user_data)
 {
-	GthResetOrientationTask *self = user_data;
+	GthApplyOrientationTask *self = user_data;
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
@@ -116,7 +116,7 @@ file_info_ready_cb (GList    *files,
 
 	apply_transformation_async (self->priv->file_data,
 		GTH_TRANSFORM_NONE,
-		GTH_TRANSFORM_FLAG_RESET,
+		GTH_TRANSFORM_FLAG_CHANGE_IMAGE | GTH_TRANSFORM_FLAG_ALWAYS_SAVE,
 		gth_task_get_cancellable (GTH_TASK (self)),
 		transform_file_ready_cb,
 		self);
@@ -124,7 +124,7 @@ file_info_ready_cb (GList    *files,
 
 
 static void
-transform_current_file (GthResetOrientationTask *self)
+transform_current_file (GthApplyOrientationTask *self)
 {
 	GFile *file;
 	GList *singleton;
@@ -149,13 +149,13 @@ transform_current_file (GthResetOrientationTask *self)
 
 
 static void
-gth_reset_orientation_task_exec (GthTask *task)
+gth_apply_orientation_task_exec (GthTask *task)
 {
-	GthResetOrientationTask *self;
+	GthApplyOrientationTask *self;
 
-	g_return_if_fail (GTH_IS_RESET_ORIENTATION_TASK (task));
+	g_return_if_fail (GTH_IS_APPLY_ORIENTATION_TASK (task));
 
-	self = GTH_RESET_ORIENTATION_TASK (task);
+	self = GTH_APPLY_ORIENTATION_TASK (task);
 
 	self->priv->n_images = g_list_length (self->priv->file_list);
 	self->priv->n_image = 0;
@@ -165,34 +165,34 @@ gth_reset_orientation_task_exec (GthTask *task)
 
 
 static void
-gth_reset_orientation_task_class_init (GthResetOrientationTaskClass *klass)
+gth_apply_orientation_task_class_init (GthApplyOrientationTaskClass *klass)
 {
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_reset_orientation_task_finalize;
+	object_class->finalize = gth_apply_orientation_task_finalize;
 
 	task_class = GTH_TASK_CLASS (klass);
-	task_class->exec = gth_reset_orientation_task_exec;
+	task_class->exec = gth_apply_orientation_task_exec;
 }
 
 
 static void
-gth_reset_orientation_task_init (GthResetOrientationTask *self)
+gth_apply_orientation_task_init (GthApplyOrientationTask *self)
 {
-	self->priv = gth_reset_orientation_task_get_instance_private (self);
+	self->priv = gth_apply_orientation_task_get_instance_private (self);
 	self->priv->file_data = NULL;
 }
 
 
 GthTask *
-gth_reset_orientation_task_new (GthBrowser *browser,
+gth_apply_orientation_task_new (GthBrowser *browser,
 				GList      *file_list)
 {
-	GthResetOrientationTask *self;
+	GthApplyOrientationTask *self;
 
-	self = GTH_RESET_ORIENTATION_TASK (g_object_new (GTH_TYPE_RESET_ORIENTATION_TASK, NULL));
+	self = GTH_APPLY_ORIENTATION_TASK (g_object_new (GTH_TYPE_APPLY_ORIENTATION_TASK, NULL));
 	self->priv->browser = browser;
 	self->priv->file_list = _g_object_list_ref (file_list);
 

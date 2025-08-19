@@ -2511,7 +2511,7 @@ copy_current_file (GthWebExporter *self)
 			file_data = gth_file_data_new (destination, image_data->file_data->info);
 			apply_transformation_async (file_data,
 						    GTH_TRANSFORM_NONE,
-						    GTH_TRANSFORM_FLAG_CHANGE_IMAGE | GTH_TRANSFORM_FLAG_LOAD_METADATA,
+						    GTH_TRANSFORM_FLAG_CHANGE_IMAGE,
 						    gth_task_get_cancellable (GTH_TASK (self)),
 						    transformation_ready_cb,
 						    self);

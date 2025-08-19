@@ -117,7 +117,7 @@ file_info_ready_cb (GList    *files,
 
 	apply_transformation_async (self->priv->file_data,
 		self->priv->transform,
-		GTH_TRANSFORM_FLAG_LOAD_METADATA,
+		GTH_TRANSFORM_FLAG_DEFAULT,
 		gth_task_get_cancellable (GTH_TASK (self)),
 		transform_file_ready_cb,
 		self);

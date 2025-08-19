@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "gth-apply-orientation-task.h"
 #include "gth-reset-orientation-task.h"
 #include "gth-transform-task.h"
 
@@ -90,7 +91,7 @@ gth_browser_activate_apply_orientation (GSimpleAction	*action,
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
-	task = gth_transform_task_new (browser, file_list, GTH_TRANSFORM_NONE);
+	task = gth_apply_orientation_task_new (browser, file_list);
 	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
