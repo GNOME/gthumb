@@ -384,6 +384,8 @@ extensions/image_rotation/actions.c
 extensions/image_rotation/actions.h
 extensions/image_rotation/callbacks.c
 extensions/image_rotation/callbacks.h
+extensions/image_rotation/gth-apply-orientation-task.c
+extensions/image_rotation/gth-apply-orientation-task.h
 extensions/image_rotation/gth-reset-orientation-task.c
 extensions/image_rotation/gth-reset-orientation-task.h
 extensions/image_rotation/gth-transform-task.c
@@ -434,15 +436,7 @@ extensions/jpeg_utils/jmemorysrc.h
 extensions/jpeg_utils/jpeg-info.c
 extensions/jpeg_utils/jpeg-info.h
 extensions/jpeg_utils/jpeg_utils.extension.desktop.in.in
-extensions/jpeg_utils/jpegint-80.h
-extensions/jpeg_utils/jpegtran.c
-extensions/jpeg_utils/jpegtran.h
 extensions/jpeg_utils/main.c
-extensions/jpeg_utils/transupp-62.c
-extensions/jpeg_utils/transupp-62.h
-extensions/jpeg_utils/transupp-80.c
-extensions/jpeg_utils/transupp-80.h
-extensions/jpeg_utils/transupp.h
 extensions/list_tools/actions.c
 extensions/list_tools/actions.h
 extensions/list_tools/callbacks.c
