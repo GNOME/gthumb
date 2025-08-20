@@ -29,6 +29,8 @@ gboolean scale_if_larger (
 	guint *height,
 	guint size);
 
+gboolean transformation_changes_size (GthTransform transform);
+
 void get_transformation_steps (
 	GthTransform transform,
 	int width,

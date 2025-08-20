@@ -157,21 +157,64 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 	// Read the image.
 
-	uint32 image_width;
-	uint32 image_height;
+	uint32 image_width = 0;
+	uint32 image_height = 0;
 	uint32 spp;
 	uint16 extrasamples;
 	uint16 *sampleinfo;
-	uint16 orientation;
+	uint16 orientation = ORIENTATION_TOPLEFT;
 
 	TIFFSetDirectory (tif, best_directory);
 	TIFFGetField (tif, TIFFTAG_IMAGEWIDTH, &image_width);
 	TIFFGetField (tif, TIFFTAG_IMAGELENGTH, &image_height);
 	TIFFGetField (tif, TIFFTAG_SAMPLESPERPIXEL, &spp);
 	TIFFGetFieldDefaulted (tif, TIFFTAG_EXTRASAMPLES, &extrasamples, &sampleinfo);
-	if (TIFFGetFieldDefaulted (tif, TIFFTAG_ORIENTATION, &orientation) != 1) {
-		orientation = ORIENTATION_TOPLEFT;
+	TIFFGetField (tif, TIFFTAG_ORIENTATION, &orientation);
+
+	if ((image_width == 0) || (image_height == 0)) {
+		TIFFClose (tif);
+		g_object_unref (handle.istream);
+		g_set_error_literal (error,
+			G_IO_ERROR,
+			G_IO_ERROR_INVALID_DATA,
+			"Invalid TIFF format");
+		return NULL;
 	}
+
+#if HAVE_LCMS2
+	GthIccProfile *profile = NULL;
+
+	uint32 icc_profile_size;
+	void *icc_profile_data;
+	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
+		GBytes *bytes = g_bytes_new (icc_profile_data, icc_profile_size);
+		profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+		g_bytes_unref (bytes);
+	}
+
+#endif
+
+	toff_t exif_offset;
+	if (TIFFGetField (tif, TIFFTAG_EXIFIFD, &exif_offset) == 1) {
+		//g_print ("EXIF %ld\n", exif_offset);
+		if (TIFFReadEXIFDirectory (tif, exif_offset)) {
+			uint16_t exif_orientation;
+			if (TIFFGetField (tif, TIFFTAG_ORIENTATION, &exif_orientation) == 1) {
+				//g_print ("> exif_orientation: %u\n", exif_orientation);
+				orientation = exif_orientation;
+			}
+
+			uint16_t colorspace;
+			if ((profile == NULL) && (TIFFGetField (tif, EXIFTAG_COLORSPACE, &colorspace) == 1)) {
+				//g_print ("> colorspace: %u\n", colorspace);
+				if (colorspace == 1) { // GTH_COLOR_SPACE_SRGB
+					profile = gth_icc_profile_new_srgb ();
+				}
+			}
+		}
+	}
+
+	TIFFSetDirectory (tif, best_directory);
 
 	uint natural_width = (uint) max_width;
 	uint natural_height = (uint) max_height;
@@ -187,7 +230,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 	}
 
 	gth_image_set_has_alpha (image, (extrasamples == 1) || (spp == 4));
-	gth_image_set_natural_size (image, natural_width, natural_height);
 
 	uint32 *raster = (uint32*) _TIFFmalloc (image_width * image_height * sizeof (uint32));
 	if (raster == NULL) {
@@ -219,6 +261,10 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 	guchar *src_row = (guchar *) raster;
 	for (int y = 0; y < image_height; y++) {
 		if (g_cancellable_is_cancelled (cancellable)) {
+			g_set_error_literal (error,
+				G_IO_ERROR,
+				G_IO_ERROR_CANCELLED,
+				"Cancelled");
 			g_object_unref (image);
 			image = NULL;
 			break;
@@ -228,23 +274,35 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		src_row += src_row_stride;
 	}
 
-	// ICC Profile
-
-#if HAVE_LCMS2
-
-	uint32 icc_profile_size;
-	void *icc_profile_data;
-	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
-		GBytes *bytes = g_bytes_new (icc_profile_data, icc_profile_size);
-		GthIccProfile *profile = gth_icc_profile_new_from_bytes (bytes, NULL);
-		if (profile != NULL) {
-			gth_image_set_icc_profile (image, profile);
-			g_object_unref (profile);
-		}
-		g_bytes_unref (bytes);
+	if (image == NULL) {
+		_TIFFfree (raster);
+		TIFFClose (tif);
+		g_object_unref (handle.istream);
+		return NULL;
 	}
 
+#if HAVE_LCMS2
+	if (profile != NULL) {
+		gth_image_set_icc_profile (image, profile);
+		g_object_unref (profile);
+	}
 #endif
+
+	if (orientation != GTH_TRANSFORM_NONE) {
+		GthImage *rotated = gth_image_tranform (image, orientation, cancellable);
+		g_object_unref (image);
+		image = rotated;
+		if (image != NULL) {
+			if (transformation_changes_size (orientation)) {
+				guint tmp = natural_width;
+				natural_width = natural_height;
+				natural_height = tmp;
+			}
+		}
+	}
+	if (image != NULL) {
+		gth_image_set_natural_size (image, natural_width, natural_height);
+	}
 
 	_TIFFfree (raster);
 	TIFFClose (tif);

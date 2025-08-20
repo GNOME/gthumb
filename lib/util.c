@@ -62,6 +62,14 @@ gboolean scale_if_larger (
 }
 
 
+gboolean transformation_changes_size (GthTransform transform) {
+	return (transform == GTH_TRANSFORM_ROTATE_90)
+		|| (transform == GTH_TRANSFORM_ROTATE_270)
+		|| (transform == GTH_TRANSFORM_TRANSPOSE)
+		|| (transform == GTH_TRANSFORM_TRANSVERSE);
+}
+
+
 void get_transformation_steps (
 	GthTransform transform,
 	int width,

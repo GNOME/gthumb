@@ -103,6 +103,9 @@ void gth_image_resize_async (GthImage *self,
 GthImage * gth_image_resize_finish (GthImage *self, GAsyncResult *result,
 	GError **error);
 
+// Transform
+GthImage * gth_image_tranform (GthImage *self, GthTransform transform, GCancellable *cancellable);
+
 // Edit
 
 void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);

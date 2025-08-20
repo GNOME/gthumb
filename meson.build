@@ -295,6 +295,7 @@ lib_files = files(
   'lib/gth-image.c',
   'lib/gth-image-edit.c',
   'lib/gth-image-resize.c',
+  'lib/gth-image-tranform.c',
   'lib/gth-metadata.c',
   'lib/gth-option.c',
   'lib/gth-string-list.c',
