@@ -309,8 +309,12 @@ gth_file_data_get_modification_time (GthFileData *self)
 GTimeVal *
 gth_file_data_get_creation_time (GthFileData *self)
 {
-	self->priv->ctime.tv_sec = g_file_info_get_attribute_uint64 (self->info, G_FILE_ATTRIBUTE_TIME_CREATED);
-	self->priv->ctime.tv_usec = g_file_info_get_attribute_uint32 (self->info, G_FILE_ATTRIBUTE_TIME_CREATED_USEC);
+	if (g_file_info_has_attribute (self->info, "time::created"))
+		g_file_info_get_modification_time (self->info, &self->priv->ctime);
+	else {
+		self->priv->ctime.tv_sec = 0;
+		self->priv->ctime.tv_usec = 0;
+	}
 	return &self->priv->ctime;
 }
 
