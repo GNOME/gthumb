@@ -1383,9 +1383,11 @@ copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
 				copy_data->copied_directories = g_list_prepend (copy_data->copied_directories, g_file_dup (source->file));
 		}
 	}
-	else if ((response == GTH_OVERWRITE_RESPONSE_ALWAYS_NO) || ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-		copy_data__done (copy_data, error);
-		return;
+	else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+		if ((response != GTH_OVERWRITE_RESPONSE_NO) && (response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO)) {
+			copy_data__done (copy_data, error);
+			return;
+		}
 	}
 
 	g_hash_table_insert (copy_data->copied_files, g_file_dup (source->file), GINT_TO_POINTER (1));
