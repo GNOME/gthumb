@@ -54,7 +54,7 @@ G_BEGIN_DECLS
 	"standard::icon," \
 	"standard::symbolic-icon," \
 	"standard::size," \
-	"thumbnail::path" \
+	"thumbnail::path," \
 	"time::created," \
 	"time::created-usec," \
 	"time::modified," \
