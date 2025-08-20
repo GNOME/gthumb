@@ -131,6 +131,7 @@ gth_file_properties_real_can_view (GthPropertyView *base,
 			}
 		}
 	}
+	g_list_free (metadata_info);
 
 	return data_available;
 }

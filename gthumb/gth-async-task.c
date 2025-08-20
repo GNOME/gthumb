@@ -73,6 +73,11 @@ gth_async_task_finalize (GObject *object)
 	if ((self->priv->user_data != NULL) && (self->priv->user_data_destroy_func))
 		(*self->priv->user_data_destroy_func) (self->priv->user_data);
 
+	if (self->priv->thread != NULL) {
+		g_thread_unref (self->priv->thread);
+		self->priv->thread = NULL;
+	}
+
 	g_mutex_clear (&self->priv->data_mutex);
 
 	G_OBJECT_CLASS (gth_async_task_parent_class)->finalize (object);

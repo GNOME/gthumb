@@ -145,6 +145,7 @@ dlg_favorite_properties (GthBrowser *browser)
 			g_string_append (attributes, info->id);
 			g_string_append_c (attributes, ',');
 		}
+		g_list_free (metadata_info);
 
 		gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->metadata_chooser), attributes->str);
 
