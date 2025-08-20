@@ -302,8 +302,6 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 					    NULL,
 					    &error))
 	{
-		GFileInfo *tmp_info;
-
 		_g_file_write (file_data->file,
 			       FALSE,
 			       G_FILE_CREATE_NONE,
@@ -311,21 +309,6 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 			       size,
 			       cancellable,
 			       &error);
-
-		tmp_info = g_file_info_new ();
-		g_file_info_set_attribute_uint64 (tmp_info,
-						  G_FILE_ATTRIBUTE_TIME_MODIFIED,
-						  g_file_info_get_attribute_uint64 (file_data->info, G_FILE_ATTRIBUTE_TIME_MODIFIED));
-		g_file_info_set_attribute_uint32 (tmp_info,
-						  G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
-						  g_file_info_get_attribute_uint32 (file_data->info, G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC));
-		g_file_set_attributes_from_info (file_data->file,
-						 tmp_info,
-						 G_FILE_QUERY_INFO_NONE,
-						 NULL,
-						 NULL);
-
-		g_object_unref (tmp_info);
 	}
 
 	if (buffer != NULL)
