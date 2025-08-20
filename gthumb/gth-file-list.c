@@ -1539,6 +1539,9 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			if (! _thumbnail_loaded (state)
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
 			{
+#ifdef DEBUG_THUMBNAILER
+			g_print ("    UPDATE!\n");
+#endif
 				/* found a thumbnail to load */
 				g_object_unref (file_data);
 				return FALSE;
@@ -1784,6 +1787,12 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 			/* void */;
 
 		if (file_list->priv->thumbnailer_state.phase == THUMBNAILER_PHASE_COMPLETED) {
+#ifdef DEBUG_THUMBNAILER
+			g_print ("  PHASE: COMPLETED\n");
+			if (young_file_found) {
+				g_print ("  YOUNG FILE FOUND\n");
+			}
+#endif
 			_gth_file_list_thumbs_completed (file_list);
 			if (young_file_found) {
 				if (file_list->priv->restart_thumb_update != 0)
