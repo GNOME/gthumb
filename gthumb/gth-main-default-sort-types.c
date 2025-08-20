@@ -163,13 +163,13 @@ gth_general_data_cmp_aspect_ratio (GthFileData *a,
 
 
 GthFileDataSort default_sort_types[] = {
-	{ "file::name", N_("file name"), "standard::display-name", gth_file_data_cmp_filename },
-	{ "file::path", N_("file path"), "standard::display-name", gth_file_data_cmp_uri },
+	{ "file::name", N_("File name"), "standard::display-name", gth_file_data_cmp_filename },
+	{ "file::path", N_("File path"), "standard::display-name", gth_file_data_cmp_uri },
 	{ "file::size", N_("file size"), "standard::size", gth_file_data_cmp_filesize },
-	{ "file::mtime", N_("file modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
+	{ "file::mtime", N_("File modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
 	{ "general::unsorted", N_("no sorting"), "", NULL },
-	{ "general::dimensions", N_("dimensions"), "frame::width,frame::height", gth_general_data_cmp_dimensions },
-	{ "frame::aspect-ratio", N_("aspect ratio"), "frame::width,frame::height", gth_general_data_cmp_aspect_ratio },
+	{ "general::dimensions", N_("Dimensions"), "frame::width,frame::height", gth_general_data_cmp_dimensions },
+	{ "frame::aspect-ratio", N_("Aspect ratio"), "frame::width,frame::height", gth_general_data_cmp_aspect_ratio },
 };
 
 

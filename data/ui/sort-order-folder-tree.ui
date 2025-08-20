@@ -17,7 +17,7 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkRadioButton" id="filename_radiobutton">
-            <property name="label" translatable="yes">file name</property>
+            <property name="label" translatable="yes">File name</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">False</property>
@@ -32,7 +32,7 @@
         </child>
         <child>
           <object class="GtkRadioButton" id="time_radiobutton">
-            <property name="label" translatable="yes">file modified date</property>
+            <property name="label" translatable="yes">File modified date</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">False</property>
