@@ -34,7 +34,7 @@
 #include "gtk-utils.h"
 
 
-#define RESTART_LOADING_THUMBS_DELAY 1500
+#define RESTART_LOADING_THUMBS_DELAY 250
 #define N_CREATEAHEAD 50000
 #define MAX_THUMBNAIL_LOADERS 4
 #define MAX_THUMBNAILS_TO_CHECK 25
@@ -411,8 +411,11 @@ restart_thumb_update_cb (gpointer data)
 	GthFileList *file_list = data;
 
 	file_list->priv->restart_thumb_update = 0;
-	if (! file_list->priv->cancelling)
+	if (! file_list->priv->cancelling) {
+		// Restart
+		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 		_gth_file_list_update_next_thumb (file_list);
+	}
 
 	return G_SOURCE_REMOVE;
 }
