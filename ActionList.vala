@@ -125,7 +125,8 @@ public class Gth.ActionInfo : Object {
 
 public class Gth.ActionItem : Gtk.Box {
 	public ActionItem () {
-		spacing = 6;
+		spacing = 3;
+		add_css_class ("action-item");
 		orientation = Gtk.Orientation.HORIZONTAL;
 
 		icon = new Gtk.Image ();

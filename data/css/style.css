@@ -149,3 +149,7 @@ popover.button-list button {
 	padding: 10px 20px;
 	border-radius: 12px;
 }
+
+.action-item {
+	padding: 2px;
+}
