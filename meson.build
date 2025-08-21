@@ -389,6 +389,7 @@ executable(
     'Strings.vala',
     'Template.vala',
     'ThumbLoader.vala',
+    'Thumbnail.vala',
     'Thumbnailer.vala',
     'TimeSelector.vala',
     'TreeIterator.vala',

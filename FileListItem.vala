@@ -11,23 +11,8 @@ public class Gth.FileListItem : Gtk.Box {
 		spacing = V_SPACING;
 		add_css_class ("thumbnail-card");
 
-		fixed_size = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-		append (fixed_size);
-
-		preview = new Gtk.Picture ();
-		preview.halign = Gtk.Align.CENTER;
-		preview.valign = Gtk.Align.CENTER;
-		preview.visible = false;
-		preview.content_fit = Gtk.ContentFit.SCALE_DOWN;
-		fixed_size.append (preview);
-
-		icon = new Gtk.Image ();
-		icon.hexpand = true;
-		icon.halign = Gtk.Align.CENTER;
-		icon.valign = Gtk.Align.CENTER;
-		icon.visible = false;
-		icon.add_css_class ("thumbnail-icon");
-		fixed_size.append (icon);
+		thumbnail = new Gth.Thumbnail ();
+		append (thumbnail);
 
 		var labels = new Gtk.Box (Gtk.Orientation.VERTICAL, V_SPACING);
 		labels.halign = Gtk.Align.CENTER;
@@ -67,79 +52,30 @@ public class Gth.FileListItem : Gtk.Box {
 		if (attributes_v.length > 1) {
 			second_label.set_text (file_data.get_attribute_as_string (attributes_v[1]));
 		}
-		update_preview ();
-		thumbnail_texture_id = file_data.notify["thumbnail-texture"].connect ((obj) => {
-			update_preview ();
-		});
-		thumbnail_state_id = file_data.notify["thumbnail-state"].connect ((obj) => {
-			update_preview ();
-		});
+		thumbnail.bind (file_data);
 	}
 
 	public void set_size (int _size) {
 		if (_size == size)
 			return;
 		size = _size;
-		fixed_size.width_request = size;
-		fixed_size.height_request = size;
-		preview.width_request = size;
-		preview.height_request = size;
-		icon.pixel_size = size / 2;
+		thumbnail.size = size;
 		first_label.set_size_request (size, -1);
 		second_label.set_size_request (size, -1);
 	}
 
-	void update_preview () {
-		switch (file_data.thumbnail_state) {
-		case ThumbnailState.ICON:
-			icon.gicon = file_data.get_symbolic_icon ();
-			icon.visible = true;
-			preview.visible = false;
-			break;
-
-		case ThumbnailState.LOADING:
-			icon.gicon = Util.get_themed_icon ("gth-content-loading-symbolic") as Icon;
-			icon.visible = true;
-			preview.visible = false;
-			break;
-
-		case ThumbnailState.BROKEN:
-			icon.gicon = file_data.get_symbolic_icon ();
-			icon.visible = true;
-			preview.visible = false;
-			break;
-
-		case ThumbnailState.LOADED:
-			preview.paintable = file_data.thumbnail_texture;
-			preview.visible = true;
-			icon.visible = false;
-			break;
-		}
-	}
-
 	public void unbind () {
-		if (thumbnail_texture_id != 0) {
-			file_data.disconnect (thumbnail_texture_id);
-			thumbnail_texture_id = 0;
-		}
-		if (thumbnail_state_id != 0) {
-			file_data.disconnect (thumbnail_state_id);
-			thumbnail_state_id = 0;
-		}
+		thumbnail.unbind ();
 		first_label.set_text ("");
 		second_label.set_text ("");
-		preview.paintable = null;
+
 	}
 
-	int size;
 	weak Gth.Browser browser;
-	ulong thumbnail_texture_id;
-	ulong thumbnail_state_id;
-	Gtk.Picture preview;
-	Gtk.Image icon;
+	Gth.Thumbnail thumbnail;
 	Gtk.Inscription first_label;
 	Gtk.Inscription second_label;
-	Gtk.Box fixed_size;
+	int size;
 
 	const int V_SPACING = 6;
 }
