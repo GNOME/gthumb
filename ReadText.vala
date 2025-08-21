@@ -60,7 +60,6 @@ public class Gth.ReadText : Object {
 }
 
 
-[CCode (has_target = false)]
 public delegate bool CheckTextFunc (string value) throws Error;
 
 

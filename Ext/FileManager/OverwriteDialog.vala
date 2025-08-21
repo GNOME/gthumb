@@ -3,6 +3,7 @@ public class Gth.OverwriteDialog : Object {
 	public bool single_file;
 	public string new_name;
 	public string content_type;
+	public bool check_extension;
 
 	public OverwriteDialog (Gtk.Window _parent) {
 		parent = _parent;
@@ -10,6 +11,7 @@ public class Gth.OverwriteDialog : Object {
 		single_file = true;
 		new_name = null;
 		content_type = null;
+		check_extension = false;
 	}
 
 	const string REQUIRED_ATTRIBUTES = FileAttribute.STANDARD_NAME + "," +
@@ -55,7 +57,10 @@ public class Gth.OverwriteDialog : Object {
 
 			// Rename
 			var rename = new ReadFilename (_("Rename File"), _("_Rename"));
-			rename.default_value = destination_info.get_edit_name ();
+			rename.default_value = destination.info.get_edit_name ();
+			rename.check_extension = check_extension;
+			rename.check_exists = true;
+			rename.folder = destination.file.get_parent ();
 			new_name = yield rename.read_value (parent, cancellable);
 			if (new_name != null) {
 				return OverwriteResponse.RENAME;
