@@ -27,7 +27,6 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.FileFilter file_filter;
 
 	construct {
-		thumbnailer = new Thumbnailer (this);
 		history = new History (this);
 		current_parents = null;
 		binded_grid_items = new GenericArray<Gtk.ListItem> ();
@@ -38,6 +37,8 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void init () {
+		thumbnailer = new Thumbnailer.for_browser (this);
+
 		init_folder_tree ();
 		init_file_grid ();
 

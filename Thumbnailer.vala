@@ -45,15 +45,12 @@ public class Gth.Thumbnailer {
 		}
 	}
 
-	public Size cache_size;
 	public bool load_from_cache;
 	public bool save_to_cache;
 
-	uint _requested_size;
-	weak Gth.Browser browser;
-
-	public Thumbnailer (Gth.Browser _browser) {
-		browser = _browser;
+	public Thumbnailer (Gth.Window _window) {
+		window = _window;
+		browser = null;
 		requested_size = 256;
 		load_from_cache = true;
 		save_to_cache = true;
@@ -61,14 +58,9 @@ public class Gth.Thumbnailer {
 		job_queue = new GenericArray<ThumbnailJob>();
 	}
 
-	~Thumbnailer () {
-		cancel ();
-	}
-
-	public bool already_added (FileData file) {
-		return (((file.thumbnail_state == ThumbnailState.LOADED) && (file.thumbnail_size == cache_size.to_pixels ()))
-			|| (file.thumbnail_state == ThumbnailState.LOADING)
-			|| (file.thumbnail_state == ThumbnailState.BROKEN));
+	public Thumbnailer.for_browser (Gth.Browser _browser) {
+		this (_browser.window);
+		browser = _browser;
 	}
 
 	public void add (FileData file, bool high_priority = false) {
@@ -105,13 +97,10 @@ public class Gth.Thumbnailer {
 		file_queue.clear ();
 	}
 
-	uint load_event = 0;
-
-	void cancel_load_next () {
-		if (load_event != 0) {
-			Source.remove (load_event);
-			load_event = 0;
-		}
+	public bool already_added (FileData file) {
+		return (((file.thumbnail_state == ThumbnailState.LOADED) && (file.thumbnail_size == cache_size.to_pixels ()))
+			|| (file.thumbnail_state == ThumbnailState.LOADING)
+			|| (file.thumbnail_state == ThumbnailState.BROKEN));
 	}
 
 	public void queue_load_next () {
@@ -123,19 +112,31 @@ public class Gth.Thumbnailer {
 		});
 	}
 
-	public void load_next () {
+	uint load_event = 0;
+
+	void cancel_load_next () {
+		if (load_event != 0) {
+			Source.remove (load_event);
+			load_event = 0;
+		}
+	}
+
+	void load_next () {
 		if (job_queue.length >= app.thumb_loader.factory.n_workers) {
 			return;
 		}
-		FileData file = browser.get_next_file_for_thumbnailer ();
-		if (file != null) {
-			//stdout.printf ("> LOAD THUMBNAIL [next]: %s\n", file.file.get_basename ());
+		FileData file = null;
+		if (browser != null) {
+			file = browser.get_next_file_for_thumbnailer ();
+			// if (file != null) {
+			// 	stdout.printf ("> LOAD THUMBNAIL [next]: %s\n", file.file.get_basename ());
+			// }
 		}
 		if (file == null) {
 			file = file_queue.pop_head ();
-			if (file != null) {
-				//stdout.printf ("> LOAD THUMBNAIL [queue]: %s\n", file.file.get_basename ());
-			}
+			// if (file != null) {
+			// 	stdout.printf ("> LOAD THUMBNAIL [queue]: %s\n", file.file.get_basename ());
+			// }
 		}
 		if (file == null) {
 			return;
@@ -181,7 +182,7 @@ public class Gth.Thumbnailer {
 		if (thumbnail == null) {
 			throw new IOError.FAILED ("Could not load or generate a thumbnail for %s".printf (file_data.file.get_uri ()));
 		}
-		var monitor_profile = yield browser.window.get_monitor_profile (job.cancellable);
+		var monitor_profile = yield window.get_monitor_profile (job.cancellable);
 		if (monitor_profile != null) {
 			yield thumbnail.apply_icc_profile_async (app.color_manager, monitor_profile, job.cancellable);
 		}
@@ -350,6 +351,14 @@ public class Gth.Thumbnailer {
 		}
 	}
 
+	~Thumbnailer () {
+		cancel ();
+	}
+
+	uint _requested_size;
+	Size cache_size;
+	weak Gth.Browser browser;
+	weak Gth.Window window;
 	Queue<FileData> file_queue;
 	GenericArray<ThumbnailJob> job_queue;
 }

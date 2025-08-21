@@ -229,7 +229,7 @@ class Gth.CopyOperation {
 				}
 
 				var overwrite = new OverwriteDialog (window);
-				overwrite.single_file = (current_file == total_files - 1);
+				overwrite.single_file = (total_files == 1);
 				last_overwrite_response = yield overwrite.ask_file (source_file,
 					destination_file,
 					OverwriteRequest.FILE_EXISTS,

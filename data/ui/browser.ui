@@ -424,6 +424,8 @@
         <attribute name="label" translatable="yes">Paste</attribute>
         <attribute name="action">win.paste-files</attribute>
       </item>
+    </section>
+    <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
         <attribute name="action">win.select-all</attribute>
