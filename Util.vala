@@ -53,10 +53,10 @@ namespace Gth.Util {
 		var bytes = filename.data.length;
 		if (bytes == 0)
 			return null;
-		var start = get_extension_start (filename, bytes);
+		var start = Util.get_extension_start (filename, bytes);
 		if (start < 0)
 			return null;
-		return filename.slice (start, bytes).down ();
+		return filename.slice (start + 1, bytes).down ();
 	}
 
 	public static string remove_extension (string filename) {

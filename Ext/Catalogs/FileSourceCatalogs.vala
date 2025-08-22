@@ -35,9 +35,11 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 	const int FILES_PER_REQUEST = 1000;
 
 	public override async void foreach_child (File parent, ForEachFlags flags, string attributes, Cancellable cancellable, ForEachChildFunc child_func) throws Error {
+		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
+		var file_attributes = Util.extract_file_attributes (all_attributes);
 		var gio_file = Catalog.to_gio_file (parent);
 		var parent_info = yield gio_file.query_info_async (
-			FileAttribute.STANDARD_TYPE,
+			file_attributes,
 			FileQueryInfoFlags.NONE,
 			Priority.DEFAULT,
 			cancellable);
@@ -129,7 +131,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					var catalog = Catalog.new_from_data (folder_data.file, data);
 					foreach (var file in catalog.files) {
 						try {
-							var file_data = yield gio_source.read_metadata (file, attributes, cancellable);
+							var file_data = yield gio_source.read_metadata (file, all_attributes, cancellable);
 							action = child_func (file_data, false);
 						}
 						catch (Error error) {

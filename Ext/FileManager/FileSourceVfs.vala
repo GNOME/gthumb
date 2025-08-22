@@ -119,15 +119,6 @@ public class Gth.FileSourceVfs : FileSource {
 		}
 	}
 
-	const string REQUIRED_ATTRIBUTES =
-		FileAttribute.STANDARD_TYPE + "," +
-		FileAttribute.STANDARD_IS_HIDDEN + "," +
-		FileAttribute.STANDARD_IS_BACKUP + "," +
-		FileAttribute.STANDARD_NAME + "," +
-		FileAttribute.STANDARD_DISPLAY_NAME + "," +
-		FileAttribute.STANDARD_EDIT_NAME + "," +
-		FileAttribute.ID_FILE;
-
 	const int REMOTE_FILES_PER_REQUEST = 100;
 	const int LOCAL_FILES_PER_REQUEST = 1000;
 

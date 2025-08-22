@@ -1,6 +1,6 @@
 search_files = files(
   'CatalogSearch.vala',
-  'SearchDialog.vala',
+  'SearchEditor.vala',
   'SearchSourceEditorGroup.vala',
   'SearchSourceRow.vala',
   'UpdateSearch.vala',

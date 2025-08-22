@@ -24,4 +24,14 @@ public class Gth.Monitor : Object {
 	public signal void files_created (File parent, GenericList<File> files) {
 		app.foreach_window ((win) => win.browser.files_created (parent, files));
 	}
+
+	public void file_created (File file) {
+		var parent = file.get_parent ();
+		if (parent == null) {
+			return;
+		}
+		var files = new GenericList<File>();
+		files.model.append (file);
+		files_created (parent, files);
+	}
 }

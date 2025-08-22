@@ -71,6 +71,11 @@ public class Gth.Catalog : Object {
 		return File.new_for_uri (catalog_uri);
 	}
 
+	public static File? from_display_name (string name, string extension) {
+		var dir = File.new_for_uri ("catalog:///");
+		return dir.get_child_for_display_name (name + extension);
+	}
+
 	public static File get_base_dir () {
 		return UserDir.get_directory (FileIntent.READ, DirType.DATA, APP_DIR, "catalogs");
 	}
@@ -264,8 +269,15 @@ public class Gth.Catalog : Object {
 
 		// Delete the previous file if different
 		if (!file.equal (previous_file)) {
-			var previous_gio_file = Catalog.to_gio_file (previous_file);
-			yield previous_gio_file.delete_async (Priority.DEFAULT, cancellable);
+			try {
+				var previous_gio_file = Catalog.to_gio_file (previous_file);
+				yield previous_gio_file.delete_async (Priority.DEFAULT, cancellable);
+			}
+			catch (Error error) {
+				if (!(error is IOError.NOT_FOUND)) {
+					throw error;
+				}
+			}
 		}
 		app.monitor.catalog_saved (this, previous_file);
 	}

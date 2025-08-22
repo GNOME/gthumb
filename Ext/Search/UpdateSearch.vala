@@ -3,6 +3,17 @@ public class Gth.UpdateSearch {
 		search = null;
 	}
 
+	public async void update_file (Browser browser, File file, Job job) throws Error {
+		var gio_file = Catalog.to_gio_file (file);
+		var data = yield Files.load_contents_async (gio_file, job.cancellable);
+		var catalog = Catalog.new_from_data (file, data);
+		if (!(catalog is CatalogSearch)) {
+			throw new IOError.FAILED ("Invalid catalog");
+		}
+		search = catalog as CatalogSearch;
+		yield search_and_save (browser, search, file, job);
+	}
+
 	async void search_and_save (Browser browser, CatalogSearch _search, File _file, Job job) throws Error {
 		// Search.
 
@@ -18,7 +29,7 @@ public class Gth.UpdateSearch {
 
 		var local_cancellable = new Cancellable ();
 		yield search.save_async (local_cancellable);
-		// TODO app.monitor.file_changed (search.file, Monitor.Event.CREATED);
+		app.monitor.file_created (search.file);
 
 		// End of search.
 
@@ -43,9 +54,9 @@ public class Gth.UpdateSearch {
 		yield search.save_async (job.cancellable);
 		app.monitor.file_changed (search.file, Monitor.Event.CREATED);
 
-		// Open the search in the browser TODO: make cancellable
+		// Open the catalog.
 
-		yield browser.open_location_async (search.file);
+		yield browser.open_location_async (search.file, LoadAction.OPEN, job);
 
 		// Show a message on the browser.
 
@@ -97,17 +108,6 @@ public class Gth.UpdateSearch {
 				break;
 			}
 		}
-	}
-
-	public async void update_file (Browser browser, File file, Job job) throws Error {
-		var gio_file = Catalog.to_gio_file (file);
-		var data = yield Files.load_contents_async (gio_file, job.cancellable);
-		var catalog = Catalog.new_from_data (file, data);
-		if (!(catalog is CatalogSearch)) {
-			throw new IOError.FAILED ("Invalid catalog");
-		}
-		search = catalog as CatalogSearch;
-		yield search_and_save (browser, search, file, job);
 	}
 
 	CatalogSearch search;

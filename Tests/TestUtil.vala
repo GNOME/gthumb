@@ -11,6 +11,15 @@ int main (string[] args) {
 	test_remove_extension ("abc.tar.xz", "abc");
 	test_remove_extension (".hidden", ".hidden");
 
+	test_get_extension ("", null);
+	test_get_extension ("abc", null);
+	test_get_extension ("abc.x", "x");
+	test_get_extension ("abc.xyz", "xyz");
+	test_get_extension ("abc.tar", "tar");
+	test_get_extension ("abc.tar.x", "tar.x");
+	test_get_extension ("abc.tar.xz", "tar.xz");
+	test_get_extension (".hidden", null);
+
 	test_get_digits (0, 1);
 	test_get_digits (1, 1);
 	test_get_digits (9, 1);
@@ -54,6 +63,15 @@ void test_get_digits (int number, int expected) {
 	var result = Gth.Util.get_digits (number);
 	if (result != expected) {
 		stderr.printf ("> get_digits (%d)  expecting: %d  got: %d\n", number, expected, result);
+		n_errors++;
+	}
+	n_tests++;
+}
+
+void test_get_extension (string filename, string? expected) {
+	var result = Gth.Util.get_extension (filename);
+	if (result != expected) {
+		stderr.printf ("> get_extension ('%s')  expecting: '%s'  got: '%s'\n", filename, expected, result);
 		n_errors++;
 	}
 	n_tests++;

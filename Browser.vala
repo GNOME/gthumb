@@ -119,11 +119,11 @@ public class Gth.Browser : Gtk.Box {
 		thaw_thumbnail_list ();
 	}
 
-	public async void load_folder (File location, LoadAction load_action) throws Error {
+	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
 		thumbnailer.cancel ();
 		freeze_thumbnail_list ();
 		folder_tree.list_attributes = get_list_attributes (true);
-		yield folder_tree.load_folder (location, load_action);
+		yield folder_tree.load_folder (location, load_action, job);
 		thaw_thumbnail_list ();
 		update_title ();
 		update_load_sensitivity ();
@@ -146,13 +146,13 @@ public class Gth.Browser : Gtk.Box {
 		thumbnailer.queue_load_next ();
 	}
 
-	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN) throws Error {
+	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
 		yield window.set_page (Window.Page.BROWSER);
-		yield load_folder (location, load_action);
+		yield load_folder (location, load_action, job);
 	}
 
 	public void open_location (File location, LoadAction load_action = LoadAction.OPEN, File? file_to_select = null) {
-		open_location_async.begin (location, load_action, (_obj, res) => {
+		open_location_async.begin (location, load_action, null, (_obj, res) => {
 			try {
 				open_location_async.end (res);
 				if (file_to_select != null) {
@@ -742,10 +742,11 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("search", null);
 		action.activate.connect ((_action, param) => {
-			var dialog = new Gth.SearchDialog (folder_tree.current_folder.file);
-			dialog.transient_for = window;
-			dialog.present ();
-			dialog.focus_first_rule ();
+			new_search.begin ();
+			//var dialog = new Gth.SearchDialog (folder_tree.current_folder.file);
+			//dialog.transient_for = window;
+			//dialog.present ();
+			//dialog.focus_first_rule ();
 		});
 		action_group.add_action (action);
 
@@ -1088,41 +1089,86 @@ public class Gth.Browser : Gtk.Box {
 		thumbnailer.queue_load_next ();
 	}
 
-	async void edit_catalog () {
-		var file = folder_tree.current_folder.file;
-		var local_job = window.new_job ("Edit Catalog %s".printf (file.get_uri ()));
-		try {
-			var editor = new Gth.CatalogEditor ();
-			var catalog = yield editor.edit_catalog (window, file, local_job.cancellable);
-			yield catalog.save_async (local_job.cancellable);
+	Job search_job = null;
 
-			if (editor.search_parameters_changed ()) {
-				// Start searching if the search parameters changed.
-				update_search.begin ();
-			}
+	async void new_search () {
+		if (search_job != null) {
+			search_job.cancel ();
+		}
+		var local_job = window.new_job (_("Searching Files"),
+			JobFlags.FOREGROUND,
+			"gth-search-symbolic");
+		search_job = local_job;
+		try {
+			local_job.opens_dialog ();
+			var editor = new Gth.SearchEditor ();
+			var catalog = yield editor.new_search (window,
+				folder_tree.current_folder.file,
+				local_job.cancellable);
+			yield catalog.save_async (local_job.cancellable);
+			local_job.dialog_closed ();
+
+			var search = new UpdateSearch ();
+			yield search.update_file (this, catalog.file, local_job);
 		}
 		catch (Error error) {
+			local_job.dialog_closed ();
 			window.show_error (error);
 		}
 		finally {
 			local_job.done ();
+			if (local_job == search_job) {
+				search_job = null;
+			}
 		}
 	}
 
-	Job search_job = null;
+	async void edit_catalog () {
+		if (search_job != null) {
+			search_job.cancel ();
+		}
+		var file_data = folder_tree.current_folder;
+		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"gth-search-symbolic");
+		search_job = local_job;
+		try {
+			local_job.opens_dialog ();
+			var editor = new Gth.CatalogEditor ();
+			var catalog = yield editor.edit_catalog (window, file_data.file, local_job.cancellable);
+			local_job.dialog_closed ();
+			yield catalog.save_async (local_job.cancellable);
+
+			if (editor.search_parameters_changed ()) {
+				// Start searching if the search parameters changed.
+				var search = new UpdateSearch ();
+				yield search.update_file (this, catalog.file, local_job);
+			}
+		}
+		catch (Error error) {
+			local_job.dialog_closed ();
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+			if (local_job == search_job) {
+				search_job = null;
+			}
+		}
+	}
 
 	async void update_search () {
 		if (search_job != null) {
 			search_job.cancel ();
 		}
-		var file = folder_tree.current_folder.file;
-		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
+		var file_data = folder_tree.current_folder;
+		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"gth-search-symbolic");
 		search_job = local_job;
 		try {
 			var search = new UpdateSearch ();
-			yield search.update_file (this, file, local_job);
+			yield search.update_file (this, file_data.file, local_job);
 		}
 		catch (Error error) {
 			window.show_error (error);

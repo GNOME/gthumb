@@ -136,7 +136,7 @@ public class Gth.FolderTree : Gtk.Box {
 		load_folder.begin (current_folder.file);
 	}
 
-	public async void load_folder (File location, LoadAction load_action = LoadAction.OPEN) throws Error {
+	public async void load_folder (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
 		var source = app.get_source_for_file (location);
 		if (source == null) {
 			throw new IOError.FAILED (_("File type not supported"));
@@ -169,9 +169,12 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		unowned var win = get_root () as Gth.Window;
-		var local_job = win.new_job (_("Loading %s").printf (location.get_uri ()),
-			JobFlags.DEFAULT,
-			"folder-symbolic");
+		var local_job = job;
+		if (local_job == null) {
+			 local_job = win.new_job (_("Loading %s").printf (location.get_uri ()),
+				JobFlags.DEFAULT,
+				"folder-symbolic");
+		}
 		load_job = local_job;
 		try {
 			// Mount the location if required.

@@ -9,14 +9,17 @@ const int VERTICAL_SPACING = 12; // pixels
 const int CONTAINER_H_PADDING = 12; // pixels
 const int CONTAINER_V_PADDING = 12; // pixels
 
-const string ACCESS_ATTRIBUTES = "access::*";
-const string STANDARD_ATTRIBUTES =
+const string REQUIRED_ATTRIBUTES =
 	FileAttribute.STANDARD_TYPE + "," +
 	FileAttribute.STANDARD_IS_HIDDEN + "," +
 	FileAttribute.STANDARD_IS_BACKUP + "," +
 	FileAttribute.STANDARD_NAME + "," +
 	FileAttribute.STANDARD_DISPLAY_NAME + "," +
 	FileAttribute.STANDARD_EDIT_NAME + "," +
+	FileAttribute.ID_FILE;
+const string ACCESS_ATTRIBUTES = "access::*";
+const string STANDARD_ATTRIBUTES =
+	REQUIRED_ATTRIBUTES + "," +
 	FileAttribute.STANDARD_SIZE + "," +
 	FileAttribute.STANDARD_ICON + "," +
 	FileAttribute.STANDARD_SYMBOLIC_ICON + "," +

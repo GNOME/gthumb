@@ -22,7 +22,7 @@
               <object class="GtkButton">
                 <property name="label" translatable="yes" context="Verb">_Search</property>
                 <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_search" />
+                <signal name="clicked" handler="on_save" />
                 <style>
                   <class name="suggested-action"/>
                 </style>
