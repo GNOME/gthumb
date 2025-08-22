@@ -317,7 +317,7 @@ public class Gth.Viewer : Gtk.Box {
 			else {
 				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
 			}
-			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) main_view.max_sidebar_width);
+			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) main_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}
 		if (current_viewer != null) {
 			current_viewer.save_preferences ();

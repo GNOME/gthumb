@@ -1198,7 +1198,7 @@ public class Gth.Browser : Gtk.Box {
 		app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) main_view.max_sidebar_width);
 		app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, content_view.show_sidebar);
 		if (page_visible) {
-			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, (int) content_view.max_sidebar_width);
+			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) content_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}
 
 		if (app.settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
