@@ -27,7 +27,7 @@ public class Gth.Bookmarks {
 
 	async void load_app_bookmarks () {
 		entries.model.remove_all ();
-		var local_job = app.new_job ("Load bookmarks");
+		var local_job = app.new_job ("Loading Bookmarks");
 		try {
 			var bookmarks_file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
 			var bytes = yield Files.load_file_async (bookmarks_file, local_job.cancellable);
@@ -64,7 +64,7 @@ public class Gth.Bookmarks {
 		var bookmarks_dir = UserDir.get_directory (FileIntent.READ, DirType.CONFIG, "gtk-3.0");
 		var bookmarks_file = bookmarks_dir.get_child ("bookmarks");
 #endif
-		var local_job = app.new_job ("Load system bookmarks");
+		var local_job = app.new_job ("Loading System Bookmarks");
 		try {
 			var contents = yield Files.load_contents_async (bookmarks_file, local_job.cancellable);
 			var lines = contents.split ("\n");
@@ -108,7 +108,7 @@ public class Gth.Bookmarks {
 	}
 
 	public async void save_app_bookmarks () throws Error {
-		var local_job = app.new_job ("Save bookmarks");
+		var local_job = app.new_job ("Saving Bookmarks");
 		try {
 			var bookmark_content = new BookmarkFile ();
 			foreach (unowned var entry in entries) {

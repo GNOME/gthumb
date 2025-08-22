@@ -8,7 +8,9 @@ public class Gth.Job : Object {
 	public Cancellable cancellable;
 	public uint64 id { get; default = Job.next_id (); }
 	public float progress { get; set; default = 0.0f; }
-	public string description { get; set; default = ""; }
+	public string title { get; set; default = ""; }
+	public string subtitle { get; set; default = null; }
+	public string icon_name { get; set; default = null; }
 	public State state { get; set; default = State.RUNNING; }
 	public bool terminated { get; private set; default = false; }
 	public uint open_dialogs { get; private set; default = 0; }
@@ -49,7 +51,7 @@ public class Gth.Job : Object {
 		//stdout.printf ("  JOB CANCELLED [%p] [%s]: %s\n",
 		//	this,
 		//	time_cancelled.format ("%H:%M:%S"),
-		//	description
+		//	title
 		//);
 		state = State.CANCELLED;
 		cancellable.cancel ();
@@ -74,7 +76,7 @@ public class Gth.Job : Object {
 		//	time_terminated.format ("%H:%M:%S"),
 		//	state.to_string (),
 		//	seconds (),
-		//	description
+		//	title
 		//);
 	}
 
@@ -129,15 +131,16 @@ public class Gth.JobQueue : Object {
 		queue = new GenericArray<Gth.Job>();
 	}
 
-	public Gth.Job new_job (string description, JobFlags flags) {
+	public Gth.Job new_job (string title, JobFlags flags, string? icon_name = null) {
 		var job = new Gth.Job ();
-		job.description = description;
+		job.title = title;
 		job.foreground = JobFlags.FOREGROUND in flags;
+		job.icon_name = icon_name;
 		//stdout.printf ("  NEW %sJOB [%p] [%s]: %s\n",
 		//	(job.foreground ? "FOREGROUND " : ""),
 		//	job,
 		//	job.time_started.format ("%H:%M:%S"),
-		//	job.description);
+		//	job.title);
 		add_job (job);
 		return job;
 	}

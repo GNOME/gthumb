@@ -468,8 +468,8 @@ public class Gth.Application : Adw.Application {
 		return get_viewer_type_for_content_type (content_type) == viewer_type;
 	}
 
-	public inline Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT) {
-		return jobs.new_job (description, flags);
+	public inline Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT, string? icon_name = null) {
+		return jobs.new_job (description, flags, icon_name);
 	}
 
 	public void foreach_window (Gth.WindowFunc func) {
@@ -497,7 +497,7 @@ public class Gth.Application : Adw.Application {
 
 	public async GenericList<FileData> update_roots () {
 		roots.model.remove_all ();
-		var job = new_job ("Update roots");
+		var job = new_job ("Updating Roots");
 		var sort_order = 0;
 		foreach (unowned var source in file_sources) {
 			var source_roots = yield source.get_roots (job.cancellable);

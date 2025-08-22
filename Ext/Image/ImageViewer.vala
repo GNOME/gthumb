@@ -99,7 +99,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = window.new_job ("Load image %s".printf (file_data.file.get_uri ()));
+		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()));
 		load_job = local_job;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
@@ -160,8 +160,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public override async void save () throws Error {
-		var local_job = window.new_job ("Saving File");
 		var current_file = window.viewer.current_file;
+		var local_job = window.new_job (_("Saving %s").printf (current_file.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"document-save-symbolic");
 		try {
 			// TODO: load the original image if a lower quality version was loaded.
 
@@ -406,15 +408,15 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	async void copy_image () {
-		var local_job = window.new_job ("Copy image");
+		var local_job = window.new_job (_("Copying to the Clipboard"), JobFlags.FOREGROUND);
 		try {
 			var bytes = save_png (image_view.image, null, local_job.cancellable);
 			unowned var clipboard = window.get_clipboard ();
 			var content_provider = new Gdk.ContentProvider.for_bytes ("image/png", bytes);
 			if (!clipboard.set_content (content_provider)) {
-				throw new IOError.FAILED (_("Could not copy the image to the clipboard"));
+				throw new IOError.FAILED ("Operation failed");
 			}
-			var toast = Util.new_literal_toast (_("Copied to Clipboard"));
+			var toast = Util.new_literal_toast (_("Copied to the Clipboard"));
 			toast.button_label = _("Open");
 			toast.action_name = "win.open-clipboard";
 			window.add_toast (toast);

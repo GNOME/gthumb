@@ -206,8 +206,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		update_sensitivity ();
 	}
 
-	public Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT) {
-		var job = app.new_job (description, flags);
+	public Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT, string? icon_name = null) {
+		var job = app.new_job (description, flags, icon_name);
 		add_job (job);
 		return job;
 	}
@@ -357,7 +357,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	async void open_selected_files () {
-		var local_job = new_job ("Choose application");
+		var local_job = new_job ("Choosing Application");
 		try {
 			var files = get_selected ();
 			if (files.length == 0) {
@@ -384,7 +384,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public async void open_clipboard () {
 		var clipboard = get_clipboard ();
-		var local_job = new_job ("Open clipboard");
+		var local_job = new_job (_("Reading Clipboard"), JobFlags.FOREGROUND);
 		try {
 			var texture = yield clipboard.read_texture_async (local_job.cancellable);
 			var image = new Gth.Image.from_texture (texture);
@@ -536,7 +536,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("fake-job", null);
 		action.activate.connect ((_action, param) => {
 			fake_job_id++;
-			var local_job = new_job ("Fake Job %u".printf (fake_job_id));
+			var local_job = new_job ("Fake Job %u".printf (fake_job_id),
+				JobFlags.DEFAULT,
+				"applications-science-symbolic");
+			local_job.subtitle = Strings.new_random (50);
 			local_job.cancellable.cancelled.connect (() => {
 				local_job.done ();
 			});

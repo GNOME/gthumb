@@ -347,7 +347,9 @@ public class Gth.Thumbnailer {
 
 		public ThumbnailJob (Gth.Window window, FileData _file) {
 			file = _file;
-			job = window.new_job ("Load thumbnail for %s".printf (file.file.get_uri ()));
+			job = window.new_job ("Thumbnail for %s".printf (file.get_display_name ()),
+				JobFlags.DEFAULT,
+				"gth-image-symbolic");
 		}
 	}
 

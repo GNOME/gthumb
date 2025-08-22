@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GthProgressDialog">
-    <property name="title" translatable="yes">Activities</property>
     <property name="content-width">800</property>
     <property name="presentation-mode">bottom-sheet</property>
-    <!--property name="content-height">320</property-->
-    <!--property name="height-request">400</property-->
     <child>
       <object class="AdwToolbarView">
         <child type="top">

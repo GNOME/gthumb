@@ -36,16 +36,16 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		}
 	}
 
+	void queue_show_dialog () {
+		if (show_event == 0) {
+			show_event = Util.after_timeout (SHOW_DELAY, () => show_dialog ());
+		}
+	}
+
 	void cancel_show_dialog () {
 		if (show_event != 0) {
 			Source.remove (show_event);
 			show_event = 0;
-		}
-	}
-
-	void queue_show_dialog () {
-		if (show_event == 0) {
-			show_event = Util.after_timeout (SHOW_DELAY, () => show_dialog ());
 		}
 	}
 
@@ -68,18 +68,24 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		job_dialogs_changed ();
 	}
 
+	uint foreground_jobs = 0;
 	uint job_dialogs = 0;
 
 	public void job_dialogs_changed () {
+		foreground_jobs = 0;
 		job_dialogs = 0;
 		foreach (unowned var job in jobs) {
 			job_dialogs += job.open_dialogs;
+			if (job.foreground) {
+				foreground_jobs += 1;
+			}
 		}
-		//stdout.printf ("> job_dialogs: %u\n", job_dialogs);
+		//stdout.printf ("> foreground_jobs: %u\n", foreground_jobs);
+		//stdout.printf ("  job_dialogs: %u\n", job_dialogs);
 		if ((job_dialogs > 0) || (jobs.model.n_items == 0)) {
 			hide_dialog ();
 		}
-		else {
+		else if (foreground_jobs > 0) {
 			queue_show_dialog ();
 		}
 	}
@@ -122,10 +128,16 @@ public class Gth.ProgressRow : Adw.ActionRow {
 		job.notify["open-dialogs"].connect ((obj, _prop) => {
 			dialog.job_dialogs_changed ();
 		});
+		job.notify["subtitle"].connect ((obj, _prop) => {
+			subtitle = job.subtitle;
+		});
 
 		activatable = true;
 		use_markup = false;
-		title = job.description;
+		title_lines = 3;
+		subtitle_lines = 1;
+		title = job.title;
+		subtitle = job.subtitle;
 
 		var button = new Gtk.Button.with_label (_("Cancel"));
 		button.clicked.connect (() => job.cancel ());
@@ -151,7 +163,8 @@ public class Gth.ProgressRow : Adw.ActionRow {
 		box.margin_bottom = 12;
 		add_suffix (box);
 
-		var icon = new Gtk.Image.from_icon_name ("gth-script-symbolic");
+		var icon = new Gtk.Image.from_icon_name (job.icon_name ?? "gth-script-symbolic");
+		icon.icon_size = Gtk.IconSize.LARGE;
 		add_prefix (icon);
 	}
 

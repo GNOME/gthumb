@@ -169,7 +169,9 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		unowned var win = get_root () as Gth.Window;
-		var local_job = win.new_job ("Load folder %s".printf (location.get_uri ()));
+		var local_job = win.new_job (_("Loading %s").printf (location.get_uri ()),
+			JobFlags.DEFAULT,
+			"folder-symbolic");
 		load_job = local_job;
 		try {
 			// Mount the location if required.
@@ -284,7 +286,9 @@ public class Gth.FolderTree : Gtk.Box {
 			return null;
 		}
 		unowned var win = get_root () as Gth.Window;
-		var local_job = win.new_job ("List subfolders for %s".printf (file_data.file.get_uri ()));
+		var local_job = win.new_job (_("Loading %s").printf (file_data.get_display_name ()),
+			JobFlags.DEFAULT,
+			"folder-symbolic");
 		source.list_children.begin (file_data.file, FOLDER_ATTRIBUTES, local_job.cancellable, (_obj, res) => {
 			try {
 				var all_children = source.list_children.end (res);

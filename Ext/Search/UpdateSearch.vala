@@ -3,12 +3,12 @@ public class Gth.UpdateSearch {
 		search = null;
 	}
 
-	public async void search_and_save (Browser browser, CatalogSearch _search, File _file, Cancellable cancellable) throws Error {
+	async void search_and_save (Browser browser, CatalogSearch _search, File _file, Job job) throws Error {
 		// Search.
 
 		Error error = null;
 		try {
-			yield update_search (browser, _search, _file, cancellable);
+			yield update_search (browser, _search, _file, job);
 		}
 		catch (Error _error) {
 			error = _error;
@@ -29,10 +29,10 @@ public class Gth.UpdateSearch {
 			throw error;
 		}
 		browser.update_folder_status ();
-		browser.window.show_message (_("Search terminated"));
+		browser.window.show_message (_("Search Terminated"));
 	}
 
-	async void update_search (Browser browser, CatalogSearch _search, File _file, Cancellable cancellable) throws Error {
+	async void update_search (Browser browser, CatalogSearch _search, File _file, Job job) throws Error {
 		search = _search;
 		search.file = _file;
 		toast = null;
@@ -40,7 +40,7 @@ public class Gth.UpdateSearch {
 		// Clear the search results.
 
 		search.clear_files ();
-		yield search.save_async (cancellable);
+		yield search.save_async (job.cancellable);
 		app.monitor.file_changed (search.file, Monitor.Event.CREATED);
 
 		// Open the search in the browser TODO: make cancellable
@@ -49,13 +49,7 @@ public class Gth.UpdateSearch {
 
 		// Show a message on the browser.
 
-		toast = Util.new_literal_toast (_("Searching files…"));
-		toast.timeout = 0;
-		toast.action_name = "win.stop-search";
-		toast.button_label = _("Stop");
-		browser.window.add_toast (toast);
-
-		browser.folder_status.title = _("Searching files…");
+		browser.folder_status.title = _("Searching Files");
 
 		// Get the file test.
 
@@ -81,11 +75,14 @@ public class Gth.UpdateSearch {
 			}
 			var list_attr = browser.get_list_attributes ();
 			var all_attr = Util.concat_attributes (list_attr, test.attributes);
-			yield source.foreach_child (folder.folder, flags, all_attr, cancellable, (child, is_parent) => {
+			yield source.foreach_child (folder.folder, flags, all_attr, job.cancellable, (child, is_parent) => {
 				var action = ForEachAction.CONTINUE;
 				if (is_parent) {
 					if (child.info.get_is_hidden () && !include_hidden) {
 						action = ForEachAction.SKIP;
+					}
+					else {
+						job.subtitle = child.get_display_name ();
 					}
 				}
 				else {
@@ -96,21 +93,21 @@ public class Gth.UpdateSearch {
 				}
 				return action;
 			});
-			if (cancellable.is_cancelled ()) {
+			if (job.cancellable.is_cancelled ()) {
 				break;
 			}
 		}
 	}
 
-	public async void update_file (Browser browser, File file, Cancellable cancellable) throws Error {
+	public async void update_file (Browser browser, File file, Job job) throws Error {
 		var gio_file = Catalog.to_gio_file (file);
-		var data = yield Files.load_contents_async (gio_file, cancellable);
+		var data = yield Files.load_contents_async (gio_file, job.cancellable);
 		var catalog = Catalog.new_from_data (file, data);
 		if (!(catalog is CatalogSearch)) {
 			throw new IOError.FAILED ("Invalid catalog");
 		}
 		search = catalog as CatalogSearch;
-		yield search_and_save (browser, search, file, cancellable);
+		yield search_and_save (browser, search, file, job);
 	}
 
 	CatalogSearch search;

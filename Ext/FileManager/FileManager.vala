@@ -42,8 +42,9 @@ public class Gth.FileManager {
 		try {
 			var iter = files.iterator ();
 			while (iter.next ()) {
-				job.progress = Util.calc_progress (iter.index (), files.model.n_items);
 				var file = iter.get ();
+				job.progress = Util.calc_progress (iter.index (), files.model.n_items);
+				job.subtitle = file.get_basename ();
 				yield file.trash_async (Priority.DEFAULT, job.cancellable);
 				deleted_files.model.append (file);
 			}
@@ -123,6 +124,7 @@ class Gth.CopyOperation {
 		current_file = 0;
 		foreach (var file in files) {
 			job.progress = Util.calc_progress (current_file, total_files);
+			job.subtitle = file.get_basename ();
 			yield copy_file (file, destination_dir, CopyFlags.DEFAULT, job);
 			current_file++;
 		}
@@ -306,10 +308,11 @@ class Gth.DeleteOperation {
 		try {
 			var iter = files.iterator ();
 			while (iter.next ()) {
+				var file_data = iter.get ();
 				job.progress = Util.calc_progress (iter.index (), files.model.n_items);
-				var file = iter.get ().file;
-				yield delete_file (file, job.cancellable);
-				deleted_files.model.append (file);
+				job.subtitle = file_data.get_display_name ();
+				yield delete_file (file_data.file, job.cancellable);
+				deleted_files.model.append (file_data.file);
 			}
 		}
 		finally {

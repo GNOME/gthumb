@@ -26,7 +26,9 @@ public class Gth.Viewer : Gtk.Box {
 		}
 
 		// Load
-		var local_job = window.new_job ("Load %s".printf (file.file.get_uri ()));
+		var local_job = window.new_job (_("Loading %s").printf (file.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"content-loading-symbolic");
 		load_job = local_job;
 		try {
 			activate_viewer_for_file (file);
@@ -57,7 +59,9 @@ public class Gth.Viewer : Gtk.Box {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = window.new_job ("Load %s".printf (file.get_uri ()));
+		var local_job = window.new_job (_("Loading %s").printf (file.get_uri ()),
+			JobFlags.FOREGROUND,
+			"content-loading-symbolic");
 		load_job = local_job;
 		try {
 			var source = new FileSourceVfs ();
@@ -90,7 +94,9 @@ public class Gth.Viewer : Gtk.Box {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = window.new_job ("Load %s".printf (file.file.get_uri ()));
+		var local_job = window.new_job (_("Loading %s").printf (file.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"content-loading-symbolic");
 		load_job = local_job;
 		try {
 			activate_viewer_for_file (file);
@@ -158,7 +164,9 @@ public class Gth.Viewer : Gtk.Box {
 		if (sidebar_job != null) {
 			sidebar_job.cancel ();
 		}
-		var local_job = window.new_job ("Load metadata for %s".printf (current_file.file.get_uri ()));
+		var local_job = window.new_job ("Metadata for %s".printf (current_file.get_display_name ()),
+			JobFlags.DEFAULT,
+			"gth-note-symbolic");
 		sidebar_job = local_job;
 		property_sidebar.load.begin (current_file, local_job.cancellable, (_obj, res) => {
 			try {

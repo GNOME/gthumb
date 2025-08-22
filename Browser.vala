@@ -100,7 +100,9 @@ public class Gth.Browser : Gtk.Box {
 	async void add_files (GenericList<File> files) {
 		freeze_thumbnail_list ();
 		var attributes = get_list_attributes ();
-		var local_job = window.new_job ("Add Files");
+		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"folder-symbolic");
 		foreach (var file in files) {
 			try {
 				var info = yield Files.query_info (file, attributes, local_job.cancellable);
@@ -573,7 +575,9 @@ public class Gth.Browser : Gtk.Box {
 		}
 		status.set_selection_info (total_files, total_size);
 		if (total_files == 1) {
-			var local_job = window.new_job ("Load metadata for %s".printf (selected_file.file.get_uri ()));
+			var local_job = window.new_job ("Metadata for %s".printf (selected_file.get_display_name ()),
+				JobFlags.DEFAULT,
+				"gth-note-symbolic");
 			property_sidebar.load.begin (selected_file, local_job.cancellable, (_obj, res) => {
 				try {
 					property_sidebar.load.end (res);
@@ -754,14 +758,6 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("update-search", null);
 		action.activate.connect ((_action, param) => {
 			update_search.begin ();
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("stop-search", null);
-		action.activate.connect ((_action, param) => {
-			if (search_job != null) {
-				search_job.cancel ();
-			}
 		});
 		action_group.add_action (action);
 
@@ -1094,7 +1090,7 @@ public class Gth.Browser : Gtk.Box {
 
 	async void edit_catalog () {
 		var file = folder_tree.current_folder.file;
-		var local_job = window.new_job ("Edit catalog %s".printf (file.get_uri ()));
+		var local_job = window.new_job ("Edit Catalog %s".printf (file.get_uri ()));
 		try {
 			var editor = new Gth.CatalogEditor ();
 			var catalog = yield editor.edit_catalog (window, file, local_job.cancellable);
@@ -1120,11 +1116,13 @@ public class Gth.Browser : Gtk.Box {
 			search_job.cancel ();
 		}
 		var file = folder_tree.current_folder.file;
-		var local_job = window.new_job ("Update search %s".printf (file.get_uri ()));
+		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"gth-search-symbolic");
 		search_job = local_job;
 		try {
 			var search = new UpdateSearch ();
-			yield search.update_file (this, file, local_job.cancellable);
+			yield search.update_file (this, file, local_job);
 		}
 		catch (Error error) {
 			window.show_error (error);

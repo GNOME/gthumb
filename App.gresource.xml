@@ -35,6 +35,8 @@
     <file preprocess="xml-stripblanks">gth-zoom-menu-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-tools-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-script-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-image-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-note-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

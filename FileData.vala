@@ -388,4 +388,13 @@ public class Gth.FileData : Object {
 		return info.has_attribute (attr_id)
 			&& info.get_attribute_boolean (attr_id);
 	}
+
+	public string get_display_name () {
+		if (info.has_attribute (FileAttribute.STANDARD_DISPLAY_NAME)) {
+			return info.get_display_name ();
+		}
+		else {
+			return file.get_uri ();
+		}
+	}
 }
