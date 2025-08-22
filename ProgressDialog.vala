@@ -124,7 +124,8 @@ public class Gth.ProgressRow : Adw.ActionRow {
 		});
 
 		activatable = true;
-		set_title (job.description);
+		use_markup = false;
+		title = job.description;
 
 		var button = new Gtk.Button.with_label (_("Cancel"));
 		button.clicked.connect (() => job.cancel ());
