@@ -171,4 +171,8 @@ namespace Gth.Util {
 		new_uri.append (ext);
 		return File.new_for_uri (new_uri.str);
 	}
+
+	public static float calc_progress (uint completed, uint total) {
+		return (float) (completed + 1) / (total + 1);
+	}
 }

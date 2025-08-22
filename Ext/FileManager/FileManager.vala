@@ -42,9 +42,9 @@ public class Gth.FileManager {
 		try {
 			var iter = files.iterator ();
 			while (iter.next ()) {
+				job.progress = Util.calc_progress (iter.index (), files.model.n_items);
 				var file = iter.get ();
 				yield file.trash_async (Priority.DEFAULT, job.cancellable);
-				job.progress = (float) iter.index () / files.model.n_items;
 				deleted_files.model.append (file);
 			}
 		}
@@ -122,6 +122,7 @@ class Gth.CopyOperation {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
 		foreach (var file in files) {
+			job.progress = Util.calc_progress (current_file, total_files);
 			yield copy_file (file, destination_dir, CopyFlags.DEFAULT, job);
 			current_file++;
 		}
@@ -131,6 +132,7 @@ class Gth.CopyOperation {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
 		foreach (var file in files) {
+			job.progress = Util.calc_progress (current_file, total_files);
 			yield copy_file (file, destination_dir, CopyFlags.MOVE, job);
 			current_file++;
 		}
@@ -140,6 +142,7 @@ class Gth.CopyOperation {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
 		foreach (var file in files) {
+			job.progress = Util.calc_progress (current_file, total_files);
 			yield copy_file (file, destination_dir, CopyFlags.DUPLICATE, job);
 			current_file++;
 		}
@@ -303,9 +306,9 @@ class Gth.DeleteOperation {
 		try {
 			var iter = files.iterator ();
 			while (iter.next ()) {
+				job.progress = Util.calc_progress (iter.index (), files.model.n_items);
 				var file = iter.get ().file;
 				yield delete_file (file, job.cancellable);
-				job.progress = (float) iter.index () / files.model.n_items;
 				deleted_files.model.append (file);
 			}
 		}
