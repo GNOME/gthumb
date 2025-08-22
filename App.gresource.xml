@@ -86,5 +86,7 @@
     <file preprocess="xml-stripblanks">viewer-status.ui</file>
     <file preprocess="xml-stripblanks">viewer.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
+    <file preprocess="xml-stripblanks">progress-dialog.ui</file>
+    <file preprocess="xml-stripblanks">job-status.ui</file>
   </gresource>
 </gresources>

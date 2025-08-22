@@ -14,7 +14,7 @@ public class Gth.ReadText : Object {
 		check_func = null;
 	}
 
-	public async string read_value (Gtk.Window? parent, Cancellable? cancellable = null) {
+	public async string read_value (Gtk.Window? parent, Job job) {
 		callback = read_value.callback;
 		dialog = new EntryDialog (title, default_value);
 		dialog.check_func = check_func;
@@ -31,11 +31,10 @@ public class Gth.ReadText : Object {
 				callback = null;
 			}
 		});
-		if (cancellable != null) {
-			cancelled_event = cancellable.cancelled.connect (() => {
-				dialog.close ();
-			});
-		}
+		cancelled_event = job.cancellable.cancelled.connect (() => {
+			dialog.close ();
+		});
+		job.opens_dialog ();
 		dialog.present (parent);
 		Util.after_timeout (200, () => {
 			if (is_filename) {
@@ -46,8 +45,9 @@ public class Gth.ReadText : Object {
 			}
 		});
 		yield;
+		job.dialog_closed ();
 		if (cancelled_event != 0) {
-			cancellable.disconnect (cancelled_event);
+			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
 		}
 		return result;

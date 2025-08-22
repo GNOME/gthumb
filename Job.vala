@@ -11,6 +11,7 @@ public class Gth.Job : Object {
 	public string description { get; set; default = ""; }
 	public State state { get; set; default = State.RUNNING; }
 	public bool terminated { get; private set; default = false; }
+	public uint open_dialogs { get; private set; default = 0; }
 	public GLib.DateTime time_started;
 	public GLib.DateTime time_terminated;
 	public bool foreground;
@@ -108,13 +109,24 @@ public class Gth.Job : Object {
 			return now.difference (time_started);
 		}
 	}
+
+	public void opens_dialog () {
+		open_dialogs += 1;
+	}
+
+	public void dialog_closed () {
+		open_dialogs -= 1;
+	}
 }
 
 public class Gth.JobQueue : Object {
-	public Queue<Gth.Job> queue;
+	public GenericArray<Gth.Job> queue;
+
+	public signal void size_changed ();
+	public signal void job_added (Job job);
 
 	public JobQueue () {
-		queue = new Queue<Gth.Job>();
+		queue = new GenericArray<Gth.Job>();
 	}
 
 	public Gth.Job new_job (string description, JobFlags flags) {
@@ -130,17 +142,12 @@ public class Gth.JobQueue : Object {
 		return job;
 	}
 
-	public void remove_job (Gth.Job job) {
-		if (queue.remove (job)) {
-			size_changed ();
-		}
-	}
-
 	public void add_job (Gth.Job job) {
-		if (queue.find (job) != null)
+		if (queue.find (job))
 			return;
 		job.notify["terminated"].connect ((obj, _prop) => remove_job (obj as Gth.Job));
-		queue.push_tail (job);
+		queue.add (job);
+		job_added (job);
 		size_changed ();
 	}
 
@@ -149,25 +156,33 @@ public class Gth.JobQueue : Object {
 	}
 
 	public unowned Gth.Job first () {
-		return queue.peek_head ();
+		return queue[0];
 	}
 
 	public void cancel_all () {
-		var local_queue = queue.copy ();
-		Job job = null;
-		while ((job = local_queue.pop_head ()) != null) {
+		var local_queue = new GenericArray<Gth.Job>();
+		foreach (unowned var item in queue) {
+			local_queue.add (item);
+		}
+		while (local_queue.length > 0) {
+			var job = local_queue.steal_index (0);
 			job.cancel ();
 		}
 	}
 
 	public Job find_by_id (uint64 id) {
-		unowned var item = queue.search<uint64?> (id, (job, id) => {
-			return (job.id == id) ? 0 : 1;
-		});
-		return (item != null) ? item.data : null;
+		uint index = 0;
+		var found = queue.find_custom<uint64?> (id, (job, id) => {
+			return (job.id == id);
+		}, out index);
+		return found ? queue[index] : null;
 	}
 
-	public signal void size_changed ();
+	void remove_job (Gth.Job job) {
+		if (queue.remove (job)) {
+			size_changed ();
+		}
+	}
 }
 
 

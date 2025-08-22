@@ -99,7 +99,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = app.new_job ("Load image %s".printf (file_data.file.get_uri ()));
+		var local_job = window.new_job ("Load image %s".printf (file_data.file.get_uri ()));
 		load_job = local_job;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
@@ -182,7 +182,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				// Ask the filename
 				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
 				read_filename.default_value = current_file.info.get_edit_name ();
-				var filename = yield read_filename.read_value (window, local_job.cancellable);
+				var filename = yield read_filename.read_value (window, local_job);
 				if (filename == null) {
 					throw new IOError.CANCELLED ("Cancelled");
 				}
@@ -191,11 +191,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				var file = current_file.file.get_parent ().get_child_for_display_name (filename);
 				var extension = Util.get_extension (filename);
 				var content_type = app.get_content_type_from_extension (extension);
-				var new_file = yield save_as (file, content_type, local_job.cancellable);
+				var new_file = yield save_as (file, content_type, local_job);
 				current_file.set_file (new_file);
 			}
 			else {
-				var new_file = yield replace (local_job.cancellable);
+				var new_file = yield replace (local_job);
 				current_file.set_file (new_file);
 			}
 		}
@@ -210,7 +210,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	async File? replace (Cancellable cancellable) throws Error {
+	async File? replace (Job job) throws Error {
 		var current_file = window.viewer.current_file;
 		var overwrite_request = OverwriteRequest.NONE;
 
@@ -219,7 +219,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 					image_view.image.get_attribute ("etag"),
 					current_file.file,
 					current_file.get_content_type (),
-					cancellable);
+					job.cancellable);
 			return current_file.file;
 		}
 		catch (Error error) {
@@ -233,14 +233,14 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		// File changed after being loaded.
 		return yield ask_to_overwrite (overwrite_request, current_file.file,
-			current_file.get_content_type (), cancellable);
+			current_file.get_content_type (), job);
 	}
 
-	async File? save_as (File file, string content_type, Cancellable cancellable) throws Error {
+	async File? save_as (File file, string content_type, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
 
 		try {
-			yield app.image_saver.create_file (image_view.image, file, content_type, cancellable);
+			yield app.image_saver.create_file (image_view.image, file, content_type, job.cancellable);
 			return file;
 		}
 		catch (Error error) {
@@ -257,27 +257,27 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		// File exists or changed after being loaded.
 		return yield ask_to_overwrite (overwrite_request, file,
-			content_type, cancellable);
+			content_type, job);
 	}
 
-	async File? ask_to_overwrite (OverwriteRequest request, File file, string content_type, Cancellable cancellable) throws Error {
+	async File? ask_to_overwrite (OverwriteRequest request, File file, string content_type, Job job) throws Error {
 		var overwrite = new OverwriteDialog (window);
 		overwrite.check_extension = true;
-		var result = yield overwrite.ask_image (image_view.image, file, request, cancellable);
+		var result = yield overwrite.ask_image (image_view.image, file, request, job);
 		switch (result) {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");
 
 		case OverwriteResponse.OVERWRITE:
 			yield app.image_saver.replace_file (image_view.image, null,
-				file, content_type, cancellable);
+				file, content_type, job.cancellable);
 			return file;
 
 		case OverwriteResponse.RENAME:
 			var parent = file.get_parent ();
 			var new_file = parent.get_child_for_display_name (overwrite.new_name);
 			var new_content_type = app.get_content_type_from_name (new_file);
-			yield save_as (new_file, new_content_type, cancellable);
+			yield save_as (new_file, new_content_type, job);
 			return new_file;
 
 		default:

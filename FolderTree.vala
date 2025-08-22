@@ -168,7 +168,8 @@ public class Gth.FolderTree : Gtk.Box {
 			current_parents.clear ();
 		}
 
-		var local_job = app.new_job ("Load folder %s".printf (location.get_uri ()));
+		unowned var win = get_root () as Gth.Window;
+		var local_job = win.new_job ("Load folder %s".printf (location.get_uri ()));
 		load_job = local_job;
 		try {
 			// Mount the location if required.
@@ -282,7 +283,8 @@ public class Gth.FolderTree : Gtk.Box {
 			//throw new IOError.FAILED (_("File type not supported"));
 			return null;
 		}
-		var local_job = app.new_job ("List subfolders for %s".printf (file_data.file.get_uri ()));
+		unowned var win = get_root () as Gth.Window;
+		var local_job = win.new_job ("List subfolders for %s".printf (file_data.file.get_uri ()));
 		source.list_children.begin (file_data.file, FOLDER_ATTRIBUTES, local_job.cancellable, (_obj, res) => {
 			try {
 				var all_children = source.list_children.end (res);

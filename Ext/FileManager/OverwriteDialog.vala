@@ -22,54 +22,56 @@ public class Gth.OverwriteDialog : Object {
 		FileAttribute.TIME_MODIFIED + "," +
 		FileAttribute.TIME_MODIFIED_USEC;
 
-	public async OverwriteResponse ask_image (Gth.Image image, File file, OverwriteRequest _request, Cancellable cancellable) {
-		// TODO: load the destination thumbnail, make the image thumbnail
+	public async OverwriteResponse ask_image (Gth.Image image, File file, OverwriteRequest _request, Job job) {
+		// TODO: make a thumbnail for image
 		request = _request;
 		try {
-			var info = yield Files.query_info (file, REQUIRED_ATTRIBUTES, cancellable);
+			var info = yield Files.query_info (file, REQUIRED_ATTRIBUTES, job.cancellable);
 			destination = new FileData (file, info);
+			source = null;
 		}
 		catch (Error error) {
 			return OverwriteResponse.CANCEL;
 		}
 		var dialog = new_dialog ();
-		return yield ask (dialog, cancellable);
+		return yield ask (dialog, job);
 	}
 
-	public async OverwriteResponse ask_file (File source_file, File destination_file, OverwriteRequest _request, Cancellable cancellable) {
+	public async OverwriteResponse ask_file (File source_file, File destination_file, OverwriteRequest _request, Job job) {
 		request = _request;
 		try {
-			var info = yield Files.query_info (destination_file, REQUIRED_ATTRIBUTES, cancellable);
+			var info = yield Files.query_info (destination_file, REQUIRED_ATTRIBUTES, job.cancellable);
 			destination = new FileData (destination_file, info);
 			if (destination_file.equal (source_file)) {
 				request = OverwriteRequest.SAME_FILE;
+				source = null;
 			}
-
-			info = yield Files.query_info (source_file, REQUIRED_ATTRIBUTES, cancellable);
-			source = new FileData (source_file, info);
+			else {
+				info = yield Files.query_info (source_file, REQUIRED_ATTRIBUTES, job.cancellable);
+				source = new FileData (source_file, info);
+			}
 		}
 		catch (Error error) {
 			return OverwriteResponse.CANCEL;
 		}
 		var dialog = new_dialog ();
-		return yield ask (dialog, cancellable);
+		return yield ask (dialog, job);
 	}
 
-	async OverwriteResponse ask (Adw.AlertDialog dialog, Cancellable cancellable) {
+	async OverwriteResponse ask (Adw.AlertDialog dialog, Job job) {
 		load_thumbnails ();
 		var response = OverwriteResponse.CANCEL;
 		while (true) {
-			var response_id = yield dialog.choose (parent, cancellable);
+			job.opens_dialog ();
+			var response_id = yield dialog.choose (parent, job.cancellable);
+			job.dialog_closed ();
+			var for_all = (for_all_checkbutton != null) && for_all_checkbutton.active;
 			if (response_id == "overwrite") {
-				response = OverwriteResponse.OVERWRITE;
-				break;
-			}
-			if (response_id == "overwrite-all") {
-				response = OverwriteResponse.OVERWRITE_ALL;
+				response = for_all ? OverwriteResponse.OVERWRITE_ALL : OverwriteResponse.OVERWRITE;
 				break;
 			}
 			if (response_id == "skip") {
-				response = OverwriteResponse.SKIP;
+				response = for_all ? OverwriteResponse.SKIP_ALL : OverwriteResponse.SKIP;
 				break;
 			}
 			if (response_id == "skip-all") {
@@ -87,7 +89,7 @@ public class Gth.OverwriteDialog : Object {
 			rename.check_extension = check_extension;
 			rename.check_exists = true;
 			rename.folder = destination.file.get_parent ();
-			new_name = yield rename.read_value (parent, cancellable);
+			new_name = yield rename.read_value (parent, job);
 			if (new_name != null) {
 				response = OverwriteResponse.RENAME;
 				break;
@@ -111,21 +113,19 @@ public class Gth.OverwriteDialog : Object {
 			if (single_file) {
 				dialog.add_responses (
 					"cancel",  _("_Cancel"),
-					"overwrite", _("_Replace"),
-					"rename", _("_Rename")
+					"rename", _("_Rename"),
+					"overwrite", _("_Replace")
 				);
+				//dialog.set_response_appearance ("rename", Adw.ResponseAppearance.SUGGESTED);
 			}
 			else {
 				dialog.add_responses (
 					"cancel",  _("_Cancel"),
-					"overwrite-all", _("_Always Replace"),
-					"skip-all", _("_Never Replace"),
-					"overwrite", _("_Replace"),
 					"skip", _("_Skip"),
-					"rename", _("_Rename")
+					"rename", _("_Rename"),
+					"overwrite", _("_Replace")
 				);
-				dialog.set_response_appearance ("overwrite-all", Adw.ResponseAppearance.DESTRUCTIVE);
-				dialog.set_response_appearance ("skip-all", Adw.ResponseAppearance.SUGGESTED);
+				//dialog.set_response_appearance ("skip", Adw.ResponseAppearance.SUGGESTED);
 			}
 			dialog.set_response_appearance ("overwrite", Adw.ResponseAppearance.DESTRUCTIVE);
 			break;
@@ -140,6 +140,7 @@ public class Gth.OverwriteDialog : Object {
 				"rename", _("_Rename")
 			);
 			dialog.set_response_appearance ("overwrite", Adw.ResponseAppearance.DESTRUCTIVE);
+			dialog.set_response_appearance ("rename", Adw.ResponseAppearance.SUGGESTED);
 			break;
 
 		case OverwriteRequest.SAME_FILE:
@@ -155,18 +156,18 @@ public class Gth.OverwriteDialog : Object {
 			else {
 				dialog.add_responses (
 					"cancel",  _("_Cancel"),
-					"skip-all", _("_Always Skip"),
+					"skip-all", _("Skip _All"),
 					"skip", _("_Skip"),
 					"rename", _("_Rename")
 				);
 			}
+			dialog.set_response_appearance ("rename", Adw.ResponseAppearance.SUGGESTED);
 			break;
 
 		case OverwriteRequest.NONE:
 			break;
 		}
 
-		dialog.set_response_appearance ("rename", Adw.ResponseAppearance.SUGGESTED);
 		dialog.default_response = "rename";
 		dialog.close_response = "cancel";
 		dialog.extra_child = new_extra_child ();
@@ -175,13 +176,19 @@ public class Gth.OverwriteDialog : Object {
 
 	Gtk.Widget new_extra_child () {
 		// Main container
-		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 24);
-		box.margin_top = 12;
-		box.halign = Gtk.Align.CENTER;
+		var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
+		main_box.margin_top = 12;
+		//main_box.halign = Gtk.Align.CENTER;
+
+		// Preview container
+		var preview_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 24);
+		preview_box.halign = Gtk.Align.CENTER;
+		main_box.append (preview_box);
 
 		// Destination
 		destination_thumbnail = new Gth.Thumbnail ();
-		destination_thumbnail.add_css_class ("frame");
+		//destination_thumbnail.add_css_class ("frame");
+		destination_thumbnail.add_css_class ("image-view");
 		destination_thumbnail.bind (destination);
 
 		var destination_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
@@ -193,12 +200,13 @@ public class Gth.OverwriteDialog : Object {
 			destination_box.append (label);
 		}
 		destination_box.append (destination_thumbnail);
-		box.append (destination_box);
+		preview_box.append (destination_box);
 
 		if (request != OverwriteRequest.SAME_FILE) {
 			// Source
 			source_thumbnail = new Gth.Thumbnail ();
-			source_thumbnail.add_css_class ("frame");
+			//source_thumbnail.add_css_class ("frame");
+			source_thumbnail.add_css_class ("image-view");
 			if (source != null) {
 				source_thumbnail.bind (source);
 			}
@@ -210,10 +218,15 @@ public class Gth.OverwriteDialog : Object {
 			var source_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 			source_box.append (label);
 			source_box.append (source_thumbnail);
-			box.append (source_box);
+			preview_box.append (source_box);
 		}
 
-		return box;
+		if (!single_file && (request != OverwriteRequest.SAME_FILE)) {
+			for_all_checkbutton = new Gtk.CheckButton.with_label (_("Same answer for all the files"));
+			main_box.append (for_all_checkbutton);
+		}
+
+		return main_box;
 	}
 
 	void load_thumbnails () {
@@ -234,6 +247,7 @@ public class Gth.OverwriteDialog : Object {
 	Gth.Thumbnail source_thumbnail;
 	Thumbnailer thumbnailer;
 	OverwriteRequest request;
+	Gtk.CheckButton for_all_checkbutton = null;
 }
 
 public enum Gth.OverwriteResponse {

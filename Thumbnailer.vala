@@ -141,7 +141,7 @@ public class Gth.Thumbnailer {
 		if (file == null) {
 			return;
 		}
-		var thumbnail_job = new ThumbnailJob (file);
+		var thumbnail_job = new ThumbnailJob (window, file);
 		job_queue.add (thumbnail_job);
 		file.thumbnail_state = ThumbnailState.LOADING;
 		load_thumbnail.begin (thumbnail_job.file, thumbnail_job.job, (_obj, res) => {
@@ -345,9 +345,9 @@ public class Gth.Thumbnailer {
 		public FileData file;
 		public Gth.Job job;
 
-		public ThumbnailJob (FileData _file) {
+		public ThumbnailJob (Gth.Window window, FileData _file) {
 			file = _file;
-			job = app.new_job ("Load thumbnail for %s".printf (file.file.get_uri ()));
+			job = window.new_job ("Load thumbnail for %s".printf (file.file.get_uri ()));
 		}
 	}
 

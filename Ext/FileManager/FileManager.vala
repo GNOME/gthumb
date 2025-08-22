@@ -25,7 +25,9 @@ public class Gth.FileManager {
 		dialog.set_response_appearance ("delete", Adw.ResponseAppearance.DESTRUCTIVE);
 		dialog.default_response = "cancel";
 		dialog.close_response = "cancel";
+		job.opens_dialog ();
 		var response = yield dialog.choose (window, job.cancellable);
+		job.dialog_closed ();
 		if (response == "cancel") {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
@@ -63,7 +65,7 @@ public class Gth.FileManager {
 	public async void copy_files (GenericList<File> files, File destination, Job job) throws Error {
 		var operation = new CopyOperation (window);
 		try {
-			yield operation.copy_files (files, destination, job.cancellable);
+			yield operation.copy_files (files, destination, job);
 		}
 		finally {
 			app.monitor.files_created (destination, operation.created_files);
@@ -82,7 +84,7 @@ public class Gth.FileManager {
 	public async void move_files (GenericList<File> files, File destination, Job job) throws Error {
 		var operation = new CopyOperation (window);
 		try {
-			yield operation.move_files (files, destination, job.cancellable);
+			yield operation.move_files (files, destination, job);
 		}
 		finally {
 			app.monitor.files_deleted (operation.deleted_files);
@@ -93,7 +95,7 @@ public class Gth.FileManager {
 	public async void duplicate_files (GenericList<File> files, File destination, Job job) throws Error {
 		var operation = new CopyOperation (window);
 		try {
-			yield operation.duplicate_files (files, destination, job.cancellable);
+			yield operation.duplicate_files (files, destination, job);
 		}
 		finally {
 			app.monitor.files_created (destination, operation.created_files);
@@ -116,29 +118,29 @@ class Gth.CopyOperation {
 		last_overwrite_response = OverwriteResponse.NONE;
 	}
 
-	public async void copy_files (GenericList<File> files, File destination_dir, Cancellable cancellable) throws Error {
+	public async void copy_files (GenericList<File> files, File destination_dir, Job job) throws Error {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
-		foreach (unowned var file in files) {
-			yield copy_file (file, destination_dir, CopyFlags.DEFAULT, cancellable);
+		foreach (var file in files) {
+			yield copy_file (file, destination_dir, CopyFlags.DEFAULT, job);
 			current_file++;
 		}
 	}
 
-	public async void move_files (GenericList<File> files, File destination_dir, Cancellable cancellable) throws Error {
+	public async void move_files (GenericList<File> files, File destination_dir, Job job) throws Error {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
-		foreach (unowned var file in files) {
-			yield copy_file (file, destination_dir, CopyFlags.MOVE, cancellable);
+		foreach (var file in files) {
+			yield copy_file (file, destination_dir, CopyFlags.MOVE, job);
 			current_file++;
 		}
 	}
 
-	public async void duplicate_files (GenericList<File> files, File destination_dir, Cancellable cancellable) throws Error {
+	public async void duplicate_files (GenericList<File> files, File destination_dir, Job job) throws Error {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
-		foreach (unowned var file in files) {
-			yield copy_file (file, destination_dir, CopyFlags.DUPLICATE, cancellable);
+		foreach (var file in files) {
+			yield copy_file (file, destination_dir, CopyFlags.DUPLICATE, job);
 			current_file++;
 		}
 	}
@@ -147,7 +149,7 @@ class Gth.CopyOperation {
 		return destination_dir.get_child (source_file.get_basename ());
 	}
 
-	async void copy_file (File source_file, File destination_dir, CopyFlags flags, Cancellable cancellable) throws Error {
+	async void copy_file (File source_file, File destination_dir, CopyFlags flags, Job job) throws Error {
 		var other_flags = CopyFlags.DEFAULT;
 		if (last_overwrite_response == OverwriteResponse.OVERWRITE_ALL) {
 			other_flags |= CopyFlags.OVERWRITE;
@@ -155,7 +157,7 @@ class Gth.CopyOperation {
 		var destination_file = yield copy_file_to_destination (source_file,
 			get_default_destination (source_file, destination_dir),
 			flags | CopyFlags.ALL_METADATA | other_flags,
-			cancellable);
+			job);
 
 		if (destination_file == null) {
 			// Skipped
@@ -171,24 +173,24 @@ class Gth.CopyOperation {
 		yield copy_file_to_destination (Comment.get_comment_file (source_file),
 			Comment.get_comment_file (destination_file),
 			flags | CopyFlags.MAKE_DESTINATION | CopyFlags.OVERWRITE | CopyFlags.IGNORE_ERRORS,
-			cancellable);
+			job);
 
 		// XMP sidecar
 		yield copy_file_to_destination (Util.get_xmp_sidecar (source_file),
 			Util.get_xmp_sidecar (destination_file),
 			flags | CopyFlags.OVERWRITE | CopyFlags.IGNORE_ERRORS,
-			cancellable);
+			job);
 	}
 
-	async File? copy_file_to_destination (File source_file, File destination_file, CopyFlags flags, Cancellable cancellable) throws Error {
+	async File? copy_file_to_destination (File source_file, File destination_file, CopyFlags flags, Job job) throws Error {
 		if (CopyFlags.MAKE_DESTINATION in flags) {
 			var destination_dir = destination_file.get_parent ();
 			if ((last_made_destination == null) || !destination_dir.equal (last_made_destination)) {
-				var source_exists = yield Files.query_exists (source_file, cancellable);
+				var source_exists = yield Files.query_exists (source_file, job.cancellable);
 				if (!source_exists) {
 					return null;
 				}
-				yield Files.make_directory_async (destination_dir, cancellable);
+				yield Files.make_directory_async (destination_dir, job.cancellable);
 				last_made_destination = destination_dir;
 			}
 		}
@@ -205,7 +207,7 @@ class Gth.CopyOperation {
 				yield source_file.move_async (destination_file,
 					copy_flags,
 					Priority.DEFAULT,
-					cancellable,
+					job.cancellable,
 					null
 				);
 			}
@@ -213,7 +215,7 @@ class Gth.CopyOperation {
 				yield source_file.copy_async (destination_file,
 					copy_flags,
 					Priority.DEFAULT,
-					cancellable,
+					job.cancellable,
 					null
 				);
 			}
@@ -221,7 +223,7 @@ class Gth.CopyOperation {
 		catch (Error error) {
 			if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags) && (CopyFlags.DUPLICATE in flags)) {
 				var new_destination_file = Util.get_duplicated (destination_file);
-				saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, cancellable);
+				saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, job);
 			}
 			else if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags)) {
 				if (last_overwrite_response == OverwriteResponse.SKIP_ALL) {
@@ -233,23 +235,24 @@ class Gth.CopyOperation {
 				last_overwrite_response = yield overwrite.ask_file (source_file,
 					destination_file,
 					OverwriteRequest.FILE_EXISTS,
-					cancellable);
+					job);
 
 				switch (last_overwrite_response) {
 				case OverwriteResponse.CANCEL:
 					throw new IOError.CANCELLED ("Cancelled");
 
 				case OverwriteResponse.SKIP, OverwriteResponse.SKIP_ALL, OverwriteResponse.NONE:
-					return null;
+					saved_as = null;
+					break;
 
 				case OverwriteResponse.OVERWRITE, OverwriteResponse.OVERWRITE_ALL:
-					saved_as = yield copy_file_to_destination (source_file, destination_file, flags | CopyFlags.OVERWRITE, cancellable);
+					saved_as = yield copy_file_to_destination (source_file, destination_file, flags | CopyFlags.OVERWRITE, job);
 					break;
 
 				case OverwriteResponse.RENAME:
 					var parent = destination_file.get_parent ();
 					var new_destination_file = parent.get_child_for_display_name (overwrite.new_name);
-					saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, cancellable);
+					saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, job);
 					break;
 				}
 			}

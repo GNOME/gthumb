@@ -647,7 +647,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("new-window", null);
 		action.activate.connect (() => {
-			var new_window = new Gth.Window (window.application);
+			var new_window = new Gth.Window ();
 			new_window.browser.open_location (folder_tree.current_folder.file, LoadAction.OPEN, window.get_current_file ());
 			new_window.present ();
 		});
@@ -897,7 +897,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("paste-files", null);
 		action.activate.connect (() => {
-			var local_job = window.new_job ("Paste Files");
+			var local_job = window.new_job (_("Pasting Files"), JobFlags.FOREGROUND);
 			paste_files_from_clipboard.begin (local_job, (_obj, res) => {
 				try {
 					paste_files_from_clipboard.end (res);
@@ -951,7 +951,7 @@ public class Gth.Browser : Gtk.Box {
 				window.show_error (new IOError.FAILED (_("No file selected")));
 				return;
 			}
-			var new_window = new Gth.Window (window.application);
+			var new_window = new Gth.Window ();
 			new_window.viewer.open_file.begin (file);
 			new_window.present ();
 		});
@@ -1371,12 +1371,14 @@ public class Gth.Browser : Gtk.Box {
 			job.cancellable,
 			out mime_type);
 		var bytes = yield Files.read_all_async (stream, job.cancellable);
-		unowned var text = (string) bytes.get_data ();
+		unowned var data_as_string = (string) bytes.get_data ();
+		var text = data_as_string.ndup (bytes.length);
 		//stdout.printf ("> text: '%s'\n", text);
 		//stdout.printf ("> type: '%s'\n", mime_type);
 		var uris = text.split_set ("\n\r");
 		var files = new GenericList<File> ();
 		foreach (unowned var uri in uris) {
+			//stdout.printf ("> URI: %s\n", uri);
 			files.model.append (File.new_for_uri (uri));
 		}
 		if (mime_type == "gthumb/cut-files") {

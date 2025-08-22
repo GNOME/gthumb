@@ -28,6 +28,12 @@ public class Gth.GenericList<T> {
 			model.append ((Object) item);
 		}
 	}
+
+	public GenericList<T> duplicate () {
+		var other = new GenericList<T>();
+		other.copy (this);
+		return other;
+	}
 }
 
 public class Gth.IterableList<T> {

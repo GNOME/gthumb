@@ -10,6 +10,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] public unowned Gth.Viewer viewer;
 	public unowned Gth.SidebarResizer active_resizer;
 
+	ProgressDialog progress_dialog = null;
+
 	public enum Page {
 		NONE = 0,
 		BROWSER,
@@ -23,9 +25,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
 			if (closing && (jobs.size () == 0)) {
-				before_closing ();
-				close ();
+				Util.next_tick (() => {
+					before_closing ();
+					close ();
+				});
+				return;
 			}
+			if (progress_dialog == null) {
+				progress_dialog = new ProgressDialog (this);
+				progress_dialog.set_queue (jobs);
+			}
+			browser.status.set_n_jobs (jobs.size ());
+			viewer.status.set_n_jobs (jobs.size ());
 		});
 		file_manager = new FileManager (this);
 		closing = false;
@@ -38,8 +49,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return true;
 			}
 			closing = true;
-			if (jobs.size () > 0) {
-				jobs.cancel_all ();
+			if (cancel_jobs ()) {
 				return true;
 			}
 			before_closing ();
@@ -71,7 +81,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	ulong clipboard_event = 0;
 
-	public Window (Gtk.Application _app) {
+	public Window () {
 		Object (application: app);
 	}
 
@@ -204,20 +214,27 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public void add_job (Gth.Job job) {
 		jobs.add_job (job);
-		if (job.foreground) {
-			var toast = Util.new_literal_toast (job.description);
-			toast.button_label = _("_Cancel");
-			toast.action_name = "win.cancel-job";
-			toast.action_target = new Variant.uint64 (job.id);
-			toast.priority = Adw.ToastPriority.HIGH;
-			toast.timeout = 0;
-			job.toast = toast;
-			add_toast (toast);
-		}
+		// if (job.foreground) {
+		// 	var toast = Util.new_literal_toast (job.description);
+		// 	toast.button_label = _("_Cancel");
+		// 	toast.action_name = "win.cancel-job";
+		// 	toast.action_target = new Variant.uint64 (job.id);
+		// 	toast.priority = Adw.ToastPriority.HIGH;
+		// 	toast.timeout = 0;
+		// 	job.toast = toast;
+		// 	add_toast (toast);
+		// }
 	}
 
-	public void cancel_jobs () {
-		jobs.cancel_all ();
+	bool cancel_jobs () {
+		unowned var local_queue = /*app.one_window () ? app.jobs :*/ jobs;
+		if (local_queue.size () == 0) {
+			return false;
+		}
+		// TODO: show the app queue
+		//progress_dialog.show_dialog ();
+		local_queue.cancel_all ();
+		return true;
 	}
 
 	public void on_setting_change (string key) {
@@ -291,12 +308,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void before_closing () {
-		if (app.one_window () && get_realized ()) {
+		var last_window = app.one_window ();
+		if (last_window && get_realized ()) {
 			browser.save_preferences (current_page == Page.BROWSER);
 			viewer.save_preferences (current_page == Page.VIEWER);
 		}
 		viewer.release_resources ();
 		browser.release_resources ();
+		progress_dialog.force_close ();
 	}
 
 	public GenericArray<Gth.FileData>? get_selected () {
@@ -380,7 +399,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD, true);
 			// Use this window if the viewer is ImageViewer and the file is
 			// not modified.
-			var window = new Gth.Window (application);
+			var window = new Gth.Window ();
 			window.viewer.open_unsaved_image.begin (unsaved_file, image);
 			window.present ();
 		}
@@ -507,8 +526,32 @@ public class Gth.Window : Adw.ApplicationWindow {
 			});
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("job-queue", null);
+		action.activate.connect ((_action, param) => {
+			progress_dialog.show_dialog ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("fake-job", null);
+		action.activate.connect ((_action, param) => {
+			fake_job_id++;
+			var local_job = new_job ("Fake Job %u".printf (fake_job_id));
+			local_job.cancellable.cancelled.connect (() => {
+				local_job.done ();
+			});
+			//local_job.progress = 0.3f;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("cancel-all-jobs", null);
+		action.activate.connect ((_action, param) => {
+			cancel_jobs ();
+		});
+		action_group.add_action (action);
 	}
 
+	uint fake_job_id = 0;
 	DesktopBackground desktop_background = null;
 	ActionCategory tool_actions_category;
 	ActionCategory scripts_category;

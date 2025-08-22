@@ -1,9 +1,7 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/status.ui")]
 public class Gth.Status : Gtk.Box {
 	public void set_n_jobs (uint n) {
-		//jobs.set_text ("Jobs: %u".printf (n));
-		//jobs.visible = (n > 0);
-		spinner.visible = (n > 0);
+		job_status.set_count (n);
 	}
 
 	public void set_list_info (uint files, uint64 size) {
@@ -22,5 +20,5 @@ public class Gth.Status : Gtk.Box {
 	[GtkChild] unowned Gtk.Label selected_files;
 	[GtkChild] unowned Gtk.Label selected_size;
 	[GtkChild] unowned Gtk.Box selection_info;
-	[GtkChild] unowned Adw.Spinner spinner;
+	[GtkChild] unowned Gth.JobStatus job_status;
 }

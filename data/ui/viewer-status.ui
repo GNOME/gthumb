@@ -3,14 +3,12 @@
   <template class="GthViewerStatus">
     <property name="orientation">horizontal</property>
     <property name="spacing">24</property>
-    <property name="margin-start">24</property>
     <style>
       <class name="statusbar"/>
       <class name="floating"/>
     </style>
     <child>
-      <object class="AdwSpinner" id="spinner">
-        <property name="visible">false</property>
+      <object class="GthJobStatus" id="job_status">
       </object>
     </child>
     <child>
@@ -18,6 +16,7 @@
         <property name="orientation">horizontal</property>
         <property name="spacing">0</property>
         <property name="visible">false</property>
+        <property name="margin-start">12</property>
         <child>
           <object class="GtkLabel" id="file_position">
             <style>

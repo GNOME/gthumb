@@ -48,7 +48,7 @@ popover.deeper > contents {
 }
 
 .statusbar.floating {
-	padding: 6px 6px 6px 18px;
+	padding: 6px;
 }
 
 .mediabar.image {
@@ -131,6 +131,10 @@ popover.button-list button {
 
 .popup.for_toolbar > button {
 	padding: 1px 12px;
+}
+
+button.for_statusbar label {
+	font-weight: normal;
 }
 
 .test-list-row {

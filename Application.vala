@@ -37,12 +37,12 @@ public class Gth.Application : Adw.Application {
 		restart = false;
 		quitting = false;
 		jobs = new Gth.JobQueue ();
-		jobs.size_changed.connect (() => {
-			foreach_window ((win) => {
-				win.browser.status.set_n_jobs (jobs.size ());
-				win.viewer.status.set_n_jobs (jobs.size ());
-			});
-		});
+		//jobs.size_changed.connect (() => {
+		//	foreach_window ((win) => {
+		//		win.browser.status.set_n_jobs (jobs.size ());
+		//		win.viewer.status.set_n_jobs (jobs.size ());
+		//	});
+		//});
 		io_factory = new Work.Factory (get_workers (MAX_IO_WORKERS));
 		image_loader = new ImageLoader (io_factory);
 		thumb_loader = new ThumbLoader (io_factory);
@@ -474,15 +474,23 @@ public class Gth.Application : Adw.Application {
 
 	public void foreach_window (Gth.WindowFunc func) {
 		foreach (var w in get_windows ()) {
-			var win = w as Gth.Window;
-			if (win != null)
-				func (win);
+			if (w is Gth.Window) {
+				var win = w as Gth.Window;
+				if (win != null) {
+					func (win);
+				}
+			}
 		}
 	}
 
 	public bool one_window () {
-		unowned var list = get_windows ();
-		return (list == null) || (list.next == null);
+		var count = 0;
+		foreach (var w in get_windows ()) {
+			if (w is Gth.Window) {
+				count++;
+			}
+		}
+		return count <= 1;
 	}
 
 	const int MAX_ROOTS_PER_SOURCE = 1000;
@@ -665,7 +673,7 @@ public class Gth.Application : Adw.Application {
 		}
 
 		if (window == null) {
-			window = new Gth.Window (this);
+			window = new Gth.Window ();
 		}
 		window.browser.open_location (location, LoadAction.OPEN, file_to_select);
 

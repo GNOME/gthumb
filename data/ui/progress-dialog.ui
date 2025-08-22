@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthProgressDialog">
+    <property name="title" translatable="yes">Activities</property>
+    <property name="content-width">800</property>
+    <property name="presentation-mode">bottom-sheet</property>
+    <!--property name="content-height">320</property-->
+    <!--property name="height-request">400</property-->
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow">
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            <property name="max-content-height">600</property>
+            <property name="propagate-natural-height">true</property>
+            <style>
+              <class name="undershoot-top"/>
+              <class name="undershoot-bottom"/>
+            </style>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-top">24</property>
+                <property name="margin-bottom">24</property>
+                <child>
+                  <object class="GtkBox" id="cancel_all">
+                    <property name="orientation">horizontal</property>
+                    <property name="halign">end</property>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">Cancel All</property>
+                        <property name="action-name">win.cancel-all-jobs</property>
+                        <style>
+                          <class name="destructive-action"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBox" id="job_list">
+                    <property name="selection-mode">none</property>
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>
