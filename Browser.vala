@@ -203,7 +203,7 @@ public class Gth.Browser : Gtk.Box {
 		if (folder_tree.current_folder == null) {
 			return;
 		}
-		open_location (folder_tree.current_folder.file, LoadAction.OPEN_FROM_HISTORY);
+		open_location (folder_tree.current_folder.file, LoadAction.OPEN_SUBFOLDER);
 	}
 
 	public void set_file_order (string name, bool inverse) {
@@ -965,6 +965,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void init_folder_tree () {
+		folder_tree.job_queue = window.jobs;
 		folder_tree.load.connect ((location, action) => {
 			load_folder.begin (location, action);
 		});

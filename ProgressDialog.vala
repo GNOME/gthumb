@@ -13,7 +13,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 
 	public void set_queue (JobQueue _queue) {
 		queue = _queue;
-		foreach (unowned var job in jobs) {
+		foreach (unowned var job in queue.queue) {
 			jobs.model.append (job);
 		}
 		after_changing_jobs ();
@@ -80,8 +80,6 @@ public class Gth.ProgressDialog : Adw.Dialog {
 				foreground_jobs += 1;
 			}
 		}
-		//stdout.printf ("> foreground_jobs: %u\n", foreground_jobs);
-		//stdout.printf ("  job_dialogs: %u\n", job_dialogs);
 		if ((job_dialogs > 0) || (jobs.model.n_items == 0)) {
 			hide_dialog ();
 		}

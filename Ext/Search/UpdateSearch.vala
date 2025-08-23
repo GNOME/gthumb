@@ -40,7 +40,6 @@ public class Gth.UpdateSearch {
 			throw error;
 		}
 		browser.update_folder_status ();
-		browser.window.show_message (_("Search Terminated"));
 	}
 
 	async void update_search (Browser browser, CatalogSearch _search, File _file, Job job) throws Error {
@@ -56,7 +55,8 @@ public class Gth.UpdateSearch {
 
 		// Open the catalog.
 
-		yield browser.open_location_async (search.file, LoadAction.OPEN, job);
+		var load_action = browser.folder_tree.current_folder.file.equal (search.file) ? LoadAction.OPEN_SUBFOLDER : LoadAction.OPEN;
+		yield browser.open_location_async (search.file, load_action, job);
 
 		// Show a message on the browser.
 

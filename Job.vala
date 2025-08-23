@@ -131,7 +131,7 @@ public class Gth.JobQueue : Object {
 		queue = new GenericArray<Gth.Job>();
 	}
 
-	public Gth.Job new_job (string title, JobFlags flags, string? icon_name = null) {
+	public Gth.Job new_job (string title, JobFlags flags = JobFlags.DEFAULT, string? icon_name = null) {
 		var job = new Gth.Job ();
 		job.title = title;
 		job.foreground = JobFlags.FOREGROUND in flags;

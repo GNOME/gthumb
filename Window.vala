@@ -207,33 +207,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public Gth.Job new_job (string description, JobFlags flags = JobFlags.DEFAULT, string? icon_name = null) {
-		var job = app.new_job (description, flags, icon_name);
-		add_job (job);
-		return job;
-	}
-
-	public void add_job (Gth.Job job) {
-		jobs.add_job (job);
-		// if (job.foreground) {
-		// 	var toast = Util.new_literal_toast (job.description);
-		// 	toast.button_label = _("_Cancel");
-		// 	toast.action_name = "win.cancel-job";
-		// 	toast.action_target = new Variant.uint64 (job.id);
-		// 	toast.priority = Adw.ToastPriority.HIGH;
-		// 	toast.timeout = 0;
-		// 	job.toast = toast;
-		// 	add_toast (toast);
-		// }
+		return jobs.new_job (description, flags, icon_name);
 	}
 
 	bool cancel_jobs () {
-		unowned var local_queue = /*app.one_window () ? app.jobs :*/ jobs;
-		if (local_queue.size () == 0) {
+		if (jobs.size () == 0) {
 			return false;
 		}
-		// TODO: show the app queue
-		//progress_dialog.show_dialog ();
-		local_queue.cancel_all ();
+		jobs.cancel_all ();
 		return true;
 	}
 

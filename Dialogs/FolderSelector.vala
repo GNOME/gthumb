@@ -48,6 +48,7 @@ class Gth.FolderSelectorDialog : Adw.ApplicationWindow {
 			selected_folder = _selected_folder;
 		else
 			selected_folder = Files.get_home ();
+		folder_tree.job_queue = app.jobs;
 		folder_tree.load.connect ((location, action) => {
 			load_folder.begin (location, action);
 		});

@@ -18,6 +18,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public Gth.Sort sort;
 	public string list_attributes;
 	public bool single_root { get; construct set; default = false; }
+	public weak JobQueue job_queue;
 
 	[Signal (action=true)]
 	public signal void load (File location, LoadAction action);
@@ -136,7 +137,7 @@ public class Gth.FolderTree : Gtk.Box {
 		load_folder.begin (current_folder.file);
 	}
 
-	public async void load_folder (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
+	public async void load_folder (File location, LoadAction load_action = LoadAction.OPEN, Job? external_job = null) throws Error {
 		var source = app.get_source_for_file (location);
 		if (source == null) {
 			throw new IOError.FAILED (_("File type not supported"));
@@ -169,13 +170,14 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		unowned var win = get_root () as Gth.Window;
-		var local_job = job;
+		var job_is_local = (external_job == null);
+		var local_job = external_job;
 		if (local_job == null) {
-			 local_job = win.new_job (_("Loading %s").printf (location.get_uri ()),
+			local_job = job_queue.new_job (_("Loading %s").printf (location.get_uri ()),
 				JobFlags.DEFAULT,
 				"folder-symbolic");
+			load_job = local_job;
 		}
-		load_job = local_job;
 		try {
 			// Mount the location if required.
 			Gth.FileData nearest_root = get_nearest_parent (location, app.roots);
@@ -262,9 +264,11 @@ public class Gth.FolderTree : Gtk.Box {
 			stdout.printf ("ERROR: %s\n", error.message);
 			local_job.error = error;
 		}
-		local_job.done ();
-		if (load_job == local_job) {
-			load_job = null;
+		if (job_is_local) {
+			local_job.done ();
+			if (load_job == local_job) {
+				load_job = null;
+			}
 		}
 		if (local_job.error != null) {
 			throw local_job.error;
@@ -289,7 +293,7 @@ public class Gth.FolderTree : Gtk.Box {
 			return null;
 		}
 		unowned var win = get_root () as Gth.Window;
-		var local_job = win.new_job (_("Loading %s").printf (file_data.get_display_name ()),
+		var local_job = job_queue.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.DEFAULT,
 			"folder-symbolic");
 		source.list_children.begin (file_data.file, FOLDER_ATTRIBUTES, local_job.cancellable, (_obj, res) => {

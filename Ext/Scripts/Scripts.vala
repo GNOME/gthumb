@@ -11,7 +11,7 @@ public class Gth.Scripts {
 			return;
 		}
 		entries.model.remove_all ();
-		var local_job = app.new_job ("Loading Scripts");
+		var local_job = app.jobs.new_job ("Loading Scripts");
 		try {
 			var scripts_file = UserDir.get_config_file (FileIntent.READ, SCRIPTS_FILE);
 			var bytes = yield Files.load_file_async (scripts_file, local_job.cancellable);
