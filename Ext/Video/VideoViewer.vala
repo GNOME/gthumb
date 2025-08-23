@@ -420,7 +420,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			break;
 
 		case Gst.MessageType.EOS:
-			stdout.printf (">> EOS\n");
 			if (loop && _playing) {
 				skip_to (0);
 			}
