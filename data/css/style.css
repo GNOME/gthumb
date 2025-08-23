@@ -157,3 +157,10 @@ button.for_statusbar label {
 .action-item {
 	padding: 2px;
 }
+
+.drag-handle label.title {
+	border-radius: 5px;
+	background: var(--border-color);
+	font-size: 0.3em;
+	padding: 0 5em;
+}
