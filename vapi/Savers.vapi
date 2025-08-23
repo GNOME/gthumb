@@ -61,7 +61,7 @@ public enum Gth.TiffOption {
 [CCode (cheader_filename = "lib/io/save-tiff.h")]
 public enum Gth.TiffCompression {
 	NONE,
-	DEFLATE,
+	LOSSLESS,
 	JPEG,
 }
 

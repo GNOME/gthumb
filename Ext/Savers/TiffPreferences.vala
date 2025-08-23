@@ -68,5 +68,5 @@ public class Gth.TiffPreferences : Gth.SaverPreferences {
 	GLib.Settings settings;
 
 	const string[] EXTENSIONS = { "tiff", "tif" };
-	const string[] COMPRESSIONS = { "none", "deflate", "jpeg" };
+	const string[] COMPRESSIONS = { "none", "lossless", "jpeg" };
 }

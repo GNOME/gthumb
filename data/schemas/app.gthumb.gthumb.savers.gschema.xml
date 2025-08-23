@@ -45,7 +45,7 @@
 
   <enum id="app.gthumb.gthumb.TiffCompression">
     <value nick="none" value="0"/>
-    <value nick="deflate" value="1"/>
+    <value nick="lossless" value="1"/>
     <value nick="jpeg" value="2"/>
   </enum>
 
@@ -55,7 +55,7 @@
       <description>Possible values are: tiff, tif.</description>
     </key>
     <key name="compression" enum="app.gthumb.gthumb.TiffCompression">
-      <default>'deflate'</default>
+      <default>'lossless'</default>
     </key>
     <key name="horizontal-resolution" type="i">
       <default>72</default>
