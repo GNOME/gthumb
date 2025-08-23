@@ -61,7 +61,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 			}
 			set_page (first_visible_page);
 		}
-		bottom_bar.visible = (visible_pages > 0) || search_bar.visible;
+		bottom_bar.visible = (visible_pages > 1) || search_bar.visible;
 	}
 
 	construct {
