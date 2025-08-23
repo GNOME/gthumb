@@ -3,15 +3,18 @@
   <schema id="app.gthumb.gthumb.savers" path="/app/gthumb/gthumb/savers/">
     <child name="avif" schema="app.gthumb.gthumb.savers.avif" />
     <child name="jpeg" schema="app.gthumb.gthumb.savers.jpeg" />
+    <!--child name="jxl" schema="app.gthumb.gthumb.savers.jxl" /-->
     <child name="png" schema="app.gthumb.gthumb.savers.png" />
-    <child name="tga" schema="app.gthumb.gthumb.savers.tga" />
     <child name="tiff" schema="app.gthumb.gthumb.savers.tiff" />
     <child name="webp" schema="app.gthumb.gthumb.savers.webp" />
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.png" path="/app/gthumb/gthumb/savers/png/" gettext-domain="gthumb">
-    <key name="compression-level" type="i">
-      <default>6</default>
+  <schema id="app.gthumb.gthumb.savers.avif" path="/app/gthumb/gthumb/savers/avif/" gettext-domain="gthumb">
+    <key name="quality" type="i">
+      <default>50</default>
+    </key>
+    <key name="lossless" type="b">
+      <default>false</default>
     </key>
   </schema>
 
@@ -34,18 +37,9 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.avif" path="/app/gthumb/gthumb/savers/avif/" gettext-domain="gthumb">
-    <key name="lossless" type="b">
-      <default>false</default>
-    </key>
-    <key name="quality" type="i">
-      <default>50</default>
-    </key>
-  </schema>
-
-  <schema id="app.gthumb.gthumb.savers.tga" path="/app/gthumb/gthumb/savers/tga/" gettext-domain="gthumb">
-    <key name="rle-compression" type="b">
-      <default>true</default>
+  <schema id="app.gthumb.gthumb.savers.png" path="/app/gthumb/gthumb/savers/png/" gettext-domain="gthumb">
+    <key name="compression-level" type="i">
+      <default>6</default>
     </key>
   </schema>
 
@@ -72,14 +66,14 @@
   </schema>
 
   <schema id="app.gthumb.gthumb.savers.webp" path="/app/gthumb/gthumb/savers/webp/" gettext-domain="gthumb">
-    <key name="lossless" type="b">
-      <default>false</default>
-    </key>
     <key name="quality" type="i">
       <default>75</default>
     </key>
     <key name="method" type="i">
       <default>4</default>
+    </key>
+    <key name="lossless" type="b">
+      <default>false</default>
     </key>
   </schema>
 

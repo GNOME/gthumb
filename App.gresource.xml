@@ -50,6 +50,7 @@
   <gresource prefix="/app/gthumb/gthumb/ui">
     <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
     <file preprocess="xml-stripblanks">app-selector-dialog.ui</file>
+    <file preprocess="xml-stripblanks">avif-preferences.ui</file>
     <file preprocess="xml-stripblanks">bookmark-row.ui</file>
     <file preprocess="xml-stripblanks">bookmarks-dialog.ui</file>
     <file preprocess="xml-stripblanks">browser-menu.ui</file>
@@ -67,10 +68,12 @@
     <file preprocess="xml-stripblanks">folder-status.ui</file>
     <file preprocess="xml-stripblanks">general-preferences.ui</file>
     <file preprocess="xml-stripblanks">image-viewer.ui</file>
+    <file preprocess="xml-stripblanks">job-status.ui</file>
     <file preprocess="xml-stripblanks">jpeg-preferences.ui</file>
     <file preprocess="xml-stripblanks">metadata-view.ui</file>
     <file preprocess="xml-stripblanks">png-preferences.ui</file>
     <file preprocess="xml-stripblanks">preferences-dialog.ui</file>
+    <file preprocess="xml-stripblanks">progress-dialog.ui</file>
     <file preprocess="xml-stripblanks">property-sidebar.ui</file>
     <file preprocess="xml-stripblanks">saver-preferences-page.ui</file>
     <file preprocess="xml-stripblanks">savers-preferences.ui</file>
@@ -81,14 +84,14 @@
     <file preprocess="xml-stripblanks">sort-folders-dialog.ui</file>
     <file preprocess="xml-stripblanks">status.ui</file>
     <file preprocess="xml-stripblanks">test-expr-editor-group.ui</file>
+    <file preprocess="xml-stripblanks">tiff-preferences.ui</file>
     <file preprocess="xml-stripblanks">video-preferences.ui</file>
     <file preprocess="xml-stripblanks">video-viewer.ui</file>
     <file preprocess="xml-stripblanks">viewer-menu.ui</file>
     <file preprocess="xml-stripblanks">viewer-preferences.ui</file>
     <file preprocess="xml-stripblanks">viewer-status.ui</file>
     <file preprocess="xml-stripblanks">viewer.ui</file>
+    <file preprocess="xml-stripblanks">webp-preferences.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
-    <file preprocess="xml-stripblanks">progress-dialog.ui</file>
-    <file preprocess="xml-stripblanks">job-status.ui</file>
   </gresource>
 </gresources>

@@ -6,6 +6,9 @@ const string GTHUMB_IMAGES_SCHEMA = GTHUMB_SCHEMA + ".viewers.images";
 const string GTHUMB_VIDEOS_SCHEMA = GTHUMB_SCHEMA + ".viewers.videos";
 const string GTHUMB_PNG_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.png";
 const string GTHUMB_JPEG_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.jpeg";
+const string GTHUMB_WEBP_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.webp";
+const string GTHUMB_AVIF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.avif";
+const string GTHUMB_TIFF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.tiff";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 
@@ -51,6 +54,18 @@ const string PREF_JPEG_QUALITY = "quality";
 const string PREF_JPEG_SMOOTHING = "smoothing";
 const string PREF_JPEG_OPTIMIZE = "optimize";
 const string PREF_JPEG_PROGRESSIVE = "progressive";
+
+const string PREF_WEBP_QUALITY = "quality";
+const string PREF_WEBP_METHOD = "method";
+const string PREF_WEBP_LOSSLESS = "lossless";
+
+const string PREF_AVIF_QUALITY = "quality";
+const string PREF_AVIF_LOSSLESS = "lossless";
+
+const string PREF_TIFF_DEFAULT_EXT = "default-ext";
+const string PREF_TIFF_COMPRESSION = "compression";
+const string PREF_TIFF_HRESOLUTION = "horizontal-resolution";
+const string PREF_TIFF_VRESOLUTION = "vertical-resolution";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {

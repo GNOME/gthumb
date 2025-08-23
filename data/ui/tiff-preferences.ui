@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwPreferencesPage" id="page">
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwComboRow" id="default_extension">
+            <property name="title" translatable="yes">Default Extension</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>tiff</item>
+                  <item>tif</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwComboRow" id="compression">
+            <property name="title" translatable="yes">Compression</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>Disabled</item>
+                  <item>Lossless</item>
+                  <item>JPEG</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow">
+            <property name="title" translatable="yes">Horizontal Resolution</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment" id="hresolution">
+                <property name="lower">1</property>
+                <property name="upper">10000</property>
+                <property name="step-increment">10</property>
+                <property name="value">72</property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow">
+            <property name="title" translatable="yes">Vertical Resolution</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment" id="vresolution">
+                <property name="lower">1</property>
+                <property name="upper">10000</property>
+                <property name="step-increment">10</property>
+                <property name="value">72</property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -184,8 +184,11 @@ public class Gth.Application : Adw.Application {
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);
 		saver_extensions = new HashTable<string, string>(str_hash, str_equal);
-		register_image_saver ("image/png", save_png, typeof (PngPreferences));
+		register_image_saver ("image/avif", save_jpeg, typeof (AvifPreferences));
 		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
+		register_image_saver ("image/png", save_png, typeof (PngPreferences));
+		register_image_saver ("image/tiff", save_jpeg, typeof (TiffPreferences));
+		register_image_saver ("image/webp", save_jpeg, typeof (WebpPreferences));
 	}
 
 	public override void startup () {
