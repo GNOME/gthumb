@@ -42,10 +42,9 @@ public class Gth.FilterRow : Adw.ActionRow {
 		add_controller (drag_source);
 
 		var drop_target = new Gtk.DropTarget (typeof (Gth.FilterRow), Gdk.DragAction.MOVE);
-		drop_target.set_preload (true);
 		drop_target.drop.connect ((target, value, x, y) => {
 			var source = value.get_object () as Gth.FilterRow;
-			if (source == null) {
+			if ((source == null) || (source == this) || (source.parent != this.parent)) {
 				return false;
 			}
 			source.move_to_row (this);
