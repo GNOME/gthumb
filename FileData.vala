@@ -14,14 +14,26 @@ public class Gth.FileData : Object {
 	}
 
 	public FileData.copy (FileData other) {
-		this (other.file, other.info);
+		this (other.file.dup (), other.info.dup ());
 	}
 
-	public FileData.for_uri (string uri, string mime_type) {
-		this (File.new_for_uri (uri), new FileInfo ());
+	public FileData.for_file (File file, string mime_type) {
+		this (file);
 		unowned var static_mime_type = Strings.get_static (mime_type);
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, static_mime_type);
 		info.set_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE, static_mime_type);
+	}
+
+	public FileData.for_uri (string uri, string mime_type) {
+		this.for_file (File.new_for_uri (uri), mime_type);
+	}
+
+	public FileData.for_rename (FileData other, File new_file) {
+		this (new_file, other.info);
+		if (!new_file.equal (other.file)) {
+			var basename = Util.get_parse_basename (new_file);
+			rename_from_display_name (basename);
+		}
 	}
 
 	public static uint hash (FileData file_data) {
@@ -287,6 +299,35 @@ public class Gth.FileData : Object {
 			result = guessed_type;
 		}
 		return result;
+	}
+
+	public void set_etag (string? etag) {
+		if (etag != null) {
+			info.set_attribute_string (FileAttribute.ETAG_VALUE, etag);
+		}
+		else {
+			info.remove_attribute (FileAttribute.ETAG_VALUE);
+		}
+	}
+
+	public unowned string get_etag () {
+		if (info.has_attribute (FileAttribute.ETAG_VALUE)) {
+			return info.get_attribute_string (FileAttribute.ETAG_VALUE);
+		}
+		else {
+			return null;
+		}
+	}
+
+	public void rename_from_display_name (string basename) {
+		var new_file = file.get_parent ().get_child_for_display_name (basename);
+		set_file (new_file);
+		info.set_display_name (basename);
+		info.set_edit_name (basename);
+
+		var extension = Util.get_extension (basename);
+		unowned var content_type = app.get_content_type_from_extension (extension);
+		set_content_type (content_type);
 	}
 
 	public Gth.Image? thumbnail_image = null;

@@ -32,10 +32,7 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 
 			var stream = file_data.file.read (cancellable);
 			var bytes = Files.read_all (stream, cancellable);
-			Exiv2.read_metadata_from_buffer (
-				bytes.get_data (),
-				file_data.info,
-				update_general_attributes);
+			Exiv2.read_metadata_from_buffer (bytes, file_data.info, update_general_attributes);
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR ExivMetadataProvider.read: %s\n", error.message);

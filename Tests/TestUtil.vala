@@ -53,10 +53,25 @@ int main (string[] args) {
 	test_get_duplicated ("file:///abc%20(-1).txt", "file:///abc%20(-1)%20(2).txt");
 	test_get_duplicated ("file:///abc%20(x).txt", "file:///abc%20(x)%20(2).txt");
 
+	test_get_basename ("file.txt", "file.txt");
+	test_get_basename ("/dir/file.txt", "file.txt");
+	test_get_basename ("/dir/", "");
+	test_get_basename ("/", "");
+	test_get_basename ("", "");
+
 	print ("\n");
 	print ("tests: %d\n", n_tests);
 	print ("errors: %d\n", n_errors);
 	return 0;
+}
+
+void test_get_basename (string path, string? expected) {
+	var result = Gth.Util.get_basename (path);
+	if (result != expected) {
+		stderr.printf ("> get_basename ('%s')  expecting: '%s'  got: '%s'\n", path, expected, result);
+		n_errors++;
+	}
+	n_tests++;
 }
 
 void test_get_digits (int number, int expected) {

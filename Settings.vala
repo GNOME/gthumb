@@ -11,6 +11,7 @@ const string GTHUMB_AVIF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.avif";
 const string GTHUMB_TIFF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.tiff";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
+const string PREF_GENERAL_SHOW_FORMAT_OPTIONS = "show-format-options";
 
 const string PREF_BROWSER_GO_TO_LAST_LOCATION = "go-to-last-location";
 const string PREF_BROWSER_USE_STARTUP_LOCATION = "use-startup-location";

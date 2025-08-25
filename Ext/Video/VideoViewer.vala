@@ -736,7 +736,8 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			throw new IOError.FAILED (_("Invalid filename"));
 		}
 
-		yield app.image_saver.replace_file (screenshot, null, file, SCREENSHOT_TYPE, cancellable);
+		var file_data = new FileData.for_file (file, SCREENSHOT_TYPE);
+		yield app.image_saver.replace_file (screenshot, file_data, SaveFlags.DEFAULT, cancellable);
 
 		if (was_playing) {
 			playing = true;

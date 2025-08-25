@@ -16,7 +16,7 @@ public class Gth.AvifPreferences : Gth.SaverPreferences {
 		return false;
 	}
 
-	public override Gtk.Widget? create_widget () {
+	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
 			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/avif-preferences.ui");
 		}
@@ -34,7 +34,7 @@ public class Gth.AvifPreferences : Gth.SaverPreferences {
 			settings.set_boolean (PREF_AVIF_LOSSLESS, row.active);
 		});
 
-		return builder.get_object ("page") as Gtk.Widget;
+		return builder.get_object ("page") as Adw.PreferencesPage;
 	}
 
 	public override Gth.Option[] get_options () {

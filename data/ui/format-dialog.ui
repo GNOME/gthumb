@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthFormatDialog">
+    <property name="content-width">700</property>
+    <child>
+      <object class="AdwToolbarView" id="main_view">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-start-title-buttons">false</property>
+            <property name="show-end-title-buttons">false</property>
+            <child type="start">
+              <object class="GtkButton">
+                <property name="label" translatable="yes">_Cancel</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_cancel" />
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label" translatable="yes" context="Verb">_Save</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_save" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

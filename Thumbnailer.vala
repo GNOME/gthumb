@@ -234,10 +234,11 @@ public class Gth.Thumbnailer {
 		}
 	}
 
-	async void save_thumbnail_to_cache (FileData file_data, Gth.Image thumbnail, Cancellable cancellable) throws Error {
+	async void save_thumbnail_to_cache (FileData original, Gth.Image thumbnail_image, Cancellable cancellable) throws Error {
 		try {
-			var file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.WRITE, cancellable);
-			yield app.image_saver.replace_file (thumbnail, null, file, "image/png", cancellable);
+			var thumbnail_file = Thumbnailer.get_thumbnail_file (original.file, cache_size, FileIntent.WRITE, cancellable);
+			var thumbnail_file_data = new FileData.for_file (thumbnail_file, "image/png");
+			yield app.image_saver.replace_file (thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_thumbnail_to_cache: %s\n", error.message);
@@ -247,12 +248,15 @@ public class Gth.Thumbnailer {
 		}
 	}
 
-	async void save_failed_thumbnail_to_cache (FileData file_data, Cancellable cancellable) throws Error {
+	async void save_failed_thumbnail_to_cache (FileData original, Cancellable cancellable) throws Error {
 		try {
-			var file = Thumbnailer.get_failed_thumbnail_file (file_data.file, FileIntent.WRITE);
-			var thumbnail = new Gth.Image (1, 1);
-			set_file_attributes_to_image (thumbnail, file_data);
-			yield app.image_saver.replace_file (thumbnail, null, file, "image/png", cancellable);
+			var thumbnail_image = new Gth.Image (1, 1);
+			// TODO: move to thumbnail_file_data?
+			set_file_attributes_to_image (thumbnail_image, original);
+
+			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (original.file, FileIntent.WRITE);
+			var thumbnail_file_data = new FileData.for_file (thumbnail_file, "image/png");
+			yield app.image_saver.replace_file (thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_failed_thumbnail_to_cache: %s\n", error.message);

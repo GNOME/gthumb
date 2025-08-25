@@ -3,6 +3,9 @@
     <key name="store-metadata-in-files" type="b">
       <default>true</default>
     </key>
+    <key name="show-format-options" type="b">
+      <default>true</default>
+    </key>
     <key name="go-to-last-location" type="b">
       <default>true</default>
     </key>
@@ -71,4 +74,5 @@
       <default>false</default>
     </key>
   </schema>
+
 </schemalist>

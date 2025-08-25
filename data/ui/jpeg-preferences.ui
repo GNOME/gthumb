@@ -4,19 +4,6 @@
     <child>
       <object class="AdwPreferencesGroup">
         <child>
-          <object class="AdwComboRow" id="default_extension">
-            <property name="title" translatable="yes">Default Extension</property>
-            <property name="model">
-              <object class="GtkStringList">
-                <items>
-                  <item>jpeg</item>
-                  <item>jpg</item>
-                </items>
-              </object>
-            </property>
-          </object>
-        </child>
-        <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Quality</property>
             <child type="suffix">
@@ -60,6 +47,23 @@
         <child>
           <object class="AdwSwitchRow" id="progressive">
             <property name="title" translatable="yes">Progressive</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="other_preferences">
+        <child>
+          <object class="AdwComboRow" id="default_extension">
+            <property name="title" translatable="yes">Default Extension</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>jpeg</item>
+                  <item>jpg</item>
+                </items>
+              </object>
+            </property>
           </object>
         </child>
       </object>

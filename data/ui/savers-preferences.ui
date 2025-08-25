@@ -12,7 +12,17 @@
           <object class="AdwPreferencesPage">
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="description" translatable="yes">Parameters used when saving files.</property>
+                <child>
+                  <object class="AdwSwitchRow" id="show_format_options">
+                    <property name="title" translatable="yes">Show the options before saving</property>
+                    <signal name="notify::active" handler="on_show_format_options_activated"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Format Options</property>
                 <child>
                   <object class="GtkListBox" id="type_list">
                     <property name="selection-mode">none</property>

@@ -3,6 +3,7 @@
 
 #include <glib.h>
 #include <gio/gio.h>
+#include <lib/gth-image.h>
 
 G_BEGIN_DECLS
 
@@ -14,40 +15,12 @@ extern const char *_LOCATION_TAG_NAMES[];
 extern const char *_KEYWORDS_TAG_NAMES[];
 extern const char *_RATING_TAG_NAMES[];
 
-// gboolean   exiv2_read_metadata_from_file    (GFile             *file,
-					     // GFileInfo         *info,
-					     // gboolean           update_general_attributes,
-					     // GCancellable      *cancellable,
-					     // GError           **error);
-
-void exiv2_update_general_attributes (GFileInfo *info);
-
-gboolean exiv2_read_metadata_from_buffer (
-	void *buffer,
-	gsize buffer_size,
-	GFileInfo *info,
-	gboolean update_general_attributes,
-	GError **error);
-
+gboolean exiv2_read_metadata_from_buffer (GBytes *buffer, GFileInfo *info, gboolean update_general_attributes, GError **error);
 int exiv2_get_coordinates (GFileInfo *info, double *out_latitude, double *out_longitude);
 char * exiv2_decimal_coordinates_to_string (double latitude, double longitude);
-
-// gboolean   exiv2_read_sidecar               (GFile             *file,
-					     // GFileInfo         *info,
-					     // gboolean           update_general_attributes);
-// gboolean   exiv2_supports_writes            (const char        *mime_type);
-// gboolean   exiv2_write_metadata  	    (GthImageSaveData  *data);
-// gboolean   exiv2_write_metadata_to_buffer   (void              **buffer,
-					     // gsize              *buffer_size,
-					     // GFileInfo          *info,
-					     // GthImage           *image_data, /* optional */
-					     // GError           **error);
-// gboolean   exiv2_clear_metadata             (void             **buffer,
-					     // gsize             *buffer_size,
-					     // GError           **error);
-// GdkPixbuf *exiv2_generate_thumbnail         (const char        *uri,
-					     // const char        *mime_type,
-					     // int                size);
+gboolean exiv2_can_write_metadata (const char *mime_type);
+GBytes * exiv2_write_metadata_to_buffer (GBytes *buffer, GFileInfo *info, GthImage *image_data, GError **error);
+GBytes * exiv2_clear_metadata (GBytes *buffer, GError **error);
 
 G_END_DECLS
 

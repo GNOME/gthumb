@@ -22,13 +22,15 @@ public class Gth.OverwriteDialog : Object {
 		FileAttribute.TIME_MODIFIED + "," +
 		FileAttribute.TIME_MODIFIED_USEC;
 
-	public async OverwriteResponse ask_image (Gth.Image image, File file, OverwriteRequest _request, Job job) {
-		// TODO: make a thumbnail for image
+	public async OverwriteResponse ask_image (Gth.Image _image, File file, OverwriteRequest _request, Job job) {
 		request = _request;
 		try {
 			var info = yield Files.query_info (file, REQUIRED_ATTRIBUTES, job.cancellable);
 			destination = new FileData (file, info);
 			source = null;
+			image = _image;
+			img_data = new FileData (File.new_for_uri ("unused://"));
+			img_data.info.set_symbolic_icon (new ThemedIcon ("gth-image-symbolic"));
 		}
 		catch (Error error) {
 			return OverwriteResponse.CANCEL;
@@ -113,21 +115,20 @@ public class Gth.OverwriteDialog : Object {
 			if (single_file) {
 				dialog.add_responses (
 					"cancel",  _("_Cancel"),
-					"rename", _("_Rename"),
-					"overwrite", _("_Replace")
+					"overwrite", _("_Replace"),
+					"rename", _("_Rename")
 				);
-				//dialog.set_response_appearance ("rename", Adw.ResponseAppearance.SUGGESTED);
 			}
 			else {
 				dialog.add_responses (
 					"cancel",  _("_Cancel"),
 					"skip", _("_Skip"),
-					"rename", _("_Rename"),
-					"overwrite", _("_Replace")
+					"overwrite", _("_Replace"),
+					"rename", _("_Rename")
 				);
-				//dialog.set_response_appearance ("skip", Adw.ResponseAppearance.SUGGESTED);
 			}
 			dialog.set_response_appearance ("overwrite", Adw.ResponseAppearance.DESTRUCTIVE);
+			dialog.set_response_appearance ("rename", Adw.ResponseAppearance.SUGGESTED);
 			break;
 
 		case OverwriteRequest.WRONG_ETAG:
@@ -187,7 +188,6 @@ public class Gth.OverwriteDialog : Object {
 
 		// Destination
 		destination_thumbnail = new Gth.Thumbnail ();
-		//destination_thumbnail.add_css_class ("frame");
 		destination_thumbnail.add_css_class ("image-view");
 		destination_thumbnail.bind (destination);
 
@@ -205,10 +205,12 @@ public class Gth.OverwriteDialog : Object {
 		if (request != OverwriteRequest.SAME_FILE) {
 			// Source
 			source_thumbnail = new Gth.Thumbnail ();
-			//source_thumbnail.add_css_class ("frame");
 			source_thumbnail.add_css_class ("image-view");
 			if (source != null) {
 				source_thumbnail.bind (source);
+			}
+			else if (img_data != null) {
+				source_thumbnail.bind (img_data);
 			}
 
 			var label = new Gtk.Label ("<small>%s</small>".printf (_("New Content")));
@@ -234,9 +236,15 @@ public class Gth.OverwriteDialog : Object {
 		thumbnailer.requested_size = parent.browser.thumbnail_size;
 		destination_thumbnail.size = thumbnailer.requested_size;
 		thumbnailer.add (destination);
-		if ((source != null) && (source_thumbnail != null)) {
+		if (source_thumbnail != null) {
 			source_thumbnail.size = thumbnailer.requested_size;
-			thumbnailer.add (source);
+			if (source != null) {
+				thumbnailer.add (source);
+			}
+			else {
+				var resized = image.resize (source_thumbnail.size, ResizeFlags.DEFAULT, ScaleFilter.GOOD);
+				img_data.set_thumbnail (resized, source_thumbnail.size);
+			}
 		}
 	}
 
@@ -244,6 +252,8 @@ public class Gth.OverwriteDialog : Object {
 	FileData destination;
 	Gth.Thumbnail destination_thumbnail;
 	FileData source;
+	Gth.Image image;
+	FileData img_data;
 	Gth.Thumbnail source_thumbnail;
 	Thumbnailer thumbnailer;
 	OverwriteRequest request;

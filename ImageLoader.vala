@@ -41,7 +41,7 @@ public class Gth.ImageLoader {
 			image = null;
 		}
 
-		public override void run (uint8[] buffer) throws Error {
+		public override void run (uint8[] tmp_buffer) throws Error {
 			var content_type = Util.guess_content_type_from_stream (stream, file, cancellable);
 			if (content_type == null) {
 				throw new IOError.FAILED (_("Unknown file type"));
@@ -53,7 +53,7 @@ public class Gth.ImageLoader {
 					var seekable = stream as Seekable;
 					seekable.seek (0, SeekType.SET, cancellable);
 				}
-				var bytes = Files.read_all_with_buffer (stream, cancellable, buffer);
+				var bytes = Files.read_all_with_buffer (stream, cancellable, tmp_buffer);
 				image = load_func (bytes, requested_size, cancellable);
 			}
 			else {

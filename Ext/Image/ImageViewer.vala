@@ -103,6 +103,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		load_job = local_job;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
+			file_data.set_etag (image.get_attribute ("etag"));
 			yield view_image (image, file_data, local_job.cancellable);
 			file_data.set_content_type (image_view.image.get_attribute ("content-type"));
 		}
@@ -159,9 +160,42 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return true;
 	}
 
-	public override async void save () throws Error {
-		var current_file = window.viewer.current_file;
-		var local_job = window.new_job (_("Saving %s").printf (current_file.get_display_name ()),
+	void add_image_filters (Gtk.FileDialog dialog) {
+		var filters = new ListStore (typeof (Gtk.FileFilter));
+		var images_filter = new Gtk.FileFilter ();
+		images_filter.name = _("Images");
+		foreach (unowned var content_type in app.savers.get_keys ()) {
+			images_filter.add_mime_type (content_type);
+			var type_filter = new Gtk.FileFilter ();
+			type_filter.add_mime_type (content_type);
+			var saver = app.get_saver_preferences (content_type);
+			type_filter.name = saver.get_display_name ();
+			filters.append (type_filter);
+		}
+		filters.insert (0, images_filter);
+		dialog.filters = filters;
+		dialog.default_filter = images_filter;
+	}
+
+	public async void ask_name_and_save () {
+		var dialog = new Gtk.FileDialog ();
+		dialog.initial_folder = window.viewer.current_file.file.get_parent ();
+		dialog.initial_name = window.viewer.current_file.get_display_name ();
+		add_image_filters (dialog);
+		try {
+			var file = yield dialog.save (window, null);
+			var file_data = yield save_to (file);
+			window.viewer.file_saved (file_data);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+	}
+
+	async FileData? save_to (File file) throws Error {
+		var new_filename = !file.equal (window.viewer.current_file.file);
+		var file_data = new FileData.for_rename (window.viewer.current_file, file);
+		var local_job = window.new_job (_("Saving %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"document-save-symbolic");
 		try {
@@ -171,58 +205,63 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			// to allow the exiv2 metadata writer to not change some fields if the
 			// content wasn't modified.
 
-			current_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED,
-				current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED));
+			file_data.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED,
+				file_data.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED));
 
 			// The LOADED_IMAGE_IS_MODIFIED attribute must be set to false before
 			// saving the file to avoid a scenario where the user is asked whether
 			// he wants to save the file after saving it.
 
-			current_file.set_is_modified (false);
+			file_data.set_is_modified (false);
 
-			if (current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)) {
+			if (file_data.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)) {
 				// Ask the filename
 				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
-				read_filename.default_value = current_file.info.get_edit_name ();
-				var filename = yield read_filename.read_value (window, local_job);
-				if (filename == null) {
+				read_filename.default_value = file_data.info.get_edit_name ();
+				var basename = yield read_filename.read_value (window, local_job);
+				if (basename == null) {
 					throw new IOError.CANCELLED ("Cancelled");
 				}
+				file_data.rename_from_display_name (basename);
+				new_filename = true;
+			}
 
-				// Save
-				var file = current_file.file.get_parent ().get_child_for_display_name (filename);
-				var extension = Util.get_extension (filename);
-				var content_type = app.get_content_type_from_extension (extension);
-				var new_file = yield save_as (file, content_type, local_job);
-				current_file.set_file (new_file);
+			// Allow to change the format options before saving
+			if (app.settings.get_boolean (PREF_GENERAL_SHOW_FORMAT_OPTIONS)) {
+				var dialog = new FormatPreferencesDialog ();
+				yield dialog.change_options (window, file_data.get_content_type (), local_job);
+			}
+
+			// Save
+			if (new_filename) {
+				file_data = yield create_file (file_data, local_job);
 			}
 			else {
-				var new_file = yield replace (local_job);
-				current_file.set_file (new_file);
+				file_data = yield replace_file (file_data, local_job);
 			}
 		}
 		catch (Error error) {
 			// Reset the LOADED_IMAGE_IS_MODIFIED flag if not saved.
-			current_file.set_is_modified (current_file.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED));
-			current_file.info.remove_attribute (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED);
+			file_data.set_is_modified (file_data.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED));
+			file_data.info.remove_attribute (PrivateAttribute.LOADED_IMAGE_WAS_MODIFIED);
 			throw error;
 		}
 		finally {
 			local_job.done ();
 		}
+		return file_data;
 	}
 
-	async File? replace (Job job) throws Error {
-		var current_file = window.viewer.current_file;
-		var overwrite_request = OverwriteRequest.NONE;
+	public override async void save () throws Error {
+		window.viewer.current_file = yield save_to (window.viewer.current_file.file);
+	}
 
+	async FileData? replace_file (FileData file_data, Job job) throws Error {
+		var overwrite_request = OverwriteRequest.NONE;
 		try {
-			yield app.image_saver.replace_file (image_view.image,
-					image_view.image.get_attribute ("etag"),
-					current_file.file,
-					current_file.get_content_type (),
-					job.cancellable);
-			return current_file.file;
+			//file_data.set_etag (image_view.image.get_attribute ("etag"));
+			yield app.image_saver.replace_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			return file_data;
 		}
 		catch (Error error) {
 			if (error is IOError.WRONG_ETAG) {
@@ -232,18 +271,15 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				throw error;
 			}
 		}
-
 		// File changed after being loaded.
-		return yield ask_to_overwrite (overwrite_request, current_file.file,
-			current_file.get_content_type (), job);
+		return yield ask_to_overwrite (overwrite_request, file_data, job);
 	}
 
-	async File? save_as (File file, string content_type, Job job) throws Error {
+	async FileData? create_file (FileData file_data, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
-
 		try {
-			yield app.image_saver.create_file (image_view.image, file, content_type, job.cancellable);
-			return file;
+			yield app.image_saver.create_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			return file_data;
 		}
 		catch (Error error) {
 			if (error is IOError.EXISTS) {
@@ -256,31 +292,26 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				throw error;
 			}
 		}
-
 		// File exists or changed after being loaded.
-		return yield ask_to_overwrite (overwrite_request, file,
-			content_type, job);
+		return yield ask_to_overwrite (overwrite_request, file_data, job);
 	}
 
-	async File? ask_to_overwrite (OverwriteRequest request, File file, string content_type, Job job) throws Error {
+	async FileData? ask_to_overwrite (OverwriteRequest request, FileData file_data, Job job) throws Error {
 		var overwrite = new OverwriteDialog (window);
 		overwrite.check_extension = true;
-		var result = yield overwrite.ask_image (image_view.image, file, request, job);
+		var result = yield overwrite.ask_image (image_view.image, file_data.file, request, job);
 		switch (result) {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");
 
 		case OverwriteResponse.OVERWRITE:
-			yield app.image_saver.replace_file (image_view.image, null,
-				file, content_type, job.cancellable);
-			return file;
+			file_data.set_etag (null);
+			yield app.image_saver.replace_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			return file_data;
 
 		case OverwriteResponse.RENAME:
-			var parent = file.get_parent ();
-			var new_file = parent.get_child_for_display_name (overwrite.new_name);
-			var new_content_type = app.get_content_type_from_name (new_file);
-			yield save_as (new_file, new_content_type, job);
-			return new_file;
+			file_data.rename_from_display_name (overwrite.new_name);
+			return yield create_file (file_data, job);
 
 		default:
 			break;
@@ -404,6 +435,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("copy-image", null);
 		action.activate.connect (() => copy_image.begin ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("save-as", null);
+		action.activate.connect (() => ask_name_and_save.begin ());
 		action_group.add_action (action);
 	}
 

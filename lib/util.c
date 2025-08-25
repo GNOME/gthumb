@@ -397,6 +397,16 @@ GDateTime * _g_date_time_new_from_exif_date (const char *exif_date) {
 	return g_date_time_new_local (year, month, day, hour, minute, (double) second + usecond);
 }
 
+char * _g_date_time_to_exif_date (GDateTime *date_time) {
+	return g_strdup_printf ("%4d:%02d:%02d %02d:%02d:%02d",
+		g_date_time_get_year (date_time),
+		g_date_time_get_month (date_time),
+		g_date_time_get_day_of_month (date_time),
+		g_date_time_get_hour (date_time),
+		g_date_time_get_minute (date_time),
+		g_date_time_get_second (date_time));
+}
+
 const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
 	static const struct MagicInfo {
 		const char * const mime_type;

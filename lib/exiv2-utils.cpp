@@ -15,6 +15,7 @@
 #include "lib/gth-string-list.h"
 #include "lib/gth-metadata.h"
 #include "lib/util.h"
+#include "lib/io/save-jpeg.h"
 
 #define INVALID_VALUE N_("(invalid value)")
 #define EXPOSURE_SEPARATOR " · "
@@ -501,8 +502,7 @@ static void clear_useless_comments_from_tagset (GFileInfo *info, const char *tag
 }
 
 
-extern "C"
-void exiv2_update_general_attributes (GFileInfo *info) {
+static void exiv2_update_general_attributes (GFileInfo *info) {
 	set_attribute_from_tagset (info, "Metadata::DateTime", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Metadata::Description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "Metadata::Title", _TITLE_TAG_NAMES);
@@ -710,11 +710,7 @@ static const char * get_exif_default_category (const Exiv2::Exifdatum &md) {
 }
 
 
-static void exiv2_read_metadata (
-	Exiv2::Image::UniquePtr image,
-	GFileInfo *info,
-	gboolean update_general_attributes)
-{
+static void exiv2_read_metadata (Exiv2::Image::UniquePtr image, GFileInfo *info, gboolean update_general_attributes) {
 	image->readMetadata();
 
 	Exiv2::ExifData &exifData = image->exifData();
@@ -820,14 +816,10 @@ static void exiv2_read_metadata (
 
 
 extern "C"
-gboolean exiv2_read_metadata_from_buffer (
-	void *buffer,
-	gsize buffer_size,
-	GFileInfo *info,
-	gboolean update_general_attributes,
-	GError **error)
-{
+gboolean exiv2_read_metadata_from_buffer (GBytes *bytes, GFileInfo *info, gboolean update_general_attributes, GError **error) {
 	try {
+		gsize buffer_size;
+		gconstpointer buffer = g_bytes_get_data (bytes, &buffer_size);
 		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) buffer, buffer_size);
 		if (image.get() == 0) {
 			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
@@ -861,6 +853,7 @@ static double exif_coordinate_to_decimal (const char *raw) {
 	return value;
 }
 
+extern "C"
 int exiv2_get_coordinates (GFileInfo *info, double *out_latitude, double *out_longitude) {
 	double latitude = 0.0;
 	double longitude = 0.0;
@@ -922,6 +915,7 @@ static char * decimal_to_string (double value) {
 }
 
 
+extern "C"
 char * exiv2_decimal_coordinates_to_string (double latitude, double longitude) {
 	char *latitude_s = decimal_to_string (latitude);
 	char *longitude_s = decimal_to_string (longitude);
@@ -934,4 +928,343 @@ char * exiv2_decimal_coordinates_to_string (double latitude, double longitude) {
 	g_free (longitude_s);
 	g_free (latitude_s);
 	return s;
+}
+
+
+extern "C"
+gboolean exiv2_can_write_metadata (const char *mime_type) {
+	return (g_content_type_equals (mime_type, "image/jpeg")
+		|| g_content_type_equals (mime_type, "image/tiff")
+		|| g_content_type_equals (mime_type, "image/png")
+		|| g_content_type_equals (mime_type, "image/webp"));
+}
+
+
+static void mandatory_int (Exiv2::ExifData &checkdata, const char *tag, int value) {
+	Exiv2::ExifKey key = Exiv2::ExifKey(tag);
+	if (checkdata.findKey(key) == checkdata.end())
+		checkdata[tag] = value;
+}
+
+
+static void mandatory_string (Exiv2::ExifData &checkdata, const char *tag, const char *value) {
+	Exiv2::ExifKey key = Exiv2::ExifKey(tag);
+	if (checkdata.findKey(key) == checkdata.end())
+		checkdata[tag] = value;
+}
+
+static const char * get_metadata_type (gpointer metadata, const char *attribute) {
+	const char *value_type = NULL;
+
+	if (GTH_IS_METADATA (metadata)) {
+		value_type = gth_metadata_get_value_type (GTH_METADATA (metadata));
+		if ((g_strcmp0 (value_type, "Undefined") == 0) || (g_strcmp0 (value_type, "") == 0)) {
+			value_type = NULL;
+		}
+		if (value_type != NULL) {
+			return value_type;
+		}
+	}
+
+	GthMetadataInfo *metadatum_info = gth_metadata_info_get (attribute);
+	if (metadatum_info != NULL) {
+		value_type = metadatum_info->type;
+	}
+
+	return value_type;
+}
+
+
+static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr image, GFileInfo *info, GthImage *image_data) {
+	// Preserve the ICC profile if the image was not modified.
+	gboolean was_modified = g_file_info_get_attribute_boolean (info, "Loaded::Image::WasModified");
+	if (was_modified)
+		image->clearIccProfile();
+	else
+		image->readMetadata();
+	image->clearExifData();
+	image->clearIptcData();
+	image->clearXmpPacket();
+	image->clearXmpData();
+	image->clearComment();
+
+	// EXIF Data
+
+	Exiv2::ExifData ed;
+	char **attributes = g_file_info_list_attributes (info, "Exif");
+	for (int i = 0; attributes[i] != NULL; i++) {
+		GthMetadata *metadatum;
+		char *key;
+
+		metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		key = exiv2_key_from_attribute (attributes[i]);
+
+		try {
+			// If the metadatum has no value yet, a new empty value
+			// is created. The type is taken from Exiv2's tag
+			// lookup tables. If the tag is not found in the table,
+			// the type defaults to ASCII.
+			// We always create the metadatum explicitly if the
+			// type is available to avoid type errors.
+			// See bug #610389 for more details.  The original
+			// explanation is here:
+			// http://uk.groups.yahoo.com/group/exiv2/message/1472
+
+			const char *raw_value = gth_metadata_get_raw (metadatum);
+			const char *value_type = get_metadata_type (metadatum, attributes[i]);
+
+			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) && (value_type != NULL)) {
+				Exiv2::Value::UniquePtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
+				value->read (raw_value);
+				Exiv2::ExifKey exif_key(key);
+				ed.add (exif_key, value.get());
+			}
+		}
+		catch (Exiv2::Error& e) {
+			// We don't care about invalid key errors
+			g_warning ("%s", e.what());
+		}
+
+		g_free (key);
+	}
+	g_strfreev (attributes);
+
+	// Mandatory tags - add if not already present
+
+	mandatory_int (ed, "Exif.Image.XResolution", 72);
+	mandatory_int (ed, "Exif.Image.YResolution", 72);
+	mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
+	mandatory_int (ed, "Exif.Image.YCbCrPositioning", 1);
+	mandatory_int (ed, "Exif.Photo.ColorSpace", 1); // TODO
+	mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
+	mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
+	mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
+
+	// Overwrite the software tag if the image content was modified
+
+	if (was_modified) {
+		ed["Exif.Image.ProcessingSoftware"] = APP " " VERSION;
+	}
+
+	// Update tags related to the image content
+
+	Exiv2::ExifThumb thumb(ed);
+	gboolean thumbnail_updated = FALSE;
+	if (image_data != NULL) {
+		int width = gth_image_get_width (image_data);
+		int height = gth_image_get_height (image_data);
+
+		if ((width > 0) && (height > 0)) {
+			// Update the dimension tags
+
+			ed["Exif.Photo.PixelXDimension"] = width;
+			ed["Exif.Image.ImageWidth"] = width;
+			ed["Exif.Photo.PixelYDimension"] = height;
+			ed["Exif.Image.ImageLength"] = height;
+			ed["Exif.Image.Orientation"] = 1;
+
+			// Update the thumbnail
+
+			GthImage *thumbnail_data = gth_image_resize (image_data, 128, GTH_RESIZE_DEFAULT, GTH_SCALE_FILTER_GOOD, NULL);
+			GBytes *thumbnail_bytes = save_jpeg (thumbnail_data, NULL, NULL, NULL);
+			if (thumbnail_bytes != NULL) {
+				gsize thumbnail_size;
+				gconstpointer thumbnail_buffer = g_bytes_get_data (thumbnail_bytes, &thumbnail_size);
+				thumb.setJpegThumbnail ((Exiv2::byte *) thumbnail_buffer, thumbnail_size);
+				ed["Exif.Thumbnail.XResolution"] = 72;
+				ed["Exif.Thumbnail.YResolution"] = 72;
+				ed["Exif.Thumbnail.ResolutionUnit"] =  2;
+
+				g_bytes_unref (thumbnail_bytes);
+				thumbnail_updated = TRUE;
+			}
+			g_object_unref (thumbnail_data);
+		}
+	}
+
+	if (was_modified && !thumbnail_updated) {
+		thumb.erase();
+	}
+
+	// Update the DateTime tag
+
+	if (g_file_info_get_attribute_object (info, "Exif::Image::DateTime") == NULL) {
+		GDateTime *current_time = g_date_time_new_now_local ();
+		char *exif_date = _g_date_time_to_exif_date (current_time);
+		ed["Exif.Image.DateTime"] = exif_date;
+		g_free (exif_date);
+		g_date_time_unref (current_time);
+	}
+	ed.sortByKey();
+
+	// IPTC Data
+
+	Exiv2::IptcData id;
+	attributes = g_file_info_list_attributes (info, "Iptc");
+	for (int i = 0; attributes[i] != NULL; i++) {
+		gpointer metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		char *key = exiv2_key_from_attribute (attributes[i]);
+
+		try {
+			const char *value_type = get_metadata_type (metadatum, attributes[i]);
+			if (value_type != NULL) {
+				// See the exif data code above for an explanation.
+				Exiv2::Value::UniquePtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
+				Exiv2::IptcKey iptc_key(key);
+
+				const char *raw_value = NULL;
+				GthStringList *string_list = NULL;
+
+				switch (gth_metadata_get_data_type (GTH_METADATA (metadatum))) {
+				case GTH_METADATA_TYPE_STRING:
+					raw_value = gth_metadata_get_raw (GTH_METADATA (metadatum));
+					if ((raw_value != NULL) && (strcmp (raw_value, "") != 0)) {
+						value->read (raw_value);
+						id.add (iptc_key, value.get());
+					}
+					break;
+
+				case GTH_METADATA_TYPE_STRING_LIST:
+					string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
+					for (GList *scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
+						char *single_value = (char *) scan->data;
+
+						value->read (single_value);
+						id.add (iptc_key, value.get());
+					}
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+		catch (Exiv2::Error& e) {
+			// We don't care about invalid key errors.
+			g_warning ("%s", e.what());
+		}
+
+		g_free (key);
+	}
+	id.sortByKey();
+	g_strfreev (attributes);
+
+	// XMP Data
+
+	Exiv2::XmpData xd;
+	attributes = g_file_info_list_attributes (info, "Xmp");
+	for (int i = 0; attributes[i] != NULL; i++) {
+		gpointer metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		char *key = exiv2_key_from_attribute (attributes[i]);
+
+		try {
+			const char *value_type = get_metadata_type (metadatum, attributes[i]);
+			if (value_type != NULL) {
+				// See the exif data code above for an explanation.
+				Exiv2::Value::UniquePtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
+				Exiv2::XmpKey xmp_key(key);
+
+				const char *raw_value = NULL;
+				GthStringList *string_list = NULL;
+
+				switch (gth_metadata_get_data_type (GTH_METADATA (metadatum))) {
+				case GTH_METADATA_TYPE_STRING:
+					raw_value = gth_metadata_get_raw (GTH_METADATA (metadatum));
+					if ((raw_value != NULL) && (strcmp (raw_value, "") != 0)) {
+						value->read (raw_value);
+						xd.add (xmp_key, value.get());
+					}
+					break;
+
+				case GTH_METADATA_TYPE_STRING_LIST:
+					string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
+					for (GList *scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
+						char *single_value = (char *) scan->data;
+
+						value->read (single_value);
+						xd.add (xmp_key, value.get());
+					}
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+		catch (Exiv2::Error& e) {
+			// We don't care about invalid key errors.
+			g_warning ("%s", e.what());
+		}
+
+		g_free (key);
+	}
+	xd.sortByKey();
+	g_strfreev (attributes);
+
+	image->setExifData(ed);
+	image->setIptcData(id);
+	image->setXmpData(xd);
+	image->writeMetadata();
+
+	Exiv2::BasicIo &io = image->io();
+	io.open();
+
+	return io.read(io.size());
+}
+
+
+extern "C"
+GBytes * exiv2_write_metadata_to_buffer (GBytes *bytes, GFileInfo *info, GthImage *image_data, GError **error) {
+	try {
+		gsize buffer_size;
+		gconstpointer buffer = g_bytes_get_data (bytes, &buffer_size);
+		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) buffer, buffer_size);
+		if (image.get() == 0) {
+			if (error != NULL)
+				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+			return FALSE;
+		}
+		Exiv2::DataBuf result = exiv2_write_metadata_private (std::move(image), info, image_data);
+		return g_bytes_new (result.data(), result.size());
+	}
+	catch (Exiv2::Error& e) {
+		if (error != NULL) {
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
+		}
+	}
+	return NULL;
+}
+
+
+extern "C"
+GBytes * exiv2_clear_metadata (GBytes *bytes, GError **error) {
+	try {
+		gsize buffer_size;
+		gconstpointer buffer = g_bytes_get_data (bytes, &buffer_size);
+		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) buffer, buffer_size);
+		if (image.get() == 0) {
+			if (error != NULL)
+				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+			return FALSE;
+		}
+
+		// Read the metadata to preserve the ICC Profile.
+		image->readMetadata();
+		image->clearExifData();
+		image->clearIptcData();
+		image->clearXmpPacket();
+		image->clearXmpData();
+		image->clearComment();
+		image->writeMetadata();
+
+		Exiv2::BasicIo &io = image->io();
+		io.open();
+		Exiv2::DataBuf result = io.read(io.size());
+		return g_bytes_new (result.data(), result.size());
+	}
+	catch (Exiv2::Error& e) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
+	}
+	return NULL;
 }

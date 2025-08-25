@@ -16,7 +16,7 @@ public class Gth.PngPreferences : Gth.SaverPreferences {
 		return true;
 	}
 
-	public override Gtk.Widget? create_widget () {
+	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
 			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/png-preferences.ui");
 		}
@@ -27,7 +27,7 @@ public class Gth.PngPreferences : Gth.SaverPreferences {
 			settings.set_int (PREF_PNG_COMPRESSION_LEVEL, (int) local_adj.get_value ());
 		});
 
-		return builder.get_object ("page") as Gtk.Widget;
+		return builder.get_object ("page") as Adw.PreferencesPage;
 	}
 
 	public override Gth.Option[] get_options () {

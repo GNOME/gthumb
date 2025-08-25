@@ -31,8 +31,8 @@
 
 #define TMP_BUF_SIZE  4096
 #define JPEG_ERROR(cinfo,code)  \
-  ((cinfo)->err->msg_code = (code), \
-   (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)))
+	((cinfo)->err->msg_code = (code), \
+		(*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)))
 
 
 typedef struct {

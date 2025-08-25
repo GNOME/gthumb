@@ -35,7 +35,7 @@ public class Gth.Viewer : Gtk.Box {
 			yield current_viewer.load (file);
 			yield window.set_page (Window.Page.VIEWER);
 			current_file = file;
-			property_sidebar.current_file = file;
+			property_sidebar.current_file = current_file;
 			update_title ();
 			update_sidebar ();
 			if (ViewFlags.FULLSCREEN in flags) {
@@ -142,6 +142,14 @@ public class Gth.Viewer : Gtk.Box {
 			return;
 		}
 		yield current_viewer.save ();
+	}
+
+	public void file_saved (FileData file_data) {
+		current_file = file_data;
+		property_sidebar.current_file = current_file;
+		update_title ();
+		update_sidebar ();
+		app.monitor.file_created (file_data.file);
 	}
 
 	void activate_viewer_for_file (FileData file) throws Error {

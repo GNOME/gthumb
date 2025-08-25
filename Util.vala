@@ -175,4 +175,25 @@ namespace Gth.Util {
 	public static float calc_progress (uint completed, uint total) {
 		return (float) (completed + 1) / (total + 1);
 	}
+
+	public static unowned string get_basename (string path, int bytes = -1) {
+		if (bytes < 0) {
+			bytes = path.data.length;
+		}
+		var byte_offset = bytes;
+		var next_byte_offset = byte_offset;
+		unichar ch;
+		while (path.get_prev_char (ref byte_offset, out ch)) {
+			if (ch == '/') {
+				return (string) (path.data[next_byte_offset:bytes]);
+			}
+			next_byte_offset = byte_offset;
+		}
+		return path;
+	}
+
+	public static string get_parse_basename (File file) {
+		var pathname = file.get_parse_name ();
+		return Util.get_basename (pathname);
+	}
 }

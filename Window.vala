@@ -518,7 +518,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			fake_job_id++;
 			var local_job = new_job ("Fake Job %u".printf (fake_job_id),
-				JobFlags.DEFAULT,
+				JobFlags.FOREGROUND,
 				"applications-science-symbolic");
 			local_job.subtitle = Strings.new_random (50);
 			local_job.cancellable.cancelled.connect (() => {

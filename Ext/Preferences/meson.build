@@ -1,8 +1,9 @@
 preferences_files = files(
   'BrowserPreferences.vala',
-  'PreferencesDialog.vala',
+  'FormatPreferencesDialog.vala',
   'GeneralPreferences.vala',
+  'PreferencesDialog.vala',
+  'SaverPreferencesPage.vala',
   'SaversPreferences.vala',
   'ViewerPreferences.vala',
-  'SaverPreferencesPage.vala',
 )

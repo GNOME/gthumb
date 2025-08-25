@@ -16,7 +16,7 @@ public class Gth.JpegPreferences : Gth.SaverPreferences {
 		return false;
 	}
 
-	public override Gtk.Widget? create_widget () {
+	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
 			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/jpeg-preferences.ui");
 		}
@@ -54,7 +54,12 @@ public class Gth.JpegPreferences : Gth.SaverPreferences {
 			settings.set_boolean (PREF_JPEG_PROGRESSIVE, row.active);
 		});
 
-		return builder.get_object ("page") as Gtk.Widget;
+		if (only_format_options) {
+			var group = builder.get_object ("other_preferences") as Gtk.Widget;
+			group.visible = false;
+		}
+
+		return builder.get_object ("page") as Adw.PreferencesPage;
 	}
 
 	public override Gth.Option[] get_options () {
