@@ -2,7 +2,7 @@ project('gthumb',
   [ 'vala', 'c', 'cpp' ],
   license: 'GPL2+',
   version: '4',
-  meson_version: '>=0.56'
+  meson_version: '>=0.58'
 )
 
 adwaita_version = '>= 1.7.3'
@@ -216,7 +216,7 @@ config.set_quoted('G_LOG_DOMAIN', log_domain)
 config.set_quoted('VERSION', meson.project_version())
 config.set_quoted('PREFIX', get_option('prefix'))
 if get_option('run-in-place')
-  config.set_quoted('PRIVEXECDIR', join_paths(meson.build_root()))
+  config.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root()))
   add_project_arguments(['-D', 'RUN_IN_PLACE'], language: 'vala')
 else
   config.set_quoted('PRIVEXECDIR', privexecdir)
