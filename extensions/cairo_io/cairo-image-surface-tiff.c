@@ -260,7 +260,7 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 			}
 
 			uint16_t colorspace;
-			if (TIFFGetField (tif, EXIFTAG_COLORSPACE, &colorspace) == 1) {
+			if ((profile == NULL) && (TIFFGetField (tif, EXIFTAG_COLORSPACE, &colorspace) == 1)) {
 				//g_print ("> colorspace: %u\n", colorspace);
 				if (colorspace == 1) { // GTH_COLOR_SPACE_SRGB
 					profile = gth_icc_profile_new_srgb ();
