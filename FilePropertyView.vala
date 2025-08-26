@@ -127,18 +127,18 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		actions.set ("Private::File::DisplaySize", new Action.with_details ("Private::File::Size"));
 		actions.set ("Private::File::ContentType", new Action.with_details ("standard::content-type,standard::fast-content-type"));
 
-		property_list = new GenericList<Property> ();
+		property_list = new GenericList<FileProperty> ();
 		property_filter = new Gtk.CustomFilter ((obj) => {
 			if (Strings.empty (filter_text))
 				return true;
-			unowned var prop = obj as Property;
+			unowned var prop = obj as FileProperty;
 			return prop.name.casefold ().contains (filter_text) || prop.value.casefold ().contains (filter_text);
 		});
 		var filter_model = new Gtk.FilterListModel (property_list.model, property_filter);
 		var sort_model = new Gtk.SortListModel (filter_model, null);
 		sort_model.section_sorter = new Gtk.CustomSorter ((a, b) => {
-			unowned var prop_a = a as Property;
-			unowned var prop_b = b as Property;
+			unowned var prop_a = a as FileProperty;
+			unowned var prop_b = b as FileProperty;
 			if ((prop_a.category == null) || (prop_b.category == null)) {
 				return 0;
 			}
@@ -154,7 +154,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		});
 		factory.bind.connect ((item) => {
 			var list_item = item as Gtk.ListItem;
-			var property = list_item.item as Property;
+			var property = list_item.item as FileProperty;
 			var property_item = list_item.child as FilePropertyItem;
 			property_item.title.label = property.name;
 			property_item.subtitle.label = property.value;
@@ -202,7 +202,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		header_factory.bind.connect ((item) => {
 			var list_header = item as Gtk.ListHeader;
 			var label = list_header.child as Gtk.Label;
-			var property = list_header.item as Property;
+			var property = list_header.item as FileProperty;
 			label.label = (property.category != null) ? _(property.category.display_name) : "";
 		});
 		list_view.header_factory = header_factory;
@@ -269,7 +269,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 			if (category == null) {
 				continue;
 			}
-			var property = new Property () {
+			var property = new FileProperty () {
 				id = info.id,
 				name = _(info.display_name),
 				value = value,
@@ -279,7 +279,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		}
 	}
 
-	Property current_property = null;
+	FileProperty current_property = null;
 
 	public void open_context_menu (FilePropertyItem item, int x, int y) {
 		var has_details = false;
@@ -310,19 +310,12 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	[GtkChild] protected unowned Gtk.ListView list_view;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 
-	GenericList<Property> property_list;
+	GenericList<FileProperty> property_list;
 	Gtk.CustomFilter property_filter;
 	string filter_text;
 	HashTable<string, Action> actions;
 	Gth.FileData file_data;
 	SimpleActionGroup action_group;
-
-	public class Property : Object {
-		public string id;
-		public string name;
-		public string value;
-		public unowned Gth.MetadataCategory? category;
-	}
 
 	class Action {
 		public enum Type {
@@ -352,17 +345,24 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	const int MAX_VALUE_CHARACTERS = 300;
 }
 
+public class Gth.FileProperty : Object {
+	public string id;
+	public string name;
+	public string value;
+	public unowned Gth.MetadataCategory? category;
+}
+
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-property-item.ui")]
 public class Gth.FilePropertyItem : Gtk.Box {
-	public unowned Gth.FilePropertyView.Property property = null;
+	public unowned Gth.FileProperty property = null;
 	[GtkChild] public unowned Gtk.Label title;
 	[GtkChild] public unowned Gtk.Label subtitle;
 	[GtkChild] public unowned Gtk.Label description;
 	[GtkChild] public unowned Gtk.Button button;
 
-	weak Gth.FilePropertyView view;
+	weak Gth.PropertyView view;
 
-	public FilePropertyItem (Gth.FilePropertyView _view) {
+	public FilePropertyItem (Gth.PropertyView _view) {
 		view = _view;
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);

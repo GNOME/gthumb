@@ -388,6 +388,7 @@ executable(
     'PropertySidebar.vala',
     'PropertyView.vala',
     'RegisteredSignals.vala',
+    'SelectionView.vala',
     'Settings.vala',
     'SidebarResizer.vala',
     'Status.vala',

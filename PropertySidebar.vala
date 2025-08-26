@@ -26,13 +26,20 @@ public class Gth.PropertySidebar : Gtk.Box {
 		current_file = file_data;
 	}
 
+	public void set_selection_info (uint files, uint64 size) {
+		selection_view.set_selection_info (files, size);
+		current_file = null;
+	}
+
 	public void update_view () {
 		string first_visible_page = null;
 		var active_page_is_empty = false;
 		var always_show_exif = (_file != null) ? Util.content_type_is_image (_file.get_content_type ()) : true;
 		var visible_pages = 0;
 		foreach (unowned var page in pages) {
-			if ((_file != null) && page.view.can_view (_file)) {
+			var visible = ((_file == null) && (page.view == selection_view))
+				|| ((_file != null) && page.view.can_view (_file));
+			if (visible) {
 				page.view.set_file (_file);
 				page.button.sensitive = true;
 				page.button.visible = true;
@@ -83,6 +90,8 @@ public class Gth.PropertySidebar : Gtk.Box {
 		add_page (new Gth.IptcPropertyView ());
 		add_page (new Gth.XmpPropertyView ());
 		add_page (new Gth.OtherPropertyView ());
+		selection_view = new Gth.SelectionView ();
+		add_page (selection_view);
 		set_page ("file-properties");
 	}
 
@@ -129,4 +138,5 @@ public class Gth.PropertySidebar : Gtk.Box {
 
 	GenericArray<PageInfo?> pages;
 	Gth.FileData _file;
+	SelectionView selection_view;
 }

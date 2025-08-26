@@ -6,4 +6,5 @@ public interface Gth.PropertyView : Gtk.Widget {
 	public abstract void set_file (Gth.FileData? file_data);
 	public abstract bool with_search ();
 	public abstract void set_search (string? text);
+	public abstract void open_context_menu (FilePropertyItem item, int x, int y);
 }
