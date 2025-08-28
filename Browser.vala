@@ -388,7 +388,6 @@ public class Gth.Browser : Gtk.Box {
 		file_sort_model.model = sorted_model;
 		file_grid.model = grid_model;
 		update_total_files ();
-		status.set_selection_info (0, 0);
 	}
 
 	public void update_folder_status () {
@@ -575,7 +574,6 @@ public class Gth.Browser : Gtk.Box {
 				selected_file = file;
 			}
 		}
-		status.set_selection_info (total_files, total_size);
 		if (total_files == 1) {
 			var local_job = window.new_job ("Metadata for %s".printf (selected_file.get_display_name ()),
 				JobFlags.DEFAULT,

@@ -14,30 +14,6 @@
       </object>
     </child>
     <child>
-      <object class="GtkBox" id="selection_info">
-        <property name="orientation">horizontal</property>
-        <property name="spacing">12</property>
-        <property name="visible">false</property>
-        <child>
-          <object class="GtkLabel">
-            <property name="label" translatable="yes">Selected:</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="selected_files">
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="selected_size">
-            <property name="margin-start">6</property>
-            <style>
-              <class name="dimmed"/>
-            </style>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
       <object class="GtkBox">
         <property name="orientation">horizontal</property>
         <property name="spacing">12</property>
