@@ -707,6 +707,29 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 		}
 	}
 
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::rating");
+	if (metadata != NULL) {
+		const gchar* raw_rating = gth_metadata_get_raw (metadata);
+		gchar* endptr;
+		gint64 metadata_rating = g_ascii_strtoll (raw_rating, &endptr, 10);
+		if (endptr != raw_rating) {
+			gboolean write_rating = FALSE;
+			if (!g_file_info_has_attribute (file_data->info, "comment::rating")) {
+				write_rating = TRUE;
+			}
+			else {
+				int comment_rating = g_file_info_get_attribute_int32 (file_data->info, "comment::rating");
+				if (comment_rating != metadata_rating) {
+					write_rating = TRUE;
+				}
+			}
+			if (write_rating) {
+				gth_comment_set_rating (comment, (int) metadata_rating);
+				write_comment = TRUE;
+			}
+		}
+	}
+
 	if (write_comment) {
 		GFile *comment_file;
 		GFile *comment_directory;
