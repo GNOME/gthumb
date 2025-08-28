@@ -3,7 +3,7 @@ public class Gth.Catalog : Object {
 	public string name;
 	public string sort_type;
 	public bool inverse_order;
-	public Gth.DateTime date;
+	public Gth.Date date;
 	public GenericArray<File> files;
 	public GenericSet<File> file_set;
 
@@ -13,7 +13,7 @@ public class Gth.Catalog : Object {
 		file_set = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		sort_type = null;
 		inverse_order = false;
-		date = new Gth.DateTime ();
+		date = Gth.Date ();
 		name = null;
 	}
 
@@ -140,7 +140,7 @@ public class Gth.Catalog : Object {
 				break;
 
 			case "date":
-				date.set_from_exif_date (child.get_inner_text ());
+				date = Date.from_exif_date (child.get_inner_text ());
 				break;
 
 			case "name":
@@ -165,7 +165,7 @@ public class Gth.Catalog : Object {
 		}
 
 		// Date
-		if (date.date_is_valid ()) {
+		if (date.is_valid ()) {
 			root.append_child (new Dom.Element.with_text ("date", date.to_exif_date ()));
 		}
 
@@ -198,12 +198,12 @@ public class Gth.Catalog : Object {
 		if (name != null) {
 			display_name.append (name);
 		}
-		if (date.date.is_valid ()) {
+		if (date.is_valid ()) {
 			if (display_name.len > 0) {
 				display_name.append (" ");
 			}
 			display_name.append ("(");
-			display_name.append (date.date.to_display_string ());
+			display_name.append (date.to_display_string ());
 			display_name.append (")");
 		}
 		if ((display_name.len == 0) && (file != null)) {
@@ -243,7 +243,7 @@ public class Gth.Catalog : Object {
 		}
 
 		// Secondary sort order (date)
-		var sort_order = date.date.to_sort_order ();
+		var sort_order = date.to_sort_order ();
 		if (sort_order != 0) {
 			info.set_attribute_uint32 ("Private::SecondarySortOrder", sort_order);
 		}

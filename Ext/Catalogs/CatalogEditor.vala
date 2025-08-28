@@ -79,7 +79,7 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 	private void on_save (Gtk.Button source) {
 		try {
 			catalog.name = name_row.get_text ();
-			catalog.date = time_selector.get_time ();
+			catalog.date = date_row.date;
 			if (catalog is CatalogSearch) {
 				rules_group.update_from_options ();
 			}
@@ -106,12 +106,12 @@ class Gth.CatalogDialog : Adw.ApplicationWindow {
 			sources_group.visible = false;
 			rules_group.visible = false;
 		}
-		name_row.set_text (catalog.name);
-		time_selector.set_time (catalog.date);
+		name_row.text = catalog.name;
+		date_row.date = catalog.date;
 	}
 
 	[GtkChild] unowned Adw.EntryRow name_row;
-	[GtkChild] unowned Gth.TimeSelector time_selector;
+	[GtkChild] unowned Gth.DateRow date_row;
 	[GtkChild] unowned Gth.SearchSourceEditorGroup sources_group;
 	[GtkChild] unowned Gth.TestExprEditorGroup rules_group;
 

@@ -41,13 +41,8 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="GthDateRow" id="date_row">
                     <property name="title" translatable="yes">Date</property>
-                    <child type="suffix">
-                      <object class="GthTimeSelector" id="time_selector">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>
