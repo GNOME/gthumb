@@ -51,7 +51,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 			else {
 				page.view.set_file (null);
 				page.button.sensitive = false;
-				if (page.name == "other-properties") {
+				if ((page.name == "other-properties") || (page.name == "selection")) {
 					page.button.visible = false;
 				}
 				else {
