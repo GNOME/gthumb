@@ -85,59 +85,26 @@ comments__read_metadata_ready_cb (GList      *file_list,
 				  const char *attributes)
 {
 	GSettings *settings;
-	gboolean   store_metadata_in_files;
-	GList     *scan;
 	gboolean   synchronize;
+	GList     *scan;
 
-	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
-	store_metadata_in_files = g_settings_get_boolean (settings, PREF_GENERAL_STORE_METADATA_IN_FILES);
+	// Update the .comment metadata with the embedded metadata.
+
+	settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
+	synchronize = g_settings_get_boolean (settings, PREF_COMMENTS_SYNCHRONIZE);
 	g_object_unref (settings);
 
-	if (! store_metadata_in_files) {
-		/* if PREF_GENERAL_STORE_METADATA_IN_FILES is false, avoid to
-		 * synchronize the .comment metadata because the embedded
-		 * metadata is likely to be out-of-date.
-		 * Give priority to the .comment metadata which, if present,
-		 * is the most up-to-date. */
+	if (! synchronize)
+		return;
 
-#ifdef HAVE_EXIV2
-		gboolean can_read_embedded_attributes = gth_main_extension_is_active ("exiv2_tools");
-#endif
-
-		for (scan = file_list; scan; scan = scan->next) {
-			GthFileData *file_data = scan->data;
-
-			/* If PREF_GENERAL_STORE_METADATA_IN_FILES is false and
-			 * there is no comment file then we are reading
-			 * the image metadata for the first time, in this
-			 * case update the .comment metadata with the
-			 * embedded metadata. */
-			if (g_file_info_get_attribute_boolean (file_data->info, "comment::no-comment-file")) {
-#ifdef HAVE_EXIV2
-				if (can_read_embedded_attributes) {
-					exiv2_update_general_attributes (file_data->info);
-					gth_comment_update_from_general_attributes (file_data);
-				}
-#endif
-			}
-			else
-				gth_comment_update_general_attributes ((GthFileData *) scan->data);
-		}
-	}
-	else {
-		/* if PREF_GENERAL_STORE_METADATA_IN_FILES is true, update the .comment
-		 * metadata with the embedded metadata.
-		 */
-
-		settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
-		synchronize = g_settings_get_boolean (settings, PREF_COMMENTS_SYNCHRONIZE);
-		g_object_unref (settings);
-
-		if (! synchronize)
-			return;
-
-		for (scan = file_list; scan; scan = scan->next)
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		if (g_file_info_get_attribute_boolean (file_data->info, "comment::no-comment-file")
+			&& g_file_info_has_attribute (file_data->info, "embedded::updated-general-attributes")
+			&& g_file_info_get_attribute_boolean (file_data->info, "embedded::updated-general-attributes"))
+		{
 			gth_comment_update_from_general_attributes ((GthFileData *) scan->data);
+		}
 	}
 }
 
@@ -154,6 +121,16 @@ comments__delete_metadata_cb (GFile  *file,
 		g_file_delete (comment_file, NULL, NULL);
 		g_object_unref (comment_file);
 	}
+}
+
+
+static void
+comments__after_save_image_cb (GthImageSaveData *data)
+{
+	GthMetadataProvider *provider;
+	provider = g_object_new (GTH_TYPE_METADATA_PROVIDER_COMMENT, NULL);
+	gth_metadata_provider_write (provider, GTH_METADATA_WRITE_DEFAULT, data->file_data, "*", NULL);
+	g_object_unref (provider);
 }
 
 
@@ -190,6 +167,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("read-metadata-ready", 10, G_CALLBACK (comments__read_metadata_ready_cb), NULL);
 	if (gth_main_extension_is_active ("edit_metadata"))
 		gth_hook_add_callback ("delete-metadata", 10, G_CALLBACK (comments__delete_metadata_cb), NULL);
+	gth_hook_add_callback ("after-save-image", 20, G_CALLBACK (comments__after_save_image_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (comments__gth_browser_construct_cb), NULL);
 }
 

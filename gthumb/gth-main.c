@@ -99,6 +99,7 @@ static GthMain *Main = NULL;
 struct _GthMainPrivate {
 	GList               *file_sources;
 	GList               *metadata_provider;
+	gboolean             metadata_provider_sorted;
 	GPtrArray           *metadata_category;
 	GPtrArray           *metadata_info;
 	GHashTable          *metadata_info_hash;
@@ -181,6 +182,7 @@ gth_main_init (GthMain *main)
 	main->priv = gth_main_get_instance_private (main);
 	main->priv->file_sources = NULL;
 	main->priv->metadata_provider = NULL;
+	main->priv->metadata_provider_sorted = FALSE;
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
 	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
@@ -485,9 +487,33 @@ gth_main_register_metadata_provider (GType metadata_provider_type)
 }
 
 
+static int metadata_provider_sort_func (gconstpointer a, gconstpointer b)
+{
+	GthMetadataProvider *provider_a = (GthMetadataProvider *) a;
+	GthMetadataProvider *provider_b = (GthMetadataProvider *) b;
+	int priority_a = gth_metadata_provider_get_priority (provider_a);
+	int priority_b = gth_metadata_provider_get_priority (provider_b);
+	if (priority_a == priority_b) {
+		return 0;
+	}
+	else if (priority_a < priority_b) {
+		return -1;
+	}
+	else {
+		return 1;
+	}
+}
+
+
 GList *
 gth_main_get_all_metadata_providers (void)
 {
+	g_mutex_lock (&register_mutex);
+	if (!Main->priv->metadata_provider_sorted) {
+		Main->priv->metadata_provider = g_list_sort (Main->priv->metadata_provider, metadata_provider_sort_func);
+		Main->priv->metadata_provider_sorted = TRUE;
+	}
+	g_mutex_unlock (&register_mutex);
 	return Main->priv->metadata_provider;
 }
 

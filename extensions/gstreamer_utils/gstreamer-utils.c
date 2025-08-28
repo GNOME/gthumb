@@ -321,9 +321,11 @@ tag_iterate (const GstTagList *list,
 	}
 	else if (strcmp (tag, "title") == 0) {
 		tag_key = "general::title";
+		g_file_info_set_attribute_boolean (info, "embedded::updated-general-attributes", TRUE);
 	}
 	else if (strcmp (tag, "description") == 0) {
 		tag_key = "general::description";
+		g_file_info_set_attribute_boolean (info, "embedded::updated-general-attributes", TRUE);
 	}
 	else if (strcmp (tag, "artist") == 0) {
 		tag_key = "audio-video::general::artist";

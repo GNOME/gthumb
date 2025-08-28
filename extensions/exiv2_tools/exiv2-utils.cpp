@@ -449,7 +449,7 @@ set_file_info_from_hash (GFileInfo  *info,
 }
 
 
-static void
+static gboolean
 set_attribute_from_metadata (GFileInfo  *info,
 			     const char *attribute,
 			     GObject    *metadata)
@@ -460,7 +460,7 @@ set_attribute_from_metadata (GFileInfo  *info,
 	char *type_name;
 
 	if (metadata == NULL)
-		return;
+		return FALSE;
 
 	g_object_get (metadata,
 		      "description", &description,
@@ -481,6 +481,8 @@ set_attribute_from_metadata (GFileInfo  *info,
 	g_free (formatted_value);
 	g_free (raw_value);
 	g_free (type_name);
+
+	return TRUE;
 }
 
 
@@ -502,20 +504,17 @@ get_attribute_from_tagset (GFileInfo  *info,
 }
 
 
-static void
+static gboolean
 set_attribute_from_tagset (GFileInfo  *info,
 			   const char *attribute,
 			   const char *tagset[])
 {
-	GObject *metadata;
-
-	metadata = get_attribute_from_tagset (info, tagset);
-	if (metadata != NULL)
-		set_attribute_from_metadata (info, attribute, metadata);
+	GObject *metadata = get_attribute_from_tagset (info, tagset);
+	return set_attribute_from_metadata (info, attribute, metadata);
 }
 
 
-static void
+static gboolean
 set_string_list_attribute_from_tagset (GFileInfo  *info,
 				       const char *attribute,
 				       const char *tagset[])
@@ -531,7 +530,7 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 	}
 
 	if (metadata == NULL)
-		return;
+		return FALSE;
 
 	if (GTH_IS_METADATA (metadata) && (gth_metadata_get_data_type (GTH_METADATA (metadata)) != GTH_METADATA_TYPE_STRING_LIST)) {
 		char           *raw;
@@ -541,8 +540,9 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 
 		g_object_get (metadata, "raw", &raw, NULL);
 		utf8_raw = _g_utf8_try_from_any (raw);
-		if (utf8_raw == NULL)
-			return;
+		if (utf8_raw == NULL) {
+			return FALSE;
+		}
 
 		keywords = g_strsplit (utf8_raw, ",", -1);
 		string_list = gth_string_list_new_from_strv (keywords);
@@ -555,8 +555,10 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 		g_free (raw);
 		g_free (utf8_raw);
 	}
-	else
+	else {
 		g_file_info_set_attribute_object (info, attribute, metadata);
+	}
+	return TRUE;
 }
 
 
@@ -590,9 +592,17 @@ extern "C"
 void
 exiv2_update_general_attributes (GFileInfo *info)
 {
-	set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
+	gboolean updated = FALSE;
+
+	if (set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES)) {
+		updated = TRUE;
+	}
 
 	/* if iptc::caption and iptc::headline are different use iptc::headline
 	 * to set general::title, if not already set. */
@@ -609,13 +619,23 @@ exiv2_update_general_attributes (GFileInfo *info)
 		    && (g_strcmp0 (gth_metadata_get_raw (GTH_METADATA (iptc_caption)),
 				   gth_metadata_get_raw (GTH_METADATA (iptc_headline))) != 0))
 		{
-			set_attribute_from_metadata (info, "general::title", iptc_headline);
+			if (set_attribute_from_metadata (info, "general::title", iptc_headline)) {
+				updated = TRUE;
+			}
 		}
 	}
 
-	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
-	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::rating", _RATING_TAG_NAMES);
+	if (set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_attribute_from_tagset (info, "general::rating", _RATING_TAG_NAMES)) {
+		updated = TRUE;
+	}
+
+	g_file_info_set_attribute_boolean (info, "embedded::updated-general-attributes", updated);
 }
 
 

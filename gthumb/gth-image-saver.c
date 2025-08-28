@@ -392,6 +392,9 @@ typedef struct {
 static void
 save_completed (SaveData *save_data)
 {
+	if (save_data->data->file_data != NULL) {
+		gth_hook_invoke ("after-save-image", save_data->data);
+	}
 	if (save_data->data->error != NULL)
 		(*save_data->ready_func) (save_data->data->file_data, *save_data->data->error, save_data->ready_data);
 	else

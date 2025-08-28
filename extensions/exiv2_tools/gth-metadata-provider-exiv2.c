@@ -103,22 +103,13 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *base,
 				  const char          *attributes,
 				  GCancellable        *cancellable)
 {
-	GthMetadataProviderExiv2 *self = GTH_METADATA_PROVIDER_EXIV2 (base);
-	GFile                    *sidecar;
-	GthFileData              *sidecar_file_data;
-	gboolean                  update_general_attributes;
+	GFile *sidecar;
+	GthFileData *sidecar_file_data;
 
 	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image/*"))
 		return;
 
-	/* The embedded metadata is likely to be outdated if the user chooses to
-	 * not store metadata in files. */
-
-	if (self->priv->general_settings == NULL)
-		self->priv->general_settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
-	update_general_attributes = g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES);
-
-	/* this function is executed in a secondary thread, so calling
+	/* This function is executed in a secondary thread, so calling
 	 * slow sync functions is not a problem. */
 
 	char *buffer;
@@ -136,14 +127,16 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *base,
 
 	g_free (buffer);
 
+	/* Sidecar data */
+
 	sidecar = exiv2_get_sidecar (file_data->file);
 	sidecar_file_data = gth_file_data_new (sidecar, NULL);
 	if (g_file_query_exists (sidecar_file_data->file, cancellable)) {
-		gth_file_data_update_info (sidecar_file_data, "time::*");
-		if (g_file_query_exists (sidecar_file_data->file, cancellable))
+		if (g_file_query_exists (sidecar_file_data->file, cancellable)) {
 			exiv2_read_sidecar (sidecar_file_data->file,
 					    file_data->info,
-					    update_general_attributes);
+					    TRUE);
+		}
 	}
 
 	g_object_unref (sidecar_file_data);

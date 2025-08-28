@@ -38,6 +38,7 @@ struct _GthCommentPrivate { /* All strings in utf8 format. */
 	GthTime    *time_of_day;
 	gboolean    changed;
 	gboolean    utf8;
+	GDateTime  *last_modified;
 };
 
 
@@ -85,6 +86,9 @@ gth_comment_finalize (GObject *obj)
 	g_ptr_array_unref (self->priv->categories);
 	g_date_free (self->priv->date);
 	gth_time_free (self->priv->time_of_day);
+	if (self->priv->last_modified != NULL) {
+		g_date_time_unref (self->priv->last_modified);
+	}
 
 	G_OBJECT_CLASS (gth_comment_parent_class)->finalize (obj);
 }
@@ -108,6 +112,7 @@ gth_comment_init (GthComment *self)
 	self->priv->categories = g_ptr_array_new ();
 	self->priv->date = g_date_new ();
 	self->priv->time_of_day = gth_time_new ();
+	self->priv->last_modified = NULL;
 }
 
 
@@ -293,11 +298,19 @@ gth_comment_new_for_file (GFile         *file,
 		g_object_unref (comment_file);
 		return NULL;
 	}
+	GFileInfo *info = g_file_query_info (comment_file,
+		G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
+		G_FILE_QUERY_INFO_NONE,
+		NULL,
+		NULL);
+	GDateTime *last_modified = g_file_info_get_modification_date_time (info);
 	g_object_unref (comment_file);
 
 	if ((zipped_buffer != NULL) && (((char *) zipped_buffer)[0] != '<')) {
-		if (! zlib_decompress_buffer (zipped_buffer, zipped_size, &buffer, &size))
+		if (! zlib_decompress_buffer (zipped_buffer, zipped_size, &buffer, &size)) {
+			g_date_time_unref (last_modified);
 			return NULL;
+		}
 	}
 	else {
 		buffer = zipped_buffer;
@@ -310,6 +323,7 @@ gth_comment_new_for_file (GFile         *file,
 	doc = dom_document_new ();
 	if (dom_document_load (doc, buffer, size, error)) {
 		dom_domizable_load_from_element (DOM_DOMIZABLE (comment), DOM_ELEMENT (doc)->first_child);
+		gth_comment_set_last_modified (comment, last_modified);
 	}
 	else {
 		buffer = NULL;
@@ -320,6 +334,7 @@ gth_comment_new_for_file (GFile         *file,
 	g_object_unref (doc);
 	g_free (buffer);
 	g_free (zipped_buffer);
+	g_date_time_unref (last_modified);
 
 	return comment;
 }
@@ -486,6 +501,28 @@ gth_comment_set_time_from_time_t (GthComment *comment,
 }
 
 
+void
+gth_comment_set_last_modified (GthComment *comment,
+			       GDateTime *last_modified)
+{
+	g_return_if_fail (GTH_IS_COMMENT (comment));
+	comment->priv->last_modified = g_date_time_ref (last_modified);
+}
+
+
+gboolean
+gth_comment_file_is_older (GthComment *comment,
+			       GDateTime *timestamp)
+{
+	g_return_val_if_fail (GTH_IS_COMMENT (comment), FALSE);
+	if (comment->priv->last_modified == NULL) {
+		return FALSE;
+	}
+	gint64 diff = g_date_time_difference (timestamp, comment->priv->last_modified);
+	return diff > 1000000;
+}
+
+
 const char *
 gth_comment_get_caption (GthComment *comment)
 {
@@ -616,116 +653,142 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 	write_comment = FALSE;
 
 	comment = gth_comment_new ();
-	gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
-	gth_comment_set_caption (comment, g_file_info_get_attribute_string (file_data->info, "comment::caption"));
-	gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
+	if (g_file_info_has_attribute (file_data->info, "comment::note")) {
+		gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
+	}
+	if (g_file_info_has_attribute (file_data->info, "comment::caption")) {
+		gth_comment_set_caption (comment, g_file_info_get_attribute_string (file_data->info, "comment::caption"));
+	}
+	if (g_file_info_has_attribute (file_data->info, "comment::place")) {
+		gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
+	}
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
-	if (metadata != NULL)
-		gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
+	if (g_file_info_has_attribute (file_data->info, "comment::time")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
+		if (metadata != NULL)
+			gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
+	}
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
-	comment_categories = gth_metadata_get_string_list (metadata);
-	if (comment_categories != NULL)
-		for (scan = gth_string_list_get_list (comment_categories); scan; scan = scan->next)
-			gth_comment_add_category (comment, (char *) scan->data);
+	if (g_file_info_has_attribute (file_data->info, "comment::categories")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+		comment_categories = gth_metadata_get_string_list (metadata);
+		if (comment_categories != NULL) {
+			for (scan = gth_string_list_get_list (comment_categories); scan; scan = scan->next) {
+				gth_comment_add_category (comment, (char *) scan->data);
+			}
+		}
+	}
 
-	gth_comment_set_rating (comment, g_file_info_get_attribute_int32 (file_data->info, "comment::rating"));
+	if (g_file_info_has_attribute (file_data->info, "comment::rating")) {
+		gth_comment_set_rating (comment, g_file_info_get_attribute_int32 (file_data->info, "comment::rating"));
+	}
 
 	/* sync embedded data and .comment data if required */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
-	if (metadata != NULL) {
-		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
-		if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-			char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
-			if (value != NULL) {
-				gth_comment_set_note (comment, value);
-				g_free (value);
-				write_comment = TRUE;
-			}
-		}
-	}
-
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
-	if (metadata != NULL) {
-		text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
-		if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-			char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
-			if (value != NULL) {
-				gth_comment_set_caption (comment, value);
-				g_free (value);
-				write_comment = TRUE;
-			}
-		}
-	}
-
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
-	if (metadata != NULL) {
-		text = g_file_info_get_attribute_string (file_data->info, "comment::place");
-		if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-			char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
-			if (value != NULL) {
-				gth_comment_set_place (comment, value);
-				g_free (value);
-				write_comment = TRUE;
-			}
-		}
-	}
-
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
-	if (metadata != NULL) {
-		GthMetadata *comment_time;
-
-		text = gth_metadata_get_raw (metadata);
-		comment_time = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
-		if (comment_time != NULL) {
-			if (! dom_str_equal (gth_metadata_get_raw (comment_time), text)) {
-				gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
-				write_comment = TRUE;
-			}
-		}
-	}
-
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::tags");
-	categories = gth_metadata_get_string_list (metadata);
-	if (categories != NULL) {
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
-		comment_categories = gth_metadata_get_string_list (metadata);
-		if (! gth_string_list_equal_custom (categories, comment_categories, (GCompareFunc) dom_str_find)) {
-			GList *scan;
-
-			gth_comment_clear_categories (comment);
-			for (scan = gth_string_list_get_list (categories); scan; scan = scan->next) {
-				char *value = _g_utf8_try_from_any (scan->data);
+	if (g_file_info_has_attribute (file_data->info, "general::description")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
+		if (metadata != NULL) {
+			text = g_file_info_get_attribute_string (file_data->info, "comment::note");
+			if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
+				char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
 				if (value != NULL) {
-					gth_comment_add_category (comment, value);
+					gth_comment_set_note (comment, value);
 					g_free (value);
+					write_comment = TRUE;
 				}
 			}
-			write_comment = TRUE;
 		}
 	}
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::rating");
-	if (metadata != NULL) {
-		const gchar* raw_rating = gth_metadata_get_raw (metadata);
-		gchar* endptr;
-		gint64 metadata_rating = g_ascii_strtoll (raw_rating, &endptr, 10);
-		if (endptr != raw_rating) {
-			gboolean write_rating = FALSE;
-			if (!g_file_info_has_attribute (file_data->info, "comment::rating")) {
-				write_rating = TRUE;
+	if (g_file_info_has_attribute (file_data->info, "general::title")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
+		if (metadata != NULL) {
+			text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
+			if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
+				char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
+				if (value != NULL) {
+					gth_comment_set_caption (comment, value);
+					g_free (value);
+					write_comment = TRUE;
+				}
 			}
-			else {
-				int comment_rating = g_file_info_get_attribute_int32 (file_data->info, "comment::rating");
-				if (comment_rating != metadata_rating) {
+		}
+	}
+
+	if (g_file_info_has_attribute (file_data->info, "general::location")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
+		if (metadata != NULL) {
+			text = g_file_info_get_attribute_string (file_data->info, "comment::place");
+			if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
+				char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
+				if (value != NULL) {
+					gth_comment_set_place (comment, value);
+					g_free (value);
+					write_comment = TRUE;
+				}
+			}
+		}
+	}
+
+	if (g_file_info_has_attribute (file_data->info, "general::datetime")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
+		if (metadata != NULL) {
+			GthMetadata *comment_time;
+
+			text = gth_metadata_get_raw (metadata);
+			comment_time = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
+			if (comment_time != NULL) {
+				if (! dom_str_equal (gth_metadata_get_raw (comment_time), text)) {
+					gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
+					write_comment = TRUE;
+				}
+			}
+		}
+	}
+
+	if (g_file_info_has_attribute (file_data->info, "general::tags")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		categories = gth_metadata_get_string_list (metadata);
+		if (categories != NULL) {
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+			comment_categories = gth_metadata_get_string_list (metadata);
+			if (! gth_string_list_equal_custom (categories, comment_categories, (GCompareFunc) dom_str_find)) {
+				GList *scan;
+
+				gth_comment_clear_categories (comment);
+				for (scan = gth_string_list_get_list (categories); scan; scan = scan->next) {
+					char *value = _g_utf8_try_from_any (scan->data);
+					if (value != NULL) {
+						gth_comment_add_category (comment, value);
+						g_free (value);
+					}
+				}
+				write_comment = TRUE;
+			}
+		}
+	}
+
+	if (g_file_info_has_attribute (file_data->info, "general::rating")) {
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::rating");
+		if (metadata != NULL) {
+			const gchar* raw_rating = gth_metadata_get_raw (metadata);
+			gchar* endptr;
+			gint64 metadata_rating = g_ascii_strtoll (raw_rating, &endptr, 10);
+			if (endptr != raw_rating) {
+				gboolean write_rating = FALSE;
+				if (!g_file_info_has_attribute (file_data->info, "comment::rating")) {
 					write_rating = TRUE;
 				}
-			}
-			if (write_rating) {
-				gth_comment_set_rating (comment, (int) metadata_rating);
-				write_comment = TRUE;
+				else {
+					int comment_rating = g_file_info_get_attribute_int32 (file_data->info, "comment::rating");
+					if (comment_rating != metadata_rating) {
+						write_rating = TRUE;
+					}
+				}
+				if (write_rating) {
+					gth_comment_set_rating (comment, (int) metadata_rating);
+					write_comment = TRUE;
+				}
 			}
 		}
 	}

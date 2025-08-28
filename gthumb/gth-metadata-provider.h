@@ -50,6 +50,7 @@ struct _GthMetadataProvider {
 
 struct _GthMetadataProviderClass {
 	GObjectClass parent_class;
+	int       (*get_priority)       (GthMetadataProvider    *self);
 	gboolean  (*can_read)		(GthMetadataProvider    *self,
 					 GthFileData            *file_data,
 					 const char             *mime_type,
@@ -85,6 +86,7 @@ void       gth_metadata_provider_write		(GthMetadataProvider    *self,
 						 GthFileData            *file_data,
 						 const char             *attributes,
 						 GCancellable           *cancellable);
+int        gth_metadata_provider_get_priority   (GthMetadataProvider    *self);
 void       _g_query_metadata_async		(GList                  *files,       /* GthFileData * list */
 						 const char             *attributes,
 						 GCancellable           *cancellable,

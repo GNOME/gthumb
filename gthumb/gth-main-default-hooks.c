@@ -209,6 +209,13 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("save-image", 1);
 
 	/**
+	 * Called in after gth_image_save_to_file has saved the file.
+	 *
+	 * @data (GthImageSaveData*):
+	 **/
+	gth_hook_register ("after-save-image", 1);
+
+	/**
 	 * Called when copying files in _g_copy_files_async with the
 	 * GTH_FILE_COPY_ALL_METADATA flag activated and when deleting file
 	 * with _g_file_list_delete.  Used to add sidecar files that contain

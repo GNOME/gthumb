@@ -72,6 +72,13 @@ gth_metadata_provider_real_write (GthMetadataProvider   *self,
 }
 
 
+static int
+gth_metadata_provider_real_get_priority (GthMetadataProvider *self)
+{
+	return 10;
+}
+
+
 static void
 gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 {
@@ -79,6 +86,7 @@ gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_real_can_write;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_real_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->write = gth_metadata_provider_real_write;
+	GTH_METADATA_PROVIDER_CLASS (klass)->get_priority = gth_metadata_provider_real_get_priority;
 }
 
 
@@ -126,6 +134,13 @@ gth_metadata_provider_write (GthMetadataProvider   *self,
 			     GCancellable          *cancellable)
 {
 	GTH_METADATA_PROVIDER_GET_CLASS (self)->write (self, flags, file_data, attributes, cancellable);
+}
+
+
+int
+gth_metadata_provider_get_priority (GthMetadataProvider *self)
+{
+	return GTH_METADATA_PROVIDER_GET_CLASS (self)->get_priority (self);
 }
 
 

@@ -39,12 +39,12 @@ typedef struct _GthCommentClass GthCommentClass;
 typedef struct _GthCommentPrivate GthCommentPrivate;
 
 struct _GthComment {
-        GObject     parent_instance;
-        GthCommentPrivate *priv;
+	GObject     parent_instance;
+	GthCommentPrivate *priv;
 };
 
 struct _GthCommentClass {
-        GObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 GFile *           gth_comment_get_comment_file           (GFile         *file);
@@ -73,6 +73,10 @@ void              gth_comment_set_time_from_exif_format  (GthComment    *comment
 							  const char    *value);
 void              gth_comment_set_time_from_time_t       (GthComment    *comment,
 							  time_t         value);
+void              gth_comment_set_last_modified          (GthComment    *comment,
+							  GDateTime     *last_modified);
+gboolean          gth_comment_file_is_older          (GthComment    *comment,
+							  GDateTime     *timestamp);
 const char *      gth_comment_get_caption                (GthComment    *comment);
 const char *      gth_comment_get_note                   (GthComment    *comment);
 const char *      gth_comment_get_place                  (GthComment    *comment);

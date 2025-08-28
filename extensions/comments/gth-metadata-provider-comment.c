@@ -44,52 +44,14 @@ gth_metadata_provider_comment_can_read (GthMetadataProvider  *base,
 					char                **attribute_v)
 
 {
-	GthMetadataProviderComment *self = GTH_METADATA_PROVIDER_COMMENT (base);
-	gboolean                    can_read;
-
-	can_read = _g_file_attributes_matches_any_v ("comment::*,"
-						     "general::datetime,"
-						     "general::title,"
-						     "general::description,"
-						     "general::location,"
-						     "general::tags,"
-						     "general::rating",
-						     attribute_v);
-
-	if (! can_read)
-		return FALSE;
-
-	if (file_data != NULL) {
-		GFile    *comment_file;
-		GFile    *comment_folder;
-		gboolean  comment_folder_exists;
-		gpointer  value;
-
-		comment_file = gth_comment_get_comment_file (file_data->file);
-		if (comment_file == NULL)
-			return FALSE;
-
-		comment_folder = g_file_get_parent (comment_file);
-		if (comment_folder == NULL)
-			return FALSE;
-
-		value = g_hash_table_lookup (self->priv->checked_folders, comment_folder);
-		if (value == NULL) {
-			comment_folder_exists = g_file_query_exists (comment_folder, NULL);
-			g_hash_table_insert (self->priv->checked_folders,
-					     g_object_ref (comment_folder),
-					     GINT_TO_POINTER (comment_folder_exists ? 1 : 2));
-		}
-		else
-			comment_folder_exists = GPOINTER_TO_INT (value) == 1;
-
-		can_read = comment_folder_exists;
-
-		g_object_unref (comment_folder);
-		g_object_unref (comment_file);
-	}
-
-	return can_read;
+	return _g_file_attributes_matches_any_v ("comment::*,"
+						 "general::datetime,"
+						 "general::title,"
+						 "general::description,"
+						 "general::location,"
+						 "general::tags,"
+						 "general::rating",
+						 attribute_v);
 }
 
 
@@ -110,7 +72,7 @@ gth_metadata_provider_comment_can_write (GthMetadataProvider  *self,
 
 
 static void
-gth_metadata_provider_comment_read (GthMetadataProvider *self,
+gth_metadata_provider_comment_read (GthMetadataProvider *base,
 				    GthFileData         *file_data,
 				    const char          *attributes,
 				    GCancellable        *cancellable)
@@ -119,6 +81,30 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	const char *value;
 	GPtrArray  *categories;
 	char       *comment_time;
+
+	// Check if the .comment directory exists
+	GFile *comment_file = gth_comment_get_comment_file (file_data->file);
+	if (comment_file != NULL) {
+		GFile *comment_folder = g_file_get_parent (comment_file);
+		if (comment_folder != NULL) {
+			GthMetadataProviderComment *self = GTH_METADATA_PROVIDER_COMMENT (base);
+			gpointer value = g_hash_table_lookup (self->priv->checked_folders, comment_folder);
+			gboolean comment_folder_exists;
+			if (value == NULL) {
+				comment_folder_exists = g_file_query_exists (comment_folder, NULL);
+				g_hash_table_insert (self->priv->checked_folders,
+					g_object_ref (comment_folder),
+					GINT_TO_POINTER (comment_folder_exists ? 1 : 2));
+			}
+			else {
+				comment_folder_exists = GPOINTER_TO_INT (value) == 1;
+			}
+			if (!comment_folder_exists) {
+				g_file_info_set_attribute_boolean (file_data->info, "comment::no-comment-file", TRUE);
+				return;
+			}
+		}
+	}
 
 	comment = gth_comment_new_for_file (file_data->file, cancellable, NULL);
 	g_file_info_set_attribute_boolean (file_data->info, "comment::no-comment-file", (comment == NULL));
@@ -175,7 +161,21 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	else
 		g_file_info_remove_attribute (file_data->info, "comment::time");
 
-	gth_comment_update_general_attributes (file_data);
+	// Update the general attributes if the comment file is not older
+	// than the image file or the attributes were not updated from the
+	// embedded data.
+	gboolean update_general_attributes = TRUE;
+	if (g_file_info_has_attribute (file_data->info, "embedded::updated-general-attributes")) {
+		if (g_file_info_get_attribute_boolean (file_data->info, "embedded::updated-general-attributes")) {
+			GDateTime *file_modification_time = g_file_info_get_modification_date_time (file_data->info);
+			if (gth_comment_file_is_older (comment, file_modification_time)) {
+				update_general_attributes = FALSE;
+			}
+		}
+	}
+	if (update_general_attributes) {
+		gth_comment_update_general_attributes (file_data);
+	}
 
 	g_object_unref (comment);
 }
@@ -268,6 +268,15 @@ gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 }
 
 
+static int
+gth_metadata_provider_comment_get_priority (GthMetadataProvider *self)
+{
+	// Lower than exiv2, and other embedded metadata readers, to make
+	// sure the comment reader is executed after all other readers.
+	return 20;
+}
+
+
 static void
 gth_metadata_provider_comment_finalize (GObject *object)
 {
@@ -299,6 +308,7 @@ gth_metadata_provider_comment_class_init (GthMetadataProviderCommentClass *klass
 	mp_class->can_write = gth_metadata_provider_comment_can_write;
 	mp_class->read = gth_metadata_provider_comment_read;
 	mp_class->write = gth_metadata_provider_comment_write;
+	mp_class->get_priority = gth_metadata_provider_comment_get_priority;
 }
 
 
