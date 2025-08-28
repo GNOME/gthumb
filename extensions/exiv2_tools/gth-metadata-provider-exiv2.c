@@ -121,13 +121,20 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *base,
 	/* this function is executed in a secondary thread, so calling
 	 * slow sync functions is not a problem. */
 
-	exiv2_read_metadata_from_file (file_data->file,
-				       file_data->info,
-				       update_general_attributes,
-				       cancellable,
-				       NULL);
+	char *buffer;
+	gsize size;
+	if (! _g_file_load_in_buffer (file_data->file, (void **) &buffer, &size, cancellable, NULL)) {
+		return;
+	}
 
-	/* sidecar data */
+	exiv2_read_metadata_from_buffer (
+		buffer,
+		size,
+		file_data->info,
+		TRUE,
+		NULL);
+
+	g_free (buffer);
 
 	sidecar = exiv2_get_sidecar (file_data->file);
 	sidecar_file_data = gth_file_data_new (sidecar, NULL);

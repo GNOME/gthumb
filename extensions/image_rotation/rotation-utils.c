@@ -134,7 +134,7 @@ _apply_transformation_async_thread (GTask        *task,
 
 	// Read the exif orientation
 	if (!(tdata->flags & GTH_TRANSFORM_FLAG_SKIP_METADATA)) {
-		if (!exiv2_read_metadata_from_buffer (buffer, size, tdata->file_data->info, false, &error)) {
+		if (!exiv2_read_metadata_from_buffer (buffer, size, tdata->file_data->info, FALSE, &error)) {
 			g_free (buffer);
 			g_task_return_error (task, error);
 			return;

@@ -36,11 +36,6 @@ extern const char *_LOCATION_TAG_NAMES[];
 extern const char *_KEYWORDS_TAG_NAMES[];
 extern const char *_RATING_TAG_NAMES[];
 
-gboolean   exiv2_read_metadata_from_file    (GFile             *file,
-					     GFileInfo         *info,
-					     gboolean           update_general_attributes,
-					     GCancellable      *cancellable,
-					     GError           **error);
 gboolean   exiv2_read_metadata_from_buffer  (void              *buffer,
 					     gsize              buffer_size,
 					     GFileInfo         *info,
@@ -52,7 +47,6 @@ gboolean   exiv2_read_sidecar               (GFile             *file,
 					     gboolean           update_general_attributes);
 void       exiv2_update_general_attributes  (GFileInfo         *info);
 gboolean   exiv2_supports_writes            (const char        *mime_type);
-gboolean   exiv2_write_metadata  	    (GthImageSaveData  *data);
 gboolean   exiv2_write_metadata_to_buffer   (void              **buffer,
 					     gsize              *buffer_size,
 					     GFileInfo          *info,

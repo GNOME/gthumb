@@ -235,6 +235,21 @@ exiv2_add_sidecars_cb (GFile  *file,
 }
 
 
+static gboolean
+exiv2_write_metadata (GthImageSaveData *data)
+{
+	if (!exiv2_supports_writes (data->mime_type) || (data->file_data == NULL)) {
+		return TRUE;
+	}
+	return exiv2_write_metadata_to_buffer (
+		&data->buffer,
+		&data->buffer_size,
+		data->file_data->info,
+		data->image,
+		data->error);
+}
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {

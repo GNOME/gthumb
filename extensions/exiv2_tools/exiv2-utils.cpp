@@ -855,64 +855,6 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 }
 
 
-/*
- * exiv2_read_metadata_from_file
- * reads metadata from image files
- * code relies heavily on example1 from the exiv2 website
- * http://www.exiv2.org/example1.html
- */
-extern "C"
-gboolean
-exiv2_read_metadata_from_file (GFile         *file,
-			       GFileInfo     *info,
-			       gboolean       update_general_attributes,
-			       GCancellable  *cancellable,
-			       GError       **error)
-{
-	try {
-		char *path;
-
-		path = g_file_get_path (file);
-		if (path == NULL) {
-			if (error != NULL)
-				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
-			return FALSE;
-		}
-
-#if EXIV2_TEST_VERSION(0,28,0)
-		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-#else
-		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-#endif
-		g_free (path);
-
-		if (image.get() == 0) {
-			if (error != NULL)
-				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
-			return FALSE;
-		}
-		// Set the log level to only show errors (and suppress warnings, informational and debug messages)
-		Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error);
-#if EXIV2_TEST_VERSION(0,28,0)
-		exiv2_read_metadata (std::move(image), info, update_general_attributes);
-#else
-		exiv2_read_metadata (image, info, update_general_attributes);
-#endif
-	}
-#if EXIV2_TEST_VERSION(0,28,0)
-	catch (Exiv2::Error& e) {
-#else
-	catch (Exiv2::AnyError& e) {
-#endif
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-
 extern "C"
 gboolean
 exiv2_read_metadata_from_buffer (void       *buffer,
@@ -1462,47 +1404,12 @@ exiv2_supports_writes (const char *mime_type)
 }
 
 
-extern "C"
-gboolean
-exiv2_write_metadata (GthImageSaveData *data)
-{
-	if (exiv2_supports_writes (data->mime_type) && (data->file_data != NULL)) {
-		try {
-#if EXIV2_TEST_VERSION(0,28,0)
-			Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
-#else
-			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
-#endif
-			g_assert (image.get() != 0);
 
-#if EXIV2_TEST_VERSION(0,28,0)
-			Exiv2::DataBuf buf = exiv2_write_metadata_private (std::move(image), data->file_data->info, data->image);
-#else
-			Exiv2::DataBuf buf = exiv2_write_metadata_private (image, data->file_data->info, data->image);
-#endif
 
-			g_free (data->buffer);
-#if EXIV2_TEST_VERSION(0,28,0)
-			data->buffer = g_memdup (buf.data(), buf.size());
-			data->buffer_size = buf.size();
-#else
-			data->buffer = g_memdup (buf.pData_, buf.size_);
-			data->buffer_size = buf.size_;
-#endif
 		}
-#if EXIV2_TEST_VERSION(0,28,0)
-		catch (Exiv2::Error& e) {
-#else
-		catch (Exiv2::AnyError& e) {
-#endif
-			if (data->error != NULL)
-				*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
-			g_warning ("%s\n", e.what());
-			return FALSE;
 		}
 	}
 
-	return TRUE;
 }
 
 
