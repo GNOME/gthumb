@@ -164,3 +164,23 @@ button.for_statusbar label {
 	font-size: 0.3em;
 	padding: 0 5em;
 }
+
+textview.boxed {
+	background: var(--card-bg-color);
+	padding: 5px 12px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+}
+
+textview.boxed:focus {
+	border-color: var(--accent-color);
+}
+
+.rating {
+	padding: 8px;
+	border-radius: 8px;
+}
+
+.rating:hover {
+	background: rgba(255,255,255, 0.1);
+}

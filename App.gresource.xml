@@ -3,7 +3,7 @@
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/actions/">
     <file preprocess="xml-stripblanks">gth-calendar-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-catalog-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-clock-alt-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-clock-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-content-loading-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-cross-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-delete-item-symbolic.svg</file>
@@ -37,6 +37,11 @@
     <file preprocess="xml-stripblanks">gth-script-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-image-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-note-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-star-outline-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-star-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-cross-small-square-filled-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-circle-filled-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-circle-outline-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -94,6 +99,7 @@
     <file preprocess="xml-stripblanks">webp-preferences.ui</file>
     <file preprocess="xml-stripblanks">window.ui</file>
     <file preprocess="xml-stripblanks">format-dialog.ui</file>
+    <file preprocess="xml-stripblanks">metadata-dialog.ui</file>
     <file preprocess="xml-stripblanks">selection-view.ui</file>
   </gresource>
 </gresources>

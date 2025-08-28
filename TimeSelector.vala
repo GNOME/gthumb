@@ -24,7 +24,7 @@ public class Gth.TimeSelector : Gtk.Box {
 			}
 		});
 		date_entry.changed.connect (() => {
-			GLib.Date date;
+			var date = new GLib.Date ();
 			date.set_parse (date_entry.text);
 			selected_date = Date.from_gdate (date);
 		});
@@ -59,6 +59,16 @@ public class Gth.TimeSelector : Gtk.Box {
 
 	public TimeSelector (Mode _mode) {
 		Object (mode: _mode);
+	}
+
+	public void set_exif_time (string exif_time) {
+		var dtime = new Gth.DateTime ();
+		if (dtime.set_from_exif_date (exif_time)) {
+			set_time (dtime);
+		}
+		else {
+			set_time (null);
+		}
 	}
 
 	public void set_time (Gth.DateTime? datetime) {

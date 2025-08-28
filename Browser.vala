@@ -962,6 +962,29 @@ public class Gth.Browser : Gtk.Box {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-metadata", null);
+		action.activate.connect (() => {
+			var file_data = get_selected_file_data ();
+			if (file_data == null) {
+				window.show_message (_("No file selected"));
+				return;
+			}
+			var dialog = new EditMetadata ();
+			var local_job = window.new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
+			dialog.edit.begin (window, file_data, local_job, (_obj, res) => {
+				try {
+					dialog.edit.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {

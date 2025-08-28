@@ -36,13 +36,8 @@ public class Gth.DateTime {
 				time.hour, time.minute, time.second
 			);
 		}
-		else if (date_is_valid ()) {
-			return "%4u:%02u:%02u 00:00:00".printf (
-				date.year, date.month, date.day
-			);
-		}
 		else {
-			return "";
+			return date.to_exif_date ();
 		}
 	}
 
@@ -285,6 +280,26 @@ public struct Gth.Date {
 		}
 	}
 
+	public Date.from_exif_date (string? exif_date) {
+		var exif_datetime = DateTime.get_from_exif_date (exif_date);
+		if (exif_datetime != null) {
+			year = exif_datetime.date.year;
+			month = exif_datetime.date.month;
+			day = exif_datetime.date.day;
+		}
+		else {
+			year = INVALID_VALUE;
+			month = INVALID_VALUE;
+			day = INVALID_VALUE;
+		}
+	}
+
+	public Date.parse (string text) {
+		var gdate = new GLib.Date ();
+		gdate.set_parse (text);
+		this.from_gdate (gdate);
+	}
+
 	public bool is_valid () {
 		return (year >= 1)
 			&& (month >= 1)
@@ -322,6 +337,15 @@ public struct Gth.Date {
 		}
 		else {
 			return null;
+		}
+	}
+
+	public string to_exif_date () {
+		if (is_valid ()) {
+			return "%4u:%02u:%02u 00:00:00".printf (year, month, day);
+		}
+		else {
+			return "";
 		}
 	}
 
@@ -382,6 +406,39 @@ public struct Gth.Time {
 		usecond = _usecond;
 	}
 
+	public Time.from_gdatetime (GLib.DateTime datetime) {
+		this.from_hms ((uint8) datetime.get_hour (), (uint8) datetime.get_minute (), (uint8) datetime.get_second ());
+	}
+
+	public Time.parse (string text) {
+		hour = INVALID_HOUR;
+		var tokens = text.split (":");
+		if (tokens.length != 3) {
+			tokens = text.split (".");
+			if (tokens.length != 3) {
+				return;
+			}
+		}
+		int value;
+		if (int.try_parse (tokens[0], out value, null, 10)) {
+			if ((value >= 0) && (value <= MAX_HOUR)) {
+				hour = (uint8) value;
+				if (int.try_parse (tokens[1], out value, null, 10)) {
+					if ((value >= 0) && (value <= MAX_MINUTE)) {
+						minute = (uint8) value;
+						if (int.try_parse (tokens[2], out value, null, 10)) {
+							if ((value >= 0) && (value <= MAX_SECOND)) {
+								// Time is valid.
+								second = (uint8) value;
+								usecond = 0;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public bool is_valid () {
 		return (hour <= MAX_HOUR)
 			&& (minute <= MAX_MINUTE)
@@ -390,9 +447,29 @@ public struct Gth.Time {
 	}
 
 	public string to_string () {
-		if (!is_valid ())
+		if (!is_valid ()) {
 			return "00:00:00";
+		}
 		return "%02d:%02d:%02d".printf (hour, minute, second);
+	}
+
+	public string to_display_string () {
+		if (!is_valid ()) {
+			return "";
+		}
+		if (second == 0) {
+			return "%02d:%02d".printf (hour, minute);
+		}
+		return "%02d:%02d:%02d".printf (hour, minute, second);
+	}
+
+	public string to_exif_date () {
+		if (is_valid ()) {
+			return "%02u:%02u:%02u".printf (hour, minute, second);
+		}
+		else {
+			return "";
+		}
 	}
 
 	public int compare (Gth.Time other) {

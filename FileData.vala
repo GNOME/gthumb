@@ -145,7 +145,7 @@ public class Gth.FileData : Object {
 				var metadata = info.get_attribute_object (tag) as Gth.Metadata;
 				if (metadata == null)
 					continue;
-				if (dtime.set_from_exif_date (metadata.get_raw ()))
+				if (dtime.set_from_exif_date (metadata.raw))
 					break;
 			}
 		}

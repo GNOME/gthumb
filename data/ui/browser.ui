@@ -100,7 +100,7 @@
                     </child>
                     <child>
                       <object class="GtkMenuButton">
-                        <property name="icon-name">gth-clock-alt-symbolic</property>
+                        <property name="icon-name">gth-clock-symbolic</property>
                         <property name="tooltip-text" translatable="yes">History</property>
                         <property name="hexpand">true</property>
                         <style>
@@ -217,6 +217,13 @@
                         <property name="icon-name">gth-info-outline-symbolic</property>
                         <property name="action-name">win.browser-properties</property>
                         <property name="tooltip-text" translatable="true">Properties</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkToggleButton">
+                        <property name="icon-name">gth-note-symbolic</property>
+                        <property name="action-name">win.edit-metadata</property>
+                        <property name="tooltip-text" translatable="true">Edit Comment</property>
                       </object>
                     </child>
                     <child>
