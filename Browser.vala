@@ -270,13 +270,15 @@ public class Gth.Browser : Gtk.Box {
 	void update_location_commands () {
 		var is_catalog = false;
 		var is_search = false;
+		var uri = folder_tree.current_folder.file.get_uri ();
+		var source_type = app.get_source_type_for_uri (uri);
 		if (folder_tree.current_folder.file.has_uri_scheme ("catalog")) {
-			var uri = folder_tree.current_folder.file.get_uri ();
 			is_catalog = uri.has_suffix (".catalog");
 			is_search = uri.has_suffix (".search");
 		}
 		edit_catalog_button.visible = is_catalog || is_search;
 		update_search_button.visible = is_search;
+		update_folder_button.visible = (source_type == typeof (FileSourceVfs));
 	}
 
 	string list_attributes = null;
@@ -591,7 +593,8 @@ public class Gth.Browser : Gtk.Box {
 			});
 		}
 		else {
-			property_sidebar.current_file = null;
+			//property_sidebar.current_file = null;
+			property_sidebar.set_selection_info (total_files, total_size);
 		}
 	}
 
@@ -1488,6 +1491,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
 	[GtkChild] unowned Gtk.Button update_search_button;
+	[GtkChild] unowned Gtk.Button update_folder_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] public unowned Gth.FolderStatus folder_status;

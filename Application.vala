@@ -364,16 +364,18 @@ public class Gth.Application : Adw.Application {
 		return get_source_for_uri (file.get_uri ());
 	}
 
-	public FileSource get_source_for_uri (string uri) {
-		var source_type = typeof (FileSourceVfs);
+	public GLib.Type get_source_type_for_uri (string uri) {
 		for (var idx = file_sources.length - 1; idx >= 0; idx--) {
 			unowned var source = file_sources[idx];
 			if (source.supports_scheme (uri)) {
-				source_type = source.get_class ().get_type ();
-				break;
+				return source.get_class ().get_type ();
 			}
 		}
-		return Object.new (source_type) as FileSource;
+		return typeof (FileSourceVfs);
+	}
+
+	public FileSource get_source_for_uri (string uri) {
+		return Object.new (get_source_type_for_uri (uri)) as FileSource;
 	}
 
 	public void register_image_loader (string content_type, LoadFunc func) {

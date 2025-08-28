@@ -178,12 +178,15 @@
                         <property name="action-name">win.load-next</property>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child type="end">
-                  <object class="GtkBox">
-                    <property name="orientation">horizontal</property>
-                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">go-up-symbolic</property>
+                        <property name="action-name">win.load-parent</property>
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
                     <child>
                       <object class="GtkButton" id="update_search_button">
                         <property name="icon-name">gth-view-refresh-symbolic</property>
@@ -195,6 +198,23 @@
                         </style>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkButton" id="update_folder_button">
+                        <property name="icon-name">gth-view-refresh-symbolic</property>
+                        <property name="action-name">win.reload</property>
+                        <property name="tooltip-text" translatable="true">Reload</property>
+                        <property name="visible">false</property>
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkButton" id="edit_catalog_button">
                         <property name="icon-name">gth-document-properties-symbolic</property>
