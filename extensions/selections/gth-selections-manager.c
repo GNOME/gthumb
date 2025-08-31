@@ -213,6 +213,7 @@ gth_selections_manager_update_file_info (GFile     *file,
 		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE, TRUE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME, FALSE);
+	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, FALSE);
 	g_file_info_set_attribute_int32 (info, "gthumb::n-selection", n_selection);
 
 	/* icon */
