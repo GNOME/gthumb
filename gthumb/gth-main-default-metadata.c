@@ -46,8 +46,9 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "gth::file::is-modified", NULL, "file", 6, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "gth::file::full-name", N_("Location"), "file", 7, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "general::format", N_("Format"), "file", 10, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "general::dimensions", N_("Dimensions"), "file", 12, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::duration", N_("Duration"), "file", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::dimensions", N_("Dimensions"), "file", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::duration", N_("Duration"), "file", 12, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "Loaded::Image::ColorProfile", N_("Color Profile"), "file", 13, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "Embedded::Photo::Exposure", N_("Exposure Settings"), "general", 10, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST  },
 	{ "Embedded::Photo::Aperture", N_("Aperture"), "general", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
@@ -57,7 +58,6 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "Embedded::Photo::FocalLength", N_("Focal Length"), "general", 16, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 	{ "Embedded::Photo::Flash", N_("Flash"), "general", 17, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 	{ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
-	{ "Loaded::Image::ColorProfile", N_("Color Profile"), "general", 19, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "general::datetime", N_("General Date & Time"), "general", 20, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::title", N_("Title"), "general", 21, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
