@@ -106,6 +106,7 @@ gboolean              gth_image_get_is_animation            (GthImage           
 void		      gth_image_set_icc_profile		    (GthImage           *image,
 							     GthICCProfile	*profile);
 GthICCProfile *	      gth_image_get_icc_profile		    (GthImage           *image);
+const char *          gth_image_get_original_profile_name   (GthImage           *image);
 gboolean	      gth_image_apply_icc_profile           (GthImage           *image,
 							     GthICCProfile      *out_profile,
 							     GCancellable       *cancellable);

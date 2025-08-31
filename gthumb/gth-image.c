@@ -45,6 +45,7 @@ struct _GthImagePrivate {
 		GdkPixbufAnimation *pixbuf_animation;
 	} data;
 	GthICCProfile *icc_profile;
+	char *profile_name;
 };
 
 
@@ -93,8 +94,10 @@ gth_image_finalize (GObject *object)
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_IMAGE (object));
 
-	_gth_image_free_data (GTH_IMAGE (object));
-	_gth_image_free_icc_profile (GTH_IMAGE (object));
+	GthImage *image = GTH_IMAGE (object);
+	_gth_image_free_data (image);
+	_gth_image_free_icc_profile (image);
+	g_free (image->priv->profile_name);
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_image_parent_class)->finalize (object);
@@ -138,6 +141,7 @@ gth_image_init (GthImage *self)
 	self->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	self->priv->data.surface = NULL;
 	self->priv->icc_profile = NULL;
+	self->priv->profile_name = NULL;
 }
 
 
@@ -448,6 +452,10 @@ gth_image_set_icc_profile (GthImage   *image,
 {
 	g_return_if_fail (image != NULL);
 
+	if ((image->priv->icc_profile == NULL) && (profile != NULL)) {
+		g_free (image->priv->profile_name);
+		image->priv->profile_name = g_strdup (gth_icc_profile_get_description (profile));
+	}
 	_g_object_ref (profile);
 	_gth_image_free_icc_profile (image);
 	image->priv->icc_profile = profile;
@@ -459,6 +467,14 @@ gth_image_get_icc_profile (GthImage *image)
 {
 	g_return_val_if_fail (image != NULL, NULL);
 	return image->priv->icc_profile;
+}
+
+
+const char *
+gth_image_get_original_profile_name (GthImage *image)
+{
+	g_return_val_if_fail (image != NULL, NULL);
+	return image->priv->profile_name;
 }
 
 
