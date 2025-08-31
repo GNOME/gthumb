@@ -44,7 +44,7 @@ struct _GthImagePrivate {
 		GdkPixbuf          *pixbuf;
 		GdkPixbufAnimation *pixbuf_animation;
 	} data;
-	GthICCProfile *icc_data;
+	GthICCProfile *icc_profile;
 };
 
 
@@ -82,8 +82,8 @@ _gth_image_free_data (GthImage *self)
 static void
 _gth_image_free_icc_profile (GthImage *self)
 {
-	_g_object_unref (self->priv->icc_data);
-	self->priv->icc_data = NULL;
+	_g_object_unref (self->priv->icc_profile);
+	self->priv->icc_profile = NULL;
 }
 
 
@@ -137,7 +137,7 @@ gth_image_init (GthImage *self)
 	self->priv = gth_image_get_instance_private (self);
 	self->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	self->priv->data.surface = NULL;
-	self->priv->icc_data = NULL;
+	self->priv->icc_profile = NULL;
 }
 
 
@@ -450,7 +450,7 @@ gth_image_set_icc_profile (GthImage   *image,
 
 	_g_object_ref (profile);
 	_gth_image_free_icc_profile (image);
-	image->priv->icc_data = profile;
+	image->priv->icc_profile = profile;
 }
 
 
@@ -458,70 +458,89 @@ GthICCProfile *
 gth_image_get_icc_profile (GthImage *image)
 {
 	g_return_val_if_fail (image != NULL, NULL);
-	return image->priv->icc_data;
+	return image->priv->icc_profile;
 }
 
 
 /* -- gth_image_apply_icc_profile -- */
 
 
-void
+static gboolean
+gth_image_apply_tranform (GthImage *image,
+			  GthICCTransform *transform,
+			  GCancellable  *cancellable)
+{
+	cairo_surface_t *surface = gth_image_get_cairo_surface (image);
+	if (surface == NULL) {
+		return FALSE;
+	}
+
+	gboolean applied = TRUE;
+	cmsHTRANSFORM hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
+	unsigned char *surface_row = _cairo_image_surface_flush_and_get_data (surface);
+	int width = cairo_image_surface_get_width (surface);
+	int height = cairo_image_surface_get_height (surface);
+	int row_stride = cairo_image_surface_get_stride (surface);
+
+	for (int row = 0; row < height; row++) {
+		if (g_cancellable_is_cancelled (cancellable)) {
+			applied = FALSE;
+			break;
+		}
+		cmsDoTransform (hTransform, surface_row, surface_row, width);
+		surface_row += row_stride;
+	}
+	cairo_surface_mark_dirty (surface);
+	gth_image_set_cairo_surface (image, surface);
+	cairo_surface_destroy (surface);
+
+	return applied;
+}
+
+
+gboolean
 gth_image_apply_icc_profile (GthImage      *image,
 			     GthICCProfile *out_profile,
 			     GCancellable  *cancellable)
 {
+	gboolean applied = FALSE;
+
 #if HAVE_LCMS2
 
-	cairo_surface_t *surface;
-	GthICCTransform *transform;
+	g_return_val_if_fail (image != NULL, FALSE);
 
-	g_return_if_fail (image != NULL);
-
-	if (out_profile == NULL)
-		return;
-
-	if (image->priv->icc_data == NULL)
-		return;
-
-	if (image->priv->format != GTH_IMAGE_FORMAT_CAIRO_SURFACE)
-		return;
-
-	surface = gth_image_get_cairo_surface (image);
-	if (surface == NULL)
-		return;
-
-	transform = gth_color_manager_get_transform (gth_main_get_default_color_manager (),
-			      	      	      	     image->priv->icc_data,
-						     out_profile);
-
-	if (transform != NULL) {
-		cmsHTRANSFORM    hTransform;
-		unsigned char   *surface_row;
-		int              width;
-		int              height;
-		int              row_stride;
-		int              row;
-
-		hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
-		surface_row = _cairo_image_surface_flush_and_get_data (surface);
-		width = cairo_image_surface_get_width (surface);
-		height = cairo_image_surface_get_height (surface);
-		row_stride = cairo_image_surface_get_stride (surface);
-
-		for (row = 0; row < height; row++) {
-			if (g_cancellable_is_cancelled (cancellable))
-				break;
-			cmsDoTransform (hTransform, surface_row, surface_row, width);
-			surface_row += row_stride;
-		}
-		cairo_surface_mark_dirty (surface);
-		gth_image_set_cairo_surface (image, surface);
+	if (out_profile == NULL) {
+		return FALSE;
 	}
 
-	_g_object_unref (transform);
-	cairo_surface_destroy (surface);
+	if (image->priv->icc_profile == NULL) {
+		return FALSE;
+	}
+
+	if (gth_icc_profile_equal (image->priv->icc_profile, out_profile)) {
+		return FALSE;
+	}
+
+	if (image->priv->format != GTH_IMAGE_FORMAT_CAIRO_SURFACE) {
+		return FALSE;
+	}
+
+	GthICCTransform *transform = gth_color_manager_get_transform (
+		gth_main_get_default_color_manager (),
+		image->priv->icc_profile,
+		out_profile);
+
+	if (transform != NULL) {
+		applied = gth_image_apply_tranform (image, transform, cancellable);
+		if (applied) {
+			gth_image_set_icc_profile (image, out_profile);
+		}
+		_g_object_unref (transform);
+	}
 
 #endif
+
+	return applied;
 }
 
 

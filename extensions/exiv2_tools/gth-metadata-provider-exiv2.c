@@ -80,7 +80,7 @@ gth_metadata_provider_exiv2_can_write (GthMetadataProvider  *self,
 				       const char           *mime_type,
 				       char                **attribute_v)
 {
-	if (! exiv2_supports_writes (mime_type))
+	if (! exiv2_can_write (mime_type))
 		return FALSE;
 
 	return _g_file_attributes_matches_any_v ("Exif::*,"
@@ -112,7 +112,7 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *base,
 	/* This function is executed in a secondary thread, so calling
 	 * slow sync functions is not a problem. */
 
-	char *buffer;
+	guint8 *buffer;
 	gsize size;
 	if (! _g_file_load_in_buffer (file_data->file, (void **) &buffer, &size, cancellable, NULL)) {
 		return;
@@ -163,7 +163,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 	    && ! g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES))
 		return;
 
-	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))
+	if (! exiv2_can_write (gth_file_data_get_mime_type (file_data)))
 		return;
 
 	if (! _g_file_load_in_buffer (file_data->file, &buffer, &size, cancellable, &error))

@@ -1995,6 +1995,16 @@ _g_mime_type_get_generic_type (const char *mime_type)
 }
 
 
+gboolean
+exiv2_can_write (const char *mime_type)
+{
+	return (g_content_type_equals (mime_type, "image/jpeg")
+		|| g_content_type_equals (mime_type, "image/tiff")
+		|| g_content_type_equals (mime_type, "image/png")
+		|| g_content_type_equals (mime_type, "image/webp"));
+}
+
+
 char *
 _g_settings_get_uri (GSettings  *settings,
 		     const char *key)

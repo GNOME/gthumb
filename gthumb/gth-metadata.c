@@ -222,6 +222,18 @@ gth_metadata_new_for_string_list (GthStringList *list)
 }
 
 
+GthMetadata *
+gth_metadata_new_sRGBColorSpace ()
+{
+	return g_object_new (GTH_TYPE_METADATA,
+		"id", "Exif::Photo::ColorSpace",
+		"raw", "1",
+		"formatted", "sRGB",
+		"value-type", "Short",
+		NULL);
+}
+
+
 GthMetadataType
 gth_metadata_get_data_type (GthMetadata *metadata)
 {

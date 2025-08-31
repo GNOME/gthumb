@@ -81,6 +81,7 @@ struct _GthMetadataClass {
 GType             gth_metadata_get_type             (void);
 GthMetadata *     gth_metadata_new                  (void);
 GthMetadata *     gth_metadata_new_for_string_list  (GthStringList   *list);
+GthMetadata *     gth_metadata_new_sRGBColorSpace  ();
 GthMetadataType   gth_metadata_get_data_type        (GthMetadata     *metadata);
 const char *      gth_metadata_get_id               (GthMetadata     *metadata);
 const char *      gth_metadata_get_raw              (GthMetadata     *metadata);

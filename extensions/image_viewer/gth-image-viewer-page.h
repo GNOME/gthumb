@@ -72,7 +72,7 @@ void               gth_image_viewer_page_get_original		(GthImageViewerPage	 *sel
 								 gpointer		  user_data);
 gboolean           gth_image_viewer_page_get_original_finish	(GthImageViewerPage	 *self,
 								 GAsyncResult		 *result,
-								 cairo_surface_t	**image,
+								 GthImage		**image,
 								 GError			**error);
 GthTask *	   gth_original_image_task_new			(GthImageViewerPage	 *self);
 cairo_surface_t *  gth_original_image_task_get_image		(GthTask		 *task);

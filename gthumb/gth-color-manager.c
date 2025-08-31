@@ -476,10 +476,10 @@ static char *
 create_transform_id_for_cache (GthICCProfile *from_profile,
 			       GthICCProfile *to_profile)
 {
-	const char *from_id = gth_icc_profile_get_id (from_profile);
-	const char *to_id = gth_icc_profile_get_id (to_profile);
+	const char *from_id = (from_profile != NULL) ? gth_icc_profile_get_id (from_profile) : NULL;
+	const char *to_id = (to_profile != NULL) ? gth_icc_profile_get_id (to_profile) : NULL;
 
-	/*g_print (" -> gth_color_manager_get_transform: %s -> %s\n", from_id, to_id);*/
+	//g_print (" -> gth_color_manager_get_transform: %s -> %s\n", from_id, to_id);
 
 	if (gth_icc_profile_id_is_unknown (from_id) || gth_icc_profile_id_is_unknown (to_id))
 		return NULL;
@@ -519,13 +519,15 @@ gth_color_manager_get_transform (GthColorManager *self,
 			}
 		}
 
-		if (transform_data != NULL)
+		if (transform_data != NULL) {
 			transform = g_object_ref (transform_data->transform);
+		}
 
 		g_free (transform_id);
 	}
-	else
+	else {
 		transform = gth_icc_transform_new_from_profiles (in_profile, out_profile);
+	}
 
 	return transform;
 

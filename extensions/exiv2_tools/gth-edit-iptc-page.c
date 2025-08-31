@@ -77,7 +77,7 @@ gth_edit_iptc_page_real_set_file_list (GthEditCommentPage *base,
 	self->priv->supported = TRUE;
 	for (scan = file_data_list; self->priv->supported && scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-		self->priv->supported = exiv2_supports_writes (gth_file_data_get_mime_type (file_data));
+		self->priv->supported = exiv2_can_write (gth_file_data_get_mime_type (file_data));
 	}
 
 	if (! self->priv->supported) {

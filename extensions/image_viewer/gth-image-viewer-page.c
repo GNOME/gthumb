@@ -2577,7 +2577,7 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 gboolean
 gth_image_viewer_page_get_original_finish (GthImageViewerPage	 *self,
 					   GAsyncResult		 *result,
-					   cairo_surface_t	**image_p,
+					   GthImage		**image_p,
 					   GError		**error)
 {
 	GthImage *image;
@@ -2589,7 +2589,7 @@ gth_image_viewer_page_get_original_finish (GthImageViewerPage	 *self,
 		return FALSE;
 
 	if (image_p != NULL)
-		*image_p = gth_image_get_cairo_surface (image);
+		*image_p = g_object_ref (image);
 
 	g_object_unref (image);
 
@@ -2629,7 +2629,7 @@ get_original_image_ready_cb (GObject		*source_object,
 			    gpointer		 user_data)
 {
 	GthOriginalImageTask *self = user_data;
-	cairo_surface_t      *image = NULL;
+	GthImage             *image = NULL;
 	GError               *error = NULL;
 
 	if (gth_image_viewer_page_get_original_finish (self->viewer_page,
@@ -2637,11 +2637,11 @@ get_original_image_ready_cb (GObject		*source_object,
 						       &image,
 						       &error))
 	{
-		gth_image_task_set_destination_surface (GTH_IMAGE_TASK (self), image);
+		gth_image_task_set_destination (GTH_IMAGE_TASK (self), image);
 	}
 	gth_task_completed (GTH_TASK (self), error);
 
-	cairo_surface_destroy (image);
+	_g_object_unref (image);
 	_g_error_free (error);
 }
 

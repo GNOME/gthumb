@@ -46,7 +46,6 @@ gboolean   exiv2_read_sidecar               (GFile             *file,
 					     GFileInfo         *info,
 					     gboolean           update_general_attributes);
 void       exiv2_update_general_attributes  (GFileInfo         *info);
-gboolean   exiv2_supports_writes            (const char        *mime_type);
 gboolean   exiv2_write_metadata_to_buffer   (void              **buffer,
 					     gsize              *buffer_size,
 					     GFileInfo          *info,

@@ -167,7 +167,7 @@ gth_image_saver_save_image (GthImageSaver  *self,
 
 
 static GthImageSaveData *
-_gth_image_save_to_buffer_common (GthImage      *image,
+_gth_image_save_to_buffer_common (GthImage      *original_image,
 				  const char    *mime_type,
 				  GthFileData   *file_data,
 				  GCancellable  *cancellable,
@@ -186,6 +186,38 @@ _gth_image_save_to_buffer_common (GthImage      *image,
 		return NULL;
 	}
 
+	GthImage *image = gth_image_copy (original_image);
+	GthICCProfile *profile = gth_image_get_icc_profile (image);
+	if (profile != NULL) {
+		// Transform to sRGB
+		GthICCProfile *icc_profile = gth_icc_profile_new_srgb ();
+		gth_image_apply_icc_profile (image, icc_profile, cancellable);
+		g_object_unref (icc_profile);
+
+		g_file_info_set_attribute_boolean (file_data->info, "gth::file::image-changed", TRUE);
+
+		if (exiv2_can_write (mime_type) && (file_data != NULL)) {
+			// Overwrite Exif.Photo.ColorSpace
+			GthMetadata *srgb_colorspace = gth_metadata_new_sRGBColorSpace ();
+			g_file_info_set_attribute_object (file_data->info, "Exif::Photo::ColorSpace", G_OBJECT (srgb_colorspace));
+			g_object_unref (srgb_colorspace);
+		}
+	}
+	else {
+		if (exiv2_can_write (mime_type) && (file_data != NULL)) {
+			// Remove the Exif.Photo.ColorSpace tag
+			g_file_info_remove_attribute (file_data->info, "Exif::Photo::ColorSpace");
+
+			// TODO: allow the user to choose what to do.
+			// Assign the sRGB colorspace
+			/*GthMetadata *srgb_colorspace = gth_metadata_new_sRGBColorSpace ();
+			g_file_info_set_attribute_object (file_data->info, "Exif::Photo::ColorSpace", G_OBJECT (srgb_colorspace));
+			g_object_unref (srgb_colorspace);*/
+
+			g_file_info_set_attribute_boolean (file_data->info, "gth::file::image-changed", TRUE);
+		}
+	}
+
 	if (gth_image_saver_save_image (saver,
 					image,
 					&buffer,
@@ -196,7 +228,7 @@ _gth_image_save_to_buffer_common (GthImage      *image,
 	{
 		save_data = g_new0 (GthImageSaveData, 1);
 		save_data->file_data = _g_object_ref (file_data);
-		save_data->image = gth_image_copy (image);
+		save_data->image = g_object_ref (image);
 		save_data->mime_type = mime_type;
 		save_data->buffer = buffer;
 		save_data->buffer_size = buffer_size;
@@ -217,6 +249,7 @@ _gth_image_save_to_buffer_common (GthImage      *image,
 			_g_error_free (error);
 	}
 
+	g_object_unref (image);
 	g_object_unref (saver);
 
 	return save_data;

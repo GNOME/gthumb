@@ -205,6 +205,7 @@ gth_icc_profile_new_srgb (void)
 #endif
 }
 
+
 GthICCProfile *
 gth_icc_profile_new_adobergb (void)
 {
@@ -336,8 +337,7 @@ gth_icc_profile_id_is_unknown (const char *id)
 GthCMSProfile
 gth_icc_profile_get_profile (GthICCProfile *self)
 {
-	g_return_val_if_fail (self != NULL, NULL);
-	return self->priv->cms_profile;
+	return (self != NULL) ? self->priv->cms_profile : NULL;
 }
 
 
@@ -345,12 +345,18 @@ gboolean
 gth_icc_profile_equal (GthICCProfile *a,
 		       GthICCProfile *b)
 {
-	g_return_val_if_fail ((a == NULL) || (b == NULL), FALSE);
-
-	if (gth_icc_profile_id_is_unknown (a->priv->id) || gth_icc_profile_id_is_unknown (b->priv->id))
+	if ((a == NULL) || (b == NULL)) {
+		return a == b;
+	}
+	if (a == b) {
+		return TRUE;
+	}
+	else if (gth_icc_profile_id_is_unknown (a->priv->id) || gth_icc_profile_id_is_unknown (b->priv->id)) {
 		return FALSE;
-	else
+	}
+	else {
 		return g_strcmp0 (a->priv->id, b->priv->id) == 0;
+	}
 }
 
 
@@ -422,14 +428,16 @@ gth_icc_transform_new_from_profiles (GthICCProfile *from_profile,
 	GthICCTransform *transform = NULL;
 	GthCMSTransform  cms_transform;
 
-	cms_transform = (GthCMSTransform) cmsCreateTransform ((cmsHPROFILE) gth_icc_profile_get_profile (from_profile),
-							      _LCMS2_CAIRO_FORMAT,
-							      (cmsHPROFILE) gth_icc_profile_get_profile (to_profile),
-							      _LCMS2_CAIRO_FORMAT,
-							      INTENT_PERCEPTUAL,
-							      0);
-	if (cms_transform != NULL)
+	cms_transform = (GthCMSTransform) cmsCreateTransform (
+		(cmsHPROFILE) gth_icc_profile_get_profile (from_profile),
+		_LCMS2_CAIRO_FORMAT,
+		(cmsHPROFILE) gth_icc_profile_get_profile (to_profile),
+		_LCMS2_CAIRO_FORMAT,
+		INTENT_PERCEPTUAL,
+		0);
+	if (cms_transform != NULL) {
 		transform = gth_icc_transform_new (cms_transform);
+	}
 
 	return transform;
 #else

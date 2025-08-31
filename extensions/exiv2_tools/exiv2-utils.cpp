@@ -895,7 +895,8 @@ exiv2_read_metadata_from_buffer (void       *buffer,
 				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
 			return FALSE;
 		}
-
+		// Set the log level to only show errors (and suppress warnings, informational and debug messages)
+		Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error);
 #if EXIV2_TEST_VERSION(0,28,0)
 		exiv2_read_metadata (std::move(image), info, update_general_attributes);
 #else
@@ -1188,7 +1189,6 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	mandatory_int (ed, "Exif.Image.YResolution", 72);
 	mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
 	mandatory_int (ed, "Exif.Image.YCbCrPositioning", 1);
-	mandatory_int (ed, "Exif.Photo.ColorSpace", 1);
 	mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
 	mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
 	mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
@@ -1252,8 +1252,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			ed["Exif.Thumbnail.ResolutionUnit"] =  2;
 			g_free (buffer);
 		}
-		else
+		else {
 			thumb.erase();
+		}
 
 		g_object_unref (thumbnail_data);
 		cairo_surface_destroy (thumbnail);
@@ -1410,17 +1411,6 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	io.open();
 
 	return io.read(io.size());
-}
-
-
-extern "C"
-gboolean
-exiv2_supports_writes (const char *mime_type)
-{
-	return (g_content_type_equals (mime_type, "image/jpeg")
-		|| g_content_type_equals (mime_type, "image/tiff")
-		|| g_content_type_equals (mime_type, "image/png")
-		|| g_content_type_equals (mime_type, "image/webp"));
 }
 
 
