@@ -327,7 +327,7 @@ _gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
 
 	GthICCProfile *default_profile = self->priv->apply_icc_profile ? gth_icc_profile_new_srgb () : NULL;
 	gth_image_preloader_set_out_profile (self->priv->preloader, default_profile);
-	g_object_unref (default_profile);
+	_g_object_unref (default_profile);
 
 	_gth_image_viewer_page_load_with_preloader_step2 (self, file_data, requested_size, cancellable, callback, user_data);
 }
