@@ -88,7 +88,10 @@ const char *            gth_icc_profile_get_description	(GthICCProfile	 *icc_pro
 gboolean                gth_icc_profile_id_is_unknown   (const char      *id);
 GthCMSProfile		gth_icc_profile_get_profile	(GthICCProfile	 *icc_profile);
 gboolean		gth_icc_profile_equal		(GthICCProfile	 *a,
-		    	    	    	    	 	 GthICCProfile	 *b);
+							 GthICCProfile	 *b);
+gboolean		gth_icc_profile_get_data	(GthICCProfile	 *icc_profile,
+							 void		**data,
+							 size_t		 *size);
 
 GType			gth_icc_transform_get_type	(void);
 GthICCTransform * 	gth_icc_transform_new		(GthCMSTransform  transform);

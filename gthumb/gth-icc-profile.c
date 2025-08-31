@@ -360,6 +360,42 @@ gth_icc_profile_equal (GthICCProfile *a,
 }
 
 
+gboolean
+gth_icc_profile_get_data (GthICCProfile  *icc_profile,
+			  void		**data,
+			  size_t	 *size)
+{
+	g_return_val_if_fail (data != NULL, FALSE);
+
+#if HAVE_LCMS2
+
+	if (icc_profile->priv->cms_profile != NULL) {
+		cmsHPROFILE profile = (cmsHPROFILE) icc_profile->priv->cms_profile;
+		cmsUInt32Number bytes_needed;
+		if (cmsSaveProfileToMem (profile, NULL, &bytes_needed)) {
+			*data = g_malloc (bytes_needed);
+			if (cmsSaveProfileToMem (profile, *data, &bytes_needed)) {
+				if (size != NULL) {
+					*size = bytes_needed;
+				}
+				return TRUE;
+			}
+			else {
+				g_free (*data);
+			}
+		}
+	}
+
+#endif
+
+	*data = NULL;
+	if (size != NULL) {
+		*size = 0;
+	}
+	return FALSE;
+}
+
+
 /* -- GthICCTransform -- */
 
 

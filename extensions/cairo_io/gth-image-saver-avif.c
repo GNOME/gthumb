@@ -117,23 +117,26 @@ write_fn (struct heif_context *ctx,
 
 
 static gboolean
-_cairo_surface_write_as_avif (cairo_surface_t  *surface,
-			      char            **buffer,
-			      gsize            *buffer_size,
-			      char            **keys,
-			      char            **values,
-			      GError          **error)
+_cairo_surface_write_as_avif (GthImage  *image,
+			      char     **buffer,
+			      gsize     *buffer_size,
+			      char     **keys,
+			      char     **values,
+			      GError   **error)
 {
 	gboolean                  success;
 	gboolean                  lossless;
 	int                       quality;
+	cairo_surface_t          *surface = NULL;
 	int                       rows, columns;
 	int                       in_stride;
 	gboolean                  has_alpha;
 	guchar                   *pixels;
+	void                     *profile_data = NULL;
+	size_t                    profile_size;
 	struct heif_context      *ctx = NULL;
 	struct heif_encoder      *encoder = NULL;
-	struct heif_image        *image = NULL;
+	struct heif_image        *heif_image = NULL;
 	struct heif_error         err;
 	uint8_t                  *plane = NULL;
 	int                       out_stride;
@@ -198,6 +201,7 @@ _cairo_surface_write_as_avif (cairo_surface_t  *surface,
 		}
 	}
 
+	surface = gth_image_get_cairo_surface (image);
 	columns = cairo_image_surface_get_width (surface);
 	rows = cairo_image_surface_get_height (surface);
 	in_stride = cairo_image_surface_get_stride (surface);
@@ -214,7 +218,7 @@ _cairo_surface_write_as_avif (cairo_surface_t  *surface,
 				 rows,
 				 heif_colorspace_RGB,
 				 has_alpha ? heif_chroma_interleaved_RGBA : heif_chroma_interleaved_RGB,
-				 &image);
+				 &heif_image);
 	if (err.code != heif_error_Ok) {
 		g_set_error (error,
 			     G_IO_ERROR,
@@ -224,7 +228,7 @@ _cairo_surface_write_as_avif (cairo_surface_t  *surface,
 		goto cleanup;
 	}
 
-	err = heif_image_add_plane (image, heif_channel_interleaved, columns, rows, 8);
+	err = heif_image_add_plane (heif_image, heif_channel_interleaved, columns, rows, 8);
 	if (err.code != heif_error_Ok) {
 		g_set_error (error,
 			     G_IO_ERROR,
@@ -234,7 +238,14 @@ _cairo_surface_write_as_avif (cairo_surface_t  *surface,
 		goto cleanup;
 	}
 
-	plane = heif_image_get_plane (image, heif_channel_interleaved, &out_stride);
+	GthICCProfile *icc_profile = gth_image_get_icc_profile (image);
+	if (icc_profile != NULL) {
+		if (gth_icc_profile_get_data (icc_profile, &profile_data, &profile_size)) {
+			heif_image_set_raw_color_profile (heif_image, "rICC", profile_data, profile_size);
+		}
+	}
+
+	plane = heif_image_get_plane (heif_image, heif_channel_interleaved, &out_stride);
 	while (rows > 0) {
 		_cairo_copy_line_as_rgba_big_endian (plane, pixels, columns, has_alpha);
 		plane += out_stride;
@@ -242,7 +253,7 @@ _cairo_surface_write_as_avif (cairo_surface_t  *surface,
 		rows -= 1;
 	}
 
-	err = heif_context_encode_image (ctx, image, encoder, NULL, &handle);
+	err = heif_context_encode_image (ctx, heif_image, encoder, NULL, &handle);
 	if (err.code != heif_error_Ok) {
 		g_set_error (error,
 			     G_IO_ERROR,
@@ -255,7 +266,7 @@ _cairo_surface_write_as_avif (cairo_surface_t  *surface,
 #if GENERATE_THUMBNAIL
 	struct heif_image_handle *thumbnail_handle = NULL;
 
-	err = heif_context_encode_thumbnail (ctx, image, handle, encoder, NULL, THUMBNAIL_SIZE, &thumbnail_handle);
+	err = heif_context_encode_thumbnail (ctx, heif_image, handle, encoder, NULL, THUMBNAIL_SIZE, &thumbnail_handle);
 	if (thumbnail_handle != NULL)
 		heif_image_handle_release (thumbnail_handle);
 
@@ -290,12 +301,16 @@ cleanup:
 
 	if (handle != NULL)
 		heif_image_handle_release (handle);
-	if (image != NULL)
-		heif_image_release (image);
+	if (heif_image != NULL)
+		heif_image_release (heif_image);
 	if (encoder != NULL)
 		heif_encoder_release (encoder);
 	if (ctx != NULL)
 		heif_context_free (ctx);
+	if (profile_data != NULL)
+		g_free (profile_data);
+	if (surface != NULL)
+		cairo_surface_destroy (surface);
 
 	return success;
 }
@@ -315,7 +330,6 @@ gth_image_saver_avif_save_image (GthImageSaver  *base,
 	char              **option_values;
 	int                 i = -1;
 	int                 i_value;
-	cairo_surface_t    *surface;
 	gboolean            result;
 
 	option_keys = g_malloc (sizeof (char *) * 5);
@@ -335,15 +349,13 @@ gth_image_saver_avif_save_image (GthImageSaver  *base,
 	option_keys[i] = NULL;
 	option_values[i] = NULL;
 
-	surface = gth_image_get_cairo_surface (image);
-	result = _cairo_surface_write_as_avif (surface,
+	result = _cairo_surface_write_as_avif (image,
 					       buffer,
 					       buffer_size,
 					       option_keys,
 					       option_values,
 					       error);
 
-	cairo_surface_destroy (surface);
 	g_strfreev (option_keys);
 	g_strfreev (option_values);
 
