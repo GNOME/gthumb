@@ -142,30 +142,33 @@ _apply_transformation_async_thread (GTask        *task,
 	}
 
 	// Change orientation
+	GthMetadata *orientation_tag = NULL;
+	if (g_file_info_has_attribute (tdata->file_data->info, "Exif::Image::Orientation")) {
+		orientation_tag = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Exif::Image::Orientation");
+	}
 	GthTransform orientation = GTH_TRANSFORM_NONE;
-	GthMetadata *metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Exif::Image::Orientation");
 	if (tdata->flags & GTH_TRANSFORM_FLAG_RESET) {
 		orientation = tdata->transform;
 	}
 	else {
-		if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL)) {
-			orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+		if ((orientation_tag != NULL) && (gth_metadata_get_raw (orientation_tag) != NULL)) {
+			orientation = strtol (gth_metadata_get_raw (orientation_tag), (char **) NULL, 10);
 		}
 		orientation = get_next_transformation (orientation, tdata->transform);
 	}
 	char *raw_orientation = g_strdup_printf ("%d", orientation);
-	if (metadata == NULL) {
-		metadata = g_object_new (GTH_TYPE_METADATA,
+	if (orientation_tag == NULL) {
+		orientation_tag = g_object_new (GTH_TYPE_METADATA,
 			"id", "Exif::Image::Orientation",
 			"value-type", "Short",
 			"raw", raw_orientation,
 			NULL);
 		g_file_info_set_attribute_object (tdata->file_data->info,
 			"Exif::Image::Orientation",
-			G_OBJECT (metadata));
+			G_OBJECT (orientation_tag));
 	}
 	else {
-		g_object_set (metadata, "raw", raw_orientation, NULL);
+		g_object_set (orientation_tag, "raw", raw_orientation, NULL);
 	}
 	g_free (raw_orientation);
 
@@ -186,11 +189,8 @@ _apply_transformation_async_thread (GTask        *task,
 	}
 	else if ((tdata->transform != GTH_TRANSFORM_NONE) || (tdata->flags & GTH_TRANSFORM_FLAG_ALWAYS_SAVE)) {
 		// Rotate the image
-		GInputStream    *istream;
-		GthImage        *image;
-
-		istream = g_memory_input_stream_new_from_data (buffer, size, NULL);
-		image = gth_image_new_from_stream (istream, -1, NULL, NULL, cancellable, &error);
+		GInputStream *istream = g_memory_input_stream_new_from_data (buffer, size, NULL);
+		GthImage *image = gth_image_new_from_stream (istream, -1, NULL, NULL, cancellable, &error);
 		g_object_unref (istream);
 		g_free (buffer);
 		if (image == NULL) {
