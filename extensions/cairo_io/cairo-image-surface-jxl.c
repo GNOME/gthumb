@@ -49,11 +49,11 @@ convert_pixels (int     width,
 			g = p[1];
 			b = p[2];
 			if (a < 0xff) {
-				r = _cairo_multiply_alpha(r, a);
-				g = _cairo_multiply_alpha(g, a);
-				b = _cairo_multiply_alpha(b, a);
+				r = _cairo_multiply_alpha (r, a);
+				g = _cairo_multiply_alpha (g, a);
+				b = _cairo_multiply_alpha (b, a);
 			}
-			*(guint32*)p = CAIRO_RGBA_TO_UINT32(r, g, b, a);
+			*(guint32*)p = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
 		}
 }
 
@@ -83,132 +83,132 @@ _cairo_image_surface_create_from_jxl(GInputStream  *istream,
 	JxlPixelFormat             pixel_format;
 	guchar                    *surface_data = NULL;
 
-	image = gth_image_new();
-
-	dec = JxlDecoderCreate(NULL);
+	image = gth_image_new ();
+	dec = JxlDecoderCreate (NULL);
 	if (dec == NULL) {
-		g_error("Could not create JXL decoder.\n");
+		g_error ("Could not create JXL decoder.");
 		return image;
 	}
 
-	filebuffer_size = read_size = JxlDecoderSizeHintBasicInfo(dec);
-	filebuffer = g_new(guchar, filebuffer_size);
-	if (! g_input_stream_read_all(istream,
-				      filebuffer,
-				      filebuffer_size,
-				      &buffer_read,
-				      cancellable,
-				      error))
+	filebuffer_size = read_size = JxlDecoderSizeHintBasicInfo (dec);
+	filebuffer = g_new (guchar, filebuffer_size);
+	if (! g_input_stream_read_all (istream,
+		filebuffer,
+		filebuffer_size,
+		&buffer_read,
+		cancellable,
+		error))
 	{
-		g_error("Could not read start of JXL file.\n");
-		JxlDecoderDestroy(dec);
-		g_free(filebuffer);
+		g_error ("Could not read start of JXL file.");
+		JxlDecoderDestroy (dec);
+		g_free (filebuffer);
 		return image;
 	}
 
-	if (JxlSignatureCheck(filebuffer, buffer_read) < JXL_SIG_CODESTREAM) {
-		g_error("Signature does not match for JPEG XL codestream or container.\n");
-		JxlDecoderDestroy(dec);
-		g_free(filebuffer);
+	if (JxlSignatureCheck (filebuffer, buffer_read) < JXL_SIG_CODESTREAM) {
+		g_error ("Signature does not match for JPEG XL codestream or container.");
+		JxlDecoderDestroy (dec);
+		g_free (filebuffer);
 		return image;
 	}
 
 	read_size = 1048576;
 
-	runner = JxlThreadParallelRunnerCreate(NULL, JxlThreadParallelRunnerDefaultNumWorkerThreads());
+	runner = JxlThreadParallelRunnerCreate (NULL, JxlThreadParallelRunnerDefaultNumWorkerThreads ());
 	if (runner == NULL) {
-		g_error("Could not create threaded parallel runner.\n");
-		JxlDecoderDestroy(dec);
-		g_free(filebuffer);
+		g_error ("Could not create threaded parallel runner.");
+		JxlDecoderDestroy (dec);
+		g_free (filebuffer);
 		return image;
 	}
 
-	if (JxlDecoderSetParallelRunner(dec,
-					JxlThreadParallelRunner,
-					runner) > 0) {
-		g_error("Could not set parallel runner.\n");
-		JxlThreadParallelRunnerDestroy(runner);
-		JxlDecoderDestroy(dec);
-		g_free(filebuffer);
+	if (JxlDecoderSetParallelRunner (dec,
+		JxlThreadParallelRunner,
+		runner) > 0)
+	{
+		g_error ("Could not set parallel runner.");
+		JxlThreadParallelRunnerDestroy (runner);
+		JxlDecoderDestroy (dec);
+		g_free (filebuffer);
 		return image;
 	}
 
-	if (JxlDecoderSubscribeEvents(dec,
-				      JXL_DEC_BASIC_INFO
-				      | JXL_DEC_COLOR_ENCODING
-				      | JXL_DEC_FULL_IMAGE) > 0) {
-		g_error("Could not subscribe to decoder events.\n");
-		JxlThreadParallelRunnerDestroy(runner);
-		JxlDecoderDestroy(dec);
-		g_free(filebuffer);
+	if (JxlDecoderSubscribeEvents (dec,
+		JXL_DEC_BASIC_INFO
+		| JXL_DEC_COLOR_ENCODING
+		| JXL_DEC_FULL_IMAGE) > 0)
+	{
+		g_error ("Could not subscribe to decoder events.");
+		JxlThreadParallelRunnerDestroy (runner);
+		JxlDecoderDestroy (dec);
+		g_free (filebuffer);
 		return image;
 	}
 
 	if (JxlDecoderSetInput(dec, filebuffer, buffer_read) > 0) {
-		g_error("Could not set decoder input.\n");
-		JxlThreadParallelRunnerDestroy(runner);
-		JxlDecoderDestroy(dec);
-		g_free(filebuffer);
+		g_error ("Could not set decoder input.");
+		JxlThreadParallelRunnerDestroy (runner);
+		JxlDecoderDestroy (dec);
+		g_free (filebuffer);
 		return image;
 	}
 
 	status = JXL_DEC_NEED_MORE_INPUT;
 	while (status != JXL_DEC_SUCCESS) {
-		status = JxlDecoderProcessInput(dec);
+		status = JxlDecoderProcessInput (dec);
 
 		switch (status) {
 		case JXL_DEC_ERROR:
-			g_error("jxl: decoder error.\n");
-			JxlThreadParallelRunnerDestroy(runner);
-			JxlDecoderDestroy(dec);
-			g_free(filebuffer);
+			g_error ("jxl: decoder error.");
+			JxlThreadParallelRunnerDestroy (runner);
+			JxlDecoderDestroy (dec);
+			g_free (filebuffer);
 			return image;
 
 		case JXL_DEC_NEED_MORE_INPUT:
 			if (buffer_read == 0) {
-				g_message("Reached end of file but decoder still wants more.\n");
+				g_message ("Reached end of file but decoder still wants more.");
 				status = JXL_DEC_SUCCESS;
 				break;
 			}
 
-			{
-				unprocessed_len = JxlDecoderReleaseInput(dec);
-				processed_len = filebuffer_size - unprocessed_len;
+			unprocessed_len = JxlDecoderReleaseInput (dec);
+			processed_len = filebuffer_size - unprocessed_len;
 
-				guchar *old_filebuffer = filebuffer;
-				filebuffer_size = unprocessed_len + read_size;
-				filebuffer = g_new(guchar, filebuffer_size);
-				if (unprocessed_len > 0)
-					memcpy(filebuffer, old_filebuffer + processed_len, unprocessed_len);
-				g_free(old_filebuffer);
+			guchar *old_filebuffer = filebuffer;
+			filebuffer_size = unprocessed_len + read_size;
+			filebuffer = g_new (guchar, filebuffer_size);
+			if (unprocessed_len > 0)
+				memcpy (filebuffer, old_filebuffer + processed_len, unprocessed_len);
+			g_free(old_filebuffer);
 
-				gssize signed_buffer_read = g_input_stream_read(istream,
-										filebuffer + unprocessed_len,
-										read_size,
-										cancellable,
-										error);
-				if (signed_buffer_read <= 0) {
-					buffer_read = 0;
-					break;
-				}
-				buffer_read = signed_buffer_read;
+			gssize signed_buffer_read = g_input_stream_read (
+				istream,
+				filebuffer + unprocessed_len,
+				read_size,
+				cancellable,
+				error);
+			if (signed_buffer_read <= 0) {
+				buffer_read = 0;
+				break;
+			}
+			buffer_read = signed_buffer_read;
 
-				if (JxlDecoderSetInput(dec, filebuffer, unprocessed_len + buffer_read) > 0) {
-					g_error("Could not set decoder input.\n");
-					JxlThreadParallelRunnerDestroy(runner);
-					JxlDecoderDestroy(dec);
-					g_free(filebuffer);
-					return image;
-				}
+			if (JxlDecoderSetInput(dec, filebuffer, unprocessed_len + buffer_read) > 0) {
+				g_error ("Could not set decoder input.");
+				JxlThreadParallelRunnerDestroy (runner);
+				JxlDecoderDestroy (dec);
+				g_free (filebuffer);
+				return image;
 			}
 			break;
 
 		case JXL_DEC_BASIC_INFO:
-			if (JxlDecoderGetBasicInfo(dec, &info) > 0) {
-				g_error("Could not get basic info from decoder.\n");
-				JxlThreadParallelRunnerDestroy(runner);
-				JxlDecoderDestroy(dec);
-				g_free(filebuffer);
+			if (JxlDecoderGetBasicInfo (dec, &info) > 0) {
+				g_error ("Could not get basic info from decoder.");
+				JxlThreadParallelRunnerDestroy (runner);
+				JxlDecoderDestroy (dec);
+				g_free (filebuffer);
 				return image;
 			}
 
@@ -227,60 +227,64 @@ _cairo_image_surface_create_from_jxl(GInputStream  *istream,
 			if (loaded_original != NULL)
 				*loaded_original = TRUE;
 
-			surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-			surface_data = _cairo_image_surface_flush_and_get_data(surface);
-			metadata = _cairo_image_surface_get_metadata(surface);
-			_cairo_metadata_set_has_alpha(metadata, info.num_extra_channels);
+			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+			surface_data = _cairo_image_surface_flush_and_get_data (surface);
+			metadata = _cairo_image_surface_get_metadata (surface);
+			_cairo_metadata_set_has_alpha (metadata, info.num_extra_channels);
 
 			break;
 
 		case JXL_DEC_COLOR_ENCODING:
 #if HAVE_LCMS2
-			if (JxlDecoderGetColorAsEncodedProfile(dec,
+			if (JxlDecoderGetColorAsEncodedProfile (dec,
 #if JPEGXL_NUMERIC_VERSION < JPEGXL_COMPUTE_NUMERIC_VERSION(0,9,0)
-			&pixel_format,
+				&pixel_format,
 #endif
-			JXL_COLOR_PROFILE_TARGET_DATA, NULL) == JXL_DEC_SUCCESS)
+				JXL_COLOR_PROFILE_TARGET_DATA, NULL) == JXL_DEC_SUCCESS)
+			{
 				break;
+			}
 
 			{
 				gsize profile_size;
-				if (JxlDecoderGetICCProfileSize(dec,
+				if (JxlDecoderGetICCProfileSize (dec,
 #if JPEGXL_NUMERIC_VERSION < JPEGXL_COMPUTE_NUMERIC_VERSION(0,9,0)
-				&pixel_format,
+					&pixel_format,
 #endif
-				JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) > 0) {
-					g_message("Could not get ICC profile size.\n");
+					JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) > 0)
+				{
+					g_message ("Could not get ICC profile size.");
 					break;
 				}
 
-				guchar *profile_data = g_new(guchar, profile_size);
-				if (JxlDecoderGetColorAsICCProfile(dec,
+				guchar *profile_data = g_new (guchar, profile_size);
+				if (JxlDecoderGetColorAsICCProfile (dec,
 #if JPEGXL_NUMERIC_VERSION < JPEGXL_COMPUTE_NUMERIC_VERSION(0,9,0)
-				&pixel_format,
+					&pixel_format,
 #endif
-				JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) > 0) {
-					g_message("Could not get ICC profile.\n");
-					g_free(profile_data);
+					JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) > 0)
+				{
+					g_message ("Could not get ICC profile.");
+					g_free (profile_data);
 					break;
 				}
 
-				GthICCProfile *profile = NULL;
-				profile = gth_icc_profile_new(GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem(profile_data, profile_size));
+				GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN,
+					cmsOpenProfileFromMem (profile_data, profile_size));
 				if (profile != NULL) {
-					gth_image_set_icc_profile(image, profile);
-					g_object_unref(profile);
+					gth_image_set_icc_profile (image, profile);
+					g_object_unref (profile);
 				}
 			}
 #endif
 			break;
 
 		case JXL_DEC_NEED_IMAGE_OUT_BUFFER:
-			if (JxlDecoderSetImageOutBuffer(dec, &pixel_format, surface_data, width * height * 4) > 0) {
-				g_error("Could not set image-out buffer.\n");
-				JxlThreadParallelRunnerDestroy(runner);
-				JxlDecoderDestroy(dec);
-				g_free(filebuffer);
+			if (JxlDecoderSetImageOutBuffer (dec, &pixel_format, surface_data, width * height * 4) > 0) {
+				g_error ("Could not set image-out buffer.");
+				JxlThreadParallelRunnerDestroy (runner);
+				JxlDecoderDestroy (dec);
+				g_free (filebuffer);
 				return image;
 			}
 
@@ -297,15 +301,15 @@ _cairo_image_surface_create_from_jxl(GInputStream  *istream,
 		}
 	}
 
-	JxlThreadParallelRunnerDestroy(runner);
-	JxlDecoderDestroy(dec);
-	g_free(filebuffer);
+	JxlThreadParallelRunnerDestroy (runner);
+	JxlDecoderDestroy (dec);
+	g_free (filebuffer);
 
-	convert_pixels(width, height, surface_data);
-
-	cairo_surface_mark_dirty(surface);
-	if (cairo_surface_status(surface) == CAIRO_STATUS_SUCCESS)
-		gth_image_set_cairo_surface(image, surface);
+	convert_pixels (width, height, surface_data);
+	cairo_surface_mark_dirty (surface);
+	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS) {
+		gth_image_set_cairo_surface (image, surface);
+	}
 	cairo_surface_destroy (surface);
 
 	return image;
