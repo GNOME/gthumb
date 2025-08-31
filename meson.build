@@ -58,12 +58,7 @@ meson.add_install_script('postinstall.py')
 
 # Dependencies
 
-if get_option('exiv2')
-  exiv2_dep = dependency('exiv2', version : exiv2_version, required : false)
-  use_exiv2 = exiv2_dep.found()
-else
-  use_exiv2 = false
-endif
+exiv2_dep = dependency('exiv2', version : exiv2_version)
 
 if get_option('clutter')
   clutter_dep = dependency('clutter-1.0', version : clutter_version, required : false)
@@ -240,9 +235,6 @@ endif
 if get_option('flatpak-build')
   config_data.set('FLATPAK_BUILD', 1)
 endif
-if use_exiv2
-  config_data.set('HAVE_EXIV2', 1)
-endif
 if use_clutter
   config_data.set('HAVE_CLUTTER', 1)
 endif
@@ -359,7 +351,6 @@ summary = [
   '            prefix: @0@'.format(prefix),
   '      run in place: @0@'.format(get_option('run-in-place')),
   '   warn deprecated: @0@'.format(warn_deprecated),
-  '             exiv2: @0@'.format(use_exiv2),
   '           clutter: @0@'.format(use_clutter),
   '         gstreamer: @0@'.format(use_gstreamer),
   '      libchamplain: @0@'.format(use_libchamplain),

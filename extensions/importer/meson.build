@@ -28,7 +28,7 @@ importer_mod = shared_library('importer',
   link_with : [
     catalogs_mod,
     image_rotation_mod,
-    use_exiv2 ? exiv2_tools_mod : []
+    exiv2_tools_mod
   ],
   override_options : [ 'b_lundef=false' ],
   install : true,

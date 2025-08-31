@@ -1397,6 +1397,7 @@ gth_main_activate_extensions (void)
 #ifdef HAVE_LIBJPEG
 		"jpeg_utils",  /* mandatory if jpeg support is activated at compile time */
 #endif
+		"exiv2_tools",
 		"cairo_io",
 		"image_viewer",
 		"file_tools",
@@ -1413,7 +1414,6 @@ gth_main_activate_extensions (void)
 		"desktop_background",
 		"edit_metadata",
 		"open_map",
-		"exiv2_tools",
 		"file_manager",
 		"find_duplicates",
 		"gstreamer_tools",

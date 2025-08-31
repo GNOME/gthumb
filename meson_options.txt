@@ -10,12 +10,6 @@ option('run-in-place',
   description : 'Load extensions and other resources from the source tree'
 )
 
-option('exiv2',
-  type : 'boolean',
-  value : true,
-  description : 'Use exiv2 to read and write metadata'
-)
-
 option('clutter',
   type : 'boolean',
   value : true,

@@ -1,10 +1,5 @@
 [Extension]
-Name=EXIF, IPTC, XMP support
-Comment=Read and write exif, iptc and xmp metadata.
-Authors=gThumb Development Team
-Copyright=Copyright © 2009-2020 The Free Software Foundation, Inc.
-Version=@GTHUMB_VERSION@
-Category=Metadata
+Mandatory=true
 
 [Loader]
 Type=module

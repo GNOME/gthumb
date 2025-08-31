@@ -23,9 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#ifdef HAVE_EXIV2
 #include <extensions/exiv2_tools/exiv2-utils.h>
-#endif
 #include "callbacks.h"
 #include "dlg-comments-preferences.h"
 #include "gth-comment.h"

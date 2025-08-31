@@ -7,10 +7,8 @@ extension_common_deps = [ common_deps, gthumb_h_dep ]
 subdir('file_viewer')
 subdir('catalogs')
 subdir('edit_metadata')
-if use_exiv2
-  subdir('exiv2_tools')
-  subdir('image_rotation')
-endif
+subdir('exiv2_tools')
+subdir('image_rotation')
 
 # after exiv2
 subdir('comments')
