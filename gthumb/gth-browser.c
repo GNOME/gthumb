@@ -2035,6 +2035,7 @@ gth_browser_ask_whether_to_save (GthBrowser         *browser,
 				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 				     _GTK_LABEL_SAVE, RESPONSE_SAVE,
 				     NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (d), RESPONSE_NO_SAVE, GTK_STYLE_CLASS_DESTRUCTIVE_ACTION);
 	g_signal_connect (G_OBJECT (d),
 			  "response",
 			  G_CALLBACK (ask_whether_to_save__response_cb),
