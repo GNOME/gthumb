@@ -1394,9 +1394,7 @@ gth_main_activate_extensions (void)
 {
 	const char *mandatory_extensions[] = {
 		"file_viewer", /* keep the file viewer before any other viewer (see comment in gth-browser:file_metadata_ready_cb). */
-#ifdef HAVE_LIBJPEG
-		"jpeg_utils",  /* mandatory if jpeg support is activated at compile time */
-#endif
+		"jpeg_utils",
 		"exiv2_tools",
 		"cairo_io",
 		"image_viewer",

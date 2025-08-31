@@ -20,7 +20,6 @@
  */
 
 #include <config.h>
-#ifdef HAVE_LIBJPEG
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -28,7 +27,6 @@
 #include <string.h>
 #include <jpeglib.h>
 #include <extensions/jpeg_utils/jmemorydest.h>
-#endif /* HAVE_LIBJPEG */
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "gth-image-saver-jpeg.h"
@@ -138,47 +136,8 @@ static gboolean
 gth_image_saver_jpeg_can_save (GthImageSaver *self,
 			       const char    *mime_type)
 {
-#ifdef HAVE_LIBJPEG
-
 	return g_content_type_equals (mime_type, "image/jpeg");
-
-#else /* ! HAVE_LIBJPEG */
-
-	GSList          *formats;
-	GSList          *scan;
-	GdkPixbufFormat *jpeg_format;
-
-	if (! g_content_type_equals (mime_type, "image/jpeg"))
-		return FALSE;
-
-	formats = gdk_pixbuf_get_formats ();
-	jpeg_format = NULL;
-	for (scan = formats; (jpeg_format == NULL) && (scan != NULL); scan = g_slist_next (scan)) {
-		GdkPixbufFormat  *format = scan->data;
-		char            **mime_types;
-		int               i;
-
-		mime_types = gdk_pixbuf_format_get_mime_types (format);
-		for (i = 0; mime_types[i] != NULL; i++)
-			if (g_content_type_equals (mime_types[i], "image/jpeg"))
-				break;
-
-		if (mime_types[i] == NULL)
-			continue;
-
-		if (! gdk_pixbuf_format_is_writable (format))
-			continue;
-
-		jpeg_format = format;
-	}
-
-	return jpeg_format != NULL;
-
-#endif /* HAVE_LIBJPEG */
 }
-
-
-#ifdef HAVE_LIBJPEG
 
 
 /* error handler data */
@@ -418,9 +377,6 @@ _cairo_surface_write_as_jpeg (cairo_surface_t  *image,
 }
 
 
-#endif /* HAVE_LIBJPEG */
-
-
 static gboolean
 gth_image_saver_jpeg_save_image (GthImageSaver  *base,
 				 GthImage       *image,
@@ -430,7 +386,6 @@ gth_image_saver_jpeg_save_image (GthImageSaver  *base,
 				 GCancellable   *cancellable,
 				 GError        **error)
 {
-#ifdef HAVE_LIBJPEG
 	GthImageSaverJpeg  *self = GTH_IMAGE_SAVER_JPEG (base);
 	char              **option_keys;
 	char              **option_values;
@@ -477,27 +432,6 @@ gth_image_saver_jpeg_save_image (GthImageSaver  *base,
 	cairo_surface_destroy (surface);
 	g_strfreev (option_keys);
 	g_strfreev (option_values);
-
-#else /* ! HAVE_LIBJPEG */
-
-	GdkPixbuf *pixbuf;
-	char      *pixbuf_type;
-	gboolean   result;
-
-	pixbuf = gth_image_get_pixbuf (image);
-	pixbuf_type = _gdk_pixbuf_get_type_from_mime_type (mime_type);
-	result = gdk_pixbuf_save_to_bufferv (pixbuf,
-					     buffer,
-					     buffer_size,
-					     pixbuf_type,
-					     NULL,
-					     NULL,
-					     error);
-
-	g_free (pixbuf_type);
-	g_object_unref (pixbuf);
-
-#endif /* HAVE_LIBJPEG */
 
 	return result;
 }

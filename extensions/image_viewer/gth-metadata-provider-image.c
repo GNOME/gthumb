@@ -24,9 +24,7 @@
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gthumb.h>
-#if HAVE_LIBJPEG
 #include <extensions/jpeg_utils/jpeg-info.h>
-#endif /* HAVE_LIBJPEG */
 #if HAVE_LIBWEBP
 #include <webp/decode.h>
 #endif /* HAVE_LIBWEBP */
@@ -122,7 +120,6 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				format_recognized = TRUE;
 			}
 
-#if HAVE_LIBJPEG
 			else if ((size >= 4)
 				 && (buffer[0] == 0xff)
 				 && (buffer[1] == 0xd8)
@@ -170,7 +167,6 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 				_jpeg_info_data_dispose (&jpeg_info);
 			}
-#endif /* HAVE_LIBJPEG */
 
 #if HAVE_LIBWEBP
 			else if ((size > 15) && (memcmp (buffer + 8, "WEBPVP8", 7) == 0)) {

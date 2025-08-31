@@ -260,7 +260,6 @@ else
     endif
   endif
 endif
-config_data.set('HAVE_LIBJPEG', 1)
 if have_progressive_jpeg
   config_data.set('HAVE_PROGRESSIVE_JPEG', 1)
 endif
