@@ -1313,9 +1313,10 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 					GthStringList *string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
 					for (GList *scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
 						char *single_value = (char *) scan->data;
-
-						value->read (single_value);
-						id.add (iptc_key, value.get());
+						if ((single_value != NULL) && (strcmp (single_value, "") != 0)) {
+							value->read (single_value);
+							id.add (iptc_key, value.get());
+						}
 					}
 					break;
 				}
@@ -1371,9 +1372,10 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 					GthStringList *string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
 					for (GList *scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
 						char *single_value = (char *) scan->data;
-
-						value->read (single_value);
-						xd.add (xmp_key, value.get());
+						if ((single_value != NULL) && (strcmp (single_value, "") != 0)) {
+							value->read (single_value);
+							xd.add (xmp_key, value.get());
+						}
 					}
 					break;
 				}
