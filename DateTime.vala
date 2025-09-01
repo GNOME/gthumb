@@ -146,92 +146,15 @@ public class Gth.DateTime {
 	}
 
 	public static Gth.DateTime? get_from_exif_date (string? exif_date) {
-		if (exif_date == null)
+		int year, month, day, hours, minutes, seconds;
+		double useconds;
+		if (!Lib.parse_exif_date (exif_date, out year, out month, out day,
+			out hours, out minutes, out seconds, out useconds))
+		{
 			return null;
-
-		unowned char[] chars = (char[]) exif_date.data;
-		int idx = 0;
-
-		while (chars[idx].isspace ())
-			idx++;
-
-		if (chars[idx] == 0)
-			return null;
-
-		int parse_int (int expected_digits) {
-			var digits = 0;
-			var result = 0;
-			while ((chars[idx] != 0) && (digits < expected_digits)) {
-				if (!chars[idx].isdigit ()) {
-					break;
-				}
-				digits++;
-				result = (result * 10) + (chars[idx] - '0');
-				idx++;
-			}
-			return (digits == expected_digits) ? result : -1;
 		}
-
-		var year = parse_int (4);
-		if ((year < 1) || (year >= 10000))
-			return null;
-
-		if (chars[idx++] != ':')
-			return null;
-
-		var month = parse_int (2);
-		if ((month < 1) || (month > 12))
-			return null;
-
-		if (chars[idx++] != ':')
-			return null;
-
-		var day = parse_int (2);
-		if ((day < 1) || (day > 31))
-			return null;
-
-		if (chars[idx++] != ' ')
-			return null;
-
-		var hours = parse_int (2);
-		if ((hours < 0) || (hours > 23))
-			return null;
-
-		if (chars[idx++] != ':')
-			return null;
-
-		var minutes = parse_int (2);
-		if ((minutes < 0) || (minutes > 59))
-			return null;
-
-		if (chars[idx++] != ':')
-			return null;
-
-		var seconds = parse_int (2);
-		if ((seconds < 0) || (seconds > 59))
-			return null;
-
-		double useconds = 0.0;
-		if ((chars[idx] == ',') || (chars[idx] == '.')) {
-			idx++;
-			var weight = 0.1;
-			while ((weight > 0.0) && (chars[idx] != 0)) {
-				if (!chars[idx].isdigit ()) {
-					break;
-				}
-				useconds += weight * (chars[idx] - '0');
-				weight /= 10.0;
-				idx++;
-			}
-		}
-
-		while (chars[idx].isspace ())
-			idx++;
-
-		if (chars[idx] != 0)
-			return null;
-
-		return new Gth.DateTime.from_ymd_hms (year, month, day, hours, minutes, seconds, (int) (useconds * 1000000));
+		return new Gth.DateTime.from_ymd_hms (year, month, day, hours, minutes,
+			seconds, (int) (useconds * 1000000));
 	}
 }
 
