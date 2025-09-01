@@ -25,7 +25,7 @@ public class Gth.ImageLoader {
 		var image = yield load_stream (stream, file, cancellable, requested_size);
 		var info = yield stream.query_info_async (FileAttribute.ETAG_VALUE, Priority.DEFAULT, cancellable);
 		if (info.has_attribute (FileAttribute.ETAG_VALUE)) {
-			image.set_attribute ("etag", info.get_attribute_string (FileAttribute.ETAG_VALUE));
+			image.set_attribute ("ETag", info.get_attribute_string (FileAttribute.ETAG_VALUE));
 		}
 		return image;
 	}
@@ -66,7 +66,7 @@ public class Gth.ImageLoader {
 				}
 			}
 
-			image.set_attribute ("content-type", content_type);
+			image.set_attribute ("ContentType", content_type);
 		}
 	}
 }

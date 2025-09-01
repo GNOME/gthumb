@@ -83,10 +83,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				if (monitor_profile != null) {
 					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
 				}
-				unowned var description = icc_profile.get_description ();
-				if (description != null) {
-					file_data.info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, description);
-				}
+				file_data.info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, image.get_attribute ("ColorProfile"));
 			}
 		}
 		catch (Error error) {
@@ -103,9 +100,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		load_job = local_job;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, local_job.cancellable);
-			file_data.set_etag (image.get_attribute ("etag"));
+			file_data.set_etag (image.get_attribute ("ETag"));
 			yield view_image (image, file_data, local_job.cancellable);
-			file_data.set_content_type (image_view.image.get_attribute ("content-type"));
+			file_data.set_content_type (image_view.image.get_attribute ("ContentType"));
 		}
 		catch (Error error) {
 			stdout.printf ("ImageViewer.load: ERROR: %s\n", error.message);
@@ -259,7 +256,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	async FileData? replace_file (FileData file_data, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
 		try {
-			//file_data.set_etag (image_view.image.get_attribute ("etag"));
+			//file_data.set_etag (image_view.image.get_attribute ("ETag"));
 			yield app.image_saver.replace_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 		}
