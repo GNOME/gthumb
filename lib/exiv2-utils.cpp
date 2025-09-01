@@ -507,7 +507,7 @@ static void exiv2_update_general_attributes (GFileInfo *info) {
 	set_attribute_from_tagset (info, "Metadata::Description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "Metadata::Title", _TITLE_TAG_NAMES);
 
-	// if iptc::caption and iptc::headline are different use iptc::headline
+	// If iptc::caption and iptc::headline are different use iptc::headline
 	// to set general::title, if not already set.
 
 	if (g_file_info_get_attribute_object (info, "Metadata::Title") == NULL) {
@@ -825,6 +825,8 @@ gboolean exiv2_read_metadata_from_buffer (GBytes *bytes, GFileInfo *info, gboole
 			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
 			return FALSE;
 		}
+		// Set the log level to only show errors (and suppress warnings, informational and debug messages)
+		Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error);
 		exiv2_read_metadata (std::move(image), info, update_general_attributes);
 		return TRUE;
 	}
@@ -940,6 +942,41 @@ gboolean exiv2_can_write_metadata (const char *mime_type) {
 }
 
 
+#if 0
+
+static void dump_exif_data (Exiv2::ExifData &exifData, const char *prefix) {
+	std::cout << prefix << "\n";
+
+	try {
+		if (exifData.empty()) {
+			throw Exiv2::Error(Exiv2::kerErrorMessage, " No Exif data found in the file");
+		}
+		Exiv2::ExifData::const_iterator end = exifData.end();
+		for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+			const char* tn = i->typeName();
+			std::cout << std::setw(44) << std::setfill(' ') << std::left
+				  << i->key() << " "
+				  << "0x" << std::setw(4) << std::setfill('0') << std::right
+				  << std::hex << i->tag() << " "
+				  << std::setw(9) << std::setfill(' ') << std::left
+				  << (tn ? tn : "Unknown") << " "
+				  << std::dec << std::setw(3)
+				  << std::setfill(' ') << std::right
+				  << i->count() << "  "
+				  << std::dec << i->value()
+				  << "\n";
+		}
+		std::cout << "\n";
+	}
+	catch (Exiv2::Error& e) {
+	    std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
+	    return;
+	}
+}
+
+#endif
+
+
 static void mandatory_int (Exiv2::ExifData &checkdata, const char *tag, int value) {
 	Exiv2::ExifKey key = Exiv2::ExifKey(tag);
 	if (checkdata.findKey(key) == checkdata.end())
@@ -1035,7 +1072,6 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 	mandatory_int (ed, "Exif.Image.YResolution", 72);
 	mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
 	mandatory_int (ed, "Exif.Image.YCbCrPositioning", 1);
-	mandatory_int (ed, "Exif.Photo.ColorSpace", 1); // TODO
 	mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
 	mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
 	mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
@@ -1128,9 +1164,10 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 					string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
 					for (GList *scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
 						char *single_value = (char *) scan->data;
-
-						value->read (single_value);
-						id.add (iptc_key, value.get());
+						if ((single_value != NULL) && (strcmp (single_value, "") != 0)) {
+							value->read (single_value);
+							id.add (iptc_key, value.get());
+						}
 					}
 					break;
 
@@ -1180,9 +1217,10 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 					string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
 					for (GList *scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
 						char *single_value = (char *) scan->data;
-
-						value->read (single_value);
-						xd.add (xmp_key, value.get());
+						if ((single_value != NULL) && (strcmp (single_value, "") != 0)) {
+							value->read (single_value);
+							xd.add (xmp_key, value.get());
+						}
 					}
 					break;
 
@@ -1213,9 +1251,150 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 }
 
 
+void update_exif_tags_from_general_attributes (GFileInfo *info) {
+	GObject *metadata = g_file_info_get_attribute_object (info, "Metadata::Description");
+	if (metadata != NULL) {
+		const char *tags_to_remove[] = {
+			"Exif::Image::ImageDescription",
+			"Xmp::tiff::ImageDescription",
+			"Iptc::Application2::Headline",
+			NULL
+		};
+		const char *tags_to_update[] = {
+			"Exif::Photo::UserComment",
+			"Xmp::dc::description",
+			"Iptc::Application2::Caption",
+			NULL
+		};
+
+		for (int i = 0; tags_to_remove[i] != NULL; i++) {
+			g_file_info_remove_attribute (info, tags_to_remove[i]);
+		}
+
+		// Remove the value type to use the default type for each field
+		// as described in exiv2_tools/main.c */
+
+		g_object_set (metadata, "value-type", NULL, NULL);
+
+		for (int i = 0; tags_to_update[i] != NULL; i++) {
+			GObject *orig_metadata;
+
+			orig_metadata = g_file_info_get_attribute_object (info, tags_to_update[i]);
+			if (orig_metadata != NULL) {
+				// Keep the original value type
+				g_object_set (orig_metadata,
+					"raw", gth_metadata_get_raw (GTH_METADATA (metadata)),
+					"formatted", gth_metadata_get_formatted (GTH_METADATA (metadata)),
+					NULL);
+			}
+			else {
+				g_file_info_set_attribute_object (info, tags_to_update[i], metadata);
+			}
+		}
+	}
+	else {
+		for (int i = 0; _DESCRIPTION_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_remove_attribute (info, _DESCRIPTION_TAG_NAMES[i]);
+		}
+	}
+
+	metadata = g_file_info_get_attribute_object (info, "Metadata::Title");
+	if (metadata != NULL) {
+		g_object_set (metadata, "value-type", NULL, NULL);
+		for (int i = 0; _TITLE_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_set_attribute_object (info, _TITLE_TAG_NAMES[i], metadata);
+		}
+	}
+	else {
+		for (int i = 0; _TITLE_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (info, _TITLE_TAG_NAMES[i]);
+	}
+
+	metadata = g_file_info_get_attribute_object (info, "Metadata::Location");
+	if (metadata != NULL) {
+		g_object_set (metadata, "value-type", NULL, NULL);
+		for (int i = 0; _LOCATION_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_set_attribute_object (info, _LOCATION_TAG_NAMES[i], metadata);
+		}
+	}
+	else {
+		for (int i = 0; _LOCATION_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_remove_attribute (info, _LOCATION_TAG_NAMES[i]);
+		}
+	}
+
+	metadata = g_file_info_get_attribute_object (info, "Metadata::Tags");
+	if (metadata != NULL) {
+		if (GTH_IS_METADATA (metadata)) {
+			g_object_set (metadata, "value-type", NULL, NULL);
+		}
+		for (int i = 0; _KEYWORDS_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_set_attribute_object (info, _KEYWORDS_TAG_NAMES[i], metadata);
+		}
+	}
+	else {
+		for (int i = 0; _KEYWORDS_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_remove_attribute (info, _KEYWORDS_TAG_NAMES[i]);
+		}
+	}
+
+	metadata = g_file_info_get_attribute_object (info, "Metadata::Rating");
+	if (metadata != NULL) {
+		if (GTH_IS_METADATA (metadata)) {
+			g_object_set (metadata, "value-type", NULL, NULL);
+		}
+		for (int i = 0; _RATING_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_set_attribute_object (info, _RATING_TAG_NAMES[i], metadata);
+		}
+	}
+	else {
+		for (int i = 0; _RATING_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_remove_attribute (info, _RATING_TAG_NAMES[i]);
+		}
+	}
+
+	metadata = g_file_info_get_attribute_object (info, "Metadata::DateTime");
+	if (metadata != NULL) {
+		GthMetadata *xmp_metadata = NULL;
+		GDateTime *date_time = _g_date_time_new_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)));
+		if (date_time != NULL) {
+			xmp_metadata = gth_metadata_new ();
+			char *xmp_date = _g_date_time_to_xmp_date (date_time);
+			g_object_set (xmp_metadata,
+				"raw", xmp_date,
+				"formatted", gth_metadata_get_formatted (GTH_METADATA (metadata)),
+				"value-type", NULL, // Use the default type
+				NULL);
+			g_free (xmp_date);
+			g_date_time_unref (date_time);
+		}
+
+		for (int i = 0; _ORIGINAL_DATE_TAG_NAMES[i] != NULL; i++) {
+			if (g_str_has_prefix (_ORIGINAL_DATE_TAG_NAMES[i], "Xmp::")) {
+				if (xmp_metadata != NULL) {
+					g_file_info_set_attribute_object (info, _ORIGINAL_DATE_TAG_NAMES[i], G_OBJECT (xmp_metadata));
+				}
+			}
+			else {
+				g_file_info_set_attribute_object (info, _ORIGINAL_DATE_TAG_NAMES[i], metadata);
+			}
+		}
+
+		_g_object_unref (xmp_metadata);
+	}
+	else {
+		for (int i = 0; _ORIGINAL_DATE_TAG_NAMES[i] != NULL; i++) {
+			g_file_info_remove_attribute (info, _ORIGINAL_DATE_TAG_NAMES[i]);
+		}
+	}
+}
+
+
 extern "C"
 GBytes * exiv2_write_metadata_to_buffer (GBytes *bytes, GFileInfo *info, GthImage *image_data, GError **error) {
 	try {
+		update_exif_tags_from_general_attributes (info);
+
 		gsize buffer_size;
 		gconstpointer buffer = g_bytes_get_data (bytes, &buffer_size);
 		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) buffer, buffer_size);
@@ -1267,4 +1446,22 @@ GBytes * exiv2_clear_metadata (GBytes *bytes, GError **error) {
 			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
 	}
 	return NULL;
+}
+
+
+extern "C"
+void exiv2_update_dimensions (GFileInfo *info, GthTransform transform) {
+	g_return_if_fail (info != NULL);
+
+	if ((transform == GTH_TRANSFORM_ROTATE_90)
+	    || (transform == GTH_TRANSFORM_ROTATE_270)
+	    || (transform == GTH_TRANSFORM_TRANSPOSE)
+	    || (transform == GTH_TRANSFORM_TRANSVERSE))
+	{
+		_g_file_info_swap_attributes (info, "Exif::Photo::PixelXDimension", "Exif::Photo::PixelYDimension");
+		_g_file_info_swap_attributes (info, "Exif::Image::XResolution", "Exif::Image::YResolution");
+		_g_file_info_swap_attributes (info, "Exif::Photo::FocalPlaneXResolution", "Exif::Photo::FocalPlaneYResolution");
+		_g_file_info_swap_attributes (info, "Exif::Image::ImageWidth", "Exif::Image::ImageLength");
+		_g_file_info_swap_attributes (info, "Exif::Iop::RelatedImageWidth", "Exif::Iop::RelatedImageLength");
+	}
 }

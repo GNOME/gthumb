@@ -450,6 +450,12 @@ GthIccProfile * gth_image_get_icc_profile (GthImage *self) {
 }
 
 
+bool gth_image_has_icc_profile (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	return self->priv->icc_profile != NULL;
+}
+
+
 void gth_image_apply_icc_profile (GthImage *self,
 	GthColorManager *color_manager,
 	GthIccProfile *out_profile,

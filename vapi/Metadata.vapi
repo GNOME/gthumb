@@ -58,6 +58,7 @@ public class Gth.Metadata : Object {
 	public Metadata.for_string (string raw, string? formatted = null);
 	public Metadata.for_string_list (StringList list);
 	public Metadata.for_point (double x, double y);
+	public Metadata.sRGBColorSpace ();
 	public MetadataType get_data_type ();
 	public unowned string get_id ();
 	public unowned string get_raw ();

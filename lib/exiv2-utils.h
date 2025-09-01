@@ -4,6 +4,7 @@
 #include <glib.h>
 #include <gio/gio.h>
 #include <lib/gth-image.h>
+#include <lib/types.h>
 
 G_BEGIN_DECLS
 
@@ -21,6 +22,7 @@ char * exiv2_decimal_coordinates_to_string (double latitude, double longitude);
 gboolean exiv2_can_write_metadata (const char *mime_type);
 GBytes * exiv2_write_metadata_to_buffer (GBytes *buffer, GFileInfo *info, GthImage *image_data, GError **error);
 GBytes * exiv2_clear_metadata (GBytes *buffer, GError **error);
+void exiv2_update_dimensions (GFileInfo *info, GthTransform transform);
 
 G_END_DECLS
 

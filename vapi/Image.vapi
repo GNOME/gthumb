@@ -28,6 +28,7 @@ namespace Gth {
 		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();
+		public bool has_icc_profile ();
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
 		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable = null);

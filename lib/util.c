@@ -280,17 +280,19 @@ char * _g_utf8_remove_string_properties (const char *str) {
 static int try_parse_int (const char *chars, int *idx, int expected_digits) {
 	int digits = 0;
 	int result = 0;
-	while ((chars[*idx] != 0) && (digits < expected_digits)) {
-		char ch = chars[*idx];
+	int index = *idx;
+	while ((chars[index] != 0) && (digits < expected_digits)) {
+		char ch = chars[index];
 		if ((ch >= '0') && (ch <= '9')) {
 			digits++;
 			result = (result * 10) + (ch - '0');
-			*idx++;
+			index++;
 		}
 		else {
 			break;
 		}
 	}
+	*idx = index;
 	return (digits == expected_digits) ? result : -1;
 }
 
@@ -299,55 +301,81 @@ bool _g_parse_exif_date (const char *exif_date,
 	int *out_hour, int *out_minute, int *out_second,
 	double *out_usecond)
 {
-	if (exif_date == NULL)
+	if (exif_date == NULL) {
+		//g_print ("> [1]\n");
 		return FALSE;
+	}
 
 	int idx = 0;
 	while (exif_date[idx] == ' ') {
 		idx++;
 	}
 
-	if (exif_date[idx] == 0)
+	if (exif_date[idx] == 0) {
+		//g_print ("> [2]\n");
 		return FALSE;
+	}
 
 	int year = try_parse_int (exif_date, &idx, 4);
-	if ((year < 1) || (year >= 10000))
+	if ((year < 1) || (year >= 10000)) {
+		//g_print ("> [3]\n");
 		return FALSE;
+	}
 
-	if (exif_date[idx++] != ':')
+	if (exif_date[idx++] != ':') {
+		//g_print ("> [4]\n");
 		return FALSE;
+	}
 
 	int month = try_parse_int (exif_date, &idx, 2);
-	if ((month < 1) || (month > 12))
+	if ((month < 1) || (month > 12)) {
+		//g_print ("> [5]\n");
 		return FALSE;
+	}
 
-	if (exif_date[idx++] != ':')
+	if (exif_date[idx++] != ':') {
+		//g_print ("> [6]\n");
 		return FALSE;
+	}
 
 	int day = try_parse_int (exif_date, &idx, 2);
-	if ((day < 1) || (day > 31))
+	if ((day < 1) || (day > 31)) {
+		//g_print ("> [7]\n");
 		return FALSE;
+	}
 
-	if (exif_date[idx++] != ' ')
+	if (exif_date[idx++] != ' ') {
+		//g_print ("> [8]\n");
 		return FALSE;
+	}
 
 	int hour = try_parse_int (exif_date, &idx, 2);
-	if ((hour < 0) || (hour > 23))
+	if ((hour < 0) || (hour > 23)) {
+		//g_print ("> [9]\n");
 		return FALSE;
+	}
 
-	if (exif_date[idx++] != ':')
+	if (exif_date[idx++] != ':') {
+		//g_print ("> [10]\n");
 		return FALSE;
+	}
 
 	int minute = try_parse_int (exif_date, &idx, 2);
-	if ((minute < 0) || (minute > 59))
+	if ((minute < 0) || (minute > 59)) {
+		//g_print ("> [11]\n");
 		return FALSE;
+	}
 
-	if (exif_date[idx++] != ':')
+	if (exif_date[idx++] != ':') {
+		//g_print ("> [12]\n");
 		return FALSE;
+	}
 
 	int second = try_parse_int (exif_date, &idx, 2);
-	if ((second < 0) || (second > 59))
+	if ((second < 0) || (second > 59)) {
+		//g_print ("> [13]\n");
 		return FALSE;
+	}
 
 	double usecond = 0.0;
 	if ((exif_date[idx] == ',') || (exif_date[idx] == '.')) {
@@ -369,8 +397,10 @@ bool _g_parse_exif_date (const char *exif_date,
 	while (exif_date[idx] == ' ')
 		idx++;
 
-	if (exif_date[idx] != 0)
+	if (exif_date[idx] != 0) {
+		//g_print ("> [14]\n");
 		return FALSE;
+	}
 
 	if (out_year != NULL)
 		*out_year = year;
@@ -405,6 +435,19 @@ char * _g_date_time_to_exif_date (GDateTime *date_time) {
 		g_date_time_get_hour (date_time),
 		g_date_time_get_minute (date_time),
 		g_date_time_get_second (date_time));
+}
+
+char * _g_date_time_to_xmp_date (GDateTime *date_time) {
+	GTimeSpan utf_offset = g_date_time_get_utc_offset (date_time) / 1000000;
+	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02d%+03d:%02d",
+		g_date_time_get_year (date_time),
+		g_date_time_get_month (date_time),
+		g_date_time_get_day_of_month (date_time),
+		g_date_time_get_hour (date_time),
+		g_date_time_get_minute (date_time),
+		g_date_time_get_second (date_time),
+		utf_offset / 3600,
+		utf_offset % 3600);
 }
 
 const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
@@ -559,4 +602,148 @@ char * _g_format_double (double value, int max_decimal_digits) {
 	}
 	g_free (local_format);
 	return g_string_free (result, FALSE);
+}
+
+
+// _g_file_info_swap_attributes
+
+
+typedef struct {
+	GFileAttributeType type;
+	union {
+		char      *string;
+		char     **stringv;
+		gboolean   boolean;
+		guint32    uint32;
+		gint32     int32;
+		guint64    uint64;
+		gint64     int64;
+		gpointer   object;
+	} v;
+} _GFileAttributeValue;
+
+
+static void _g_file_attribute_value_free (_GFileAttributeValue *attr_value) {
+	switch (attr_value->type) {
+	case G_FILE_ATTRIBUTE_TYPE_STRING:
+	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+		g_free (attr_value->v.string);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+		g_strfreev (attr_value->v.stringv);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		g_object_unref (attr_value->v.object);
+		break;
+	default:
+		break;
+	}
+
+	g_free (attr_value);
+}
+
+
+static _GFileAttributeValue * _g_file_info_get_value (GFileInfo *info, const char *attr) {
+	_GFileAttributeValue  *attr_value;
+	GFileAttributeType     type;
+	gpointer               value;
+	GFileAttributeStatus   status;
+
+	attr_value = g_new (_GFileAttributeValue, 1);
+	attr_value->type = G_FILE_ATTRIBUTE_TYPE_INVALID;
+
+	if (! g_file_info_get_attribute_data (info, attr, &type, &value, &status))
+		return attr_value;
+
+	attr_value->type = type;
+	switch (type) {
+	case G_FILE_ATTRIBUTE_TYPE_INVALID:
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_STRING:
+	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+		attr_value->v.string = g_strdup ((char *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+		attr_value->v.stringv = g_strdupv ((char **) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
+		attr_value->v.boolean = * ((gboolean *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT32:
+		attr_value->v.uint32 = * ((guint32 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT32:
+		attr_value->v.int32 = * ((gint32 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT64:
+		attr_value->v.uint64 = * ((guint64 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT64:
+		attr_value->v.int64 = * ((gint64 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		attr_value->v.object = g_object_ref ((GObject *) value);
+		break;
+	default:
+		g_warning ("unknown attribute type: %d", type);
+		break;
+	}
+
+	return attr_value;
+}
+
+
+static void _g_file_info_set_value (GFileInfo *info, const char *attr, _GFileAttributeValue *attr_value) {
+	gpointer value = NULL;
+
+	if (attr_value->type == G_FILE_ATTRIBUTE_TYPE_INVALID)
+		return;
+
+	switch (attr_value->type) {
+	case G_FILE_ATTRIBUTE_TYPE_STRING:
+	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+		value = attr_value->v.string;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+		value = attr_value->v.stringv;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
+		value = &attr_value->v.boolean;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT32:
+		value = &attr_value->v.uint32;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT32:
+		value = &attr_value->v.int32;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT64:
+		value = &attr_value->v.uint64;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT64:
+		value = &attr_value->v.int64;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		value = attr_value->v.object;
+		break;
+	default:
+		g_warning ("Unknown attribute type: %d", attr_value->type);
+		break;
+	}
+
+	g_file_info_set_attribute (info, attr, attr_value->type, value);
+}
+
+
+void _g_file_info_swap_attributes (GFileInfo *info, const char *attr1, const char *attr2) {
+	_GFileAttributeValue *value1;
+	_GFileAttributeValue *value2;
+
+	value1 = _g_file_info_get_value (info, attr1);
+	value2 = _g_file_info_get_value (info, attr2);
+
+	_g_file_info_set_value (info, attr1, value2);
+	_g_file_info_set_value (info, attr2, value1);
+
+	_g_file_attribute_value_free (value1);
+	_g_file_attribute_value_free (value2);
 }
