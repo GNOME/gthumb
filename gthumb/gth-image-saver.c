@@ -194,17 +194,19 @@ _gth_image_save_to_buffer_common (GthImage      *original_image,
 		gth_image_apply_icc_profile (image, icc_profile, cancellable);
 		g_object_unref (icc_profile);
 
-		g_file_info_set_attribute_boolean (file_data->info, "gth::file::image-changed", TRUE);
+		if (file_data != NULL) {
+			g_file_info_set_attribute_boolean (file_data->info, "gth::file::image-changed", TRUE);
 
-		if (exiv2_can_write (mime_type) && (file_data != NULL)) {
-			// Overwrite Exif.Photo.ColorSpace
-			GthMetadata *srgb_colorspace = gth_metadata_new_sRGBColorSpace ();
-			g_file_info_set_attribute_object (file_data->info, "Exif::Photo::ColorSpace", G_OBJECT (srgb_colorspace));
-			g_object_unref (srgb_colorspace);
+			if (exiv2_can_write (mime_type)) {
+				// Overwrite Exif.Photo.ColorSpace
+				GthMetadata *srgb_colorspace = gth_metadata_new_sRGBColorSpace ();
+				g_file_info_set_attribute_object (file_data->info, "Exif::Photo::ColorSpace", G_OBJECT (srgb_colorspace));
+				g_object_unref (srgb_colorspace);
+			}
 		}
 	}
 	else {
-		if (exiv2_can_write (mime_type) && (file_data != NULL)) {
+		if ((file_data != NULL) && exiv2_can_write (mime_type)) {
 			// Remove the Exif.Photo.ColorSpace tag
 			g_file_info_remove_attribute (file_data->info, "Exif::Photo::ColorSpace");
 
