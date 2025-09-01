@@ -10,7 +10,7 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 	};
 
 	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
-		if ((content_type != "*") && !ContentType.is_a (content_type, "image/*")) {
+		if (file_data.info.get_file_type () != FileType.REGULAR) {
 			return false;
 		}
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
