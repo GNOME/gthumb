@@ -21,6 +21,8 @@ public class Gth.Application : Adw.Application {
 	public ThumbLoader thumb_loader;
 	public ImageSaver image_saver;
 	public ColorManager color_manager;
+	public MetadataReader metadata_reader;
+	public MetadataWriter metadata_writer;
 	public GenericList<FileData> roots;
 	public Monitor monitor;
 	public Bookmarks bookmarks;
@@ -47,6 +49,8 @@ public class Gth.Application : Adw.Application {
 		image_loader = new ImageLoader (io_factory);
 		thumb_loader = new ThumbLoader (io_factory);
 		image_saver = new ImageSaver (io_factory);
+		metadata_reader = new MetadataReader (io_factory);
+		metadata_writer = new MetadataWriter (io_factory);
 		color_manager = new ColorManager ();
 		roots = new GenericList<FileData>();
 		monitor = new Monitor ();

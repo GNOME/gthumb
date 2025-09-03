@@ -64,8 +64,7 @@ public class Gth.Viewer : Gtk.Box {
 			"content-loading-symbolic");
 		load_job = local_job;
 		try {
-			var source = new FileSourceVfs ();
-			var file_data = yield source.read_metadata (file, "*", local_job.cancellable);
+			var file_data = yield FileData.read_metadata (file, "*", local_job.cancellable);
 			activate_viewer_for_file (file_data);
 			var image_viewer = current_viewer as ImageViewer;
 			if (image_viewer == null) {

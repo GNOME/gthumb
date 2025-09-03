@@ -105,18 +105,8 @@ public class Gth.FileSourceVfs : FileSource {
 		if (!info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
 			info.set_symbolic_icon (Util.get_themed_icon (icon_name));
 		}
-		update_special_location_info (file, info);
+		Files.update_special_location_info (file, info);
 		return info;
-	}
-
-	void update_special_location_info (File file, FileInfo info) {
-		if (file.equal (Files.get_root ())) {
-			info.set_display_name (_("Computer"));
-			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
-		}
-		else if (file.equal (Files.get_home ())) {
-			info.set_display_name (_("User Home"));
-		}
 	}
 
 	const int REMOTE_FILES_PER_REQUEST = 100;
@@ -187,7 +177,7 @@ public class Gth.FileSourceVfs : FileSource {
 					else if ((info.get_file_type () == FileType.REGULAR)
 						&& (metadata_attributes_v.length > 0))
 					{
-						read_metadata_attributes (child_data, metadata_attributes_v, cancellable);
+						yield app.metadata_reader.update (child_data, metadata_attributes_v, cancellable);
 					}
 					if (cancellable.is_cancelled ()) {
 						action = ForEachAction.STOP;
@@ -202,14 +192,7 @@ public class Gth.FileSourceVfs : FileSource {
 	}
 
 	public override async Gth.FileData read_metadata (File file, string requested_attributes, Cancellable cancellable) throws Error	{
-		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
-		var file_attributes = Util.extract_file_attributes (all_attributes);
-		var info = yield file.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
-		update_special_location_info (file, info);
-		var file_data = new Gth.FileData (file, info);
-		var metadata_attributes_v = Util.extract_metadata_attributes (all_attributes);
-		read_metadata_attributes (file_data, metadata_attributes_v, cancellable);
-		return file_data;
+		return yield FileData.read_metadata (file, requested_attributes, cancellable);
 	}
 
 	public override void monitor_directory (File file, bool activate) {
@@ -218,16 +201,6 @@ public class Gth.FileSourceVfs : FileSource {
 
 	public override async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error {
 		yield window.file_manager.copy_files (files, destination, job);
-	}
-
-	void read_metadata_attributes (FileData file_data, string[] metadata_attributes_v, Cancellable cancellable) {
-		if (metadata_attributes_v.length > 0) {
-			foreach (unowned var provider in app.metadata_providers) {
-				if (provider.can_read (file_data, file_data.get_content_type (), metadata_attributes_v)) {
-					provider.read (file_data, metadata_attributes_v, cancellable);
-				}
-			}
-		}
 	}
 
 	const string ROOT_ATTRIBUTES =

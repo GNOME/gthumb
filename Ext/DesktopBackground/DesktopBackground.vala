@@ -24,8 +24,7 @@ public class Gth.DesktopBackground {
 
 	async void set_wallpaper (Wallpaper wallpaper, string content_type, Cancellable cancellable) throws Error {
 		if (wallpaper.style == WallpaperStyle.NONE) {
-			var source = new FileSourceVfs ();
-			var file_data = yield source.read_metadata (wallpaper.file, "Frame::Width,Frame::Height", cancellable);
+			var file_data = yield FileData.read_metadata (wallpaper.file, "Frame::Width,Frame::Height", cancellable);
 			int image_width = file_data.info.get_attribute_int32 ("Frame::Width");
 			int image_height = file_data.info.get_attribute_int32 ("Frame::Height");
 

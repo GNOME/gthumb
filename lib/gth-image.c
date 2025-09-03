@@ -176,7 +176,6 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 	g_return_if_fail (GTH_IS_IMAGE (dest));
 
 	dest->priv->metadata_flags = src->priv->metadata_flags;
-
 	if (src->priv->metadata_flags & METADATA_FLAG_HAS_ALPHA) {
 		dest->priv->has_alpha = src->priv->has_alpha;
 	}

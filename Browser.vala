@@ -971,19 +971,7 @@ public class Gth.Browser : Gtk.Box {
 				window.show_message (_("No file selected"));
 				return;
 			}
-			var dialog = new EditMetadata ();
-			var local_job = window.new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
-			dialog.edit.begin (window, file_data, local_job, (_obj, res) => {
-				try {
-					dialog.edit.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
+			edit_metadata.begin (file_data);
 		});
 		action_group.add_action (action);
 	}
@@ -1145,6 +1133,24 @@ public class Gth.Browser : Gtk.Box {
 			if (local_job == search_job) {
 				search_job = null;
 			}
+		}
+	}
+
+	async void edit_metadata (FileData file_data) {
+		var local_job = window.new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
+		try {
+			local_job.opens_dialog ();
+			var dialog = new EditMetadata ();
+			yield dialog.edit (window, file_data, local_job);
+			yield app.metadata_writer.save (file_data, local_job.cancellable);
+			local_job.dialog_closed ();
+		}
+		catch (Error error) {
+			local_job.dialog_closed ();
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
 		}
 	}
 

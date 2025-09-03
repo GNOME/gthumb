@@ -208,7 +208,7 @@ public class Gth.Thumbnailer {
 			return yield thumbnail.resize_async (_requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 		}
 		catch (Error error) {
-			//stdout.printf ("> load_thumbnail_from_cache: %s\n", error.message);
+			//stdout.printf ("> load_thumbnail_from_cache %s: %s\n", file_data.file.get_uri (), error.message);
 			if (error is IOError.CANCELLED) {
 				throw error;
 			}
@@ -241,7 +241,7 @@ public class Gth.Thumbnailer {
 			yield app.image_saver.replace_file (thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
-			//stdout.printf ("> save_thumbnail_to_cache: %s\n", error.message);
+			//stdout.printf ("> save_thumbnail_to_cache %s: %s\n", original.file.get_uri (), error.message);
 			if (error is IOError.CANCELLED) {
 				throw error;
 			}

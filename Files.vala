@@ -210,6 +210,16 @@ public class Gth.Files {
 			return false;
 		}
 	}
+
+	public static void update_special_location_info (File file, FileInfo info) {
+		if (file.equal (Files.get_root ())) {
+			info.set_display_name (_("Computer"));
+			info.set_symbolic_icon (new ThemedIcon ("drive-harddisk-symbolic"));
+		}
+		else if (file.equal (Files.get_home ())) {
+			info.set_display_name (_("User Home"));
+		}
+	}
 }
 
 public enum Gth.FileIntent {

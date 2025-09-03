@@ -47,7 +47,6 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		var queue = new Queue<FileData>();
 		queue.push_tail (new Gth.FileData (parent, parent_info));
 
-		var gio_source = new FileSourceVfs ();
 		while (queue.length > 0) {
 			var folder_data = queue.pop_head ();
 			//stdout.printf ("> FOLDER DATA: %s\n", folder_data.file.get_uri ());
@@ -131,7 +130,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					var catalog = Catalog.new_from_data (folder_data.file, data);
 					foreach (var file in catalog.files) {
 						try {
-							var file_data = yield gio_source.read_metadata (file, all_attributes, cancellable);
+							var file_data = yield FileData.read_metadata (file, all_attributes, cancellable);
 							action = child_func (file_data, false);
 						}
 						catch (Error error) {

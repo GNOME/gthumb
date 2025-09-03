@@ -10,6 +10,44 @@ public class Gth.Comment : Object {
 		reset ();
 	}
 
+	public Comment.from_info (FileInfo info) {
+		reset ();
+
+		var metadata = info.get_attribute_object ("Metadata::Title") as Gth.Metadata;
+		if (metadata != null) {
+			caption = metadata.raw;
+		}
+
+		metadata = info.get_attribute_object ("Metadata::Description") as Gth.Metadata;
+		if (metadata != null) {
+			note = metadata.raw;
+		}
+
+		metadata = info.get_attribute_object ("Metadata::Location") as Gth.Metadata;
+		if (metadata != null) {
+			place = metadata.raw;
+		}
+
+		metadata = info.get_attribute_object ("Metadata::DateTime") as Gth.Metadata;
+		if (metadata != null) {
+			time.set_from_exif_date (metadata.raw);
+		}
+
+		metadata = info.get_attribute_object ("Metadata::Tags") as Gth.Metadata;
+		if (metadata != null) {
+			categories = new GenericArray<string>();
+			unowned var list = metadata.string_list.get_list ();
+			foreach (unowned var str in list) {
+				categories.add (str);
+			}
+		}
+
+		metadata = info.get_attribute_object ("Metadata::Rating") as Gth.Metadata;
+		if (metadata != null) {
+			int.try_parse (metadata.raw, out rating, null, 10);
+		}
+	}
+
 	public void load_doc (Dom.Document doc) {
 		reset ();
 

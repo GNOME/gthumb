@@ -5,7 +5,7 @@ public class Gth.ImageMetadataProvider : Gth.MetadataProvider {
 		"Frame::Height",
 	};
 
-	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
+	public override bool can_read (FileData file_data, string[] attribute_v) {
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
 	}
 
@@ -16,13 +16,5 @@ public class Gth.ImageMetadataProvider : Gth.MetadataProvider {
 			file_data.info.set_attribute_int32 ("Frame::Height", height);
 			file_data.info.set_attribute_string ("Frame::Pixels", "%d × %d".printf (width, height));
 		}
-	}
-
-	public override bool can_write (FileData file_data, string content_type, string[] attribute_v) {
-		return false;
-	}
-
-	public override void write (FileData file_data, string[] attribute_v, Cancellable cancellable, Gth.MetadataWriteFlags flags = MetadataWriteFlags.DEFAULT) {
-		// void
 	}
 }

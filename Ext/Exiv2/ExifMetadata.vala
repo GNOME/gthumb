@@ -136,6 +136,7 @@ namespace ExifMetadata {
 		MetadataInfo.register ("Iptc::Application2::BylineTitle", null, "Iptc", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");
 		MetadataInfo.register ("Iptc::Application2::CountryName", null, "Iptc", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");
 		MetadataInfo.register ("Iptc::Application2::CountryCode", null, "Iptc",  MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");
+		MetadataInfo.register ("Iptc::Application2::ProvinceState", null, "Iptc",  MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");
 		MetadataInfo.register ("Iptc::Application2::City", null, "Iptc", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");
 		MetadataInfo.register ("Iptc::Application2::Language", null, "Iptc", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");
 		MetadataInfo.register ("Iptc::Application2::ObjectName", null, "Iptc", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW | MetadataFlags.ALLOW_IN_PRINT, "String");

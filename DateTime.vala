@@ -6,6 +6,11 @@ public class Gth.DateTime {
 		clear ();
 	}
 
+	public DateTime.from_date_time (Gth.Date _date, Gth.Time _time) {
+		date = _date;
+		time = _time;
+	}
+
 	public DateTime.from_ymd_hms (int _year, int _month, int _day, int _hour, int _min, int _second, uint _usecond = 0) {
 		date = Gth.Date.from_ymd ((uint) _year, (uint8) _month, (uint8) _day);
 		time = Gth.Time.from_hms ((uint8) _hour, (uint8) _min, (uint8) _second, (uint) _usecond);

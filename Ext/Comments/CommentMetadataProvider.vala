@@ -9,7 +9,7 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 		"Metadata::Rating",
 	};
 
-	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
+	public override bool can_read (FileData file_data, string[] attribute_v) {
 		if (file_data.info.get_file_type () != FileType.REGULAR) {
 			return false;
 		}
@@ -76,13 +76,5 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 			//stdout.printf ("ERROR: %s\n", error.message);
 			file_data.info.set_attribute_boolean ("comment::no-comment-file", true);
 		}
-	}
-
-	public override bool can_write (FileData file_data, string content_type, string[] attribute_v) {
-		return false;
-	}
-
-	public override void write (FileData file_data, string[] attribute_v, Cancellable cancellable, Gth.MetadataWriteFlags flags = MetadataWriteFlags.DEFAULT) {
-		// void
 	}
 }

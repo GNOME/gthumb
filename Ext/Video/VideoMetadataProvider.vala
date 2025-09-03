@@ -12,7 +12,8 @@ public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 		"Video::*",
 	};
 
-	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
+	public override bool can_read (FileData file_data, string[] attribute_v) {
+		unowned var content_type = file_data.get_content_type ();
 		if ((content_type != "*")
 			&& !ContentType.is_a (content_type, "video/*")
 			&& !ContentType.is_a (content_type, "audio/*"))
@@ -28,13 +29,5 @@ public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 		}
 		catch (Error error) {
 		}
-	}
-
-	public override bool can_write (FileData file_data, string content_type, string[] attribute_v) {
-		return false;
-	}
-
-	public override void write (FileData file_data, string[] attribute_v, Cancellable cancellable, Gth.MetadataWriteFlags flags = MetadataWriteFlags.DEFAULT) {
-		// void
 	}
 }

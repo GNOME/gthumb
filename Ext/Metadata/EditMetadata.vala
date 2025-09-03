@@ -53,22 +53,29 @@ class Gth.MetadataDialog : Adw.Dialog {
 			description.buffer.text = "";
 		}
 
-		// Date TODO: add time
+		// Date and Time
 		metadata = file_data.info.get_attribute_object ("Metadata::DateTime") as Metadata;
 		if (metadata != null) {
 			date.exif_date = metadata.raw;
+			time.exif_date = metadata.raw;
 		}
 		else {
 			date.date = Gth.Date ();
+			time.time = Gth.Time ();
 		}
 
-		// TODO add tags
+		// Tags
+		var tag_data = file_data.info.get_attribute_object ("Metadata::Tags") as Metadata;
+		if (tag_data != null) {
+			tags.entry.set_list (tag_data.string_list.get_list ());
+		}
 
 		set_entry_value (title, "Metadata::Title");
 		set_entry_value (place, "Metadata::Location");
-		set_rating (rating, "Metadata::Rating");
+		set_rating (rating.entry, "Metadata::Rating");
 
 		// IPTC
+		iptc_group.visible = app.settings.get_boolean (PREF_GENERAL_STORE_METADATA_IN_FILES) && Exiv2.can_write_metadata (file_data.get_content_type ());
 		set_entry_value (copyright, "Iptc::Application2::Copyright");
 		set_entry_value (credit, "Iptc::Application2::Credit");
 		set_entry_value (byline, "Iptc::Application2::Byline");
@@ -81,7 +88,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 		set_entry_value (object_name, "Iptc::Application2::ObjectName");
 		set_entry_value (source, "Iptc::Application2::Source");
 		set_entry_value (destination, "Iptc::Envelope::Destination");
-		set_rating (urgency, "Iptc::Application2::Urgency");
+		set_rating (urgency.entry, "Iptc::Application2::Urgency");
 	}
 
 	void set_entry_value (Adw.EntryRow entry, string id) {
@@ -126,6 +133,64 @@ class Gth.MetadataDialog : Adw.Dialog {
 		}
 	}
 
+	void update_file_attributes () {
+		var metadata = new Gth.Metadata.for_string (description.buffer.text);
+		file_data.info.set_attribute_object ("Metadata::Description", metadata);
+
+		set_string_attribute (title, "Metadata::Title");
+		set_string_attribute (place, "Metadata::Location");
+
+		var date_time = new Gth.DateTime.from_date_time (date.date, time.time);
+		if (date_time.date.is_valid ()) {
+			metadata = new Gth.Metadata.for_string (date_time.to_exif_date ());
+			file_data.info.set_attribute_object ("Metadata::DateTime", metadata);
+		}
+		else {
+			file_data.info.remove_attribute ("Metadata::DateTime");
+		}
+
+		set_rating_attribute (rating, "Metadata::Rating");
+
+		var tag_list = tags.entry.get_list ();
+		if (tag_list.length > 0) {
+			metadata = new Gth.Metadata.for_string_list (new Gth.StringList.from_array (tag_list));
+			file_data.info.set_attribute_object ("Metadata::Tags", metadata);
+		}
+		else {
+			file_data.info.remove_attribute ("Metadata::Tags");
+		}
+
+		set_string_attribute (copyright, "Iptc::Application2::Copyright");
+		set_string_attribute (credit, "Iptc::Application2::Credit");
+		set_string_attribute (byline, "Iptc::Application2::Byline");
+		set_string_attribute (byline_title, "Iptc::Application2::BylineTitle");
+		set_string_attribute (country, "Iptc::Application2::CountryName");
+		set_string_attribute (country_code, "Iptc::Application2::CountryCode");
+		set_string_attribute (state, "Iptc::Application2::ProvinceState");
+		set_string_attribute (city, "Iptc::Application2::City");
+		set_string_attribute (language, "Iptc::Application2::Language");
+		set_string_attribute (object_name, "Iptc::Application2::ObjectName");
+		set_string_attribute (source, "Iptc::Application2::Source");
+		set_string_attribute (destination, "Iptc::Envelope::Destination");
+		set_rating_attribute (urgency, "Iptc::Application2::Urgency");
+	}
+
+	void set_string_attribute (Adw.EntryRow row, string id) {
+		var metadata = new Gth.Metadata.for_string (row.text);
+		file_data.info.set_attribute_object (id, metadata);
+	}
+
+	void set_rating_attribute (Gth.RatingRow row, string id) {
+		var value = row.entry.value;
+		if (value > 0) {
+			var metadata = new Gth.Metadata.for_string ("%d".printf (value));
+			file_data.info.set_attribute_object (id, metadata);
+		}
+		else {
+			file_data.info.remove_attribute (id);
+		}
+	}
+
 	[GtkCallback]
 	void on_cancel (Gtk.Button button) {
 		close ();
@@ -133,6 +198,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 
 	[GtkCallback]
 	void on_save (Gtk.Button button) {
+		update_file_attributes ();
 		saved ();
 	}
 
@@ -142,7 +208,8 @@ class Gth.MetadataDialog : Adw.Dialog {
 	[GtkChild] unowned Adw.EntryRow place;
 	[GtkChild] unowned Gth.DateRow date;
 	[GtkChild] unowned Gth.TimeRow time;
-	[GtkChild] unowned Gth.RatingEntry rating;
+	[GtkChild] unowned Gth.RatingRow rating;
+	[GtkChild] unowned Gth.TagsRow tags;
 	[GtkChild] unowned Adw.EntryRow copyright;
 	[GtkChild] unowned Adw.EntryRow credit;
 	[GtkChild] unowned Adw.EntryRow byline;
@@ -155,5 +222,6 @@ class Gth.MetadataDialog : Adw.Dialog {
 	[GtkChild] unowned Adw.EntryRow object_name;
 	[GtkChild] unowned Adw.EntryRow source;
 	[GtkChild] unowned Adw.EntryRow destination;
-	[GtkChild] unowned Gth.RatingEntry urgency;
+	[GtkChild] unowned Gth.RatingRow urgency;
+	[GtkChild] unowned Adw.PreferencesGroup iptc_group;
 }

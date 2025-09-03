@@ -7,7 +7,7 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 		"Private::File::Location",
 	};
 
-	public override bool can_read (FileData file_data, string content_type, string[] attribute_v) {
+	public override bool can_read (FileData file_data, string[] attribute_v) {
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
 	}
 
@@ -27,13 +27,5 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 		}
 
 		file_data.info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (file_data.get_content_type ()));
-	}
-
-	public override bool can_write (FileData file_data, string content_type, string[] attribute_v) {
-		return false;
-	}
-
-	public override void write (FileData file_data, string[] attribute_v, Cancellable cancellable, Gth.MetadataWriteFlags flags = MetadataWriteFlags.DEFAULT) {
-		// void
 	}
 }

@@ -13,6 +13,12 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <child>
+                  <object class="AdwSwitchRow" id="store_metadata_in_files">
+                    <property name="title" translatable="yes">Store metadata inside files if possible</property>
+                    <signal name="notify::active" handler="on_store_metadata_in_files_activated"/>
+                  </object>
+                </child>
+                <child>
                   <object class="AdwSwitchRow" id="show_format_options">
                     <property name="title" translatable="yes">Show the options before saving</property>
                     <signal name="notify::active" handler="on_show_format_options_activated"/>

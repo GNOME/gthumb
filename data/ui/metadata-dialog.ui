@@ -32,8 +32,8 @@
           <object class="AdwPreferencesPage">
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">Description</property>
-                <child type="suffix">
+                <property name="title" translatable="yes">Comment</property>
+                <child>
                   <object class="GtkTextView" id="description">
                     <property name="wrap-mode">word-char</property>
                     <property name="height_request">150px</property>
@@ -46,15 +46,22 @@
             </child>
             <child>
               <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Metadata</property>
                 <property name="separate-rows">true</property>
                 <child>
                   <object class="AdwEntryRow" id="title">
                     <property name="title" translatable="yes">Title</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="place">
                     <property name="title" translatable="yes">Place</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
@@ -68,91 +75,120 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">Rating</property>
-                    <child type="suffix">
-                      <object class="GthRatingEntry" id="rating">
-                        <property name="unchecked-icon-name">gth-star-outline-symbolic</property>
-                        <property name="checked-icon-name">gth-star-symbolic</property>
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
+                  <object class="GthRatingRow" id="rating">
+                    <property name="rating-title" translatable="yes">Rating</property>
+                    <property name="stars">true</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GthTagsRow" id="tags">
                   </object>
                 </child>
               </object>
             </child>
             <child>
-              <object class="AdwPreferencesGroup">
+              <object class="AdwPreferencesGroup" id="iptc_group">
                 <property name="title" translatable="yes">IPTC</property>
                 <property name="separate-rows">true</property>
                 <child>
                   <object class="AdwEntryRow" id="copyright">
                     <property name="title" translatable="yes">Copyright</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="credit">
                     <property name="title" translatable="yes">Credit</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="byline">
                     <property name="title" translatable="yes">Byline</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="byline_title">
                     <property name="title" translatable="yes">Byline Title</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="country">
                     <property name="title" translatable="yes">Country</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="country_code">
                     <property name="title" translatable="yes">Country Code</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="state">
                     <property name="title" translatable="yes">State or Province</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="city">
                     <property name="title" translatable="yes">City</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="language">
                     <property name="title" translatable="yes">Language</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="object_name">
                     <property name="title" translatable="yes">Object Name</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="source">
                     <property name="title" translatable="yes">Source</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="destination">
                     <property name="title" translatable="yes">Destination</property>
+                    <style>
+                      <class name="property"/>
+                    </style>
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">Urgency</property>
-                    <child type="suffix">
-                      <object class="GthRatingEntry" id="urgency">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
+                  <object class="GthRatingRow" id="urgency">
+                    <property name="rating-title" translatable="yes">Urgency</property>
                   </object>
                 </child>
               </object>

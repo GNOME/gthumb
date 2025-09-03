@@ -184,3 +184,15 @@ textview.boxed:focus {
 .rating:hover {
 	background: rgba(255,255,255, 0.1);
 }
+
+.tag {
+	border-radius: 8px;
+	background: var(--card-bg-color);
+	color: var(--card-fg-color);
+	border-radius: 16px;
+	padding: 0 0 0 12px;
+}
+
+button.small {
+	padding: 0;
+}

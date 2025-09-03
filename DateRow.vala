@@ -16,10 +16,6 @@ public class Gth.DateRow : Adw.EntryRow {
 		}
 	}
 
-	public string get_exif_date () {
-		return date.to_exif_date ();
-	}
-
 	construct {
 		var calendar = new Gtk.Calendar ();
 		calendar.day_selected.connect ((_calendar) => {
