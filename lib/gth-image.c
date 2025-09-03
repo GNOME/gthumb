@@ -187,6 +187,15 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 	if (src->priv->metadata_flags & METADATA_FLAG_ICC_PROFILE) {
 		gth_image_set_icc_profile (dest, gth_image_get_icc_profile (src));
 	}
+
+	// Copy the attributes
+
+	GHashTableIter iter;
+	gpointer key, value;
+	g_hash_table_iter_init (&iter, src->priv->attributes);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		gth_image_set_attribute (dest, (char*) key, (char*) value);
+	}
 }
 
 
