@@ -98,16 +98,35 @@ public class Gth.ImageSaver {
 				throw new IOError.FAILED ("Save failed");
 			}
 
-			if (!(SaveFlags.NO_METADATA in flags)) {
-				// Save the metadata from file_data.info
+			// Update the embedded metadata
+
+			var update_metadata = !(SaveFlags.NO_METADATA in flags);
+			var metadata_saved = false;
+			if (update_metadata) {
 				if (Exiv2.can_write_metadata (file_data.get_content_type ())) {
 					var new_bytes = Exiv2.write_metadata_to_buffer (bytes, file_data.info, image);
 					bytes = new_bytes;
+					metadata_saved = true;
 				}
 			}
 
 			// Save to stream
+
 			stream.write_all (bytes.get_data (), null, cancellable);
+
+			// Update the sidecar
+
+			if (update_metadata) {
+				if (!metadata_saved) {
+					var comment = new Comment.from_info (file_data.info);
+					Files.save_content (file_data.file, comment.to_xml (), cancellable);
+				}
+				else {
+					// The embedded metadata was updated, delete the sidecar.
+					var comment_file = Comment.get_comment_file (file_data.file);
+					Files.delete_file (comment_file, cancellable);
+				}
+			}
 		}
 	}
 }

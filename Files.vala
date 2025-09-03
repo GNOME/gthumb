@@ -220,6 +220,14 @@ public class Gth.Files {
 			info.set_display_name (_("User Home"));
 		}
 	}
+
+	public static void delete_file (File file, Cancellable cancellable) {
+		try {
+			file.delete (cancellable);
+		}
+		catch (Error error) {
+		}
+	}
 }
 
 public enum Gth.FileIntent {
