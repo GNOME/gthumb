@@ -76,7 +76,7 @@
   </schema>
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
     <key name="command" type="s">
-      <default>'gnome-terminal --window --working-directory=%f'</default>
+      <default>'kgx --working-directory=%f'</default>
     </key>
   </schema>
 </schemalist>
