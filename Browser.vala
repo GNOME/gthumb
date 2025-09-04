@@ -1303,10 +1303,29 @@ public class Gth.Browser : Gtk.Box {
 			if (pos >= 0) {
 				folder_tree.current_children.model.remove ((uint) pos);
 			}
-			if ((property_sidebar.current_file != null)
-				&& property_sidebar.current_file.file.equal (file))
-			{
+		}
+		update_total_files ();
+
+		if (property_sidebar.current_file != null) {
+			var iter = files.iterator ();
+			var pos = iter.find_first ((file) => file.equal (property_sidebar.current_file.file));
+			if (pos >= 0) {
 				property_sidebar.current_file = null;
+			}
+		}
+
+		if (window.viewer.current_file != null) {
+			var iter = files.iterator ();
+			var pos = iter.find_first ((file) => file.equal (window.viewer.current_file.file));
+			if (pos >= 0) {
+				if (!view_position (window.viewer.position)) {
+					if (file_grid.model.get_n_items () > 0) {
+						view_position (file_grid.model.get_n_items () - 1);
+					}
+					else {
+						window.set_page (Window.Page.BROWSER);
+					}
+				}
 			}
 		}
 	}
