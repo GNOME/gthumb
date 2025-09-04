@@ -13,8 +13,8 @@ GthImage * gth_image_tranform (GthImage *source, GthTransform transform, GCancel
 	int line_step;
 	int pixel_step;
 	get_transformation_steps (transform,
-		(int) source_width,
-		(int) source_height,
+		source_width,
+		source_height,
 		&destination_width,
 		&destination_height,
 		&line_start,
