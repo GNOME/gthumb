@@ -1,4 +1,5 @@
 #include <config.h>
+#include <version.h>
 #include <glib.h>
 #include <exiv2/basicio.hpp>
 #include <exiv2/error.hpp>
@@ -395,9 +396,10 @@ static void set_file_info_from_hash (GFileInfo *info, GHashTable *table) {
 }
 
 
-static void set_attribute_from_metadata (GFileInfo *info, const char *attribute, GObject *metadata) {
-	if (metadata == NULL)
-		return;
+static gboolean set_attribute_from_metadata (GFileInfo *info, const char *attribute, GObject *metadata) {
+	if (metadata == NULL) {
+		return FALSE;
+	}
 
 	char *description;
 	char *formatted_value;
@@ -424,6 +426,8 @@ static void set_attribute_from_metadata (GFileInfo *info, const char *attribute,
 	g_free (formatted_value);
 	g_free (raw_value);
 	g_free (type_name);
+
+	return TRUE;
 }
 
 
@@ -438,15 +442,13 @@ static GObject * get_attribute_from_tagset (GFileInfo *info, const char *tagset[
 }
 
 
-static void set_attribute_from_tagset (GFileInfo *info, const char *attribute, const char *tagset[]) {
+static gboolean set_attribute_from_tagset (GFileInfo *info, const char *attribute, const char *tagset[]) {
 	GObject *metadata = get_attribute_from_tagset (info, tagset);
-	if (metadata != NULL) {
-		set_attribute_from_metadata (info, attribute, metadata);
-	}
+	return set_attribute_from_metadata (info, attribute, metadata);
 }
 
 
-static void set_string_list_attribute_from_tagset (GFileInfo *info, const char *attribute, const char *tagset[]) {
+static gboolean set_string_list_attribute_from_tagset (GFileInfo *info, const char *attribute, const char *tagset[]) {
 	GObject *metadata = NULL;
 	for (int i = 0; tagset[i] != NULL; i++) {
 		metadata = g_file_info_get_attribute_object (info, tagset[i]);
@@ -454,8 +456,9 @@ static void set_string_list_attribute_from_tagset (GFileInfo *info, const char *
 			break;
 	}
 
-	if (metadata == NULL)
-		return;
+	if (metadata == NULL) {
+		return FALSE;
+	}
 
 	if (GTH_IS_METADATA (metadata)
 		&& (gth_metadata_get_data_type (GTH_METADATA (metadata)) != GTH_METADATA_TYPE_STRING_LIST))
@@ -465,7 +468,7 @@ static void set_string_list_attribute_from_tagset (GFileInfo *info, const char *
 
 		char *utf8_raw = _g_utf8_try_from_any (raw);
 		if (utf8_raw == NULL) {
-			return;
+			return FALSE;
 		}
 
 		char **keywords = g_strsplit (utf8_raw, ",", -1);
@@ -482,6 +485,8 @@ static void set_string_list_attribute_from_tagset (GFileInfo *info, const char *
 	else {
 		g_file_info_set_attribute_object (info, attribute, metadata);
 	}
+
+	return TRUE;
 }
 
 
@@ -503,9 +508,17 @@ static void clear_useless_comments_from_tagset (GFileInfo *info, const char *tag
 
 
 static void exiv2_update_general_attributes (GFileInfo *info) {
-	set_attribute_from_tagset (info, "Metadata::DateTime", _ORIGINAL_DATE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Metadata::Description", _DESCRIPTION_TAG_NAMES);
-	set_attribute_from_tagset (info, "Metadata::Title", _TITLE_TAG_NAMES);
+	gboolean updated = FALSE;
+
+	if (set_attribute_from_tagset (info, "Metadata::DateTime", _ORIGINAL_DATE_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_attribute_from_tagset (info, "Metadata::Description", _DESCRIPTION_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_attribute_from_tagset (info, "Metadata::Title", _TITLE_TAG_NAMES)) {
+		updated = TRUE;
+	}
 
 	// If iptc::caption and iptc::headline are different use iptc::headline
 	// to set general::title, if not already set.
@@ -522,13 +535,23 @@ static void exiv2_update_general_attributes (GFileInfo *info) {
 		    && (g_strcmp0 (gth_metadata_get_raw (GTH_METADATA (iptc_caption)),
 				   gth_metadata_get_raw (GTH_METADATA (iptc_headline))) != 0))
 		{
-			set_attribute_from_metadata (info, "Metadata::Title", iptc_headline);
+			if (set_attribute_from_metadata (info, "Metadata::Title", iptc_headline)) {
+				updated = TRUE;
+			}
 		}
 	}
 
-	set_attribute_from_tagset (info, "Metadata::Location", _LOCATION_TAG_NAMES);
-	set_string_list_attribute_from_tagset (info, "Metadata::Tags", _KEYWORDS_TAG_NAMES);
-	set_attribute_from_tagset (info, "Metadata::Rating", _RATING_TAG_NAMES);
+	if (set_attribute_from_tagset (info, "Metadata::Location", _LOCATION_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_string_list_attribute_from_tagset (info, "Metadata::Tags", _KEYWORDS_TAG_NAMES)) {
+		updated = TRUE;
+	}
+	if (set_attribute_from_tagset (info, "Metadata::Rating", _RATING_TAG_NAMES)) {
+		updated = TRUE;
+	}
+
+	g_file_info_set_attribute_boolean (info, "Embedded::UpdatedGeneralAttributes", updated);
 }
 
 

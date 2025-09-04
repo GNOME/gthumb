@@ -22,6 +22,13 @@ namespace Gth {
 		public void set_attribute (string key, string? value);
 		public bool remove_attribute (string key);
 		public unowned string get_attribute (string key);
+		public FileInfo info {
+			[CCode (cname = "gth_image_get_info")]
+			get;
+
+			[CCode (cname = "gth_image_set_info")]
+			set;
+		}
 		public virtual bool get_can_scale ();
 		public virtual Image scale (double factor);
 		public Gdk.Texture get_texture ();

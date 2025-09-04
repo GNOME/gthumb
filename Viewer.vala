@@ -14,7 +14,7 @@ public class Gth.Viewer : Gtk.Box {
 	Gth.Job load_job = null;
 	FileViewer current_viewer = null;
 
-	async void load_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT) throws Error {
+	async void load_file (FileData file_data, ViewFlags flags = ViewFlags.DEFAULT) throws Error {
 		// Ask to save the current file if modified
 		if ((current_file != null) && current_file.get_is_modified ()) {
 			yield ask_whether_to_save ();
@@ -26,18 +26,22 @@ public class Gth.Viewer : Gtk.Box {
 		}
 
 		// Load
-		var local_job = window.new_job (_("Loading %s").printf (file.get_display_name ()),
+		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"content-loading-symbolic");
 		load_job = local_job;
 		try {
-			activate_viewer_for_file (file);
-			yield current_viewer.load (file);
+			activate_viewer_for_file (file_data);
+			yield current_viewer.load (file_data);
 			yield window.set_page (Window.Page.VIEWER);
-			current_file = file;
+			current_file = file_data;
 			property_sidebar.current_file = current_file;
 			update_title ();
-			update_sidebar ();
+			// Do not update the sidebar when loading images
+			// the file info is already updated by the ImageLoader.
+			if (!(current_viewer is ImageViewer)) {
+				update_sidebar ();
+			}
 			if (ViewFlags.FULLSCREEN in flags) {
 				window.fullscreened = true;
 			}
@@ -55,21 +59,15 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public async void open_file (File file) {
+	public async void open_file (FileData file_data) {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = window.new_job (_("Loading %s").printf (file.get_uri ()),
+		var local_job = window.new_job (_("Loading %s").printf (file_data.file.get_uri ()),
 			JobFlags.FOREGROUND,
 			"content-loading-symbolic");
 		load_job = local_job;
 		try {
-			var file_data = yield FileData.read_metadata (file, "*", local_job.cancellable);
-			activate_viewer_for_file (file_data);
-			var image_viewer = current_viewer as ImageViewer;
-			if (image_viewer == null) {
-				throw new IOError.FAILED (_("Cannot load this kind of file"));
-			}
 			yield load_file (file_data);
 			if (window.browser.never_loaded) {
 				yield window.browser.first_load ();
@@ -89,24 +87,24 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public async void open_unsaved_image (FileData file, Gth.Image image) {
+	public async void open_unsaved_image (FileData file_data, Gth.Image image) {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = window.new_job (_("Loading %s").printf (file.get_display_name ()),
+		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"content-loading-symbolic");
 		load_job = local_job;
 		try {
-			activate_viewer_for_file (file);
+			activate_viewer_for_file (file_data);
 			var image_viewer = current_viewer as ImageViewer;
 			if (image_viewer == null) {
 				throw new IOError.FAILED (_("Cannot load this kind of file"));
 			}
-			yield image_viewer.view_image (image, file, local_job.cancellable);
+			yield image_viewer.view_image (image, file_data, local_job.cancellable);
 			yield window.set_page (Window.Page.VIEWER);
-			current_file = file;
-			property_sidebar.current_file = file;
+			current_file = file_data;
+			property_sidebar.current_file = file_data;
 			update_title ();
 		}
 		catch (Error error) {
@@ -149,6 +147,15 @@ public class Gth.Viewer : Gtk.Box {
 		update_title ();
 		update_sidebar ();
 		app.monitor.file_created (file_data.file);
+	}
+
+	public void metadata_changed (FileData file_data) {
+		if ((current_file != null) && current_file.file.equal (file_data.file)) {
+			if (current_file != file_data) {
+				current_file.update_info (file_data.info);
+			}
+			property_sidebar.current_file = current_file;
+		}
 	}
 
 	void activate_viewer_for_file (FileData file) throws Error {

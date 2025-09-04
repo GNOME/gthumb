@@ -23,8 +23,8 @@ public class Gth.MetadataReader {
 
 		public override void run (uint8[] tmp_buffer) throws Error {
 			foreach (unowned var provider in app.metadata_providers) {
-				if (provider.can_read (file_data, metadata_attributes_v)) {
-					provider.read (file_data, metadata_attributes_v, cancellable);
+				if (provider.can_read (file_data.file, file_data.info, metadata_attributes_v)) {
+					provider.read (file_data.file, null, file_data.info, cancellable);
 				}
 			}
 		}

@@ -17,23 +17,25 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 		"Metadata::Tags"
 	};
 
-	public override bool can_read (FileData file_data, string[] attribute_v) {
-		unowned var content_type = file_data.get_content_type ();
-		if ((content_type != "*") && !ContentType.is_a (content_type, "image/*")) {
+	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {
+		unowned var content_type = Util.get_content_type (file, info);
+		if (!ContentType.is_a (content_type, "image/*")) {
 			return false;
 		}
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
 	}
 
-	public override void read (FileData file_data, string[] attribute_v, Cancellable cancellable) {
+	public override void read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
 		try {
-			// The embedded metadata is likely to be outdated if the user chooses to
-			// not store metadata in files.
-			var update_general_attributes = settings.get_boolean (PREF_GENERAL_STORE_METADATA_IN_FILES);
-
-			var stream = file_data.file.read (cancellable);
-			var bytes = Files.read_all (stream, cancellable);
-			Exiv2.read_metadata_from_buffer (bytes, file_data.info, update_general_attributes);
+			Bytes bytes = null;
+			if (buffer != null) {
+				bytes = buffer;
+			}
+			else if (file != null) {
+				var stream = file.read (cancellable);
+				bytes = Files.read_all (stream, cancellable);
+			}
+			Exiv2.read_metadata_from_buffer (bytes, info, true);
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR ExivMetadataProvider.read: %s\n", error.message);

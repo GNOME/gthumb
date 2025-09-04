@@ -19,4 +19,7 @@ namespace Lib {
 		out int out_year, out int out_month, out int out_day,
 		out int out_hour, out int out_minute, out int out_second,
 		out double out_usecond);
+
+	[CCode (cname = "_g_file_info_copy_attributes")]
+	public static void copy_file_attributes (FileInfo src, FileInfo dest);
 }

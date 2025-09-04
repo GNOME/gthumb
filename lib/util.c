@@ -747,3 +747,68 @@ void _g_file_info_swap_attributes (GFileInfo *info, const char *attr1, const cha
 	_g_file_attribute_value_free (value1);
 	_g_file_attribute_value_free (value2);
 }
+
+
+void _g_file_info_copy_attributes (GFileInfo *src, GFileInfo *dest) {
+	char **attributes = g_file_info_list_attributes (src, NULL);
+	if (attributes == NULL) {
+		return;
+	}
+
+	for (int idx = 0; attributes[idx] != NULL; idx++) {
+		const char *attr = attributes[idx];
+		GFileAttributeType attr_type;
+		gpointer attr_value_p;
+		GFileAttributeStatus attr_status;
+
+		g_print ("  COPY ATTRIBUTE %s [1]\n", attr);
+
+		if (!g_file_info_get_attribute_data (src, attr, &attr_type,
+			&attr_value_p, &attr_status)) {
+			g_print ("  [1.1]\n");
+			continue;
+		}
+
+		/*if (attr_status != G_FILE_ATTRIBUTE_STATUS_SET) {
+			g_print ("  [1.2]\n");
+			continue;
+		}*/
+
+		g_print ("  COPY ATTRIBUTE %s [2]\n", attr);
+
+		switch (attr_type) {
+		case G_FILE_ATTRIBUTE_TYPE_STRING:
+			g_file_info_set_attribute_string (dest, attr, (char *) attr_value_p);
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+			g_file_info_set_attribute_byte_string (dest, attr, (char *) attr_value_p);
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+			g_file_info_set_attribute_stringv (dest, attr, (char **) attr_value_p);
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
+			g_file_info_set_attribute_boolean (dest, attr, * ((gboolean *) attr_value_p));
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_UINT32:
+			g_file_info_set_attribute_uint32 (dest, attr, * ((guint32 *) attr_value_p));
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_INT32:
+			g_file_info_set_attribute_int32 (dest, attr, * ((gint32 *) attr_value_p));
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_UINT64:
+			g_file_info_set_attribute_uint64 (dest, attr, * ((guint64 *) attr_value_p));
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_INT64:
+			g_file_info_set_attribute_int64 (dest, attr, * ((gint64 *) attr_value_p));
+			break;
+		case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+			g_file_info_set_attribute_object (dest, attr, (GObject *) attr_value_p);
+			break;
+		default:
+			g_warning ("Unknown attribute type: %d", attr_type);
+			break;
+		}
+	}
+
+	g_strfreev (attributes);
+}

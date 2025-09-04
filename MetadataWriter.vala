@@ -39,6 +39,7 @@ public class Gth.MetadataWriter {
 				var comment = new Comment.from_info (file_data.info);
 				Files.save_content (file_data.file, comment.to_xml (), cancellable);
 			}
+			app.monitor.metadata_changed (file_data);
 		}
 	}
 

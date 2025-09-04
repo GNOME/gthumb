@@ -13,7 +13,7 @@ public class Gth.ImageSaver {
 			cancellable);
 		yield save_to_stream (image, stream, file_data, flags, cancellable);
 		stream.close ();
-		image.set_attribute ("ETag", stream.get_etag ());
+		image.info.set_attribute_string (FileAttribute.ETAG_VALUE, stream.get_etag ());
 		file_data.set_etag (stream.get_etag ());
 	}
 
@@ -23,7 +23,7 @@ public class Gth.ImageSaver {
 			cancellable);
 		yield save_to_stream (image, stream, file_data, flags, cancellable);
 		stream.close ();
-		image.set_attribute ("ETag", stream.get_etag ());
+		image.info.set_attribute_string (FileAttribute.ETAG_VALUE, stream.get_etag ());
 		file_data.set_etag (stream.get_etag ());
 	}
 

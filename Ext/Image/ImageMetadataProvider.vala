@@ -5,16 +5,24 @@ public class Gth.ImageMetadataProvider : Gth.MetadataProvider {
 		"Frame::Height",
 	};
 
-	public override bool can_read (FileData file_data, string[] attribute_v) {
+	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
 	}
 
-	public override void read (FileData file_data, string[] attribute_v, Cancellable cancellable) {
-		int width, height;
-		if (load_image_info (file_data.file, out width, out height, cancellable)) {
-			file_data.info.set_attribute_int32 ("Frame::Width", width);
-			file_data.info.set_attribute_int32 ("Frame::Height", height);
-			file_data.info.set_attribute_string ("Frame::Pixels", "%d × %d".printf (width, height));
+	public override void read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+		int width = 0, height = 0;
+		if (buffer != null) {
+			if (!load_image_info_from_bytes (buffer, out width, out height, cancellable)) {
+				return;
+			}
 		}
+		else if (file != null) {
+			if (!load_image_info (file, out width, out height, cancellable)) {
+				return;
+			}
+		}
+		info.set_attribute_int32 ("Frame::Width", width);
+		info.set_attribute_int32 ("Frame::Height", height);
+		info.set_attribute_string ("Frame::Pixels", "%d × %d".printf (width, height));
 	}
 }

@@ -12,10 +12,9 @@ public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 		"Video::*",
 	};
 
-	public override bool can_read (FileData file_data, string[] attribute_v) {
-		unowned var content_type = file_data.get_content_type ();
-		if ((content_type != "*")
-			&& !ContentType.is_a (content_type, "video/*")
+	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {
+		unowned var content_type = Util.get_content_type (file, info);
+		if (!ContentType.is_a (content_type, "video/*")
 			&& !ContentType.is_a (content_type, "audio/*"))
 		{
 			return false;
@@ -23,9 +22,11 @@ public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
 	}
 
-	public override void read (FileData file_data, string[] attribute_v, Cancellable cancellable) {
+	public override void read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
 		try {
-			Video.read_metadata (file_data.file, file_data.info, cancellable);
+			if (file != null) {
+				Video.read_metadata (file, info, cancellable);
+			}
 		}
 		catch (Error error) {
 		}

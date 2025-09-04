@@ -106,8 +106,9 @@ namespace Gth.Util {
 		return false;
 	}
 
-	public static bool attributes_match_any_pattern_v (string[] attribute_v, string[] pattern_v) {
-		return Util.attributes_match_patterns (attribute_v, pattern_v)
+	public static bool attributes_match_any_pattern_v (string[] attribute_v, string[]? pattern_v) {
+		return (pattern_v == null)
+			|| Util.attributes_match_patterns (attribute_v, pattern_v)
 			|| Util.attributes_match_patterns (pattern_v, attribute_v);
 	}
 

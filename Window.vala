@@ -392,6 +392,29 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	public void metadata_changed (FileData file_data) {
+		viewer.metadata_changed (file_data);
+		browser.metadata_changed (file_data);
+	}
+
+	async void edit_metadata (FileData file_data) {
+		var local_job = new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
+		try {
+			local_job.opens_dialog ();
+			var dialog = new EditMetadata ();
+			yield dialog.edit (this, file_data, local_job);
+			yield app.metadata_writer.save (file_data, local_job.cancellable);
+			local_job.dialog_closed ();
+		}
+		catch (Error error) {
+			local_job.dialog_closed ();
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
 	void update_scripts_actions () {
 		ActionList[] menus = {
 			browser.tools_popover.actions,
@@ -531,6 +554,30 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action = new SimpleAction ("cancel-all-jobs", null);
 		action.activate.connect ((_action, param) => {
 			cancel_jobs ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("view-new-window", null);
+		action.activate.connect (() => {
+			var file_data = get_current_file_data ();
+			if (file_data == null) {
+				show_error (new IOError.FAILED (_("No file selected")));
+				return;
+			}
+			var new_window = new Gth.Window ();
+			new_window.viewer.open_file.begin (file_data);
+			new_window.present ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-metadata", null);
+		action.activate.connect (() => {
+			var file_data = get_current_file_data ();
+			if (file_data == null) {
+				show_message (_("No file selected"));
+				return;
+			}
+			edit_metadata.begin (file_data);
 		});
 		action_group.add_action (action);
 	}

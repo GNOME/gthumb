@@ -13,7 +13,9 @@ public class Gth.Monitor : Object {
 		app.foreach_window ((win) => win.browser.catalog_saved (catalog, old_file));
 	}
 
-	// public signal void metadata_changed (Gth.FileData file);
+	public void metadata_changed (Gth.FileData file_data) {
+		app.foreach_window ((win) => win.metadata_changed (file_data));
+	}
 
 	public signal void file_changed (File file, Event event);
 

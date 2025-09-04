@@ -145,6 +145,46 @@ public class Gth.Comment : Object {
 		return doc.to_xml ();
 	}
 
+	public void update_info (FileInfo info) {
+		if (!Strings.empty (note)) {
+			info.set_attribute_object ("Metadata::Description", new Metadata.for_string (note));
+		}
+
+		if (!Strings.empty (caption)) {
+			info.set_attribute_object ("Metadata::Title", new Metadata.for_string (caption));
+		}
+
+		if (!Strings.empty (place)) {
+			info.set_attribute_object ("Metadata::Location", new Metadata.for_string (place));
+		}
+
+		if (rating > 0) {
+			info.set_attribute_object ("Metadata::Rating", new Metadata.for_string ("%d".printf (rating)));
+		}
+		else {
+			info.remove_attribute ("Metadata::Rating");
+		}
+
+		if (categories.length > 0) {
+			var list = new StringList.from_array (categories);
+			var metadata = new Metadata.for_string_list (list);
+			info.set_attribute_object ("Metadata::Tags", metadata);
+		}
+		else {
+			info.remove_attribute ("Metadata::Tags");
+		}
+
+		if (time.date_is_valid ()) {
+			var raw = time.to_exif_date ();
+			var formatted = time.to_display_string ();
+			var metadata = new Metadata.for_string (raw, formatted);
+			info.set_attribute_object ("Metadata::DateTime", metadata);
+		}
+		else {
+			info.remove_attribute ("Metadata::DateTime");
+		}
+	}
+
 	void reset () {
 		caption = null;
 		note = null;

@@ -52,22 +52,27 @@ public class Gth.FileData : Object {
 		sort_key = null;
 	}
 
-	const string[] PRESERVE_ATTRIBUTES = {
+	const string[] LOADER_ATTRIBUTES = {
 		FileAttribute.STANDARD_CONTENT_TYPE,
 		FileAttribute.STANDARD_FAST_CONTENT_TYPE,
 		PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE,
 	};
 
-	public void update_info (FileInfo _info) {
+	public void update_info (FileInfo _info, bool preserve_loader_attributes = true) {
+		if (_info == info) {
+			return;
+		}
 		var old_info = info;
 		info = _info;
-		// Keep some attributes if not included in the new info.
-		foreach (unowned var attr in PRESERVE_ATTRIBUTES) {
-			if (!info.has_attribute (attr)
-				&& old_info.has_attribute (attr))
-			{
-				unowned var value = old_info.get_attribute_string (attr);
-				info.set_attribute_string (attr, value);
+		if (preserve_loader_attributes) {
+			// Keep the attributes added by ImageLoader if not included in the new info.
+			foreach (unowned var attr in LOADER_ATTRIBUTES) {
+				if (!info.has_attribute (attr)
+					&& old_info.has_attribute (attr))
+				{
+					unowned var value = old_info.get_attribute_string (attr);
+					info.set_attribute_string (attr, value);
+				}
 			}
 		}
 		info_changed ();
@@ -94,7 +99,6 @@ public class Gth.FileData : Object {
 		embedded_rating = -1;
 		icon_name = null;
 		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (get_content_type ()));
-		// TODO: app.monitor.metadata_changed (this);
 	}
 
 	Gth.DateTime mtime = null;
@@ -285,20 +289,10 @@ public class Gth.FileData : Object {
 	public void set_content_type (string type) {
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, type);
 		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (type));
-		// TODO: app.monitor.metadata_changed (this);
 	}
 
 	public unowned string get_content_type () {
-		unowned var result = info.get_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE);
-		if (result == null) {
-			result = info.get_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE);
-		}
-		if (result == null) {
-			unowned var guessed_type = Util.guess_content_type_from_name (file.get_basename ());
-			info.set_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE, guessed_type);
-			result = guessed_type;
-		}
-		return result;
+		return Util.get_content_type (file, info);
 	}
 
 	public void set_etag (string? etag) {

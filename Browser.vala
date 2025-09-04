@@ -942,36 +942,12 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("view-new-window", null);
-		action.activate.connect (() => {
-			var file = get_selected_file ();
-			if (file == null) {
-				window.show_error (new IOError.FAILED (_("No file selected")));
-				return;
-			}
-			var new_window = new Gth.Window ();
-			new_window.viewer.open_file.begin (file);
-			new_window.present ();
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction ("view-fullscreen", null);
 		action.activate.connect (() => {
 			var position = get_selected_position ();
 			if (position != uint.MAX) {
 				view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
 			}
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("edit-metadata", null);
-		action.activate.connect (() => {
-			var file_data = get_selected_file_data ();
-			if (file_data == null) {
-				window.show_message (_("No file selected"));
-				return;
-			}
-			edit_metadata.begin (file_data);
 		});
 		action_group.add_action (action);
 	}
@@ -1133,24 +1109,6 @@ public class Gth.Browser : Gtk.Box {
 			if (local_job == search_job) {
 				search_job = null;
 			}
-		}
-	}
-
-	async void edit_metadata (FileData file_data) {
-		var local_job = window.new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
-		try {
-			local_job.opens_dialog ();
-			var dialog = new EditMetadata ();
-			yield dialog.edit (window, file_data, local_job);
-			yield app.metadata_writer.save (file_data, local_job.cancellable);
-			local_job.dialog_closed ();
-		}
-		catch (Error error) {
-			local_job.dialog_closed ();
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
 		}
 	}
 
@@ -1471,6 +1429,22 @@ public class Gth.Browser : Gtk.Box {
 				files,
 				folder_tree.current_folder.file,
 				job);
+		}
+	}
+
+	public void metadata_changed (FileData file_data) {
+		if ((property_sidebar.current_file != null)
+			&& property_sidebar.current_file.file.equal (file_data.file))
+		{
+			property_sidebar.current_file = file_data;
+		}
+		var iter = folder_tree.current_children.iterator ();
+		while (iter.next ()) {
+			var _file_data = iter.get ();
+			if (_file_data.file.equal (file_data.file)) {
+				_file_data.update_info (file_data.info);
+				break;
+			}
 		}
 	}
 

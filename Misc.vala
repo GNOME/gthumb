@@ -143,6 +143,19 @@ namespace Gth.Util {
 		return Strings.get_static (ContentType.guess (filename, null, null));
 	}
 
+	public static unowned string? get_content_type (File? file, FileInfo info) {
+		unowned var result = info.get_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE);
+		if (result == null) {
+			result = info.get_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE);
+		}
+		if ((result == null) && (file != null)) {
+			unowned var guessed_type = Util.guess_content_type_from_name (file.get_basename ());
+			info.set_attribute_string (FileAttribute.STANDARD_FAST_CONTENT_TYPE, guessed_type);
+			result = guessed_type;
+		}
+		return result;
+	}
+
 	public static int int_cmp (int x, int y) {
 		return (x < y) ? -1 : (x > y) ? 1 : 0;
 	}

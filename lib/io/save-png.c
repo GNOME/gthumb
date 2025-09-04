@@ -142,8 +142,9 @@ GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellabl
 		gpointer key, value;
 		g_hash_table_iter_init (&iter, attributes);
 		while (g_hash_table_iter_next (&iter, &key, &value)) {
-			if (g_str_has_prefix (key, "private::"))
+			if (g_str_has_prefix (key, "Private::")) {
 				continue;
+			}
 			keys = g_list_prepend (keys, key);
 			num_text++;
 		}

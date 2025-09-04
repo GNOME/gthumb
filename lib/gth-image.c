@@ -32,6 +32,7 @@ struct _GthImagePrivate {
 	GthIccProfile *icc_profile;
 	GBytes *bytes;
 	GHashTable *attributes;
+	GFileInfo *info;
 };
 
 
@@ -71,6 +72,7 @@ static void gth_image_finalize (GObject *object) {
 	if (self->priv->attributes != NULL) {
 		g_hash_table_unref (self->priv->attributes);
 	}
+	_g_object_unref (self->priv->info);
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_image_parent_class)->finalize (object);
@@ -110,6 +112,7 @@ static void gth_image_init (GthImage *self) {
 	self->priv->icc_profile = NULL;
 	self->priv->bytes = NULL;
 	self->priv->attributes = NULL;
+	self->priv->info = g_file_info_new ();
 }
 
 
@@ -189,11 +192,17 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 
 	// Copy the attributes
 
-	GHashTableIter iter;
-	gpointer key, value;
-	g_hash_table_iter_init (&iter, src->priv->attributes);
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		gth_image_set_attribute (dest, (char*) key, (char*) value);
+	if (src->priv->attributes != NULL) {
+		GHashTableIter iter;
+		gpointer key, value;
+		g_hash_table_iter_init (&iter, src->priv->attributes);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			gth_image_set_attribute (dest, (char*) key, (char*) value);
+		}
+	}
+
+	if (src->priv->info != NULL) {
+		g_file_info_copy_into (src->priv->info, dest->priv->info);
 	}
 }
 
@@ -423,6 +432,20 @@ GHashTable * gth_image_get_attributes (GthImage *self) {
 }
 
 
+GFileInfo * gth_image_get_info (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	return self->priv->info;
+}
+
+
+void gth_image_set_info (GthImage *self, GFileInfo *info) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	_g_object_ref (info);
+	_g_object_unref (self->priv->info);
+	self->priv->info = info;
+}
+
+
 gboolean gth_image_get_can_scale (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	return GTH_IMAGE_GET_CLASS (self)->get_can_scale (self);
@@ -438,7 +461,7 @@ void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 
 	if ((self->priv->icc_profile == NULL) && (profile != NULL)) {
-		gth_image_set_attribute (self, "ColorProfile", gth_icc_profile_get_description (profile));
+		gth_image_set_attribute (self, "Private::ColorProfile", gth_icc_profile_get_description (profile));
 	}
 
 	_g_object_ref (profile);

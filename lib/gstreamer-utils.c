@@ -268,9 +268,11 @@ static void tag_iterate (const GstTagList *list, const char *tag, GFileInfo *inf
 	}
 	else if (strcmp (tag, "title") == 0) {
 		tag_key = "Metadata::Title";
+		g_file_info_set_attribute_boolean (info, "Embedded::UpdatedGeneralAttributes", TRUE);
 	}
 	else if (strcmp (tag, "description") == 0) {
 		tag_key = "Metadata::Description";
+		g_file_info_set_attribute_boolean (info, "Embedded::UpdatedGeneralAttributes", TRUE);
 	}
 	else if (strcmp (tag, "artist") == 0) {
 		tag_key = "Media::Artist";

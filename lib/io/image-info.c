@@ -12,21 +12,12 @@
 
 #define BUFFER_SIZE 4096
 
-gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *cancellable) {
-	GFileInputStream *stream = g_file_read (file, cancellable, NULL);
-	if (stream == NULL) {
-		return FALSE;
-	}
-
+static gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *height, GCancellable *cancellable) {
 	int buffer_size = BUFFER_SIZE;
 	guchar *buffer = g_new (guchar, buffer_size);
 	gsize size;
-	if (!g_input_stream_read_all (G_INPUT_STREAM (stream),
-		buffer,
-		buffer_size,
-		&size,
-		cancellable,
-		NULL))
+	if (!g_input_stream_read_all (stream, buffer, buffer_size,
+		&size, cancellable, NULL))
 	{
 		g_free (buffer);
 		g_object_unref (stream);
@@ -81,7 +72,7 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 
 #if HAVE_LIBJXL
 	if (!format_recognized && (size >= 12)) {
-		if (load_jxl_info (G_INPUT_STREAM (stream), &image_info, buffer, size, cancellable)) {
+		if (load_jxl_info (stream, &image_info, buffer, size, cancellable)) {
 			format_recognized = TRUE;
 		}
 	}
@@ -93,7 +84,7 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 		&& ((g_strcmp0 (mime_type, "image/heic") == 0)
 			|| (g_strcmp0 (mime_type, "image/avif") == 0)))
 	{
-		if (load_heif_info (G_INPUT_STREAM (stream), &image_info, buffer, size, cancellable)) {
+		if (load_heif_info (stream, &image_info, buffer, size, cancellable)) {
 			format_recognized = TRUE;
 		}
 	}
@@ -101,16 +92,13 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 
 #if HAVE_LIBTIFF
 	if (!format_recognized && (g_strcmp0 (mime_type, "image/tiff") == 0)) {
-		GInputStream *buffered = g_buffered_input_stream_new_sized (G_INPUT_STREAM (stream), BUFFER_SIZE);
-		if (load_tiff_info (buffered, &image_info, cancellable)) {
+		if (load_tiff_info (stream, &image_info, cancellable)) {
 			format_recognized = TRUE;
 		}
-		g_object_unref (buffered);
 	}
 #endif /* HAVE_LIBTIFF */
 
 	g_free (buffer);
-	g_object_unref (stream);
 
 	if (width != NULL)
 		*width = image_info.width;
@@ -118,4 +106,23 @@ gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *ca
 		*height = image_info.height;
 
 	return format_recognized;
+}
+
+gboolean load_image_info_from_bytes (GBytes *bytes, int *width, int *height, GCancellable *cancellable) {
+	GInputStream *stream = g_memory_input_stream_new_from_bytes (bytes);
+	gboolean result = load_image_info_from_stream (stream, width, height, cancellable);
+	g_object_unref (stream);
+	return result;
+}
+
+gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *cancellable) {
+	GFileInputStream *file_stream = g_file_read (file, cancellable, NULL);
+	if (file_stream == NULL) {
+		return FALSE;
+	}
+	GInputStream *buffered = g_buffered_input_stream_new_sized (G_INPUT_STREAM (file_stream), BUFFER_SIZE);
+	gboolean result = load_image_info_from_stream (buffered, width, height, cancellable);
+	g_object_unref (buffered);
+	g_object_unref (file_stream);
+	return result;
 }

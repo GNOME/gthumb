@@ -150,8 +150,10 @@ public class Gth.Application : Adw.Application {
 		register_metadata_provider (typeof (FileMetadataProvider));
 		register_metadata_provider (typeof (ExivMetadataProvider));
 		register_metadata_provider (typeof (ImageMetadataProvider));
-		register_metadata_provider (typeof (CommentMetadataProvider));
 		register_metadata_provider (typeof (VideoMetadataProvider));
+		// Always the last one, in order to give priority to the embedded
+		// metadata if the file is newer than the comment file.
+		register_metadata_provider (typeof (CommentMetadataProvider));
 
 		loaders = new HashTable<string, Gth.LoadFunc>(str_hash, str_equal);
 		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);

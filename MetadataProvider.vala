@@ -1,9 +1,4 @@
 public abstract class Gth.MetadataProvider : Object {
-	public abstract bool can_read (FileData file_data, string[] attribute_v);
-
-	public abstract void read (FileData file_data, string[] attribute_v, Cancellable cancellable);
-
-	public virtual void write (FileData file_data,  Cancellable cancellable) {
-		// void
-	}
+	public abstract bool can_read (File? file, FileInfo info, string[]? attribute_v = null);
+	public abstract void read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable);
 }
