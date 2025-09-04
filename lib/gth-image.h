@@ -46,11 +46,11 @@ void gth_image_init_pixels (GthImage *self, guint width, guint height);
 GthImage * gth_image_dup (GthImage *self);
 void gth_image_copy_pixels (GthImage *src, GthImage *dest);
 void gth_image_copy_metadata (GthImage *src, GthImage *dest);
-guchar * gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride);
+guchar * gth_image_get_pixels (GthImage *self, gsize *size);
 guint gth_image_get_row_stride (GthImage *self);
 GdkTexture * gth_image_get_texture (GthImage *self);
 GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, guint width, guint height);
-guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height);
+guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, int *height);
 void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int row_stride);
 
 // Properties

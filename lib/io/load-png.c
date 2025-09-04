@@ -256,7 +256,7 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 	// Read the image.
 
 	int row_stride;
-	guchar *surface_row = gth_image_get_pixels (loader_data.image, NULL, &row_stride);
+	guchar *surface_row = gth_image_prepare_edit (loader_data.image, &row_stride, NULL, NULL);
 	png_bytep *row_pointers = g_new (png_bytep, height);
 	for (int row = 0; row < height; row++) {
 		row_pointers[row] = surface_row;

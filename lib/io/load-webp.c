@@ -55,9 +55,8 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 	config.output.colorspace = MODE_Argb;
 #endif
 	gsize image_size;
-	int row_stride;
-	config.output.u.RGBA.rgba = (uint8_t *) gth_image_get_pixels (image, &image_size, &row_stride);
-	config.output.u.RGBA.stride = row_stride;
+	config.output.u.RGBA.rgba = (uint8_t *) gth_image_get_pixels (image, &image_size);
+	config.output.u.RGBA.stride = (int) gth_image_get_row_stride (image);
 	config.output.u.RGBA.size = (size_t) image_size;
 	config.output.is_external_memory = 1;
 	config.output.width = width;

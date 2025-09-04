@@ -113,7 +113,7 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			height = info.ysize;
 			image = gth_image_new ((guint) width, (guint) height);
 			gth_image_set_has_alpha (image, info.num_extra_channels > 0);
-			surface_data = gth_image_get_pixels (image, NULL, NULL);
+			surface_data = gth_image_get_pixels (image, NULL);
 			break;
 
 #if HAVE_LCMS2

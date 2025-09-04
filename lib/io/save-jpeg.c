@@ -90,10 +90,8 @@ GBytes* save_jpeg (GthImage *image, GthOption **options, GCancellable *cancellab
 		}
 	}
 
-	int width = (int) gth_image_get_width (image);
-	int height = (int) gth_image_get_height (image);
-	int row_stride;
-	guchar *pixels = gth_image_get_pixels (image, NULL, &row_stride);
+	int row_stride, width, height;
+	guchar *pixels = gth_image_prepare_edit (image, &row_stride, &width, &height);
 
 	if (pixels == NULL) {
 		g_set_error_literal (error,

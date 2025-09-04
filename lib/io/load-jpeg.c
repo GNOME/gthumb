@@ -239,7 +239,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 		g_object_unref (profile);
 	}
 
-	unsigned char *surface_data = gth_image_get_pixels (image, NULL, NULL);
+	unsigned char *surface_data = gth_image_get_pixels (image, NULL);
 	unsigned char *surface_row = surface_data + line_start;
 	int scanned_lines = 0;
 	JDIMENSION n_lines;

@@ -186,15 +186,11 @@ horizontal_scale_and_transpose (GthImage *image,
 		scale = 1.0;
 	}
 
-	int image_width = (int) gth_image_get_width (image);
-	int scaled_width = (int) gth_image_get_width (scaled);
-	int scaled_height = (int) gth_image_get_height (scaled);
+	int src_rowstride, image_width;
+	guchar *p_src = gth_image_prepare_edit (image, &src_rowstride, &image_width, NULL);
 
-	int src_rowstride;
-	guchar *p_src = gth_image_get_pixels (image, NULL, &src_rowstride);
-
-	int dest_rowstride;
-	guchar *p_dest = gth_image_get_pixels (scaled, NULL, &dest_rowstride);
+	int dest_rowstride, scaled_width, scaled_height;
+	guchar *p_dest = gth_image_prepare_edit (scaled, &dest_rowstride, &scaled_width, &scaled_height);
 
 	ScaleReal *weights = g_new (ScaleReal, 2.0 * support + 3.0);
 

@@ -51,7 +51,7 @@ static void gth_image_init_pixels_from_cairo_surface (GthImage *image, cairo_sur
 
 	gth_image_init_pixels (image, width, height);
 	int dest_stride;
-	guchar *dest_pixels = gth_image_get_pixels (image, NULL, &dest_stride);
+	guchar *dest_pixels = gth_image_prepare_edit (image, &dest_stride, NULL, NULL);
 
 	const guchar *src_row = src_pixels;
 	guchar *dest_row = dest_pixels;

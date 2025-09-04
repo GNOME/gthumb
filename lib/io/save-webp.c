@@ -23,18 +23,16 @@ static gboolean import_image (WebPPicture *const picture, GthImage *image) {
 		return FALSE;
 	}
 
-	int src_stride;
-	guchar *src_row = gth_image_get_pixels (image, NULL, &src_stride);
+	int src_stride, width, height;
+	guchar *src_row = gth_image_prepare_edit (image, &src_stride, &width, &height);
 	uint32_t *dest_row = picture->argb;
-	guint width = gth_image_get_width (image);
-	guint height = gth_image_get_height (image);
 	int temp;
 	guchar r, g, b, a;
 	for (guint y = 0; y < height; y++) {
 		guchar *src_pixel = src_row;
 		for (guint x = 0; x < width; x++) {
 			GET_PIXEL_RGBA (src_pixel, r, g, b, a);
-			dest_row[x] = ((a << 24) | (r << 16) | (g <<  8) | b);
+			dest_row[x] = ((a << 24) | (r << 16) | (g << 8) | b);
 			src_pixel += 4;
 		}
 		src_row += src_stride;

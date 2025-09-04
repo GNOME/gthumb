@@ -256,7 +256,7 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 	}
 
 	int dest_row_stride;
-	guchar *dest_row = gth_image_get_pixels (image, NULL, &dest_row_stride);
+	guchar *dest_row = gth_image_prepare_edit (image, &dest_row_stride, NULL, NULL);
 	int src_row_stride = image_width * 4;
 	guchar *src_row = (guchar *) raster;
 	for (int y = 0; y < image_height; y++) {

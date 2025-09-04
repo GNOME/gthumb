@@ -4,9 +4,8 @@
 #include "lib/types.h"
 
 GthImage * gth_image_tranform (GthImage *source, GthTransform transform, GCancellable *cancellable) {
-	guint source_width = gth_image_get_width (source);
-	guint source_height = gth_image_get_height (source);
-	guint source_stride = gth_image_get_row_stride (source);
+	int source_stride, source_width, source_height;
+	unsigned char *source_line = gth_image_prepare_edit (source, &source_stride, &source_width, &source_height);
 
 	int destination_width;
 	int destination_height;
@@ -23,8 +22,7 @@ GthImage * gth_image_tranform (GthImage *source, GthTransform transform, GCancel
 		&pixel_step);
 
 	GthImage *destination = gth_image_new ((uint) destination_width, (uint) destination_height);
-	unsigned char *source_line = gth_image_get_pixels (source, NULL, NULL);
-	unsigned char *destination_line = gth_image_get_pixels (destination, NULL, NULL) + line_start;
+	unsigned char *destination_line = gth_image_get_pixels (destination, NULL) + line_start;
 	while (source_height-- > 0) {
 		unsigned char *source_pixel = source_line;
 		unsigned char *destination_pixel = destination_line;

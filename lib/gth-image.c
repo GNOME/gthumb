@@ -198,12 +198,10 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 }
 
 
-guchar* gth_image_get_pixels (GthImage *self, gsize *size, int *row_stride) {
+guchar* gth_image_get_pixels (GthImage *self, gsize *size) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	if (size != NULL)
 		*size = self->priv->size;
-	if (row_stride != NULL)
-		*row_stride = self->priv->row_stride;
 	return self->priv->buffer;
 }
 
@@ -214,32 +212,32 @@ guint gth_image_get_row_stride (GthImage *self) {
 }
 
 
-guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, guint *width, guint *height) {
+guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, int *height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	if (row_stride != NULL)
 		*row_stride = self->priv->row_stride;
 	if (width != NULL)
-		*width = self->priv->width;
+		*width = (int) self->priv->width;
 	if (height != NULL)
-		*height = self->priv->height;
+		*height = (int) self->priv->height;
 	return self->priv->buffer;
 }
 
 
 void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int data_stride) {
-	int surface_stride;
-	unsigned char *surface_data = gth_image_get_pixels (self, NULL, &surface_stride);
+	unsigned char *surface_data = self->priv->buffer;
+	int row_stride = self->priv->row_stride;
 	if (with_alpha) {
 		for (int row = 0; row < self->priv->height; row++) {
 			rgba_big_endian_line_to_pixel (surface_data, data, self->priv->width);
-			surface_data += surface_stride;
+			surface_data += row_stride;
 			data += data_stride;
 		}
 	}
 	else {
 		for (int row = 0; row < self->priv->height; row++) {
 			rgb_big_endian_line_to_pixel (surface_data, data, self->priv->width);
-			surface_data += surface_stride;
+			surface_data += row_stride;
 			data += data_stride;
 		}
 	}

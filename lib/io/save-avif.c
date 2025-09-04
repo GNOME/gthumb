@@ -94,7 +94,7 @@ GBytes* save_avif (GthImage *image, GthOption **options, GCancellable *cancellab
 	}
 
 	int in_stride;
-	guchar *pixels = gth_image_get_pixels (image, NULL, &in_stride);
+	guchar *pixels = gth_image_prepare_edit (image, &in_stride, NULL, NULL);
 	int out_stride;
 	uint8_t *plane = heif_image_get_plane (heif_image, heif_channel_interleaved, &out_stride);
 	while (rows > 0) {

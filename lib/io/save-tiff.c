@@ -99,12 +99,11 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 		return NULL;
 	}
 
-	int cols = (int) gth_image_get_width (image);
-	int rows = (int) gth_image_get_height (image);
+	int rowstride, cols, rows;
+	guchar *pixels = gth_image_prepare_edit (image, &rowstride, &cols, &rows);
+
 	int alpha = FALSE;
 	gth_image_get_has_alpha (image, &alpha);
-	int rowstride;
-	guchar *pixels = gth_image_get_pixels (image, NULL, &rowstride);
 
 	gshort predictor = 2;
 	gshort bitspersample = 8;

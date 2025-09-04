@@ -9,7 +9,7 @@ namespace Gth {
 		public void copy_metadata (Image destination);
 		public void copy_pixels (Image destination);
 		[CCode (array_length_cname = "size", array_length_type = "size_t", array_length_pos = 1.1)]
-		public unowned uint8[] get_pixels (out int row_stride);
+		public unowned uint8[] get_pixels ();
 		public uint get_row_stride ();
 		public uint get_width ();
 		public uint get_height ();

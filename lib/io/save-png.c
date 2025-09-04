@@ -226,7 +226,7 @@ GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellabl
 	int bpp = alpha ? 4 : 3;
 	saver_data.line_buffer = g_new (guchar, width * bpp);
 	int row_stride;
-	guchar *pixels = gth_image_get_pixels (image, NULL, &row_stride);
+	guchar *pixels = gth_image_prepare_edit (image, &row_stride, NULL, NULL);
 	guchar *row_ptr = pixels;
 	if (alpha) {
 		for (int row = 0; row < height; row++) {
