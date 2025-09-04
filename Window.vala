@@ -420,6 +420,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	async void edit_metadata (FileData file_data) {
+		// TODO: load the metadata from file again?
 		var local_job = new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
 		try {
 			local_job.opens_dialog ();
