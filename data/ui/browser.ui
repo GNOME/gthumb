@@ -123,6 +123,7 @@
                           <object class="GthFolderTree" id="folder_tree">
                             <property name="sidebar">true</property>
                             <property name="single-root">true</property>
+                            <property name="menu-model">folder_menu</property>
                           </object>
                         </child>
                       </object>
@@ -462,6 +463,46 @@
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
         <attribute name="action">win.select-all</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="folder_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open in New Window</attribute>
+        <attribute name="action">folder.open-new-window</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Open in Terminal</attribute>
+        <attribute name="action">folder.open-terminal</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Open with File Manager</attribute>
+        <attribute name="action">folder.open-file-manager</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Create Folder</attribute>
+        <attribute name="action">folder.new</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <!-- Translators: it's a verb, as in "Cut Files" -->
+        <attribute name="label" translatable="yes">Cut</attribute>
+        <attribute name="verb-icon">edit-cut-symbolic</attribute>
+        <attribute name="action">folder.cut</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Copy Files" -->
+        <attribute name="label" translatable="yes">Copy</attribute>
+        <attribute name="verb-icon">edit-copy-symbolic</attribute>
+        <attribute name="action">folder.copy</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Paste into Folder</attribute>
+        <attribute name="action">folder.paste</attribute>
       </item>
     </section>
   </menu>

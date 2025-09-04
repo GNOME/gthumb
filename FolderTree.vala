@@ -19,6 +19,17 @@ public class Gth.FolderTree : Gtk.Box {
 	public string list_attributes;
 	public bool single_root { get; construct set; default = false; }
 	public weak JobQueue job_queue;
+	public MenuModel menu_model {
+		set construct {
+			if (context_menu != null) {
+				context_menu.menu_model = value;
+			}
+		}
+		get {
+			return (context_menu != null) ? context_menu.menu_model : null;
+		}
+	}
+	public File context_file;
 
 	[Signal (action=true)]
 	public signal void load (File location, LoadAction action);
@@ -28,6 +39,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public Gtk.TreeListModel tree_model;
 	Gtk.SingleSelection tree_selection_model;
 	bool current_folder_as_root;
+	Gtk.PopoverMenu context_menu;
 
 	private bool _show_hidden;
 
@@ -56,6 +68,9 @@ public class Gth.FolderTree : Gtk.Box {
 		tree_selection_model = new Gtk.SingleSelection (tree_model);
 		tree_selection_model.autoselect = false;
 		tree_selection_model.notify["selected"].connect ((obj, _param) => {
+			if (context_menu_visible) {
+				return;
+			}
 			if (!current_parents.is_empty ()) {
 				// Ignore selection changes when still building the tree.
 				return;
@@ -128,6 +143,21 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 		});
 		scrolled_window.set_child (view);
+
+		context_menu = new Gtk.PopoverMenu.from_model (menu_model);
+		context_menu.has_arrow = true;
+		context_menu.position = Gtk.PositionType.BOTTOM;
+		context_menu.add_css_class ("deeper");
+		context_menu.closed.connect (() => {
+			if (selected_before_context_menu != -1) {
+				tree_selection_model.set_selected (selected_before_context_menu);
+				selected_before_context_menu = -1;
+			}
+			context_menu_visible = false;
+		});
+		append (context_menu);
+
+		context_file = null;
 	}
 
 	public void reload () {
@@ -493,4 +523,27 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 		return nearest_parent;
 	}
+
+	public void open_context_menu (FolderTreeItem item, int x, int y) {
+		if (context_menu.menu_model == null) {
+			return;
+		}
+
+		context_file = item.file_data.file;
+
+		Graphene.Point p = Graphene.Point.zero ();
+		item.compute_point (this, Graphene.Point.zero (), out p);
+		context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
+		context_menu.popup ();
+		context_menu_visible = true;
+
+		// Select the item without loading the content.
+		selected_before_context_menu = (int) tree_selection_model.selected;
+		int position;
+		get_file_row (context_file, out position);
+		tree_selection_model.set_selected (position);
+	}
+
+	int selected_before_context_menu = -1;
+	bool context_menu_visible;
 }

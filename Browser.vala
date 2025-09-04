@@ -95,6 +95,7 @@ public class Gth.Browser : Gtk.Box {
 		open_in_fullscreen = app.settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
 
 		init_actions ();
+		init_folder_actions ();
 	}
 
 	async void add_files (GenericList<File> files) {
@@ -851,6 +852,58 @@ public class Gth.Browser : Gtk.Box {
 			var position = get_selected_position ();
 			if (position != uint.MAX) {
 				view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
+			}
+		});
+		action_group.add_action (action);
+	}
+
+	void init_folder_actions () {
+		var action_group = new SimpleActionGroup ();
+		window.insert_action_group ("folder", action_group);
+
+		var action = new SimpleAction ("open-new-window", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.context_file != null) {
+				var new_window = new Gth.Window ();
+				new_window.browser.open_location (folder_tree.context_file);
+				new_window.present ();
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-terminal", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.context_file != null) {
+				try {
+					var settings = new GLib.Settings (GTHUMB_TERMINAL_SCHEMA);
+					var files = new List<File> ();
+					files.append (folder_tree.context_file);
+					var info = AppInfo.create_from_commandline (settings.get_string (PREF_TERMINAL_COMMAND), _("Terminal"), AppInfoCreateFlags.NONE);
+					info.launch (files, window.display.get_app_launch_context ());
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-file-manager", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.context_file != null) {
+				var launcher = new Gtk.FileLauncher (folder_tree.context_file);
+				var local_job = window.new_job ("Open %s".printf (folder_tree.context_file.get_uri ()));
+				launcher.launch.begin (window, local_job.cancellable, (_obj, res) => {
+					try {
+						launcher.launch.end (res);
+					}
+					catch (Error error) {
+						window.show_error (error);
+					}
+					finally {
+						local_job.done ();
+					}
+				});
 			}
 		});
 		action_group.add_action (action);

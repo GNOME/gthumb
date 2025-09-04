@@ -37,6 +37,13 @@ public class Gth.FolderTreeItem : Gtk.Box {
 			}
 		});
 		add_controller (controller);
+
+		var secondary_button = new Gtk.GestureClick ();
+		secondary_button.set_button (Gdk.BUTTON_SECONDARY);
+		secondary_button.pressed.connect ((n_press, x, y) => {
+			folder_tree.open_context_menu (this, (int) x, (int) y);
+		});
+		add_controller (secondary_button);
 	}
 
 	public void bind (Gtk.TreeListRow row, FileData _file_data) {
