@@ -59,7 +59,9 @@ public class Gth.FileManager {
 		dialog.modal = true;
 		dialog.title = _("Copy");
 		dialog.initial_folder = window.get_current_vfs_folder ();
+		job.opens_dialog ();
 		var destination = yield dialog.select_folder (window, job.cancellable);
+		job.dialog_closed ();
 		yield copy_files (files, destination, job);
 	}
 
@@ -78,7 +80,9 @@ public class Gth.FileManager {
 		dialog.modal = true;
 		dialog.title = _("Move");
 		dialog.initial_folder = window.get_current_vfs_folder ();
+		job.opens_dialog ();
 		var destination = yield dialog.select_folder (window, job.cancellable);
+		job.dialog_closed ();
 		yield move_files (files, destination, job);
 	}
 

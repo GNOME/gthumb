@@ -67,6 +67,7 @@ public class Gth.Job : Object {
 			state = State.COMPLETED;
 			progress = 1.0f;
 		}
+		open_dialogs = 0;
 		terminated = true;
 		if (toast != null) {
 			toast.dismiss ();

@@ -326,6 +326,28 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return (file_data != null) ? file_data.file : null;
 	}
 
+	public GenericList<File>? get_selected_files () {
+		switch (current_page) {
+		case Page.BROWSER:
+			return browser.get_selected_files ();
+		case Page.VIEWER:
+			return viewer.get_selected_file ();
+		default:
+			return null;
+		}
+	}
+
+	public GenericList<FileData> get_selected_file_data_list () {
+		switch (current_page) {
+		case Page.BROWSER:
+			return browser.get_selected_file_data_list ();
+		case Page.VIEWER:
+			return viewer.get_selected_file_data_list ();
+		default:
+			return null;
+		}
+	}
+
 	public File? get_current_vfs_folder () {
 		if (current_page == Page.VIEWER) {
 			return viewer.current_file.file.get_parent ();
@@ -444,7 +466,15 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void init_actions () {
-		var action = new SimpleAction ("pop-page", null);
+		var action = new SimpleAction ("new-window", null);
+		action.activate.connect (() => {
+			var new_window = new Gth.Window ();
+			new_window.browser.open_location (browser.folder_tree.current_folder.file, LoadAction.OPEN, get_current_file ());
+			new_window.present ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
 			var next_page = Page.NONE;
 			if (current_page == Page.VIEWER) {
@@ -578,6 +608,90 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return;
 			}
 			edit_metadata.begin (file_data);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-files-to", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			var local_job = new_job (_("Copying Files"), JobFlags.FOREGROUND);
+			file_manager.copy_files_ask_destination.begin (files, local_job, (_obj, res) => {
+				try {
+					file_manager.copy_files_ask_destination.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("move-files-to", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			var local_job = new_job (_("Moving Files"), JobFlags.FOREGROUND);
+			file_manager.move_files_ask_destination.begin (files, local_job, (_obj, res) => {
+				try {
+					file_manager.move_files_ask_destination.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_file_data_list ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+			file_manager.delete_files.begin (files, local_job, (_obj, res) => {
+				try {
+					file_manager.delete_files.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("trash-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+			file_manager.trash_files.begin (files, local_job, (_obj, res) => {
+				try {
+					file_manager.trash_files.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
 		});
 		action_group.add_action (action);
 	}

@@ -249,5 +249,30 @@
         <attribute name="action">image.copy-image</attribute>
       </item>
     </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy To…</attribute>
+        <attribute name="action">win.copy-files-to</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Move To…</attribute>
+        <attribute name="action">win.move-files-to</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Rename Files" -->
+        <attribute name="label" translatable="yes">Rename</attribute>
+        <attribute name="action">win.rename-files</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Move to Trash</attribute>
+        <attribute name="action">win.trash-files</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">win.delete-files</attribute>
+      </item>
+    </section>
   </menu>
 </interface>

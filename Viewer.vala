@@ -412,6 +412,22 @@ public class Gth.Viewer : Gtk.Box {
 		return selected_files;
 	}
 
+	public GenericList<File> get_selected_file () {
+		var selected_files = new GenericList<File>();
+		if (current_file != null) {
+			selected_files.model.append (current_file.file);
+		}
+		return selected_files;
+	}
+
+	public GenericList<FileData> get_selected_file_data_list () {
+		var selected_files = new GenericList<FileData>();
+		if (current_file != null) {
+			selected_files.model.append (current_file);
+		}
+		return selected_files;
+	}
+
 	void add_overlay_motion_controller (Gtk.Widget revealer, bool removable = true) {
 		var motion_events = new Gtk.EventControllerMotion ();
 		var enter_id = motion_events.enter.connect (() => {

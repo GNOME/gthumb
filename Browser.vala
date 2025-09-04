@@ -650,14 +650,6 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("new-window", null);
-		action.activate.connect (() => {
-			var new_window = new Gth.Window ();
-			new_window.browser.open_location (folder_tree.current_folder.file, LoadAction.OPEN, window.get_current_file ());
-			new_window.present ();
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction.stateful ("show-hidden-files", null, new Variant.boolean (show_hidden_files));
 		action.activate.connect ((_action, param) => {
 			set_show_hidden (Util.toggle_state (_action));
@@ -744,10 +736,6 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("search", null);
 		action.activate.connect ((_action, param) => {
 			new_search.begin ();
-			//var dialog = new Gth.SearchDialog (folder_tree.current_folder.file);
-			//dialog.transient_for = window;
-			//dialog.present ();
-			//dialog.focus_first_rule ();
 		});
 		action_group.add_action (action);
 
@@ -793,90 +781,6 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("reload", null);
 		action.activate.connect (() => reload ());
-		action_group.add_action (action);
-
-		action = new SimpleAction ("delete-files", null);
-		action.activate.connect (() => {
-			var files = get_selected_file_data_list ();
-			if (files.is_empty ()) {
-				return;
-			}
-			var local_job = window.new_job (_("Deleting Files"), JobFlags.FOREGROUND);
-			window.file_manager.delete_files.begin (files, local_job, (_obj, res) => {
-				try {
-					window.file_manager.delete_files.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("trash-files", null);
-		action.activate.connect (() => {
-			var files = get_selected_files ();
-			if (files.is_empty ()) {
-				return;
-			}
-			var local_job = window.new_job (_("Deleting Files"), JobFlags.FOREGROUND);
-			window.file_manager.trash_files.begin (files, local_job, (_obj, res) => {
-				try {
-					window.file_manager.trash_files.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("copy-files-to", null);
-		action.activate.connect (() => {
-			var files = get_selected_files ();
-			if (files.is_empty ()) {
-				return;
-			}
-			var local_job = window.new_job (_("Copying Files"), JobFlags.FOREGROUND);
-			window.file_manager.copy_files_ask_destination.begin (files, local_job, (_obj, res) => {
-				try {
-					window.file_manager.copy_files_ask_destination.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("move-files-to", null);
-		action.activate.connect (() => {
-			var files = get_selected_files ();
-			if (files.is_empty ()) {
-				return;
-			}
-			var local_job = window.new_job (_("Moving Files"), JobFlags.FOREGROUND);
-			window.file_manager.move_files_ask_destination.begin (files, local_job, (_obj, res) => {
-				try {
-					window.file_manager.move_files_ask_destination.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("copy-files", null);
