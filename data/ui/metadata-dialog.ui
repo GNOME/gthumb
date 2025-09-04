@@ -34,12 +34,21 @@
               <object class="AdwPreferencesGroup">
                 <property name="title" translatable="yes">Comment</property>
                 <child>
-                  <object class="GtkTextView" id="description">
-                    <property name="wrap-mode">word-char</property>
-                    <property name="height_request">150px</property>
+                  <object class="GtkScrolledWindow">
+                    <property name="hexpand">true</property>
+                    <property name="height_request">200px</property>
                     <style>
-                      <class name="boxed"/>
+                      <class name="undershoot-top"/>
+                      <class name="undershoot-bottom"/>
                     </style>
+                    <child>
+                      <object class="GtkTextView" id="description">
+                        <property name="wrap-mode">word-char</property>
+                        <style>
+                          <class name="boxed"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
