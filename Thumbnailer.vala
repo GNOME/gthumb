@@ -320,7 +320,7 @@ public class Gth.Thumbnailer {
 		if (datetime != null) {
 			image.set_attribute ("Thumb::MTime", ("%" + int64.FORMAT).printf (datetime.to_unix ()));
 		}
-		image.set_attribute ("Software", "gThumb " + Config.VERSION);
+		image.set_attribute ("Software", Config.APP + " " + Config.APP_VERSION);
 	}
 
 	static File get_thumbnail_file (File file, Size size, FileIntent intent, Cancellable cancellable) throws Error {

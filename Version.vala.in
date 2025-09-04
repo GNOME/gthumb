@@ -1,1 +1,0 @@
-const string APP_VERSION = "@VCS_TAG@";

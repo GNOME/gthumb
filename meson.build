@@ -213,7 +213,7 @@ config.set_quoted('GETTEXT_PACKAGE', gettext_package)
 config.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
 config.set_quoted('DOMAIN', meson.project_name ())
 config.set_quoted('G_LOG_DOMAIN', log_domain)
-config.set_quoted('APP', meson.project_name())
+config.set_quoted('APP', 'gThumb')
 config.set_quoted('VERSION', meson.project_version())
 config.set_quoted('PREFIX', get_option('prefix'))
 if get_option('run-in-place')
@@ -271,8 +271,8 @@ config_file = configure_file(
 version_file = vcs_tag(
   command: [ 'git', 'describe' ],
   fallback: meson.project_version(),
-  input: 'Version.vala.in',
-  output: 'Version.vala'
+  input: 'lib/version.h.in',
+  output: 'version.h'
 )
 
 gnome = import('gnome')

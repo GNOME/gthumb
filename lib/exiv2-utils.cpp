@@ -1079,7 +1079,7 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 	// Overwrite the software tag if the image content was modified
 
 	if (was_modified) {
-		ed["Exif.Image.ProcessingSoftware"] = APP " " VERSION;
+		ed["Exif.Image.ProcessingSoftware"] = APP " " APP_VERSION;
 	}
 
 	// Update tags related to the image content
