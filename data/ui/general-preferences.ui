@@ -23,7 +23,7 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <property name="title" translatable="yes">Terminal</property>
-                <property name="description" translatable="yes">The code %f is replace with the directory path.</property>
+                <property name="description" translatable="yes">The code %f is replaced with the directory path.</property>
                 <child>
                   <object class="AdwEntryRow" id="terminal_command">
                     <property name="title" translatable="yes">Command</property>
