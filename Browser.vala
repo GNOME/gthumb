@@ -8,6 +8,9 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	public MenuModel folder_menu { set; get; }
+	public MenuModel catalog_menu { set; get; }
+
 	enum SidebarState {
 		NONE,
 		FILES,
@@ -133,9 +136,11 @@ public class Gth.Browser : Gtk.Box {
 		set_sidebar_state (is_catalog ? SidebarState.CATALOGS : SidebarState.FILES);
 		if (is_catalog) {
 			last_catalog = folder_tree.current_folder.file;
+			folder_tree.menu_model = catalog_menu;
 		}
 		else {
 			last_folder = folder_tree.current_folder.file;
+			folder_tree.menu_model = folder_menu;
 		}
 		// TODO source.monitor_directory (current_folder.file, true);
 		update_selection_info ();

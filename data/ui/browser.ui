@@ -123,7 +123,6 @@
                           <object class="GthFolderTree" id="folder_tree">
                             <property name="sidebar">true</property>
                             <property name="single-root">true</property>
-                            <property name="menu-model">folder_menu</property>
                           </object>
                         </child>
                       </object>
@@ -372,6 +371,8 @@
         </property>
       </object>
     </child>
+    <property name="folder_menu">folder_menu</property>
+    <property name="catalog_menu">catalog_menu</property>
   </template>
   <menu id="file_menu">
     <section>
@@ -503,6 +504,65 @@
       <item>
         <attribute name="label" translatable="yes">Paste into Folder</attribute>
         <attribute name="action">folder.paste</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy To…</attribute>
+        <attribute name="action">folder.copy-to</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Move To…</attribute>
+        <attribute name="action">folder.move-to</attribute>
+      </item>
+      <item>
+        <!-- Translators: it's a verb, as in "Rename Files" -->
+        <attribute name="label" translatable="yes">Rename</attribute>
+        <attribute name="action">folder.rename</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Move to Trash</attribute>
+        <attribute name="action">folder.trash</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">folder.delete</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="catalog_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open in New Window</attribute>
+        <attribute name="action">folder.open-new-window</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">New Catalog</attribute>
+        <attribute name="action">catalog.new-catalog</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">New Library</attribute>
+        <attribute name="action">catalog.new-library</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Rename</attribute>
+        <attribute name="action">catalog.rename</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">catalog.delete</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Properties</attribute>
+        <attribute name="action">catalog.properties</attribute>
       </item>
     </section>
   </menu>

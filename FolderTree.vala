@@ -20,7 +20,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public bool single_root { get; construct set; default = false; }
 	public weak JobQueue job_queue;
 	public MenuModel menu_model {
-		set construct {
+		set {
 			if (context_menu != null) {
 				context_menu.menu_model = value;
 			}
