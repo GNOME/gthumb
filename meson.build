@@ -352,8 +352,7 @@ vapi_files = files(
 subdir('Ext')
 subdir('Dialogs')
 
-executable(
-  'gthumb4',
+executable('gthumb4',
   sources: [
     'ActionList.vala',
     'ActionPopover.vala',
@@ -444,14 +443,14 @@ executable(
   dependencies: dependencies
 )
 
-executable(
-  'video-thumbnailer',
+executable('video-thumbnailer',
   sources: [
     'Ext/Video/Util.vala',
     'Ext/Video/VideoThumbnailer.vala',
     'Files.vala',
     'Strings.vala',
     config_file,
+    version_file,
     lib_files,
     vapi_files,
   ],
