@@ -129,7 +129,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 	WebPDemuxDelete (demux);
 
 	if (orientation != GTH_TRANSFORM_NONE) {
-		GthImage *rotated = gth_image_tranform (image, orientation, cancellable);
+		GthImage *rotated = gth_image_apply_transform (image, orientation, cancellable);
 		g_object_unref (image);
 		image = rotated;
 		if (image == NULL) {

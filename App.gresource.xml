@@ -43,6 +43,21 @@
     <file preprocess="xml-stripblanks">gth-circle-filled-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-circle-outline-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-cross-small-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-special-effects-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-check-plain-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-adjust-contrast-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-adjust-colors-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-curves-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-sharpen-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-grayscale-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-eyedropper-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-rotate-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-rotate-right-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-rotate-left-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-flip-vertical-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-flip-horizontal-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-resize-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-crop-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -102,5 +117,6 @@
     <file preprocess="xml-stripblanks">format-dialog.ui</file>
     <file preprocess="xml-stripblanks">metadata-dialog.ui</file>
     <file preprocess="xml-stripblanks">selection-view.ui</file>
+    <file preprocess="xml-stripblanks">editor-sidebar.ui</file>
   </gresource>
 </gresources>

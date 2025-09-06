@@ -28,6 +28,7 @@ public class Gth.Application : Adw.Application {
 	public Bookmarks bookmarks;
 	public Migration migration;
 	public Scripts scripts;
+	public ImageEditor image_editor;
 
 	public Application () {
 		Object (
@@ -57,6 +58,7 @@ public class Gth.Application : Adw.Application {
 		bookmarks = new Bookmarks ();
 		migration = new Migration ();
 		scripts = new Scripts ();
+		image_editor = new ImageEditor ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();

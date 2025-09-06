@@ -534,6 +534,14 @@ public class Gth.Viewer : Gtk.Box {
 			window.active_resizer = null;
 		});
 
+		editor_sidebar.resizer.add_handle (main_view, Gtk.PackType.START);
+		editor_sidebar.resizer.started.connect ((obj) => {
+			window.active_resizer = obj;
+		});
+		editor_sidebar.resizer.ended.connect (() => {
+			window.active_resizer = null;
+		});
+
 		// Restore settings.
 		main_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_SIDEBAR_VISIBLE);
 
@@ -551,7 +559,23 @@ public class Gth.Viewer : Gtk.Box {
 
 		var action = new SimpleAction.stateful ("viewer-properties", null, new Variant.boolean (main_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
-			main_view.show_sidebar = Util.toggle_state (_action);
+			var view_properties = Util.toggle_state (_action);
+			if (view_properties) {
+				sidebar_stack.set_visible_child (property_sidebar);
+				action_group.change_action_state ("editor-tools", new Variant.boolean (false));
+			}
+			main_view.show_sidebar = view_properties;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("editor-tools", null, new Variant.boolean (false));
+		action.activate.connect ((_action, param) => {
+			var view_tools = Util.toggle_state (_action);
+			if (view_tools) {
+				sidebar_stack.set_visible_child (editor_sidebar);
+				action_group.change_action_state ("viewer-properties", new Variant.boolean (false));
+			}
+			main_view.show_sidebar = view_tools;
 		});
 		action_group.add_action (action);
 
@@ -600,6 +624,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Box right_toolbar;
 	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
+	[GtkChild] unowned Gth.EditorSidebar editor_sidebar;
 	[GtkChild] public unowned Gth.ViewerStatus status;
 	[GtkChild] unowned Adw.ToolbarView toolbar_view;
 	[GtkChild] unowned Gtk.Revealer fullscreen_toolbar_revealer;
@@ -613,6 +638,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Adw.WindowTitle header_title;
 	[GtkChild] unowned Gtk.Label header_state;
 	[GtkChild] public unowned Gth.ActionPopover tools_popover;
+	[GtkChild] public unowned Gtk.Stack sidebar_stack;
 
 	weak Window _window;
 	bool active_popup = false;

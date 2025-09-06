@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthEditorSidebar">
+    <child>
+      <object class="AdwToolbarView">
+        <property name="hexpand">true</property>
+        <property name="content">
+          <object class="GthSidebarResizer" id="resizer">
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <child>
+                      <object class="GtkGrid">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">12</property>
+                        <property name="column-homogeneous">true</property>
+                        <property name="row-homogeneous">true</property>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">document-save-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Save</property>
+                            <property name="action-name">image.save</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">document-save-as-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Save As…</property>
+                            <property name="action-name">image.save-as</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">edit-undo-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Undo</property>
+                            <property name="action-name">image.undo</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">2</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">edit-redo-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Redo</property>
+                            <property name="action-name">image.redo</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">3</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Colors</property>
+                    <property name="separate-rows">true</property>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Enhance Contrast</property>
+                        <property name="start-icon-name">gth-adjust-contrast-symbolic</property>
+                        <property name="action-name">image.adjust-contrast</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Special Effects</property>
+                        <property name="start-icon-name">gth-special-effects-symbolic</property>
+                        <property name="action-name">image.special-effects</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Colors</property>
+                        <property name="start-icon-name">gth-adjust-colors-symbolic</property>
+                        <property name="action-name">image.adjust-colors</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Color Curves</property>
+                        <property name="start-icon-name">gth-curves-symbolic</property>
+                        <property name="action-name">image.edit-color-curves</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Focus</property>
+                        <property name="start-icon-name">gth-sharpen-symbolic</property>
+                        <property name="action-name">image.adjust-focus</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Grayscale</property>
+                        <property name="start-icon-name">gth-grayscale-symbolic</property>
+                        <property name="action-name">image.grayscale</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Color Picker</property>
+                        <property name="start-icon-name">gth-eyedropper-symbolic</property>
+                        <property name="action-name">image.color-picker</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Rotation</property>
+                    <property name="separate-rows">true</property>
+                    <child>
+                      <object class="GtkGrid">
+                        <property name="column-spacing">12</property>
+                        <property name="column-homogeneous">true</property>
+                        <property name="row-homogeneous">true</property>
+                        <property name="row-spacing">12</property>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">gth-rotate-left-symbolic</property>
+                            <property name="action-name">image.rotate-left</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">gth-rotate-right-symbolic</property>
+                            <property name="action-name">image.rotate-right</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">gth-flip-horizontal-symbolic</property>
+                            <property name="action-name">image.flip-horizontal</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">2</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">gth-flip-vertical-symbolic</property>
+                            <property name="action-name">image.flip-vertical</property>
+                            <style>
+                              <class name="tool-button"/>
+                            </style>
+                            <layout>
+                              <property name="column">3</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Format</property>
+                    <property name="separate-rows">true</property>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Resize</property>
+                        <property name="start-icon-name">gth-resize-symbolic</property>
+                        <property name="action-name">image.resize</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Crop</property>
+                        <property name="start-icon-name">gth-crop-symbolic</property>
+                        <property name="action-name">image.crop</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwButtonRow">
+                        <property name="title" translatable="yes">Rotate</property>
+                        <property name="start-icon-name">gth-rotate-symbolic</property>
+                        <property name="action-name">image.rotate</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+        <!--child type="bottom">
+          <object class="GtkActionBar">
+            <property name="valign">end</property>
+            <child type="start">
+              <object class="GtkButton">
+                <property name="icon-name">go-previous-symbolic</property>
+              </object>
+            </child>
+            <child type="center">
+              <object class="GtkLabel">
+                <property name="label">Edit</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="icon-name">gth-check-plain-symbolic</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child-->
+      </object>
+    </child>
+  </template>
+</interface>

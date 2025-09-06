@@ -196,3 +196,7 @@ textview.boxed:focus {
 button.small {
 	padding: 0;
 }
+
+.tool-button {
+	padding: 6px;
+}

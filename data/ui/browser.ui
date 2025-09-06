@@ -233,10 +233,13 @@
                       </object>
                     </child-->
                     <child>
-                      <object class="GtkToggleButton">
-                        <property name="icon-name">gth-info-outline-symbolic</property>
-                        <property name="action-name">win.browser-properties</property>
-                        <property name="tooltip-text" translatable="true">Properties</property>
+                      <object class="GtkMenuButton">
+                        <property name="icon-name">gth-script-symbolic</property>
+                        <property name="tooltip-text" translatable="true">Tools</property>
+                        <property name="popover">
+                          <object class="GthActionPopover" id="tools_popover">
+                          </object>
+                        </property>
                       </object>
                     </child>
                     <child>
@@ -247,13 +250,10 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuButton">
-                        <property name="icon-name">gth-tools-symbolic</property>
-                        <property name="tooltip-text" translatable="true">Tools</property>
-                        <property name="popover">
-                          <object class="GthActionPopover" id="tools_popover">
-                          </object>
-                        </property>
+                      <object class="GtkToggleButton">
+                        <property name="icon-name">gth-info-outline-symbolic</property>
+                        <property name="action-name">win.browser-properties</property>
+                        <property name="tooltip-text" translatable="true">Properties</property>
                       </object>
                     </child>
                   </object>

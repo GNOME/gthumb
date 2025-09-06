@@ -29,19 +29,27 @@ namespace Gth {
 			[CCode (cname = "gth_image_set_info")]
 			set;
 		}
+
+		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
+		//public const Gdk.MemoryFormat MEMORY_FORMAT;
+
 		public virtual bool get_can_scale ();
 		public virtual Image scale (double factor);
+
 		public Gdk.Texture get_texture ();
 		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
+
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();
 		public bool has_icc_profile ();
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
+
 		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable = null);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
+
 		public void fill_vertical (Image pattern, Fill fill);
-		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
-		public const Gdk.MemoryFormat MEMORY_FORMAT;
+
+		public Image? apply_transform (Gth.Transform transform, Cancellable cancellable);
 	}
 }

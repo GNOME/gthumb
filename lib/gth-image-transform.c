@@ -3,7 +3,7 @@
 #include "lib/gth-image.h"
 #include "lib/types.h"
 
-GthImage * gth_image_tranform (GthImage *source, GthTransform transform, GCancellable *cancellable) {
+GthImage * gth_image_apply_transform (GthImage *source, GthTransform transform, GCancellable *cancellable) {
 	int source_stride, source_width, source_height;
 	unsigned char *source_line = gth_image_prepare_edit (source, &source_stride, &source_width, &source_height);
 

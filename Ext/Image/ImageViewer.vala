@@ -435,6 +435,58 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action = new SimpleAction ("save-as", null);
 		action.activate.connect (() => ask_name_and_save.begin ());
 		action_group.add_action (action);
+
+		action = new SimpleAction ("flip-horizontal", null);
+		action.activate.connect (() => {
+			edit_image.begin (_("Horizontal Flip"), (image, cancellable) => {
+				return image.apply_transform (Gth.Transform.FLIP_H, cancellable);
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("flip-vertical", null);
+		action.activate.connect (() => {
+			edit_image.begin (_("Vertical Flip"), (image, cancellable) => {
+				return image.apply_transform (Gth.Transform.FLIP_V, cancellable);
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("rotate-right", null);
+		action.activate.connect (() => {
+			edit_image.begin (_("Rotate Right"), (image, cancellable) => {
+				return image.apply_transform (Gth.Transform.ROTATE_90, cancellable);
+			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("rotate-left", null);
+		action.activate.connect (() => {
+			edit_image.begin (_("Rotate Left"), (image, cancellable) => {
+				return image.apply_transform (Gth.Transform.ROTATE_270, cancellable);
+			});
+		});
+		action_group.add_action (action);
+	}
+
+	async void edit_image (string title, EditorFunc editor_func) {
+		var local_job = window.new_job (title, JobFlags.FOREGROUND);
+		try {
+			// TODO: load the original image if needed.
+			image_view.image = yield app.image_editor.exec_async (
+				image_view.image,
+				local_job.cancellable,
+				editor_func);
+			window.viewer.current_file.set_is_modified (true);
+			window.viewer.update_title ();
+			// TODO window.viewer.update_sensitivity ();
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	async void copy_image () {

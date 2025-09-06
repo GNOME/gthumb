@@ -63,26 +63,33 @@
                   </child>
                   <child>
                     <object class="GtkToggleButton">
-                      <property name="icon-name">gth-info-outline-symbolic</property>
-                      <property name="action-name">win.viewer-properties</property>
-                      <property name="tooltip-text" translatable="true">Properties</property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkToggleButton">
-                      <property name="icon-name">gth-note-symbolic</property>
-                      <property name="action-name">win.edit-metadata</property>
-                      <property name="tooltip-text" translatable="true">Edit Comment</property>
+                      <property name="action-name">win.editor-tools</property>
+                      <property name="icon-name">gth-image-symbolic</property>
+                      <property name="tooltip-text" translatable="true">Edit Image</property>
                     </object>
                   </child>
                   <child>
                     <object class="GtkMenuButton">
-                      <property name="icon-name">gth-tools-symbolic</property>
+                      <property name="icon-name">gth-script-symbolic</property>
                       <property name="tooltip-text" translatable="true">Tools</property>
                       <property name="popover">
                         <object class="GthActionPopover" id="tools_popover">
                         </object>
                       </property>
+                    </object>
+                  </child>
+                  <child>
+                    <object class="GtkToggleButton">
+                      <property name="action-name">win.edit-metadata</property>
+                      <property name="icon-name">gth-note-symbolic</property>
+                      <property name="tooltip-text" translatable="true">Edit Comment</property>
+                    </object>
+                  </child>
+                  <child>
+                    <object class="GtkToggleButton">
+                      <property name="action-name">win.viewer-properties</property>
+                      <property name="icon-name">gth-info-outline-symbolic</property>
+                      <property name="tooltip-text" translatable="true">Properties</property>
                     </object>
                   </child>
                   <child>
@@ -105,6 +112,10 @@
               <object class="GtkStack" id="sidebar_stack">
                 <child>
                   <object class="GthPropertySidebar" id="property_sidebar">
+                  </object>
+                </child>
+                <child>
+                  <object class="GthEditorSidebar" id="editor_sidebar">
                   </object>
                 </child>
               </object>
