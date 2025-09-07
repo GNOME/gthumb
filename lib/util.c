@@ -491,6 +491,7 @@ const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
 		{ "image/avif", 4, 8, "ftypsisx" },
 		{ "image/avif", 4, 8, "ftypssss" },
 		{ "image/avif", 4, 8, "ftypuvvu" },
+		{ "image/svg+xml", 0, 5, "<?xml" },
 	};
 
 	for (int i = 0; i < G_N_ELEMENTS (MAGIC_IDS); i++) {

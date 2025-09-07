@@ -19,7 +19,9 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 
 	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {
 		unowned var content_type = Util.get_content_type (file, info);
-		if (!ContentType.is_a (content_type, "image/*")) {
+		if (!ContentType.is_a (content_type, "image/*")
+			|| ContentType.is_mime_type (content_type, "image/svg+xml"))
+		{
 			return false;
 		}
 		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);

@@ -1,4 +1,5 @@
 #include "image-info.h"
+#include "svg-info.h"
 #include "lib/jpeg/jpeg-info.h"
 #if HAVE_LIBWEBP
 #include <webp/decode.h>
@@ -11,6 +12,7 @@
 #endif
 
 #define BUFFER_SIZE 4096
+
 
 static gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *height, GCancellable *cancellable) {
 	int buffer_size = BUFFER_SIZE;
@@ -27,6 +29,9 @@ static gboolean load_image_info_from_stream (GInputStream *stream, int *width, i
 	GthImageInfo image_info;
 	gboolean format_recognized = FALSE;
 	const char *mime_type = guess_mime_type (buffer, buffer_size);
+	if (mime_type == NULL) {
+		return FALSE;
+	}
 
 	if ((size >= 24)
 		&& (g_strcmp0 (mime_type, "image/png") == 0)
@@ -97,6 +102,12 @@ static gboolean load_image_info_from_stream (GInputStream *stream, int *width, i
 		}
 	}
 #endif /* HAVE_LIBTIFF */
+
+	if (!format_recognized && (g_strcmp0 (mime_type, "image/svg+xml") == 0)) {
+		if (load_svg_info ((const char *) buffer, buffer_size, &image_info, cancellable)) {
+			format_recognized = TRUE;
+		}
+	}
 
 	g_free (buffer);
 

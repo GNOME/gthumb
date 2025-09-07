@@ -307,6 +307,7 @@ lib_files = files(
   'lib/io/save-png.c',
   'lib/io/save-tiff.c',
   'lib/io/save-webp.c',
+  'lib/io/svg-info.c',
   'lib/io/image-info.c',
   'lib/jpeg/jmemorydest.c',
   'lib/jpeg/jmemorysrc.c',
