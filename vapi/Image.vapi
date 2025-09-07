@@ -33,11 +33,11 @@ namespace Gth {
 		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
 		//public const Gdk.MemoryFormat MEMORY_FORMAT;
 
-		public virtual bool get_can_scale ();
-		public virtual Image scale (double factor);
-
 		public Gdk.Texture get_texture ();
 		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
+
+		public virtual bool get_is_scalable ();
+		public virtual Cairo.Surface? get_scaled_texture (double factor, uint x, uint y, uint width, uint height);
 
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();

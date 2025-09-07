@@ -34,16 +34,17 @@ struct _GthImage {
 
 struct _GthImageClass {
 	GObjectClass __parent_class;
-	gboolean (*get_can_scale) (GthImage *self);
-	GthImage * (*scale) (GthImage *self, double factor);
+	gboolean (*get_is_scalable) (GthImage *self);
+	cairo_surface_t * (*get_scaled_texture) (GthImage *self, double factor, guint x, guint y, guint width, guint height);
 };
 
 GType gth_image_get_type (void);
 
 GthImage * gth_image_new (guint width, guint height);
 GthImage * gth_image_new_from_texture (GdkTexture* texture);
-void gth_image_init_pixels (GthImage *self, guint width, guint height);
+GthImage * gth_image_new_from_cairo_surface (cairo_surface_t* surface);
 GthImage * gth_image_dup (GthImage *self);
+void gth_image_init_pixels (GthImage *self, guint width, guint height);
 void gth_image_copy_pixels (GthImage *src, GthImage *dest);
 void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size);
@@ -73,9 +74,9 @@ GHashTable * gth_image_get_attributes (GthImage *self);
 GFileInfo * gth_image_get_info (GthImage *self);
 void gth_image_set_info (GthImage *self, GFileInfo *info);
 
-// Scale
-gboolean gth_image_get_can_scale (GthImage *self);
-GthImage * gth_image_scale (GthImage *self, double factor);
+// Scalable images
+gboolean gth_image_get_is_scalable (GthImage *self);
+cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height);
 
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);

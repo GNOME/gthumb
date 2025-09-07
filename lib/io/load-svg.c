@@ -15,6 +15,8 @@ typedef struct {
 	RsvgHandle *rsvg;
 	double scale_factor;
 	guint original_max_size;
+	double x_offset;
+	double y_offset;
 } GthImageSvg;
 
 
@@ -91,17 +93,19 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 	}
 
 	GthImageSvg *image = (GthImageSvg *) g_object_new (gth_image_svg_get_type (), NULL);
-	gth_image_set_original_image_size (GTH_IMAGE (image), width, height);
+	gth_image_set_natural_size (GTH_IMAGE (image), width, height);
 	image->rsvg = g_object_ref (rsvg);
 	image->original_max_size = MAX (width, height);
 	image->scale_factor = (double) max_size / image->original_max_size;
+	image->x_offset = - ((double) image->original_max_size - width) / 2.0;
+	image->y_offset = - ((double) image->original_max_size - height) / 2.0;
 
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	cairo_t *cr = cairo_create (surface);
 	cairo_scale (cr, 1.0 / image->scale_factor, 1.0 / image->scale_factor);
 	RsvgRectangle viewport = {
-		.x = 0.0,
-		.y = 0.0,
+		.x = image->x_offset,
+		.y = image->y_offset,
 		.width = (double) max_size,
 		.height = (double) max_size,
 	};
@@ -121,17 +125,29 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 }
 
 
-static gboolean gth_image_svg_get_can_scale (GthImage *base) {
+static gboolean gth_image_svg_get_is_scalable (GthImage *base) {
 	return TRUE;
 }
 
 
-static GthImage * gth_image_svg_scale (GthImage *base, double factor) {
+static cairo_surface_t * gth_image_svg_get_scaled_texture (GthImage *base, double scale_factor, guint x, guint y, guint width, guint height) {
 	GthImageSvg *self = GTH_IMAGE_SVG (base);
-	if (self->scale_factor == factor) {
-		return g_object_ref (base);
+	guint nat_width, nat_height;
+	gth_image_get_natural_size (base, &nat_width, &nat_height);
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	cairo_t *cr = cairo_create (surface);
+	RsvgRectangle viewport = {
+		.x = - ((double) x) * scale_factor,
+		.y = - ((double) y) * scale_factor,
+		.width = (double) nat_width * scale_factor,
+		.height = (double) nat_height * scale_factor
+	};
+	if (!rsvg_handle_render_document (self->rsvg, cr, &viewport, NULL)) {
+		cairo_surface_destroy (surface);
+		surface = NULL;
 	}
-	return gth_image_svg_new (self->rsvg, (guint) ceil (self->original_max_size * factor), NULL);
+	cairo_destroy (cr);
+	return surface;
 }
 
 
@@ -140,8 +156,8 @@ static void gth_image_svg_class_init (GthImageSvgClass *klass) {
 	object_class->finalize = gth_image_svg_finalize;
 
 	GthImageClass *image_class = GTH_IMAGE_CLASS (klass);
-	image_class->get_can_scale = gth_image_svg_get_can_scale;
-	image_class->scale = gth_image_svg_scale;
+	image_class->get_is_scalable = gth_image_svg_get_is_scalable;
+	image_class->get_scaled_texture = gth_image_svg_get_scaled_texture;
 }
 
 

@@ -151,8 +151,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public override void snapshot (Gtk.Snapshot snapshot) {
 		if (_image == null)
 			return;
-		//Util.print_rectangle ("> image_box:", image_box);
-		//Util.print_rectangle ("> texture_box:", texture_box);
+		// Util.print_rectangle ("> image_box:", image_box);
+		// Util.print_rectangle ("> texture_box:", texture_box);
 		snapshot.save ();
 
 		bool has_alpha;
@@ -166,7 +166,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 			case TransparencyStyle.CHECKERED:
 				var ctx = snapshot.append_cairo (texture_box);
-				ctx.rectangle (texture_box.origin.x, texture_box.origin.y, texture_box.size.width, texture_box.size.height);
+				ctx.rectangle (texture_box.origin.x, texture_box.origin.y,
+					texture_box.size.width, texture_box.size.height);
 				ctx.set_source (get_transparency_pattern ());
 				ctx.fill ();
 				break;
@@ -175,13 +176,30 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				break;
 			}
 		}
-		var texture = _image.get_texture_for_rect (
-			(uint) image_box.origin.x,
-			(uint) image_box.origin.y,
-			(uint) image_box.size.width,
-			(uint) image_box.size.height);
-		if (texture != null) {
-			snapshot.append_scaled_texture (texture, Gsk.ScalingFilter.LINEAR, texture_box);
+		if (_image.get_is_scalable ()) {
+			var texture = _image.get_scaled_texture (
+				_zoom,
+				(uint) image_box.origin.x,
+				(uint) image_box.origin.y,
+				(uint) texture_box.size.width,
+				(uint) texture_box.size.height);
+			if (texture != null) {
+				var ctx = snapshot.append_cairo (texture_box);
+				ctx.rectangle (texture_box.origin.x, texture_box.origin.y,
+					texture_box.size.width, texture_box.size.height);
+				ctx.set_source_surface (texture, texture_box.origin.x, texture_box.origin.y);
+				ctx.fill ();
+			}
+		}
+		else {
+			var texture = _image.get_texture_for_rect (
+				(uint) image_box.origin.x,
+				(uint) image_box.origin.y,
+				(uint) image_box.size.width,
+				(uint) image_box.size.height);
+			if (texture != null) {
+				snapshot.append_scaled_texture (texture, Gsk.ScalingFilter.LINEAR, texture_box);
+			}
 		}
 		snapshot.restore ();
 	}
@@ -362,7 +380,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 		else {
 			image_x = viewport.origin.x / _zoom;
-			image_width = viewport.size.width / _zoom;
+			image_width = (float) viewport.size.width / _zoom;
 		}
 
 		float image_y, image_height;
@@ -372,7 +390,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 		else {
 			image_y = viewport.origin.y / _zoom;
-			image_height = viewport.size.height / _zoom;
+			image_height = (float) viewport.size.height / _zoom;
 		}
 
 		image_box = {

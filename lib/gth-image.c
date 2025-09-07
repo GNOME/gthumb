@@ -79,12 +79,12 @@ static void gth_image_finalize (GObject *object) {
 }
 
 
-static gboolean base_get_can_scale (GthImage *self) {
+static gboolean base_get_is_scalable (GthImage *self) {
 	return FALSE;
 }
 
 
-static GthImage * base_scale (GthImage *self, double factor) {
+static cairo_surface_t * base_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height) {
 	return NULL;
 }
 
@@ -93,8 +93,8 @@ static void gth_image_class_init (GthImageClass *klass) {
 	GObjectClass *gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_image_finalize;
 
-	klass->get_can_scale = base_get_can_scale;
-	klass->scale = base_scale;
+	klass->get_is_scalable = base_get_is_scalable;
+	klass->get_scaled_texture = base_get_scaled_texture;
 }
 
 
@@ -113,6 +113,23 @@ static void gth_image_init (GthImage *self) {
 	self->priv->bytes = NULL;
 	self->priv->attributes = NULL;
 	self->priv->info = g_file_info_new ();
+}
+
+
+void gth_image_init_pixels (GthImage *self, guint width, guint height) {
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_if_fail (width > 0);
+	g_return_if_fail (height > 0);
+	g_return_if_fail (self->priv->buffer == NULL);
+
+	self->priv->row_stride = (int) (width * PIXEL_BYTES);
+	self->priv->size = (gsize) self->priv->row_stride * height;
+	// TODO: check the size
+	self->priv->buffer = g_malloc (self->priv->size);
+	// TODO: check if buffer is NULL
+	self->priv->width = width;
+	self->priv->height = height;
+	self->priv->bytes = g_bytes_new_static (self->priv->buffer, self->priv->size);
 }
 
 
@@ -136,20 +153,30 @@ GthImage * gth_image_new_from_texture (GdkTexture* texture) {
 }
 
 
-void gth_image_init_pixels (GthImage *self, guint width, guint height) {
-	g_return_if_fail (GTH_IS_IMAGE (self));
-	g_return_if_fail (width > 0);
-	g_return_if_fail (height > 0);
-	g_return_if_fail (self->priv->buffer == NULL);
+GthImage * gth_image_new_from_cairo_surface (cairo_surface_t* surface) {
+	g_return_val_if_fail (surface != NULL, NULL);
 
-	self->priv->row_stride = (int) (width * PIXEL_BYTES);
-	self->priv->size = (gsize) self->priv->row_stride * height;
-	// TODO: check the size
-	self->priv->buffer = g_malloc (self->priv->size);
-	// TODO: check if buffer is NULL
-	self->priv->width = width;
-	self->priv->height = height;
-	self->priv->bytes = g_bytes_new_static (self->priv->buffer, self->priv->size);
+	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
+
+	cairo_surface_flush (surface);
+	guint width = (guint) cairo_image_surface_get_width (surface);
+	guint height = (guint) cairo_image_surface_get_height (surface);
+	int src_stride = cairo_image_surface_get_stride (surface);
+	guchar *src_pixels = cairo_image_surface_get_data (surface);
+
+	gth_image_init_pixels (image, width, height);
+
+	int dest_stride;
+	guchar *dest_pixels = gth_image_prepare_edit (image, &dest_stride, NULL, NULL);
+	const guchar *src_row = src_pixels;
+	guchar *dest_row = dest_pixels;
+	size_t row_size = MIN (dest_stride, src_stride);
+	for (int h = 0; h < height; h++) {
+		memcpy (dest_row, src_row, row_size);
+		src_row += src_stride;
+		dest_row += dest_stride;
+	}
+	return image;
 }
 
 
@@ -446,16 +473,17 @@ void gth_image_set_info (GthImage *self, GFileInfo *info) {
 }
 
 
-gboolean gth_image_get_can_scale (GthImage *self) {
+gboolean gth_image_get_is_scalable (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	return GTH_IMAGE_GET_CLASS (self)->get_can_scale (self);
+	return GTH_IMAGE_GET_CLASS (self)->get_is_scalable (self);
 }
 
 
-GthImage* gth_image_scale (GthImage *self, double zoom) {
-	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	return GTH_IMAGE_GET_CLASS (self)->scale (self, zoom);
+cairo_surface_t* gth_image_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	return GTH_IMAGE_GET_CLASS (self)->get_scaled_texture (self, factor, x, y, width, height);
 }
+
 
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
