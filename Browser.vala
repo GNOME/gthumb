@@ -912,6 +912,12 @@ public class Gth.Browser : Gtk.Box {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("new", null);
+		action.activate.connect ((_action, param) => {
+			new_folder.begin ();
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {
@@ -1426,6 +1432,23 @@ public class Gth.Browser : Gtk.Box {
 				_file_data.update_info (file_data.info);
 				break;
 			}
+		}
+	}
+
+	async void new_folder () {
+		var local_job = window.new_job ("New Folder");
+		try {
+			var read_filename = new ReadFilename (_("New Folder"), _("_Create"));
+			var basename = yield read_filename.read_value (window, local_job);
+			var folder = folder_tree.context_file.get_child_for_display_name (basename);
+			yield Files.make_directory_async (folder, local_job.cancellable);
+			yield open_location_async (folder);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
 		}
 	}
 

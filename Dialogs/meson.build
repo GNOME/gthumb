@@ -3,4 +3,6 @@ dialogs_files = files(
   'FolderSelector.vala',
   'SortFilesDialog.vala',
   'SortFoldersDialog.vala',
+  'ReadFilename.vala',
+  'ReadText.vala',
 )
