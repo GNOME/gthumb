@@ -15,7 +15,7 @@ struct Tokenizer {
 };
 
 
-static gboolean tokenizer_set_start (struct Tokenizer *tok, int start) {
+static gboolean tokenizer_start_from (struct Tokenizer *tok, int start) {
 	tok->start = start;
 	tok->next = start;
 	return TRUE;
@@ -31,13 +31,13 @@ static gboolean tokenizer_match_ch (struct Tokenizer *tok, guchar ch) {
 }
 
 
-static gboolean tokenizer_match_string (struct Tokenizer *tok, const char *str) {
+static gboolean tokenizer_match_case_insensitive (struct Tokenizer *tok, const char *str) {
 	int index = 0;
 	while (tok->next < tok->buffer_size) {
 		if (str[index] == 0) {
 			break;
 		}
-		if (tok->buffer[tok->next] != str[index]) {
+		if (g_ascii_tolower (tok->buffer[tok->next]) != str[index]) {
 			return FALSE;
 		}
 		tok->next++;
@@ -64,6 +64,12 @@ static gboolean tokenizer_get_next (struct Tokenizer *tok, int *next) {
 }
 
 
+static gboolean tokenizer_matched (struct Tokenizer *tok, int *next) {
+	*next = tok->next;
+	return TRUE;
+}
+
+
 enum SvgLengthState {
 	SVG_LENGTH_STATE_DECIMAL,
 	SVG_LENGTH_STATE_FRACTION,
@@ -73,12 +79,14 @@ enum SvgLengthState {
 
 
 static gboolean _svg_parse_length (char *buffer, int buffer_size, int *start, int *x) {
+	//g_print ("    range: %d, %d\n", *start, buffer_size);
 	enum SvgLengthState state = SVG_LENGTH_STATE_DECIMAL;
 	int digits = 0;
 	int number = 0;
 	int index;
 	for (index = *start; index < buffer_size; index++) {
 		char ch = buffer[index];
+		//g_print ("    ch: '%c'\n", ch);
 		switch (state) {
 		case SVG_LENGTH_STATE_DECIMAL:
 			if ((ch >= '0') && (ch <= '9')) {
@@ -94,7 +102,8 @@ static gboolean _svg_parse_length (char *buffer, int buffer_size, int *start, in
 				state = SVG_LENGTH_STATE_UNIT;
 				continue;
 			}
-			else if (ch == ' ') {
+			else if ((digits == 0) && (ch == ' ')) {
+				// Ignore leading spaces.
 				continue;
 			}
 			state = SVG_LENGTH_STATE_END;
@@ -139,15 +148,19 @@ static gboolean _svg_parse_integer (char *buffer, int start, int end, int *x) {
 
 static gboolean _svg_parse_viewbox (char *buffer, int start, int end, int *x, int *y, int *width, int *height) {
 	if (!_svg_parse_length (buffer, end, &start, x)) {
+		//g_print ("  _svg_parse_viewbox [1]\n");
 		return FALSE;
 	}
 	if (!_svg_parse_length (buffer, end, &start, y)) {
+		//g_print ("  _svg_parse_viewbox [2]\n");
 		return FALSE;
 	}
 	if (!_svg_parse_length (buffer, end, &start, width)) {
+		//g_print ("  _svg_parse_viewbox [3]\n");
 		return FALSE;
 	}
 	if (!_svg_parse_length (buffer, end, &start, height)) {
+		//g_print ("  _svg_parse_viewbox [4]\n");
 		return FALSE;
 	}
 	return TRUE;
@@ -172,19 +185,19 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 	int value_start, value_end;
 	while (offset < buffer_size) {
 		if ((state == SVG_STATE_START)
-			&& tokenizer_set_start (&tokenizer, offset)
+			&& tokenizer_start_from (&tokenizer, offset)
 			&& tokenizer_match_ch (&tokenizer, '<')
-			&& tokenizer_match_string (&tokenizer, "svg"))
+			&& tokenizer_match_case_insensitive (&tokenizer, "svg"))
 		{
 			//g_print ("  SVG_TAG\n");
-			tokenizer_get_next (&tokenizer, &offset);
+			tokenizer_matched (&tokenizer, &offset);
 			state = SVG_STATE_SVG_TAG;
 			continue;
 		}
 
 		if ((state == SVG_STATE_SVG_TAG)
-			&& tokenizer_set_start (&tokenizer, offset)
-			&& tokenizer_match_string (&tokenizer, "viewBox")
+			&& tokenizer_start_from (&tokenizer, offset)
+			&& tokenizer_match_case_insensitive (&tokenizer, "viewbox")
 			&& tokenizer_match_ch (&tokenizer, '=')
 			&& tokenizer_match_ch (&tokenizer, '"')
 			&& tokenizer_get_next (&tokenizer, &value_start)
@@ -192,19 +205,21 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 			&& tokenizer_get_next (&tokenizer, &value_end)
 			&& tokenizer_match_ch (&tokenizer, '"'))
 		{
-			tokenizer_get_next (&tokenizer, &offset);
+			//g_print ("  viewBox\n");
+			tokenizer_matched (&tokenizer, &offset);
 			int x, y, width, height;
 			if (_svg_parse_viewbox (buffer, value_start, value_end, &x, &y, &width, &height)) {
 				image_info->width = width;
 				image_info->height = height;
+				//g_print ("  size: %d, %d\n", width, height);
 				return TRUE;
 			}
 			continue;
 		}
 
 		if ((state == SVG_STATE_SVG_TAG)
-			&& tokenizer_set_start (&tokenizer, offset)
-			&& tokenizer_match_string (&tokenizer, "width")
+			&& tokenizer_start_from (&tokenizer, offset)
+			&& tokenizer_match_case_insensitive (&tokenizer, "width")
 			&& tokenizer_match_ch (&tokenizer, '=')
 			&& tokenizer_match_ch (&tokenizer, '"')
 			&& tokenizer_get_next (&tokenizer, &value_start)
@@ -215,11 +230,13 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 			if (!_svg_parse_integer (buffer, value_start, value_end, &image_info->width)) {
 				return FALSE;
 			}
+			tokenizer_matched (&tokenizer, &offset);
+			continue;
 		}
 
 		if ((state == SVG_STATE_SVG_TAG)
-			&& tokenizer_set_start (&tokenizer, offset)
-			&& tokenizer_match_string (&tokenizer, "height")
+			&& tokenizer_start_from (&tokenizer, offset)
+			&& tokenizer_match_case_insensitive (&tokenizer, "height")
 			&& tokenizer_match_ch (&tokenizer, '=')
 			&& tokenizer_match_ch (&tokenizer, '"')
 			&& tokenizer_get_next (&tokenizer, &value_start)
@@ -230,10 +247,12 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 			if (!_svg_parse_integer (buffer, value_start, value_end, &image_info->height)) {
 				return FALSE;
 			}
+			tokenizer_matched (&tokenizer, &offset);
+			continue;
 		}
 
 		if ((state == SVG_STATE_SVG_TAG)
-			&& tokenizer_set_start (&tokenizer, offset)
+			&& tokenizer_start_from (&tokenizer, offset)
 			&& tokenizer_match_ch (&tokenizer, '>'))
 		{
 			// End of SVG tag
