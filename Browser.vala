@@ -806,7 +806,7 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("paste-files", null);
 		action.activate.connect (() => {
 			var local_job = window.new_job (_("Pasting Files"), JobFlags.FOREGROUND);
-			paste_files_from_clipboard.begin (local_job, (_obj, res) => {
+			paste_files_from_clipboard.begin (folder_tree.current_folder.file, local_job, (_obj, res) => {
 				try {
 					paste_files_from_clipboard.end (res);
 				}
@@ -862,8 +862,11 @@ public class Gth.Browser : Gtk.Box {
 		action_group.add_action (action);
 	}
 
+	public SimpleActionGroup folder_actions;
+
 	void init_folder_actions () {
-		var action_group = new SimpleActionGroup ();
+		folder_actions = new SimpleActionGroup ();
+		var action_group = folder_actions;
 		window.insert_action_group ("folder", action_group);
 
 		var action = new SimpleAction ("open-new-window", null);
@@ -916,6 +919,23 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("new", null);
 		action.activate.connect ((_action, param) => {
 			new_folder.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("paste", null);
+		action.activate.connect ((_action, param) => {
+			var local_job = window.new_job (_("Pasting Files"), JobFlags.FOREGROUND);
+			paste_files_from_clipboard.begin (folder_tree.context_file, local_job, (_obj, res) => {
+				try {
+					paste_files_from_clipboard.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
 		});
 		action_group.add_action (action);
 	}
@@ -1382,7 +1402,7 @@ public class Gth.Browser : Gtk.Box {
 		clipboard.set_content (provider);
 	}
 
-	async void paste_files_from_clipboard (Job job) throws Error {
+	async void paste_files_from_clipboard (File destination, Job job) throws Error {
 		unowned var clipboard = get_clipboard ();
 		unowned string mime_type;
 		var stream = yield clipboard.read_async (
@@ -1401,21 +1421,15 @@ public class Gth.Browser : Gtk.Box {
 			//stdout.printf ("> URI: %s\n", uri);
 			files.model.append (File.new_for_uri (uri));
 		}
+		var source = app.get_source_for_file (destination);
 		if (mime_type == "gthumb/cut-files") {
-			var source = app.get_source_for_file (folder_tree.current_folder.file);
 			if (!(source is FileSourceVfs)) {
 				throw new IOError.FAILED (_("Cannot move files here"));
 			}
-			yield window.file_manager.move_files (files,
-				folder_tree.current_folder.file,
-				job);
+			yield window.file_manager.move_files (files, destination, job);
 		}
 		else {
-			var source = app.get_source_for_file (folder_tree.current_folder.file);
-			yield source.copy_files (window,
-				files,
-				folder_tree.current_folder.file,
-				job);
+			yield source.copy_files (window, files, destination, job);
 		}
 	}
 
