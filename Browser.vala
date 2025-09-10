@@ -792,7 +792,7 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("copy-files", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			copy_files_to_clipboard (files);
+			window.copy_files_to_clipboard (files);
 		});
 		action_group.add_action (action);
 
@@ -936,6 +936,14 @@ public class Gth.Browser : Gtk.Box {
 					local_job.done ();
 				}
 			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("copy", null);
+		action.activate.connect (() => {
+			var files = new GenericList<File> ();
+			files.model.append (folder_tree.context_file);
+			window.copy_files_to_clipboard (files);
 		});
 		action_group.add_action (action);
 	}
@@ -1361,33 +1369,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	void copy_files_to_clipboard (GenericList<File> files) {
-		var text = new StringBuilder ();
-		var uri_list = new StringBuilder ();
-		foreach (unowned var file in files) {
-			if (text.len > 0) {
-				text.append ("\n");
-			}
-			if (file.get_uri_scheme () == "file") {
-				text.append (file.get_path ());
-			}
-			else {
-				text.append (file.get_uri ());
-			}
-
-			if (uri_list.len > 0) {
-				uri_list.append ("\n");
-			}
-			uri_list.append (file.get_uri ());
-		}
-
-		unowned var clipboard = get_clipboard ();
-		var text_provider = new Gdk.ContentProvider.for_bytes ("text/plain", new Bytes (text.str.data));
-		var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
-		var provider = new Gdk.ContentProvider.union ({ text_provider, uri_provider });
-		clipboard.set_content (provider);
-	}
-
 	void cut_files_to_clipboard (GenericList<File> files) {
 		var uri_list = new StringBuilder ();
 		foreach (unowned var file in files) {
@@ -1396,7 +1377,6 @@ public class Gth.Browser : Gtk.Box {
 			}
 			uri_list.append (file.get_uri ());
 		}
-
 		unowned var clipboard = get_clipboard ();
 		var provider = new Gdk.ContentProvider.for_bytes ("gthumb/cut-files", new Bytes (uri_list.str.data));
 		clipboard.set_content (provider);

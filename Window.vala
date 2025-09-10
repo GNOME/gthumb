@@ -467,6 +467,31 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	public void copy_files_to_clipboard (GenericList<File> files) {
+		var text = new StringBuilder ();
+		var uri_list = new StringBuilder ();
+		foreach (unowned var file in files) {
+			if (text.len > 0) {
+				text.append ("\n");
+			}
+			if (file.get_uri_scheme () == "file") {
+				text.append (file.get_path ());
+			}
+			else {
+				text.append (file.get_uri ());
+			}
+			if (uri_list.len > 0) {
+				uri_list.append ("\n");
+			}
+			uri_list.append (file.get_uri ());
+		}
+		unowned var clipboard = get_clipboard ();
+		var text_provider = new Gdk.ContentProvider.for_bytes ("text/plain", new Bytes (text.str.data));
+		var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
+		var provider = new Gdk.ContentProvider.union ({ text_provider, uri_provider });
+		clipboard.set_content (provider);
+	}
+
 	void init_actions () {
 		var action = new SimpleAction ("new-window", null);
 		action.activate.connect (() => {
