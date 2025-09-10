@@ -65,7 +65,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 				//stdout.printf ("  DIRECTORY %s\n", gio_folder.get_uri ());
 				var enumerator = yield gio_folder.enumerate_children_async (
 					STANDARD_ATTRIBUTES,
-					(ForEachFlags.FOLLOW_LINKS in flags) ? FileQueryInfoFlags.NONE : FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+					(ForEachFlags.NOFOLLOW_LINKS in flags) ? FileQueryInfoFlags.NOFOLLOW_SYMLINKS : FileQueryInfoFlags.NONE,
 					Priority.DEFAULT,
 					cancellable);
 				while (action != ForEachAction.STOP) {

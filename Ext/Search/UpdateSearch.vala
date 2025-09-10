@@ -80,7 +80,7 @@ public class Gth.UpdateSearch {
 		var include_hidden = browser.show_hidden_files;
 		foreach (var folder in search.sources) {
 			var source = app.get_source_for_file (folder.folder);
-			var flags = ForEachFlags.FOLLOW_LINKS;
+			var flags = ForEachFlags.DEFAULT;
 			if (folder.recursive) {
 				flags |= ForEachFlags.RECURSIVE;
 			}

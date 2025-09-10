@@ -26,7 +26,7 @@ public abstract class Gth.FileSource : Object {
 	{
 		//stdout.printf ("LIST CHILDREN %s: ATTRIBUTES: %s\n", parent.get_uri (), attributes);
 		var list = new GenericList<Gth.FileData>();
-		yield foreach_child (parent, ForEachFlags.FOLLOW_LINKS, attributes, cancellable, (file_data, is_parent) => {
+		yield foreach_child (parent, ForEachFlags.DEFAULT, attributes, cancellable, (file_data, is_parent) => {
 			if (!is_parent) {
 				switch (file_data.info.get_file_type ()) {
 				case FileType.DIRECTORY, FileType.REGULAR:
@@ -44,18 +44,3 @@ public abstract class Gth.FileSource : Object {
 
 	public abstract async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error;
 }
-
-[Flags]
-public enum Gth.ForEachFlags {
-	DEFAULT,
-	RECURSIVE,
-	FOLLOW_LINKS,
-}
-
-public enum Gth.ForEachAction {
-	SKIP,
-	CONTINUE,
-	STOP;
-}
-
-public delegate Gth.ForEachAction Gth.ForEachChildFunc (Gth.FileData child, bool is_parent);

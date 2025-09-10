@@ -109,86 +109,9 @@ public class Gth.FileSourceVfs : FileSource {
 		return info;
 	}
 
-	const int REMOTE_FILES_PER_REQUEST = 100;
-	const int LOCAL_FILES_PER_REQUEST = 1000;
-
 	public override async void foreach_child (File parent, ForEachFlags flags, string attributes, Cancellable cancellable, ForEachChildFunc child_func) throws Error {
-		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
-		var metadata_attributes_v = Util.extract_metadata_attributes (all_attributes);
-		var has_symbolic_icon = Util.attributes_match_all_patterns (FileAttribute.STANDARD_SYMBOLIC_ICON, all_attributes);
-		var file_attributes = Util.extract_file_attributes (all_attributes);
-		var parent_info = yield parent.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
-		if (parent_info.get_file_type () != FileType.DIRECTORY)
-			throw new IOError.FAILED ("Not a directory");
-
-		var queue = new Queue<FileData>();
-		queue.push_tail (new Gth.FileData (parent, parent_info));
-
-		var is_local = parent.get_uri_scheme () == "file";
-		var files_per_request = is_local ? LOCAL_FILES_PER_REQUEST : REMOTE_FILES_PER_REQUEST;
-
-		while (queue.length > 0) {
-			var folder_data = queue.pop_head ();
-			var action = child_func (folder_data, true);
-			if (action == ForEachAction.SKIP) {
-				continue;
-			}
-			if (action == ForEachAction.STOP) {
-				break;
-			}
-			var enumerator = yield folder_data.file.enumerate_children_async (
-				file_attributes,
-				(ForEachFlags.FOLLOW_LINKS in flags) ? FileQueryInfoFlags.NONE : FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
-				Priority.DEFAULT,
-				cancellable);
-			while (action != ForEachAction.STOP) {
-				var info_list = yield enumerator.next_files_async (files_per_request, Priority.DEFAULT, cancellable);
-				if (info_list == null)
-					break;
-				foreach (var info in info_list) {
-					var child = enumerator.get_child (info);
-					var child_data = new Gth.FileData (child, info);
-
-					if (!has_symbolic_icon && (info.get_file_type () == FileType.DIRECTORY)) {
-						// Always set the symbolic icon for directories.
-						var more_info = yield child.query_info_async (
-							FileAttribute.STANDARD_SYMBOLIC_ICON,
-							FileQueryInfoFlags.NONE,
-							Priority.DEFAULT,
-							cancellable);
-						if (more_info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
-							info.set_symbolic_icon (more_info.get_symbolic_icon ());
-						}
-					}
-
-					var child_action = child_func (child_data, false);
-					if (child_action == ForEachAction.STOP) {
-						action = ForEachAction.STOP;
-						break;
-					}
-					if (child_action == ForEachAction.SKIP) {
-						continue;
-					}
-					if ((info.get_file_type () == FileType.DIRECTORY)
-						&& (ForEachFlags.RECURSIVE in flags))
-					{
-						queue.push_tail (child_data);
-					}
-					else if ((info.get_file_type () == FileType.REGULAR)
-						&& (metadata_attributes_v.length > 0))
-					{
-						yield app.metadata_reader.update (child_data, metadata_attributes_v, cancellable);
-					}
-					if (cancellable.is_cancelled ()) {
-						action = ForEachAction.STOP;
-						break;
-					}
-				}
-			}
-			if (action == ForEachAction.STOP) {
-				break;
-			}
-		}
+		flags |= ForEachFlags.READ_METADATA;
+		yield FileManager.foreach_child (parent, flags, attributes, cancellable, child_func);
 	}
 
 	public override async Gth.FileData read_metadata (File file, string requested_attributes, Cancellable cancellable) throws Error	{

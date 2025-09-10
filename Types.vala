@@ -188,3 +188,19 @@ namespace Gth.PrivateAttribute {
 	const string LOADED_IMAGE_COLOR_PROFILE = "Loaded::Image::ColorProfile";
 	const string LOADED_IMAGE_FROM_CLIPBOARD = "Loaded::Image::FromClipboard";
 }
+
+[Flags]
+public enum Gth.ForEachFlags {
+	DEFAULT,
+	RECURSIVE,
+	NOFOLLOW_LINKS,
+	READ_METADATA,
+}
+
+public enum Gth.ForEachAction {
+	SKIP,
+	CONTINUE,
+	STOP;
+}
+
+public delegate Gth.ForEachAction Gth.ForEachChildFunc (Gth.FileData child, bool is_parent);
