@@ -14,7 +14,7 @@ public class Gth.ReadText : Object {
 		check_func = null;
 	}
 
-	public async string read_value (Gtk.Window? parent, Job job) {
+	public async string read_value (Gtk.Window? parent, Job job) throws Error {
 		callback = read_value.callback;
 		dialog = new EntryDialog (title, default_value);
 		dialog.check_func = check_func;
@@ -49,6 +49,9 @@ public class Gth.ReadText : Object {
 		if (cancelled_event != 0) {
 			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
+		}
+		if (result == null) {
+			throw new IOError.CANCELLED ("Cancelled");
 		}
 		return result;
 	}
@@ -102,6 +105,7 @@ public class Gth.EntryDialog : Adw.Dialog {
 		catch (Error error) {
 			error_label.label = error.message;
 			error_label.visible = true;
+			entry.grab_focus ();
 		}
 	}
 

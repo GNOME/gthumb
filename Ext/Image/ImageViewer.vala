@@ -215,9 +215,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
 				read_filename.default_value = file_data.info.get_edit_name ();
 				var basename = yield read_filename.read_value (window, local_job);
-				if (basename == null) {
-					throw new IOError.CANCELLED ("Cancelled");
-				}
 				file_data.rename_from_display_name (basename);
 				new_filename = true;
 			}

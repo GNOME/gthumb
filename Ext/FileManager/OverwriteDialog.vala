@@ -23,25 +23,25 @@ public class Gth.OverwriteDialog : Object {
 		FileAttribute.TIME_MODIFIED_USEC;
 
 	public async OverwriteResponse ask_image (Gth.Image _image, File file, OverwriteRequest _request, Job job) {
-		request = _request;
 		try {
+			request = _request;
 			var info = yield Files.query_info (file, REQUIRED_ATTRIBUTES, job.cancellable);
 			destination = new FileData (file, info);
 			source = null;
 			image = _image;
 			img_data = new FileData (File.new_for_uri ("unused://"));
 			img_data.info.set_symbolic_icon (new ThemedIcon ("gth-image-symbolic"));
+			var dialog = new_dialog ();
+			return yield ask (dialog, job);
 		}
 		catch (Error error) {
 			return OverwriteResponse.CANCEL;
 		}
-		var dialog = new_dialog ();
-		return yield ask (dialog, job);
 	}
 
 	public async OverwriteResponse ask_file (File source_file, File destination_file, OverwriteRequest _request, Job job) {
-		request = _request;
 		try {
+			request = _request;
 			var info = yield Files.query_info (destination_file, REQUIRED_ATTRIBUTES, job.cancellable);
 			destination = new FileData (destination_file, info);
 			if (destination_file.equal (source_file)) {
@@ -52,12 +52,12 @@ public class Gth.OverwriteDialog : Object {
 				info = yield Files.query_info (source_file, REQUIRED_ATTRIBUTES, job.cancellable);
 				source = new FileData (source_file, info);
 			}
+			var dialog = new_dialog ();
+			return yield ask (dialog, job);
 		}
 		catch (Error error) {
 			return OverwriteResponse.CANCEL;
 		}
-		var dialog = new_dialog ();
-		return yield ask (dialog, job);
 	}
 
 	async OverwriteResponse ask (Adw.AlertDialog dialog, Job job) {
@@ -91,10 +91,12 @@ public class Gth.OverwriteDialog : Object {
 			rename.check_extension = check_extension;
 			rename.check_exists = true;
 			rename.folder = destination.file.get_parent ();
-			new_name = yield rename.read_value (parent, job);
-			if (new_name != null) {
+			try {
+				new_name = yield rename.read_value (parent, job);
 				response = OverwriteResponse.RENAME;
 				break;
+			}
+			catch (Error error) {
 			}
 		}
 		thumbnailer.cancel ();
