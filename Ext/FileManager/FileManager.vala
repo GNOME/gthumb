@@ -9,12 +9,13 @@ public class Gth.FileManager {
 		dialog.body_use_markup = true;
 		if (files.model.n_items == 1) {
 			var file = files.first ();
-			dialog.body = _("The file <i>%s</i> will be permanently lost. Do you want to delete it?").printf (file.info.get_display_name ());
+			dialog.body = _("This action is not reversable. Do you want to delete <i>%s</i>?").printf (
+				Markup.escape_text (file.info.get_display_name ()));
 		}
 		else {
 			dialog.body = GLib.ngettext (
-				"The %'d selected file will be permanently lost. Do you want to delete it?",
-				"The %'d selected files will be permanently lost. Do you want to delete them?",
+				"This action is not reversable. Do you want to delete the selected file?",
+				"This action is not reversable. Do you want to delete the %'d selected files?",
 				files.model.n_items
 			).printf (files.model.n_items);
 		}
@@ -34,7 +35,11 @@ public class Gth.FileManager {
 
 		// Delete
 		var operation = new DeleteOperation (window);
-		yield operation.delete_files (files, job);
+		var file_list = new GenericList<File>();
+		foreach (var file_data in files) {
+			file_list.model.append (file_data.file);
+		}
+		yield operation.delete_files (file_list, job);
 	}
 
 	public async void trash_files (GenericList<File> files, Job job) throws Error {
@@ -105,6 +110,25 @@ public class Gth.FileManager {
 		finally {
 			app.monitor.files_created (destination, operation.created_files);
 		}
+	}
+
+	public static async GenericList<FileData> query_list_info (GenericList<File> files, string attributes, Cancellable cancellable) throws Error {
+		var list = new GenericList<FileData>();
+		foreach (var file in files) {
+			//stdout.printf ("> query_list_info: %s\n", file.get_uri ());
+			var info = yield Files.query_info (file, attributes, cancellable);
+			if (info.get_file_type () == FileType.DIRECTORY) {
+				yield FileManager.foreach_child (file, ForEachFlags.RECURSIVE, attributes, cancellable, (child, is_parent) => {
+					//stdout.printf ("   append: %s\n", child.file.get_uri ());
+					list.model.append (child);
+					return ForEachAction.CONTINUE;
+				});
+			}
+			else {
+				list.model.append (new FileData (file, info));
+			}
+		}
+		return list;
 	}
 
 	const int REMOTE_FILES_PER_REQUEST = 100;
@@ -196,7 +220,6 @@ public class Gth.FileManager {
 	weak Window window;
 }
 
-
 class Gth.CopyOperation {
 	public GenericList<File> deleted_files;
 	public GenericList<File> created_files;
@@ -205,38 +228,109 @@ class Gth.CopyOperation {
 		window = _window;
 		deleted_files = new GenericList<File> ();
 		created_files = new GenericList<File> ();
+		copied_sources = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		last_made_destination = null;
 		last_overwrite_response = OverwriteResponse.NONE;
 	}
 
 	public async void copy_files (GenericList<File> files, File destination_dir, Job job) throws Error {
-		total_files = files.model.get_n_items ();
-		current_file = 0;
-		foreach (var file in files) {
-			job.progress = Util.calc_progress (current_file, total_files);
-			job.subtitle = file.get_basename ();
-			yield copy_file (file, destination_dir, CopyFlags.DEFAULT, job);
-			current_file++;
-		}
+		yield copy_files_generic (files, destination_dir, CopyFlags.DEFAULT, job);
 	}
 
 	public async void move_files (GenericList<File> files, File destination_dir, Job job) throws Error {
-		total_files = files.model.get_n_items ();
-		current_file = 0;
-		foreach (var file in files) {
-			job.progress = Util.calc_progress (current_file, total_files);
-			yield copy_file (file, destination_dir, CopyFlags.MOVE, job);
-			current_file++;
-		}
+		yield copy_files_generic (files, destination_dir, CopyFlags.MOVE, job);
 	}
 
 	public async void duplicate_files (GenericList<File> files, File destination_dir, Job job) throws Error {
 		total_files = files.model.get_n_items ();
 		current_file = 0;
 		foreach (var file in files) {
+			job.subtitle = file.get_basename ();
 			job.progress = Util.calc_progress (current_file, total_files);
 			yield copy_file (file, destination_dir, CopyFlags.DUPLICATE, job);
 			current_file++;
+		}
+	}
+
+	async void copy_files_generic (GenericList<File> files, File destination_dir, CopyFlags copy_flags, Job job) throws Error {
+		var attributes = REQUIRED_ATTRIBUTES + "," + FileAttribute.STANDARD_SIZE;
+		var moving = CopyFlags.MOVE in copy_flags;
+		var explicitly_requested = new GenericSet<File> (Util.file_hash, Util.file_equal);
+		foreach (var file in files) {
+			explicitly_requested.add (file);
+		}
+		var file_data_list = yield FileManager.query_list_info (files, attributes, job.cancellable);
+		int64 total_bytes = 0;
+		foreach (var file_data in file_data_list) {
+			total_bytes += file_data.info.get_size ();
+		}
+		int64 copied_bytes = 0;
+		total_files = files.model.get_n_items ();
+		current_file = 0;
+		var moved_directories = new GenericList<File>();
+		File source_base_dir = null;
+		foreach (var file_data in file_data_list) {
+			if (explicitly_requested.contains (file_data.file)) {
+				source_base_dir = file_data.file.get_parent ();
+			}
+			job.progress = Util.calc_progress ((uint64) copied_bytes, (uint64) total_bytes);
+			job.subtitle = file_data.info.get_display_name ();
+			// Ignore already copied files. These are sidecars already copied with copy_file()
+			if (!copied_sources.contains (file_data.file)) {
+				switch (file_data.info.get_file_type ()) {
+				case FileType.DIRECTORY:
+					var new_dir = Util.build_destination_dir (file_data.file,
+						source_base_dir, destination_dir);
+					//stdout.printf ("> mkdir: %s\n", new_dir.get_uri ());
+					Files.make_directory_async (new_dir, job.cancellable);
+					copied_sources.add (file_data.file);
+					if (moving) {
+						moved_directories.model.append (file_data.file);
+					}
+					break;
+
+				case FileType.REGULAR:
+					try {
+						var new_destination_dir = Util.build_destination_dir (file_data.file.get_parent (),
+							source_base_dir, destination_dir);
+						//stdout.printf ("> copy: %s -> %s\n", file_data.file.get_uri (), new_destination_dir.get_uri ());
+						yield copy_file (file_data.file, new_destination_dir, copy_flags, job);
+					}
+					catch (Error error) {
+						// Ignore NOT_FOUND errors when moving files.
+						// These are sidecar files already moved in copy_file()
+						if (moving && !(error is IOError.NOT_FOUND)) {
+							throw error;
+						}
+					}
+					break;
+
+				default:
+					throw new IOError.FAILED ("Cannot copy or move this kind of files: %s (%s)".printf (
+						file_data.file.get_uri (),
+						file_data.info.get_file_type ().to_string ()));
+					break;
+				}
+			}
+			copied_bytes += file_data.info.get_size ();
+			current_file++;
+		}
+
+		// Remove the moved directories.
+		var iter = moved_directories.iterator ();
+		while (iter.previous ()) {
+			var dir = iter.get ();
+			try {
+				dir.delete (job.cancellable);
+			}
+			catch (Error error) {
+				// Ignore this kind of errors, because
+				// it is caused by the user choice of
+				// not move a file.
+				if (!(error is IOError.NOT_EMPTY)) {
+					throw error;
+				}
+			}
 		}
 	}
 
@@ -263,18 +357,23 @@ class Gth.CopyOperation {
 		if (CopyFlags.MOVE in flags) {
 			deleted_files.model.append (source_file);
 		}
+		copied_sources.add (source_file);
 
 		// Comment
-		yield copy_file_to_destination (Comment.get_comment_file (source_file),
+		var sidecar_source = Comment.get_comment_file (source_file);
+		yield copy_file_to_destination (sidecar_source,
 			Comment.get_comment_file (destination_file),
 			flags | CopyFlags.MAKE_DESTINATION | CopyFlags.OVERWRITE | CopyFlags.IGNORE_ERRORS,
 			job);
+		copied_sources.add (sidecar_source);
 
 		// XMP sidecar
-		yield copy_file_to_destination (Util.get_xmp_sidecar (source_file),
+		sidecar_source = Util.get_xmp_sidecar (source_file);
+		yield copy_file_to_destination (sidecar_source,
 			Util.get_xmp_sidecar (destination_file),
 			flags | CopyFlags.OVERWRITE | CopyFlags.IGNORE_ERRORS,
 			job);
+		copied_sources.add (sidecar_source);
 	}
 
 	async File? copy_file_to_destination (File source_file, File destination_file, CopyFlags flags, Job job) throws Error {
@@ -373,6 +472,7 @@ class Gth.CopyOperation {
 	uint total_files;
 	uint current_file;
 	OverwriteResponse last_overwrite_response;
+	GenericSet<File> copied_sources;
 }
 
 
@@ -393,19 +493,52 @@ class Gth.DeleteOperation {
 		window = _window;
 	}
 
-	public async void delete_files (GenericList<FileData> files, Job job) throws Error {
+	public async void delete_files (GenericList<File> files, Job job) throws Error {
+		var file_data_list = yield FileManager.query_list_info (files, REQUIRED_ATTRIBUTES, job.cancellable);
 		var deleted_files = new GenericList<File>();
+		var deleted_directories = new GenericList<File>();
 		try {
-			var iter = files.iterator ();
+			var iter = file_data_list.iterator ();
 			while (iter.next ()) {
 				var file_data = iter.get ();
+				//stdout.printf ("> DELETE %s\n", file_data.file.get_uri ());
 				job.progress = Util.calc_progress (iter.index (), files.model.n_items);
-				job.subtitle = file_data.get_display_name ();
-				yield delete_file (file_data.file, job.cancellable);
-				deleted_files.model.append (file_data.file);
+				job.subtitle = file_data.info.get_display_name ();
+				switch (file_data.info.get_file_type ()) {
+				case FileType.DIRECTORY:
+					deleted_directories.model.append (file_data.file);
+					deleted_files.model.append (file_data.file);
+					break;
+
+				case FileType.REGULAR:
+					try {
+						yield delete_file (file_data.file, job.cancellable);
+					}
+					catch (Error error) {
+						// Ignore NOT_FOUND errors.
+						// These are sidecar files already deleted in delete_file()
+						if (!(error is IOError.NOT_FOUND)) {
+							throw error;
+						}
+					}
+					deleted_files.model.append (file_data.file);
+					break;
+				}
 			}
 		}
 		finally {
+			// Remove the directories.
+			var iter = deleted_directories.iterator ();
+			while (iter.previous ()) {
+				var dir = iter.get ();
+				try {
+					yield dir.delete_async (Priority.DEFAULT, job.cancellable);
+				}
+				catch (Error error) {
+					// Ignore errors
+					//stdout.printf ("> ERROR: %s\n", error.message);
+				}
+			}
 			app.monitor.files_deleted (deleted_files);
 		}
 	}

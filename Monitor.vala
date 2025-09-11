@@ -36,4 +36,10 @@ public class Gth.Monitor : Object {
 		files.model.append (file);
 		files_created (parent, files);
 	}
+
+	public void file_deleted (File file) {
+		var files = new GenericList<File>();
+		files.model.append (file);
+		files_deleted (files);
+	}
 }

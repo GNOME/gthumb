@@ -492,6 +492,79 @@ public class Gth.Window : Adw.ApplicationWindow {
 		clipboard.set_content (provider);
 	}
 
+	public void cut_files_to_clipboard (GenericList<File> files) {
+		var uri_list = new StringBuilder ();
+		foreach (unowned var file in files) {
+			if (uri_list.len > 0) {
+				uri_list.append ("\n");
+			}
+			uri_list.append (file.get_uri ());
+		}
+		unowned var clipboard = get_clipboard ();
+		var provider = new Gdk.ContentProvider.for_bytes ("gthumb/cut-files", new Bytes (uri_list.str.data));
+		clipboard.set_content (provider);
+	}
+
+	public void delete_files (GenericList<FileData> files) {
+		var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+		file_manager.delete_files.begin (files, local_job, (_obj, res) => {
+			try {
+				file_manager.delete_files.end (res);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
+	}
+
+	public void trash_files (GenericList<File> files) {
+		var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+		file_manager.trash_files.begin (files, local_job, (_obj, res) => {
+			try {
+				file_manager.trash_files.end (res);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
+	}
+
+	public void copy_files_ask_destination (GenericList<File> files) {
+		var local_job = new_job (_("Copying Files"), JobFlags.FOREGROUND);
+		file_manager.copy_files_ask_destination.begin (files, local_job, (_obj, res) => {
+			try {
+				file_manager.copy_files_ask_destination.end (res);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
+	}
+
+	public void move_files_ask_destination (GenericList<File> files) {
+		var local_job = new_job (_("Moving Files"), JobFlags.FOREGROUND);
+		file_manager.move_files_ask_destination.begin (files, local_job, (_obj, res) => {
+			try {
+				file_manager.move_files_ask_destination.end (res);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
+	}
+
 	void init_actions () {
 		var action = new SimpleAction ("new-window", null);
 		action.activate.connect (() => {
@@ -644,18 +717,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if ((files == null) || files.is_empty ()) {
 				return;
 			}
-			var local_job = new_job (_("Copying Files"), JobFlags.FOREGROUND);
-			file_manager.copy_files_ask_destination.begin (files, local_job, (_obj, res) => {
-				try {
-					file_manager.copy_files_ask_destination.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
+			copy_files_ask_destination (files);
 		});
 		action_group.add_action (action);
 
@@ -665,18 +727,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if ((files == null) || files.is_empty ()) {
 				return;
 			}
-			var local_job = new_job (_("Moving Files"), JobFlags.FOREGROUND);
-			file_manager.move_files_ask_destination.begin (files, local_job, (_obj, res) => {
-				try {
-					file_manager.move_files_ask_destination.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
+			move_files_ask_destination (files);
 		});
 		action_group.add_action (action);
 
@@ -686,18 +737,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if ((files == null) || files.is_empty ()) {
 				return;
 			}
-			var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
-			file_manager.delete_files.begin (files, local_job, (_obj, res) => {
-				try {
-					file_manager.delete_files.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
+			delete_files (files);
 		});
 		action_group.add_action (action);
 
@@ -707,18 +747,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if ((files == null) || files.is_empty ()) {
 				return;
 			}
-			var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
-			file_manager.trash_files.begin (files, local_job, (_obj, res) => {
-				try {
-					file_manager.trash_files.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
+			trash_files (files);
 		});
 		action_group.add_action (action);
 	}

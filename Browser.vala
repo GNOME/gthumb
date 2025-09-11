@@ -28,6 +28,8 @@ public class Gth.Browser : Gtk.Box {
 	public bool never_loaded;
 	public Gth.FileSorter file_sorter;
 	public Gth.FileFilter file_filter;
+	public SimpleActionGroup folder_actions;
+	public SimpleActionGroup catalog_actions;
 
 	construct {
 		history = new History (this);
@@ -99,6 +101,7 @@ public class Gth.Browser : Gtk.Box {
 
 		init_actions ();
 		init_folder_actions ();
+		init_catalog_actions ();
 	}
 
 	async void add_files (GenericList<File> files) {
@@ -252,6 +255,7 @@ public class Gth.Browser : Gtk.Box {
 		if (!is_selected (item.file_data.file)) {
 			select_file (item.file_data.file);
 		}
+		update_file_context_menu_sensitivity ();
 		Graphene.Point p = Graphene.Point.zero ();
 		item.compute_point (non_empty_folder, Graphene.Point.zero (), out p);
 		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
@@ -259,6 +263,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void open_context_menu (int x, int y) {
+		update_file_context_menu_sensitivity ();
 		Graphene.Point p = Graphene.Point.zero ();
 		file_grid.compute_point (folder_stack.get_visible_child (), Graphene.Point.zero (), out p);
 		context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
@@ -399,29 +404,32 @@ public class Gth.Browser : Gtk.Box {
 	public void update_folder_status () {
 		folder_stack.set_visible_child ((total_files == 0) ? empty_folder : non_empty_folder);
 		if (total_files == 0) {
-			var title = _("No Files");
 			if ((filter_bar.filter != null) && (filter_bar.filter.id != "")) {
-				title = _("No Matches");
+				folder_status.title = _("No Matches");
+				folder_status.description = "";
 				folder_status.icon_name = "gth-filter-symbolic";
 			}
 			else {
 				folder_status.gicon = folder_tree.current_folder.get_symbolic_icon ();
 				switch (folder_tree.current_folder.get_content_type ()) {
 				case "gthumb/search":
-					title = _("No Files Found");
+					folder_status.title = _("No Files Found");
+					folder_status.description = "";
 					break;
 				case "gthumb/catalog":
-					title = _("Empty Catalog");
+					folder_status.title = _("Empty Catalog");
+					folder_status.description = "";
 					break;
 				case "gthumb/library":
-					title = _("Library");
+					folder_status.title = folder_tree.current_folder.get_display_name ();
+					folder_status.description = "";
 					break;
 				default:
-					title = _("Empty Folder");
+					folder_status.title = _("Empty Folder");
+					folder_status.description = "";
 					break;
 				}
 			}
-			folder_status.title = title;
 		}
 	}
 
@@ -747,7 +755,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("edit-catalog", null);
 		action.activate.connect ((_action, param) => {
-			edit_catalog.begin ();
+			edit_catalog.begin (folder_tree.current_folder);
 		});
 		action_group.add_action (action);
 
@@ -799,7 +807,7 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("cut-files", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			cut_files_to_clipboard (files);
+			window.cut_files_to_clipboard (files);
 		});
 		action_group.add_action (action);
 
@@ -862,8 +870,6 @@ public class Gth.Browser : Gtk.Box {
 		action_group.add_action (action);
 	}
 
-	public SimpleActionGroup folder_actions;
-
 	void init_folder_actions () {
 		folder_actions = new SimpleActionGroup ();
 		var action_group = folder_actions;
@@ -873,7 +879,7 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect ((_action, param) => {
 			if (folder_tree.context_file != null) {
 				var new_window = new Gth.Window ();
-				new_window.browser.open_location (folder_tree.context_file);
+				new_window.browser.open_location (folder_tree.context_file.file);
 				new_window.present ();
 			}
 		});
@@ -885,7 +891,7 @@ public class Gth.Browser : Gtk.Box {
 				try {
 					var settings = new GLib.Settings (GTHUMB_TERMINAL_SCHEMA);
 					var files = new List<File> ();
-					files.append (folder_tree.context_file);
+					files.append (folder_tree.context_file.file);
 					var info = AppInfo.create_from_commandline (settings.get_string (PREF_TERMINAL_COMMAND), _("Terminal"), AppInfoCreateFlags.NONE);
 					info.launch (files, window.display.get_app_launch_context ());
 				}
@@ -899,8 +905,8 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("open-file-manager", null);
 		action.activate.connect ((_action, param) => {
 			if (folder_tree.context_file != null) {
-				var launcher = new Gtk.FileLauncher (folder_tree.context_file);
-				var local_job = window.new_job ("Open %s".printf (folder_tree.context_file.get_uri ()));
+				var launcher = new Gtk.FileLauncher (folder_tree.context_file.file);
+				var local_job = window.new_job ("Open %s".printf (folder_tree.context_file.file.get_uri ()));
 				launcher.launch.begin (window, local_job.cancellable, (_obj, res) => {
 					try {
 						launcher.launch.end (res);
@@ -925,7 +931,7 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("paste", null);
 		action.activate.connect ((_action, param) => {
 			var local_job = window.new_job (_("Pasting Files"), JobFlags.FOREGROUND);
-			paste_files_from_clipboard.begin (folder_tree.context_file, local_job, (_obj, res) => {
+			paste_files_from_clipboard.begin (folder_tree.context_file.file, local_job, (_obj, res) => {
 				try {
 					paste_files_from_clipboard.end (res);
 				}
@@ -942,8 +948,84 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("copy", null);
 		action.activate.connect (() => {
 			var files = new GenericList<File> ();
-			files.model.append (folder_tree.context_file);
+			files.model.append (folder_tree.context_file.file);
 			window.copy_files_to_clipboard (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("cut", null);
+		action.activate.connect (() => {
+			var files = new GenericList<File> ();
+			files.model.append (folder_tree.context_file.file);
+			window.cut_files_to_clipboard (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete", null);
+		action.activate.connect (() => {
+			var files = new GenericList<FileData> ();
+			files.model.append (folder_tree.context_file);
+			window.delete_files (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-to", null);
+		action.activate.connect (() => {
+			var files = new GenericList<File> ();
+			files.model.append (folder_tree.context_file.file);
+			window.copy_files_ask_destination (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("move-to", null);
+		action.activate.connect (() => {
+			var files = new GenericList<File> ();
+			files.model.append (folder_tree.context_file.file);
+			window.move_files_ask_destination (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("trash", null);
+		action.activate.connect (() => {
+			var files = new GenericList<File> ();
+			files.model.append (folder_tree.context_file.file);
+			window.trash_files (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("rename", null);
+		action.activate.connect (() => {
+			rename_folder.begin ();
+		});
+		action_group.add_action (action);
+	}
+
+	void init_catalog_actions () {
+		catalog_actions = new SimpleActionGroup ();
+		var action_group = catalog_actions;
+		window.insert_action_group ("catalog", action_group);
+
+		var action = new SimpleAction ("new-catalog", null);
+		action.activate.connect ((_action, param) => {
+			new_catalog.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("new-library", null);
+		action.activate.connect ((_action, param) => {
+			new_library.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("rename", null);
+		action.activate.connect ((_action, param) => {
+			rename_catalog.begin ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete", null);
+		action.activate.connect ((_action, param) => {
+			delete_catalog.begin ();
 		});
 		action_group.add_action (action);
 	}
@@ -952,6 +1034,9 @@ public class Gth.Browser : Gtk.Box {
 		folder_tree.job_queue = window.jobs;
 		folder_tree.load.connect ((location, action) => {
 			load_folder.begin (location, action);
+		});
+		folder_tree.before_context_menu_popup.connect ((file_data) => {
+			update_folder_context_menu_sensitivity (file_data);
 		});
 	}
 
@@ -1108,11 +1193,10 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	async void edit_catalog () {
+	async void edit_catalog (FileData file_data) {
 		if (search_job != null) {
 			search_job.cancel ();
 		}
-		var file_data = folder_tree.current_folder;
 		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"gth-search-symbolic");
@@ -1163,6 +1247,42 @@ public class Gth.Browser : Gtk.Box {
 			if (search_job == local_job) {
 				search_job = null;
 			}
+		}
+	}
+
+	void update_file_context_menu_sensitivity () {
+		var file_data = folder_tree.current_folder;
+		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
+		Util.enable_action (window.action_group, "cut-files", can_write);
+		Util.enable_action (window.action_group, "paste-files", can_write);
+		Util.enable_action (window.action_group, "move-files-to", can_write);
+		Util.enable_action (window.action_group, "rename-files", can_write);
+		Util.enable_action (window.action_group, "duplicate-files", can_write);
+		Util.enable_action (window.action_group, "trash-files", can_write);
+		Util.enable_action (window.action_group, "delete-files", can_write);
+	}
+
+	void update_folder_context_menu_sensitivity (FileData file_data) {
+		var can_rename = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_RENAME);
+		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
+		var can_trash = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_TRASH);
+		var can_delete = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_DELETE);
+		if ((file_data.get_content_type () == "gthumb/catalog")
+			|| (file_data.get_content_type () == "gthumb/search")
+			|| (file_data.get_content_type () == "gthumb/library"))
+		{
+			Util.enable_action (catalog_actions, "rename", can_rename);
+			Util.enable_action (catalog_actions, "move-to", can_delete);
+			Util.enable_action (catalog_actions, "delete", can_delete);
+		}
+		else {
+			Util.enable_action (folder_actions, "new", can_write);
+			Util.enable_action (folder_actions, "cut", can_delete);
+			Util.enable_action (folder_actions, "paste", can_write);
+			Util.enable_action (folder_actions, "move-to", can_delete);
+			Util.enable_action (folder_actions, "rename", can_rename);
+			Util.enable_action (folder_actions, "trash", can_trash);
+			Util.enable_action (folder_actions, "delete", can_delete);
 		}
 	}
 
@@ -1369,19 +1489,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	void cut_files_to_clipboard (GenericList<File> files) {
-		var uri_list = new StringBuilder ();
-		foreach (unowned var file in files) {
-			if (uri_list.len > 0) {
-				uri_list.append ("\n");
-			}
-			uri_list.append (file.get_uri ());
-		}
-		unowned var clipboard = get_clipboard ();
-		var provider = new Gdk.ContentProvider.for_bytes ("gthumb/cut-files", new Bytes (uri_list.str.data));
-		clipboard.set_content (provider);
-	}
-
 	async void paste_files_from_clipboard (File destination, Job job) throws Error {
 		unowned var clipboard = get_clipboard ();
 		unowned string mime_type;
@@ -1434,9 +1541,147 @@ public class Gth.Browser : Gtk.Box {
 		try {
 			var read_filename = new ReadFilename (_("New Folder"), _("_Create"));
 			var basename = yield read_filename.read_value (window, local_job);
-			var folder = folder_tree.context_file.get_child_for_display_name (basename);
+			var folder = folder_tree.context_file.file.get_child_for_display_name (basename);
 			yield Files.make_directory_async (folder, local_job.cancellable);
 			yield open_location_async (folder);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void rename_folder () {
+		var local_job = window.new_job ("Rename Folder");
+		try {
+			var old_folder = folder_tree.context_file.file;
+			var parent = old_folder.get_parent ();
+			var read_filename = new ReadFilename (_("Rename"), _("Rename"));
+			read_filename.folder = parent;
+			read_filename.check_exists = true;
+			read_filename.default_value = folder_tree.context_file.info.get_edit_name ();
+			var basename = yield read_filename.read_value (window, local_job);
+			var new_folder = parent.get_child_for_display_name (basename);
+			yield old_folder.move_async (new_folder, FileCopyFlags.NONE, Priority.DEFAULT, local_job.cancellable, null);
+			// TODO: Monitor.renamed (old_folder, new_folder);
+			yield open_location_async (new_folder);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	File get_context_library () {
+		File parent;
+		if (folder_tree.context_file.info.get_attribute_boolean ("gthumb::no-child")) {
+			parent = folder_tree.context_file.file.get_parent ();
+		}
+		else {
+			parent = folder_tree.context_file.file;
+		}
+		return parent;
+	}
+
+	async void new_catalog () {
+		var local_job = window.new_job ("New Catalog");
+		try {
+			var read_filename = new ReadFilename (_("New Catalog"), _("_Create"));
+			var basename = yield read_filename.read_value (window, local_job);
+			var library = get_context_library ();
+			var catalog = new Catalog ();
+			catalog.name = basename;
+			catalog.file = library.get_child_for_display_name (basename + ".catalog");
+			yield catalog.save_async (local_job.cancellable);
+			yield open_location_async (catalog.file);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void new_library () {
+		var local_job = window.new_job ("New Library");
+		try {
+			var read_filename = new ReadFilename (_("New Library"), _("_Create"));
+			var basename = yield read_filename.read_value (window, local_job);
+			var library = get_context_library ();
+			var folder = library.get_child_for_display_name (basename);
+			var gio_folder = Catalog.to_gio_file (folder);
+			yield Files.make_directory_async (gio_folder, local_job.cancellable);
+			yield open_location_async (folder);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void rename_catalog () {
+		var local_job = window.new_job ("Rename Catalog");
+		try {
+			var old_file = folder_tree.context_file.file;
+			var old_gio_file = Catalog.to_gio_file (old_file);
+			var read_filename = new ReadFilename (_("Rename"), _("_Rename"));
+			read_filename.folder = old_gio_file.get_parent ();
+			read_filename.check_exists = true;
+			read_filename.default_value = folder_tree.context_file.info.get_edit_name ();
+			var basename = yield read_filename.read_value (window, local_job);
+			File new_file;
+			if (folder_tree.context_file.get_content_type () == "gthumb/library") {
+				new_file = old_file.get_parent ().get_child_for_display_name (basename);
+				var new_gio_file = Catalog.to_gio_file (new_file);
+				yield old_gio_file.move_async (new_gio_file, FileCopyFlags.NONE, Priority.DEFAULT, local_job.cancellable, null);
+			}
+			else {
+				var data = yield Files.load_contents_async (old_gio_file, local_job.cancellable);
+				var catalog = Catalog.new_from_data (old_file, data);
+				catalog.name = basename;
+				yield catalog.save_async (local_job.cancellable);
+				new_file = catalog.file;
+			}
+			yield open_location_async (new_file);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void delete_catalog () {
+		var local_job = window.new_job ("Delete Catalog");
+		try {
+			var dialog = new Adw.AlertDialog (_("Delete Permanently?"), null);
+			dialog.body_use_markup = true;
+			dialog.body = _("This action is not reversable. Do you want to delete <i>%s</i>?").printf (
+				Markup.escape_text (folder_tree.context_file.get_display_name ()));
+			dialog.add_responses (
+				"cancel",  _("_Cancel"),
+				"delete", _("_Delete")
+			);
+			dialog.set_response_appearance ("delete", Adw.ResponseAppearance.DESTRUCTIVE);
+			dialog.default_response = "cancel";
+			dialog.close_response = "cancel";
+			local_job.opens_dialog ();
+			var response = yield dialog.choose (window, local_job.cancellable);
+			local_job.dialog_closed ();
+			if (response == "cancel") {
+				throw new IOError.CANCELLED ("Cancelled");
+			}
+			var gio_file = Catalog.to_gio_file (folder_tree.context_file.file);
+			yield gio_file.delete_async (Priority.DEFAULT, local_job.cancellable);
+			app.monitor.file_deleted (folder_tree.context_file.file);
 		}
 		catch (Error error) {
 			window.show_error (error);

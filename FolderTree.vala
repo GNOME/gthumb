@@ -29,10 +29,12 @@ public class Gth.FolderTree : Gtk.Box {
 			return (context_menu != null) ? context_menu.menu_model : null;
 		}
 	}
-	public File context_file;
+	public FileData context_file;
 
 	[Signal (action=true)]
 	public signal void load (File location, LoadAction action);
+
+	public signal void before_context_menu_popup (FileData file_data);
 
 	Gth.Job load_job;
 	Queue<File> current_parents;
@@ -529,7 +531,8 @@ public class Gth.FolderTree : Gtk.Box {
 			return;
 		}
 
-		context_file = item.file_data.file;
+		before_context_menu_popup (item.file_data);
+		context_file = item.file_data;
 
 		Graphene.Point p = Graphene.Point.zero ();
 		item.compute_point (this, Graphene.Point.zero (), out p);
@@ -540,7 +543,7 @@ public class Gth.FolderTree : Gtk.Box {
 		// Select the item without loading the content.
 		selected_before_context_menu = (int) tree_selection_model.selected;
 		int position;
-		get_file_row (context_file, out position);
+		get_file_row (context_file.file, out position);
 		tree_selection_model.set_selected (position);
 	}
 

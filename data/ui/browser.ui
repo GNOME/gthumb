@@ -555,14 +555,14 @@
         <attribute name="action">catalog.rename</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">catalog.delete</attribute>
+        <attribute name="label" translatable="yes">Move To…</attribute>
+        <attribute name="action">catalog.move-to</attribute>
       </item>
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Properties</attribute>
-        <attribute name="action">catalog.properties</attribute>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">catalog.delete</attribute>
       </item>
     </section>
   </menu>

@@ -53,22 +53,49 @@ public class Gth.ListIterator<T> {
 		model = _model;
 		idx = -1;
 		item = null;
+		started = false;
 	}
 
 	public unowned T get () {
 		return item;
 	}
 
-	public bool next () {
-		if ((idx >= 0) && (item == null))
+	public bool previous () {
+		if (started && (item == null)) {
 			return false;
-		idx++;
+		}
+		if (!started) {
+			idx = (int) model.get_n_items () - 1;
+			started = true;
+		}
+		else {
+			idx = idx - 1;
+		}
+		item = model.get_item (idx);
+		return item != null;
+	}
+
+	public bool next () {
+		if (started && (item == null)) {
+			return false;
+		}
+		if (!started) {
+			idx = 0;
+			started = true;
+		}
+		else {
+			idx = idx + 1;
+		}
 		item = model.get_item (idx);
 		return item != null;
 	}
 
 	public bool has_next () {
-		return model.get_item (idx + 1) != null;
+		return model.get_item ((!started ? 0 : idx + 1)) != null;
+	}
+
+	public bool has_previous () {
+		return model.get_item ((!started ? (int) model.get_n_items () - 1 : idx - 1)) != null;
 	}
 
 	public int index () {
@@ -96,6 +123,7 @@ public class Gth.ListIterator<T> {
 	ListModel model;
 	T item;
 	int idx;
+	bool started;
 }
 
 public delegate bool MatchGenericItemFunc<T> (T item);

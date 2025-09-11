@@ -173,7 +173,7 @@ namespace Gth.Util {
 		return File.new_for_uri (new_uri.str);
 	}
 
-	public static float calc_progress (uint completed, uint total) {
+	public static float calc_progress (uint64 completed, uint64 total) {
 		return (float) (completed + 1) / (total + 1);
 	}
 
@@ -196,5 +196,16 @@ namespace Gth.Util {
 	public static string get_parse_basename (File file) {
 		var pathname = file.get_parse_name ();
 		return Util.get_basename (pathname);
+	}
+
+	public static File build_destination_dir (File source, File source_base_dir, File destination_base_dir) {
+		var uri = source.get_uri ();
+		var base_uri = source_base_dir.get_uri ();
+		var uri_suffix = uri.substring (base_uri.length, -1);
+		var destination_base_uri = destination_base_dir.get_uri ();
+		var destination_uri = destination_base_uri + "/" + uri_suffix;
+		//stdout.printf ("> build_destination_dir('%s', '%s', '%s'): %s\n",
+		//	uri, base_uri, destination_base_uri, destination_uri);
+		return File.new_for_uri (destination_uri);
 	}
 }

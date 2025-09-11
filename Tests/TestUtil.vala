@@ -59,10 +59,31 @@ int main (string[] args) {
 	test_get_basename ("/", "");
 	test_get_basename ("", "");
 
+	test_build_destination_dir ("file:///a.txt", "file:///", "file:///x", "file:///x/a.txt");
+	test_build_destination_dir ("file:///a.txt", "file:///", "file:///x/y/z", "file:///x/y/z/a.txt");
+	test_build_destination_dir ("file:///a/b/c.txt", "file:///", "file:///x", "file:///x/a/b/c.txt");
+	test_build_destination_dir ("file:///a/b/c.txt", "file:///a", "file:///x", "file:///x/b/c.txt");
+	test_build_destination_dir ("file:///a/b/c.txt", "file:///a/b", "file:///x", "file:///x/c.txt");
+
 	print ("\n");
 	print ("tests: %d\n", n_tests);
 	print ("errors: %d\n", n_errors);
 	return 0;
+}
+
+void test_build_destination_dir (string source_uri, string source_base_uri, string destination_base_uri, string? expected) {
+	var source = File.new_for_uri (source_uri);
+	var source_base_dir = File.new_for_uri (source_base_uri);
+	var destination_base_dir = File.new_for_uri (destination_base_uri);
+	var result = Gth.Util.build_destination_dir (source, source_base_dir, destination_base_dir);
+	var result_uri = result.get_uri ();
+	if (result_uri != expected) {
+		stderr.printf ("> build_destination_dir ('%s', '%s', '%s')  expecting: '%s'  got: '%s'\n",
+			source_uri, source_base_uri, destination_base_uri,
+			expected, result_uri);
+		n_errors++;
+	}
+	n_tests++;
 }
 
 void test_get_basename (string path, string? expected) {

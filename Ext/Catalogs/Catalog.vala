@@ -32,9 +32,10 @@ public class Gth.Catalog : Object {
 				catalog.load_doc (doc);
 			}
 		}
-		if (catalog != null) {
-			catalog.file = file;
+		if (catalog == null) {
+			throw new IOError.FAILED ("Could not load the catalog.");
 		}
+		catalog.file = file;
 		return catalog;
 	}
 
@@ -88,6 +89,8 @@ public class Gth.Catalog : Object {
 		var basename = file.get_basename ();
 		if ((basename == null) || (basename == "/")) {
 			basename = _("Catalogs");
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_RENAME, false);
+			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_DELETE, false);
 		}
 		info.set_display_name (basename);
 		info.set_edit_name (basename);
