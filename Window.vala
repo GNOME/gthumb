@@ -663,7 +663,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("job-queue", null);
 		action.activate.connect ((_action, param) => {
-			progress_dialog.show_dialog ();
+			progress_dialog.show_dialog (true);
 		});
 		action_group.add_action (action);
 

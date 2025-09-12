@@ -4,6 +4,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		window = _window;
 		closed.connect (() => {
 			presented = false;
+			presented_by_user = false;
 		});
 		jobs = new GenericList<Job>();
 		job_list.bind_model (jobs.model, (obj) => {
@@ -20,13 +21,14 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		queue.job_added.connect ((job) => add_job (job));
 	}
 
-	public void show_dialog () {
+	public void show_dialog (bool by_user = false) {
 		cancel_show_dialog ();
 		if (job_dialogs > 0) {
 			return;
 		}
 		present (window);
 		presented = true;
+		presented_by_user = by_user;
 	}
 
 	public void hide_dialog () {
@@ -80,7 +82,10 @@ public class Gth.ProgressDialog : Adw.Dialog {
 				foreground_jobs += 1;
 			}
 		}
-		if ((job_dialogs > 0) || (jobs.model.n_items == 0)) {
+		if ((job_dialogs > 0)
+			|| (jobs.model.n_items == 0)
+			|| (!presented_by_user && (foreground_jobs == 0)))
+		{
 			hide_dialog ();
 		}
 		else if (foreground_jobs > 0) {
@@ -108,6 +113,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 	[GtkChild] unowned Gtk.ListBox job_list;
 	[GtkChild] unowned Gtk.Box cancel_all;
 	bool presented = false;
+	bool presented_by_user = false;
 	uint show_event = 0;
 
 	const uint SHOW_DELAY = 500;
