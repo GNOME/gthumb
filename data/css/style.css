@@ -200,3 +200,7 @@ button.small {
 .tool-button {
 	padding: 6px;
 }
+
+.rounded {
+	border-radius: 12px;
+}

@@ -31,6 +31,16 @@
                     <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <child>
+                      <object class="GthThumbnail" id="thumbnail">
+                        <property name="halign">center</property>
+                        <style>
+                          <class name="image-view"/>
+                          <class name="frame"/>
+                          <class name="rounded"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkLabel" id="filename">
                         <property name="halign">center</property>
                         <property name="wrap">true</property>

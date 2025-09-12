@@ -164,7 +164,7 @@ public class Gth.Script : Object {
 
 	string get_requested_attributes () {
 		var result = new StringBuilder ();
-		result.append (REQUIRED_ATTRIBUTES);
+		result.append (STANDARD_ATTRIBUTES);
 		Template.for_each_token (command, TemplateFlags.NO_ENUMERATOR, (parent_code, code, args) => {
 			if (code == Code.FILE_ATTRIBUTE) {
 				result.append_c (',');

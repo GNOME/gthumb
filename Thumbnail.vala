@@ -1,5 +1,5 @@
 public class Gth.Thumbnail : Gtk.Box {
-	public Thumbnail () {
+	construct {
 		orientation = Gtk.Orientation.HORIZONTAL;
 		spacing = 0;
 

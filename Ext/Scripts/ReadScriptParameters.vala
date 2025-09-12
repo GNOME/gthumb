@@ -1,9 +1,9 @@
 public class Gth.ReadScriptParameters : Object {
 	public FileData file = null;
 
-	public async void ask_user (Gtk.Window? parent, Script script, GenericArray<ScriptParameter> parameters, bool can_skip, Job job) throws Error {
+	public async void ask_user (Gth.Window parent, Script script, GenericArray<ScriptParameter> parameters, bool can_skip, Job job) throws Error {
 		callback = ask_user.callback;
-		dialog = new ScriptParametersDialog (script, parameters, file);
+		dialog = new ScriptParametersDialog (parent, script, parameters, file);
 		dialog.skip_button.visible = can_skip;
 		dialog.saved.connect (() => {
 			run_script = true;
@@ -22,6 +22,7 @@ public class Gth.ReadScriptParameters : Object {
 		dialog.present (parent);
 		yield;
 		job.dialog_closed ();
+		dialog.cancel_thumbnailer ();
 		if (cancelled_event != 0) {
 			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
@@ -46,11 +47,21 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 	public signal void saved ();
 	public bool skipped;
 
-	public ScriptParametersDialog (Script script, GenericArray<ScriptParameter> parameters, FileData? file) {
+	public ScriptParametersDialog (Gth.Window parent, Script script, GenericArray<ScriptParameter> parameters, FileData? file) {
 		title.label = script.display_name;
 		file_info.visible = file != null;
 		if (file != null) {
 			filename.label = file.get_display_name ();
+
+			thumbnail.bind (file);
+			thumbnail.size = parent.browser.thumbnail_size;
+
+			thumbnailer = new Thumbnailer (parent);
+			thumbnailer.requested_size = parent.browser.thumbnail_size;
+			thumbnailer.add (file);
+		}
+		else {
+			thumbnailer = null;
 		}
 		skipped = false;
 		foreach (var parameter in parameters) {
@@ -58,6 +69,13 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 			entry.title = parameter.title;
 			entry.text = parameter.default_value;
 			entry_group.add (entry);
+		}
+	}
+
+	public void cancel_thumbnailer () {
+		thumbnail.unbind ();
+		if (thumbnailer != null) {
+			thumbnailer.cancel ();
 		}
 	}
 
@@ -82,4 +100,7 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 	[GtkChild] public unowned Gtk.Button skip_button;
 	[GtkChild] unowned Adw.PreferencesGroup entry_group;
 	[GtkChild] unowned Gtk.Box file_info;
+	[GtkChild] unowned Gth.Thumbnail thumbnail;
+
+	Thumbnailer thumbnailer;
 }
