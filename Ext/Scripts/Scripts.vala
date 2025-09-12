@@ -36,5 +36,11 @@ public class Gth.Scripts {
 		//app.monitor.scripts_changed ();
 	}
 
+	public Script? get_script (string id) {
+		var iter = entries.iterator ();
+		var pos = iter.find_first ((script) => script.id == id);
+		return (pos >= 0) ? entries.get (pos) : null;
+	}
+
 	bool loaded;
 }

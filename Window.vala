@@ -750,6 +750,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 			trash_files (files);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("exec-script", GLib.VariantType.STRING);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			var id = param.get_string ();
+			var script = app.scripts.get_script (id);
+			script.execute.begin (this, files);
+		});
+		action_group.add_action (action);
 	}
 
 	uint fake_job_id = 0;

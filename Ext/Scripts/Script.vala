@@ -33,20 +33,6 @@ public class Gth.Script : Object {
 		Object (id: Strings.new_random (ID_LENGTH));
 	}
 
-	public string? get_requested_attributes () {
-		var result = new StringBuilder ();
-		Template.for_each_token (command, TemplateFlags.NO_ENUMERATOR, (parent_code, code, args) => {
-			if (code == Code.FILE_ATTRIBUTE) {
-				if (result.len > 0) {
-					result.append_c (',');
-				}
-				result.append (args[0]);
-			}
-			return false;
-		});
-		return (result.len > 0) ? result.str : null;
-	}
-
 	public Dom.Element create_element (Dom.Document doc) {
 		var node = new Dom.Element ("script");
 		node.set_attribute ("id", id);
@@ -81,8 +67,326 @@ public class Gth.Script : Object {
 		return new_script;
 	}
 
+	public async void execute (Gth.Window window, GenericList<File> files) {
+		var local_job = window.new_job (display_name, JobFlags.FOREGROUND, "gth-script-symbolic");
+		try {
+			var attributes = get_requested_attributes ();
+			var file_data_list = yield FileManager.query_list_info (files, attributes, local_job.cancellable);
+			if (for_each_file) {
+				var total = file_data_list.model.n_items;
+				var iter = file_data_list.iterator ();
+				while (iter.next ()) {
+					var file = iter.get ();
+					local_job.progress = Util.calc_progress (iter.index (), total);
+					local_job.subtitle = file.get_display_name ();
+					var list = new GenericList<FileData>();
+					list.model.append (file);
+					try {
+						var command_line = yield get_command_line (window, list, iter.has_next (), local_job);
+						yield exec_command (command_line, local_job);
+					}
+					catch (Error error) {
+						if (!(error is ScriptError.SKIPPED)) {
+							throw error;
+						}
+					}
+				}
+			}
+			else {
+				var command_line = yield get_command_line (window, file_data_list, false, local_job);
+				yield exec_command (command_line, local_job);
+			}
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	public string get_preview (TemplateFlags flags) {
+		var files = new GenericList<FileData>();
+		files.model.append (new FileData (File.new_for_uri ("file:///home/user/images/filename.jpeg")));
+		var script_template = new ScriptTemplate (this, flags | TemplateFlags.NO_ENUMERATOR | TemplateFlags.PREVIEW);
+		script_template.files = files;
+		var preview = script_template.get_command ();
+		//stdout.printf ("> script command preview: %s\n", preview);
+		return preview;
+	}
+
+	string last_output = null;
+
+	async void exec_command (string command, Job job) throws Error {
+		//stdout.printf ("> exec_command: %s\n", command);
+
+		string[] argv;
+		if (shell_script) {
+			argv = { "sh", "-c", command };
+		}
+		else {
+			Shell.parse_argv (command, out argv);
+		}
+
+		if (wait_command) {
+			var launcher = new SubprocessLauncher (SubprocessFlags.STDERR_MERGE);
+			var process = launcher.spawnv (argv);
+			job.cancellable.cancelled.connect (() => {
+				process.send_signal (Posix.Signal.TERM);
+			});
+			try {
+				yield process.wait_check_async (null);
+			}
+			catch (Error error) {
+				if (!job.is_cancelled ()) {
+					var stream = process.get_stdout_pipe ();
+					try {
+						var bytes = Files.read_all (stream, null, true);
+						last_output = (string) Bytes.unref_to_data (bytes);
+						//stdout.printf (">> OUTPUT: %s\n", last_output);
+					}
+					catch (Error _error) {
+					}
+				}
+				throw error;
+			}
+		}
+		else {
+			Process.spawn_async (null, argv, null, SpawnFlags.SEARCH_PATH, null, null);
+		}
+	}
+
+	async string get_command_line (Gth.Window window, GenericList<FileData> files, bool can_skip, Job job) throws Error {
+		var template = new ScriptTemplate (this, TemplateFlags.NO_ENUMERATOR);
+		template.files = files;
+		return yield template.read_parameters (window, can_skip, job);
+	}
+
+	string get_requested_attributes () {
+		var result = new StringBuilder ();
+		result.append (REQUIRED_ATTRIBUTES);
+		Template.for_each_token (command, TemplateFlags.NO_ENUMERATOR, (parent_code, code, args) => {
+			if (code == Code.FILE_ATTRIBUTE) {
+				result.append_c (',');
+				result.append (args[0]);
+			}
+			return false;
+		});
+		return result.str;
+	}
+
 	string _id;
 	string _detailed_action;
 
 	const int ID_LENGTH = 8;
+}
+
+
+errordomain Gth.ScriptError {
+	SKIPPED
+}
+
+
+class Gth.ScriptTemplate {
+	public GenericList<FileData> files;
+
+	public ScriptTemplate (Script _script, TemplateFlags _flags) {
+		script = _script;
+		flags = _flags;
+		parameters = null;
+	}
+
+	public async string read_parameters (Gth.Window window, bool can_skip, Job job) throws Error {
+		parameters = new GenericArray<ScriptParameter> ();
+		Template.for_each_token (script.command, flags, (parent_code, code, args) => {
+			if (code == Script.Code.ASK_VALUE) {
+				var asked_value = new ScriptParameter ();
+				asked_value.title = args[0].strip ();
+				if (args[1] != null) {
+					asked_value.default_value = args[1].strip ();
+				}
+				parameters.add (asked_value);
+			}
+			return false;
+		});
+		var read_param = new ReadScriptParameters ();
+		if (files.length () == 1) {
+			read_param.file = files.first ();
+		}
+		yield read_param.ask_user (window, script, parameters, can_skip, job);
+		return get_command ();
+	}
+
+	public string get_command () {
+		return Template.eval (script.command, flags, (flags, parent_code, code, args, str) => {
+			return eval_template (flags, parent_code, code, args, str);
+		});
+	}
+
+	bool eval_template (Gth.TemplateFlags flags, unichar parent_code, unichar code,	string[] args, StringBuilder str) {
+		if (parent_code == Script.Code.TIMESTAMP) {
+			// strftime code, return the code itself.
+			Template.append_template_code (str, code, args);
+			return false;
+		}
+
+		var preview = TemplateFlags.PREVIEW in flags;
+		var quote_values = !(TemplateFlags.PARTIAL in flags) && (parent_code == 0);
+		var highlight = preview && (code != 0) && (parent_code == 0);
+
+		if (highlight) {
+			str.append ("<span foreground=\"#4696f8\">");
+		}
+
+		switch (code) {
+		case Script.Code.URI:
+			append_file_list (str, quote_values, (file_data) => file_data.file.get_uri ());
+			break;
+
+		case Script.Code.PATH:
+			append_file_list (str, quote_values, (file_data) => file_data.file.get_path ());
+			break;
+
+		case Script.Code.BASENAME:
+			append_file_list (str, quote_values, (file_data) => file_data.file.get_basename ());
+			break;
+
+		case Script.Code.BASENAME_NO_EXTENSION:
+			append_file_list (str, quote_values, (file_data) => {
+				var basename = file_data.file.get_basename ();
+				return Util.remove_extension (basename);
+			});
+			break;
+
+		case Script.Code.EXTENSION:
+			append_file_list (str, quote_values, (file_data) => {
+				var basename = file_data.file.get_basename ();
+				return Util.get_extension (basename);
+			});
+			break;
+
+		case Script.Code.PARENT_PATH:
+			append_file_list (str, quote_values, (file_data) => {
+				var parent = file_data.file.get_parent ();
+				return parent.get_path ();
+			});
+			break;
+
+		case Script.Code.TIMESTAMP:
+			var now = new GLib.DateTime.now_local ();
+			var format = args[0];
+			var timestamp = now.format (format ?? DEFAULT_STRFTIME_FORMAT);
+			if (quote_values) {
+				timestamp = Shell.quote (timestamp);
+			}
+			str.append (timestamp);
+			break;
+
+		case Script.Code.ASK_VALUE:
+			if (preview) {
+				if ((args[0] != null) && !Strings.all_spaces (args[1])) {
+					str.append (args[1]);
+				}
+				else if (!Strings.all_spaces (args[0])) {
+					str.append (Markup.printf_escaped ("{ %s }", args[0]));
+				}
+				else {
+					str.append_unichar (code);
+				}
+			}
+			else if (parameters != null) {
+				var parameter = parameters[last_parameter];
+				if (parameter != null) {
+					if (quote_values) {
+						str.append (Shell.quote (parameter.value));
+					}
+					else {
+						str.append (parameter.value);
+					}
+				}
+				last_parameter++;
+			}
+			break;
+
+		case Script.Code.FILE_ATTRIBUTE:
+			if (preview) {
+				str.append_printf ("{ %s }", args[0]);
+			}
+			else {
+				append_attribute_list (str, quote_values, args[0]);
+			}
+			break;
+
+		case Script.Code.QUOTE:
+			if (args[0] != null) {
+				str.append (Shell.quote (args[0]));
+			}
+			break;
+
+		default:
+			// Code not recognized, return the code itself.
+			Template.append_template_code (str, code, args);
+			break;
+		}
+
+		if (highlight) {
+			str.append ("</span>");
+		}
+
+		return false;
+	}
+
+	void append_attribute_list (StringBuilder str, bool quote_values, string id) {
+		if (id == null) {
+			return;
+		}
+		var idx = 0;
+		foreach (unowned var file in files) {
+			var value = file.get_attribute_as_string (id);
+			if (value == null) {
+				continue;
+			}
+			if (idx > 0) {
+				str.append_c (' ');
+			}
+			value = Strings.remove_newlines (value);
+			if (quote_values) {
+				value = Shell.quote (value);
+			}
+			str.append (value);
+			idx++;
+		}
+	}
+
+	void append_file_list (StringBuilder str, bool quote_value, ValueFunc value_func) {
+		var idx = 0;
+		foreach (unowned var file in files) {
+			var value = value_func (file);
+			var quoted = quote_value ? Shell.quote (value) : value;
+			if (idx > 0) {
+				str.append_c (' ');
+			}
+			str.append (quoted);
+			idx++;
+		}
+	}
+
+	Script script;
+	TemplateFlags flags;
+	int last_parameter = 0;
+	GenericArray<ScriptParameter> parameters;
+
+	delegate string ValueFunc (FileData file_data);
+}
+
+public class Gth.ScriptParameter {
+	public string title;
+	public string default_value;
+	public string value;
+
+	public ScriptParameter() {
+		title = _("Value");
+		default_value = null;
+		value = null;
+	}
 }

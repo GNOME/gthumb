@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthScriptParametersDialog">
+    <property name="content-width">500</property>
+    <child>
+      <object class="GtkWindowHandle">
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+            <style>
+              <class name="dialog-content"/>
+            </style>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">24</property>
+                <style>
+                  <class name="message-area"/>
+                </style>
+                <child>
+                  <object class="GtkLabel" id="title">
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="title-2"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox" id="file_info">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="filename">
+                        <property name="halign">center</property>
+                        <property name="wrap">true</property>
+                        <property name="max-width-chars">30</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup" id="entry_group">
+                    <property name="separate-rows">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">12</property>
+                <property name="halign">fill</property>
+                <property name="homogeneous">true</property>
+                <style>
+                  <class name="response-area"/>
+                </style>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <property name="use_underline">true</property>
+                    <signal name="clicked" handler="on_cancel_clicked"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="skip_button">
+                    <property name="label" translatable="yes">_Skip</property>
+                    <property name="use_underline">true</property>
+                    <signal name="clicked" handler="on_skip_clicked"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">_Run</property>
+                    <property name="use_underline">true</property>
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                    <signal name="clicked" handler="on_run_clicked"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

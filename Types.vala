@@ -38,6 +38,7 @@ const string STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE =
 	FileAttribute.STANDARD_CONTENT_TYPE;
 const string EMBLEMS_ATTRIBUTE = "Private::File::Emblems";
 const string VOLUME_ATTRIBUTE = "Private::Volume";
+const string DEFAULT_STRFTIME_FORMAT = "%Y-%m-%d--%H.%M.%S";
 
 // Video types not matching 'video/*'
 const string[] Other_Video_Types = {

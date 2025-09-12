@@ -13,8 +13,16 @@ public class Gth.GenericList<T> {
 		return model.get_item (0);
 	}
 
-	public bool is_empty () {
+	public T? get (int pos) {
+		return model.get_item (pos);
+	}
+
+	public inline bool is_empty () {
 		return model.n_items == 0;
+	}
+
+	public inline uint length () {
+		return model.n_items;
 	}
 
 	public int find (T _item) {

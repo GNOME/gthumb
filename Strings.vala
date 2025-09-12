@@ -4,6 +4,32 @@ public class Gth.Strings {
 		return (str == null) || (str[0] == 0);
 	}
 
+	public static bool all_spaces (string str) {
+		int offset = 0;
+		unichar ch;
+		while (str.get_next_char (ref offset, out ch)) {
+			if (!ch.isspace ()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static string remove_newlines (string str) {
+		var result = new StringBuilder ();
+		int offset = 0;
+		unichar ch;
+		while (str.get_next_char (ref offset, out ch)) {
+			if ((ch == '\n') || (ch == '\r')) {
+				result.append_c (' ');
+			}
+			else {
+				result.append_unichar (ch);
+			}
+		}
+		return result.str;
+	}
+
 	static HashTable<string, int> static_strings;
 
 	public static unowned string? get_static (string? str) {
