@@ -119,5 +119,11 @@
     <file preprocess="xml-stripblanks">selection-view.ui</file>
     <file preprocess="xml-stripblanks">editor-sidebar.ui</file>
     <file preprocess="xml-stripblanks">script-parameters-dialog.ui</file>
+    <file preprocess="xml-stripblanks">script-editor-page.ui</file>
+    <file preprocess="xml-stripblanks">script-row.ui</file>
+    <file preprocess="xml-stripblanks">scripts-dialog.ui</file>
+    <file preprocess="xml-stripblanks">template-page.ui</file>
+    <file preprocess="xml-stripblanks">template-token-row.ui</file>
+    <file preprocess="xml-stripblanks">template-code-chooser.ui</file>
   </gresource>
 </gresources>

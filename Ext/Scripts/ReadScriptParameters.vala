@@ -1,9 +1,9 @@
 public class Gth.ReadScriptParameters : Object {
 	public FileData file = null;
 
-	public async void ask_user (Gth.Window parent, Script script, GenericArray<ScriptParameter> parameters, bool can_skip, Job job) throws Error {
+	public async void ask_user (Gth.Window parent, string title, GenericArray<ScriptParameter> parameters, bool can_skip, Job job) throws Error {
 		callback = ask_user.callback;
-		dialog = new ScriptParametersDialog (parent, script, parameters, file);
+		dialog = new ScriptParametersDialog (parent, title, parameters, file);
 		dialog.skip_button.visible = can_skip;
 		dialog.saved.connect (() => {
 			run_script = true;
@@ -47,8 +47,8 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 	public signal void saved ();
 	public bool skipped;
 
-	public ScriptParametersDialog (Gth.Window parent, Script script, GenericArray<ScriptParameter> parameters, FileData? file) {
-		title.label = script.display_name;
+	public ScriptParametersDialog (Gth.Window parent, string title_text, GenericArray<ScriptParameter> _parameters, FileData? file) {
+		title.label = title_text;
 		file_info.visible = file != null;
 		if (file != null) {
 			filename.label = file.get_display_name ();
@@ -64,11 +64,14 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 			thumbnailer = null;
 		}
 		skipped = false;
+		parameters = _parameters;
+		entries = new GenericArray<weak Adw.EntryRow>();
 		foreach (var parameter in parameters) {
 			var entry = new Adw.EntryRow ();
 			entry.title = parameter.title;
 			entry.text = parameter.default_value;
 			entry_group.add (entry);
+			entries.add (entry);
 		}
 	}
 
@@ -92,6 +95,11 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 
 	[GtkCallback]
 	void on_run_clicked (Gtk.Button button) {
+		for (var i = 0; i < parameters.length; i++) {
+			var param = parameters[i];
+			var entry = entries[i];
+			param.value = entry.text;
+		}
 		saved ();
 	}
 
@@ -101,6 +109,7 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 	[GtkChild] unowned Adw.PreferencesGroup entry_group;
 	[GtkChild] unowned Gtk.Box file_info;
 	[GtkChild] unowned Gth.Thumbnail thumbnail;
-
 	Thumbnailer thumbnailer;
+	GenericArray<ScriptParameter> parameters;
+	GenericArray<weak Adw.EntryRow> entries;
 }

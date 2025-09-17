@@ -1371,6 +1371,10 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	public bool view_last_file () {
+		return view_position (file_grid.model.get_n_items () - 1);
+	}
+
 	public void set_thumbnail_size (int size) {
 		if (size == thumbnail_size)
 			return;
@@ -1470,21 +1474,6 @@ public class Gth.Browser : Gtk.Box {
 			var pos = iter.find_first ((file) => file.equal (property_sidebar.current_file.file));
 			if (pos >= 0) {
 				property_sidebar.current_file = null;
-			}
-		}
-
-		if (window.viewer.current_file != null) {
-			var iter = files.iterator ();
-			var pos = iter.find_first ((file) => file.equal (window.viewer.current_file.file));
-			if (pos >= 0) {
-				if (!view_position (window.viewer.position)) {
-					if (file_grid.model.get_n_items () > 0) {
-						view_position (file_grid.model.get_n_items () - 1);
-					}
-					else {
-						window.set_page (Window.Page.BROWSER);
-					}
-				}
 			}
 		}
 	}

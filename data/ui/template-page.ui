@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthTemplatePage">
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-back-button">true</property>
+            <property name="show-end-title-buttons">false</property>
+            <property name="show-start-title-buttons">false</property>
+            <child type="end">
+              <object class="GtkButton" id="save_button">
+                <property name="label" translatable="yes">_Apply</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_save" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Example</property>
+                <child>
+                  <object class="AdwActionRow" id="preview">
+                    <property name="activatable">false</property>
+                    <style>
+                      <class name="property"/>
+                      <class name="terminal"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="header-suffix">
+                  <object class="GtkButton">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <child>
+                      <object class="AdwButtonContent">
+                        <property name="icon-name">gth-list-add-symbolic</property>
+                        <property name="label" translatable="yes">_Add</property>
+                        <property name="use-underline">true</property>
+                      </object>
+                    </child>
+                    <signal name="clicked" handler="on_add_token" />
+                  </object>
+                </property>
+                <child>
+                  <object class="GtkListBox" id="token_list">
+                    <property name="selection-mode">none</property>
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

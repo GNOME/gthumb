@@ -1,0 +1,69 @@
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/script-editor-page.ui")]
+public class Gth.ScriptEditorPage : Adw.NavigationPage {
+	public Gth.Script script;
+
+	public signal void cancelled ();
+	public signal void save ();
+
+	public void set_script (Gth.Script? current_script) {
+		if (current_script != null) {
+			script = current_script.duplicate ();
+		}
+		else {
+			script = new Gth.Script ();
+			script.visible = true;
+		}
+		script.bind_property ("display_name", name, "text", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+		//script.bind_property ("command", command, "subtitle", BindingFlags.SYNC_CREATE);
+		script.bind_property ("shell_script", shell_script, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+		script.bind_property ("for_each_file", for_each_file, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+		script.bind_property ("wait_command", wait_command, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+		command.subtitle = script.get_preview ();
+	}
+
+	public Script? get_script () throws Error {
+		if (Strings.empty (name.text)) {
+			name.grab_focus ();
+			throw new IOError.FAILED (_("Name is empty"));
+		}
+		if (Strings.empty (script.command)) {
+			command.grab_focus ();
+			throw new IOError.FAILED (_("Command is empty"));
+		}
+		return script;
+	}
+
+	[GtkCallback]
+	void on_save (Gtk.Button source) {
+		save ();
+	}
+
+	[GtkCallback]
+	void on_activated_command (Adw.ActionRow row) {
+		command_page.set_template (script.command, TemplateFlags.NO_ENUMERATOR);
+		unowned var dialog = Util.get_preferences_dialog (this);
+		dialog.push_subpage (command_page);
+	}
+
+	[GtkCallback]
+	private void on_save_command (Gth.TemplatePage source) {
+		script.command = command_page.get_template ();
+		command.subtitle = script.get_preview ();
+		unowned var dialog = Util.get_preferences_dialog (this);
+		dialog.pop_subpage ();
+	}
+
+	construct {
+		command_page.get_preview_func = (template, flags) => {
+			var script_template = new ScriptTemplate (template, flags | TemplateFlags.PREVIEW);
+			return script_template.get_command ();
+		};
+	}
+
+	[GtkChild] unowned Adw.EntryRow name;
+	[GtkChild] unowned Adw.ActionRow command;
+	[GtkChild] unowned Adw.SwitchRow shell_script;
+	[GtkChild] unowned Adw.SwitchRow for_each_file;
+	[GtkChild] unowned Adw.SwitchRow wait_command;
+	[GtkChild] unowned Gth.ScriptCommandPage command_page;
+}

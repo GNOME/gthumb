@@ -428,6 +428,24 @@ public class Gth.Viewer : Gtk.Box {
 		return selected_files;
 	}
 
+	public void files_deleted (GenericList<File> files) {
+		if (current_file == null) {
+			return;
+		}
+		var iter = files.iterator ();
+		var pos = iter.find_first ((file) => file.equal (current_file.file));
+		if (pos >= 0) {
+			if (window.current_page == Window.Page.BROWSER) {
+				current_file = null;
+			}
+			else if (!window.browser.view_position (position)) {
+				if (!window.browser.view_last_file ()) {
+					window.set_page (Window.Page.BROWSER);
+				}
+			}
+		}
+	}
+
 	void add_overlay_motion_controller (Gtk.Widget revealer, bool removable = true) {
 		var motion_events = new Gtk.EventControllerMotion ();
 		var enter_id = motion_events.enter.connect (() => {

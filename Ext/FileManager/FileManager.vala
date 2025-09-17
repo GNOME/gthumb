@@ -113,19 +113,31 @@ public class Gth.FileManager {
 	}
 
 	public static async GenericList<FileData> query_list_info (GenericList<File> files, string attributes, Cancellable cancellable) throws Error {
+		var file_attributes = Util.extract_file_attributes (attributes);
+		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);
 		var list = new GenericList<FileData>();
 		foreach (var file in files) {
 			//stdout.printf ("> query_list_info: %s\n", file.get_uri ());
-			var info = yield Files.query_info (file, attributes, cancellable);
-			if (info.get_file_type () == FileType.DIRECTORY) {
+			var info = yield Files.query_info (file, file_attributes, cancellable);
+			switch (info.get_file_type ()) {
+			case FileType.REGULAR:
+				var file_data = new Gth.FileData (file, info);
+				if (metadata_attributes_v.length > 0) {
+					yield app.metadata_reader.update (file_data, metadata_attributes_v, cancellable);
+				}
+				list.model.append (file_data);
+				break;
+
+			case FileType.DIRECTORY:
 				yield FileManager.foreach_child (file, ForEachFlags.RECURSIVE, attributes, cancellable, (child, is_parent) => {
 					//stdout.printf ("   append: %s\n", child.file.get_uri ());
 					list.model.append (child);
 					return ForEachAction.CONTINUE;
 				});
-			}
-			else {
-				list.model.append (new FileData (file, info));
+				break;
+
+			default:
+				break;
 			}
 		}
 		return list;

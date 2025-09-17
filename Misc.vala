@@ -379,4 +379,15 @@ namespace Gth.Util {
 		var sidecar_uri = Util.remove_extension (uri) + ".xmp";
 		return File.new_for_uri (sidecar_uri);
 	}
+
+	public static unowned Adw.PreferencesDialog? get_preferences_dialog (Gtk.Widget widget) {
+		unowned var parent = widget.parent;
+		while (parent != null) {
+			if (parent is Adw.PreferencesDialog) {
+				return parent as Adw.PreferencesDialog;
+			}
+			parent = parent.parent;
+		}
+		return null;
+	}
 }

@@ -21,13 +21,13 @@ public class Gth.Script : Object {
 	}
 
 	public string detailed_action { get { return _detailed_action; } }
-	public string display_name { get; set; }
-	public string command { get; set; }
-	public bool visible { get; set; }
-	public bool shell_script { get; set; }
-	public bool for_each_file { get; set; }
-	public bool wait_command { get; set; }
-	public string accelerator { get; set; }
+	public string display_name { get; set; default = ""; }
+	public string command { get; set; default = ""; }
+	public bool visible { get; set; default = false; }
+	public bool shell_script { get; set; default = false; }
+	public bool for_each_file { get; set; default = false; }
+	public bool wait_command { get; set; default = false; }
+	public string accelerator { get; set; default = null; }
 
 	public Script () {
 		Object (id: Strings.new_random (ID_LENGTH));
@@ -65,6 +65,13 @@ public class Gth.Script : Object {
 		doc.append_child (node);
 		new_script.load_from_element (node);
 		return new_script;
+	}
+
+	public void copy (Script other) {
+		var doc = new Dom.Document ();
+		var node = other.create_element (doc);
+		doc.append_child (node);
+		load_from_element (node);
 	}
 
 	public async void execute (Gth.Window window, GenericList<File> files) {
@@ -105,11 +112,8 @@ public class Gth.Script : Object {
 		}
 	}
 
-	public string get_preview (TemplateFlags flags) {
-		var files = new GenericList<FileData>();
-		files.model.append (new FileData (File.new_for_uri ("file:///home/user/images/filename.jpeg")));
-		var script_template = new ScriptTemplate (this, flags | TemplateFlags.NO_ENUMERATOR | TemplateFlags.PREVIEW);
-		script_template.files = files;
+	public string get_preview (TemplateFlags flags = TemplateFlags.DEFAULT) {
+		var script_template = new ScriptTemplate (command, flags | TemplateFlags.NO_ENUMERATOR | TemplateFlags.PREVIEW);
 		var preview = script_template.get_command ();
 		//stdout.printf ("> script command preview: %s\n", preview);
 		return preview;
@@ -128,38 +132,33 @@ public class Gth.Script : Object {
 			Shell.parse_argv (command, out argv);
 		}
 
+		var process = new ScriptProcess ();
+		process.wait_command = wait_command;
+		process.spawn (argv);
 		if (wait_command) {
-			var launcher = new SubprocessLauncher (SubprocessFlags.STDERR_MERGE);
-			var process = launcher.spawnv (argv);
-			job.cancellable.cancelled.connect (() => {
-				process.send_signal (Posix.Signal.TERM);
-			});
 			try {
-				yield process.wait_check_async (null);
+				yield process.wait_process (job.cancellable);
 			}
 			catch (Error error) {
 				if (!job.is_cancelled ()) {
-					var stream = process.get_stdout_pipe ();
-					try {
-						var bytes = Files.read_all (stream, null, true);
-						last_output = (string) Bytes.unref_to_data (bytes);
-						//stdout.printf (">> OUTPUT: %s\n", last_output);
-					}
-					catch (Error _error) {
-					}
+					//var stream = process.get_stdout_pipe ();
+					//try {
+					//	var bytes = Files.read_all (stream, null, true);
+					//	last_output = (string) Bytes.unref_to_data (bytes);
+					//	//stdout.printf (">> OUTPUT: %s\n", last_output);
+					//}
+					//catch (Error _error) {
+					//}
 				}
 				throw error;
 			}
 		}
-		else {
-			Process.spawn_async (null, argv, null, SpawnFlags.SEARCH_PATH, null, null);
-		}
 	}
 
 	async string get_command_line (Gth.Window window, GenericList<FileData> files, bool can_skip, Job job) throws Error {
-		var template = new ScriptTemplate (this, TemplateFlags.NO_ENUMERATOR);
+		var template = new ScriptTemplate (command, TemplateFlags.NO_ENUMERATOR);
 		template.files = files;
-		return yield template.read_parameters (window, can_skip, job);
+		return yield template.read_parameters (window, display_name, can_skip, job);
 	}
 
 	string get_requested_attributes () {
@@ -187,18 +186,20 @@ errordomain Gth.ScriptError {
 }
 
 
-class Gth.ScriptTemplate {
+public class Gth.ScriptTemplate {
 	public GenericList<FileData> files;
+	public string template;
 
-	public ScriptTemplate (Script _script, TemplateFlags _flags) {
-		script = _script;
+	public ScriptTemplate (string _template, TemplateFlags _flags) {
+		template = _template;
 		flags = _flags;
+		script = null;
 		parameters = null;
 	}
 
-	public async string read_parameters (Gth.Window window, bool can_skip, Job job) throws Error {
+	public async string read_parameters (Gth.Window window, string title, bool can_skip, Job job) throws Error {
 		parameters = new GenericArray<ScriptParameter> ();
-		Template.for_each_token (script.command, flags, (parent_code, code, args) => {
+		Template.for_each_token (template, flags, (parent_code, code, args) => {
 			if (code == Script.Code.ASK_VALUE) {
 				var asked_value = new ScriptParameter ();
 				asked_value.title = args[0].strip ();
@@ -209,21 +210,29 @@ class Gth.ScriptTemplate {
 			}
 			return false;
 		});
-		var read_param = new ReadScriptParameters ();
-		if (files.length () == 1) {
-			read_param.file = files.first ();
+		if (parameters.length > 0) {
+			var read_param = new ReadScriptParameters ();
+			if (files.length () == 1) {
+				read_param.file = files.first ();
+			}
+			yield read_param.ask_user (window, title, parameters, can_skip, job);
 		}
-		yield read_param.ask_user (window, script, parameters, can_skip, job);
 		return get_command ();
 	}
 
 	public string get_command () {
-		return Template.eval (script.command, flags, (flags, parent_code, code, args, str) => {
+		if (TemplateFlags.PREVIEW in flags) {
+			if (files == null) {
+				files = new GenericList<FileData>();
+				files.model.append (new FileData (File.new_for_uri ("file:///home/user/images/filename.jpeg")));
+			}
+		}
+		return Template.eval (template, flags, (flags, parent_code, code, args, str) => {
 			return eval_template (flags, parent_code, code, args, str);
 		});
 	}
 
-	bool eval_template (Gth.TemplateFlags flags, unichar parent_code, unichar code,	string[] args, StringBuilder str) {
+	bool eval_template (Gth.TemplateFlags flags, unichar parent_code, unichar code, string[] args, StringBuilder str) {
 		if (parent_code == Script.Code.TIMESTAMP) {
 			// strftime code, return the code itself.
 			Template.append_template_code (str, code, args);
@@ -261,7 +270,7 @@ class Gth.ScriptTemplate {
 		case Script.Code.EXTENSION:
 			append_file_list (str, quote_values, (file_data) => {
 				var basename = file_data.file.get_basename ();
-				return Util.get_extension (basename);
+				return "." + Util.get_extension (basename);
 			});
 			break;
 
@@ -284,7 +293,7 @@ class Gth.ScriptTemplate {
 
 		case Script.Code.ASK_VALUE:
 			if (preview) {
-				if ((args[0] != null) && !Strings.all_spaces (args[1])) {
+				if ((args[0] != null) && !Strings.all_spaces (args[1])) 	{
 					str.append (args[1]);
 				}
 				else if (!Strings.all_spaces (args[0])) {
@@ -379,14 +388,72 @@ class Gth.ScriptTemplate {
 	delegate string ValueFunc (FileData file_data);
 }
 
+
 public class Gth.ScriptParameter {
 	public string title;
 	public string default_value;
 	public string value;
 
-	public ScriptParameter() {
+	public ScriptParameter () {
 		title = _("Value");
 		default_value = null;
 		value = null;
 	}
+}
+
+
+class Gth.ScriptProcess {
+	public bool wait_command;
+
+	public ScriptProcess () {
+		wait_command = false;
+	}
+
+	public void spawn (string[] argv) throws Error {
+		var flags = SpawnFlags.SEARCH_PATH;
+		if (wait_command) {
+			flags |= SpawnFlags.DO_NOT_REAP_CHILD;
+		}
+		Process.spawn_async (null, argv, null, flags, child_setup, out child_pid);
+	}
+
+	SourceFunc wait_callback;
+	Error wait_error;
+	uint watch_id;
+
+	public async void wait_process (Cancellable cancellable) throws Error {
+		cancellable.cancelled.connect (() => {
+			if (child_pid != 0) {
+				Posix.killpg (child_pid, Posix.Signal.TERM);
+			}
+		});
+		wait_callback = wait_process.callback;
+		wait_error = null;
+		watch_id = ChildWatch.add (child_pid, (pid, status) => {
+			Process.close_pid (pid);
+			child_pid = 0;
+			watch_id = 0;
+			if (status != 0) {
+				wait_error = new IOError.FAILED (_("Command exited abnormally with status %d").printf (status));
+			}
+			wait_callback ();
+		});
+		yield;
+		if (wait_error != null) {
+			throw wait_error;
+		}
+	}
+
+	void child_setup () {
+		// Detach from the TTY
+		Posix.setsid ();
+
+		if (wait_command) {
+			// Create a process group to kill all the child processes when
+			// cancelling the operation.
+			Posix.setpgid (0, 0);
+		}
+	}
+
+	Pid child_pid;
 }

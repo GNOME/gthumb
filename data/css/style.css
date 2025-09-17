@@ -204,3 +204,17 @@ button.small {
 .rounded {
 	border-radius: 12px;
 }
+
+.property.terminal {
+	background: #111;
+	color: #fff;
+	font-family: monospace;
+}
+
+.property.terminal.activatable:hover {
+	background: #161616;
+}
+
+label.selector-header {
+	margin-left: 16px;
+}

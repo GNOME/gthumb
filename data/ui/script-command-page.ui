@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthScriptCommandPage">
+    <property name="title" translatable="yes">Command</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-back-button">true</property>
+            <property name="show-end-title-buttons">false</property>
+            <property name="show-start-title-buttons">false</property>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label" translatable="yes">_Save</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_save" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

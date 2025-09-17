@@ -210,6 +210,9 @@ public class Gth.Template {
 	}
 
 	public static bool token_has_code (string token, unichar code) {
+		if (code == 0) {
+			return false;
+		}
 		return Template.get_token_code (token) == code;
 	}
 
@@ -256,6 +259,7 @@ public class Gth.Template {
 					foreach (unowned var arg in input_args) {
 						args.add (_eval (arg, flags, code, func));
 					}
+					args.add (null);
 					stop = func (flags, parent_code, code, args.data, result);
 				}
 			}
@@ -291,8 +295,10 @@ public class Gth.Template {
 		else {
 			str.append_c ('%');
 			str.append_unichar (code);
-			foreach (unowned var arg in args) {
-				str.append_printf ("{ %s }", arg);
+			if (args[0] != null) {
+				foreach (unowned var arg in args) {
+					str.append_printf ("{ %s }", arg);
+				}
 			}
 		}
 	}
@@ -337,3 +343,28 @@ public delegate bool Gth.TemplateEvalFunc (
 public delegate string Gth.TemplatePreviewFunc (
 	string template,
 	Gth.TemplateFlags flags);
+
+public enum Gth.TemplateCodeType {
+	SPACE,
+	TEXT,
+	ENUMERATOR,
+	SIMPLE,
+	DATE,
+	FILE_ATTRIBUTE,
+	ASK_VALUE,
+	QUOTED
+}
+
+public class Gth.TemplateCodeInfo : Object {
+	public Gth.TemplateCodeType type;
+	public string description;
+	public unichar code;
+	public int arguments;
+
+	public TemplateCodeInfo (TemplateCodeType _type, string _description, unichar _code = 0, int _arguments = 0) {
+		type = _type;
+		description = _description;
+		code = _code;
+		arguments = _arguments;
+	}
+}

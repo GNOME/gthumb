@@ -20,7 +20,10 @@ public class Gth.Monitor : Object {
 	public signal void file_changed (File file, Event event);
 
 	public signal void files_deleted (GenericList<File> files) {
-		app.foreach_window ((win) => win.browser.files_deleted (files));
+		app.foreach_window ((win) => {
+			win.browser.files_deleted (files);
+			win.viewer.files_deleted (files);
+		});
 	}
 
 	public signal void files_created (File parent, GenericList<File> files) {
@@ -41,5 +44,9 @@ public class Gth.Monitor : Object {
 		var files = new GenericList<File>();
 		files.model.append (file);
 		files_deleted (files);
+	}
+
+	public void scripts_changed () {
+		app.foreach_window ((win) => win.update_scripts_actions ());
 	}
 }

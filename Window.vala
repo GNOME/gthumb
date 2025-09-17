@@ -439,7 +439,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
-	void update_scripts_actions () {
+	public void update_scripts_actions () {
 		ActionList[] menus = {
 			browser.tools_popover.actions,
 			viewer.tools_popover.actions,
@@ -448,7 +448,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			menu.remove_all_actions ();
 
 			// Actions
-			var action = new ActionInfo ("win.edit-tools", null, _("Personalize…"));
+			var action = new ActionInfo ("win.edit-scripts", null, _("Personalize…"));
 			action.category = tool_actions_category;
 			menu.append_action (action);
 
@@ -760,6 +760,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var id = param.get_string ();
 			var script = app.scripts.get_script (id);
 			script.execute.begin (this, files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-scripts", null);
+		action.activate.connect (() => {
+			var dialog = new Gth.ScriptsDialog ();
+			dialog.present (this);
 		});
 		action_group.add_action (action);
 	}

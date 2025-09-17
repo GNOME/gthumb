@@ -58,7 +58,6 @@
       </object>
     </child>
   </template>
-
   <object class="AdwNavigationPage" id="rule_page">
     <property name="title" translatable="yes">Add Rule</property>
     <child>

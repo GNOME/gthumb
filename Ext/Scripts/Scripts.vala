@@ -1,6 +1,11 @@
 public class Gth.Scripts {
 	public GenericList<Script> entries;
 
+	public signal void changed (string? script_id = null) {
+		save_to_file ();
+		app.monitor.scripts_changed ();
+	}
+
 	public Scripts () {
 		entries = new GenericList<Script> ();
 		loaded = false;
@@ -33,7 +38,21 @@ public class Gth.Scripts {
 		}
 		local_job.done ();
 		loaded = true;
-		//app.monitor.scripts_changed ();
+	}
+
+	void save_to_file () {
+		try {
+			var doc = new Dom.Document ();
+			var root = new Dom.Element.with_attributes ("scripts", "version", SCRIPT_FORMAT);
+			doc.append_child (root);
+			foreach (unowned var script in entries) {
+				root.append_child (script.create_element (doc));
+			}
+			var file = UserDir.get_config_file (FileIntent.WRITE, SCRIPTS_FILE);
+			Files.save_content (file, doc.to_xml ());
+		}
+		catch (Error error) {
+		}
 	}
 
 	public Script? get_script (string id) {
@@ -43,4 +62,6 @@ public class Gth.Scripts {
 	}
 
 	bool loaded;
+
+	const string SCRIPT_FORMAT = "1.1";
 }

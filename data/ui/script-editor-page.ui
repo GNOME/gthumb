@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthScriptEditorPage">
+    <property name="title" translatable="yes">Script</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-back-button">true</property>
+            <property name="show-end-title-buttons">false</property>
+            <property name="show-start-title-buttons">false</property>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label" translatable="yes">_Save</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_save" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwEntryRow" id="name">
+                    <property name="title" translatable="yes">Name</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow" id="shortcut">
+                    <property name="title" translatable="yes">Shortcut</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Command</property>
+                <child>
+                  <object class="AdwActionRow" id="command">
+                    <property name="activatable">true</property>
+                    <style>
+                      <class name="property"/>
+                      <class name="terminal"/>
+                    </style>
+                    <child type="suffix">
+                      <object class="GtkImage">
+                        <property name="icon-name">go-next-symbolic</property>
+                      </object>
+                    </child>
+                    <signal name="activated" handler="on_activated_command"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwSwitchRow" id="shell_script">
+                    <property name="title" translatable="yes">Execute as a shell script</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwSwitchRow" id="for_each_file">
+                    <property name="title" translatable="yes">Execute for every file</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwSwitchRow" id="wait_command">
+                    <property name="title" translatable="yes">Wait for the command to finish</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+  <object class="GthScriptCommandPage" id="command_page">
+    <signal name="save" handler="on_save_command" />
+  </object>
+</interface>

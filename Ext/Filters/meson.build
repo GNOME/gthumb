@@ -1,7 +1,9 @@
 filters_files = files(
  'AddRuleDialog.vala',
  'Filter.vala',
+ 'FilterBar.vala',
  'FilterEditorPage.vala',
+ 'FilterFile.vala',
  'FilterRow.vala',
  'FiltersDialog.vala',
  'Test.vala',

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthScriptsDialog">
+    <property name="title" translatable="yes">Scripts</property>
+    <property name="content_width">700</property>
+    <property name="content_height">710</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="header-suffix">
+              <object class="GtkButton">
+                <style>
+                  <class name="flat"/>
+                </style>
+                <child>
+                  <object class="AdwButtonContent">
+                    <property name="icon-name">gth-list-add-symbolic</property>
+                    <property name="label" translatable="yes">_Add</property>
+                    <property name="use-underline">true</property>
+                  </object>
+                </child>
+                <signal name="clicked" handler="on_add_script" />
+              </object>
+            </property>
+            <child>
+              <object class="GtkListBox" id="script_list">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GthScriptEditorPage" id="script_page">
+    <signal name="cancelled" handler="on_cancel_script" />
+    <signal name="save" handler="on_save_script" />
+  </object>
+</interface>

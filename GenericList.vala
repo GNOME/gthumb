@@ -42,6 +42,15 @@ public class Gth.GenericList<T> {
 		other.copy (this);
 		return other;
 	}
+
+	public bool remove (T item) {
+		var pos = find (item);
+		if (pos < 0) {
+			return false;
+		}
+		model.remove ((uint) pos);
+		return true;
+	}
 }
 
 public class Gth.IterableList<T> {

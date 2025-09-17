@@ -8,7 +8,7 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 
 		var action = new SimpleAction ("add-rule", GLib.VariantType.STRING);
 		action.activate.connect ((_action, param) => {
-			unowned var dialog = get_dialog ();
+			unowned var dialog = Util.get_preferences_dialog (this);
 			if (dialog != null) {
 				dialog.pop_subpage ();
 			}
@@ -132,7 +132,7 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 			rules_loaded = true;
 		}
 		// Show the rule chooser page.
-		unowned var dialog = get_dialog ();
+		unowned var dialog = Util.get_preferences_dialog (this);
 		if (dialog != null) {
 			dialog.push_subpage (rule_page);
 		}
@@ -143,17 +143,6 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 			});
 			add_rule_dialog.present (root as Gtk.Window);
 		}
-	}
-
-	unowned Adw.PreferencesDialog? get_dialog () {
-		unowned var parent = this.parent;
-		while (parent != null) {
-			if (parent is Adw.PreferencesDialog) {
-				return parent as Adw.PreferencesDialog;
-			}
-			parent = parent.parent;
-		}
-		return null;
 	}
 
 	Gtk.Widget new_test_type_row (Object item) {
