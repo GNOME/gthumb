@@ -18,7 +18,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 		script.bind_property ("shell_script", shell_script, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		script.bind_property ("for_each_file", for_each_file, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		script.bind_property ("wait_command", wait_command, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-		command.subtitle = script.get_preview ();
+		command_preview.label = script.get_preview ();
 	}
 
 	public Script? get_script () throws Error {
@@ -48,7 +48,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	[GtkCallback]
 	private void on_save_command (Gth.TemplatePage source) {
 		script.command = command_page.get_template ();
-		command.subtitle = script.get_preview ();
+		command_preview.label = script.get_preview ();
 		unowned var dialog = Util.get_preferences_dialog (this);
 		dialog.pop_subpage ();
 	}
@@ -62,6 +62,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 
 	[GtkChild] unowned Adw.EntryRow name;
 	[GtkChild] unowned Adw.ActionRow command;
+	[GtkChild] unowned Gtk.Label command_preview;
 	[GtkChild] unowned Adw.SwitchRow shell_script;
 	[GtkChild] unowned Adw.SwitchRow for_each_file;
 	[GtkChild] unowned Adw.SwitchRow wait_command;

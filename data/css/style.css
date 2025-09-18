@@ -215,6 +215,10 @@ button.small {
 	background: #161616;
 }
 
+.property.terminal label {
+	padding: 0.5em 0;
+}
+
 label.selector-header {
 	margin-left: 16px;
 }

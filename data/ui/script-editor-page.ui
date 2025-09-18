@@ -47,6 +47,13 @@
                       <class name="property"/>
                       <class name="terminal"/>
                     </style>
+                    <child type="prefix">
+                      <object class="GtkLabel" id="command_preview">
+                        <property name="wrap">true</property>
+                        <property name="wrap-mode">char</property>
+                        <property name="use-markup">true</property>
+                      </object>
+                    </child>
                     <child type="suffix">
                       <object class="GtkImage">
                         <property name="icon-name">go-next-symbolic</property>
