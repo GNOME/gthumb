@@ -226,7 +226,7 @@ _apply_transformation_async_thread (GTask        *task,
 	else {
 		// No changes
 		g_free (buffer);
-		g_task_return_boolean (task, true);
+		g_task_return_boolean (task, TRUE);
 		return;
 	}
 
@@ -244,7 +244,7 @@ _apply_transformation_async_thread (GTask        *task,
 		g_task_return_error (task, error);
 	}
 	else {
-		g_task_return_boolean (task, true);
+		g_task_return_boolean (task, TRUE);
 	}
 }
 
