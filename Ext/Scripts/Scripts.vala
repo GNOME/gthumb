@@ -11,16 +11,15 @@ public class Gth.Scripts {
 		loaded = false;
 	}
 
-	public async void load_from_file () {
+	public async bool load_from_file () {
 		if (loaded) {
-			return;
+			return false;
 		}
 		entries.model.remove_all ();
 		var local_job = app.jobs.new_job ("Loading Scripts");
 		try {
 			var scripts_file = UserDir.get_config_file (FileIntent.READ, SCRIPTS_FILE);
-			var bytes = yield Files.load_file_async (scripts_file, local_job.cancellable);
-			unowned var contents = (string) bytes.get_data ();
+			var contents = yield Files.load_contents_async (scripts_file, local_job.cancellable);
 			var doc = new Dom.Document ();
 			doc.load_xml (contents);
 			if ((doc.first_child != null) && (doc.first_child.tag_name == "scripts")) {
@@ -35,9 +34,12 @@ public class Gth.Scripts {
 		}
 		catch (Error error) {
 			// Ignored
+			// stdout.printf (">> ERROR: %s\n", error.message);
 		}
 		local_job.done ();
 		loaded = true;
+		app.monitor.scripts_changed ();
+		return true;
 	}
 
 	void save_to_file () {

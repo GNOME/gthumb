@@ -141,8 +141,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			return;
 		}
 		if (current_page == Page.NONE) {
-			yield app.scripts.load_from_file ();
-			update_scripts_actions ();
+			if (!yield app.scripts.load_from_file ()) {
+				update_scripts_actions ();
+			}
 		}
 		if ((current_page == Page.VIEWER) && viewer.current_file.get_is_modified ()) {
 			try {
