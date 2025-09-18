@@ -8,8 +8,8 @@
           <object class="GthSidebarResizer" id="resizer">
             <child>
               <object class="AdwPreferencesPage">
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
+                <property name="margin-start">0</property>
+                <property name="margin-end">6</property>
                 <child>
                   <object class="AdwPreferencesGroup">
                     <child>
