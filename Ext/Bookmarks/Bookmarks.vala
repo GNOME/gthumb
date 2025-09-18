@@ -30,9 +30,10 @@ public class Gth.Bookmarks {
 		var local_job = app.jobs.new_job ("Loading Bookmarks");
 		try {
 			var bookmarks_file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
-			var bytes = yield Files.load_file_async (bookmarks_file, local_job.cancellable);
+			size_t contents_size;
+			var contents = yield Files.load_contents_async (bookmarks_file, local_job.cancellable, out contents_size);
 			var bookmarks = new BookmarkFile ();
-			bookmarks.load_from_data ((string) bytes.get_data (), bytes.length);
+			bookmarks.load_from_data (contents, contents_size);
 			var uris = bookmarks.get_uris ();
 			foreach (unowned var uri in uris) {
 				if (Strings.empty (uri))

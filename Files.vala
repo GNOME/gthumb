@@ -156,8 +156,9 @@ public class Gth.Files {
 		return yield Files.read_all_async (stream, cancellable, add_zero);
 	}
 
-	public static async string load_contents_async (File file, Cancellable? cancellable = null) throws Error {
+	public static async string load_contents_async (File file, Cancellable? cancellable = null, out size_t size = null) throws Error {
 		var bytes = yield Files.load_file_async (file, cancellable, true);
+		size = bytes.length - 1;
 		return (string) Bytes.unref_to_data (bytes);
 	}
 
