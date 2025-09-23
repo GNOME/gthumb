@@ -31,7 +31,15 @@ public class Gth.ShortcutRow : Adw.ActionRow {
 			var job = win.new_job ("Read Shortcut");
 			dialog.read_accelerator.begin (win, job, (_obj, res) => {
 				try {
-					shortcut.set_key (dialog.read_accelerator.end (res));
+					var info = dialog.read_accelerator.end (res);
+					// If another shortcut has the same accelerator,
+					// reset the accelerator for that shortcut.
+					var other_shortcut = app.shortcuts.find_by_key (shortcut.context, info.keyval, info.state);
+					if (other_shortcut != null) {
+						other_shortcut.remove_key ();
+					}
+					shortcut.set_key (info);
+					app.shortcuts.changed ();
 				}
 				catch (Error error) {
 					win.show_error (error);

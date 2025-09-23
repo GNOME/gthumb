@@ -2,6 +2,11 @@ public class Gth.Shortcuts {
 	public GenericList<Shortcut> entries;
 	public HashTable<string, Shortcut> by_action;
 
+	public signal void changed () {
+		save_to_file ();
+		//app.monitor.shortcuts_changed ();
+	}
+
 	public Shortcuts () {
 		entries = new GenericList<Shortcut> ();
 		by_action = new HashTable<string, Shortcut> (str_hash, str_equal);
@@ -41,12 +46,30 @@ public class Gth.Shortcuts {
 		return true;
 	}
 
+	void save_to_file () {
+		try {
+			var doc = new Dom.Document ();
+			var root = new Dom.Element.with_attributes ("shortcuts", "version", SHORTCUT_FORMAT);
+			doc.append_child (root);
+			foreach (unowned var shortcut in entries) {
+				if (!shortcut.get_is_customizable ()) {
+					continue;
+				}
+				root.append_child (shortcut.create_element (doc));
+			}
+			var file = UserDir.get_config_file (FileIntent.WRITE, SHORTCUTS_FILE);
+			Files.save_content (file, doc.to_xml ());
+		}
+		catch (Error error) {
+		}
+	}
+
 	public Shortcut? find_by_key (ShortcutContext context, uint keyval, Gdk.ModifierType modifiers) {
 		if (keyval == 0) {
 			return null;
 		}
 
-		// Remove flags not related to the window mode.
+		// Remove flags not related to the window context.
 		context = context & SHORTCUT_CONTEXT_ANY;
 		keyval = Gdk.keyval_to_lower (keyval);
 
@@ -54,25 +77,6 @@ public class Gth.Shortcuts {
 			if (((shortcut.context & context) != 0)
 				&& (shortcut.keyval == keyval)
 				&& (shortcut.modifiers == modifiers))
-			{
-				return shortcut;
-			}
-		}
-
-		return null;
-	}
-
-	public Shortcut? find_by_accel (ShortcutContext context, string accelerator) {
-		if (accelerator == null) {
-			return null;
-		}
-
-		// Remove flags not related to the window mode.
-		context = context & SHORTCUT_CONTEXT_ANY;
-
-		foreach (unowned var shortcut in entries) {
-			if (((shortcut.context & context) != 0)
-				&& (shortcut.accelerator == accelerator))
 			{
 				return shortcut;
 			}
@@ -246,4 +250,6 @@ public class Gth.Shortcuts {
 	}
 
 	bool loaded = false;
+
+	const string SHORTCUT_FORMAT = "1.0";
 }

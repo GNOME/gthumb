@@ -32,12 +32,10 @@ public class Gth.Shortcut : Object {
 
 	public void set_accelerator (string? value) {
 		if (value == null) {
-			keyval = 0;
-			modifiers = 0;
-			accelerator = null;
-			accelerator_label = "";
+			remove_key ();
+			return;
 		}
-		else if (!(ShortcutContext.DOC in context)) {
+		if (!(ShortcutContext.DOC in context)) {
 			if (value != null) {
 				Gtk.accelerator_parse (value, out keyval, out modifiers);
 				keyval = Shortcut.normalize_keycode (keyval);
@@ -66,6 +64,14 @@ public class Gth.Shortcut : Object {
 		changed ();
 	}
 
+	public void remove_key () {
+		keyval = 0;
+		modifiers = 0;
+		accelerator = null;
+		accelerator_label = "";
+		changed ();
+	}
+
 	public bool get_is_customizable () {
 		return ((context & ShortcutContext.FIXED) == 0)
 			&& ((context & ShortcutContext.DOC) == 0);
@@ -80,6 +86,13 @@ public class Gth.Shortcut : Object {
 			return true;
 		}
 		return description.down ().index_of (text) >= 0;
+	}
+
+	public Dom.Element create_element (Dom.Document doc) {
+		var node = new Dom.Element ("shortcut");
+		node.set_attribute ("action", detailed_action);
+		node.set_attribute ("accelerator", accelerator);
+		return node;
 	}
 
 	public static bool get_is_valid (uint keycode, Gdk.ModifierType modifiers) {

@@ -104,8 +104,13 @@ public class Dom.Element : InitiallyUnowned {
 		return attributes.contains (name);
 	}
 
-	public void set_attribute (string name, string value) {
-		attributes.insert (name, value);
+	public void set_attribute (string name, string? value) {
+		if (value != null) {
+			attributes.insert (name, value);
+		}
+		else {
+			attributes.remove (name);
+		}
 	}
 
 	public virtual unowned string? get_inner_text () {
