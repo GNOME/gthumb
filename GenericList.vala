@@ -5,8 +5,8 @@ public class Gth.GenericList<T> {
 		model = new ListStore (typeof (T));
 	}
 
-	public ListIterator<T> iterator () {
-		return new ListIterator<T> (model);
+	public ListStoreIterator<T> iterator () {
+		return new ListStoreIterator<T> (model);
 	}
 
 	public T? first () {
@@ -51,6 +51,10 @@ public class Gth.GenericList<T> {
 		model.remove ((uint) pos);
 		return true;
 	}
+
+	public void sort (CompareDataFunc<T> func) {
+		model.sort (func);
+	}
 }
 
 public class Gth.IterableList<T> {
@@ -71,6 +75,7 @@ public class Gth.ListIterator<T> {
 		idx = -1;
 		item = null;
 		started = false;
+		deleted = false;
 	}
 
 	public unowned T get () {
@@ -89,6 +94,7 @@ public class Gth.ListIterator<T> {
 			idx = idx - 1;
 		}
 		item = model.get_item (idx);
+		deleted = false;
 		return item != null;
 	}
 
@@ -100,15 +106,16 @@ public class Gth.ListIterator<T> {
 			idx = 0;
 			started = true;
 		}
-		else {
+		else if (!deleted) {
 			idx = idx + 1;
 		}
 		item = model.get_item (idx);
+		deleted = false;
 		return item != null;
 	}
 
 	public bool has_next () {
-		return model.get_item ((!started ? 0 : idx + 1)) != null;
+		return model.get_item ((!started ? 0 : deleted ? idx : idx + 1)) != null;
 	}
 
 	public bool has_previous () {
@@ -139,8 +146,26 @@ public class Gth.ListIterator<T> {
 
 	ListModel model;
 	T item;
-	int idx;
-	bool started;
+	protected int idx;
+	protected bool started;
+	protected bool deleted;
+}
+
+public class Gth.ListStoreIterator<T> : Gth.ListIterator<T> {
+	public ListStoreIterator (ListStore _model) {
+		base (_model);
+		store = _model;
+	}
+
+	public void remove () {
+		if (!started) {
+			return;
+		}
+		store.remove ((uint) idx);
+		deleted = true;
+	}
+
+	ListStore store;
 }
 
 public delegate bool MatchGenericItemFunc<T> (T item);

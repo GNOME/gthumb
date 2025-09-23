@@ -17,7 +17,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		}
 
 		// Filter list
-		filter_list.bind_model (app.filter_file.filters.model, new_filter_row);
+		filter_list.bind_model (app.filters.entries.model, new_filter_row);
 	}
 
 	[GtkCallback]
@@ -52,9 +52,9 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 	void move_row_to_position (Gth.FilterRow row, int target_pos) {
 		var source_pos = row.get_index ();
 		if ((target_pos >= 0) && (target_pos != source_pos)) {
-			app.filter_file.filters.model.remove (source_pos);
-			app.filter_file.filters.model.insert (target_pos, row.filter);
-			app.filter_file.changed (null);
+			app.filters.entries.model.remove (source_pos);
+			app.filters.entries.model.insert (target_pos, row.filter);
+			app.filters.changed (null);
 		}
 	}
 
@@ -69,11 +69,11 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 			move_row_to_position (source_row, 0);
 		});
 		row.move_to_bottom.connect ((source_row) => {
-			var last_pos = (int) app.filter_file.filters.model.get_n_items () - 1;
+			var last_pos = (int) app.filters.entries.model.get_n_items () - 1;
 			move_row_to_position (source_row, last_pos);
 		});
 		row.delete_row.connect ((source_row) => {
-			app.filter_file.remove (filter);
+			app.filters.remove (filter);
 		});
 
 		if (filter is Gth.Filter) {
@@ -87,7 +87,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		row.visibility_switch.notify["active"].connect ((_obj, _prop) => {
 			var local_switch = _obj as Gtk.Switch;
 			filter.visible = local_switch.active;
-			app.filter_file.changed (filter.id);
+			app.filters.changed (filter.id);
 		});
 
 		return row;
@@ -97,11 +97,11 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		try {
 			var filter = filter_page.get_filter ();
 			if (current_filter == null) {
-				app.filter_file.add (filter.duplicate ());
+				app.filters.add (filter.duplicate ());
 			}
 			else {
 				current_filter.copy (filter);
-				app.filter_file.changed (filter.id);
+				app.filters.changed (filter.id);
 			}
 			return true;
 		}

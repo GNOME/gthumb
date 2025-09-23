@@ -44,7 +44,7 @@ public class Gth.FilterBar : Gtk.Box {
 
 		filter = null;
 		visible_filters = app.get_visible_filters ();
-		app.filter_file.changed.connect ((changed_id) => {
+		app.filters.changed.connect ((changed_id) => {
 			int current_filter_idx = -1;
 			update_filter_list (out current_filter_idx);
 			if (current_filter_idx == -1) {

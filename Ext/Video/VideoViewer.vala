@@ -1,4 +1,6 @@
 public class Gth.VideoViewer : Object, Gth.FileViewer {
+	public Gth.ShortcutContext shortcut_context { get { return ShortcutContext.MEDIA_VIEWER; } }
+
 	public bool zoom_to_fit {
 		get { return _zoom_to_fit; }
 		set {
@@ -60,6 +62,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		click_events.button = Gdk.BUTTON_PRIMARY;
 		click_events.pressed.connect ((n_press, x, y) => {
 			playing = !playing;
+			focus ();
 		});
 		video_view.add_controller (click_events);
 
@@ -67,6 +70,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		click_events.button = Gdk.BUTTON_PRIMARY;
 		click_events.pressed.connect ((n_press, x, y) => {
 			playing = !playing;
+			focus ();
 		});
 		audio_view.add_controller (click_events);
 
@@ -201,6 +205,15 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		width = video_width;
 		height = video_height;
 		return has_video;
+	}
+
+	public void focus () {
+		if (has_video) {
+			video_view.grab_focus ();
+		}
+		else {
+			audio_view.grab_focus ();
+		}
 	}
 
 	//public async void save_async () throws Error;
@@ -796,6 +809,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			view_stack.set_visible_child (audio_view);
 		}
 		update_sensitivity ();
+		focus ();
 	}
 
 	void update_sensitivity () {

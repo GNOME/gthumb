@@ -13,7 +13,7 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 		// Translators: section for the file saving options in the preferences dialog.
 		pages.model.append (new PageInfo ("saving", _("Saving")));
 		//pages.model.append (new PageInfo ("print", _("Print")));
-		//pages.model.append (new PageInfo ("shortcuts", _("Shortcuts")));
+		pages.model.append (new PageInfo ("shortcuts", _("Shortcuts")));
 		page_list.bind_model (pages.model, new_page_row);
 	}
 
@@ -49,6 +49,7 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 	[GtkChild] unowned Gth.BrowserPreferences browser_page;
 	[GtkChild] unowned Gth.SaversPreferences saving_page;
 	[GtkChild] unowned Gth.ViewerPreferences viewer_page;
+	[GtkChild] unowned Gth.ShortcutsPreferences shortcuts_page;
 
 	GenericList<PageInfo?> pages;
 }

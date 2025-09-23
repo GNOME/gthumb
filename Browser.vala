@@ -399,6 +399,7 @@ public class Gth.Browser : Gtk.Box {
 		file_sort_model.model = sorted_model;
 		file_grid.model = grid_model;
 		update_total_files ();
+		focus_list ();
 	}
 
 	public void update_folder_status () {
@@ -854,20 +855,22 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("select-all", null);
+		action = new SimpleAction ("file-list-select-all", null);
 		action.activate.connect (() => {
 			grid_model.select_all ();
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("view-fullscreen", null);
-		action.activate.connect (() => {
-			var position = get_selected_position ();
-			if (position != uint.MAX) {
-				view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
-			}
-		});
+		action.activate.connect (() => view_fullscreen ());
 		action_group.add_action (action);
+	}
+
+	public void view_fullscreen () {
+		var position = get_selected_position ();
+		if (position != uint.MAX) {
+			view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
+		}
 	}
 
 	void init_folder_actions () {
@@ -1677,6 +1680,12 @@ public class Gth.Browser : Gtk.Box {
 		}
 		finally {
 			local_job.done ();
+		}
+	}
+
+	public void focus_list () {
+		if (total_files > 0) {
+			file_grid.grab_focus ();
 		}
 	}
 

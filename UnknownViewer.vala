@@ -1,4 +1,6 @@
 public class Gth.UnknownViewer : Object, Gth.FileViewer {
+	public Gth.ShortcutContext shortcut_context { get { return ShortcutContext.NONE; } }
+
 	public void activate (Gth.Window _window) {
 		_window.viewer.set_context_menu (null);
 	}
@@ -19,5 +21,8 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 		width = 0;
 		height = 0;
 		return false;
+	}
+
+	public void focus () {
 	}
 }

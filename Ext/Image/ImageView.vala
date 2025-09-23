@@ -446,6 +446,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	public override bool focus (Gtk.DirectionType direction) {
+		if (!is_focus ()) {
+			grab_focus ();
+			return true;
+		}
+		return false;
+	}
+
 	construct {
 		_image = null;
 		_zoom_type = ZoomType.BEST_FIT;
@@ -455,6 +463,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		_first_allocation = true;
 		hadj_changed_id = 0;
 		vadj_changed_id = 0;
+		focusable = true;
 	}
 
 	Gth.Image _image;

@@ -18,67 +18,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		VIEWER,
 	}
 
-	construct {
-		title = "Thumbnails";
-		current_page = Page.NONE;
-
-		jobs = new Gth.JobQueue ();
-		jobs.size_changed.connect (() => {
-			if (closing && (jobs.size () == 0)) {
-				Util.next_tick (() => {
-					before_closing ();
-					close ();
-				});
-				return;
-			}
-			if (progress_dialog == null) {
-				progress_dialog = new ProgressDialog (this);
-				progress_dialog.set_queue (jobs);
-			}
-			browser.status.set_n_jobs (jobs.size ());
-			viewer.status.set_n_jobs (jobs.size ());
-		});
-		file_manager = new FileManager (this);
-		closing = false;
-		action_group = new SimpleActionGroup ();
-		insert_action_group ("win", action_group);
-
-		close_request.connect (() => {
-			if (file_not_saved ()) {
-				save_and_close.begin ();
-				return true;
-			}
-			closing = true;
-			if (cancel_jobs ()) {
-				return true;
-			}
-			before_closing ();
-			return false;
-		});
-
-		active_resizer = null;
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
-			if (active_resizer != null) {
-				active_resizer.update_width (x);
-			}
-		});
-		child.add_controller (motion_events);
-
-		unowned var clipboard = get_clipboard ();
-		clipboard_event = clipboard.changed.connect (() => {
-			update_sensitivity_for_clipboard ();
-		});
-
-		init_actions ();
-		browser.window = this;
-		viewer.window = this;
-
-		tool_actions_category = new ActionCategory ("", -1);
-		scripts_category = new ActionCategory (_("Scripts"), 1);
-	}
-
 	ulong clipboard_event = 0;
 
 	public Window () {
@@ -141,9 +80,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			return;
 		}
 		if (current_page == Page.NONE) {
-			if (!yield app.scripts.load_from_file ()) {
-				update_scripts_actions ();
-			}
+			update_scripts_actions ();
 		}
 		if ((current_page == Page.VIEWER) && viewer.current_file.get_is_modified ()) {
 			try {
@@ -190,6 +127,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 			}
 			browser.update_title ();
+			browser.focus_list ();
 			break;
 		case Page.VIEWER:
 			if (previuos_page == Page.BROWSER) {
@@ -200,6 +138,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 			stack.set_visible_child (viewer);
 			viewer.update_title ();
+			viewer.focus_viewer ();
+			//stack.grab_focus ();
 			break;
 		case Page.NONE:
 			break;
@@ -577,19 +517,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("pop-page", null);
 		action.activate.connect (() => {
-			var next_page = Page.NONE;
-			if (current_page == Page.VIEWER) {
-				 next_page = Page.BROWSER;
+			if (fullscreened) {
+				fullscreened = false;
 			}
-			if (next_page != Page.NONE) {
-				set_page.begin (next_page);
+			else if (current_page == Page.VIEWER) {
+				set_page.begin (Page.BROWSER);
 			}
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("toggle-fullscreen", null);
 		action.activate.connect (() => {
-			fullscreened = !fullscreened;
+			if ((current_page == Page.BROWSER) && !fullscreened) {
+				browser.view_fullscreen ();
+			}
+			else {
+				fullscreened = !fullscreened;
+			}
 		});
 		action_group.add_action (action);
 
@@ -770,6 +714,101 @@ public class Gth.Window : Adw.ApplicationWindow {
 			dialog.present (this);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("close", null);
+		action.activate.connect (() => {
+			close ();
+		});
+		action_group.add_action (action);
+	}
+
+	bool on_key_pressed (Gtk.EventControllerKey controller, uint keyval, uint keycode, Gdk.ModifierType state) {
+		var focused = get_focus ();
+		if (focused is Gtk.Editable) {
+			return false;
+		}
+		var context = ShortcutContext.NONE;
+		if (current_page == Page.BROWSER) {
+			context |= ShortcutContext.BROWSER;
+		}
+		else if ((current_page == Page.VIEWER) && (viewer.current_viewer != null)) {
+			context |= viewer.current_viewer.shortcut_context;
+			//stdout.printf ("> viewer.current_viewer.shortcut_context: %s\n", viewer.current_viewer.shortcut_context.to_string ());
+		}
+		var shortcut = app.shortcuts.find_by_key (context, keyval, state);
+		if ((shortcut == null)
+			|| (ShortcutContext.DOC in shortcut.context))
+		{
+			return false;
+		}
+		stdout.printf ("> shortcut: '%s'\n", shortcut.detailed_action);
+		activate_action_variant (shortcut.action_name, shortcut.action_parameter);
+		return true;
+	}
+
+	construct {
+		title = "Thumbnails";
+		current_page = Page.NONE;
+
+		jobs = new Gth.JobQueue ();
+		jobs.size_changed.connect (() => {
+			if (closing && (jobs.size () == 0)) {
+				Util.next_tick (() => {
+					before_closing ();
+					close ();
+				});
+				return;
+			}
+			if (progress_dialog == null) {
+				progress_dialog = new ProgressDialog (this);
+				progress_dialog.set_queue (jobs);
+			}
+			browser.status.set_n_jobs (jobs.size ());
+			viewer.status.set_n_jobs (jobs.size ());
+		});
+		file_manager = new FileManager (this);
+		closing = false;
+		action_group = new SimpleActionGroup ();
+		insert_action_group ("win", action_group);
+
+		close_request.connect (() => {
+			if (file_not_saved ()) {
+				save_and_close.begin ();
+				return true;
+			}
+			closing = true;
+			if (cancel_jobs ()) {
+				return true;
+			}
+			before_closing ();
+			return false;
+		});
+
+		active_resizer = null;
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			if (active_resizer != null) {
+				active_resizer.update_width (x);
+			}
+		});
+		child.add_controller (motion_events);
+
+		unowned var clipboard = get_clipboard ();
+		clipboard_event = clipboard.changed.connect (() => {
+			update_sensitivity_for_clipboard ();
+		});
+
+		init_actions ();
+		browser.window = this;
+		viewer.window = this;
+
+		tool_actions_category = new ActionCategory ("", -1);
+		scripts_category = new ActionCategory (_("Scripts"), 1);
+
+		var key_events = new Gtk.EventControllerKey ();
+		key_events.key_pressed.connect (on_key_pressed);
+		stack.add_controller (key_events);
 	}
 
 	uint fake_job_id = 0;

@@ -59,6 +59,10 @@
                       <object class="GthViewerPreferences" id="viewer_page">
                       </object>
                     </child>
+                    <child>
+                      <object class="GthShortcutsPreferences" id="shortcuts_page">
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

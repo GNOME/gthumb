@@ -1,4 +1,5 @@
 public interface Gth.FileViewer : Object {
+	public abstract Gth.ShortcutContext shortcut_context { get; }
 	public abstract void activate (Gth.Window window);
 	public abstract async void load (FileData file) throws Error;
 	public abstract void deactivate ();
@@ -7,4 +8,5 @@ public interface Gth.FileViewer : Object {
 	public abstract bool on_scroll (double x, double y, double dx, double dy);
 	public abstract bool get_pixel_size (out uint width, out uint height);
 	public virtual async void save () throws Error {}
+	public abstract void focus ();
 }

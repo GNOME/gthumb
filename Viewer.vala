@@ -9,10 +9,10 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public Gth.FileData current_file;
+	public FileViewer current_viewer = null;
 	public int position;
 
 	Gth.Job load_job = null;
-	FileViewer current_viewer = null;
 
 	async void load_file (FileData file_data, ViewFlags flags = ViewFlags.DEFAULT) throws Error {
 		// Ask to save the current file if modified
@@ -516,6 +516,12 @@ public class Gth.Viewer : Gtk.Box {
 		cancel_hide_overlay ();
 		if (current_viewer != null) {
 			current_viewer.release_resources ();
+		}
+	}
+
+	public void focus_viewer () {
+		if (current_viewer != null) {
+			current_viewer.focus ();
 		}
 	}
 

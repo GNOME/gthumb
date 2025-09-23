@@ -87,6 +87,15 @@ public class Gth.Filter : Gth.Test {
 		}
 	}
 
+	public Gth.Shortcut create_shortcut () {
+		var shortcut = new Shortcut ("set-filter", new Variant.string (id));
+		shortcut.description = display_name;
+		shortcut.context = ShortcutContext.BROWSER;
+		shortcut.category = ShortcutCategory.FILTERS;
+		//shortcut.set_accelerator ();
+		return shortcut;
+	}
+
 	public override Gtk.Widget? create_options () {
 		switch (limit_type) {
 		case LimitType.FILES:

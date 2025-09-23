@@ -99,7 +99,16 @@ public class Gth.VideoView : Gtk.Widget {
 		paintable = null;
 	}
 
+	public override bool focus (Gtk.DirectionType direction) {
+		if (!is_focus ()) {
+			grab_focus ();
+			return true;
+		}
+		return false;
+	}
+
 	construct {
+		focusable = true;
 		paintable = null;
 		invalidate_contents_id = 0;
 		invalidate_size_id = 0;

@@ -5,5 +5,6 @@ preferences_files = files(
   'PreferencesDialog.vala',
   'SaverPreferencesPage.vala',
   'SaversPreferences.vala',
+  'ShortcutsPreferences.vala',
   'ViewerPreferences.vala',
 )

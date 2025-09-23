@@ -31,8 +31,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow" id="shortcut">
-                    <property name="title" translatable="yes">Shortcut</property>
+                  <object class="GthShortcutRow" id="shortcut_row">
                   </object>
                 </child>
               </object>

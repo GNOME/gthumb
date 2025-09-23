@@ -11,15 +11,16 @@ public class Gth.Scripts {
 		loaded = false;
 	}
 
-	public async bool load_from_file () {
+	public bool load_from_file () {
 		if (loaded) {
 			return false;
 		}
 		entries.model.remove_all ();
+		app.shortcuts.remove_action ("exec-script");
 		var local_job = app.jobs.new_job ("Loading Scripts");
 		try {
 			var scripts_file = UserDir.get_config_file (FileIntent.READ, SCRIPTS_FILE);
-			var contents = yield Files.load_contents_async (scripts_file, local_job.cancellable);
+			var contents = Files.load_contents (scripts_file, local_job.cancellable);
 			var doc = new Dom.Document ();
 			doc.load_xml (contents);
 			if ((doc.first_child != null) && (doc.first_child.tag_name == "scripts")) {
@@ -28,6 +29,7 @@ public class Gth.Scripts {
 						var script = new Gth.Script ();
 						script.load_from_element (node);
 						entries.model.append (script);
+						app.shortcuts.add (script.create_shortcut ());
 					}
 				}
 			}

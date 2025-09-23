@@ -1,4 +1,6 @@
 public class Gth.ImageViewer : Object, Gth.FileViewer {
+	public Gth.ShortcutContext shortcut_context { get { return ShortcutContext.IMAGE_VIEWER; } }
+
 	public void activate (Gth.Window _window) {
 		assert (window == null);
 
@@ -247,6 +249,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	public override async void save () throws Error {
 		window.viewer.current_file = yield save_to (window.viewer.current_file.file);
+	}
+
+	public void focus () {
+		image_view.grab_focus ();
 	}
 
 	async FileData? replace_file (FileData file_data, Job job) throws Error {

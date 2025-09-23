@@ -149,6 +149,7 @@ button.for_statusbar label {
 	padding: 12px 24px 24px;
 }
 
+.dialog-buttons > .text-button,
 .dialog-content > .response-area > .text-button {
 	padding: 10px 20px;
 	border-radius: 12px;

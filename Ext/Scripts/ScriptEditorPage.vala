@@ -19,6 +19,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 		script.bind_property ("for_each_file", for_each_file, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		script.bind_property ("wait_command", wait_command, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		command_preview.label = script.get_preview ();
+		shortcut_row.set_shortcut (app.shortcuts.find_by_action (script.detailed_action), _("Shortcut"));
 	}
 
 	public Script? get_script () throws Error {
@@ -67,4 +68,5 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	[GtkChild] unowned Adw.SwitchRow for_each_file;
 	[GtkChild] unowned Adw.SwitchRow wait_command;
 	[GtkChild] unowned Gth.ScriptCommandPage command_page;
+	[GtkChild] unowned Gth.ShortcutRow shortcut_row;
 }

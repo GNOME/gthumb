@@ -3,6 +3,7 @@ const string HISTORY_FILE = "history.xbel";
 const string BOOKMARKS_FILE = "bookmarks.xbel";
 const string FILTERS_FILE = "filters.xml";
 const string SCRIPTS_FILE = "scripts.xml";
+const string SHORTCUTS_FILE = "shortcuts.xml";
 
 const int HORIZONTAL_SPACING = 12; // pixels
 const int VERTICAL_SPACING = 12; // pixels

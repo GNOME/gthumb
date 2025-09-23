@@ -7,6 +7,7 @@
     </child>
     <child>
       <object class="AdwStatusPage" id="audio_view">
+        <property name="focusable">true</property>
         <child>
           <object class="GthFolderStatus" id="audio_status">
             <property name="title"></property>

@@ -125,5 +125,8 @@
     <file preprocess="xml-stripblanks">template-page.ui</file>
     <file preprocess="xml-stripblanks">template-token-row.ui</file>
     <file preprocess="xml-stripblanks">template-code-chooser.ui</file>
+    <file preprocess="xml-stripblanks">shortcuts-preferences.ui</file>
+    <file preprocess="xml-stripblanks">shortcut-dialog.ui</file>
+    <file preprocess="xml-stripblanks">shortcut-row.ui</file>
   </gresource>
 </gresources>

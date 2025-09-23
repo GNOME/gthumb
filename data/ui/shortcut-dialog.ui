@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthShortcutDialog">
+    <property name="title" translatable="yes">Shortcut</property>
+    <property name="content-width">500</property>
+    <child>
+      <object class="AdwToolbarView" id="main_view">
+        <property name="focusable">true</property>
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <property name="content">
+          <object class="GtkWindowHandle">
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">48</property>
+                <property name="margin-start">48</property>
+                <property name="margin-end">48</property>
+                <property name="margin-top">48</property>
+                <property name="margin-bottom">48</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">36</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Press a combination of keys to use as shortcut.</property>
+                        <property name="wrap">true</property>
+                        <property name="justify">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Press Esc to cancel</property>
+                        <property name="wrap">true</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="dimmed"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

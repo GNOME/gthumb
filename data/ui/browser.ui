@@ -418,7 +418,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
-        <attribute name="action">win.select-all</attribute>
+        <attribute name="action">win.file-list-select-all</attribute>
       </item>
     </section>
     <section>
@@ -463,7 +463,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
-        <attribute name="action">win.select-all</attribute>
+        <attribute name="action">win.file-list-select-all</attribute>
       </item>
     </section>
   </menu>

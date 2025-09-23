@@ -13,7 +13,7 @@ public class Gth.Application : Adw.Application {
 	public HashTable<string, GLib.Type> saver_preferences;
 	public HashTable<string, string> saver_extensions;
 	public HashTable<string, GLib.Type> viewers;
-	public Gth.FilterFile filter_file;
+	public Gth.Filters filters;
 	public bool restart;
 	public bool quitting;
 	public Gth.JobQueue jobs;
@@ -29,6 +29,7 @@ public class Gth.Application : Adw.Application {
 	public Migration migration;
 	public Scripts scripts;
 	public ImageEditor image_editor;
+	public Shortcuts shortcuts;
 
 	public Application () {
 		Object (
@@ -57,8 +58,9 @@ public class Gth.Application : Adw.Application {
 		monitor = new Monitor ();
 		bookmarks = new Bookmarks ();
 		migration = new Migration ();
-		scripts = new Scripts ();
 		image_editor = new ImageEditor ();
+		filters = new Filters ();
+		scripts = new Scripts ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();
@@ -197,6 +199,9 @@ public class Gth.Application : Adw.Application {
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
 		register_image_saver ("image/tiff", save_jpeg, typeof (TiffPreferences));
 		register_image_saver ("image/webp", save_jpeg, typeof (WebpPreferences));
+
+		shortcuts = new Shortcuts ();
+		shortcuts.register_all ();
 	}
 
 	public override void startup () {
@@ -332,7 +337,7 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public GenericList<Gth.Test> get_visible_filters () {
-		var filters = new GenericList<Gth.Test>();
+		var result = new GenericList<Gth.Test>();
 
 		var no_filter = new Gth.Test ();
 		no_filter.id = "";
@@ -343,24 +348,24 @@ public class Gth.Application : Adw.Application {
 		else {
 			no_filter.display_name = _("All Files");
 		}
-		filters.model.append (no_filter);
+		result.model.append (no_filter);
 
-		foreach (var filter in filter_file.filters) {
+		foreach (var filter in filters.entries) {
 			if (filter.visible) {
-				filters.model.append (filter.duplicate ());
+				result.model.append (filter.duplicate ());
 			}
 		}
-		return filters;
+		return result;
 	}
 
 	public GenericList<Gth.Test> get_file_type_filters () {
-		var filters = new GenericList<Gth.Test> ( );
+		var result = new GenericList<Gth.Test> ( );
 		foreach (unowned var filter in ordered_tests) {
 			if (filter.id.has_prefix ("Type::")) {
-				filters.model.append (filter.duplicate ());
+				result.model.append (filter.duplicate ());
 			}
 		}
-		return filters;
+		return result;
 	}
 
 	public void register_source (GLib.Type source_type) {
@@ -479,6 +484,15 @@ public class Gth.Application : Adw.Application {
 
 	public bool viewer_can_view (GLib.Type viewer_type, string content_type) {
 		return get_viewer_type_for_content_type (content_type) == viewer_type;
+	}
+
+	public Gth.Window get_active_window () {
+		foreach (var win in get_windows ()) {
+			if (win is Gth.Window) {
+				return win as Gth.Window;
+			}
+		}
+		return null;
 	}
 
 	public void foreach_window (Gth.WindowFunc func) {
@@ -613,9 +627,15 @@ public class Gth.Application : Adw.Application {
 			queue_setting_changed (key);
 		});
 		viewer_settings = new GLib.Settings (GTHUMB_VIEWER_SCHEMA);
-		filter_file = new Gth.FilterFile ();
-
 		changed_keys = new GenericSet<string> (str_hash, str_equal);
+
+		load_config ();
+	}
+
+	void load_config () {
+		filters.load_from_file ();
+		scripts.load_from_file ();
+		shortcuts.load_from_file ();
 	}
 
 	uint setting_changed_id = 0;
@@ -666,6 +686,12 @@ public class Gth.Application : Adw.Application {
 		action.activate.connect ((_action, param) => {
 			var file = File.new_for_uri (param.get_string ());
 			open_window (file.get_parent (), file, true);
+		});
+		add_action (action);
+
+		action = new SimpleAction ("quit", null);
+		action.activate.connect ((_action, param) => {
+			quit ();
 		});
 		add_action (action);
 	}

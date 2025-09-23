@@ -74,6 +74,15 @@ public class Gth.Script : Object {
 		load_from_element (node);
 	}
 
+	public Gth.Shortcut create_shortcut () {
+		var shortcut = new Shortcut ("exec-script", new Variant.string (id));
+		shortcut.description = display_name;
+		shortcut.context = SHORTCUT_CONTEXT_BROWSER_VIEWER;
+		shortcut.category = ShortcutCategory.SCRIPTS;
+		//shortcut.set_accelerator ();
+		return shortcut;
+	}
+
 	public async void execute (Gth.Window window, GenericList<File> files) {
 		var local_job = window.new_job (display_name, JobFlags.FOREGROUND, "gth-script-symbolic");
 		try {

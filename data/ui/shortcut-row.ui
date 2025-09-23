@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthFilterRow">
-    <property name="activatable-widget">visibility_switch</property>
-    <child type="prefix">
-      <object class="GtkImage">
-        <property name="icon-name">list-drag-handle-symbolic</property>
-        <property name="opacity">0.5</property>
+  <template class="GthShortcutRow">
+    <child type="suffix">
+      <object class="GtkLabel" id="accel_label">
+        <property name="valign">center</property>
       </object>
     </child>
     <child type="suffix">
       <object class="GtkBox" id="edit_buttons">
         <property name="margin-end">6</property>
         <property name="spacing">6</property>
+        <property name="visible">false</property>
         <child>
-          <object class="GtkButton" id="edit_button">
-            <property name="icon-name">gth-edit-item-symbolic</property>
+          <object class="GtkButton" id="reset_button">
+            <property name="icon-name">edit-undo-symbolic</property>
             <property name="valign">center</property>
           </object>
         </child>
-        <!--child>
+        <child>
           <object class="GtkButton" id="delete_button">
             <property name="icon-name">gth-delete-item-symbolic</property>
             <property name="valign">center</property>
@@ -26,12 +25,7 @@
               <class name="destructive-action"/>
             </style>
           </object>
-        </child-->
-      </object>
-    </child>
-    <child type="suffix">
-      <object class="GtkSwitch" id="visibility_switch">
-        <property name="valign">center</property>
+        </child>
       </object>
     </child>
     <child type="suffix">
@@ -50,17 +44,11 @@
   <menu id="row-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Move to Top</attribute>
-        <attribute name="action">row.move-to-top</attribute>
+        <attribute name="label" translatable="yes">_Reset</attribute>
+        <attribute name="action">row.reset</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Move to Bottom</attribute>
-        <attribute name="action">row.move-to-bottom</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="label" translatable="yes">_Delete</attribute>
         <attribute name="action">row.delete</attribute>
       </item>
     </section>
