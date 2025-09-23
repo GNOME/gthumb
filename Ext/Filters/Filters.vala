@@ -1,7 +1,9 @@
 public class Gth.Filters {
 	public GenericList<Gth.Test> entries;
 
-	public signal void changed (string? changed_id);
+	public signal void changed (string? changed_id) {
+		save_to_file ();
+	}
 
 	public Filters () {
 		entries = new GenericList<Gth.Test>();
@@ -83,20 +85,20 @@ public class Gth.Filters {
 		return loaded;
 	}
 
-	const string FILTER_FORMAT = "1.0";
-
-	public void save () throws Error {
-		var file = Gth.UserDir.get_config_file (Gth.FileIntent.WRITE, FILTERS_FILE);
-		Files.save_content (file, to_xml ());
-	}
-
-	string to_xml () {
-		var doc = new Dom.Document ();
-		var root = new Dom.Element.with_attributes ("filters", "version", FILTER_FORMAT);
-		doc.append_child (root);
-		foreach (unowned var filter in entries) {
-			root.append_child (filter.create_element (doc));
+	public void save_to_file () {
+		try {
+			var doc = new Dom.Document ();
+			var root = new Dom.Element.with_attributes ("filters", "version", FILTER_FORMAT);
+			doc.append_child (root);
+			foreach (unowned var filter in entries) {
+				root.append_child (filter.create_element (doc));
+			}
+			var file = UserDir.get_config_file (FileIntent.WRITE, FILTERS_FILE);
+			Files.save_content (file, doc.to_xml ());
 		}
-		return doc.to_xml ();
+		catch (Error error) {
+		}
 	}
+
+	const string FILTER_FORMAT = "1.0";
 }
