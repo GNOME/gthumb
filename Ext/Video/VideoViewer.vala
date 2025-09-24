@@ -507,9 +507,13 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 				false));
 	}
 
-	void set_rate (double value) {
+	void set_speed (double value) {
 		rate = value;
 		skip_to (get_current_time ());
+		var action = action_group.lookup_action ("set-speed") as SimpleAction;
+		if (action != null) {
+			action.set_state (new Variant.string (Util.format_double (rate, "%0.2f")));
+		}
 	}
 
 	int get_current_rate_idx () {
@@ -556,20 +560,20 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		var action = new SimpleAction ("decrease-speed", null);
 		action.activate.connect ((_action, param) => {
 			var idx = get_current_rate_idx ();
-			set_rate ((idx > 0) ? Rates[idx - 1] : Rates[0]);
+			set_speed ((idx > 0) ? Rates[idx - 1] : Rates[0]);
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("increase-speed", null);
 		action.activate.connect ((_action, param) => {
 			var idx = get_current_rate_idx ();
-			set_rate ((idx < Rates.length - 1) ? Rates[idx + 1] : Rates[Rates.length - 1]);
+			set_speed ((idx < Rates.length - 1) ? Rates[idx + 1] : Rates[Rates.length - 1]);
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("normal-speed", null);
 		action.activate.connect ((_action, param) => {
-			set_rate (1.0);
+			set_speed (1.0);
 		});
 		action_group.add_action (action);
 
@@ -588,8 +592,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction.stateful ("set-speed", VariantType.STRING, new Variant.string (Util.format_double (rate, "%0.2f")));
 		action.activate.connect ((_action, param) => {
-			set_rate (double.parse (param.get_string ()));
-			_action.set_state (new Variant.string (Util.format_double (rate, "%0.2f")));
+			set_speed (double.parse (param.get_string ()));
 		});
 		action_group.add_action (action);
 
