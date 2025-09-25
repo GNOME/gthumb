@@ -1464,21 +1464,54 @@ public class Gth.Browser : Gtk.Box {
 
 	public void files_deleted (GenericList<File> files) {
 		foreach (unowned var file in files) {
+			// Current folder
+			if ((folder_tree.current_folder != null)
+				&& (folder_tree.current_folder.file.equal (file)
+					|| folder_tree.current_folder.file.has_prefix (file)))
+			{
+				// Load the first existing parent.
+				parent = folder_tree.current_folder.file.get_parent ();
+				while ((parent != null) && !parent.query_exists ()) {
+					parent = parent.get_parent ();
+				}
+				if (parent == null) {
+					parent = Files.get_home ();
+				}
+				open_location (parent);
+				return;
+			}
+
+			// Files inside the current folder.
 			var iter = folder_tree.current_children.iterator ();
 			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 			if (pos >= 0) {
 				folder_tree.current_children.model.remove ((uint) pos);
 			}
-		}
-		update_total_files ();
 
-		if (property_sidebar.current_file != null) {
-			var iter = files.iterator ();
-			var pos = iter.find_first ((file) => file.equal (property_sidebar.current_file.file));
-			if (pos >= 0) {
-				property_sidebar.current_file = null;
+			// Folders from the folder tree.
+			var parent = file.get_parent ();
+			var row = folder_tree.get_file_row (parent);
+			if (row != null) {
+				var file_data = row.item as Gth.FileData;
+				if (file_data != null) {
+					var children = file_data.get_children_model ();
+					iter = children.iterator ();
+					pos = iter.find_first ((file_data) => file_data.file.equal (file));
+					if (pos >= 0) {
+						children.model.remove ((uint) pos);
+					}
+				}
+			}
+
+			// Property sidebar.
+			if (property_sidebar.current_file != null) {
+				if (file.equal (property_sidebar.current_file.file)) {
+					property_sidebar.current_file = null;
+				}
 			}
 		}
+
+		update_total_files ();
 	}
 
 	async void paste_files_from_clipboard (File destination, Job job) throws Error {
