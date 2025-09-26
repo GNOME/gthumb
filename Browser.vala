@@ -748,7 +748,7 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("search", null);
+		action = new SimpleAction ("find", null);
 		action.activate.connect ((_action, param) => {
 			new_search.begin ();
 		});
