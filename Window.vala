@@ -10,8 +10,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] public unowned Gth.Viewer viewer;
 	public unowned Gth.SidebarResizer active_resizer;
 
-	ProgressDialog progress_dialog = null;
-
 	public enum Page {
 		NONE = 0,
 		BROWSER,
@@ -823,5 +821,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	DesktopBackground desktop_background = null;
 	ActionCategory tool_actions_category;
 	ActionCategory scripts_category;
+	ProgressDialog progress_dialog = null;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 }

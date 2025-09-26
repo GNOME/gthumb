@@ -180,7 +180,7 @@ public class Gth.Files {
 		yield stream.close_async (Priority.DEFAULT, cancellable);
 	}
 
-	public static async FileInfo query_info (File file, string attributes, Cancellable cancellable) throws Error {
+	public static async FileInfo query_info (File file, string attributes, Cancellable? cancellable = null) throws Error {
 		return yield file.query_info_async (
 				attributes,
 				FileQueryInfoFlags.NONE,

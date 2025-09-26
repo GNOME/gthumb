@@ -39,6 +39,7 @@ public class Gth.Browser : Gtk.Box {
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		parents_category = new ActionCategory (_("Path"), 1);
 		never_loaded = true;
+		folder_stack.set_visible_child (empty_folder);
 	}
 
 	void init () {
@@ -1470,7 +1471,7 @@ public class Gth.Browser : Gtk.Box {
 					|| folder_tree.current_folder.file.has_prefix (file)))
 			{
 				// Load the first existing parent.
-				parent = folder_tree.current_folder.file.get_parent ();
+				var parent = folder_tree.current_folder.file.get_parent ();
 				while ((parent != null) && !parent.query_exists ()) {
 					parent = parent.get_parent ();
 				}

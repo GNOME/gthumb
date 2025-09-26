@@ -762,7 +762,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		// Translators: '%s' is replaced with a filename (do not change it).
 		var toast = Util.new_literal_toast (_("Saved %s").printf (file.get_path ()));
 		toast.button_label = _("Open");
-		toast.action_name = ("app.open-new-window");
+		toast.action_name = "app.open-new-window";
 		toast.action_target = new Variant.string (file.get_uri ());
 		window.add_toast (toast);
 	}
