@@ -29,7 +29,7 @@ public class Gth.Viewer : Gtk.Box {
 		// Load
 		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
-			"content-loading-symbolic");
+			"gth-content-loading-symbolic");
 		load_job = local_job;
 		try {
 			activate_viewer_for_file (file_data);
@@ -66,7 +66,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		var local_job = window.new_job (_("Loading %s").printf (file_data.file.get_uri ()),
 			JobFlags.FOREGROUND,
-			"content-loading-symbolic");
+			"gth-content-loading-symbolic");
 		load_job = local_job;
 		try {
 			yield load_file (file_data);
@@ -94,7 +94,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
-			"content-loading-symbolic");
+			"gth-content-loading-symbolic");
 		load_job = local_job;
 		try {
 			activate_viewer_for_file (file_data);
