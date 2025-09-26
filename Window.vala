@@ -25,12 +25,20 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void add_toast (Adw.Toast toast) {
-		if (current_page == Page.BROWSER) {
-			browser.toast_overlay.add_toast (toast);
-		}
-		else if (current_page == Page.VIEWER) {
-			viewer.toast_overlay.add_toast (toast);
-		}
+		viewer.toasts++;
+		viewer.reveal_overlay_controls (false);
+
+		toast_overlay.dismiss_all ();
+		toast_overlay.add_toast (toast);
+
+		var local_toast = toast;
+		local_toast.dismissed.connect (() => {
+			viewer.toasts--;
+			if (viewer.toasts == 0) {
+				viewer.reveal_overlay_controls ();
+			}
+			local_toast = null;
+		});
 	}
 
 	public void show_message (string message) {
@@ -815,4 +823,5 @@ public class Gth.Window : Adw.ApplicationWindow {
 	DesktopBackground desktop_background = null;
 	ActionCategory tool_actions_category;
 	ActionCategory scripts_category;
+	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 }

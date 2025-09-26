@@ -5,15 +5,19 @@
     <property name="default_width">800</property>
     <property name="default_height">800</property>
     <property name="content">
-      <object class="GtkStack" id="stack">
-        <!--property name="transition-type">crossfade</property-->
-        <property name="focusable">true</property>
+      <object class="AdwToastOverlay" id="toast_overlay">
         <child>
-          <object class="GthBrowser" id="browser">
-          </object>
-        </child>
-        <child>
-          <object class="GthViewer" id="viewer">
+          <object class="GtkStack" id="stack">
+            <!--property name="transition-type">crossfade</property-->
+            <property name="focusable">true</property>
+            <child>
+              <object class="GthBrowser" id="browser">
+              </object>
+            </child>
+            <child>
+              <object class="GthViewer" id="viewer">
+              </object>
+            </child>
           </object>
         </child>
       </object>

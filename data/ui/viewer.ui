@@ -121,64 +121,60 @@
               </object>
             </property>
             <property name="content">
-              <object class="AdwToastOverlay" id="toast_overlay">
+              <object class="GtkBox">
+                <property name="halign">fill</property>
                 <child>
-                  <object class="GtkBox">
-                    <property name="halign">fill</property>
-                    <child>
-                      <object class="GtkOverlay" id="viewer_container">
-                        <property name="hexpand">true</property>
-                        <property name="vexpand">true</property>
-                        <child type="overlay">
-                          <object class="GtkRevealer" id="fullscreen_toolbar_revealer">
-                            <property name="halign">fill</property>
-                            <property name="valign">start</property>
-                            <property name="transition_type">crossfade</property>
-                            <property name="reveal-child">true</property>
-                          </object>
-                        </child>
-                        <child type="overlay">
-                          <object class="GtkRevealer" id="statusbar_revealer">
-                            <property name="halign">end</property>
-                            <property name="valign">start</property>
-                            <property name="margin-start">24</property>
-                            <property name="margin-end">24</property>
-                            <property name="margin-top">24</property>
-                            <property name="hexpand">false</property>
-                            <property name="transition_type">crossfade</property>
-                            <property name="reveal-child">true</property>
-                            <child>
-                              <object class="GthViewerStatus" id="status">
-                                <property name="visible">false</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child type="overlay">
-                          <object class="GtkRevealer" id="mediabar_revealer">
-                            <property name="halign">fill</property>
-                            <property name="valign">end</property>
-                            <property name="margin-start">24</property>
-                            <property name="margin-end">24</property>
-                            <property name="margin-bottom">24</property>
-                            <property name="hexpand">false</property>
-                            <property name="transition_type">crossfade</property>
-                            <property name="reveal-child">true</property>
+                  <object class="GtkOverlay" id="viewer_container">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <child type="overlay">
+                      <object class="GtkRevealer" id="fullscreen_toolbar_revealer">
+                        <property name="halign">fill</property>
+                        <property name="valign">start</property>
+                        <property name="transition_type">crossfade</property>
+                        <property name="reveal-child">true</property>
+                      </object>
+                    </child>
+                    <child type="overlay">
+                      <object class="GtkRevealer" id="statusbar_revealer">
+                        <property name="halign">end</property>
+                        <property name="valign">start</property>
+                        <property name="margin-start">24</property>
+                        <property name="margin-end">24</property>
+                        <property name="margin-top">24</property>
+                        <property name="hexpand">false</property>
+                        <property name="transition_type">crossfade</property>
+                        <property name="reveal-child">true</property>
+                        <child>
+                          <object class="GthViewerStatus" id="status">
                             <property name="visible">false</property>
                           </object>
                         </child>
                       </object>
                     </child>
-                    <child>
-                      <object class="GtkPopoverMenu" id="context_menu">
-                        <property name="menu-model">file_menu</property>
-                        <property name="has-arrow">true</property>
-                        <property name="position">bottom</property>
-                        <style>
-                          <class name="deeper"/>
-                        </style>
+                    <child type="overlay">
+                      <object class="GtkRevealer" id="mediabar_revealer">
+                        <property name="halign">fill</property>
+                        <property name="valign">end</property>
+                        <property name="margin-start">24</property>
+                        <property name="margin-end">24</property>
+                        <property name="margin-bottom">24</property>
+                        <property name="hexpand">false</property>
+                        <property name="transition_type">crossfade</property>
+                        <property name="reveal-child">true</property>
+                        <property name="visible">false</property>
                       </object>
                     </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkPopoverMenu" id="context_menu">
+                    <property name="menu-model">file_menu</property>
+                    <property name="has-arrow">true</property>
+                    <property name="position">bottom</property>
+                    <style>
+                      <class name="deeper"/>
+                    </style>
                   </object>
                 </child>
               </object>

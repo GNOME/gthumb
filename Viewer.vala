@@ -11,6 +11,7 @@ public class Gth.Viewer : Gtk.Box {
 	public Gth.FileData current_file;
 	public FileViewer current_viewer = null;
 	public int position;
+	public int toasts = 0;
 
 	Gth.Job load_job = null;
 
@@ -346,7 +347,9 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		last_x = x;
 		last_y = y;
-		reveal_overlay_controls ();
+		if (toasts == 0) {
+			reveal_overlay_controls ();
+		}
 	}
 
 	bool on_scroll (Gtk.EventController controller, double dx, double dy) {
@@ -646,7 +649,6 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] public unowned Gtk.Overlay viewer_container;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Gtk.Box right_toolbar;
-	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gth.EditorSidebar editor_sidebar;
 	[GtkChild] public unowned Gth.ViewerStatus status;

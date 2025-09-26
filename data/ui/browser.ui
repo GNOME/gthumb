@@ -279,66 +279,62 @@
                 <property name="content">
                   <object class="AdwToolbarView">
                     <property name="content">
-                      <object class="AdwToastOverlay" id="toast_overlay">
+                      <object class="GtkStack" id="folder_stack">
+                        <property name="vexpand">true</property>
                         <child>
-                          <object class="GtkStack" id="folder_stack">
-                            <property name="vexpand">true</property>
+                          <object class="GtkBox" id="non_empty_folder">
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkBox" id="non_empty_folder">
-                                <property name="orientation">vertical</property>
+                              <object class="GtkScrolledWindow">
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <style>
+                                  <class name="undershoot-top"/>
+                                  <class name="undershoot-bottom"/>
+                                </style>
                                 <child>
-                                  <object class="GtkScrolledWindow">
-                                    <property name="hexpand">true</property>
-                                    <property name="vexpand">true</property>
+                                  <object class="GtkGridView" id="file_grid">
+                                    <property name="enable_rubberband">true</property>
+                                    <property name="max_columns">15</property>
+                                    <property name="vscroll_policy">minimum</property>
                                     <style>
-                                      <class name="undershoot-top"/>
-                                      <class name="undershoot-bottom"/>
+                                      <class name="thumbnail-grid"/>
                                     </style>
-                                    <child>
-                                      <object class="GtkGridView" id="file_grid">
-                                        <property name="enable_rubberband">true</property>
-                                        <property name="max_columns">15</property>
-                                        <property name="vscroll_policy">minimum</property>
-                                        <style>
-                                          <class name="thumbnail-grid"/>
-                                        </style>
-                                        <signal name="activate" handler="on_file_activate"/>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkPopoverMenu" id="file_context_menu">
-                                    <property name="menu-model">file_menu</property>
-                                    <property name="has-arrow">true</property>
-                                    <property name="position">bottom</property>
-                                    <style>
-                                      <class name="deeper"/>
-                                    </style>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkPopoverMenu" id="context_menu">
-                                    <property name="menu-model">current_folder_menu</property>
-                                    <property name="has-arrow">true</property>
-                                    <property name="position">bottom</property>
-                                    <style>
-                                      <class name="deeper"/>
-                                    </style>
+                                    <signal name="activate" handler="on_file_activate"/>
                                   </object>
                                 </child>
                               </object>
                             </child>
                             <child>
-                              <object class="AdwStatusPage" id="empty_folder">
+                              <object class="GtkPopoverMenu" id="file_context_menu">
+                                <property name="menu-model">file_menu</property>
+                                <property name="has-arrow">true</property>
+                                <property name="position">bottom</property>
                                 <style>
-                                  <class name="view"/>
+                                  <class name="deeper"/>
                                 </style>
-                                <child>
-                                  <object class="GthFolderStatus" id="folder_status">
-                                    <property name="icon-name">folder-symbolic</property>
-                                  </object>
-                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkPopoverMenu" id="context_menu">
+                                <property name="menu-model">current_folder_menu</property>
+                                <property name="has-arrow">true</property>
+                                <property name="position">bottom</property>
+                                <style>
+                                  <class name="deeper"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwStatusPage" id="empty_folder">
+                            <style>
+                              <class name="view"/>
+                            </style>
+                            <child>
+                              <object class="GthFolderStatus" id="folder_status">
+                                <property name="icon-name">gth-content-loading-symbolic</property>
                               </object>
                             </child>
                           </object>

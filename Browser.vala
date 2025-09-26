@@ -1734,7 +1734,6 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Adw.StatusPage empty_folder;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
-	[GtkChild] public unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
 	//[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;

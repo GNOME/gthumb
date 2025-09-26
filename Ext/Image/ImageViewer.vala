@@ -589,8 +589,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		x = x.clamp (ZOOM_ADJ_MIN, ZOOM_ADJ_MAX);
 		adj.set_value (x);
 		SignalHandler.unblock (adj, zoom_adj_changed_id);
-
-		//window.viewer.reveal_overlay_controls ();
 	}
 
 	inline double adj_to_zoom (double x) {
