@@ -251,7 +251,7 @@ public class Gth.FolderTree : Gtk.Box {
 				});
 			}
 		}
-		select_current_folder ();
+		queue_select_current_folder ();
 	}
 
 	void collapse_folder_tree () {
@@ -332,12 +332,12 @@ public class Gth.FolderTree : Gtk.Box {
 		var next_parent = current_parents.peek_head ();
 		if (next_parent == null) {
 			//stdout.printf ("  next_parent: (null)\n");
-			select_current_folder ();
+			queue_select_current_folder ();
 		}
 		else if ((current_folder != null) && (current_folder.file.equal (next_parent))) {
 			//stdout.printf ("  next_parent == current_folder\n");
 			current_parents.pop_head ();
-			select_current_folder ();
+			queue_select_current_folder ();
 		}
 		else {
 			//stdout.printf ("  next_parent: '%s'\n", next_parent.get_uri ());
@@ -389,6 +389,18 @@ public class Gth.FolderTree : Gtk.Box {
 		if ((top_parent != null) && top_parent.equal (file_data.file)) {
 			expand_next_parent_for_current_folder ();
 		}
+	}
+
+	uint select_id = 0;
+
+	void queue_select_current_folder () {
+		if (select_id != 0) {
+			Source.remove (select_id);
+		}
+		select_id = Util.after_timeout (100, () => {
+			select_id = 0;
+			select_current_folder ();
+		});
 	}
 
 	void select_current_folder () {
@@ -574,6 +586,10 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	public void release_resources () {
+		if (select_id != 0) {
+			Source.remove (select_id);
+			select_id = 0;
+		}
 		watched_files.remove_all ();
 	}
 
