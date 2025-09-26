@@ -1,24 +1,24 @@
 public class Gth.FolderSelector : Object {
 	public async File? select_folder (Gtk.Window? parent, File? current_folder = null, Cancellable? cancellable = null) throws Error {
 		callback = select_folder.callback;
-		dialog = new FolderSelectorDialog (parent, current_folder);
+		dialog = new FolderSelectorDialog (current_folder);
 		dialog.selected.connect (() => {
 			result = dialog.selected_folder;
 			dialog.close ();
 		});
-		dialog.close_request.connect (() => {
+		dialog.closed.connect (() => {
 			if (callback != null) {
+				dialog.release_resources ();
 				Idle.add ((owned) callback);
 				callback = null;
 			}
-			return false;
 		});
 		if (cancellable != null) {
 			cancelled_event = cancellable.cancelled.connect (() => {
 				dialog.close ();
 			});
 		}
-		dialog.present ();
+		dialog.present (parent);
 		yield;
 		if (cancelled_event != 0) {
 			cancellable.disconnect (cancelled_event);
@@ -37,13 +37,11 @@ public class Gth.FolderSelector : Object {
 }
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/folder-selector-dialog.ui")]
-class Gth.FolderSelectorDialog : Adw.ApplicationWindow {
+class Gth.FolderSelectorDialog : Adw.Dialog {
 	public signal void selected ();
 	public File selected_folder;
 
-	public FolderSelectorDialog (Gtk.Window? _parent = null, File? _selected_folder = null) {
-		if (_parent != null)
-			transient_for = _parent;
+	public FolderSelectorDialog (File? _selected_folder = null) {
 		if (_selected_folder != null)
 			selected_folder = _selected_folder;
 		else
@@ -53,6 +51,10 @@ class Gth.FolderSelectorDialog : Adw.ApplicationWindow {
 			load_folder.begin (location, action);
 		});
 		folder_tree.load_folder.begin (selected_folder);
+	}
+
+	public void release_resources () {
+		folder_tree.release_resources ();
 	}
 
 	[GtkCallback]

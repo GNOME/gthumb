@@ -2,22 +2,20 @@ public class Gth.SearchEditor : Object {
 	public async Gth.Catalog? new_search (Gtk.Window? parent, File default_folder, Cancellable? cancellable = null) throws Error {
 		callback = new_search.callback;
 		dialog = new SearchDialog (default_folder);
-		dialog.transient_for = parent;
 		dialog.changed.connect (() => {
 			result = dialog.get_catalog ();
 			dialog.close ();
 		});
-		dialog.close_request.connect (() => {
+		dialog.closed.connect (() => {
 			if (callback != null) {
 				Idle.add ((owned) callback);
 				callback = null;
 			}
-			return false;
 		});
 		cancelled_event = cancellable.cancelled.connect (() => {
 			dialog.close ();
 		});
-		dialog.present ();
+		dialog.present (parent);
 		yield;
 		if (cancelled_event != 0) {
 			cancellable.disconnect (cancelled_event);
@@ -37,7 +35,7 @@ public class Gth.SearchEditor : Object {
 
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/search-dialog.ui")]
-class Gth.SearchDialog : Adw.ApplicationWindow {
+class Gth.SearchDialog : Adw.Dialog {
 	public signal void changed ();
 
 	public SearchDialog (File default_folder) {

@@ -1,24 +1,23 @@
 public class Gth.AppSelector : Object {
 	public async AppInfo? select_app (Gtk.Window? parent, GenericArray<Gth.FileData> files, Cancellable? cancellable = null) throws Error {
 		callback = select_app.callback;
-		dialog = new AppSelectorDialog (parent, files);
+		dialog = new AppSelectorDialog (files);
 		dialog.selected.connect (() => {
 			result = dialog.app_info;
 			dialog.close ();
 		});
-		dialog.close_request.connect (() => {
+		dialog.closed.connect (() => {
 			if (callback != null) {
 				Idle.add ((owned) callback);
 				callback = null;
 			}
-			return false;
 		});
 		if (cancellable != null) {
 			cancelled_event = cancellable.cancelled.connect (() => {
 				dialog.close ();
 			});
 		}
-		dialog.present ();
+		dialog.present (parent);
 		yield;
 		if (cancelled_event != 0) {
 			cancellable.disconnect (cancelled_event);
@@ -37,15 +36,11 @@ public class Gth.AppSelector : Object {
 }
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/app-selector-dialog.ui")]
-class Gth.AppSelectorDialog : Adw.ApplicationWindow {
+class Gth.AppSelectorDialog : Adw.Dialog {
 	public signal void selected ();
 	public AppInfo app_info;
 
-	public AppSelectorDialog (Gtk.Window? _parent, GenericArray<Gth.FileData> files) {
-		if (_parent != null) {
-			transient_for = _parent;
-		}
-
+	public AppSelectorDialog (GenericArray<Gth.FileData> files) {
 		var applications = new List<AppInfo>();
 		var content_types = new GenericSet<string>(str_hash, str_equal);
 		foreach (unowned var file in files) {

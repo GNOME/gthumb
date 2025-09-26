@@ -2,23 +2,21 @@ public class Gth.CatalogEditor : Object {
 	public async Gth.Catalog? edit_catalog (Gtk.Window? parent, File? file = null, Cancellable? cancellable = null) throws Error {
 		callback = edit_catalog.callback;
 		dialog = new CatalogDialog ();
-		dialog.transient_for = parent;
 		dialog.changed.connect (() => {
 			result = dialog.get_catalog ();
 			dialog.close ();
 		});
-		dialog.close_request.connect (() => {
+		dialog.closed.connect (() => {
 			if (callback != null) {
 				Idle.add ((owned) callback);
 				callback = null;
 			}
-			return false;
 		});
 		cancelled_event = cancellable.cancelled.connect (() => {
 			dialog.close ();
 		});
 		yield dialog.load_file (file, cancellable);
-		dialog.present ();
+		dialog.present (parent);
 		yield;
 		if (cancelled_event != 0) {
 			cancellable.disconnect (cancelled_event);
@@ -52,7 +50,7 @@ public class Gth.CatalogEditor : Object {
 
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/catalog-dialog.ui")]
-class Gth.CatalogDialog : Adw.ApplicationWindow {
+class Gth.CatalogDialog : Adw.Dialog {
 	public signal void changed ();
 
 	public async void load_file (File file, Cancellable cancellable) throws Error {

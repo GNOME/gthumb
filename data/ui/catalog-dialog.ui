@@ -2,9 +2,7 @@
 <interface>
   <template class="GthCatalogDialog">
     <property name="title" translatable="yes">Catalog</property>
-    <property name="default_width">700</property>
-    <property name="resizable">false</property>
-    <property name="modal">true</property>
+    <property name="content-width">700</property>
     <child>
       <object class="AdwToolbarView">
         <child type="top">
