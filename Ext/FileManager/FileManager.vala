@@ -272,11 +272,11 @@ class Gth.CopyOperation {
 			explicitly_requested.add (file);
 		}
 		var file_data_list = yield FileManager.query_list_info (files, attributes, job.cancellable);
-		int64 total_bytes = 0;
+		total_bytes = 0;
 		foreach (var file_data in file_data_list) {
-			total_bytes += file_data.info.get_size ();
+			total_bytes += (uint64) file_data.info.get_size ();
 		}
-		int64 copied_bytes = 0;
+		copied_bytes = 0;
 		total_files = files.model.get_n_items ();
 		current_file = 0;
 		var moved_directories = new GenericList<File>();
@@ -285,7 +285,7 @@ class Gth.CopyOperation {
 			if (explicitly_requested.contains (file_data.file)) {
 				source_base_dir = file_data.file.get_parent ();
 			}
-			job.progress = Util.calc_progress ((uint64) copied_bytes, (uint64) total_bytes);
+			job.progress = Util.calc_progress (copied_bytes, total_bytes);
 			job.subtitle = file_data.info.get_display_name ();
 			// Ignore already copied files. These are sidecars already copied with copy_file()
 			if (!copied_sources.contains (file_data.file)) {
@@ -324,7 +324,7 @@ class Gth.CopyOperation {
 					break;
 				}
 			}
-			copied_bytes += file_data.info.get_size ();
+			copied_bytes += (uint64) file_data.info.get_size ();
 			current_file++;
 		}
 
@@ -357,7 +357,7 @@ class Gth.CopyOperation {
 		}
 		var destination_file = yield copy_file_to_destination (source_file,
 			get_default_destination (source_file, destination_dir),
-			flags | CopyFlags.ALL_METADATA | other_flags,
+			flags | CopyFlags.ALL_METADATA | CopyFlags.UPDATE_PROGRESS | other_flags,
 			job);
 
 		if (destination_file == null) {
@@ -414,7 +414,7 @@ class Gth.CopyOperation {
 					copy_flags,
 					Priority.DEFAULT,
 					job.cancellable,
-					null
+					(file_current_bytes, file_total_bytes) => update_file_progress (job, flags, file_current_bytes)
 				);
 			}
 			else {
@@ -422,7 +422,7 @@ class Gth.CopyOperation {
 					copy_flags,
 					Priority.DEFAULT,
 					job.cancellable,
-					null
+					(file_current_bytes, file_total_bytes) => update_file_progress (job, flags, file_current_bytes)
 				);
 			}
 		}
@@ -479,10 +479,18 @@ class Gth.CopyOperation {
 		return saved_as;
 	}
 
+	void update_file_progress (Job job, CopyFlags flags, int64 file_current_bytes) {
+		if (CopyFlags.UPDATE_PROGRESS in flags) {
+			job.progress = Util.calc_progress (copied_bytes + (uint64) file_current_bytes, total_bytes);
+		}
+	}
+
 	weak Window window;
 	File last_made_destination;
 	uint total_files;
 	uint current_file;
+	uint64 total_bytes;
+	uint64 copied_bytes;
 	OverwriteResponse last_overwrite_response;
 	GenericSet<File> copied_sources;
 }
@@ -497,6 +505,7 @@ public enum Gth.CopyFlags {
 	MOVE,
 	DUPLICATE,
 	ALL_METADATA,
+	UPDATE_PROGRESS,
 }
 
 
