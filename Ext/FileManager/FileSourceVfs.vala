@@ -119,7 +119,7 @@ public class Gth.FileSourceVfs : FileSource {
 	}
 
 	public override void monitor_directory (File file, bool activate) {
-		// TODO
+		app.monitor.watch_file (file, activate);
 	}
 
 	public override async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error {

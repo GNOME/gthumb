@@ -47,121 +47,6 @@ public class Gth.FolderTree : Gtk.Box {
 
 	const string FOLDER_ATTRIBUTES = STANDARD_ATTRIBUTES + "," + FileAttribute.STANDARD_SYMBOLIC_ICON;
 
-	construct {
-		current_root = null;
-		current_folder = null;
-		current_children = new GenericList<FileData>();
-		roots = new GenericList<FileData>();
-		show_hidden = false;
-		sort = { null, false };
-		list_attributes = FOLDER_ATTRIBUTES;
-		load_job = null;
-		current_parents = new Queue<File>();
-		current_folder_as_root = false;
-
-		tree_model = new Gtk.TreeListModel (roots.model, false, false, (obj) => {
-			var file_data = obj as Gth.FileData;
-			if (file_data != null) {
-				return file_data.get_children_model ().model;
-			}
-			return null;
-		});
-
-		tree_selection_model = new Gtk.SingleSelection (tree_model);
-		tree_selection_model.autoselect = false;
-		tree_selection_model.notify["selected"].connect ((obj, _param) => {
-			if (context_menu_visible) {
-				return;
-			}
-			if (!current_parents.is_empty ()) {
-				// Ignore selection changes when still building the tree.
-				return;
-			}
-			var local_model = obj as Gtk.SingleSelection;
-			var row = tree_selection_model.selected_item as Gtk.TreeListRow;
-			if (row != null) {
-				var file_data = row.item as Gth.FileData;
-				if (!FileData.equal (file_data, current_folder)) {
-					load_subfolder (file_data.file);
-					row.expanded = true;
-				}
-				else {
-					row.expanded = true;
-				}
-			}
-		});
-
-		var factory = new Gtk.SignalListItemFactory ();
-		factory.setup.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FolderTreeItem (this);
-		});
-		factory.teardown.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			list_item.child = null;
-		});
-		factory.bind.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			var file_item = list_item.child as Gth.FolderTreeItem;
-			if (file_item != null) {
-				var row = list_item.item as Gtk.TreeListRow;
-				if (row != null) {
-					var file_data = row.item as Gth.FileData;
-					if (file_data != null) {
-						file_item.bind (row, file_data);
-					}
-				}
-			}
-		});
-		factory.unbind.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			var file_item = list_item.child as Gth.FolderTreeItem;
-			if (file_item != null) {
-				file_item.unbind ();
-			}
-		});
-
-		var scrolled_window = new Gtk.ScrolledWindow ();
-		scrolled_window.add_css_class ("undershoot-top");
-		scrolled_window.add_css_class ("undershoot-bottom");
-		if (!sidebar) {
-			scrolled_window.add_css_class ("frame");
-		}
-		scrolled_window.vexpand = true;
-		append (scrolled_window);
-
-		view = new Gtk.ListView (tree_selection_model, factory);
-		if (sidebar) {
-			view.add_css_class ("navigation-sidebar");
-		}
-		view.hexpand = true;
-		view.activate.connect ((position) => {
-			var row = tree_model.get_row (position);
-			if (row != null) {
-				var file_data = row.item as Gth.FileData;
-				if (file_data != null) {
-					load (file_data.file, LoadAction.OPEN_AS_ROOT);
-				}
-			}
-		});
-		scrolled_window.set_child (view);
-
-		context_menu = new Gtk.PopoverMenu.from_model (menu_model);
-		context_menu.has_arrow = true;
-		context_menu.position = Gtk.PositionType.BOTTOM;
-		context_menu.add_css_class ("deeper");
-		context_menu.closed.connect (() => {
-			if (selected_before_context_menu != -1) {
-				tree_selection_model.set_selected (selected_before_context_menu);
-				selected_before_context_menu = -1;
-			}
-			context_menu_visible = false;
-		});
-		append (context_menu);
-
-		context_file = null;
-	}
-
 	public void reload () {
 		if (current_folder == null)
 			return;
@@ -196,6 +81,8 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		current_folder_as_root = next_folder_as_root;
+
+		var previous_folder = current_folder;
 
 		if (load_action.changes_current_folder ()) {
 			current_parents.clear ();
@@ -289,6 +176,10 @@ public class Gth.FolderTree : Gtk.Box {
 				update_folder_tree ();
 			}
 			if (load_action.changes_current_folder ()) {
+				if (previous_folder != null) {
+					watched_files.remove (previous_folder.file);
+				}
+				watched_files.add (current_folder.file);
 				expand_tree_to_current_folder ();
 			}
 		}
@@ -396,8 +287,18 @@ public class Gth.FolderTree : Gtk.Box {
 		return file_data.file;
 	}
 
+	public void watch_directory (FileData file_data, bool watch) {
+		if (watch) {
+			watched_files.add (file_data.file);
+		}
+		else {
+			watched_files.remove (file_data.file);
+		}
+	}
+
 	void update_folder_tree () {
 		roots.model.remove_all ();
+		watched_files.remove_all ();
 		if (current_folder_as_root || single_root) {
 			if (current_root != null) {
 				roots.model.append (current_root);
@@ -547,6 +448,141 @@ public class Gth.FolderTree : Gtk.Box {
 		tree_selection_model.set_selected (position);
 	}
 
+	construct {
+		current_root = null;
+		current_folder = null;
+		current_children = new GenericList<FileData>();
+		roots = new GenericList<FileData>();
+		show_hidden = false;
+		sort = { null, false };
+		list_attributes = FOLDER_ATTRIBUTES;
+		load_job = null;
+		current_parents = new Queue<File>();
+		current_folder_as_root = false;
+
+		tree_model = new Gtk.TreeListModel (roots.model, false, false, (obj) => {
+			var file_data = obj as Gth.FileData;
+			if (file_data != null) {
+				return file_data.get_children_model ().model;
+			}
+			return null;
+		});
+
+		tree_selection_model = new Gtk.SingleSelection (tree_model);
+		tree_selection_model.autoselect = false;
+		tree_selection_model.notify["selected"].connect ((obj, _param) => {
+			if (context_menu_visible) {
+				return;
+			}
+			if (!current_parents.is_empty ()) {
+				// Ignore selection changes when still building the tree.
+				return;
+			}
+			var local_model = obj as Gtk.SingleSelection;
+			var row = tree_selection_model.selected_item as Gtk.TreeListRow;
+			if (row != null) {
+				var file_data = row.item as Gth.FileData;
+				if (!FileData.equal (file_data, current_folder)) {
+					load_subfolder (file_data.file);
+					row.expanded = true;
+				}
+				else {
+					row.expanded = true;
+				}
+			}
+		});
+
+		var factory = new Gtk.SignalListItemFactory ();
+		factory.setup.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = new Gth.FolderTreeItem (this);
+		});
+		factory.teardown.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			list_item.child = null;
+		});
+		factory.bind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FolderTreeItem;
+			if (file_item != null) {
+				var row = list_item.item as Gtk.TreeListRow;
+				if (row != null) {
+					var file_data = row.item as Gth.FileData;
+					if (file_data != null) {
+						file_item.bind (row, file_data);
+					}
+				}
+			}
+		});
+		factory.unbind.connect ((obj) => {
+			var list_item = obj as Gtk.ListItem;
+			var file_item = list_item.child as Gth.FolderTreeItem;
+			if (file_item != null) {
+				file_item.unbind ();
+			}
+		});
+
+		var scrolled_window = new Gtk.ScrolledWindow ();
+		scrolled_window.add_css_class ("undershoot-top");
+		scrolled_window.add_css_class ("undershoot-bottom");
+		if (!sidebar) {
+			scrolled_window.add_css_class ("frame");
+		}
+		scrolled_window.vexpand = true;
+		append (scrolled_window);
+
+		view = new Gtk.ListView (tree_selection_model, factory);
+		if (sidebar) {
+			view.add_css_class ("navigation-sidebar");
+		}
+		view.hexpand = true;
+		view.activate.connect ((position) => {
+			var row = tree_model.get_row (position);
+			if (row != null) {
+				var file_data = row.item as Gth.FileData;
+				if (file_data != null) {
+					load (file_data.file, LoadAction.OPEN_AS_ROOT);
+				}
+			}
+		});
+		scrolled_window.set_child (view);
+
+		context_menu = new Gtk.PopoverMenu.from_model (menu_model);
+		context_menu.has_arrow = true;
+		context_menu.position = Gtk.PositionType.BOTTOM;
+		context_menu.add_css_class ("deeper");
+		context_menu.closed.connect (() => {
+			if (selected_before_context_menu != -1) {
+				tree_selection_model.set_selected (selected_before_context_menu);
+				selected_before_context_menu = -1;
+			}
+			context_menu_visible = false;
+		});
+		append (context_menu);
+
+		context_file = null;
+
+		watched_files = new FileSet ();
+		watched_files.added.connect ((file) => {
+			var source = app.get_source_for_file (file);
+			source.monitor_directory (file, true);
+		});
+		watched_files.removed.connect ((file) => {
+			var source = app.get_source_for_file (file);
+			source.monitor_directory (file, false);
+		});
+	}
+
+	public void release_resources () {
+		watched_files.remove_all ();
+	}
+
+	~FolderTree () {
+		stdout.printf ("~FolderTree\n");
+		release_resources ();
+	}
+
 	int selected_before_context_menu = -1;
 	bool context_menu_visible;
+	FileSet watched_files;
 }

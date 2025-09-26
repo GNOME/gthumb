@@ -51,7 +51,7 @@ public class Gth.UpdateSearch {
 
 		search.clear_files ();
 		yield search.save_async (job.cancellable);
-		app.monitor.file_changed (search.file, Monitor.Event.CREATED);
+		app.monitor.file_created (search.file);
 
 		// Open the catalog.
 

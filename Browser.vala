@@ -146,7 +146,6 @@ public class Gth.Browser : Gtk.Box {
 			last_folder = folder_tree.current_folder.file;
 			folder_tree.menu_model = folder_menu;
 		}
-		// TODO source.monitor_directory (current_folder.file, true);
 		update_selection_info ();
 		update_location_menu ();
 		if (load_action != LoadAction.OPEN_FROM_HISTORY) {
@@ -1291,7 +1290,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void release_resources () {
-		// signals.disconnect_all ();
+		folder_tree.release_resources ();
 	}
 
 	public void save_preferences (bool page_visible) {

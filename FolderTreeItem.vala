@@ -59,6 +59,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 			if (expander.list_row.expanded) {
 				job = folder_tree.list_subfolders (file_data);
 			}
+			folder_tree.watch_directory (file_data, expander.list_row.expanded);
 		});
 		file_renamed_id = file_data.renamed.connect (() => {
 			label.set_text (file_data.info.get_display_name ());

@@ -1,6 +1,14 @@
 public class Gth.Files {
 	static File home = null;
 
+	public static bool equal (File file1, File file2) {
+		return file1.equal (file2);
+	}
+
+	public static uint hash (File file) {
+		return file.hash ();
+	}
+
 	public static File get_home () {
 		if (home == null) {
 			home = File.new_for_path (Environment.get_home_dir ());

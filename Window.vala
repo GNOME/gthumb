@@ -817,6 +817,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		stack.add_controller (key_events);
 	}
 
+	~Window () {
+		stdout.printf ("~Window\n");
+	}
+
 	uint fake_job_id = 0;
 	DesktopBackground desktop_background = null;
 	ActionCategory tool_actions_category;
