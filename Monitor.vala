@@ -18,7 +18,11 @@ public class Gth.Monitor : Object {
 		app.foreach_window ((win) => win.metadata_changed (file_data));
 	}
 
-	public signal void file_changed (File file);
+	public signal void file_changed (File file) {
+		app.foreach_window ((win) => {
+			win.browser.file_changed (file);
+		});
+	}
 
 	public signal void files_deleted (GenericList<File> files) {
 		app.foreach_window ((win) => {
@@ -68,6 +72,15 @@ public class Gth.Monitor : Object {
 		}
 	}
 
+	bool remove_file (GenericArray<File> files, File file) {
+		uint pos;
+		if (!files.find_with_equal_func (file, Files.equal, out pos)) {
+			return false;
+		}
+		files.remove_index (pos);
+		return true;
+	}
+
 	void on_file_changed (File file, File? other_file, FileMonitorEvent event_type) {
 		switch (event_type) {
 		case FileMonitorEvent.DELETED, FileMonitorEvent.UNMOUNTED:
@@ -85,19 +98,21 @@ public class Gth.Monitor : Object {
 			break;
 		}
 
+		stdout.printf ("> MONITOR: %s: %s\n", event_type.to_string (), file.get_uri ());
+
 		if (event_type == FileMonitorEvent.CREATED) {
-			if (deleted_files.remove (file)) {
+			if (remove_file (deleted_files, file)) {
 				event_type = FileMonitorEvent.CHANGED;
 			}
 		}
 		else if (event_type == FileMonitorEvent.DELETED) {
-			created_files.remove (file);
-			changed_files.remove (file);
+			remove_file (created_files, file);
+			remove_file (changed_files, file);
 		}
 		else if (event_type == FileMonitorEvent.CHANGED) {
 			if (created_files.find_with_equal_func (file, Files.equal))
 				return;
-			changed_files.remove (file);
+			remove_file (changed_files, file);
 		}
 
 		switch (event_type) {
@@ -117,11 +132,13 @@ public class Gth.Monitor : Object {
 		if (update_id != 0) {
 			Source.remove (update_id);
 		}
-		update_id = Util.after_timeout (500, () => {
+		update_id = Util.after_timeout (PROCESS_DELAY, () => {
 			update_id = 0;
 			process_events ();
 		});
 	}
+
+	const uint PROCESS_DELAY = 1500;
 
 	void process_events () {
 		var local_changed = new GenericArray<File>();

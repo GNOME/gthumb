@@ -106,7 +106,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	async void add_files (GenericList<File> files) {
-		freeze_thumbnail_list ();
 		var attributes = get_list_attributes ();
 		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
 			JobFlags.FOREGROUND,
@@ -124,7 +123,9 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 		local_job.done ();
-		thaw_thumbnail_list ();
+		file_filter.after_adding_files ();
+		//update_total_files ();
+		//thumbnailer.queue_load_next ();
 	}
 
 	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
@@ -314,11 +315,9 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		// Attributes required by the filter.
-		if (file_filter.filter != null) {
-			if (file_filter.filter.has_attributes ()) {
-				attributes.append (",");
-				attributes.append (file_filter.filter.attributes);
-			}
+		if (file_filter.filter.has_attributes ()) {
+			attributes.append (",");
+			attributes.append (file_filter.filter.attributes);
 		}
 
 		// Attributes required for sorting.
@@ -1396,8 +1395,8 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		folder_tree.current_children.model.append (file_data);
-		file_filter.reset ();
-		if ((file_filter.filter != null) && !file_filter.filter.match (file_data)) {
+		file_filter.after_adding_files ();
+		if (!file_filter.filter.match (file_data)) {
 			return;
 		}
 
@@ -1451,9 +1450,11 @@ public class Gth.Browser : Gtk.Box {
 		}
 		var new_files = new GenericList<File>();
 		foreach (unowned var file in files) {
+			stdout.printf ("> BROWSER: FILE CREATED: %s\n", file.get_uri ());
 			var iter = folder_tree.current_children.iterator ();
 			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 			if (pos < 0) {
+				stdout.printf ("> BROWSER: APPEND\n");
 				new_files.model.append (file);
 			}
 		}
@@ -1462,8 +1463,40 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	async void update_file (FileData file_data) {
+		var attributes = get_list_attributes ();
+		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"folder-symbolic");
+		try {
+			var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
+			file_data.update_info (info);
+			file_data.thumbnail_state = ThumbnailState.ICON;
+			file_filter.after_adding_files ();
+			if (file_filter.filter.match (file_data)) {
+				thumbnailer.add (file_data);
+			}
+		}
+		finally {
+			local_job.done ();
+			update_total_files ();
+		}
+	}
+
+	public void file_changed (File file) {
+		stdout.printf ("> BROWSER: FILE CHANGED: %s\n", file.get_uri ());
+		var iter = folder_tree.current_children.iterator ();
+		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
+		if (file_data != null) {
+			stdout.printf ("> BROWSER: UPDATE FILE\n");
+			update_file.begin (file_data);
+		}
+	}
+
 	public void files_deleted (GenericList<File> files) {
+		var removed_files = 0;
 		foreach (unowned var file in files) {
+			//stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
 			// Current folder
 			if ((folder_tree.current_folder != null)
 				&& (folder_tree.current_folder.file.equal (file)
@@ -1486,6 +1519,7 @@ public class Gth.Browser : Gtk.Box {
 			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 			if (pos >= 0) {
 				folder_tree.current_children.model.remove ((uint) pos);
+				removed_files++;
 			}
 
 			// Folders from the folder tree.
@@ -1511,6 +1545,9 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 
+		if (removed_files > 0) {
+			file_filter.after_removing_files ();
+		}
 		update_total_files ();
 	}
 
@@ -1820,7 +1857,7 @@ public class Gth.FileFilter : Gtk.Filter {
 	public Gth.Filter filter;
 
 	public FileFilter (Browser _browser) {
-		filter = null;
+		filter = new Gth.Filter ();
 		browser = _browser;
 		visible = new GenericSet<File> (Util.file_hash, Util.file_equal);
 	}
@@ -1833,14 +1870,32 @@ public class Gth.FileFilter : Gtk.Filter {
 		reset ();
 	}
 
-	public void reset () {
+	public void reset (Gtk.FilterChange filter_change = Gtk.FilterChange.DIFFERENT) {
 		visible.remove_all ();
 		var iter = filter.iterator (browser.folder_tree.current_children);
 		while (iter.next ()) {
 			unowned var file_data = iter.get ();
 			visible.add (file_data.file);
 		}
-		changed (Gtk.FilterChange.DIFFERENT);
+		changed (filter_change);
+	}
+
+	public void after_adding_files () {
+		if (filter.limit_type == Filter.LimitType.NONE) {
+			reset (Gtk.FilterChange.LESS_STRICT);
+		}
+		else {
+			reset ();
+		}
+	}
+
+	public void after_removing_files () {
+		if (filter.limit_type == Filter.LimitType.NONE) {
+			reset (Gtk.FilterChange.MORE_STRICT);
+		}
+		else {
+			reset ();
+		}
 	}
 
 	public override bool match (Object? item) {

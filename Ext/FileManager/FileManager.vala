@@ -407,7 +407,7 @@ class Gth.CopyOperation {
 				copy_flags |= FileCopyFlags.OVERWRITE;
 			}
 			if (CopyFlags.ALL_METADATA in flags) {
-				copy_flags |= FileCopyFlags.ALL_METADATA;
+				copy_flags |= FileCopyFlags.ALL_METADATA | FileCopyFlags.TARGET_DEFAULT_MODIFIED_TIME;
 			}
 			if (CopyFlags.MOVE in flags) {
 				yield source_file.move_async (destination_file,

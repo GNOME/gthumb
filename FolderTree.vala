@@ -82,7 +82,9 @@ public class Gth.FolderTree : Gtk.Box {
 
 		current_folder_as_root = next_folder_as_root;
 
-		var previous_folder = current_folder;
+		if (current_folder != null) {
+			watched_files.remove (current_folder.file);
+		}
 
 		if (load_action.changes_current_folder ()) {
 			current_parents.clear ();
@@ -176,9 +178,6 @@ public class Gth.FolderTree : Gtk.Box {
 				update_folder_tree ();
 			}
 			if (load_action.changes_current_folder ()) {
-				if (previous_folder != null) {
-					watched_files.remove (previous_folder.file);
-				}
 				watched_files.add (current_folder.file);
 				expand_tree_to_current_folder ();
 			}
@@ -186,6 +185,12 @@ public class Gth.FolderTree : Gtk.Box {
 		catch (Error error) {
 			stdout.printf ("ERROR: %s\n", error.message);
 			local_job.error = error;
+			// Watch again the current folder.
+			if (load_action.changes_current_folder ()) {
+				if (current_folder != null) {
+					watched_files.add (current_folder.file);
+				}
+			}
 		}
 		if (job_is_local) {
 			local_job.done ();

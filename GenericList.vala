@@ -135,6 +135,15 @@ public class Gth.ListIterator<T> {
 		return -1;
 	}
 
+	public T? find_first_item (MatchGenericItemFunc<T> match_func) {
+		while (next ()) {
+			if (match_func (item)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
 	public int find_first (MatchGenericItemFunc<T> match_func) {
 		while (next ()) {
 			if (match_func (item)) {
