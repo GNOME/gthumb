@@ -408,11 +408,21 @@ public class Gth.FolderTree : Gtk.Box {
 		});
 	}
 
+	public bool select_position (int position) {
+		if ((position < 0) || (position >= tree_model.n_items)) {
+			return false;
+		}
+		view.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
+		return true;
+	}
+
 	void select_current_folder () {
 		if (current_folder == null)
 			return;
 		int position;
-		get_file_row (current_folder.file, out position);
+		if (get_file_row (current_folder.file, out position) == null) {
+			return;
+		}
 		//stdout.printf ("CURRENT FOLDER POS: %d\n", position);
 		if (position >= 0) {
 			view.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);

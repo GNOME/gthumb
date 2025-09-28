@@ -74,6 +74,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		image_view.add_controller (motion_events);
 
+		var key_events = new Gtk.EventControllerKey ();
+		key_events.key_pressed.connect (window.on_key_pressed);
+		image_view.add_controller (key_events);
+
 		init_actions ();
 	}
 
@@ -405,6 +409,18 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("zoom-in-fast", null);
+		action.activate.connect ((_action, param) => {
+			zoom_adjustment.value += zoom_adjustment.page_increment;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-out-fast", null);
+		action.activate.connect ((_action, param) => {
+			zoom_adjustment.value -= zoom_adjustment.page_increment;
+		});
+		action_group.add_action (action);
+
 		action = new SimpleAction.stateful ("set-transparency", VariantType.STRING, new Variant.string (image_view.transparency.get_state ()));
 		action.activate.connect ((action, param) => {
 			unowned var value = param.get_string ();
@@ -468,6 +484,60 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			edit_image.begin (_("Rotate Left"), (image, cancellable) => {
 				return image.apply_transform (Gth.Transform.ROTATE_270, cancellable);
 			});
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-left", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (-image_view.hadjustment.step_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-right", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (image_view.hadjustment.step_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-up", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (0, -image_view.vadjustment.step_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-down", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (0, image_view.vadjustment.step_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-left", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (-image_view.hadjustment.page_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-right", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (image_view.hadjustment.page_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-up", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (0, -image_view.vadjustment.page_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-down", null);
+		action.activate.connect (() => {
+			image_view.scroll_by (0, image_view.vadjustment.page_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("recenter", null);
+		action.activate.connect (() => {
+			image_view.recenter ();
 		});
 		action_group.add_action (action);
 	}

@@ -145,7 +145,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 			stack.set_visible_child (viewer);
 			viewer.update_title ();
 			viewer.focus_viewer ();
-			//stack.grab_focus ();
 			break;
 		case Page.NONE:
 			break;
@@ -733,13 +732,36 @@ public class Gth.Window : Adw.ApplicationWindow {
 			close ();
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("main-menu", null);
+		action.activate.connect (() => {
+			if (current_page == Page.BROWSER) {
+				browser.app_menu_button.popup ();
+			}
+			else if (current_page == Page.VIEWER) {
+				viewer.app_menu_button.popup ();
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scripts", null);
+		action.activate.connect (() => {
+			if (current_page == Page.BROWSER) {
+				browser.scripts_menu_button.popup ();
+			}
+			else if (current_page == Page.VIEWER) {
+				viewer.scripts_menu_button.popup ();
+			}
+		});
+		action_group.add_action (action);
 	}
 
-	bool on_key_pressed (Gtk.EventControllerKey controller, uint keyval, uint keycode, Gdk.ModifierType state) {
+	public bool on_key_pressed (Gtk.EventControllerKey controller, uint keyval, uint keycode, Gdk.ModifierType state) {
 		var focused = get_focus ();
 		if (focused is Gtk.Editable) {
 			return false;
 		}
+		//stdout.printf ("> OK KEY PRESSED\n");
 		var context = ShortcutContext.NONE;
 		if (current_page == Page.BROWSER) {
 			context |= ShortcutContext.BROWSER;
@@ -752,9 +774,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if ((shortcut == null)
 			|| (ShortcutContext.DOC in shortcut.context))
 		{
+			//stdout.printf ("> NULL\n");
 			return false;
 		}
-		stdout.printf ("> shortcut: '%s'\n", shortcut.detailed_action);
+		//stdout.printf ("> shortcut: '%s'\n", shortcut.detailed_action);
 		activate_action_variant (shortcut.action_name, shortcut.action_parameter);
 		return true;
 	}

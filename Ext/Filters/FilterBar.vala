@@ -4,6 +4,12 @@ public class Gth.FilterBar : Gtk.Box {
 
 	public signal void changed ();
 
+	public void reset_filter () {
+		if (select_filter_by_id ("")) {
+			changed ();
+		}
+	}
+
 	construct {
 		// Actions
 
@@ -20,11 +26,7 @@ public class Gth.FilterBar : Gtk.Box {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("reset-filter", null);
-		action.activate.connect ((_action, param) => {
-			if (select_filter_by_id ("")) {
-				changed ();
-			}
-		});
+		action.activate.connect ((_action, param) => reset_filter ());
 		action_group.add_action (action);
 
 		// Menu
@@ -178,7 +180,7 @@ public class Gth.FilterBar : Gtk.Box {
 		}
 
 		action_group.change_action_state ("set-filter", new Variant.string (filter.id));
-		reset_filter.visible = (filter.id != "");
+		reset_filter_button.visible = (filter.id != "");
 
 		return true;
 	}
@@ -216,7 +218,7 @@ public class Gth.FilterBar : Gtk.Box {
 	[GtkChild] unowned Gtk.MenuButton filter_selector;
 	[GtkChild] unowned Gtk.Box options_container;
 	[GtkChild] unowned Gtk.Label filter_label;
-	[GtkChild] unowned Gtk.Button reset_filter;
+	[GtkChild] unowned Gtk.Button reset_filter_button;
 	Menu filter_submenu;
 	GenericList<Gth.Test> visible_filters;
 	SimpleActionGroup action_group;

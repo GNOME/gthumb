@@ -22,7 +22,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">Show _Hidden Files</attribute>
-        <attribute name="action">win.show-hidden-files</attribute>
+        <attribute name="action">win.hidden-files</attribute>
       </item>
     </section>
     <section>

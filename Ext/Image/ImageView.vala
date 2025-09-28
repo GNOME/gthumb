@@ -214,8 +214,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		return transparency_pattern;
 	}
 
-	public void scroll_by (float dx, float dy) {
-		set_scroll_offset (_zoom, viewport.origin.x + dx, viewport.origin.y + dy);
+	public void scroll_by (double dx, double dy) {
+		set_scroll_offset (_zoom, viewport.origin.x + (float) dx, viewport.origin.y + (float) dy);
 		update_texture_box ();
 		update_image_box ();
 		queue_draw ();
@@ -265,6 +265,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			break;
 		}
 		return new_zoom;
+	}
+
+	public void recenter () {
+		recenter_image ();
+		queue_resize ();
 	}
 
 	void recenter_image () {
@@ -413,13 +418,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	const double STEP_INCREMENT = 0.1;
+	const double PAGE_INCREMENT = 0.5;
+
 	void update_adjustments () {
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 		if (_vadjustment != null) {
 			_vadjustment.freeze_notify ();
 			_vadjustment.set_lower (0);
-			if (zoomed_height > viewport.size.height) {
+			if (zoomed_height - viewport.size.height >= 1) {
 				_vadjustment.set_upper (zoomed_height);
 				_vadjustment.set_page_size (viewport.size.height);
 			}
@@ -427,13 +435,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				_vadjustment.set_upper (zoomed_height);
 				_vadjustment.set_page_size (zoomed_height);
 			}
+			_vadjustment.set_step_increment (_vadjustment.page_size * STEP_INCREMENT);
+			_vadjustment.set_page_increment (_vadjustment.page_size * PAGE_INCREMENT);
 			_vadjustment.set_value (viewport.origin.y);
 			_vadjustment.thaw_notify ();
 		}
 		if (_hadjustment != null) {
 			_hadjustment.freeze_notify ();
 			_hadjustment.set_lower (0);
-			if (zoomed_width > viewport.size.width) {
+			if (zoomed_width - viewport.size.width > 1) {
 				_hadjustment.set_upper (zoomed_width);
 				_hadjustment.set_page_size (viewport.size.width);
 			}
@@ -441,6 +451,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				_hadjustment.set_upper (zoomed_width);
 				_hadjustment.set_page_size (zoomed_width);
 			}
+			_hadjustment.set_step_increment (_hadjustment.page_size * STEP_INCREMENT);
+			_hadjustment.set_page_increment (_hadjustment.page_size * PAGE_INCREMENT);
 			_hadjustment.set_value (viewport.origin.x);
 			_hadjustment.thaw_notify ();
 		}

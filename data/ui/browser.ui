@@ -162,7 +162,7 @@
                     <child>
                       <object class="GtkToggleButton">
                         <property name="icon-name">folder-visiting-symbolic</property>
-                        <property name="action-name">win.show-browser-sidebar</property>
+                        <property name="action-name">win.browser-sidebar</property>
                         <property name="visible">false</property>
                       </object>
                     </child>
@@ -233,7 +233,7 @@
                       </object>
                     </child-->
                     <child>
-                      <object class="GtkMenuButton">
+                      <object class="GtkMenuButton" id="scripts_menu_button">
                         <property name="icon-name">gth-script-symbolic</property>
                         <property name="tooltip-text" translatable="true">Tools</property>
                         <property name="popover">

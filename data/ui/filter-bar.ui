@@ -20,7 +20,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkButton" id="reset_filter">
+      <object class="GtkButton" id="reset_filter_button">
         <property name="action-name">filterbar.reset-filter</property>
         <property name="icon-name">window-close-symbolic</property>
         <style>

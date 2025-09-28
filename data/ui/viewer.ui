@@ -62,7 +62,7 @@
                     </object>
                   </child>
                   <child>
-                    <object class="GtkMenuButton">
+                    <object class="GtkMenuButton" id="scripts_menu_button">
                       <property name="icon-name">gth-script-symbolic</property>
                       <property name="tooltip-text" translatable="true">Tools</property>
                       <property name="popover">

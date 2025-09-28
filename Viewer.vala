@@ -219,6 +219,7 @@ public class Gth.Viewer : Gtk.Box {
 		load_file.begin (file, flags, (_obj, res) => {
 			try {
 				load_file.end (res);
+				focus_viewer ();
 			}
 			catch (Error error) {
 				window.show_error (error);
@@ -470,7 +471,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public void reveal_overlay_controls (bool reveal = true) {
+	public void reveal_overlay_controls (bool reveal = true, bool hide_after_timeout = true) {
 		if (fullscreen_toolbar_revealer.child != null) {
 			fullscreen_toolbar_revealer.reveal_child = reveal;
 		}
@@ -482,7 +483,7 @@ public class Gth.Viewer : Gtk.Box {
 		if (window.fullscreened) {
 			cursor = reveal ? null : new Gdk.Cursor.from_name ("none", null);
 		}
-		if (reveal) {
+		if (reveal && hide_after_timeout) {
 			hide_overlay_after_timeout ();
 		}
 	}
@@ -636,6 +637,12 @@ public class Gth.Viewer : Gtk.Box {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("viewer-controls", null);
+		action.activate.connect ((_action, param) => {
+			reveal_overlay_controls (!statusbar_revealer.reveal_child, false);
+		});
+		action_group.add_action (action);
 	}
 
 	construct {
@@ -645,7 +652,8 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
-	[GtkChild] unowned Gtk.MenuButton app_menu_button;
+	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
+	[GtkChild] public unowned Gtk.MenuButton scripts_menu_button;
 	[GtkChild] public unowned Gtk.Overlay viewer_container;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Gtk.Box right_toolbar;

@@ -67,7 +67,7 @@ public class Gth.Browser : Gtk.Box {
 		filter_bar.changed.connect (() => update_active_filter ());
 
 		main_view.notify["show-sidebar"].connect (() => {
-			window.action_group.change_action_state ("show-browser-sidebar", new Variant.boolean (main_view.show_sidebar));
+			window.action_group.change_action_state ("browser-sidebar", new Variant.boolean (main_view.show_sidebar));
 		});
 
 		// Restore the window size.
@@ -625,6 +625,10 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("reset-filter", null);
+		action.activate.connect (() => filter_bar.reset_filter ());
+		action_group.add_action (action);
+
 		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string ((general_filter != null) ? general_filter.id : ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);
@@ -664,13 +668,13 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("show-hidden-files", null, new Variant.boolean (show_hidden_files));
+		action = new SimpleAction.stateful ("hidden-files", null, new Variant.boolean (show_hidden_files));
 		action.activate.connect ((_action, param) => {
 			set_show_hidden (Util.toggle_state (_action));
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("show-browser-sidebar", null, new Variant.boolean (main_view.show_sidebar));
+		action = new SimpleAction.stateful ("browser-sidebar", null, new Variant.boolean (main_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
 			main_view.show_sidebar = Util.toggle_state (_action);
 		});
@@ -712,6 +716,18 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("show-bookmarks", null);
+		action.activate.connect ((_action, param) => {
+			bookmark_popover.popup ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("show-history", null);
+		action.activate.connect ((_action, param) => {
+			history_popover.popup ();
+		});
+		action_group.add_action (action);
+
 		action = new SimpleAction.stateful ("load-history-position", VariantType.INT16, new Variant.int16 ((int16) history.current));
 		action.activate.connect ((_action, param) => {
 			history.load (param.get_int16 ());
@@ -744,6 +760,32 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("load-location", VariantType.STRING);
 		action.activate.connect ((_action, param) => {
 			open_location (File.new_for_uri (param.get_string ()));
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("load-next-folder", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.current_folder != null) {
+				int pos;
+				if (folder_tree.get_file_row (folder_tree.current_folder.file, out pos) != null) {
+					if (!folder_tree.select_position (pos + 1)) {
+						window.edge_reached ();
+					}
+				}
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("load-prev-folder", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.current_folder != null) {
+				int pos;
+				if (folder_tree.get_file_row (folder_tree.current_folder.file, out pos) != null) {
+					if (!folder_tree.select_position (pos - 1)) {
+						window.edge_reached ();
+					}
+				}
+			}
 		});
 		action_group.add_action (action);
 
@@ -791,6 +833,14 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("view-next", null);
 		action.activate.connect (() => view_next_file ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("view-first", null);
+		action.activate.connect (() => view_first_file ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("view-last", null);
+		action.activate.connect (() => view_last_file ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("reload", null);
@@ -1374,7 +1424,20 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public bool view_last_file () {
-		return view_position (file_grid.model.get_n_items () - 1);
+		var pos = file_grid.model.get_n_items () - 1;
+		if ((window.viewer.position == pos) || !view_position (pos)) {
+			window.edge_reached ();
+			return false;
+		}
+		return true;
+	}
+
+	public bool view_first_file () {
+		if ((window.viewer.position == 0) || !view_position (0)) {
+			window.edge_reached ();
+			return false;
+		}
+		return true;
 	}
 
 	public void set_thumbnail_size (int size) {
@@ -1762,7 +1825,8 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] public unowned Gth.FilterBar filter_bar;
-	[GtkChild] unowned Gtk.MenuButton app_menu_button;
+	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
+	[GtkChild] public unowned Gtk.MenuButton scripts_menu_button;
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
 	[GtkChild] unowned Gth.ActionPopover history_popover;
 	[GtkChild] unowned Gtk.GridView file_grid;
