@@ -37,6 +37,10 @@ public class Gth.Application : Adw.Application {
 			register_session: true,
 			flags: ApplicationFlags.HANDLES_COMMAND_LINE
 		);
+	}
+
+	public override void startup () {
+		base.startup ();
 
 		restart = false;
 		quitting = false;
@@ -202,10 +206,7 @@ public class Gth.Application : Adw.Application {
 
 		shortcuts = new Shortcuts ();
 		shortcuts.register_all ();
-	}
 
-	public override void startup () {
-		base.startup ();
 		init_settings ();
 		init_actions ();
 	}
