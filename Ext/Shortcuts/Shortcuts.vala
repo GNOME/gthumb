@@ -106,7 +106,7 @@ public class Gth.Shortcuts {
 
 	void register (string action, string? description, ShortcutContext context, ShortcutCategory category, string? default_value = null) {
 		var shortcut = new Shortcut.from_detailed_action (action);
-		shortcut.description = description;
+		shortcut.description = _(description);
 		shortcut.context = context;
 		shortcut.category = category;
 		if (default_value != null) {
@@ -118,37 +118,58 @@ public class Gth.Shortcuts {
 
 	public void register_all () {
 		register ("win.new-window", N_("New Window"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>n");
-		register ("help", N_("Help"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "F1");
-		register ("shortcuts", N_("Keyboard Shortcuts"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>F1");
-		register ("app.quit", N_("Quit"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>q");
-		register ("show-menu", N_("Main Menu"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "F10");
-		register ("preferences", N_("Preferences"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>p");
 		register ("win.close", N_("Close Window"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>w");
-		register ("win.open-clipboard", N_("Paste Image"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.GENERAL, "<Primary><Shift>v");
+		register ("app.quit", N_("Quit"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>q");
+		register ("app.preferences", N_("Preferences"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>p");
+		//register ("help", N_("Help"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "F1");
+		register ("app.shortcuts", N_("Keyboard Shortcuts"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "<Primary>F1");
+		register ("win.main-menu", N_("Main Menu"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "F10");
 
-		register ("win.edit-metadata", N_("Edit Comment"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "c");
-		//register ("edit-tags", N_("Edit Tags"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "t");
+		register ("open-location", N_("Open Location"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>o");
+		register ("win.load-home", N_("Home"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Home");
+		register ("win.load-parent", N_("Parent Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Up");
+		register ("win.reload", N_("Reload"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>r");
+		register ("win.load-previous", N_("Previous Visited"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Left");
+		register ("win.load-next", N_("Next Visited"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Right");
+		register ("win.load-next-folder", N_("Next Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Alt>n");
+		register ("win.load-prev-folder", N_("Previous Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Alt>p");
+		register ("win.hidden-files", N_("Hidden Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "h");
+		register ("win.sort-files", N_("Sort Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "s");
+		register ("win.sort-folders", N_("Sort Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER);
+		register ("win.browser-sidebar", N_("Sidebar"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "F9");
+		register ("win.browser-properties", N_("File Properties"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "i");
+		register ("win.show-bookmarks", N_("Bookmarks"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>b");
+		register ("win.show-history", N_("History"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>h");
+		register ("win.show-catalogs", N_("Catalogs"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>c");
+		register ("win.show-folders", N_("Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>f");
+
+		register ("win.find", N_("Find Files"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>f");
+		register ("win.cut-files", N_("Cut"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>x");
+		register ("win.copy-files", N_("Copy"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>c");
+		register ("win.paste-files", N_("Paste"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>v");
+
 		register ("rename", N_("Rename"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "F2");
 		register ("win.duplicate-files", N_("Duplicate"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>d");
 		register ("remove-from-source", N_("Delete"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "Delete");
 		register ("remove-from-source-permanently", N_("Delete Permanently"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Shift>Delete");
 		register ("open-with-gimp", N_("Open with Gimp"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "g");
-		register ("print", N_("Print"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>p");
-		register ("win.find", N_("Find Files"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>f");
-		register ("win.cut-files", N_("Cut"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>x");
-		register ("win.copy-files", N_("Copy"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>c");
-		register ("win.paste-files", N_("Paste"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>v");
+		register ("open-with-inkscape", N_("Open with Inkscape"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "k");
 		register ("folder-context-open-in-terminal", N_("Open in Terminal"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>t");
+		register ("win.edit-metadata", N_("Edit Comment"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "c");
+		//register ("edit-tags", N_("Edit Tags"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "t");
+		register ("print", N_("Print"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>p");
+		register ("win.open-clipboard", N_("Open Clipboard"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>v");
+		register ("win.scripts", N_("Scripts"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>x");
 
 		register ("win.toggle-fullscreen", N_("Fullscreen"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "f");
 
-		register ("file-tool-adjust-contrast", N_("Adjust Contrast"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "a");
-		register ("file-tool-flip", N_("Flip"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "l");
-		register ("file-tool-mirror", N_("Mirror"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "m");
-		register ("file-tool-rotate-right", N_("Rotate Right"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "r");
-		register ("file-tool-rotate-left", N_("Rotate Left"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "<Shift>r");
-		register ("file-tool-crop", N_("Crop"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "<Shift>c");
-		register ("file-tool-resize", N_("Resize"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.IMAGE_EDITOR, "<Shift>s");
+		register ("file-tool-adjust-contrast", N_("Adjust Contrast"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "a");
+		register ("file-tool-flip", N_("Flip"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "l");
+		register ("file-tool-mirror", N_("Mirror"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "m");
+		register ("file-tool-rotate-right", N_("Rotate Right"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "r");
+		register ("file-tool-rotate-left", N_("Rotate Left"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>r");
+		register ("file-tool-crop", N_("Crop"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
+		register ("file-tool-resize", N_("Resize"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
 
 		register ("rotate-right", N_("Rotate Right"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SCRIPTS, "bracketright");
 		register ("rotate-left", N_("Rotate Left"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SCRIPTS, "bracketleft");
@@ -163,33 +184,57 @@ public class Gth.Shortcuts {
 		register ("go-to-selection-2", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Primary>2");
 		register ("go-to-selection-3", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Primary>3");
 
-		register ("open-location", N_("Open Location"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "<Primary>o");
-		register ("go-back", N_("Load Previous Location"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "<Alt>Left");
-		register ("go-forward", N_("Load Next Location"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "<Alt>Right");
-		register ("go-up", N_("Load Parent Folder"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "<Alt>Up");
-		register ("go-home", N_("Load Home"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "<Alt>Home");
-		register ("reload", N_("Reload Location"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "<Primary>r");
-		register ("show-hidden-files", N_("Show/Hide Hidden Files"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "h");
-		register ("sort-by", N_("Change Sorting Order"), ShortcutContext.BROWSER, ShortcutCategory.NAVIGATION, "s");
-		register ("toggle-sidebar", N_("Sidebar"), ShortcutContext.BROWSER, ShortcutCategory.UI, "F9");
+		register ("win.reset-filter", N_("View All"), ShortcutContext.BROWSER, ShortcutCategory.FILTERS);
 
-		register ("set-filter-all", N_("View All"), ShortcutContext.BROWSER, ShortcutCategory.FILTERS);
+		register ("win.pop-page", N_("Close"), SHORTCUT_CONTEXT_VIEWERS | ShortcutContext.FIXED, ShortcutCategory.VIEWER, "Escape");
+		register ("win.view-next", N_("Next File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Down");
+		register ("win.view-previous", N_("Previous File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Up");
+		register ("win.view-first", N_("First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Home");
+		register ("win.view-last", N_("Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "End");
+		register ("win.viewer-controls", N_("Statusbar"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F7");
+		register ("win.viewer-properties", N_("File Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "i");
+		register ("toggle-thumbnail-list", N_("Thumbnails"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F8");
+		register ("toggle-edit-file", N_("Image Tools"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "e");
 
-		register ("file-list-select-all", N_("Select All"), ShortcutContext.BROWSER | ShortcutContext.DOC, ShortcutCategory.NAVIGATION, "<Primary>a");
-		register ("file-list-unselect-all", N_("Select None"), ShortcutContext.BROWSER | ShortcutContext.DOC, ShortcutCategory.NAVIGATION, "<Primary><Shift>a");
+		register ("image.zoom-in", N_("Zoom In"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "plus");
+		register ("image.zoom-out", N_("Zoom Out"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "minus");
+		register ("image.zoom-in-fast", N_("Zoom In Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>plus");
+		register ("image.zoom-out-fast", N_("Zoom Out Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>minus");
+		register ("image.set-zoom('100')", N_("Zoom 100%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "1");
+		register ("image.set-zoom('200')", N_("Zoom 200%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "2");
+		register ("image.set-zoom('300')", N_("Zoom 300%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "3");
+		register ("image.set-zoom('max-size')", N_("Zoom to Fit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>x");
+		register ("image.set-zoom('max-size-if-larger')", N_("Zoom to Fit if Larger"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "x");
+		register ("image.set-zoom('max-width')", N_("Zoom to Fit Width"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>w");
+		register ("image.set-zoom('max-height')", N_("Zoom to Fit Height"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>h");
+		register ("image.set-zoom('best-fit')", N_("Automatic Zoom"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "0");
 
-		register ("win.pop-page", N_("Show Browser"), SHORTCUT_CONTEXT_VIEWERS | ShortcutContext.FIXED, ShortcutCategory.VIEWER, "Escape");
-		register ("show-next-image", N_("Show Next File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Down");
-		register ("show-previous-image", N_("Show Previous File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Up");
-		register ("show-first-image", N_("Show First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Home");
-		register ("show-last-image", N_("Show Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "End");
-		register ("toggle-statusbar", N_("Statusbar"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.UI, "F7");
-		register ("toggle-thumbnail-list", N_("Thumbnails List"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.UI, "F8");
-		register ("toggle-edit-file", N_("Image Tools"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.UI, "e");
-		register ("toggle-file-properties", N_("File Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.UI, "i");
+		register ("image.scroll-left", N_("Scroll Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Left");
+		register ("image.scroll-right", N_("Scroll Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Right");
+		register ("image.scroll-up", N_("Scroll Up"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Up");
+		register ("image.scroll-down", N_("Scroll Down"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Down");
+		register ("image.scroll-page-left", N_("Scroll Left Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>Left");
+		register ("image.scroll-page-right", N_("Scroll Right Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>Right");
+		register ("image.scroll-page-up", N_("Scroll Up Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>Up");
+		register ("image.scroll-page-down", N_("Scroll Down Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>Down");
+		register ("image.recenter", N_("Scroll to Center"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>Down");
 
-		register ("video.save-screenshot", N_("Screenshot"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>s");
+		register ("save", N_("Save Image"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>s");
+		register ("image.save-as", N_("Save Image As"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>s");
+		register ("revert-to-saved", N_("Revert Image to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "F4");
+
+		register ("undo", N_("Undo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>z");
+		register ("redo", N_("Redo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>z");
+		register ("apply-editor-changes", null, ShortcutContext.IMAGE_EDITOR, ShortcutCategory.HIDDEN, "Return");
+
+		register ("slideshow", N_("Start Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
+		register ("slideshow-close", N_("Terminate Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");
+		register ("slideshow-toggle-pause", N_("Pause/Resume Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "p");
+		register ("slideshow-next-image", N_("Show Next File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "space");
+		register ("slideshow-previous-image", N_("Show Previous File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "b");
+
 		register ("video.toggle-play", N_("Play/Pause"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "space");
+		register ("video.save-screenshot", N_("Screenshot"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>s");
 		register ("video.mute", N_("Mute"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "m");
 		register ("video.increase-speed", N_("Play Faster"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "plus");
 		register ("video.decrease-speed", N_("Play Slower"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "minus");
@@ -207,46 +252,36 @@ public class Gth.Shortcuts {
 		register ("video.skip(-300)", N_("Go Backward 5 Minutes"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary><Alt>Left");
 		register ("video.copy-frame", N_("Copy Frame"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Ctrl><Shift>c");
 
-		register ("image.zoom-in", N_("Zoom In"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "plus");
-		register ("image.zoom-out", N_("Zoom Out"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "minus");
-		register ("image.set-zoom('100')", N_("Zoom 100%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "1");
-		register ("image.set-zoom('200')", N_("Zoom 200%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "2");
-		register ("image.set-zoom('300')", N_("Zoom 300%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "3");
-		register ("image.set-zoom('max-size')", N_("Zoom to Fit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "<Shift>x");
-		register ("image.set-zoom('max-size-if-larger')", N_("Zoom to Fit if Larger"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "x");
-		register ("image.set-zoom('max-width')", N_("Zoom to Fit Width"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "<Shift>w");
-		register ("image.set-zoom('max-height')", N_("Zoom to Fit Height"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "<Shift>h");
-		register ("image.set-zoom('best-fit')", N_("Automatic Zoom"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "equal");
+		// Not real actions, used for documentation only.
 
-		register ("save", N_("Save Image"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "<Primary>s");
-		register ("image.save-as", N_("Save Image As"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "<Primary><Shift>s");
-		register ("revert-to-saved", N_("Revert Image to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_VIEWER, "F4");
+		register ("doc.file-list-select-all", N_("Select All"), ShortcutContext.BROWSER | ShortcutContext.DOC, ShortcutCategory.FILE_MANAGER, "<Primary>a");
+		register ("doc.file-list-unselect-all", N_("Select None"), ShortcutContext.BROWSER | ShortcutContext.DOC, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>a");
+		register ("doc.add-to-selection", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Alt>1...3");
+		register ("doc.remove-from-selection", N_("Remove from Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Shift><Alt>1...3");
+		register ("doc.go-to-selection", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Primary>1...3");
+	}
 
-		register ("undo", N_("Undo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_EDITOR, "<Primary>z");
-		register ("redo", N_("Redo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.IMAGE_EDITOR, "<Primary><Shift>z");
-		register ("apply-editor-changes", null, ShortcutContext.IMAGE_EDITOR, ShortcutCategory.HIDDEN, "Return");
-
-		register ("scroll-step-left", N_("Scroll Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "Left");
-		register ("scroll-step-right", N_("Scroll Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "Right");
-		register ("scroll-step-up", N_("Scroll Up"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "Up");
-		register ("scroll-step-down", N_("Scroll Down"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "Down");
-		register ("scroll-page-left", N_("Scroll Left Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "<Shift>Left");
-		register ("scroll-page-right", N_("Scroll Right Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "<Shift>Right");
-		register ("scroll-page-up", N_("Scroll Up Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "<Shift>Up");
-		register ("scroll-page-down", N_("Scroll Down Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "<Shift>Down");
-		register ("scroll-to-center", N_("Scroll to Center"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.SCROLL_IMAGE, "<Alt>Down");
-
-		register ("slideshow", N_("Start Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
-		register ("slideshow-close", N_("Terminate Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");
-		register ("slideshow-toggle-pause", N_("Pause/Resume Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "p");
-		register ("slideshow-next-image", N_("Show Next File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "space");
-		register ("slideshow-previous-image", N_("Show Previous File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "b");
-
-		// Not real actions, used in the shorcut window for documentation.
-
-		register ("add-to-selection-doc", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Alt>1...3");
-		register ("remove-from-selection-doc", N_("Remove from Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Shift><Alt>1...3");
-		register ("go-to-selection-doc", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Primary>1...3");
+	public void show_help () {
+		var dialog = new Adw.ShortcutsDialog ();
+		var sorted_shortcuts = app.shortcuts.entries.duplicate ();
+		sorted_shortcuts.sort ((a, b) => Util.intcmp (a.category, b.category));
+		var last_category = -1;
+		Adw.ShortcutsSection section = null;
+		foreach (var shortcut in sorted_shortcuts) {
+			if (shortcut.category == ShortcutCategory.HIDDEN) {
+				continue;
+			}
+			if (Strings.empty (shortcut.accelerator)) {
+				continue;
+			}
+			if (shortcut.category != last_category) {
+				section = new Adw.ShortcutsSection (_(shortcut.category.to_title ()));
+				dialog.add (section);
+				last_category = shortcut.category;
+			}
+			section.add (new Adw.ShortcutsItem (shortcut.description, shortcut.accelerator));
+		}
+		dialog.present (app.active_window);
 	}
 
 	bool loaded = false;

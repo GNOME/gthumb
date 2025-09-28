@@ -5,7 +5,7 @@ project('gthumb',
   meson_version: '>=0.58'
 )
 
-adwaita_version = '>= 1.7.3'
+adwaita_version = '>= 1.8.0'
 glib_version = '>= 2.84.2'
 gtk_version = '>= 4.18.5'
 lcms2_version = '>= 2.6'

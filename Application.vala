@@ -705,6 +705,12 @@ public class Gth.Application : Adw.Application {
 			}
 		});
 		add_action (action);
+
+		action = new SimpleAction ("shortcuts", null);
+		action.activate.connect ((_action, param) => {
+			shortcuts.show_help ();
+		});
+		add_action (action);
 	}
 
 	public void open_window (File location, File? file_to_select = null, bool force_new_window = false) {

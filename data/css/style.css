@@ -223,3 +223,8 @@ button.small {
 label.selector-header {
 	margin-left: 16px;
 }
+
+button.category {
+	border-radius: 1.5em;
+	padding: 3px 16px;
+}

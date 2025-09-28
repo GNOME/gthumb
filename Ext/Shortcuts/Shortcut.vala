@@ -17,6 +17,8 @@ public class Gth.Shortcut : Object {
 		action_name = _action_name;
 		action_parameter = _action_parameter;
 		detailed_action = Action.print_detailed_name (action_name, action_parameter);
+		default_accelerator = null;
+		accelerator = null;
 	}
 
 	public Shortcut.from_detailed_action (string _detailed_action) {
@@ -78,7 +80,12 @@ public class Gth.Shortcut : Object {
 	}
 
 	public bool get_is_modified () {
-		return accelerator != default_accelerator;
+		if (default_accelerator == null) {
+			return !Strings.empty (accelerator);
+		}
+		else {
+			return accelerator != default_accelerator;
+		}
 	}
 
 	public bool match_filter (string? text) {
@@ -224,15 +231,10 @@ const Gth.ShortcutContext SHORTCUT_CONTEXT_ANY = (
 public enum Gth.ShortcutCategory {
 	HIDDEN,
 	GENERAL,
+	FILE_MANAGER,
 	VIEWER,
-	IMAGE_VIEWER,
-	SCROLL_IMAGE,
 	SLIDESHOW,
 	MEDIA_VIEWER,
-	IMAGE_EDITOR,
-	UI,
-	NAVIGATION,
-	FILE_MANAGER,
 	FILTERS,
 	SCRIPTS,
 	SELECTIONS;
@@ -244,15 +246,10 @@ public enum Gth.ShortcutCategory {
 	public static const string[] TITLE = {
 		N_("Hidden"),
 		N_("General"),
-		N_("Viewer"),
-		N_("Image Viewer"),
-		N_("Image Scrolling"),
-		N_("Slideshow"),
-		N_("Media Viewer"),
-		N_("Image Editor"),
-		N_("UI"),
-		N_("Navigation"),
 		N_("File Manager"),
+		N_("Viewer"),
+		N_("Slideshow"),
+		N_("Audio/Video"),
 		N_("Filters"),
 		N_("Scripts"),
 		N_("Selections"),

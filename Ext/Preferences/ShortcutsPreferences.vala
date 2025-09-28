@@ -3,13 +3,40 @@ public class Gth.ShortcutsPreferences : Adw.NavigationPage {
 	GenericList<CategoryEntry> categories;
 
 	construct {
+		var action_group = new SimpleActionGroup ();
+		insert_action_group ("shortcuts", action_group);
+
+		var action = new SimpleAction ("set-category", GLib.VariantType.INT32);
+		action.activate.connect ((_action, param) => {
+			var idx = param.get_int32 ();
+			var entry = categories.get (idx);
+			var button = category_buttons[idx];
+			if (entry == current_category) {
+				current_category = null;
+				button.active = false;
+				last_category_button = null;
+			}
+			else {
+				if (last_category_button != null) {
+					last_category_button.active = false;
+				}
+				button.active = true;
+				last_category_button = button;
+				current_category = entry;
+			}
+			update_search ();
+		});
+		action_group.add_action (action);
+
 		search_bar.connect_entry (search);
 		sorted_shortcuts = app.shortcuts.entries.duplicate ();
 		sorted_shortcuts.sort ((a, b) => Util.intcmp (a.category, b.category));
 
 		categories = new GenericList<CategoryEntry> ();
-		categories.model.append (new CategoryEntry.all (_("All Shortcuts")));
-		categories.model.append (new CategoryEntry.modified (_("Modified Shortcuts")));
+		// Translators: filter that shows all the shortcuts.
+		categories.model.append (new CategoryEntry.all (C_("Shortcuts", "All")));
+		// Translators: filter that shows the modified shortcuts.
+		categories.model.append (new CategoryEntry.modified (C_("Shortcuts", "Modified")));
 		var last_category = -1;
 		foreach (var shortcut in sorted_shortcuts) {
 			if (!shortcut.get_is_customizable ()) {
@@ -23,11 +50,21 @@ public class Gth.ShortcutsPreferences : Adw.NavigationPage {
 				last_category = shortcut.category;
 			}
 		}
+		categories.sort (CategoryEntry.compare);
 
-		category_selector.expression = new Gtk.PropertyExpression (typeof (CategoryEntry), null, "title");
-		category_selector.model = categories.model;
-		category_selector.notify["selected"].connect (() => update_search ());
-		category_selector.selected = 0;
+		category_buttons = new GenericArray<unowned Gtk.ToggleButton>();
+		var idx = 0;
+		foreach (var entry in categories) {
+			var button = new Gtk.ToggleButton.with_label (entry.title);
+			button.add_css_class ("category");
+			button.action_name = "shortcuts.set-category";
+			button.action_target = new Variant.int32 (idx);
+			category_box.append (button);
+			category_buttons.add (button);
+			idx++;
+		}
+		current_category = null;
+
 		update_list (CategoryEntry.Type.ALL);
 	}
 
@@ -36,13 +73,10 @@ public class Gth.ShortcutsPreferences : Adw.NavigationPage {
 
 	void update_list (CategoryEntry.Type filter_type, ShortcutCategory category = ShortcutCategory.HIDDEN) {
 		if (groups != null) {
-			while (groups.length > 0) {
-				shortcut_page.remove (groups[0]);
-				groups.remove_index (0);
+			for (var idx = 0; idx < groups.length; idx++) {
+				shortcut_page.remove (groups[idx]);
 			}
-		}
-		if (!search_bar.search_mode_enabled) {
-			filter_type = CategoryEntry.Type.ALL;
+			groups.length = 0;
 		}
 		string text_filter = search_bar.search_mode_enabled ? search.text.down () : null;
 		groups = new GenericArray<weak Adw.PreferencesGroup>();
@@ -141,14 +175,21 @@ public class Gth.ShortcutsPreferences : Adw.NavigationPage {
 	}
 
 	void update_search () {
-		var entry = category_selector.model.get_item (category_selector.selected) as CategoryEntry;
-		update_list (entry.type, entry.category);
+		if (current_category != null) {
+			update_list (current_category.type, current_category.category);
+		}
+		else {
+			update_list (CategoryEntry.Type.ALL);
+		}
 	}
 
 	[GtkChild] unowned Adw.PreferencesPage shortcut_page;
-	[GtkChild] unowned Gtk.DropDown category_selector;
+	[GtkChild] unowned Adw.WrapBox category_box;
 	[GtkChild] unowned Gtk.SearchEntry search;
 	[GtkChild] unowned Gtk.SearchBar search_bar;
+	unowned Gtk.ToggleButton last_category_button;
+	CategoryEntry current_category = null;
+	GenericArray<unowned Gtk.ToggleButton> category_buttons;
 }
 
 
@@ -176,5 +217,19 @@ class Gth.CategoryEntry : Object {
 		type = Type.CATEGORY;
 		category = _category;
 		title = _(category.to_title ());
+	}
+
+	public static int compare (CategoryEntry a, CategoryEntry b) {
+		if (a.type == b.type) {
+			if (a.type == CategoryEntry.Type.CATEGORY) {
+				return Util.intcmp (a.category, b.category);
+			}
+			else {
+				return 0;
+			}
+		}
+		else {
+			return Util.intcmp (a.type, b.type);
+		}
 	}
 }
