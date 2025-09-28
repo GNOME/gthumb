@@ -205,6 +205,21 @@ public class Gth.Application : Adw.Application {
 		init_actions ();
 	}
 
+	public override void window_removed (Gtk.Window window) {
+		base.window_removed (window);
+		if (quitting) {
+			foreach (unowned var win in get_windows ()) {
+				if ((win != window) && (win is Gth.Window)) {
+					unowned var other_window = win as Gth.Window;
+					if (!other_window.closing) {
+						other_window.close ();
+						return;
+					}
+				}
+			}
+		}
+	}
+
 	public override bool local_command_line (ref unowned string[] arguments, out int exit_status) {
 		var handled_locally = false;
 		exit_status = 0;
@@ -624,10 +639,6 @@ public class Gth.Application : Adw.Application {
 		viewer_settings = new GLib.Settings (GTHUMB_VIEWER_SCHEMA);
 		changed_keys = new GenericSet<string> (str_hash, str_equal);
 
-		load_config ();
-	}
-
-	void load_config () {
 		filters.load_from_file ();
 		scripts.load_from_file ();
 		shortcuts.load_from_file ();
@@ -686,7 +697,12 @@ public class Gth.Application : Adw.Application {
 
 		action = new SimpleAction ("quit", null);
 		action.activate.connect ((_action, param) => {
-			quit ();
+			quitting = true;
+			var window = get_active_window ();
+			if (window != null) {
+				window.save_preferences ();
+				window.close ();
+			}
 		});
 		add_action (action);
 	}

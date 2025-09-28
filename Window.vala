@@ -236,9 +236,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 		Util.enable_action (browser.folder_actions, "paste", can_paste);
 	}
 
+	public void save_preferences () {
+		if (get_realized ()) {
+			browser.save_preferences (current_page == Page.BROWSER);
+			viewer.save_preferences (current_page == Page.VIEWER);
+		}
+	}
+
 	void before_closing () {
-		var last_window = app.one_window ();
-		if (last_window && get_realized ()) {
+		var save_preferences = !app.quitting && app.one_window () && get_realized ();
+		if (save_preferences) {
 			browser.save_preferences (current_page == Page.BROWSER);
 			viewer.save_preferences (current_page == Page.VIEWER);
 		}
