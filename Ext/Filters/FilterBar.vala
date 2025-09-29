@@ -215,6 +215,10 @@ public class Gth.FilterBar : Gtk.Box {
 		}
 	}
 
+	public void show_menu () {
+		filter_selector.popup ();
+	}
+
 	[GtkChild] unowned Gtk.MenuButton filter_selector;
 	[GtkChild] unowned Gtk.Box options_container;
 	[GtkChild] unowned Gtk.Label filter_label;

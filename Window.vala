@@ -44,8 +44,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	public void show_error (Error error) {
-		if (error is IOError.CANCELLED)
+		if ((error is IOError.CANCELLED)
+			|| (error is Gtk.DialogError.DISMISSED)
+			|| (error is Gtk.DialogError.CANCELLED))
+		{
 			return;
+		}
 		var toast = Util.new_literal_toast (error.message);
 		toast.priority = Adw.ToastPriority.HIGH;
 		add_toast (toast);
@@ -566,13 +570,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("open-clipboard", null);
 		action.activate.connect (() => open_clipboard.begin ());
-		action_group.add_action (action);
-
-		action = new SimpleAction ("cancel-job", VariantType.UINT64);
-		action.activate.connect ((_action, param) => {
-			// var id = param.get_uint64 ();
-			// TODO
-		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("set-desktop-background", null);

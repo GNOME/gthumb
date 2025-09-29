@@ -728,6 +728,18 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("show-filters", null);
+		action.activate.connect ((_action, param) => {
+			filter_bar.show_menu ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("show-path", null);
+		action.activate.connect ((_action, param) => {
+			location_button.popup ();
+		});
+		action_group.add_action (action);
+
 		action = new SimpleAction.stateful ("load-history-position", VariantType.INT16, new Variant.int16 ((int16) history.current));
 		action.activate.connect ((_action, param) => {
 			history.load (param.get_int16 ());
@@ -786,6 +798,12 @@ public class Gth.Browser : Gtk.Box {
 					}
 				}
 			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("ask-location", null);
+		action.activate.connect ((_action, param) => {
+			ask_location.begin ();
 		});
 		action_group.add_action (action);
 
@@ -1819,6 +1837,26 @@ public class Gth.Browser : Gtk.Box {
 	public void focus_list () {
 		if (total_files > 0) {
 			file_grid.grab_focus ();
+		}
+	}
+
+	async void ask_location () {
+		var local_job = window.new_job ("Open Location");
+		try {
+			var dialog = new Gtk.FileDialog ();
+			dialog.modal = true;
+			dialog.title = _("Open");
+			dialog.initial_folder = window.get_current_vfs_folder ();
+			local_job.opens_dialog ();
+			var location = yield dialog.select_folder (window, local_job.cancellable);
+			open_location (location);
+			local_job.dialog_closed ();
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
 		}
 	}
 
