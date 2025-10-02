@@ -1,13 +1,13 @@
-option('build-tests',
+option('developer-mode',
   type : 'boolean',
   value : false,
-  description : 'Build tests'
+  description : 'Activates debug code, tests and loads some resources from the source tree'
 )
 
-option('run-in-place',
+option('flatpak',
   type : 'boolean',
   value : false,
-  description : 'Load extensions and other resources from the source tree'
+  description : 'True for the flatpak build'
 )
 
 option('lcms2',

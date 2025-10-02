@@ -213,15 +213,25 @@ config.set_quoted('GETTEXT_PACKAGE', gettext_package)
 config.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
 config.set_quoted('DOMAIN', meson.project_name ())
 config.set_quoted('G_LOG_DOMAIN', log_domain)
-config.set_quoted('APP', 'gThumb')
+config.set_quoted('APP_NAME', 'Thumbnails')
 config.set_quoted('VERSION', meson.project_version())
 config.set_quoted('PREFIX', get_option('prefix'))
-if get_option('run-in-place')
+config.set('DEVELOPER_MODE', get_option('developer-mode') ? 'true' : 'false')
+if get_option('developer-mode')
+  add_project_arguments([
+    '-D', 'DEVELOPER_MODE',
+    '-D', 'RUN_IN_PLACE',
+  ], language: 'vala')
   config.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root()))
-  add_project_arguments(['-D', 'RUN_IN_PLACE'], language: 'vala')
+  config.set_quoted('APP_ID', 'app.gthumb.gthumb-devel')
+  exec_name = 'gthumb-devel'
 else
   config.set_quoted('PRIVEXECDIR', privexecdir)
+  config.set_quoted('APP_ID', 'app.gthumb.gthumb')
+  exec_name = 'gthumb'
 endif
+config.set('FLATPAK', get_option('flatpak') ? 'true' : 'false')
+config.set_quoted('BUILD_TAG', get_option('flatpak') ? '-flatpak' : '')
 if vector_ops
   config.set('HAVE_VECTOR_OPERATIONS', 1)
 endif
@@ -353,7 +363,7 @@ vapi_files = files(
 subdir('Ext')
 subdir('Dialogs')
 
-executable('gthumb4',
+executable(exec_name,
   sources: [
     'ActionList.vala',
     'ActionPopover.vala',
@@ -436,7 +446,8 @@ executable('gthumb4',
     video_files,
     image_files,
   ],
-  dependencies: dependencies
+  dependencies: dependencies,
+  install: true,
 )
 
 executable('video-thumbnailer',
@@ -455,7 +466,7 @@ executable('video-thumbnailer',
   install_dir: privexecdir,
 )
 
-if get_option('build-tests')
+if get_option('developer-mode')
   test('dom',
     executable('test-dom',
       sources: [

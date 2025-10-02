@@ -33,7 +33,7 @@ public class Gth.Application : Adw.Application {
 
 	public Application () {
 		Object (
-			application_id: "app.gthumb.gthumb",
+			application_id: Config.APP_ID,
 			register_session: true,
 			flags: ApplicationFlags.HANDLES_COMMAND_LINE
 		);
@@ -669,8 +669,8 @@ public class Gth.Application : Adw.Application {
 				"Paolo Bacchilega <paobac@src.gnome.org>",
 			};
 			Adw.show_about_dialog (active_window,
-				"application-name", "Thumbnails",
-				"application-icon", "app.gthumb.gthumb",
+				"application-name", Config.APP_NAME,
+				"application-icon", Config.APP_ID,
 				"version", Config.APP_VERSION,
 				"license-type", Gtk.License.GPL_2_0,
 				"translator-credits", _("translator-credits"),

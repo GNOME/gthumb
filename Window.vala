@@ -780,7 +780,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	construct {
-		title = "Thumbnails";
+		title = Config.APP_NAME;
 		current_page = Page.NONE;
 
 		jobs = new Gth.JobQueue ();
