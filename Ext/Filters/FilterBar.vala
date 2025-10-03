@@ -122,6 +122,7 @@ public class Gth.FilterBar : Gtk.Box {
 			}
 		}
 		set_active_filter (filter);
+		changed ();
 	}
 
 	public void save_to_file () {
