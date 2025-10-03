@@ -3,7 +3,7 @@ public class Gth.FileSet {
 	public signal void removed (File file);
 
 	public FileSet () {
-		counted_files = new HashTable<File, Counter> (Files.hash, Files.equal);
+		counted_files = new HashTable<File, Counter> (Util.file_hash, Util.file_equal);
 	}
 
 	public void add (File file) {
