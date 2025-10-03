@@ -31,7 +31,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="list_info">
         <property name="orientation">horizontal</property>
         <property name="spacing">12</property>
         <child>
