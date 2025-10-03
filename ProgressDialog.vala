@@ -52,7 +52,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 	}
 
 	void add_job (Job job) {
-		jobs.model.insert (0, job);
+		jobs.model.append (job);
 		after_changing_jobs ();
 	}
 
@@ -66,7 +66,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 	}
 
 	void after_changing_jobs () {
-		cancel_all.visible = jobs.model.n_items > 3;
+		cancel_all.visible = jobs.model.n_items > 2;
 		job_dialogs_changed ();
 	}
 
@@ -111,7 +111,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 	JobQueue queue;
 	GenericList<Job> jobs;
 	[GtkChild] unowned Gtk.ListBox job_list;
-	[GtkChild] unowned Gtk.Box cancel_all;
+	[GtkChild] unowned Gtk.Button cancel_all;
 	bool presented = false;
 	bool presented_by_user = false;
 	uint show_event = 0;
@@ -154,9 +154,10 @@ public class Gth.ProgressRow : Adw.ActionRow {
 		});
 
 		Timeout.add (250, () => {
-			if (progress.fraction == 0.0) {
-				progress.pulse ();
+			if (progress.fraction > 0.0) {
+				return Source.REMOVE;
 			}
+			progress.pulse ();
 			return Source.CONTINUE;
 		});
 
