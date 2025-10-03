@@ -1,9 +1,7 @@
 public class Gth.Monitor : Object {
 	public Monitor () {
-		file_monitors = new HashTable<File, FileMonitor> (Files.hash, Files.equal);
-		created_files = new GenericArray<File>();
-		deleted_files = new GenericArray<File>();
-		changed_files = new GenericArray<File>();
+		file_monitors = new HashTable<File, FileMonitor> (Util.file_hash, Util.file_equal);
+		file_events = new FileEvents ();
 	}
 
 	public signal void bookmarks_changed () {
@@ -72,15 +70,6 @@ public class Gth.Monitor : Object {
 		}
 	}
 
-	bool remove_file (GenericArray<File> files, File file) {
-		uint pos;
-		if (!files.find_with_equal_func (file, Files.equal, out pos)) {
-			return false;
-		}
-		files.remove_index (pos);
-		return true;
-	}
-
 	void on_file_changed (File file, File? other_file, FileMonitorEvent event_type) {
 		switch (event_type) {
 		case FileMonitorEvent.DELETED, FileMonitorEvent.UNMOUNTED:
@@ -100,88 +89,97 @@ public class Gth.Monitor : Object {
 
 		stdout.printf ("> MONITOR: %s: %s\n", event_type.to_string (), file.get_uri ());
 
-		if (event_type == FileMonitorEvent.CREATED) {
-			if (remove_file (deleted_files, file)) {
-				event_type = FileMonitorEvent.CHANGED;
+		var event = file_events.get (file);
+		if (event != null) {
+			if (event_type == FileMonitorEvent.CREATED) {
+				event.type = FileMonitorEvent.CREATED;
 			}
+			else if (event_type == FileMonitorEvent.DELETED) {
+				event.type = FileMonitorEvent.DELETED;
+			}
+			else if (event_type == FileMonitorEvent.CHANGED) {
+				if (event_type == FileMonitorEvent.CREATED) {
+					// Stays CREATED
+				}
+				else if (event_type == FileMonitorEvent.DELETED) {
+					event.type = FileMonitorEvent.CREATED;
+				}
+			}
+			event.update_time ();
 		}
-		else if (event_type == FileMonitorEvent.DELETED) {
-			remove_file (created_files, file);
-			remove_file (changed_files, file);
-		}
-		else if (event_type == FileMonitorEvent.CHANGED) {
-			if (created_files.find_with_equal_func (file, Files.equal))
-				return;
-			remove_file (changed_files, file);
-		}
-
-		switch (event_type) {
-		case FileMonitorEvent.CREATED:
-			created_files.add (file);
-			break;
-
-		case FileMonitorEvent.DELETED:
-			deleted_files.add (file);
-			break;
-
-		case FileMonitorEvent.CHANGED:
-			changed_files.add (file);
-			break;
+		else {
+			event = new MonitorEvent (file, event_type);
+			file_events.events.add (event);
 		}
 
+		queue_process_events ();
+	}
+
+	void queue_process_events () {
 		if (update_id != 0) {
-			Source.remove (update_id);
+			return;
 		}
-		update_id = Util.after_timeout (PROCESS_DELAY, () => {
+		update_id = Util.after_timeout (PROCESS_DELAY_MILLISECONDS, () => {
 			update_id = 0;
 			process_events ();
 		});
 	}
 
-	const uint PROCESS_DELAY = 1500;
+	const uint PROCESS_DELAY_MILLISECONDS = 2000;
+	const uint PROCESS_DELAY_MICROSECONDS = PROCESS_DELAY_MILLISECONDS * 1000;
 
 	void process_events () {
-		var local_changed = new GenericArray<File>();
-		foreach (unowned var file in changed_files) {
-			local_changed.add (file);
-		}
-		changed_files.length = 0;
-		foreach (unowned var file in local_changed) {
-			file_changed (file);
+		var young_events = 0;
+		var local_created = new GenericArray<File?>();
+		var local_deleted = new GenericList<File>();
+		var now = new GLib.DateTime.now_local ();
+		var idx = 0;
+		while (idx < file_events.events.length) {
+			var event = file_events.events[idx];
+			if (now.difference (event.time) < PROCESS_DELAY_MICROSECONDS) {
+				idx++;
+				young_events++;
+				continue;
+			}
+			if (event.type == FileMonitorEvent.CREATED) {
+				local_created.add (event.file);
+			}
+			else if (event.type == FileMonitorEvent.DELETED) {
+				local_deleted.model.append (event.file);
+			}
+			else if (event.type == FileMonitorEvent.CHANGED) {
+				file_changed (event.file);
+			}
+			file_events.events.remove_index (idx);
 		}
 
-		var local_deleted = new GenericList<File>();
-		foreach (unowned var file in deleted_files) {
-			local_deleted.model.append (file);
-		}
-		deleted_files.length = 0;
 		files_deleted (local_deleted);
 
-		var local_created = new GenericArray<File>();
-		foreach (unowned var file in created_files) {
-			local_created.add (file);
-		}
-		created_files.length = 0;
-		File last_parent = null;
-		var created_with_same_parent = new GenericList<File>();
-		foreach (unowned var file in local_created) {
+		// Group created files by parent.
+		for (var i = 0; i < local_created.length; i++) {
+			var file = local_created[i];
+			if (file == null) {
+				continue;
+			}
 			var parent = file.get_parent ();
-			if (last_parent == null) {
-				last_parent = parent;
-			}
-			if (parent == last_parent) {
-				created_with_same_parent.model.append (file);
-			}
-			else {
-				if (created_with_same_parent.length () > 0) {
-					files_created (last_parent, created_with_same_parent);
-					created_with_same_parent = new GenericList<File>();
+			var same_parent = new GenericList<File>();
+			same_parent.model.append (file);
+			local_created[i] = null;
+			for (var j = 0; j < local_created.length; j++) {
+				var other_file = local_created[j];
+				if (other_file != null) {
+					var other_parent = other_file.get_parent ();
+					if (other_parent.equal (parent)) {
+						same_parent.model.append (other_file);
+						local_created[j] = null;
+					}
 				}
-				last_parent = null;
 			}
+			files_created (parent, same_parent);
 		}
-		if (created_with_same_parent.length () > 0) {
-			files_created (last_parent, created_with_same_parent);
+
+		if (young_events > 0) {
+			queue_process_events ();
 		}
 	}
 
@@ -194,8 +192,41 @@ public class Gth.Monitor : Object {
 	}
 
 	HashTable<File, FileMonitor> file_monitors;
-	GenericArray<File> created_files;
-	GenericArray<File> deleted_files;
-	GenericArray<File> changed_files;
+	FileEvents file_events;
 	uint update_id = 0;
+}
+
+
+class Gth.FileEvents {
+	public GenericArray<MonitorEvent> events;
+
+	public FileEvents () {
+		events = new GenericArray<MonitorEvent>();
+	}
+
+	public MonitorEvent? get (File file) {
+		foreach (unowned var event in events) {
+			if (event.file.equal (file)) {
+				return event;
+			}
+		}
+		return null;
+	}
+}
+
+
+class Gth.MonitorEvent {
+	public File file;
+	public GLib.DateTime time;
+	public FileMonitorEvent type;
+
+	public MonitorEvent (File _file, FileMonitorEvent _type) {
+		file = _file;
+		type = _type;
+		time = new GLib.DateTime.now_local ();
+	}
+
+	public void update_time () {
+		time = new GLib.DateTime.now_local ();
+	}
 }
