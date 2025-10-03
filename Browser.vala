@@ -1599,13 +1599,13 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void files_created (File parent, GenericList<File> files) {
+	public void files_added (File parent, GenericList<File> files) {
 		if (!folder_tree.current_folder.file.equal (parent)) {
 			return;
 		}
 		var new_files = new GenericList<File>();
 		foreach (unowned var file in files) {
-			stdout.printf ("> BROWSER: FILE CREATED: %s\n", file.get_uri ());
+			stdout.printf ("> BROWSER: FILE ADDED: %s\n", file.get_uri ());
 			var iter = folder_tree.current_children.iterator ();
 			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 			if (pos < 0) {
@@ -1646,6 +1646,13 @@ public class Gth.Browser : Gtk.Box {
 			stdout.printf ("> BROWSER: UPDATE FILE\n");
 			update_file.begin (file_data);
 		}
+	}
+
+	public void files_removed (File parent, GenericList<File> files) {
+		if (!folder_tree.current_folder.file.equal (parent)) {
+			return;
+		}
+		files_deleted (files);
 	}
 
 	public void files_deleted (GenericList<File> files) {

@@ -76,7 +76,7 @@ public class Gth.FileManager {
 			yield operation.copy_files (files, destination, job);
 		}
 		finally {
-			app.monitor.files_created (destination, operation.created_files);
+			app.monitor.files_added (destination, operation.created_files);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class Gth.FileManager {
 		}
 		finally {
 			app.monitor.files_deleted (operation.deleted_files);
-			app.monitor.files_created (destination, operation.created_files);
+			app.monitor.files_added (destination, operation.created_files);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class Gth.FileManager {
 			yield operation.duplicate_files (files, destination, job);
 		}
 		finally {
-			app.monitor.files_created (destination, operation.created_files);
+			app.monitor.files_added (destination, operation.created_files);
 		}
 	}
 

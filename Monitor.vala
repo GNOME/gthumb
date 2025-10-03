@@ -17,8 +17,17 @@ public class Gth.Monitor : Object {
 	}
 
 	public signal void file_changed (File file) {
+		app.foreach_window ((win) => win.browser.file_changed (file));
+	}
+
+	public signal void files_added (File parent, GenericList<File> files) {
+		app.foreach_window ((win) => win.browser.files_added (parent, files));
+	}
+
+	public signal void files_removed (File parent, GenericList<File> files) {
 		app.foreach_window ((win) => {
-			win.browser.file_changed (file);
+			win.browser.files_removed (parent, files);
+			win.viewer.files_deleted (files);
 		});
 	}
 
@@ -29,10 +38,6 @@ public class Gth.Monitor : Object {
 		});
 	}
 
-	public signal void files_created (File parent, GenericList<File> files) {
-		app.foreach_window ((win) => win.browser.files_created (parent, files));
-	}
-
 	public void file_created (File file) {
 		var parent = file.get_parent ();
 		if (parent == null) {
@@ -40,7 +45,7 @@ public class Gth.Monitor : Object {
 		}
 		var files = new GenericList<File>();
 		files.model.append (file);
-		files_created (parent, files);
+		files_added (parent, files);
 	}
 
 	public void file_deleted (File file) {
@@ -175,7 +180,7 @@ public class Gth.Monitor : Object {
 					}
 				}
 			}
-			files_created (parent, same_parent);
+			files_added (parent, same_parent);
 		}
 
 		if (young_events > 0) {

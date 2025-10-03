@@ -36,6 +36,9 @@ public class Gth.Catalog : Object {
 			throw new IOError.FAILED ("Could not load the catalog.");
 		}
 		catalog.file = file;
+		if (catalog.name == null) {
+			catalog.name = Catalog.get_name_from_file (catalog.file);
+		}
 		return catalog;
 	}
 
@@ -116,13 +119,27 @@ public class Gth.Catalog : Object {
 		info.set_sort_order (1);
 		info.set_attribute_boolean ("gthumb::no-child", true);
 		try {
+			basename = Util.remove_extension (basename);
 			basename = Filename.to_utf8 (basename, -1, null, null);
 		}
 		catch (Error error) {
 		}
-		basename = Util.remove_extension (basename);
 		info.set_display_name (basename);
 		info.set_edit_name (basename);
+	}
+
+	public static string get_name_from_file (File file) {
+		var basename = file.get_basename ();
+		if (basename == null) {
+			return null;
+		}
+		try {
+			basename = Util.remove_extension (basename);
+			basename = Filename.to_utf8 (basename, -1, null, null);
+		}
+		catch (Error error) {
+		}
+		return basename;
 	}
 
 	public virtual void load_doc (Dom.Document doc) {

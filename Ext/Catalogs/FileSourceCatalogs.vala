@@ -197,6 +197,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		}
 		if (changed) {
 			yield catalog.save_async (job.cancellable);
+			app.monitor.files_added (catalog.file, files);
 		}
 	}
 
@@ -212,6 +213,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		}
 		if (changed) {
 			yield catalog.save_async (job.cancellable);
+			app.monitor.files_removed (catalog.file, files);
 		}
 	}
 }
