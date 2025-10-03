@@ -74,6 +74,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 	uint job_dialogs = 0;
 
 	public void job_dialogs_changed () {
+		var prev_foreground_jobs = foreground_jobs;
 		foreground_jobs = 0;
 		job_dialogs = 0;
 		foreach (unowned var job in jobs) {
@@ -88,7 +89,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		{
 			hide_dialog ();
 		}
-		else if (foreground_jobs > 0) {
+		else if (foreground_jobs > prev_foreground_jobs) {
 			queue_show_dialog ();
 		}
 	}
