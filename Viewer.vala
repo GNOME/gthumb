@@ -237,8 +237,8 @@ public class Gth.Viewer : Gtk.Box {
 			sidebar_stack.set_visible_child (editor_sidebar);
 			window.action_group.change_action_state ("viewer-properties", new Variant.boolean (false));
 		}
-		//var action = window.action_group.lookup_action ("editor-tools") as SimpleAction;
-		//action.set_state (new Variant.boolean (show));
+		var action = window.action_group.lookup_action ("editor-tools") as SimpleAction;
+		action.set_state (new Variant.boolean (show));
 		main_view.show_sidebar = show;
 	}
 
