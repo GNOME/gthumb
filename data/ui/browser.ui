@@ -251,9 +251,16 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton">
+                        <property name="action-name">win.edit-file</property>
+                        <property name="icon-name">gth-paintbrush-symbolic</property>
+                        <property name="tooltip-text" translatable="true">Edit Image</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkToggleButton">
                         <property name="icon-name">gth-info-outline-symbolic</property>
-                        <property name="action-name">win.browser-properties</property>
-                        <property name="tooltip-text" translatable="true">Properties</property>
+                        <property name="action-name">win.browser-properties-pinned</property>
+                        <property name="tooltip-text" translatable="true">File Properties</property>
                       </object>
                     </child>
                   </object>
@@ -355,6 +362,16 @@
                           <object class="GthStatus" id="status">
                             <property name="margin_start">24</property>
                             <property name="margin_end">12</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkToggleButton">
+                            <property name="icon-name">gth-left-symbolic</property>
+                            <property name="action-name">win.browser-properties-collapsed</property>
+                            <property name="tooltip-text" translatable="true">View Properties</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
                           </object>
                         </child>
                       </object>

@@ -103,6 +103,13 @@ public class Gth.Browser : Gtk.Box {
 		init_actions ();
 		init_folder_actions ();
 		init_catalog_actions ();
+
+		content_view.notify["show-sidebar"].connect (() => {
+			if (!content_view.show_sidebar) {
+				Util.set_active (window.action_group, "browser-properties-pinned", false);
+				Util.set_active (window.action_group, "browser-properties-collapsed", false);
+			}
+		});
 	}
 
 	async void add_files (GenericList<File> files) {
@@ -402,7 +409,7 @@ public class Gth.Browser : Gtk.Box {
 		file_sort_model.model = sorted_model;
 		file_grid.model = grid_model;
 		update_total_files ();
-		focus_list ();
+		focus_thumbnail_list ();
 	}
 
 	public void update_folder_status () {
@@ -685,9 +692,25 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("browser-properties", null, new Variant.boolean (content_view.show_sidebar));
+		action = new SimpleAction.stateful ("browser-properties-pinned", null, new Variant.boolean (content_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
-			content_view.show_sidebar = Util.toggle_state (_action);
+			var show = Util.toggle_state (_action);
+			if (show) {
+				content_view.collapsed = false;
+			}
+			Util.set_active (window.action_group, "browser-properties-collapsed", false);
+			content_view.show_sidebar = show;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("browser-properties-collapsed", null, new Variant.boolean (content_view.show_sidebar));
+		action.activate.connect ((_action, param) => {
+			var show = Util.toggle_state (_action);
+			if (show) {
+				content_view.collapsed = true;
+			}
+			Util.set_active (window.action_group, "browser-properties-pinned", false);
+			content_view.show_sidebar = show;
 		});
 		action_group.add_action (action);
 
@@ -935,6 +958,14 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("view-fullscreen", null);
 		action.activate.connect (() => view_fullscreen ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("focus-thumbnail-list", null);
+		action.activate.connect (() => focus_thumbnail_list ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("edit-file", null);
+		action.activate.connect (() => edit_file ());
 		action_group.add_action (action);
 	}
 
@@ -1421,6 +1452,36 @@ public class Gth.Browser : Gtk.Box {
 		view_position (position, flags);
 	}
 
+	void edit_file () {
+		try {
+			var position = get_selected_position ();
+			if (position == uint.MAX) {
+				throw new IOError.FAILED (_("No file selected"));
+			}
+			var file = file_grid.model.get_item (position) as FileData;
+			if (file == null) {
+				throw new IOError.FAILED (_("No file selected"));
+			}
+			view_position_async.begin (position, ViewFlags.DEFAULT, (_obj, res) => {
+				if (view_position_async.end (res)) {
+					window.viewer.show_editor_tools (true);
+				}
+			});
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+	}
+
+	public async bool view_position_async (uint position, ViewFlags flags = ViewFlags.DEFAULT) {
+		var file = file_grid.model.get_item (position) as FileData;
+		if (file == null) {
+			return false;
+		}
+		window.viewer.set_file_position (position);
+		return yield window.viewer.view_file_async (file, flags);
+	}
+
 	public bool view_position (uint position, ViewFlags flags = ViewFlags.DEFAULT) {
 		var file = file_grid.model.get_item (position) as FileData;
 		if (file == null) {
@@ -1839,7 +1900,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void focus_list () {
+	public void focus_thumbnail_list () {
 		if (total_files > 0) {
 			file_grid.grab_focus ();
 		}

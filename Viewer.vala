@@ -203,28 +203,43 @@ public class Gth.Viewer : Gtk.Box {
 		return (load_job != null) && load_job.is_running ();
 	}
 
+	public async bool view_file_async (FileData file, ViewFlags flags = ViewFlags.DEFAULT) {
+		try {
+			yield load_file (file, flags);
+			focus_viewer ();
+			return true;
+		}
+		catch (Error error) {
+			window.show_error (error);
+			return false;
+		}
+	}
+
 	uint view_timeout = 0;
 
 	public void view_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT) {
-		if (view_timeout != 0) {
-			Source.remove (view_timeout);
-			view_timeout = 0;
-		}
+		// TODO
+		//if (view_timeout != 0) {
+		//	Source.remove (view_timeout);
+		//	view_timeout = 0;
+		//}
 		//if (!(ViewFlags.NO_DELAY in flags)) {
 		//	view_timeout = Util.after_timeout (150, () => {
 		//		view_file (file, flags | ViewFlags.NO_DELAY);
 		//	});
 		//	return;
 		//}
-		load_file.begin (file, flags, (_obj, res) => {
-			try {
-				load_file.end (res);
-				focus_viewer ();
-			}
-			catch (Error error) {
-				window.show_error (error);
-			}
-		});
+		view_file_async.begin (file, flags);
+	}
+
+	public void show_editor_tools (bool show) {
+		if (show) {
+			sidebar_stack.set_visible_child (editor_sidebar);
+			window.action_group.change_action_state ("viewer-properties", new Variant.boolean (false));
+		}
+		//var action = window.action_group.lookup_action ("editor-tools") as SimpleAction;
+		//action.set_state (new Variant.boolean (show));
+		main_view.show_sidebar = show;
 	}
 
 	public void set_context_menu (Menu? menu) {
@@ -598,12 +613,7 @@ public class Gth.Viewer : Gtk.Box {
 
 		action = new SimpleAction.stateful ("editor-tools", null, new Variant.boolean (false));
 		action.activate.connect ((_action, param) => {
-			var view_tools = Util.toggle_state (_action);
-			if (view_tools) {
-				sidebar_stack.set_visible_child (editor_sidebar);
-				action_group.change_action_state ("viewer-properties", new Variant.boolean (false));
-			}
-			main_view.show_sidebar = view_tools;
+			show_editor_tools (Util.toggle_state (_action));
 		});
 		action_group.add_action (action);
 
@@ -698,8 +708,7 @@ class Gth.FullscreenState {
 	public void save () {
 		sidebar_visibile = viewer.main_view.show_sidebar;
 		if (sidebar_visibile) {
-			var action = viewer.window.action_group.lookup_action ("viewer-properties") as SimpleAction;
-			action.set_state (new Variant.boolean (false));
+			Util.set_active (viewer.window.action_group, "viewer-properties", false);
 		}
 		viewer.main_view.show_sidebar = false;
 	}

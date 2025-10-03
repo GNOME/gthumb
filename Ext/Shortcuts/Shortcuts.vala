@@ -137,14 +137,16 @@ public class Gth.Shortcuts {
 		register ("win.sort-files", N_("Sort Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "s");
 		register ("win.sort-folders", N_("Sort Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "d");
 		register ("win.browser-sidebar", N_("Sidebar"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "F9");
-		register ("win.browser-properties", N_("File Properties"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "i");
+		register ("win.browser-properties-pinned", N_("File Properties"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>i");
+		register ("win.browser-properties-collapsed", N_("View Properties"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "i");
+		register ("win.edit-file", N_("Edit Image"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "e");
 		register ("win.show-bookmarks", N_("Bookmarks"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>b");
 		register ("win.show-history", N_("History"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>h");
 		register ("win.show-catalogs", N_("Catalogs"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>c");
 		register ("win.show-folders", N_("Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>f");
 		register ("win.show-filters", N_("Filters"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>m");
 		register ("win.show-path", N_("Location"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>p");
-		register ("win.scripts", N_("Scripts"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>x");
+		register ("win.focus-thumbnail-list", N_("Browser"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>b");
 
 		register ("win.cut-files", N_("Cut"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>x");
 		register ("win.copy-files", N_("Copy"), ShortcutContext.BROWSER | ShortcutContext.FIXED, ShortcutCategory.FILE_MANAGER, "<Primary>c");
@@ -162,6 +164,7 @@ public class Gth.Shortcuts {
 		//register ("edit-tags", N_("Edit Tags"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "t");
 		register ("print", N_("Print"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>p");
 		register ("win.open-clipboard", N_("Open Clipboard"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>v");
+		register ("win.scripts", N_("Scripts"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>x");
 
 		register ("win.toggle-fullscreen", N_("Fullscreen"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "f");
 
@@ -195,8 +198,8 @@ public class Gth.Shortcuts {
 		register ("win.view-last", N_("Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "End");
 		register ("win.viewer-controls", N_("Statusbar"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F7");
 		register ("win.viewer-properties", N_("File Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "i");
+		register ("win.editor-tools", N_("Edit Image"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "e");
 		register ("toggle-thumbnail-list", N_("Thumbnails"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F8");
-		register ("toggle-edit-file", N_("Image Tools"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "e");
 
 		register ("image.zoom-in", N_("Zoom In"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "plus");
 		register ("image.zoom-out", N_("Zoom Out"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "minus");
