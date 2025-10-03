@@ -4,13 +4,30 @@
     <property name="orientation">horizontal</property>
     <property name="spacing">24</property>
     <child>
-      <object class="GtkLabel" id="message">
-        <property name="hexpand">true</property>
-        <property name="ellipsize">end</property>
+      <object class="GthJobStatus" id="job_status">
       </object>
     </child>
     <child>
-      <object class="GthJobStatus" id="job_status">
+      <object class="GtkBox" id="selection_info">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Selected:</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="selected_files">
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="selected_size">
+            <property name="margin-start">6</property>
+            <style>
+              <class name="dimmed"/>
+            </style>
+          </object>
+        </child>
       </object>
     </child>
     <child>

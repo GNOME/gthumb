@@ -2,6 +2,7 @@
 <interface>
   <template class="GthJobStatus">
     <property name="action-name">win.job-queue</property>
+    <property name="tooltip-text" translatable="yes">Operations</property>
     <style>
       <class name="flat"/>
       <class name="for_statusbar"/>
@@ -15,11 +16,6 @@
             <property name="valign">center</property>
           </object>
         </child>
-        <!--child>
-          <object class="GtkLabel">
-            <property name="label" translatable="yes">Activities:</property>
-          </object>
-        </child-->
         <child>
           <object class="GtkLabel" id="job_count">
             <property name="visible">false</property>

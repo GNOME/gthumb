@@ -612,6 +612,7 @@ public class Gth.Browser : Gtk.Box {
 			//property_sidebar.current_file = null;
 			property_sidebar.set_selection_info (total_files, total_size);
 		}
+		status.set_selection_info (total_files, total_size);
 	}
 
 	void init_actions () {

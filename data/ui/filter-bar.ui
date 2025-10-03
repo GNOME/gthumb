@@ -3,6 +3,7 @@
   <template class="GthFilterBar">
     <property name="orientation">horizontal</property>
     <property name="spacing">12</property>
+    <property name="hexpand">true</property>
     <child>
       <object class="GtkMenuButton" id="filter_selector">
         <property name="always_show_arrow">true</property>

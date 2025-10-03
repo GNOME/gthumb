@@ -10,7 +10,16 @@ public class Gth.Status : Gtk.Box {
 		total_size.visible = files > 0;
 	}
 
+	public void set_selection_info (uint files, uint64 size) {
+		selected_files.label = "%u".printf (files);
+		selected_size.label = GLib.format_size (size, FormatSizeFlags.DEFAULT);
+		selection_info.visible = files > 0;
+	}
+
 	[GtkChild] unowned Gtk.Label total_files;
 	[GtkChild] unowned Gtk.Label total_size;
+	[GtkChild] unowned Gtk.Label selected_files;
+	[GtkChild] unowned Gtk.Label selected_size;
+	[GtkChild] unowned Gtk.Box selection_info;
 	[GtkChild] unowned Gth.JobStatus job_status;
 }
