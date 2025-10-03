@@ -130,10 +130,14 @@ public class Gth.Browser : Gtk.Box {
 
 	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
 		thumbnailer.cancel ();
-		freeze_thumbnail_list ();
-		folder_tree.list_attributes = get_list_attributes (true);
-		yield folder_tree.load_folder (location, load_action, job);
-		thaw_thumbnail_list ();
+		try {
+			freeze_thumbnail_list ();
+			folder_tree.list_attributes = get_list_attributes (true);
+			yield folder_tree.load_folder (location, load_action, job);
+		}
+		finally {
+			thaw_thumbnail_list ();
+		}
 		update_title ();
 		update_load_sensitivity ();
 		update_location_commands ();
