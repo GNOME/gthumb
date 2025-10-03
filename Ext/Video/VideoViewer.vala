@@ -54,6 +54,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		window.viewer.set_viewer_widget (view_stack);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("video-view");
+		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 
 		mediabar = builder.get_object ("mediabar") as Gtk.Widget;
 		window.viewer.set_mediabar (mediabar, Gtk.Align.FILL);
@@ -764,6 +765,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		toast.button_label = _("Open");
 		toast.action_name = "app.open-new-window";
 		toast.action_target = new Variant.string (file.get_uri ());
+		toast.timeout = 2;
 		window.add_toast (toast);
 	}
 
