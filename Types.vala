@@ -97,10 +97,11 @@ public enum Gth.LoadAction {
 	OPEN,
 	OPEN_AS_ROOT,
 	OPEN_FROM_HISTORY,
-	OPEN_SUBFOLDER;
+	OPEN_SUBFOLDER,
+	OPEN_NEW_FOLDER;
 
 	public bool changes_current_folder () {
-		return this <= OPEN_SUBFOLDER;
+		return this <= OPEN_NEW_FOLDER;
 	}
 }
 

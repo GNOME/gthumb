@@ -289,12 +289,25 @@ public class Gth.Catalog : Object {
 		files.length = 0;
 	}
 
-	public void add_file (File file) {
+	public bool add_file (File file) {
 		if (file_set.contains (file)) {
-			return;
+			return false;
 		}
 		files.add (file);
 		file_set.add (file);
+		return true;
+	}
+
+	public bool remove_file (File file) {
+		if (!file_set.contains (file)) {
+			return false;
+		}
+		uint pos;
+		if (files.find_with_equal_func (file, Util.file_equal, out pos)) {
+			files.remove_index (pos);
+		}
+		file_set.remove (file);
+		return true;
 	}
 
 	const string CATALOG_FORMAT = "1.0";

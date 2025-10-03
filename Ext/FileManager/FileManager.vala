@@ -3,7 +3,7 @@ public class Gth.FileManager {
 		window = _window;
 	}
 
-	public async void delete_files (GenericList<FileData> files, Job job) throws Error {
+	public async void delete_files_from_disk (GenericList<FileData> files, Job job) throws Error {
 		// Ask confirmation
 		var dialog = new Adw.AlertDialog (_("Delete Permanently?"), null);
 		dialog.body_use_markup = true;
@@ -39,7 +39,7 @@ public class Gth.FileManager {
 		foreach (var file_data in files) {
 			file_list.model.append (file_data.file);
 		}
-		yield operation.delete_files (file_list, job);
+		yield operation.delete_files_from_disk (file_list, job);
 	}
 
 	public async void trash_files (GenericList<File> files, Job job) throws Error {
@@ -514,7 +514,7 @@ class Gth.DeleteOperation {
 		window = _window;
 	}
 
-	public async void delete_files (GenericList<File> files, Job job) throws Error {
+	public async void delete_files_from_disk (GenericList<File> files, Job job) throws Error {
 		var file_data_list = yield FileManager.query_list_info (files, REQUIRED_ATTRIBUTES, job.cancellable);
 		var deleted_files = new GenericList<File>();
 		var deleted_directories = new GenericList<File>();

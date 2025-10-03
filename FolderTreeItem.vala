@@ -57,13 +57,21 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		expander.list_row = row;
 		row_expended_id = row.notify["expanded"].connect ((obj, _spec) => {
 			if (expander.list_row.expanded) {
-				job = folder_tree.list_subfolders (file_data);
+				update_subfolders ();
 			}
 			folder_tree.watch_directory (file_data, expander.list_row.expanded);
 		});
 		file_renamed_id = file_data.renamed.connect (() => {
 			label.set_text (file_data.info.get_display_name ());
 		});
+	}
+
+	public void update_subfolders () {
+		if (job != null) {
+			job.cancel ();
+			job = null;
+		}
+		job = folder_tree.list_subfolders (file_data);
 	}
 
 	public void unbind () {

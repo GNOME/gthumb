@@ -3,12 +3,12 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		return uri.has_prefix ("catalog:///");
 	}
 
-	public override async GenericArray<FileData>? get_roots (Cancellable cancellable) {
-		var roots = new GenericArray<FileData>();
+	public override async GenericList<FileData>? get_roots (Cancellable cancellable) {
+		var roots = new GenericList<FileData>();
 		var file = File.new_for_uri ("catalog:///");
 		var info = new FileInfo ();
 		Catalog.update_file_info_for_library (file, info);
-		roots.add (new Gth.FileData (file, info));
+		roots.model.append (new Gth.FileData (file, info));
 		return roots;
 	}
 
@@ -185,7 +185,33 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		// void
 	}
 
-	public override async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error {
-		// TODO: add to catalog
+	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
+		var gio_file = Catalog.to_gio_file (destination);
+		var data = yield Files.load_contents_async (gio_file, job.cancellable);
+		var catalog = Catalog.new_from_data (destination, data);
+		var changed = false;
+		foreach (unowned var file in files) {
+			if (catalog.add_file (file)) {
+				changed = true;
+			}
+		}
+		if (changed) {
+			yield catalog.save_async (job.cancellable);
+		}
+	}
+
+	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
+		var gio_file = Catalog.to_gio_file (location);
+		var data = yield Files.load_contents_async (gio_file, job.cancellable);
+		var catalog = Catalog.new_from_data (location, data);
+		var changed = false;
+		foreach (unowned var file in files) {
+			if (catalog.remove_file (file)) {
+				changed = true;
+			}
+		}
+		if (changed) {
+			yield catalog.save_async (job.cancellable);
+		}
 	}
 }

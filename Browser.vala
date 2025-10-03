@@ -131,8 +131,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 		local_job.done ();
 		file_filter.after_adding_files ();
-		//update_total_files ();
-		//thumbnailer.queue_load_next ();
+		update_total_files ();
 	}
 
 	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
@@ -420,7 +419,7 @@ public class Gth.Browser : Gtk.Box {
 				folder_status.description = "";
 				folder_status.icon_name = "gth-filter-symbolic";
 			}
-			else {
+			else if (folder_tree.current_folder != null) {
 				folder_status.gicon = folder_tree.current_folder.get_symbolic_icon ();
 				switch (folder_tree.current_folder.get_content_type ()) {
 				case "gthumb/search":
@@ -1067,11 +1066,19 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("delete", null);
+		action = new SimpleAction ("remove", null);
+		action.activate.connect (() => {
+			var files = new GenericList<File> ();
+			files.model.append (folder_tree.context_file);
+			window.remove_files (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete-from-disk", null);
 		action.activate.connect (() => {
 			var files = new GenericList<FileData> ();
 			files.model.append (folder_tree.context_file);
-			window.delete_files (files);
+			window.delete_files_from_disk (files);
 		});
 		action_group.add_action (action);
 
@@ -1365,7 +1372,8 @@ public class Gth.Browser : Gtk.Box {
 		Util.enable_action (window.action_group, "rename-files", can_write);
 		Util.enable_action (window.action_group, "duplicate-files", can_write);
 		Util.enable_action (window.action_group, "trash-files", can_write);
-		Util.enable_action (window.action_group, "delete-files", can_write);
+		Util.enable_action (window.action_group, "delete-files-from-disk", can_write);
+		Util.enable_action (window.action_group, "remove-files", can_write);
 	}
 
 	void update_folder_context_menu_sensitivity (FileData file_data) {
@@ -1621,7 +1629,7 @@ public class Gth.Browser : Gtk.Box {
 			file_data.thumbnail_state = ThumbnailState.ICON;
 			file_filter.after_adding_files ();
 			if (file_filter.filter.match (file_data)) {
-				thumbnailer.add (file_data);
+				thumbnailer.queue_load_next ();
 			}
 		}
 		finally {
@@ -1644,24 +1652,53 @@ public class Gth.Browser : Gtk.Box {
 		var removed_files = 0;
 		foreach (unowned var file in files) {
 			//stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
-			// Current folder
+
+			// If the current folder was deleted get its position inside
+			// the folder tree.
+			var tree_pos = -1;
 			if ((folder_tree.current_folder != null)
 				&& (folder_tree.current_folder.file.equal (file)
 					|| folder_tree.current_folder.file.has_prefix (file)))
 			{
+				folder_tree.get_file_row (file, out tree_pos);
+			}
+
+			// Remove from the folder tree.
+			var parent = file.get_parent ();
+			var parent_row = folder_tree.get_file_row (parent);
+			if (parent_row != null) {
+				var parent_data = parent_row.item as Gth.FileData;
+				if (parent_data != null) {
+					var children = parent_data.get_children_model ();
+					var iter = children.iterator ();
+					var file_pos = iter.find_first ((file_data) => file_data.file.equal (file));
+					if (file_pos >= 0) {
+						children.model.remove ((uint) file_pos);
+					}
+				}
+			}
+
+			// The current folder was deleted.
+			if (tree_pos >= 0) {
+				// Load the next folder in the folder tree.
+				var next_folder = folder_tree.get_file_at_position (tree_pos);
+				if (next_folder != null) {
+					open_location (next_folder, LoadAction.OPEN_SUBFOLDER);
+					return;
+				}
+
 				// Load the first existing parent.
-				var parent = folder_tree.current_folder.file.get_parent ();
 				while ((parent != null) && !parent.query_exists ()) {
 					parent = parent.get_parent ();
 				}
 				if (parent == null) {
 					parent = Files.get_home ();
 				}
-				open_location (parent);
+				open_location (parent, LoadAction.OPEN_SUBFOLDER);
 				return;
 			}
 
-			// Files inside the current folder.
+			// Remove files inside the current folder.
 			var iter = folder_tree.current_children.iterator ();
 			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 			if (pos >= 0) {
@@ -1669,22 +1706,7 @@ public class Gth.Browser : Gtk.Box {
 				removed_files++;
 			}
 
-			// Folders from the folder tree.
-			var parent = file.get_parent ();
-			var row = folder_tree.get_file_row (parent);
-			if (row != null) {
-				var file_data = row.item as Gth.FileData;
-				if (file_data != null) {
-					var children = file_data.get_children_model ();
-					iter = children.iterator ();
-					pos = iter.find_first ((file_data) => file_data.file.equal (file));
-					if (pos >= 0) {
-						children.model.remove ((uint) pos);
-					}
-				}
-			}
-
-			// Property sidebar.
+			// Update the property sidebar.
 			if (property_sidebar.current_file != null) {
 				if (file.equal (property_sidebar.current_file.file)) {
 					property_sidebar.current_file = null;
@@ -1725,7 +1747,7 @@ public class Gth.Browser : Gtk.Box {
 			yield window.file_manager.move_files (files, destination, job);
 		}
 		else {
-			yield source.copy_files (window, files, destination, job);
+			yield source.add_files (window, destination, files, job);
 		}
 	}
 
@@ -1752,7 +1774,7 @@ public class Gth.Browser : Gtk.Box {
 			var basename = yield read_filename.read_value (window, local_job);
 			var folder = folder_tree.context_file.file.get_child_for_display_name (basename);
 			yield Files.make_directory_async (folder, local_job.cancellable);
-			yield open_location_async (folder);
+			yield open_location_async (folder, LoadAction.OPEN_NEW_FOLDER);
 		}
 		catch (Error error) {
 			window.show_error (error);

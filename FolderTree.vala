@@ -70,7 +70,7 @@ public class Gth.FolderTree : Gtk.Box {
 		if (load_action == LoadAction.OPEN_AS_ROOT) {
 			changes_root = true;
 		}
-		else if (load_action == LoadAction.OPEN_SUBFOLDER) {
+		else if ((load_action == LoadAction.OPEN_SUBFOLDER) || (load_action == LoadAction.OPEN_NEW_FOLDER)) {
 			changes_root = false;
 		}
 		else if (single_root) {
@@ -179,7 +179,12 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 			if (load_action.changes_current_folder ()) {
 				watched_files.add (current_folder.file);
-				expand_tree_to_current_folder ();
+				if (load_action == LoadAction.OPEN_NEW_FOLDER) {
+					update_current_folder_parent ();
+				}
+				else {
+					expand_tree_to_current_folder ();
+				}
 			}
 		}
 		catch (Error error) {
@@ -228,6 +233,9 @@ public class Gth.FolderTree : Gtk.Box {
 			try {
 				var all_children = source.list_children.end (res);
 				set_file_data_children (file_data, all_children);
+				if ((current_folder != null) && file_data.file.equal (current_folder.file.get_parent ())) {
+					queue_select_current_folder ();
+				}
 			}
 			catch (Error error) {
 			}
@@ -243,20 +251,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public void set_sort_order (string name, bool inverse) {
 		sort = { name, inverse };
 		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
-		var iter = new TreeIterator<Gth.FileData> (tree_model);
-		while (iter.next ()) {
-			var file_data = iter.get_data ();
-			if (file_data != null) {
-				var file_model = file_data.get_children_model ();
-				file_model.model.sort ((a, b) => {
-					var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-					if (sort.inverse)
-						result *= -1;
-					return result;
-				});
-			}
-		}
-		queue_select_current_folder ();
+		reload ();
 	}
 
 	void collapse_folder_tree () {
@@ -265,6 +260,17 @@ public class Gth.FolderTree : Gtk.Box {
 			var row = iter.get_row ();
 			row.expanded = false;
 		}
+	}
+
+	public FileData? get_file_data (File file) {
+		var iter = new TreeIterator<Gth.FileData> (tree_model);
+		while (iter.next ()) {
+			var file_data = iter.get_data ();
+			if ((file_data != null) && (file_data.file.equal (file))) {
+				return file_data;
+			}
+		}
+		return null;
 	}
 
 	public Gtk.TreeListRow? get_file_row (File file, out int position = null) {
@@ -278,6 +284,18 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 		position = -1;
 		return null;
+	}
+
+	public File? get_file_at_position (uint pos) {
+		var row = tree_model.get_row (pos);
+		if (row == null) {
+			return null;
+		}
+		var file_data = row.item as Gth.FileData;
+		if (file_data == null) {
+			return null;
+		}
+		return file_data.file;
 	}
 
 	public File? get_selected () {
@@ -313,6 +331,22 @@ public class Gth.FolderTree : Gtk.Box {
 			foreach (unowned var root in app.roots) {
 				var local_root = new FileData.copy (root);
 				roots.model.append (local_root);
+			}
+		}
+	}
+
+	void update_current_folder_parent () {
+		if (current_folder == null) {
+			return;
+		}
+		var row = get_file_row (current_folder.file.get_parent ());
+		if (row != null) {
+			if (row.expanded) {
+				var file_data = row.item as Gth.FileData;
+				list_subfolders (file_data);
+			}
+			else {
+				row.expanded = true;
 			}
 		}
 	}
@@ -402,7 +436,7 @@ public class Gth.FolderTree : Gtk.Box {
 		if (select_id != 0) {
 			Source.remove (select_id);
 		}
-		select_id = Util.after_timeout (100, () => {
+		select_id = Util.after_next_rearrange (() => {
 			select_id = 0;
 			select_current_folder ();
 		});

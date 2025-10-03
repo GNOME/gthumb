@@ -137,7 +137,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				}
 			}
 			browser.update_title ();
-			browser.focus_list ();
+			browser.focus_thumbnail_list ();
 			break;
 		case Page.VIEWER:
 			if (previuos_page == Page.BROWSER) {
@@ -462,11 +462,28 @@ public class Gth.Window : Adw.ApplicationWindow {
 		clipboard.set_content (provider);
 	}
 
-	public void delete_files (GenericList<FileData> files) {
+	public void remove_files (GenericList<File> files) {
+		var location = browser.folder_tree.current_folder.file;
+		var source = app.get_source_for_file (location);
 		var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
-		file_manager.delete_files.begin (files, local_job, (_obj, res) => {
+		source.remove_files.begin (this, location, files, local_job, (_obj, res) => {
 			try {
-				file_manager.delete_files.end (res);
+				source.remove_files.end (res);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
+	}
+
+	public void delete_files_from_disk (GenericList<FileData> files) {
+		var local_job = new_job (_("Deleting Files"), JobFlags.FOREGROUND);
+		file_manager.delete_files_from_disk.begin (files, local_job, (_obj, res) => {
+			try {
+				file_manager.delete_files_from_disk.end (res);
 			}
 			catch (Error error) {
 				show_error (error);
@@ -623,15 +640,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("fake-job", null);
 		action.activate.connect ((_action, param) => {
-			fake_job_id++;
-			var local_job = new_job ("Fake Job %u".printf (fake_job_id),
-				JobFlags.FOREGROUND,
-				"applications-science-symbolic");
-			local_job.subtitle = Strings.new_random (50);
-			local_job.cancellable.cancelled.connect (() => {
-				local_job.done ();
-			});
-			//local_job.progress = 0.3f;
+			add_fake_job ();
+			Util.after_timeout (1500, () => add_fake_job ());
 		});
 		action_group.add_action (action);
 
@@ -685,13 +695,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("delete-files", null);
+		action = new SimpleAction ("remove-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			remove_files (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("delete-files-from-disk", null);
 		action.activate.connect (() => {
 			var files = get_selected_file_data_list ();
 			if ((files == null) || files.is_empty ()) {
 				return;
 			}
-			delete_files (files);
+			delete_files_from_disk (files);
 		});
 		action_group.add_action (action);
 
@@ -751,6 +771,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 		});
 		action_group.add_action (action);
+	}
+
+	void add_fake_job () {
+		fake_job_id++;
+		var local_job = new_job ("Fake Job %u".printf (fake_job_id),
+			JobFlags.FOREGROUND,
+			"applications-science-symbolic");
+		local_job.subtitle = Strings.new_random (50);
+		local_job.cancellable.cancelled.connect (() => {
+			local_job.done ();
+		});
+		//local_job.progress = 0.3f;
 	}
 
 	public bool on_key_pressed (Gtk.EventControllerKey controller, uint keyval, uint keycode, Gdk.ModifierType state) {

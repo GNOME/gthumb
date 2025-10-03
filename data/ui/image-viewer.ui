@@ -271,7 +271,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">win.delete-files</attribute>
+        <attribute name="action">win.delete-files-from-disk</attribute>
       </item>
     </section>
   </menu>

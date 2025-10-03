@@ -4,8 +4,8 @@ public class Gth.FileSourceVfs : FileSource {
 		return true;
 	}
 
-	public override async GenericArray<FileData>? get_roots (Cancellable cancellable) {
-		var roots = new GenericArray<FileData>();
+	public override async GenericList<FileData>? get_roots (Cancellable cancellable) {
+		var roots = new GenericList<FileData>();
 		yield add_root (roots, Files.get_home (), cancellable);
 		yield add_root (roots, Files.get_special_dir (UserDirectory.PICTURES), cancellable);
 		yield add_root (roots, Files.get_special_dir (UserDirectory.VIDEOS), cancellable);
@@ -36,7 +36,7 @@ public class Gth.FileSourceVfs : FileSource {
 			}
 			info.set_display_name (name);
 			info.set_name (name);
-			roots.add (new Gth.FileData (file, info));
+			roots.model.append (new Gth.FileData (file, info));
 		}
 
 		// Not mounted mountable volumes.
@@ -71,7 +71,7 @@ public class Gth.FileSourceVfs : FileSource {
 			info.set_symbolic_icon (volume.get_symbolic_icon ());
 			info.set_display_name (volume.get_name ());
 			info.set_name (volume.get_name ());
-			roots.add (new Gth.FileData (file, info));
+			roots.model.append (new Gth.FileData (file, info));
 		}
 
 		return roots;
@@ -122,8 +122,12 @@ public class Gth.FileSourceVfs : FileSource {
 		app.monitor.watch_file (file, activate);
 	}
 
-	public override async void copy_files (Window window, GenericList<File> files, File destination, Job job) throws Error {
+	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
 		yield window.file_manager.copy_files (files, destination, job);
+	}
+
+	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
+		yield window.file_manager.trash_files (files, job);
 	}
 
 	const string ROOT_ATTRIBUTES =
@@ -133,20 +137,20 @@ public class Gth.FileSourceVfs : FileSource {
 		FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
 		ACCESS_ATTRIBUTES;
 
-	async void add_root (GenericArray<FileData> roots, File file, Cancellable cancellable) {
+	async void add_root (GenericList<FileData> roots, File file, Cancellable cancellable) {
 		if ((file == null) || file_is_present (roots, file)) {
 			return;
 		}
 		try {
 			var file_data = yield read_metadata (file, ROOT_ATTRIBUTES, cancellable);
-			roots.add (file_data);
+			roots.model.append (file_data);
 		}
 		catch (Error error) {
 			// Ignore.
 		}
 	}
 
-	bool file_is_present (GenericArray<FileData> roots, File file) {
+	bool file_is_present (GenericList<FileData> roots, File file) {
 		foreach (unowned var root in roots) {
 			if (root.file.equal (file))
 				return true;

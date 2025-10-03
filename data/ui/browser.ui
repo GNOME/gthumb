@@ -226,12 +226,12 @@
                         </style>
                       </object>
                     </child>
-                    <!--child>
-                      <object class="GtkToggleButton">
+                    <child>
+                      <object class="GtkButton">
                         <property name="icon-name">applications-science-symbolic</property>
                         <property name="action-name">win.fake-job</property>
                       </object>
-                    </child-->
+                    </child>
                     <child>
                       <object class="GtkMenuButton" id="scripts_menu_button">
                         <property name="icon-name">gth-script-symbolic</property>
@@ -461,7 +461,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">win.delete-files</attribute>
+        <attribute name="action">win.delete-files-from-disk</attribute>
       </item>
     </section>
   </menu>
@@ -541,7 +541,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">folder.delete</attribute>
+        <attribute name="action">folder.delete-from-disk</attribute>
       </item>
     </section>
   </menu>
