@@ -5,10 +5,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 
 	public override async GenericList<FileData>? get_roots (Cancellable cancellable) {
 		var roots = new GenericList<FileData>();
-		var file = File.new_for_uri ("catalog:///");
-		var info = new FileInfo ();
-		Catalog.update_file_info_for_library (file, info);
-		roots.model.append (new Gth.FileData (file, info));
+		roots.model.append (Catalog.get_root ());
 		return roots;
 	}
 
@@ -125,9 +122,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 
 			case FileType.REGULAR:
 				try {
-					var gio_folder = Catalog.to_gio_file (folder_data.file);
-					var data = yield Files.load_contents_async (gio_folder, cancellable);
-					var catalog = Catalog.new_from_data (folder_data.file, data);
+					var catalog = yield Catalog.load_from_file (folder_data.file, cancellable);
 					foreach (var file in catalog.files) {
 						try {
 							var file_data = yield FileData.read_metadata (file, all_attributes, cancellable);
@@ -186,34 +181,10 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 	}
 
 	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
-		var gio_file = Catalog.to_gio_file (destination);
-		var data = yield Files.load_contents_async (gio_file, job.cancellable);
-		var catalog = Catalog.new_from_data (destination, data);
-		var changed = false;
-		foreach (unowned var file in files) {
-			if (catalog.add_file (file)) {
-				changed = true;
-			}
-		}
-		if (changed) {
-			yield catalog.save_async (job.cancellable);
-			app.monitor.files_added (catalog.file, files);
-		}
+		yield Catalog.add_files (destination, files, job);
 	}
 
 	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
-		var gio_file = Catalog.to_gio_file (location);
-		var data = yield Files.load_contents_async (gio_file, job.cancellable);
-		var catalog = Catalog.new_from_data (location, data);
-		var changed = false;
-		foreach (unowned var file in files) {
-			if (catalog.remove_file (file)) {
-				changed = true;
-			}
-		}
-		if (changed) {
-			yield catalog.save_async (job.cancellable);
-			app.monitor.files_removed (catalog.file, files);
-		}
+		yield Catalog.remove_files (location, files, job);
 	}
 }

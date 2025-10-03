@@ -17,6 +17,13 @@ public class Gth.Catalog : Object {
 		name = null;
 	}
 
+	public static FileData get_root () {
+		var file = File.new_for_uri ("catalog:///");
+		var info = new FileInfo ();
+		Catalog.update_file_info_for_library (file, info);
+		return new FileData (file, info);
+	}
+
 	public static Catalog? new_from_data (File file, string data) throws Error {
 		Catalog catalog = null;
 		if (data.has_prefix ("<?xml")) {
@@ -140,6 +147,40 @@ public class Gth.Catalog : Object {
 		catch (Error error) {
 		}
 		return basename;
+	}
+
+	public static async Catalog load_from_file (File file, Cancellable cancellable) throws Error {
+		var gio_file = Catalog.to_gio_file (file);
+		var data = yield Files.load_contents_async (gio_file, cancellable);
+		return Catalog.new_from_data (file, data);
+	}
+
+	public static async void add_files (File destination, GenericList<File> files, Job job) throws Error {
+		var catalog = yield Catalog.load_from_file (destination, job.cancellable);
+		var changed = false;
+		foreach (unowned var file in files) {
+			if (catalog.add_file (file)) {
+				changed = true;
+			}
+		}
+		if (changed) {
+			yield catalog.save_async (job.cancellable);
+			app.monitor.files_added (catalog.file, files);
+		}
+	}
+
+	public static async void remove_files (File location, GenericList<File> files, Job job) throws Error {
+		var catalog = yield Catalog.load_from_file (location, job.cancellable);
+		var changed = false;
+		foreach (unowned var file in files) {
+			if (catalog.remove_file (file)) {
+				changed = true;
+			}
+		}
+		if (changed) {
+			yield catalog.save_async (job.cancellable);
+			app.monitor.files_removed (catalog.file, files);
+		}
 	}
 
 	public virtual void load_doc (Dom.Document doc) {

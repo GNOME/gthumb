@@ -73,6 +73,9 @@
     <key name="open-files-in-fullscreen" type="b">
       <default>false</default>
     </key>
+    <key name="last-catalog" type="s">
+      <default>''</default>
+    </key>
   </schema>
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
     <key name="command" type="s">

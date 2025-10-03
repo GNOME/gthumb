@@ -452,9 +452,15 @@
         <!-- Translators: it's a verb, as in "Duplicate Files" -->
         <attribute name="label" translatable="yes">Duplicate</attribute>
         <attribute name="action">win.duplicate-files</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
+      <item>
+        <attribute name="label" translatable="yes">Remove from Catalog</attribute>
+        <attribute name="action">win.remove-from-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
       <item>
         <attribute name="label" translatable="yes">Move to Trash</attribute>
         <attribute name="action">win.trash-files</attribute>
@@ -462,6 +468,13 @@
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
         <attribute name="action">win.delete-files-from-disk</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Add to Catalog…</attribute>
+        <attribute name="action">win.add-to-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
   </menu>

@@ -301,6 +301,7 @@ public class Gth.Browser : Gtk.Box {
 		edit_catalog_button.visible = is_catalog || is_search;
 		update_search_button.visible = is_search;
 		update_folder_button.visible = (source_type == typeof (FileSourceVfs));
+		Util.enable_action (window.action_group, "remove-from-catalog", is_catalog || is_search);
 	}
 
 	string list_attributes = null;
@@ -965,6 +966,14 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("edit-file", null);
 		action.activate.connect (() => edit_file ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("add-to-catalog", null);
+		action.activate.connect (() => add_to_catalog.begin ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("remove-from-catalog", null);
+		action.activate.connect (() => remove_from_catalog ());
 		action_group.add_action (action);
 	}
 
@@ -1953,6 +1962,36 @@ public class Gth.Browser : Gtk.Box {
 		finally {
 			local_job.done ();
 		}
+	}
+
+	async void add_to_catalog () {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			return;
+		}
+		var local_job = window.new_job ("Add to Catalog");
+		try {
+			var selector = new Gth.FolderSelector ();
+			selector.root = Catalog.get_root ();
+			var last_catalog = Settings.get_file (app.settings, PREF_BROWSER_LAST_CATALOG);
+			var catalog_file = yield selector.select_folder (window, last_catalog, local_job.cancellable);
+			yield Catalog.add_files (catalog_file, files, local_job);
+			app.settings.set_string (PREF_BROWSER_LAST_CATALOG, catalog_file.get_uri ());
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	void remove_from_catalog () {
+		var files = get_selected_files ();
+		if ((files == null) || files.is_empty ()) {
+			return;
+		}
+		window.remove_files (files);
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView main_view;

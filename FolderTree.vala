@@ -5,7 +5,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public FileData current_root;
 	public FileData current_folder;
 	public GenericList<FileData> current_children;
-	public GenericList<FileData> roots;
+	public GenericList<FileData> visible_roots;
 	public bool show_hidden {
 		get {
 			return _show_hidden;
@@ -77,7 +77,7 @@ public class Gth.FolderTree : Gtk.Box {
 			changes_root = true;
 		}
 		else {
-			changes_root = (current_folder_as_root != next_folder_as_root) || (roots.model.n_items == 0);
+			changes_root = (current_folder_as_root != next_folder_as_root) || (visible_roots.model.n_items == 0);
 		}
 
 		current_folder_as_root = next_folder_as_root;
@@ -101,7 +101,7 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 		try {
 			// Mount the location if required.
-			Gth.FileData nearest_root = get_nearest_parent (location, app.roots);
+			Gth.FileData nearest_root = get_nearest_parent (location, roots);
 			//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
 
 			var try_again = false;
@@ -130,7 +130,7 @@ public class Gth.FolderTree : Gtk.Box {
 			if (try_again) {
 				// TODO: update the window bookmarks as well.
 				yield app.update_roots ();
-				nearest_root = get_nearest_parent (location, app.roots);
+				nearest_root = get_nearest_parent (location, roots);
 				if ((nearest_root == null) || (nearest_root.info.get_file_type () != FileType.DIRECTORY)) {
 					throw new IOError.NOT_MOUNTED (_("Location not available"));
 				}
@@ -320,17 +320,17 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	void update_folder_tree () {
-		roots.model.remove_all ();
+		visible_roots.model.remove_all ();
 		watched_files.remove_all ();
 		if (current_folder_as_root || single_root) {
 			if (current_root != null) {
-				roots.model.append (current_root);
+				visible_roots.model.append (current_root);
 			}
 		}
 		else {
-			foreach (unowned var root in app.roots) {
+			foreach (unowned var root in roots) {
 				var local_root = new FileData.copy (root);
-				roots.model.append (local_root);
+				visible_roots.model.append (local_root);
 			}
 		}
 	}
@@ -513,7 +513,8 @@ public class Gth.FolderTree : Gtk.Box {
 		current_root = null;
 		current_folder = null;
 		current_children = new GenericList<FileData>();
-		roots = new GenericList<FileData>();
+		roots = app.roots;
+		visible_roots = new GenericList<FileData>();
 		show_hidden = false;
 		sort = { null, false };
 		list_attributes = FOLDER_ATTRIBUTES;
@@ -521,7 +522,7 @@ public class Gth.FolderTree : Gtk.Box {
 		current_parents = new Queue<File>();
 		current_folder_as_root = false;
 
-		tree_model = new Gtk.TreeListModel (roots.model, false, false, (obj) => {
+		tree_model = new Gtk.TreeListModel (visible_roots.model, false, false, (obj) => {
 			var file_data = obj as Gth.FileData;
 			if (file_data != null) {
 				return file_data.get_children_model ().model;
@@ -642,6 +643,11 @@ public class Gth.FolderTree : Gtk.Box {
 		watched_files.remove_all ();
 	}
 
+	public void set_root (FileData root) {
+		roots = new GenericList<FileData> ();
+		roots.model.append (root);
+	}
+
 	~FolderTree () {
 		stdout.printf ("~FolderTree\n");
 		release_resources ();
@@ -650,4 +656,5 @@ public class Gth.FolderTree : Gtk.Box {
 	int selected_before_context_menu = -1;
 	bool context_menu_visible;
 	FileSet watched_files;
+	GenericList<FileData> roots;
 }
