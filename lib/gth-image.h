@@ -36,6 +36,8 @@ struct _GthImageClass {
 	GObjectClass __parent_class;
 	gboolean (*get_is_scalable) (GthImage *self);
 	cairo_surface_t * (*get_scaled_texture) (GthImage *self, double factor, guint x, guint y, guint width, guint height);
+	gboolean (*get_is_animated) (GthImage *self);
+	gboolean (*set_time) (GthImage *self, GthTimeOp op, gulong milliseconds);
 };
 
 GType gth_image_get_type (void);
@@ -46,6 +48,7 @@ GthImage * gth_image_new_from_cairo_surface (cairo_surface_t* surface);
 GthImage * gth_image_dup (GthImage *self);
 void gth_image_init_pixels (GthImage *self, guint width, guint height);
 void gth_image_copy_pixels (GthImage *src, GthImage *dest);
+void gth_image_set_pixels (GthImage *dest, GthImage *src);
 void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size);
 guint gth_image_get_row_stride (GthImage *self);
@@ -77,6 +80,10 @@ void gth_image_set_info (GthImage *self, GFileInfo *info);
 // Scalable images
 gboolean gth_image_get_is_scalable (GthImage *self);
 cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height);
+
+// Animated images
+gboolean gth_image_get_is_animated (GthImage *self);
+gboolean gth_image_set_time (GthImage *self, GthTimeOp op, gulong milliseconds);
 
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);

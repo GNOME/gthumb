@@ -20,6 +20,7 @@ typedef enum {
 struct _GthImagePrivate {
 	guchar *buffer;
 	gsize size;
+	gboolean buffer_unowned;
 	int row_stride;
 	guint width;
 	guint height;
@@ -44,8 +45,11 @@ G_DEFINE_TYPE_WITH_CODE (GthImage,
 
 static void _gth_image_free_data (GthImage *self) {
 	if (self->priv->buffer != NULL) {
-		g_free (self->priv->buffer);
+		if (!self->priv->buffer_unowned) {
+			g_free (self->priv->buffer);
+		}
 		self->priv->buffer = NULL;
+		self->priv->buffer_unowned = FALSE;
 	}
 	if (self->priv->bytes != NULL) {
 		g_bytes_unref (self->priv->bytes);
@@ -89,12 +93,24 @@ static cairo_surface_t * base_get_scaled_texture (GthImage *self, double factor,
 }
 
 
+static gboolean base_get_is_animated (GthImage *self) {
+	return FALSE;
+}
+
+
+static gboolean base_set_time (GthImage *self, GthTimeOp op, gulong milliseconds) {
+	return FALSE;
+}
+
+
 static void gth_image_class_init (GthImageClass *klass) {
 	GObjectClass *gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_image_finalize;
 
 	klass->get_is_scalable = base_get_is_scalable;
 	klass->get_scaled_texture = base_get_scaled_texture;
+	klass->get_is_animated = base_get_is_animated;
+	klass->set_time = base_set_time;
 }
 
 
@@ -102,6 +118,7 @@ static void gth_image_init (GthImage *self) {
 	self->priv = gth_image_get_instance_private (self);
 	self->priv->buffer = NULL;
 	self->priv->size = 0;
+	self->priv->buffer_unowned = FALSE;
 	self->priv->row_stride = 0;
 	self->priv->width = 0;
 	self->priv->height = 0;
@@ -126,6 +143,7 @@ void gth_image_init_pixels (GthImage *self, guint width, guint height) {
 	self->priv->size = (gsize) self->priv->row_stride * height;
 	// TODO: check the size
 	self->priv->buffer = g_malloc (self->priv->size);
+	self->priv->buffer_unowned = FALSE;
 	// TODO: check if buffer is NULL
 	self->priv->width = width;
 	self->priv->height = height;
@@ -194,6 +212,18 @@ GthImage * gth_image_dup (GthImage *self) {
 void gth_image_copy_pixels (GthImage *src, GthImage *dest) {
 	_gth_image_free_data (dest);
 	dest->priv->buffer = g_memdup2 (src->priv->buffer, src->priv->size);
+	dest->priv->size = src->priv->size;
+	dest->priv->row_stride = src->priv->row_stride;
+	dest->priv->width = src->priv->width;
+	dest->priv->height = src->priv->height;
+	dest->priv->bytes = g_bytes_new_static (dest->priv->buffer, dest->priv->size);
+}
+
+
+void gth_image_set_pixels (GthImage *dest, GthImage *src) {
+	_gth_image_free_data (dest);
+	dest->priv->buffer_unowned = TRUE;
+	dest->priv->buffer = src->priv->buffer;
 	dest->priv->size = src->priv->size;
 	dest->priv->row_stride = src->priv->row_stride;
 	dest->priv->width = src->priv->width;
@@ -483,6 +513,18 @@ gboolean gth_image_get_is_scalable (GthImage *self) {
 cairo_surface_t* gth_image_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return GTH_IMAGE_GET_CLASS (self)->get_scaled_texture (self, factor, x, y, width, height);
+}
+
+
+gboolean gth_image_get_is_animated (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	return GTH_IMAGE_GET_CLASS (self)->get_is_animated (self);
+}
+
+
+gboolean gth_image_set_time (GthImage *self, GthTimeOp op, gulong milliseconds) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	return GTH_IMAGE_GET_CLASS (self)->set_time (self, op, milliseconds);
 }
 
 

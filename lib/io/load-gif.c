@@ -10,6 +10,8 @@ typedef struct {
 	GthImage __parent;
 	GPtrArray *frames;
 	guint total_time; // Milliseconds
+	guint current_time;
+	int current_frame;
 } GthImageGif;
 
 typedef GthImageClass GthImageGifClass;
@@ -51,8 +53,38 @@ static void gth_image_gif_finalize (GObject *object) {
 }
 
 static void gth_image_gif_init (GthImageGif *self) {
-	self->total_time = 0;
 	self->frames = g_ptr_array_new_with_free_func ((GDestroyNotify) gth_frame_unref);
+	self->total_time = 0;
+	self->current_time = 0;
+	self->current_frame = 0;
+}
+
+static gboolean gth_image_gif_get_is_animated (GthImage *base) {
+	GthImageGif *self = GTH_IMAGE_GIF (base);
+	return self->frames->len > 1;
+}
+
+static gboolean gth_image_gif_set_time (GthImage *base, GthTimeOp op, gulong milliseconds) {
+	GthImageGif *self = GTH_IMAGE_GIF (base);
+	if (op == GTH_TIME_OP_ADD) {
+		self->current_time += milliseconds;
+	}
+	else if (op == GTH_TIME_OP_SET) {
+		self->current_time = milliseconds;
+	}
+	GthFrame *frame = g_ptr_array_index (self->frames, self->current_frame);
+	//g_print ("> %ul > %ul\n", self->current_time, frame->start + frame->delay);
+	while (self->current_time > frame->start + frame->delay) {
+		self->current_frame += 1;
+		if (self->current_frame >= self->frames->len) {
+			// TODO: always loop?
+			self->current_frame = 0;
+			self->current_time = self->current_time - self->total_time;
+		}
+		frame = g_ptr_array_index (self->frames, self->current_frame);
+	}
+	gth_image_set_pixels (GTH_IMAGE (self), frame->image);
+	return TRUE;
 }
 
 static void gth_image_gif_class_init (GthImageGifClass *klass) {
@@ -60,8 +92,8 @@ static void gth_image_gif_class_init (GthImageGifClass *klass) {
 	object_class->finalize = gth_image_gif_finalize;
 
 	GthImageClass *image_class = GTH_IMAGE_CLASS (klass);
-	// image_class->get_is_animation = gth_image_gif_get_is_animation;
-	// image_class->get_texture_at_time = gth_image_gif_get_texture_at_time;
+	image_class->get_is_animated = gth_image_gif_get_is_animated;
+	image_class->set_time = gth_image_gif_set_time;
 }
 
 static GthImage * gth_image_gif_new (guint width, guint height) {
@@ -75,7 +107,9 @@ static void gth_image_gif_add_frame (GthImageGif *self, GthFrame *frame) {
 	frame->start = self->total_time;
 	self->total_time += frame->delay;
 	if (self->frames->len == 1) {
-		gth_image_copy_pixels (frame->image, GTH_IMAGE (self));
+		gth_image_set_pixels (GTH_IMAGE (self), frame->image);
+		self->current_frame = 0;
+		self->current_time = 0;
 	}
 }
 

@@ -65,3 +65,9 @@ public enum Gth.Fill {
 	START,
 	END
 }
+
+[CCode (cheader_filename = "lib/types.h", has_type_id = false)]
+public enum Gth.TimeOp {
+	ADD,
+	SET
+}

@@ -2,8 +2,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public Gth.Image image {
 		get { return _image; }
 		set {
-			if (value == _image)
+			if (value == _image) {
 				return;
+			}
+			stop_animation ();
 			_image = value;
 			if (_default_zoom_type != ZoomType.KEEP_PREVIOUS) {
 				_zoom_type = _default_zoom_type;
@@ -19,6 +21,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				break;
 			}
 			queue_resize ();
+			if (_image.get_is_animated ()) {
+				start_animation ();
+			}
 		}
 	}
 
@@ -466,6 +471,23 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		return false;
 	}
 
+	void stop_animation () {
+		if (animation_id != 0) {
+			Source.remove (animation_id);
+			animation_id = 0;
+		}
+	}
+
+	void start_animation () {
+		if (animation_id == 0) {
+			animation_id = Timeout.add (10, () => {
+				var _continue = _image.set_time (TimeOp.ADD, 10);
+				queue_draw ();
+				return _continue ? Source.CONTINUE : Source.REMOVE;
+			});
+		}
+	}
+
 	construct {
 		_image = null;
 		_zoom_type = ZoomType.BEST_FIT;
@@ -476,6 +498,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		hadj_changed_id = 0;
 		vadj_changed_id = 0;
 		focusable = true;
+		animation_id = 0;
 	}
 
 	Gth.Image _image;
@@ -495,6 +518,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	bool _first_allocation;
 	ulong hadj_changed_id;
 	ulong vadj_changed_id;
+	uint animation_id;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;

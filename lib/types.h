@@ -69,6 +69,11 @@ typedef enum {
 	GTH_FILL_END,
 } GthFill;
 
+typedef enum {
+	GTH_TIME_OP_ADD,
+	GTH_TIME_OP_SET,
+} GthTimeOp;
+
 G_END_DECLS
 
 #endif /* LIB_TYPES_H */
