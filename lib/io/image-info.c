@@ -103,6 +103,14 @@ static gboolean load_image_info_from_stream (GInputStream *stream, int *width, i
 	}
 #endif /* HAVE_LIBTIFF */
 
+#if HAVE_LIBGIF
+	if (!format_recognized && (g_strcmp0 (mime_type, "image/gif") == 0)) {
+		if (load_gif_info ((const char *) buffer, buffer_size, &image_info, cancellable)) {
+			format_recognized = TRUE;
+		}
+	}
+#endif /* HAVE_LIBGIF */
+
 	if (!format_recognized && (g_strcmp0 (mime_type, "image/svg+xml") == 0)) {
 		if (load_svg_info ((const char *) buffer, buffer_size, &image_info, cancellable)) {
 			format_recognized = TRUE;

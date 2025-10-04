@@ -32,3 +32,6 @@ public Gth.Image load_heif (Bytes bytes, uint requested_size, Cancellable cancel
 
 [CCode (cheader_filename = "lib/io/load-tiff.h")]
 public Gth.Image load_tiff (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;
+
+[CCode (cheader_filename = "lib/io/load-gif.h")]
+public Gth.Image load_gif (Bytes bytes, uint requested_size, Cancellable cancellable) throws Error;

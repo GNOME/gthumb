@@ -17,6 +17,7 @@ gstreamer_version = '>= 1.26.0'
 exiv2_version = '>= 0.28'
 libheif_version = '>= 1.11'
 libjxl_version = '>=0.3.0'
+libgif_version = '>=5.2.0'
 
 c_comp = meson.get_compiler('c')
 cpp_comp = meson.get_compiler('cpp')
@@ -166,6 +167,15 @@ else
   use_libtiff = false
 endif
 
+# libgif_version
+
+if get_option('libgif')
+  libgif_dep = c_comp.find_library('libgif', required: false)
+  use_libgif = libgif_dep.found()
+else
+  use_libgif = false
+endif
+
 dependencies = [
   dependency('threads'),
   c_comp.find_library('m', required: false),
@@ -185,6 +195,7 @@ dependencies = [
   use_libheif ? libheif_dep : [],
   use_libjxl ? libjxl_deps : [],
   use_libtiff ? libtiff_deps : [],
+  use_libgif ? libgif_dep : [],
 ]
 
 gettext_package = meson.project_name()
@@ -272,6 +283,10 @@ if use_libtiff
   config.set('HAVE_LIBTIFF', 1)
   add_project_arguments(['-D', 'HAVE_LIBTIFF'], language: 'vala')
 endif
+if use_libgif
+  config.set('HAVE_LIBGIF', 1)
+  add_project_arguments(['-D', 'HAVE_LIBGIF'], language: 'vala')
+endif
 
 config_file = configure_file(
   output : 'config.h',
@@ -340,6 +355,9 @@ if use_libtiff
 endif
 if use_libheif
   lib_files += ('lib/io/load-heif.c')
+endif
+if use_libgif
+  lib_files += ('lib/io/load-gif.c')
 endif
 
 vapi_files = files(
@@ -533,6 +551,7 @@ summary(
     'libheif': use_libheif,
     'libjxl': use_libjxl,
     'libtiff': use_libtiff,
+    'libgif': use_libgif,
   },
   section: 'Configuration summary:',
 )

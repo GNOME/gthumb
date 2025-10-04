@@ -63,3 +63,9 @@ option('libtiff',
   value : true,
   description : 'Use libtiff to load Tiff images'
 )
+
+option('libgif',
+  type : 'boolean',
+  value : true,
+  description : 'Use libgif to load GIF images'
+)

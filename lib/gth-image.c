@@ -192,6 +192,7 @@ GthImage * gth_image_dup (GthImage *self) {
 
 
 void gth_image_copy_pixels (GthImage *src, GthImage *dest) {
+	_gth_image_free_data (dest);
 	dest->priv->buffer = g_memdup2 (src->priv->buffer, src->priv->size);
 	dest->priv->size = src->priv->size;
 	dest->priv->row_stride = src->priv->row_stride;
