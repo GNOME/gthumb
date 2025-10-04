@@ -215,7 +215,7 @@ GthImage* load_png (GBytes *bytes, guint requested_size, GCancellable *cancellab
 		g_set_error_literal (error,
 			G_IO_ERROR,
 			G_IO_ERROR_FAILED,
-			"Not enough memory?");
+			"Failed to allocate memory");
 		loader_data_destroy (&loader_data);
 		return NULL;
 	}
