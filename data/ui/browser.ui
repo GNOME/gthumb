@@ -349,8 +349,10 @@
                       </object>
                     </property>
                     <child type="bottom">
-                      <object class="GtkBox">
+                      <object class="AdwWrapBox">
                         <property name="orientation">horizontal</property>
+                        <property name="child-spacing">6</property>
+                        <property name="line-spacing">6</property>
                         <style>
                           <class name="statusbar"/>
                         </style>
