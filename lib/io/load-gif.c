@@ -99,6 +99,7 @@ static void gth_image_gif_class_init (GthImageGifClass *klass) {
 static GthImage * gth_image_gif_new (guint width, guint height) {
 	GthImageGif *image = (GthImageGif *) g_object_new (gth_image_gif_get_type (), NULL);
 	gth_image_set_natural_size (GTH_IMAGE (image), width, height);
+	gth_image_set_has_alpha (GTH_IMAGE (image), TRUE);
 	return (GthImage *) image;
 }
 
@@ -139,11 +140,17 @@ static const char *get_error_text (int code) {
 	return (str != NULL) ? str : "Undefined error";
 }
 
-static GthImage * create_frame (ColorMapObject *color_map,
-				const GifRowType *screen_buffer, int width,
-				int height)
-{
-	GthImage *image = gth_image_new (width, height);
+typedef struct {
+	ColorMapObject *color_map;
+	const uint8_t *screen_buffer;
+	int screen_row_size;
+	GraphicsControlBlock gcb;
+	GthImage *prev_image;
+	int last_disposal_mode;
+} RenderContext;
+
+static GthImage * render_frame (GifFileType *file, RenderContext *render_ctx) {
+	GthImage *image = gth_image_new (file->SWidth, file->SHeight);
 	if (image == NULL) {
 		//g_print (">> [1]\n");
 		return NULL;
@@ -151,24 +158,61 @@ static GthImage * create_frame (ColorMapObject *color_map,
 	int image_row_stride;
 	guchar *image_row = gth_image_prepare_edit (image, &image_row_stride, NULL, NULL);
 	guchar *pixel_p;
-	GifRowType screen_row;
-	GifColorType *entry;
-	for (int i = 0; i < height; i++) {
-		screen_row = screen_buffer[i];
-		pixel_p = image_row;
-		for (int j = 0; j < width; j++) {
-			// Check if color is within color palete
-			if (screen_row[j] >= color_map->ColorCount) {
-				//g_print (">> [2] %d >= %d\n", screen_row[j],color_map->ColorCount);
-				g_object_unref (image);
-				return NULL;
-			}
-			entry = &color_map->Colors[screen_row[j]];
-			*(guint32*) pixel_p = RGBA_TO_PIXEL (entry->Red, entry->Green, entry->Blue, 0xFF);
 
+	int prev_image_row_stride;
+	guchar *prev_image_row = NULL;
+	guchar *prev_pixel_p = NULL;
+	gboolean has_previous_image = render_ctx->prev_image != NULL;
+	if (has_previous_image) {
+		prev_image_row = gth_image_prepare_edit (render_ctx->prev_image, &prev_image_row_stride, NULL, NULL);
+	}
+
+	uint8_t * screen_row;
+	GifColorType *entry;
+	for (int i = 0; i < file->SHeight; i++) {
+		screen_row = render_ctx->screen_buffer + (render_ctx->screen_row_size * i);
+		pixel_p = image_row;
+		prev_pixel_p = prev_image_row;
+		for (int j = 0; j < file->SWidth; j++) {
+			if ((screen_row[j] == render_ctx->gcb.TransparentColor)
+				// Outside the current image
+				|| (i < file->Image.Top)
+				|| (i >= file->Image.Top + file->Image.Height)
+				|| (j < file->Image.Left)
+				|| (j >= file->Image.Left + file->Image.Width))
+			{
+				if (render_ctx->last_disposal_mode == DISPOSE_BACKGROUND) {
+					*(guint32*) pixel_p = (guint32) file->SBackGroundColor;
+				}
+				else if (has_previous_image) {
+					*(guint32*) pixel_p = *(guint32*) prev_pixel_p;
+				}
+				else {
+					*(guint32*) pixel_p = (guint32) 0;
+				}
+			}
+			else {
+				// Inside the current image and not transparent.
+				// Check if color is within color palette
+				if (screen_row[j] >= render_ctx->color_map->ColorCount) {
+					//g_print (">> [2] %d >= %d\n", screen_row[j], render_ctx->color_map->ColorCount);
+					g_object_unref (image);
+					return NULL;
+				}
+				else {
+					entry = &render_ctx->color_map->Colors[screen_row[j]];
+					*(guint32*) pixel_p = RGBA_TO_PIXEL (entry->Red, entry->Green, entry->Blue, 0xFF);
+				}
+			}
 			pixel_p += 4;
+			if (has_previous_image) {
+				prev_pixel_p += 4;
+			}
 		}
 		image_row += image_row_stride;
+		if (has_previous_image) {
+			prev_image_row += prev_image_row_stride;
+		}
 	}
 	return image;
 }
@@ -190,8 +234,7 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 		return NULL;
 	}
 
-	g_print ("> ScreenSize: %dx%d\n", file->SWidth, file->SHeight);
-	g_print ("  ImageCount: %d\n", file->ImageCount);
+	//g_print ("> ScreenSize: %dx%d\n", file->SWidth, file->SHeight);
 
 	if ((file->SWidth == 0) || (file->SHeight == 0)) {
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
@@ -200,37 +243,15 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 	}
 
 	// Screen buffer
-	GifRowType *screen_buffer = (GifRowType *) g_malloc0 (file->SHeight * sizeof (GifRowType));
+	int screen_row_size = file->SWidth * sizeof (GifPixelType);
+	int screen_buffer_size = file->SHeight * screen_row_size;
+	uint8_t *screen_buffer = (uint8_t *) g_malloc0 (screen_buffer_size);
 	if (screen_buffer == NULL) {
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to allocate memory");
 		DGifCloseFile (file, NULL);
 		return NULL;
 	}
-
-	// First row
-	int row_size = file->SWidth * sizeof (GifPixelType); // Size in bytes one row.
-	screen_buffer[0] = (GifRowType) g_malloc (row_size);
-	if (screen_buffer[0] == NULL) {
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to allocate memory");
-		g_free (screen_buffer);
-		DGifCloseFile (file, NULL);
-		return NULL;
-	}
-
-	// Set first row color to BackGround.
-	for (int i = 0; i < file->SWidth; i++) {
-		screen_buffer[0][i] = file->SBackGroundColor;
-	}
-
-	// Allocate the other rows, and set their color to background too:
-	for (int i = 1; i < file->SHeight; i++) {
-		screen_buffer[i] = (GifRowType) g_malloc (row_size);
-		if (screen_buffer[i] == NULL) {
-			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to allocate memory");
-			goto close;
-		}
-		memcpy (screen_buffer[i], screen_buffer[0], row_size);
-	}
+	//memset (screen_buffer, (GifPixelType) file->SBackGroundColor, screen_buffer_size);
 
 	// Scan the content of the GIF file and load the image(s):
 
@@ -239,6 +260,14 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 	static const int InterlacedJumps[] = { 8, 8, 4, 2};  // be read - offsets and jumps...
 	int image_idx = 0;
 	GifRecordType record_type;
+	RenderContext render_ctx = {
+		.color_map = NULL,
+		.screen_buffer = screen_buffer,
+		.screen_row_size = screen_row_size,
+		.prev_image = NULL,
+		.last_disposal_mode = DISPOSAL_UNSPECIFIED
+	};
+	uint8_t *screen_row;
 
 	file->ExtensionBlocks = NULL;
 	file->ExtensionBlockCount = 0;
@@ -260,26 +289,25 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 
 		switch (record_type) {
 		case IMAGE_DESC_RECORD_TYPE:
-			g_print ("> IMAGE_DESC_RECORD_TYPE\n");
+			//g_print ("> IMAGE_DESC_RECORD_TYPE\n");
 			if (DGifGetImageDesc (file) == GIF_ERROR) {
 				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, get_error_text (file->Error));
 				goto close;
 			}
 
-			guint frame_delay = 0;
+			render_ctx.gcb.DisposalMode = DISPOSAL_UNSPECIFIED;
+			render_ctx.gcb.UserInputFlag = 0;
+			render_ctx.gcb.DelayTime = 10;
+			render_ctx.gcb.TransparentColor = NO_TRANSPARENT_COLOR;
 
-			g_print ("  ExtensionBlockCount %d\n", file->ExtensionBlockCount);
+			//g_print ("  ExtensionBlockCount %d\n", file->ExtensionBlockCount);
 			for (int i = 0; i < file->ExtensionBlockCount; i++) {
 				ExtensionBlock *block = file->ExtensionBlocks + i;
 				if ((uint8_t) block->Function == 0xF9) {
-					GraphicsControlBlock gcb;
-					DGifExtensionToGCB (block->ByteCount, block->Bytes, &gcb);
-					g_print ("  > DisposalMode: %d\n", gcb.DisposalMode);
-					g_print ("    DelayTime: %d\n", gcb.DelayTime);
-					g_print ("    TransparentColor: %d\n", gcb.TransparentColor);
-					if (gcb.DelayTime > 0) {
-						frame_delay = (guint) gcb.DelayTime * 10;
-					}
+					DGifExtensionToGCB (block->ByteCount, block->Bytes, &render_ctx.gcb);
+					//g_print ("  > DisposalMode: %d\n", render_ctx.gcb.DisposalMode);
+					//g_print ("    DelayTime: %d\n", render_ctx.gcb.DelayTime);
+					//g_print ("    TransparentColor: %d\n", render_ctx.gcb.TransparentColor);
 				}
 			}
 
@@ -290,7 +318,8 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 			if (image_idx == 0) {
 				image = gth_image_gif_new (file->SWidth, file->SHeight);
 			}
-			g_print ("  Image %d at (%d, %d) [%dx%d]:\n", ++image_idx, col, row, width, height);
+			image_idx++;
+			//g_print ("  Image %d at (%d, %d) [%dx%d]:\n", image_idx, col, row, width, height);
 
 			if ((file->Image.Left + file->Image.Width > file->SWidth)
 				|| (file->Image.Top + file->Image.Height > file->SHeight))
@@ -299,11 +328,13 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 				goto close;
 			}
 
+			//g_print ("  Interlace: %d\n", file->Image.Interlace);
 			if (file->Image.Interlace) {
 				// Need to perform 4 passes on the images:
 				for (int i = 0; i < 4; i++) {
 					for (int j = row + InterlacedOffset[i]; j < row + height; j += InterlacedJumps[i]) {
-						if (DGifGetLine (file, &screen_buffer[j][col], width) == GIF_ERROR) {
+						uint8_t *screen_row = screen_buffer + (j * screen_row_size) + col;
+						if (DGifGetLine (file, screen_row, width) == GIF_ERROR) {
 							g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, get_error_text (file->Error));
 							goto close;
 						}
@@ -311,35 +342,57 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 				}
 			}
 			else {
+				uint8_t *screen_row = screen_buffer + (row * screen_row_size) + col;
 				for (int i = 0; i < height; i++) {
-					if (DGifGetLine (file, &screen_buffer[row++][col], width) == GIF_ERROR) {
+					if (DGifGetLine (file, screen_row, width) == GIF_ERROR) {
 						g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, get_error_text (file->Error));
 						goto close;
 					}
+					screen_row += screen_row_size;
 				}
 			}
 
-			ColorMapObject *color_map = (file->Image.ColorMap ? file->Image.ColorMap : file->SColorMap);
-			if (color_map == NULL) {
+			render_ctx.color_map = (file->Image.ColorMap ? file->Image.ColorMap : file->SColorMap);
+			if (render_ctx.color_map == NULL) {
 				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Gif Image does not have a colormap.");
 				goto close;
 			}
 
 			// Check that the background color is valid.
 			if ((file->SBackGroundColor < 0)
-				|| (file->SBackGroundColor >= color_map->ColorCount))
+				|| (file->SBackGroundColor >= render_ctx.color_map->ColorCount))
 			{
-				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Background color out of range for colormap.");
-				goto close;
+				file->SBackGroundColor = 0;
+				//g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Background color out of range for colormap: %d (colors: %d)", file->SBackGroundColor, render_ctx.color_map->ColorCount);
+				//goto close;
 			}
 
-			GthImage *frame_image = create_frame (color_map, screen_buffer, file->SWidth, file->SHeight);
+			GthImage *frame_image = render_frame (file, &render_ctx);
 			if (frame_image == NULL) {
 				g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to create frame %d", image_idx);
 				goto close;
 			}
-			GthFrame *frame = gth_frame_new (frame_image, frame_delay);
+
+			guint milliseconds = (render_ctx.gcb.DelayTime > 0) ? (guint) render_ctx.gcb.DelayTime * 10 : 100;
+			GthFrame *frame = gth_frame_new (frame_image, milliseconds);
 			gth_image_gif_add_frame (GTH_IMAGE_GIF (image), frame);
+
+			if (render_ctx.gcb.DisposalMode == DISPOSE_BACKGROUND) {
+				// Reset prev_image to NULL.
+				if (render_ctx.prev_image != NULL) {
+					g_object_unref (render_ctx.prev_image);
+					render_ctx.prev_image = NULL;
+				}
+				//memset (screen_buffer, (GifPixelType) file->SBackGroundColor, screen_buffer_size);
+			}
+			else if (render_ctx.gcb.DisposalMode != DISPOSE_PREVIOUS) {
+				if (render_ctx.prev_image != NULL) {
+					g_object_unref (render_ctx.prev_image);
+				}
+				render_ctx.prev_image = g_object_ref (frame_image);
+			}
+			render_ctx.last_disposal_mode = render_ctx.gcb.DisposalMode;
+
 			g_object_unref (frame_image);
 			gth_frame_unref (frame);
 
@@ -394,15 +447,13 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 
 close:
 
-	for (int i = 0; i < file->SHeight; i++) {
-		g_free (screen_buffer[i]);
+	if (render_ctx.prev_image != NULL) {
+		g_object_unref (render_ctx.prev_image);
+		render_ctx.prev_image = NULL;
 	}
 	g_free (screen_buffer);
 	DGifCloseFile (file, NULL);
 
-	// if ((error != NULL) && (*error == NULL)) {
-	// 	g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "TODO");
-	// }
 	if ((error != NULL) && (*error != NULL)) {
 		if (image != NULL) {
 			g_object_unref (image);
@@ -419,21 +470,28 @@ gboolean load_gif_info (const char *buffer, int buffer_size, GthImageInfo *image
 		return FALSE;
 	}
 	const uint8_t *data = buffer;
+
+	image_info->width = ((int) data[7] << 8) + (int) data[6];
+	image_info->height = ((int) data[9] << 8) + (int) data[8];
+	//g_print ("> screen size: %d %d\n", image_info->width, image_info->height);
+	return TRUE;
+
 	uint8_t flags = data[10];
 	//g_print ("> buffer[%d]: %X\n", 10, (uint8_t) data[10]);
 	gboolean has_color_table = (flags & 0b10000000) != 0;
 	//g_print ("  has_color_table: %d\n", has_color_table);
 	int offset = 13;
 	if (has_color_table) {
-		// Color resolution
-		int N = (flags & 0b01110000) >> 4;
-		//g_print (" N: %d\n", N);
-		int entries = (int) pow (2, N + 1);
+		// Size of Global Color Table
+		int size = (flags & 0b00000111);
+		int entries = (int) pow (2, size + 1);
+		//g_print ("  N: %d (entries: %d) (size: %d)\n", N, entries, size);
 		// Skip the color table
 		offset += entries * 3;
 	}
+	//g_print ("  [1.1] data[offset]: %X (offset: %d)\n", (uint8_t) data[offset], offset);
 	if (offset > buffer_size) {
-		//g_print ("  [1]\n");
+		//g_print ("  [1.2]\n");
 		return FALSE;
 	}
 	// Skip extension blocks
@@ -457,7 +515,7 @@ gboolean load_gif_info (const char *buffer, int buffer_size, GthImageInfo *image
 	}
 	// Image descriptor
 	if ((offset + 8 > buffer_size) || (data[offset] != 0x2C)) {
-		//g_print ("  [4]\n");
+		//g_print ("  [4] data[offset]: %X (offset: %d) (buffer_size: %d)\n", (uint8_t) data[offset], offset, buffer_size);
 		return FALSE;
 	}
 	// First image size
