@@ -585,7 +585,13 @@ public class Gth.Browser : Gtk.Box {
 		return selected_files;
 	}
 
+	Gth.Job sidebar_job = null;
+
 	void update_selection_info () {
+		if (sidebar_job != null) {
+			sidebar_job.cancel ();
+			sidebar_job = null;
+		}
 		weak Gth.FileData selected_file = null;
 		uint total_files = 0;
 		uint64 total_size = 0;
@@ -603,6 +609,7 @@ public class Gth.Browser : Gtk.Box {
 			var local_job = window.new_job ("Metadata for %s".printf (selected_file.get_display_name ()),
 				JobFlags.DEFAULT,
 				"gth-note-symbolic");
+			sidebar_job = local_job;
 			property_sidebar.load.begin (selected_file, local_job.cancellable, (_obj, res) => {
 				try {
 					property_sidebar.load.end (res);
@@ -612,6 +619,9 @@ public class Gth.Browser : Gtk.Box {
 				}
 				finally {
 					local_job.done ();
+					if (local_job == sidebar_job) {
+						sidebar_job = null;
+					}
 				}
 			});
 		}
