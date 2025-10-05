@@ -100,7 +100,7 @@ public class Gth.Viewer : Gtk.Box {
 			activate_viewer_for_file (file_data);
 			var image_viewer = current_viewer as ImageViewer;
 			if (image_viewer == null) {
-				throw new IOError.FAILED (_("Cannot load this kind of files"));
+				throw new IOError.FAILED (_("Cannot view this kind of files"));
 			}
 			yield image_viewer.view_image (image, file_data, local_job.cancellable);
 			yield window.set_page (Window.Page.VIEWER);

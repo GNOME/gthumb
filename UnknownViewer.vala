@@ -4,7 +4,7 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 	public void activate (Gth.Window _window) {
 		window = _window;
 		var page = new Adw.StatusPage ();
-		page.description = _("Cannot load this kind of files");
+		page.description = _("Cannot view this kind of files");
 		page.icon_name = "gth-thumbnail-error-symbolic";
 		window.viewer.set_viewer_widget (page);
 		window.viewer.set_context_menu (null);
