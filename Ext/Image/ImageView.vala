@@ -481,7 +481,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	void start_animation () {
 		if (animation_id == 0) {
 			animation_id = Timeout.add (10, () => {
-				var _continue = _image.set_time (TimeOp.ADD, 10);
+				var _continue = _image.change_time (ChangeTime.ADD, 10);
 				queue_draw ();
 				return _continue ? Source.CONTINUE : Source.REMOVE;
 			});

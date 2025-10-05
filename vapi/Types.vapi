@@ -67,7 +67,7 @@ public enum Gth.Fill {
 }
 
 [CCode (cheader_filename = "lib/types.h", has_type_id = false)]
-public enum Gth.TimeOp {
+public enum Gth.ChangeTime {
 	ADD,
 	SET
 }

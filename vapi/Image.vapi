@@ -40,7 +40,7 @@ namespace Gth {
 		public virtual Cairo.Surface? get_scaled_texture (double factor, uint x, uint y, uint width, uint height);
 
 		public virtual bool get_is_animated ();
-		public virtual bool set_time (TimeOp op, ulong milliseconds);
+		public virtual bool change_time (ChangeTime op, ulong milliseconds);
 
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();

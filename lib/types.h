@@ -70,9 +70,9 @@ typedef enum {
 } GthFill;
 
 typedef enum {
-	GTH_TIME_OP_ADD,
-	GTH_TIME_OP_SET,
-} GthTimeOp;
+	GTH_CHANGE_TIME_ADD,
+	GTH_CHANGE_TIME_SET,
+} GthChangeTime;
 
 G_END_DECLS
 

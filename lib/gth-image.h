@@ -37,7 +37,7 @@ struct _GthImageClass {
 	gboolean (*get_is_scalable) (GthImage *self);
 	cairo_surface_t * (*get_scaled_texture) (GthImage *self, double factor, guint x, guint y, guint width, guint height);
 	gboolean (*get_is_animated) (GthImage *self);
-	gboolean (*set_time) (GthImage *self, GthTimeOp op, gulong milliseconds);
+	gboolean (*change_time) (GthImage *self, GthChangeTime op, gulong milliseconds);
 };
 
 GType gth_image_get_type (void);
@@ -83,7 +83,7 @@ cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double factor, g
 
 // Animated images
 gboolean gth_image_get_is_animated (GthImage *self);
-gboolean gth_image_set_time (GthImage *self, GthTimeOp op, gulong milliseconds);
+gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong milliseconds);
 
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);

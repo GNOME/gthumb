@@ -64,12 +64,12 @@ static gboolean gth_image_gif_get_is_animated (GthImage *base) {
 	return self->frames->len > 1;
 }
 
-static gboolean gth_image_gif_set_time (GthImage *base, GthTimeOp op, gulong milliseconds) {
+static gboolean gth_image_gif_change_time (GthImage *base, GthChangeTime op, gulong milliseconds) {
 	GthImageGif *self = GTH_IMAGE_GIF (base);
-	if (op == GTH_TIME_OP_ADD) {
+	if (op == GTH_CHANGE_TIME_ADD) {
 		self->current_time += milliseconds;
 	}
-	else if (op == GTH_TIME_OP_SET) {
+	else if (op == GTH_CHANGE_TIME_SET) {
 		self->current_time = milliseconds;
 	}
 	GthFrame *frame = g_ptr_array_index (self->frames, self->current_frame);
@@ -93,7 +93,7 @@ static void gth_image_gif_class_init (GthImageGifClass *klass) {
 
 	GthImageClass *image_class = GTH_IMAGE_CLASS (klass);
 	image_class->get_is_animated = gth_image_gif_get_is_animated;
-	image_class->set_time = gth_image_gif_set_time;
+	image_class->change_time = gth_image_gif_change_time;
 }
 
 static GthImage * gth_image_gif_new (guint width, guint height) {

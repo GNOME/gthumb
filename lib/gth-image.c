@@ -98,7 +98,7 @@ static gboolean base_get_is_animated (GthImage *self) {
 }
 
 
-static gboolean base_set_time (GthImage *self, GthTimeOp op, gulong milliseconds) {
+static gboolean base_change_time (GthImage *self, GthChangeTime op, gulong milliseconds) {
 	return FALSE;
 }
 
@@ -110,7 +110,7 @@ static void gth_image_class_init (GthImageClass *klass) {
 	klass->get_is_scalable = base_get_is_scalable;
 	klass->get_scaled_texture = base_get_scaled_texture;
 	klass->get_is_animated = base_get_is_animated;
-	klass->set_time = base_set_time;
+	klass->change_time = base_change_time;
 }
 
 
@@ -522,9 +522,9 @@ gboolean gth_image_get_is_animated (GthImage *self) {
 }
 
 
-gboolean gth_image_set_time (GthImage *self, GthTimeOp op, gulong milliseconds) {
+gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong milliseconds) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	return GTH_IMAGE_GET_CLASS (self)->set_time (self, op, milliseconds);
+	return GTH_IMAGE_GET_CLASS (self)->change_time (self, op, milliseconds);
 }
 
 
