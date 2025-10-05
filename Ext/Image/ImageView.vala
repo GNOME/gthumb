@@ -21,7 +21,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				break;
 			}
 			queue_resize ();
-			if (_image.get_is_animated ()) {
+			if ((_image != null) && _image.get_is_animated ()) {
 				start_animation ();
 			}
 		}
@@ -131,31 +131,31 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public override void size_allocate (int width, int height, int baseline) {
 		viewport.size = { width, height };
-		if (_image == null) {
-			return;
-		}
-		if (_zoom_type.fit_to_allocation ()) {
-			set_valid_zoom (get_zoom_for_allocation (width, height));
-			recenter_image ();
-		}
-		else {
-			if (_first_allocation) {
+		if (_image != null) {
+			if (_zoom_type.fit_to_allocation ()) {
+				set_valid_zoom (get_zoom_for_allocation (width, height));
 				recenter_image ();
 			}
 			else {
-				update_scroll_offset ();
+				if (_first_allocation) {
+					recenter_image ();
+				}
+				else {
+					update_scroll_offset ();
+				}
 			}
+			_first_allocation = false;
 		}
 		update_texture_box ();
 		update_image_box ();
 		update_adjustments ();
 		resized ();
-		_first_allocation = false;
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
-		if (_image == null)
+		if (_image == null) {
 			return;
+		}
 		// Util.print_rectangle ("> image_box:", image_box);
 		// Util.print_rectangle ("> texture_box:", texture_box);
 		snapshot.save ();
@@ -380,6 +380,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	// To be called after updating texture_box.
 	void update_image_box () {
+		if (_image == null) {
+			image_box = {
+				{ 0, 0 },
+				{ 0, 0 }
+			};
+			return;
+		}
+
 		uint natural_width, natural_height;
 		_image.get_natural_size (out natural_width, out natural_height);
 

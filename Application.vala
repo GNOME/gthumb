@@ -490,8 +490,6 @@ public class Gth.Application : Adw.Application {
 
 	public FileViewer? get_viewer_for_type (string content_type) {
 		var type = get_viewer_type_for_content_type (content_type);
-		if ((type == 0) || (type == typeof (UnknownViewer)))
-			return null;
 		return Object.new (type) as Gth.FileViewer;
 	}
 

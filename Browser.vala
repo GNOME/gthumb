@@ -1509,7 +1509,8 @@ public class Gth.Browser : Gtk.Box {
 			return false;
 		}
 		window.viewer.set_file_position (position);
-		return yield window.viewer.view_file_async (file, flags);
+		yield window.viewer.view_file_async (file, flags);
+		return true;
 	}
 
 	public bool view_position (uint position, ViewFlags flags = ViewFlags.DEFAULT) {

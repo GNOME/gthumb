@@ -60,6 +60,7 @@
     <file preprocess="xml-stripblanks">gth-crop-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-paintbrush-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-left-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-thumbnail-error-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

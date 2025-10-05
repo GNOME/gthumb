@@ -129,9 +129,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		init_actions ();
 	}
 
-	public async void load (FileData file_data) throws Error {
+	public async bool load (FileData file_data, Job job) throws Error {
 		if (playbin == null)
-			return;
+			return false;
 		reset_state ();
 		reset_view ();
 		playbin.set_state (Gst.State.NULL);
@@ -139,6 +139,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		playing = true;
 		// TODO: allow to cancel
 		// TODO: yield and resume in on_bus_message
+		return true;
 	}
 
 	public void deactivate () {

@@ -33,14 +33,14 @@ public class Gth.Viewer : Gtk.Box {
 		load_job = local_job;
 		try {
 			activate_viewer_for_file (file_data);
-			yield current_viewer.load (file_data);
+			var loaded = yield current_viewer.load (file_data, load_job);
 			yield window.set_page (Window.Page.VIEWER);
 			current_file = file_data;
 			property_sidebar.current_file = current_file;
 			update_title ();
 			// Do not update the sidebar when loading images
 			// the file info is already updated by the ImageLoader.
-			if (!(current_viewer is ImageViewer)) {
+			if (!loaded || !(current_viewer is ImageViewer)) {
 				update_sidebar ();
 			}
 			if (ViewFlags.FULLSCREEN in flags) {
@@ -100,7 +100,7 @@ public class Gth.Viewer : Gtk.Box {
 			activate_viewer_for_file (file_data);
 			var image_viewer = current_viewer as ImageViewer;
 			if (image_viewer == null) {
-				throw new IOError.FAILED (_("Cannot load this kind of file"));
+				throw new IOError.FAILED (_("Cannot load this kind of files"));
 			}
 			yield image_viewer.view_image (image, file_data, local_job.cancellable);
 			yield window.set_page (Window.Page.VIEWER);
@@ -159,15 +159,12 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	void activate_viewer_for_file (FileData file) throws Error {
+	void activate_viewer_for_file (FileData file) {
 		if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
 			if (current_viewer != null) {
 				before_close_page ();
 			}
 			current_viewer = app.get_viewer_for_type (file.get_content_type ());
-			if (current_viewer == null) {
-				throw new IOError.FAILED (_("Cannot load this kind of file"));
-			}
 			before_open_page ();
 			current_viewer.activate (window);
 		}
@@ -252,6 +249,10 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		viewer_signals.disconnect_all ();
 		viewer_container.child = widget;
+
+		if (widget == null) {
+			return;
+		}
 
 		var motion_events = new Gtk.EventControllerMotion ();
 		var motion_id = motion_events.motion.connect (on_motion);
@@ -369,6 +370,9 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	bool on_scroll (Gtk.EventController controller, double dx, double dy) {
+		if (current_viewer == null) {
+			return false;
+		}
 		unowned var event = controller.get_current_event ();
 		var x = -1.0, y = -1.0;
 		if (event != null) {

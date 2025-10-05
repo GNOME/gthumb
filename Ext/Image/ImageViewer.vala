@@ -98,27 +98,21 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.image = image;
 	}
 
-	public async void load (FileData file_data) throws Error {
-		if (load_job != null) {
-			load_job.cancel ();
-		}
-		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()));
-		load_job = local_job;
+	public async bool load (FileData file_data, Job job) throws Error {
 		try {
-			var image = yield app.image_loader.load_file (file_data.file, LoadFlags.DEFAULT, local_job.cancellable);
+			var image = yield app.image_loader.load_file (file_data.file, LoadFlags.DEFAULT, job.cancellable);
 			file_data.update_info (image.info, false);
-			yield view_image (image, file_data, local_job.cancellable);
+			yield view_image (image, file_data, job.cancellable);
+			return true;
 		}
 		catch (Error error) {
-			stdout.printf ("ImageViewer.load: ERROR: %s\n", error.message);
-			local_job.error = error;
-		}
-		local_job.done ();
-		if (load_job == local_job) {
-			load_job = null;
-		}
-		if (local_job.error != null) {
-			throw local_job.error;
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
+			stdout.printf ("> ERROR: %s\n", error.message);
+			window.show_error (error);
+			image_view.image = null;
+			return false;
 		}
 	}
 
@@ -680,7 +674,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		window = null;
 		builder = null;
-		load_job = null;
 		dragging = false;
 		clicking = false;
 	}
@@ -688,7 +681,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	weak Gth.Window window;
 	GLib.Settings settings;
 	Gtk.Builder builder;
-	Gth.Job load_job;
 	unowned Gth.ImageView image_view;
 	ulong zoom_adj_changed_id;
 	SimpleActionGroup action_group;
