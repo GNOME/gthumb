@@ -365,7 +365,7 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkToggleButton">
+                          <object class="GtkToggleButton" id="view_properties">
                             <property name="icon-name">gth-left-symbolic</property>
                             <property name="action-name">win.browser-properties-collapsed</property>
                             <property name="tooltip-text" translatable="true">View Properties</property>

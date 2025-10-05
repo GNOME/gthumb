@@ -100,6 +100,8 @@ public class Gth.Browser : Gtk.Box {
 		content_view.show_sidebar = app.settings.get_boolean (PREF_BROWSER_PROPERTIES_VISIBLE);
 		open_in_fullscreen = app.settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
 
+		view_properties.visible = !(content_view.show_sidebar && !content_view.collapsed);
+
 		init_actions ();
 		init_folder_actions ();
 		init_catalog_actions ();
@@ -702,18 +704,19 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("browser-properties-pinned", null, new Variant.boolean (content_view.show_sidebar));
+		action = new SimpleAction.stateful ("browser-properties-pinned", null, new Variant.boolean (content_view.show_sidebar && !content_view.collapsed));
 		action.activate.connect ((_action, param) => {
 			var show = Util.toggle_state (_action);
 			if (show) {
 				content_view.collapsed = false;
 			}
 			Util.set_active (window.action_group, "browser-properties-collapsed", false);
+			view_properties.visible = !show;
 			content_view.show_sidebar = show;
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("browser-properties-collapsed", null, new Variant.boolean (content_view.show_sidebar));
+		action = new SimpleAction.stateful ("browser-properties-collapsed", null, new Variant.boolean (content_view.show_sidebar && content_view.collapsed));
 		action.activate.connect ((_action, param) => {
 			var show = Util.toggle_state (_action);
 			if (show) {
@@ -1432,9 +1435,9 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		app.settings.set_boolean (PREF_BROWSER_WINDOW_MAXIMIZED, window.maximized);
-		app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, main_view.show_sidebar);
+		app.settings.set_boolean (PREF_BROWSER_SIDEBAR_VISIBLE, main_view.show_sidebar && !main_view.collapsed);
 		app.settings.set_int (PREF_BROWSER_SIDEBAR_WIDTH, (int) main_view.max_sidebar_width);
-		app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, content_view.show_sidebar);
+		app.settings.set_boolean (PREF_BROWSER_PROPERTIES_VISIBLE, content_view.show_sidebar && !content_view.collapsed);
 		if (page_visible) {
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) content_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}
@@ -2033,6 +2036,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] public unowned Gth.FolderStatus folder_status;
 	[GtkChild] public unowned Gth.ActionPopover tools_popover;
+	[GtkChild] public unowned Gtk.ToggleButton view_properties;
 
 	Gth.Test general_filter;
 	Gth.Thumbnailer thumbnailer;

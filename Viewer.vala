@@ -340,7 +340,7 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void save_preferences (bool page_visible) {
-		app.viewer_settings.set_boolean (PREF_VIEWER_SIDEBAR_VISIBLE, main_view.show_sidebar);
+		app.viewer_settings.set_boolean (PREF_VIEWER_SIDEBAR_VISIBLE, main_view.show_sidebar && !main_view.collapsed);
 		if (page_visible) {
 			if (current_file != null) {
 				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, current_file.file.get_uri ());
