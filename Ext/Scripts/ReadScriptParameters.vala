@@ -48,7 +48,7 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 	public bool skipped;
 
 	public ScriptParametersDialog (Gth.Window parent, string title_text, GenericArray<ScriptParameter> _parameters, FileData? file) {
-		title.label = title_text;
+		custom_title.label = title_text;
 		file_info.visible = file != null;
 		if (file != null) {
 			filename.label = file.get_display_name ();
@@ -103,7 +103,7 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 		saved ();
 	}
 
-	[GtkChild] unowned Gtk.Label title;
+	[GtkChild] unowned Gtk.Label custom_title;
 	[GtkChild] unowned Gtk.Label filename;
 	[GtkChild] public unowned Gtk.Button skip_button;
 	[GtkChild] unowned Adw.PreferencesGroup entry_group;

@@ -13,7 +13,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 			script = new Gth.Script ();
 			script.visible = true;
 		}
-		script.bind_property ("display_name", name, "text", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+		script.bind_property ("display_name", name_entry, "text", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		//script.bind_property ("command", command, "subtitle", BindingFlags.SYNC_CREATE);
 		script.bind_property ("shell_script", shell_script, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		script.bind_property ("for_each_file", for_each_file, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
@@ -23,8 +23,8 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	}
 
 	public Script? get_script () throws Error {
-		if (Strings.empty (name.text)) {
-			name.grab_focus ();
+		if (Strings.empty (name_entry.text)) {
+			name_entry.grab_focus ();
 			throw new IOError.FAILED (_("Name is empty"));
 		}
 		if (Strings.empty (script.command)) {
@@ -41,7 +41,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 
 	[GtkCallback]
 	void on_activated_command (Adw.ActionRow row) {
-		command_page.set_template (script.command, TemplateFlags.NO_ENUMERATOR);
+		command_page.set_template_text (script.command, TemplateFlags.NO_ENUMERATOR);
 		unowned var dialog = Util.get_preferences_dialog (this);
 		dialog.push_subpage (command_page);
 	}
@@ -61,7 +61,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 		};
 	}
 
-	[GtkChild] unowned Adw.EntryRow name;
+	[GtkChild] unowned Adw.EntryRow name_entry;
 	[GtkChild] unowned Adw.ActionRow command;
 	[GtkChild] unowned Gtk.Label command_preview;
 	[GtkChild] unowned Adw.SwitchRow shell_script;

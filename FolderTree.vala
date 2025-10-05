@@ -90,7 +90,6 @@ public class Gth.FolderTree : Gtk.Box {
 			current_parents.clear ();
 		}
 
-		unowned var win = get_root () as Gth.Window;
 		var job_is_local = (external_job == null);
 		var local_job = external_job;
 		if (local_job == null) {
@@ -225,7 +224,6 @@ public class Gth.FolderTree : Gtk.Box {
 			//throw new IOError.FAILED (_("File type not supported"));
 			return null;
 		}
-		unowned var win = get_root () as Gth.Window;
 		var local_job = job_queue.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.DEFAULT,
 			"folder-symbolic");
@@ -250,7 +248,6 @@ public class Gth.FolderTree : Gtk.Box {
 
 	public void set_sort_order (string name, bool inverse) {
 		sort = { name, inverse };
-		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
 		reload ();
 	}
 

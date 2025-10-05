@@ -294,7 +294,7 @@ class Gth.CopyOperation {
 					var new_dir = Util.build_destination_dir (file_data.file,
 						source_base_dir, destination_dir);
 					//stdout.printf ("> mkdir: %s\n", new_dir.get_uri ());
-					Files.make_directory_async (new_dir, job.cancellable);
+					yield Files.make_directory_async (new_dir, job.cancellable);
 					copied_sources.add (file_data.file);
 					if (moving) {
 						moved_directories.model.append (file_data.file);
@@ -321,7 +321,6 @@ class Gth.CopyOperation {
 					throw new IOError.FAILED ("Cannot copy or move this kind of files: %s (%s)".printf (
 						file_data.file.get_uri (),
 						file_data.info.get_file_type ().to_string ()));
-					break;
 				}
 			}
 			copied_bytes += (uint64) file_data.info.get_size ();
@@ -543,6 +542,9 @@ class Gth.DeleteOperation {
 						}
 					}
 					deleted_files.model.append (file_data.file);
+					break;
+
+				default:
 					break;
 				}
 			}

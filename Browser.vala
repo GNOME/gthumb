@@ -1641,6 +1641,9 @@ public class Gth.Browser : Gtk.Box {
 				thumbnailer.queue_load_next ();
 			}
 		}
+		catch (Error error) {
+			window.show_error (error);
+		}
 		finally {
 			local_job.done ();
 			update_total_files ();
@@ -1746,7 +1749,7 @@ public class Gth.Browser : Gtk.Box {
 			out mime_type);
 		var bytes = yield Files.read_all_async (stream, job.cancellable);
 		unowned var data_as_string = (string) bytes.get_data ();
-		var text = data_as_string.ndup (bytes.length);
+		var text = data_as_string.substring (0, bytes.length);
 		//stdout.printf ("> text: '%s'\n", text);
 		//stdout.printf ("> type: '%s'\n", mime_type);
 		var uris = text.split_set ("\n\r");

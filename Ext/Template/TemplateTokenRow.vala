@@ -8,7 +8,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 	public signal void delete_row ();
 	public signal void add_row ();
 	public signal void edit_entry (string title, Gtk.Entry entry);
-	public signal void changed ();
+	public signal void data_changed ();
 
 	public TemplateTokenRow (TemplateToken _token, bool as_icon_content = false) {
 		token = _token;
@@ -281,11 +281,11 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 	}
 
 	construct {
-		value.changed.connect (() => changed ());
-		prompt.changed.connect (() => changed ());
-		default_value.changed.connect (() => changed ());
-		date_format.notify["selected"].connect (() => changed ());
-		attribute_selector.notify["selected"].connect (() => changed ());
+		value.changed.connect (() => data_changed ());
+		prompt.changed.connect (() => data_changed ());
+		default_value.changed.connect (() => data_changed ());
+		date_format.notify["selected"].connect (() => data_changed ());
+		attribute_selector.notify["selected"].connect (() => data_changed ());
 	}
 
 	[GtkChild] unowned Gtk.Label title;

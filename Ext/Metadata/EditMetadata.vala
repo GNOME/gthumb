@@ -70,7 +70,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 			tags.entry.set_list (tag_data.string_list.get_list ());
 		}
 
-		set_entry_value (title, "Metadata::Title");
+		set_entry_value (title_entry, "Metadata::Title");
 		set_entry_value (place, "Metadata::Location");
 		set_rating (rating.entry, "Metadata::Rating");
 
@@ -101,22 +101,6 @@ class Gth.MetadataDialog : Adw.Dialog {
 		}
 	}
 
-	void set_adjustment_value (Gtk.Adjustment adj, string id) {
-		var metadata = file_data.info.get_attribute_object (id) as Metadata;
-		if (metadata != null) {
-			int value;
-			if (int.try_parse (metadata.formatted, out value, null, 10)) {
-				adj.value = (double) value;
-			}
-			else {
-				adj.value = 0;
-			}
-		}
-		else {
-			adj.value = 0;
-		}
-	}
-
 	void set_rating (Gth.RatingEntry entry, string id) {
 		var metadata = file_data.info.get_attribute_object (id) as Metadata;
 		if (metadata != null) {
@@ -137,7 +121,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 		var metadata = new Gth.Metadata.for_string (description.buffer.text);
 		file_data.info.set_attribute_object ("Metadata::Description", metadata);
 
-		set_string_attribute (title, "Metadata::Title");
+		set_string_attribute (title_entry, "Metadata::Title");
 		set_string_attribute (place, "Metadata::Location");
 
 		var date_time = new Gth.DateTime.from_date_time (date.date, time.time);
@@ -204,7 +188,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 
 	FileData file_data;
 	[GtkChild] unowned Gtk.TextView description;
-	[GtkChild] unowned Adw.EntryRow title;
+	[GtkChild] unowned Adw.EntryRow title_entry;
 	[GtkChild] unowned Adw.EntryRow place;
 	[GtkChild] unowned Gth.DateRow date;
 	[GtkChild] unowned Gth.TimeRow time;

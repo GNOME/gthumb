@@ -48,7 +48,7 @@ namespace Gth {
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
 
-		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable = null);
+		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 
 		public void fill_vertical (Image pattern, Fill fill);

@@ -124,7 +124,6 @@ public class Gth.ShortcutsPreferences : Adw.NavigationPage {
 			break;
 
 		case CategoryEntry.Type.ALL:
-			var categories = new GenericList<CategoryEntry> ();
 			var last_category = -1;
 			foreach (var shortcut in sorted_shortcuts) {
 				if (!shortcut.get_is_customizable ()) {

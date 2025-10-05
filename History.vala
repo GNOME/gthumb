@@ -15,14 +15,14 @@ class Gth.History {
 		actions_category = new ActionCategory ("", 0);
 	}
 
-	public void print () {
+	/*public void print () {
 		stdout.printf ("HISTORY:\n");
 		var idx = 0;
 		foreach (unowned var file in files) {
 			stdout.printf ("  %s%s\n", (idx == current) ? "*" : " ", file.get_uri ());
 			idx++;
 		}
-	}
+	}*/
 
 	public void copy (History other) {
 		files.length = 0;
@@ -74,9 +74,9 @@ class Gth.History {
 		update_menu ();
 	}
 
-	public File? get (int index) {
+	/*public File? get (int index) {
 		return files[index];
-	}
+	}*/
 
 	public void clear () {
 		files.length = 0;

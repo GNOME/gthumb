@@ -499,7 +499,7 @@ public class Gth.Application : Adw.Application {
 		return get_viewer_type_for_content_type (content_type) == viewer_type;
 	}
 
-	public Gth.Window get_active_window () {
+	public Gth.Window? get_active_main_window () {
 		foreach (var win in get_windows ()) {
 			if (win is Gth.Window) {
 				return win as Gth.Window;
@@ -701,7 +701,7 @@ public class Gth.Application : Adw.Application {
 		action = new SimpleAction ("quit", null);
 		action.activate.connect ((_action, param) => {
 			quitting = true;
-			var window = get_active_window ();
+			var window = get_active_main_window ();
 			if (window != null) {
 				window.save_preferences ();
 				window.close ();

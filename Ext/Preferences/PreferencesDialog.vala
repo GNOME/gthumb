@@ -44,7 +44,7 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 
 	[GtkChild] unowned Gtk.ListBox page_list;
 	[GtkChild] unowned Adw.NavigationView content_view;
-	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
+	//[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 	[GtkChild] unowned Gth.GeneralPreferences general_page;
 	[GtkChild] unowned Gth.BrowserPreferences browser_page;
 	[GtkChild] unowned Gth.SaversPreferences saving_page;

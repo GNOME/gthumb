@@ -160,8 +160,7 @@ public class Gth.Template {
 		while (token.get_next_char (ref offset, out ch)) {
 			var next_offset = offset;
 			unichar next_ch = 0;
-			var has_next = token.get_next_char (ref next_offset, out next_ch);
-			var save_arg = false;
+			token.get_next_char (ref next_offset, out next_ch);
 
 			switch (state) {
 			case State.START:
@@ -196,6 +195,9 @@ public class Gth.Template {
 						n_open_brackets++;
 					}
 				}
+				break;
+
+			default:
 				break;
 			}
 
@@ -259,7 +261,6 @@ public class Gth.Template {
 					foreach (unowned var arg in input_args) {
 						args.add (_eval (arg, flags, code, func));
 					}
-					args.add (null);
 					stop = func (flags, parent_code, code, args.data, result);
 				}
 			}

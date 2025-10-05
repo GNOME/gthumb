@@ -3,7 +3,7 @@ public class Gth.MetadataReader {
 		factory = _factory;
 	}
 
-	public async void update (FileData file_data, string[] metadata_attributes_v, Cancellable cancellable) {
+	public async void update (FileData file_data, string[] metadata_attributes_v, Cancellable cancellable) throws Error {
 		var job = new Job ();
 		job.callback = update.callback;
 		job.file_data = file_data;

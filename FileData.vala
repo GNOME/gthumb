@@ -304,7 +304,7 @@ public class Gth.FileData : Object {
 		}
 	}
 
-	public unowned string get_etag () {
+	public unowned string? get_etag () {
 		if (info.has_attribute (FileAttribute.ETAG_VALUE)) {
 			return info.get_attribute_string (FileAttribute.ETAG_VALUE);
 		}
@@ -314,14 +314,19 @@ public class Gth.FileData : Object {
 	}
 
 	public void rename_from_display_name (string basename) {
-		var new_file = file.get_parent ().get_child_for_display_name (basename);
-		set_file (new_file);
-		info.set_display_name (basename);
-		info.set_edit_name (basename);
+		try {
+			var new_file = file.get_parent ().get_child_for_display_name (basename);
+			set_file (new_file);
+			info.set_display_name (basename);
+			info.set_edit_name (basename);
 
-		var extension = Util.get_extension (basename);
-		unowned var content_type = app.get_content_type_from_extension (extension);
-		set_content_type (content_type);
+			var extension = Util.get_extension (basename);
+			unowned var content_type = app.get_content_type_from_extension (extension);
+			set_content_type (content_type);
+		}
+		catch (Error error) {
+			// TODO
+		}
 	}
 
 	public Gth.Image? thumbnail_image = null;

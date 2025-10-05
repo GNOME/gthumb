@@ -70,7 +70,7 @@ public delegate bool CheckTextFunc (string value) throws Error;
 public class Gth.EntryDialog : Adw.Dialog {
 	public signal void saved ();
 
-	public CheckTextFunc check_func;
+	public unowned CheckTextFunc check_func;
 
 	public EntryDialog (string _title, string? default_value = null) {
 		title = _title;

@@ -128,7 +128,7 @@ public class Gth.Script : Object {
 		return preview;
 	}
 
-	string last_output = null;
+	//string last_output = null;
 
 	async void exec_command (string command, Job job) throws Error {
 		//stdout.printf ("> exec_command: %s\n", command);

@@ -58,7 +58,7 @@
                 <property name="title" translatable="yes">Metadata</property>
                 <property name="separate-rows">true</property>
                 <child>
-                  <object class="AdwEntryRow" id="title">
+                  <object class="AdwEntryRow" id="title_entry">
                     <property name="title" translatable="yes">Title</property>
                     <style>
                       <class name="property"/>

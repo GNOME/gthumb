@@ -459,7 +459,7 @@ public class Gth.Viewer : Gtk.Box {
 			}
 			else if (!window.browser.view_position (position)) {
 				if (!window.browser.view_last_file ()) {
-					window.set_page (Window.Page.BROWSER);
+					window.set_page.begin (Window.Page.BROWSER);
 				}
 			}
 		}

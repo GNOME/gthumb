@@ -3,7 +3,7 @@ public class Gth.MetadataWriter {
 		factory = _factory;
 	}
 
-	public async void save (FileData file_data, Cancellable cancellable) {
+	public async void save (FileData file_data, Cancellable cancellable) throws Error {
 		var flags = Flags.DEFAULT;
 		if (app.settings.get_boolean (PREF_GENERAL_STORE_METADATA_IN_FILES)) {
 			flags |= Flags.PREFER_EMBEDDED;

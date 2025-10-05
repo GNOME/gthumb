@@ -1,11 +1,11 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/template-page.ui")]
 public class Gth.TemplatePage : Adw.NavigationPage {
 	public GenericList<TemplateCodeInfo> allowed_codes;
-	public TemplatePreviewFunc get_preview_func;
+	public unowned TemplatePreviewFunc get_preview_func;
 
 	public signal void save ();
 
-	public void set_template (string template, TemplateFlags _flags = TemplateFlags.DEFAULT) {
+	public void set_template_text (string template, TemplateFlags _flags = TemplateFlags.DEFAULT) {
 		flags = _flags;
 		template_tokens = new GenericList<TemplateToken>();
 		var tokens = Template.tokenize (template, flags);
@@ -114,7 +114,7 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 			}
 			template_page.save_button.label = _("_Apply");
 			template_page.get_preview_func = get_preview_func;
-			template_page.set_template (entry.text, flags | TemplateFlags.PARTIAL);
+			template_page.set_template_text (entry.text, flags | TemplateFlags.PARTIAL);
 			template_page.save.connect ((page) => {
 				entry.text = page.get_template ();
 				unowned var local_dialog = Util.get_preferences_dialog (this);
@@ -123,7 +123,7 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 			});
 			dialog.push_subpage (template_page);
 		});
-		row.changed.connect (() => changed (true));
+		row.data_changed.connect (() => changed (true));
 		return row;
 	}
 

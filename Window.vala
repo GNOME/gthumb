@@ -295,7 +295,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
-	public GenericList<FileData> get_selected_file_data_list () {
+	public GenericList<FileData>? get_selected_file_data_list () {
 		switch (current_page) {
 		case Page.BROWSER:
 			return browser.get_selected_file_data_list ();

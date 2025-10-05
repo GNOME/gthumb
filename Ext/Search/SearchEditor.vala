@@ -16,6 +16,7 @@ public class Gth.SearchEditor : Object {
 			dialog.close ();
 		});
 		dialog.present (parent);
+		dialog.focus_first_rule ();
 		yield;
 		if (cancelled_event != 0) {
 			cancellable.disconnect (cancelled_event);

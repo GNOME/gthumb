@@ -83,8 +83,13 @@ public class Gth.Catalog : Object {
 	}
 
 	public static File? from_display_name (string name, string extension) {
-		var dir = File.new_for_uri ("catalog:///");
-		return dir.get_child_for_display_name (name + extension);
+		try {
+			var dir = File.new_for_uri ("catalog:///");
+			return dir.get_child_for_display_name (name + extension);
+		}
+		catch (Error error) {
+			return null;
+		}
 	}
 
 	public static File get_base_dir () {
@@ -135,7 +140,7 @@ public class Gth.Catalog : Object {
 		info.set_edit_name (basename);
 	}
 
-	public static string get_name_from_file (File file) {
+	public static string? get_name_from_file (File file) {
 		var basename = file.get_basename ();
 		if (basename == null) {
 			return null;

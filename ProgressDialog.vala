@@ -94,16 +94,6 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		}
 	}
 
-	int count_foreground_jobs () {
-		var count = 0;
-		foreach (unowned var job in jobs) {
-			if (job.foreground) {
-				count++;
-			}
-		}
-		return count;
-	}
-
 	~ProgressDialog() {
 		cancel_show_dialog ();
 	}

@@ -24,7 +24,7 @@ public class Gth.ShortcutRow : Adw.ActionRow {
 
 		activated.connect (() => {
 			var dialog = new ReadShortcut ();
-			var win = app.get_active_window ();
+			var win = app.get_active_main_window ();
 			if (win == null) {
 				return;
 			}

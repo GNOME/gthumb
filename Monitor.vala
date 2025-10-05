@@ -62,10 +62,12 @@ public class Gth.Monitor : Object {
 		if (watch) {
 			stdout.printf ("> START WATCH FILE: %s\n", file.get_uri ());
 			if (!file_monitors.contains (file)) {
-				var file_monitor = file.monitor_directory (FileMonitorFlags.NONE, null);
-				if (file_monitor != null) {
+				try {
+					var file_monitor = file.monitor_directory (FileMonitorFlags.NONE, null);
 					file_monitor.changed.connect (on_file_changed);
 					file_monitors.set (file, file_monitor);
+				}
+				catch (Error error) {
 				}
 			}
 		}

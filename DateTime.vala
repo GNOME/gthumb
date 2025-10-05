@@ -223,7 +223,7 @@ public struct Gth.Date {
 	}
 
 	public Date.parse (string text) {
-		var gdate = new GLib.Date ();
+		var gdate = GLib.Date ();
 		gdate.set_parse (text);
 		this.from_gdate (gdate);
 	}

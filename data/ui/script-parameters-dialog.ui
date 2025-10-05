@@ -19,7 +19,7 @@
                   <class name="message-area"/>
                 </style>
                 <child>
-                  <object class="GtkLabel" id="title">
+                  <object class="GtkLabel" id="custom_title">
                     <property name="halign">center</property>
                     <style>
                       <class name="title-2"/>

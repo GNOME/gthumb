@@ -243,7 +243,7 @@ public enum Gth.ShortcutCategory {
 		return TITLE[this];
 	}
 
-	public static const string[] TITLE = {
+	public const string[] TITLE = {
 		N_("Hidden"),
 		N_("General"),
 		N_("File Manager"),
