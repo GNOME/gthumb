@@ -11,7 +11,7 @@ typedef struct {
 	GPtrArray *frames;
 	guint total_time; // Milliseconds
 	guint current_time;
-	int current_frame;
+	guint current_frame;
 } GthImageGif;
 
 typedef GthImageClass GthImageGifClass;
@@ -19,7 +19,7 @@ typedef GthImageClass GthImageGifClass;
 G_DEFINE_TYPE (GthImageGif, gth_image_gif, GTH_TYPE_IMAGE)
 
 typedef struct {
-	int ref;
+	guint ref;
 	GthImage *image;
 	guint start; // Milliseconds
 	guint delay; // Milliseconds
@@ -34,15 +34,19 @@ static GthFrame * gth_frame_new (GthImage *image, guint delay) {
 }
 
 static GthFrame * gth_frame_ref (GthFrame *frame) {
+	g_return_val_if_fail (frame != NULL, NULL);
 	frame->ref++;
 	return frame;
 }
 
 static void gth_frame_unref (GthFrame *frame) {
-	frame->ref--;
-	if (frame->ref == 0) {
-		g_object_unref (frame->image);
-		g_free (frame);
+	g_return_if_fail (frame != NULL);
+	if (frame->ref > 0) {
+		frame->ref--;
+		if (frame->ref == 0) {
+			g_object_unref (frame->image);
+			g_free (frame);
+		}
 	}
 }
 
@@ -71,6 +75,7 @@ static gboolean gth_image_gif_change_time (GthImage *base, GthChangeTime op, gul
 	}
 	else if (op == GTH_CHANGE_TIME_SET) {
 		self->current_time = milliseconds;
+		self->current_frame = 0;
 	}
 	GthFrame *frame = g_ptr_array_index (self->frames, self->current_frame);
 	//g_print ("> %ul > %ul\n", self->current_time, frame->start + frame->delay);
