@@ -256,11 +256,12 @@ public class Gth.Template {
 			var code = Template.get_token_code (token);
 			if (code != 0) {
 				if (func != null) {
-					var args = new GenericArray<string>();
+					var args = new GenericArray<string?>();
 					var input_args = Template.get_token_args (token);
 					foreach (unowned var arg in input_args) {
 						args.add (_eval (arg, flags, code, func));
 					}
+					args.add (null);
 					stop = func (flags, parent_code, code, args.data, result);
 				}
 			}
