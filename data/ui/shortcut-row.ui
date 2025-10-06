@@ -46,6 +46,7 @@
       <item>
         <attribute name="label" translatable="yes">_Reset</attribute>
         <attribute name="action">row.reset</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Delete</attribute>

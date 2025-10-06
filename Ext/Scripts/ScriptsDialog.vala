@@ -36,11 +36,6 @@ public class Gth.ScriptsDialog : Adw.PreferencesDialog {
 	}
 
 	[GtkCallback]
-	private void on_cancel_script (Gth.ScriptEditorPage source) {
-		pop_subpage ();
-	}
-
-	[GtkCallback]
 	private void on_save_script (Gth.ScriptEditorPage source) {
 		if (save_script ()) {
 			pop_subpage ();
@@ -65,6 +60,7 @@ public class Gth.ScriptsDialog : Adw.PreferencesDialog {
 				current_script.copy (script);
 				app.scripts.changed (script.id);
 			}
+			script_page.shortcut_row.save_if_modified ();
 			return true;
 		}
 		catch (Error error) {

@@ -32,6 +32,7 @@
                 </child>
                 <child>
                   <object class="GthShortcutRow" id="shortcut_row">
+                    <property name="save_on_change">false</property>
                   </object>
                 </child>
               </object>

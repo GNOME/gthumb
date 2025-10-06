@@ -2,7 +2,6 @@
 public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	public Gth.Script script;
 
-	public signal void cancelled ();
 	public signal void save ();
 
 	public void set_script (Gth.Script? current_script) {
@@ -68,5 +67,5 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	[GtkChild] unowned Adw.SwitchRow for_each_file;
 	[GtkChild] unowned Adw.SwitchRow wait_command;
 	[GtkChild] unowned Gth.ScriptCommandPage command_page;
-	[GtkChild] unowned Gth.ShortcutRow shortcut_row;
+	[GtkChild] public unowned Gth.ShortcutRow shortcut_row;
 }

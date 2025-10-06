@@ -37,7 +37,6 @@
     </child>
   </template>
   <object class="GthScriptEditorPage" id="script_page">
-    <signal name="cancelled" handler="on_cancel_script" />
     <signal name="save" handler="on_save_script" />
   </object>
 </interface>

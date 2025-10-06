@@ -52,7 +52,7 @@ public class Gth.Shortcuts {
 			var root = new Dom.Element.with_attributes ("shortcuts", "version", SHORTCUT_FORMAT);
 			doc.append_child (root);
 			foreach (unowned var shortcut in entries) {
-				if (!shortcut.get_is_customizable ()) {
+				if (!shortcut.get_is_customizable () || !shortcut.get_is_modified ()) {
 					continue;
 				}
 				root.append_child (shortcut.create_element (doc));
@@ -64,7 +64,7 @@ public class Gth.Shortcuts {
 		}
 	}
 
-	public Shortcut? find_by_key (ShortcutContext context, uint keyval, Gdk.ModifierType modifiers) {
+	public Shortcut? find_by_key (ShortcutContext context, uint keyval, Gdk.ModifierType modifiers, Shortcut? other_shortcut = null) {
 		if (keyval == 0) {
 			return null;
 		}
@@ -76,7 +76,8 @@ public class Gth.Shortcuts {
 		foreach (unowned var shortcut in entries) {
 			if (((shortcut.context & context) != 0)
 				&& (shortcut.keyval == keyval)
-				&& (shortcut.modifiers == modifiers))
+				&& (shortcut.modifiers == modifiers)
+				&& (shortcut != other_shortcut))
 			{
 				return shortcut;
 			}
