@@ -29,6 +29,14 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		present (window);
 		presented = true;
 		presented_by_user = by_user;
+
+		var foreground_jobs = 0;
+		foreach (unowned var job in jobs) {
+			if (job.foreground) {
+				foreground_jobs += 1;
+			}
+		}
+		shown_foreground_jobs = foreground_jobs;
 	}
 
 	public void hide_dialog () {
@@ -38,7 +46,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		}
 	}
 
-	void queue_show_dialog () {
+	public void queue_show_dialog () {
 		if (show_event == 0) {
 			show_event = Util.after_timeout (SHOW_DELAY, () => show_dialog ());
 		}
@@ -62,6 +70,11 @@ public class Gth.ProgressDialog : Adw.Dialog {
 			return;
 		}
 		jobs.model.remove (pos);
+		if (row.job.foreground) {
+			if (shown_foreground_jobs > 0) {
+				shown_foreground_jobs--;
+			}
+		}
 		after_changing_jobs ();
 	}
 
@@ -72,9 +85,9 @@ public class Gth.ProgressDialog : Adw.Dialog {
 
 	uint foreground_jobs = 0;
 	uint job_dialogs = 0;
+	uint shown_foreground_jobs = 0;
 
 	public void job_dialogs_changed () {
-		var prev_foreground_jobs = foreground_jobs;
 		foreground_jobs = 0;
 		job_dialogs = 0;
 		foreach (unowned var job in jobs) {
@@ -89,7 +102,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		{
 			hide_dialog ();
 		}
-		else if (foreground_jobs > prev_foreground_jobs) {
+		else if (foreground_jobs > shown_foreground_jobs) {
 			queue_show_dialog ();
 		}
 	}
