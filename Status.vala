@@ -16,6 +16,11 @@ public class Gth.Status : Gtk.Box {
 		selection_info.visible = files > 0;
 	}
 
+	public void set_free_space_info (uint64 size) {
+		free_space.label = GLib.format_size (size, FormatSizeFlags.DEFAULT);
+		free_space_info.visible = size > 0;
+	}
+
 	[GtkChild] unowned Gtk.Label total_files;
 	[GtkChild] unowned Gtk.Label total_size;
 	[GtkChild] unowned Gtk.Box list_info;
@@ -23,4 +28,6 @@ public class Gth.Status : Gtk.Box {
 	[GtkChild] unowned Gtk.Label selected_size;
 	[GtkChild] unowned Gtk.Box selection_info;
 	[GtkChild] unowned Gth.JobStatus job_status;
+	[GtkChild] unowned Gtk.Box free_space_info;
+	[GtkChild] unowned Gtk.Label free_space;
 }

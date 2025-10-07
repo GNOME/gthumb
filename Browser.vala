@@ -161,6 +161,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 		update_selection_info ();
 		update_location_menu ();
+		update_free_space_info ();
 		if (load_action != LoadAction.OPEN_FROM_HISTORY) {
 			history.add (folder_tree.current_folder.file);
 		}
@@ -585,6 +586,39 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 		return selected_files;
+	}
+
+	Gth.Job free_space_job = null;
+
+	void update_free_space_info () {
+		if (free_space_job != null) {
+			free_space_job.cancel ();
+			free_space_job = null;
+		}
+		var location = folder_tree.current_folder.file;
+		var source = app.get_source_for_file (location);
+		if (!(source is FileSourceVfs)) {
+			status.set_free_space_info (0);
+			return;
+		}
+		var local_job = window.new_job ("Free Space");
+		free_space_job = local_job;
+		location.query_filesystem_info_async.begin (FileAttribute.FILESYSTEM_FREE, Priority.DEFAULT, local_job.cancellable, (_obj, res) => {
+			try {
+				var info = location.query_filesystem_info_async.end (res);
+				var free_space = info.get_attribute_uint64 (FileAttribute.FILESYSTEM_FREE);
+				status.set_free_space_info (free_space);
+			}
+			catch (Error error) {
+				// Ignore
+			}
+			finally {
+				local_job.done ();
+				if (local_job == free_space_job) {
+					free_space_job = null;
+				}
+			}
+		});
 	}
 
 	Gth.Job sidebar_job = null;
