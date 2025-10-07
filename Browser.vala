@@ -365,6 +365,7 @@ public class Gth.Browser : Gtk.Box {
 	void update_active_filter () {
 		file_filter.update_filter ();
 		update_total_files ();
+		update_selection_info ();
 	}
 
 	public void update_title () {
@@ -1785,6 +1786,7 @@ public class Gth.Browser : Gtk.Box {
 			file_filter.after_removing_files ();
 		}
 		update_total_files ();
+		update_selection_info ();
 	}
 
 	async void paste_files_from_clipboard (File destination, Job job) throws Error {
