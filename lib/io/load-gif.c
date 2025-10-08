@@ -3,122 +3,6 @@
 #include <gif_lib.h>
 #include "load-gif.h"
 
-// GthImageGif (private class)
-#define GTH_IMAGE_GIF(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), gth_image_gif_get_type(), GthImageGif))
-
-typedef struct {
-	GthImage __parent;
-	GPtrArray *frames;
-	guint total_time; // Milliseconds
-	guint current_time;
-	guint current_frame;
-} GthImageGif;
-
-typedef GthImageClass GthImageGifClass;
-
-G_DEFINE_TYPE (GthImageGif, gth_image_gif, GTH_TYPE_IMAGE)
-
-typedef struct {
-	guint ref;
-	GthImage *image;
-	guint start; // Milliseconds
-	guint delay; // Milliseconds
-} GthFrame;
-
-static GthFrame * gth_frame_new (GthImage *image, guint delay) {
-	GthFrame *frame = g_new0 (GthFrame, 1);
-	frame->ref = 1;
-	frame->image = g_object_ref (image);
-	frame->delay = delay;
-	return frame;
-}
-
-static GthFrame * gth_frame_ref (GthFrame *frame) {
-	g_return_val_if_fail (frame != NULL, NULL);
-	frame->ref++;
-	return frame;
-}
-
-static void gth_frame_unref (GthFrame *frame) {
-	g_return_if_fail (frame != NULL);
-	if (frame->ref > 0) {
-		frame->ref--;
-		if (frame->ref == 0) {
-			g_object_unref (frame->image);
-			g_free (frame);
-		}
-	}
-}
-
-static void gth_image_gif_finalize (GObject *object) {
-	GthImageGif *self = GTH_IMAGE_GIF (object);
-	g_ptr_array_unref (self->frames);
-	G_OBJECT_CLASS (gth_image_gif_parent_class)->finalize (object);
-}
-
-static void gth_image_gif_init (GthImageGif *self) {
-	self->frames = g_ptr_array_new_with_free_func ((GDestroyNotify) gth_frame_unref);
-	self->total_time = 0;
-	self->current_time = 0;
-	self->current_frame = 0;
-}
-
-static gboolean gth_image_gif_get_is_animated (GthImage *base) {
-	GthImageGif *self = GTH_IMAGE_GIF (base);
-	return self->frames->len > 1;
-}
-
-static gboolean gth_image_gif_change_time (GthImage *base, GthChangeTime op, gulong milliseconds) {
-	GthImageGif *self = GTH_IMAGE_GIF (base);
-	if (op == GTH_CHANGE_TIME_ADD) {
-		self->current_time += milliseconds;
-	}
-	else if (op == GTH_CHANGE_TIME_SET) {
-		self->current_time = milliseconds;
-		self->current_frame = 0;
-	}
-	GthFrame *frame = g_ptr_array_index (self->frames, self->current_frame);
-	//g_print ("> %ul > %ul\n", self->current_time, frame->start + frame->delay);
-	while (self->current_time > frame->start + frame->delay) {
-		self->current_frame += 1;
-		if (self->current_frame >= self->frames->len) {
-			// TODO: always loop?
-			self->current_frame = 0;
-			self->current_time = self->current_time - self->total_time;
-		}
-		frame = g_ptr_array_index (self->frames, self->current_frame);
-	}
-	gth_image_set_pixels (GTH_IMAGE (self), frame->image);
-	return TRUE;
-}
-
-static void gth_image_gif_class_init (GthImageGifClass *klass) {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_image_gif_finalize;
-
-	GthImageClass *image_class = GTH_IMAGE_CLASS (klass);
-	image_class->get_is_animated = gth_image_gif_get_is_animated;
-	image_class->change_time = gth_image_gif_change_time;
-}
-
-static GthImage * gth_image_gif_new (guint width, guint height) {
-	GthImageGif *image = (GthImageGif *) g_object_new (gth_image_gif_get_type (), NULL);
-	gth_image_set_natural_size (GTH_IMAGE (image), width, height);
-	gth_image_set_has_alpha (GTH_IMAGE (image), TRUE);
-	return (GthImage *) image;
-}
-
-static void gth_image_gif_add_frame (GthImageGif *self, GthFrame *frame) {
-	g_ptr_array_add (self->frames, gth_frame_ref (frame));
-	frame->start = self->total_time;
-	self->total_time += frame->delay;
-	if (self->frames->len == 1) {
-		gth_image_set_pixels (GTH_IMAGE (self), frame->image);
-		self->current_frame = 0;
-		self->current_time = 0;
-	}
-}
-
 typedef struct {
 	const void *buffer;
 	gsize size;
@@ -321,7 +205,8 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 			width = file->Image.Width;
 			height = file->Image.Height;
 			if (image_idx == 0) {
-				image = gth_image_gif_new (file->SWidth, file->SHeight);
+				image = gth_image_new (file->SWidth, file->SHeight);
+				gth_image_set_has_alpha (image, TRUE);
 			}
 			image_idx++;
 			//g_print ("  Image %d at (%d, %d) [%dx%d]:\n", image_idx, col, row, width, height);
@@ -372,15 +257,14 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 				//goto close;
 			}
 
-			GthImage *frame_image = render_frame (file, &render_ctx);
-			if (frame_image == NULL) {
+			GthImage *frame = render_frame (file, &render_ctx);
+			if (frame == NULL) {
 				g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to create frame %d", image_idx);
 				goto close;
 			}
 
 			guint milliseconds = (render_ctx.gcb.DelayTime > 0) ? (guint) render_ctx.gcb.DelayTime * 10 : 100;
-			GthFrame *frame = gth_frame_new (frame_image, milliseconds);
-			gth_image_gif_add_frame (GTH_IMAGE_GIF (image), frame);
+			gth_image_add_frame (image, frame, milliseconds);
 
 			if (render_ctx.gcb.DisposalMode == DISPOSE_BACKGROUND) {
 				// Reset prev_image to NULL.
@@ -394,12 +278,11 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 				if (render_ctx.prev_image != NULL) {
 					g_object_unref (render_ctx.prev_image);
 				}
-				render_ctx.prev_image = g_object_ref (frame_image);
+				render_ctx.prev_image = g_object_ref (frame);
 			}
 			render_ctx.last_disposal_mode = render_ctx.gcb.DisposalMode;
 
-			g_object_unref (frame_image);
-			gth_frame_unref (frame);
+			g_object_unref (frame);
 
 			file->ExtensionBlocks = NULL;
 			file->ExtensionBlockCount = 0;
