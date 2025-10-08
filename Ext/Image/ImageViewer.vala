@@ -542,6 +542,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action.activate.connect ((action, param) => {
 			if (image_view.image != null) {
 				image_view.paused = Util.toggle_state (action);
+				Util.enable_action (action_group, "next-frame", image_view.paused);
 			}
 		});
 		action_group.add_action (action);
@@ -553,6 +554,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				image_view.queue_draw ();
 			}
 		});
+		action.set_enabled (false);
 		action_group.add_action (action);
 	}
 
