@@ -136,6 +136,7 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("Photo::ShutterSpeed", N_("Shutter Speed"), "Metadata", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Photo::FocalLength", N_("Focal Length"), "Metadata", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Photo::Flash", N_("Flash"), "Metadata", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Animation::Frames", N_("Frames"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
 		VideoMetadata.register_info ();
 

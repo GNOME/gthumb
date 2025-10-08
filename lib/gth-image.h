@@ -81,7 +81,9 @@ cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double factor, g
 // Animated images
 void gth_image_add_frame (GthImage *self, GthImage *frame, uint delay);
 gboolean gth_image_get_is_animated (GthImage *self);
+guint gth_image_get_frames (GthImage *self);
 gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong milliseconds);
+void gth_image_next_frame (GthImage *self);
 
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);

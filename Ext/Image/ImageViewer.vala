@@ -11,6 +11,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
 		image_view.transparency = (TransparencyStyle) settings.get_enum (PREF_IMAGE_TRANSPARENCY);
+		animation_actions = builder.get_object ("animation_actions") as Gtk.Box;
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (builder.get_object ("main_view") as Gtk.Widget);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
@@ -99,11 +100,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public async bool load (FileData file_data, Job job) throws Error {
+		var success = false;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, LoadFlags.DEFAULT, job.cancellable);
 			file_data.update_info (image.info, false);
 			yield view_image (image, file_data, job.cancellable);
-			return true;
+			success = true;
 		}
 		catch (Error error) {
 			if (error is IOError.CANCELLED) {
@@ -112,8 +114,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			stdout.printf ("> ERROR: %s\n", error.message);
 			window.show_error (error);
 			image_view.image = null;
-			return false;
 		}
+		update_toolbar_actions ();
+		return success;
 	}
 
 	public void deactivate () {
@@ -534,6 +537,23 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			image_view.recenter ();
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("toggle-paused", null, new Variant.boolean (false));
+		action.activate.connect ((action, param) => {
+			if (image_view.image != null) {
+				image_view.paused = Util.toggle_state (action);
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("next-frame", null);
+		action.activate.connect ((action, param) => {
+			if (image_view.image != null) {
+				image_view.image.next_frame ();
+				image_view.queue_draw ();
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	async void edit_image (string title, EditorFunc editor_func) {
@@ -576,6 +596,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		finally {
 			local_job.done ();
 		}
+	}
+
+	void update_toolbar_actions () {
+		animation_actions.visible = (image_view.image != null) && image_view.image.get_is_animated ();
 	}
 
 	void update_zoom_info () {
@@ -682,6 +706,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	GLib.Settings settings;
 	Gtk.Builder builder;
 	unowned Gth.ImageView image_view;
+	unowned Gtk.Box animation_actions;
 	ulong zoom_adj_changed_id;
 	SimpleActionGroup action_group;
 	bool dragging;

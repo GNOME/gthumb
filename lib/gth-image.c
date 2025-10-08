@@ -521,6 +521,11 @@ gboolean gth_image_get_is_animated (GthImage *self) {
 	return self->priv->frames->len > 1;
 }
 
+guint gth_image_get_frames (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
+	return self->priv->frames->len;
+}
+
 gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong milliseconds) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	GthImagePrivate *priv = self->priv;
@@ -547,6 +552,23 @@ gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong millise
 	}
 	gth_image_set_pixels (self, frame->image);
 	return TRUE;
+}
+
+void gth_image_next_frame (GthImage *self) {
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
+	GthImagePrivate *priv = self->priv;
+	if (priv->frames->len <= 1) {
+		return;
+	}
+	if (priv->current_frame >= priv->frames->len - 1) {
+		priv->current_frame = 0;
+	}
+	else {
+		priv->current_frame += 1;
+	}
+	GthFrame *frame = g_ptr_array_index (priv->frames, priv->current_frame);
+	gth_image_set_pixels (self, frame->image);
 }
 
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {

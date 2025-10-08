@@ -21,7 +21,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				break;
 			}
 			queue_resize ();
-			if ((_image != null) && _image.get_is_animated ()) {
+			if (!_paused && (_image != null) && _image.get_is_animated ()) {
 				start_animation ();
 			}
 		}
@@ -80,6 +80,19 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 					update_image_box ();
 					queue_draw ();
 				});
+			}
+		}
+	}
+
+	public bool paused {
+		get { return _paused; }
+		set {
+			_paused = value;
+			if (_paused) {
+				stop_animation ();
+			}
+			else if ((_image != null) && _image.get_is_animated ()) {
+				start_animation ();
 			}
 		}
 	}
@@ -507,6 +520,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		vadj_changed_id = 0;
 		focusable = true;
 		animation_id = 0;
+		_paused = false;
 	}
 
 	Gth.Image _image;
@@ -527,6 +541,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	ulong hadj_changed_id;
 	ulong vadj_changed_id;
 	uint animation_id;
+	bool _paused;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;

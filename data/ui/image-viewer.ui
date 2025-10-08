@@ -126,22 +126,23 @@
   <object class="GtkBox" id="left_toolbar">
     <property name="spacing">6</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="animation_actions">
         <property name="spacing">6</property>
-        <!--child>
+        <property name="visible">false</property>
+        <child>
           <object class="GtkToggleButton">
-            <property name="tooltip-text" translatable="yes">Set to actual size</property>
-            <property name="icon-name">gth-view-zoom-original-symbolic</property>
-            <property name="action-name">image.zoom-100</property>
+            <property name="tooltip-text" translatable="yes">Pause</property>
+            <property name="icon-name">gth-pause-large-symbolic</property>
+            <property name="action-name">image.toggle-paused</property>
           </object>
         </child>
         <child>
-          <object class="GtkToggleButton">
-            <property name="tooltip-text" translatable="yes">Fit to the available space</property>
-            <property name="icon-name">gth-view-zoom-fit-symbolic</property>
-            <property name="action-name">image.zoom-best-fit</property>
+          <object class="GtkButton">
+            <property name="tooltip-text" translatable="yes">Next Frame</property>
+            <property name="icon-name">gth-skip-forward-large-symbolic</property>
+            <property name="action-name">image.next-frame</property>
           </object>
-        </child-->
+        </child>
       </object>
     </child>
   </object>

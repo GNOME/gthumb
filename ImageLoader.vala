@@ -78,6 +78,11 @@ public class Gth.ImageLoader {
 			}
 
 			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
+			var frames = image.get_frames ();
+			if (frames > 1) {
+				var metadata = new Metadata.for_string ("%u".printf (frames));
+				info.set_attribute_object ("Animation::Frames", metadata);
+			}
 
 			if (load_metadata) {
 				foreach (unowned var provider in app.metadata_providers) {

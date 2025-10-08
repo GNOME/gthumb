@@ -23,11 +23,8 @@ namespace Gth {
 		public bool remove_attribute (string key);
 		public unowned string get_attribute (string key);
 		public FileInfo info {
-			[CCode (cname = "gth_image_get_info")]
-			get;
-
-			[CCode (cname = "gth_image_set_info")]
-			set;
+			[CCode (cname = "gth_image_get_info")] get;
+			[CCode (cname = "gth_image_set_info")] set;
 		}
 
 		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
@@ -39,8 +36,10 @@ namespace Gth {
 		public virtual bool get_is_scalable ();
 		public virtual Cairo.Surface? get_scaled_texture (double factor, uint x, uint y, uint width, uint height);
 
-		public virtual bool get_is_animated ();
-		public virtual bool change_time (ChangeTime op, ulong milliseconds);
+		public bool get_is_animated ();
+		public uint get_frames ();
+		public bool change_time (ChangeTime op, ulong milliseconds);
+		public void next_frame ();
 
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();
