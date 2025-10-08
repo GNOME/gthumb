@@ -260,7 +260,6 @@ public class Gth.Viewer : Gtk.Box {
 		viewer_signals.add (motion_events, motion_id);
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
-		//scroll_events.flags = Gtk.EventControllerScrollFlags.DISCRETE;
 		var scroll_id = scroll_events.scroll.connect (on_scroll);
 		widget.add_controller (scroll_events);
 		viewer_signals.add (scroll_events, scroll_id);
@@ -373,15 +372,8 @@ public class Gth.Viewer : Gtk.Box {
 		if (current_viewer == null) {
 			return false;
 		}
-		unowned var event = controller.get_current_event ();
-		var x = -1.0, y = -1.0;
-		if (event != null) {
-			if (!event.get_position (out x, out y)) {
-				x = -1.0;
-				y = -1.0;
-			}
-		}
-		return current_viewer.on_scroll (x, y, dx, dy);
+		var state = controller.get_current_event_state ();
+		return current_viewer.on_scroll (dx, dy, state);
 	}
 
 	public bool on_scroll_change_file (double dx, double dy) {

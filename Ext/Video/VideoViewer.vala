@@ -181,7 +181,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	public bool on_scroll (double x, double y, double dx, double dy) {
+	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
 		switch (scroll_action) {
 		case ScrollAction.CHANGE_FILE:
 			return window.viewer.on_scroll_change_file (dx, dy);

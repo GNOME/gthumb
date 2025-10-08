@@ -40,6 +40,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		image_view.resized.connect (() => update_zoom_info ());
 
+		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		scroll_events.scroll.connect ((controller, dx, dy) => {
+			return on_scroll (dx, dy, controller.get_current_event_state ());
+		});
+		image_view.add_controller (scroll_events);
+
 		var click_events = new Gtk.GestureClick ();
 		click_events.button = Gdk.BUTTON_PRIMARY;
 		click_events.pressed.connect ((n_press, x, y) => {
@@ -72,6 +78,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				image_view.scroll_by (dx, dy);
 				drag_start = { x, y };
 			}
+			last_x = x;
+			last_y = y;
 		});
 		image_view.add_controller (motion_events);
 
@@ -133,16 +141,24 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		// TODO
 	}
 
-	public bool on_scroll (double x, double y, double dx, double dy) {
-		switch (scroll_action) {
+	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
+		var action = scroll_action;
+		if ((state & Gdk.ModifierType.CONTROL_MASK) != 0) {
+			action = ScrollAction.CHANGE_ZOOM;
+		}
+		switch (action) {
 		case ScrollAction.CHANGE_FILE:
 			return window.viewer.on_scroll_change_file (dx, dy);
-
 		case ScrollAction.CHANGE_ZOOM:
 			var step = (dy < 0) ? 0.1f : -0.1f;
-			image_view.zoom = image_view.zoom + (image_view.zoom * step);
-			break;
-
+			var new_zoom = image_view.zoom + (image_view.zoom * step);
+			if ((last_x >= 0) && (last_y >= 0)) {
+				image_view.set_zoom_and_center_at (new_zoom, (float) last_x, (float) last_y);
+			}
+			else {
+				image_view.zoom = new_zoom;
+			}
+			return true;
 		default:
 			break;
 		}
@@ -717,6 +733,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	ScrollAction scroll_action;
 	unowned Gtk.Label zoom_info;
 	unowned Gtk.Adjustment zoom_adjustment;
+	double last_x = -1;
+	double last_y = -1;
 
 	const float ZOOM_MIN = 0.05f;
 	const float ZOOM_MAX = 10f;

@@ -22,7 +22,7 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 	public void save_preferences () {}
 	public void release_resources () {}
 
-	public bool on_scroll (double x, double y, double dx, double dy) {
+	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
 		return false;
 	}
 

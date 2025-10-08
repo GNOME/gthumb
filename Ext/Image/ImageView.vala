@@ -38,6 +38,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	public void set_zoom_and_center_at (float new_zoom, float x, float y) {
+		if (_image != null) {
+			_zoom_type = ZoomType.KEEP_PREVIOUS;
+			_set_zoom_and_center_at (new_zoom, x, y);
+			queue_resize ();
+		}
+	}
+
 	public ZoomType zoom_type {
 		get { return _zoom_type; }
 		set {
@@ -315,10 +323,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	void set_zoom_and_keep_center_visible (float new_zoom) {
-		set_zoom_and_center_at (new_zoom, viewport.size.width / 2, viewport.size.height / 2);
+		_set_zoom_and_center_at (new_zoom, viewport.size.width / 2, viewport.size.height / 2);
 	}
 
-	void set_zoom_and_center_at (float new_zoom, float pointer_x, float pointer_y) {
+	void _set_zoom_and_center_at (float new_zoom, float pointer_x, float pointer_y) {
 		var old_zoom = _zoom;
 		new_zoom = set_valid_zoom (new_zoom);
 		if ((texture_box.size.width == 0) || (viewport.size.width == 0)) {
@@ -326,12 +334,24 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 		else {
 			// Pixel under the pointer.
-			var new_pointer_x = (viewport.origin.x + pointer_x - texture_box.origin.x) / old_zoom * new_zoom;
-			var new_pointer_y = (viewport.origin.y + pointer_y - texture_box.origin.y) / old_zoom * new_zoom;
+			var x = (viewport.origin.x - texture_box.origin.x + pointer_x) / old_zoom;
+			var y = (viewport.origin.y - texture_box.origin.y + pointer_y) / old_zoom;
+
+			// Pixel at the center of the visibile area.
+			var x0 = (viewport.origin.x - texture_box.origin.x + (viewport.size.width / 2)) / old_zoom;
+			var y0 = (viewport.origin.y - texture_box.origin.y + (viewport.size.height / 2)) / old_zoom;
+
+			// Delta to keep the (x, y) pixel under the pointer.
+			var dx = ((x - x0) * new_zoom) - ((x - x0) * old_zoom);
+			var dy = ((y - y0) * new_zoom) - ((y - y0) * old_zoom);
+
+			// Center on (x0, y0) and add (dx, dy)
+			var center_x = (x0 * new_zoom) + dx;
+			var center_y = (y0 * new_zoom) + dy;
 
 			// Offset to center the pointer.
-			var offset_x = new_pointer_x - (viewport.size.width / 2);
-			var offset_y = new_pointer_y - (viewport.size.height / 2);
+			var offset_x = center_x - (viewport.size.width / 2);
+			var offset_y = center_y - (viewport.size.height / 2);
 			set_scroll_offset (new_zoom, offset_x, offset_y);
 		}
 	}
