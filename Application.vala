@@ -116,6 +116,7 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("Frame::Pixels", N_("Pixels"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Duration", N_("Duration"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, N_("Color Profile"), "File", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+		MetadataInfo.register ("Animation::Frames", N_("Frames"), "File", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
 		MetadataInfo.register ("Metadata::Title", N_("Title"), "Comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Description", N_("Comment"), "Comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
@@ -136,7 +137,6 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("Photo::ShutterSpeed", N_("Shutter Speed"), "Metadata", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Photo::FocalLength", N_("Focal Length"), "Metadata", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Photo::Flash", N_("Flash"), "Metadata", METADATA_ALLOW_EVERYWHERE);
-		MetadataInfo.register ("Animation::Frames", N_("Frames"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 
 		VideoMetadata.register_info ();
 
