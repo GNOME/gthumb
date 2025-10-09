@@ -126,16 +126,16 @@ public class Gth.Shortcuts {
 		register ("win.main-menu", N_("Main Menu"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.GENERAL, "F10");
 
 		register ("win.ask-location", N_("Open Location"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>o");
-		register ("win.load-home", N_("Home"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>h");
+		register ("win.load-home", N_("Home"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "h");
 		register ("win.load-parent", N_("Parent Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Up");
 		register ("win.reload", N_("Reload"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>r");
 		register ("win.load-previous", N_("Previous Visited"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Left");
 		register ("win.load-next", N_("Next Visited"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Right");
 		register ("win.load-next-folder", N_("Next Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Alt>n");
 		register ("win.load-prev-folder", N_("Previous Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Alt>p");
-		register ("win.hidden-files", N_("Hidden Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "h");
-		register ("win.sort-files", N_("Sort Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "s");
-		register ("win.sort-folders", N_("Sort Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "d");
+		register ("win.hidden-files", N_("Hidden Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>h");
+		register ("win.sort-files", N_("Sort Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>s");
+		register ("win.sort-folders", N_("Sort Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>s");
 		register ("win.browser-sidebar", N_("Sidebar"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "F9");
 		register ("win.browser-properties-pinned", N_("File Properties"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>i");
 		register ("win.browser-properties-collapsed", N_("View Properties"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "i");
@@ -211,8 +211,8 @@ public class Gth.Shortcuts {
 		register ("image.set-zoom('300')", N_("Zoom 300%"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "3");
 		register ("image.set-zoom('max-size')", N_("Zoom to Fit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>x");
 		register ("image.set-zoom('max-size-if-larger')", N_("Zoom to Fit if Larger"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "x");
-		register ("image.set-zoom('max-width')", N_("Zoom to Fit Width"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>w");
-		register ("image.set-zoom('max-height')", N_("Zoom to Fit Height"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>h");
+		register ("image.set-zoom('max-width')", N_("Zoom to Fit Width"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "w");
+		register ("image.set-zoom('max-height')", N_("Zoom to Fit Height"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "h");
 		register ("image.set-zoom('best-fit')", N_("Automatic Zoom"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "0");
 
 		register ("image.scroll-left", N_("Scroll Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Left");
