@@ -58,6 +58,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			//stdout.printf ("> RELEASED\n");
 			clicking = false;
 			dragging = false;
+			image_view.cursor = null;
 		});
 		image_view.add_controller (click_events);
 
@@ -69,6 +70,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				//stdout.printf ("delta: %f,%f\n", dx, dy);
 				if ((dx >= DRAG_THRESHOLD) || (dy >= DRAG_THRESHOLD)) {
 					dragging = true;
+					image_view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
 				}
 			}
 			if (dragging) {
