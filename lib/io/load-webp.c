@@ -21,59 +21,118 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 	WebPData webp_data = { .bytes = (uint8_t*) buffer, .size = (size_t) buffer_size };
 	WebPDemuxer *demux = WebPDemux (&webp_data);
 
+	guint natural_width = WebPDemuxGetI (demux, WEBP_FF_CANVAS_WIDTH);
+	guint natural_height = WebPDemuxGetI (demux, WEBP_FF_CANVAS_HEIGHT);
+	guint frames = WebPDemuxGetI (demux, WEBP_FF_FRAME_COUNT);
+	uint32_t background_color = WebPDemuxGetI (demux, WEBP_FF_BACKGROUND_COLOR);
+	//guint loops = WebPDemuxGetI (demux, WEBP_FF_LOOP_COUNT);
+
 	WebPIterator iter;
 	if (!WebPDemuxGetFrame (demux, 1, &iter)) {
 		WebPDemuxDelete (demux);
 		return NULL;
 	}
 
-	guint natural_width = (guint) iter.width;
-	guint natural_height = (guint) iter.height;
-	guint width = natural_width;
-	guint height = natural_height;
-
+	guint canvas_width = natural_width;
+	guint canvas_height = natural_height;
 #if SCALING_WORKS
+	double scale_factor = 1.0;
 	if (requested_size > 0) {
-		scale_if_larger (&width, &height, requested_size);
+		scale_if_larger (&canvas_width, &canvas_height, requested_size);
+		scale_factor = (double) canvas_width / natural_width;
 	}
 #endif
 
-	GthImage *image = gth_image_new (width, height);
+	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
 	gth_image_set_has_alpha (image, iter.has_alpha);
-
-	config.options.no_fancy_upsampling = 1;
+	guint frame_idx = 0;
+	GthImage *background = NULL;
+	do {
+		guint width = iter.width;
+		guint height = iter.height;
 #if SCALING_WORKS
-	if (requested_size > 0) {
-		config.options.use_scaling = 1;
-		config.options.scaled_width = width;
-		config.options.scaled_height = height;
-	}
+		if (scale_factor < 1.0) {
+			width = (guint) (scale_factor * width);
+			height = (guint) (scale_factor * height);
+		}
+#endif
+		GthImage *foreground = gth_image_new (width, height);
+
+		config.options.no_fancy_upsampling = 1;
+#if SCALING_WORKS
+		if (requested_size > 0) {
+			config.options.use_scaling = 1;
+			config.options.scaled_width = width;
+			config.options.scaled_height = height;
+		}
 #endif
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-	config.output.colorspace = MODE_bgrA;
+		config.output.colorspace = MODE_bgrA;
 #elif G_BYTE_ORDER == G_BIG_ENDIAN
-	config.output.colorspace = MODE_Argb;
+		config.output.colorspace = MODE_Argb;
 #endif
-	gsize image_size;
-	config.output.u.RGBA.rgba = (uint8_t *) gth_image_get_pixels (image, &image_size);
-	config.output.u.RGBA.stride = (int) gth_image_get_row_stride (image);
-	config.output.u.RGBA.size = (size_t) image_size;
-	config.output.is_external_memory = 1;
-	config.output.width = width;
-	config.output.height = height;
+		gsize foreground_size;
+		config.output.u.RGBA.rgba = (uint8_t *) gth_image_get_pixels (foreground, &foreground_size);
+		config.output.u.RGBA.stride = (int) gth_image_get_row_stride (foreground);
+		config.output.u.RGBA.size = (size_t) foreground_size;
+		config.output.is_external_memory = 1;
+		config.output.width = width;
+		config.output.height = height;
 
-	if (WebPDecode (iter.fragment.bytes, iter.fragment.size, &config) != VP8_STATUS_OK) {
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "WebPDecode failed");
-		g_object_unref (image);
-		image = NULL;
-	};
+		if (WebPDecode (iter.fragment.bytes, iter.fragment.size, &config) != VP8_STATUS_OK) {
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "WebPDecode failed");
+			g_object_unref (foreground);
+			WebPDemuxReleaseIterator (&iter);
+			WebPFreeDecBuffer (&config.output);
+			WebPDemuxDelete (demux);
+			g_object_unref (image);
+			return NULL;
+		}
+
+		GthImage *canvas = gth_image_new (canvas_width, canvas_height);
+		if (canvas == NULL) {
+			g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+				"Cannot allocate memory for frame %d.", frame_idx);
+			g_object_unref (foreground);
+			WebPDemuxReleaseIterator (&iter);
+			WebPFreeDecBuffer (&config.output);
+			WebPDemuxDelete (demux);
+			g_object_unref (image);
+			return NULL;
+		}
+		guint x_offset = iter.x_offset;
+		guint y_offset = iter.y_offset;
+#if SCALING_WORKS
+		if (scale_factor < 1.0) {
+			x_offset = (guint) (scale_factor * x_offset);
+			y_offset = (guint) (scale_factor * y_offset);
+		}
+#endif
+		gth_image_render_frame (canvas, background, background_color,
+			foreground, x_offset, y_offset,
+			(iter.blend_method == WEBP_MUX_BLEND));
+		gth_image_add_frame (image, canvas, iter.duration);
+
+		if (background != NULL) {
+			g_object_unref (background);
+			background = NULL;
+		}
+		if (iter.dispose_method == WEBP_MUX_DISPOSE_NONE) {
+			background = g_object_ref (canvas);
+		}
+
+		g_object_unref (canvas);
+		g_object_unref (foreground);
+		frame_idx++;
+	}
+	while (WebPDemuxNextFrame (&iter));
+
+	if (background != NULL) {
+		g_object_unref (background);
+		background = NULL;
+	}
 	WebPDemuxReleaseIterator (&iter);
 	WebPFreeDecBuffer (&config.output);
-
-	if (image == NULL) {
-		WebPDemuxDelete (demux);
-		return NULL;
-	}
 
 	// Read orientation and ICC profile.
 
