@@ -31,7 +31,7 @@ static gboolean import_image (WebPPicture *const picture, GthImage *image) {
 	for (guint y = 0; y < height; y++) {
 		guchar *src_pixel = src_row;
 		for (guint x = 0; x < width; x++) {
-			GET_PIXEL_RGBA (src_pixel, r, g, b, a);
+			PIXEL_TO_RGBA (src_pixel, r, g, b, a);
 			dest_row[x] = ((a << 24) | (r << 16) | (g << 8) | b);
 			src_pixel += 4;
 		}
