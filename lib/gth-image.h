@@ -120,6 +120,9 @@ GthImage * gth_image_apply_transform (GthImage *self, GthTransform transform, GC
 // Edit
 
 void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
+void gth_image_render_frame (GthImage *canvas, GthImage *background,
+	guint32 background_color, GthImage *foreground, guint foreground_x,
+	guint foreground_y, gboolean blend);
 
 G_END_DECLS
 

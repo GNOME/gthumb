@@ -2,17 +2,10 @@
 
 
 guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
-	int temp;
-
-	temp = (a * r) + 0x80;
-	r = ((temp + (temp >> 8)) >> 8);
-
-	temp = (a * g) + 0x80;
-	g = ((temp + (temp >> 8)) >> 8);
-
-	temp = (a * b) + 0x80;
-	b = ((temp + (temp >> 8)) >> 8);
-
+	guint temp;
+	PIXEL_MULTIPLY_ALPHA(r, r, a);
+	PIXEL_MULTIPLY_ALPHA(g, g, a);
+	PIXEL_MULTIPLY_ALPHA(b, b, a);
 	return RGBA_TO_PIXEL (r, g, b, a);
 }
 
@@ -20,14 +13,14 @@ guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) 
 void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
 	int temp;
 	for (guint x = 0; x < width; x++) {
-		GET_PIXEL_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
+		PIXEL_TO_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
 		src += 4;
 		dest += 4;
 	}
 }
 
 
-#define GET_PIXEL_RGB(pixel, red, green, blue) \
+#define PIXEL_TO_RGB(pixel, red, green, blue) \
 	G_STMT_START { \
 		red = pixel[PIXEL_RED]; \
 		green = pixel[PIXEL_GREEN]; \
@@ -37,7 +30,7 @@ void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
 
 void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
 	for (guint x = 0; x < width; x++) {
-		GET_PIXEL_RGB (src, dest[0], dest[1], dest[2]);
+		PIXEL_TO_RGB (src, dest[0], dest[1], dest[2]);
 		src += 4;
 		dest += 3;
 	}
@@ -85,5 +78,13 @@ void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
 	}
 }
 
-#undef GET_PIXEL_RGBA
-#undef GET_PIXEL_RGB
+void pixel_over (uint8_t* background, uint8_t* foreground) {
+	guint temp;
+	uint8_t Falpha_comp = 0xff - foreground[PIXEL_ALPHA];
+	PIXEL_OVER(background[PIXEL_RED], foreground[PIXEL_RED], Falpha_comp);
+	PIXEL_OVER(background[PIXEL_GREEN], foreground[PIXEL_GREEN], Falpha_comp);
+	PIXEL_OVER(background[PIXEL_BLUE], foreground[PIXEL_BLUE], Falpha_comp);
+	PIXEL_OVER(background[PIXEL_ALPHA], foreground[PIXEL_ALPHA], Falpha_comp);
+}
+
+#undef PIXEL_TO_RGB

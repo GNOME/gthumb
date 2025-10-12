@@ -1,6 +1,7 @@
 #ifndef LIB_PIXEL_H
 #define LIB_PIXEL_H
 
+#include <stdint.h>
 #include <glib.h>
 
 #define PIXEL_BYTES 4
@@ -44,7 +45,11 @@
 	temp = ((a) * (p)) + 0x80; \
 	r = ((temp + (temp >> 8)) >> 8);
 
-#define GET_PIXEL_RGBA(pixel, red, green, blue, alpha) \
+#define PIXEL_OVER(b, f, a) \
+	temp = ((a) * (b)) + 0x80; \
+	b = f + ((temp + (temp >> 8)) >> 8);
+
+#define PIXEL_TO_RGBA(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
 		alpha = pixel[PIXEL_ALPHA]; \
 		if (alpha == 0xff) { \
@@ -66,5 +71,6 @@ void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width);
 void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width);
 void abgr_line_to_pixel (guchar *dest, guchar *src, guint width);
 void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width);
+void pixel_over (uint8_t* background, uint8_t* foreground);
 
 #endif /* LIB_PIXEL_H */

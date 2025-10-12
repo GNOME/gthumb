@@ -162,6 +162,7 @@ public class Gth.Application : Adw.Application {
 		viewers = new HashTable<string, GLib.Type>(str_hash, str_equal);
 
 		register_image_loader ("image/png", load_png);
+		register_image_loader ("image/apng", load_png);
 		register_image_loader ("image/jpeg", load_jpeg);
 #if HAVE_LIBWEBP
 		register_image_loader ("image/webp", load_webp);

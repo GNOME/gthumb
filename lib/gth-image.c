@@ -83,12 +83,14 @@ static void _gth_image_free_data (GthImage *self) {
 			g_free (self->priv->buffer);
 		}
 		self->priv->buffer = NULL;
-		self->priv->buffer_unowned = FALSE;
 	}
 	if (self->priv->bytes != NULL) {
-		g_bytes_unref (self->priv->bytes);
+		if (!self->priv->buffer_unowned) {
+			g_bytes_unref (self->priv->bytes);
+		}
 		self->priv->bytes = NULL;
 	}
+	self->priv->buffer_unowned = FALSE;
 }
 
 static void _gth_image_free_icc_profile (GthImage *self) {
@@ -232,15 +234,15 @@ void gth_image_copy_pixels (GthImage *src, GthImage *dest) {
 	dest->priv->bytes = g_bytes_new_static (dest->priv->buffer, dest->priv->size);
 }
 
-static void gth_image_set_pixels (GthImage *dest, GthImage *src) {
-	_gth_image_free_data (dest);
-	dest->priv->buffer_unowned = TRUE;
-	dest->priv->buffer = src->priv->buffer;
-	dest->priv->size = src->priv->size;
-	dest->priv->row_stride = src->priv->row_stride;
-	dest->priv->width = src->priv->width;
-	dest->priv->height = src->priv->height;
-	dest->priv->bytes = g_bytes_new_static (dest->priv->buffer, dest->priv->size);
+static void gth_image_set_frame (GthImage *self, GthImage *frame) {
+	_gth_image_free_data (self);
+	self->priv->buffer_unowned = TRUE;
+	self->priv->buffer = frame->priv->buffer;
+	self->priv->size = frame->priv->size;
+	self->priv->row_stride = frame->priv->row_stride;
+	self->priv->width = frame->priv->width;
+	self->priv->height = frame->priv->height;
+	self->priv->bytes = frame->priv->bytes;
 }
 
 void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
@@ -502,7 +504,7 @@ cairo_surface_t* gth_image_get_scaled_texture (GthImage *self, double factor, gu
 	return GTH_IMAGE_GET_CLASS (self)->get_scaled_texture (self, factor, x, y, width, height);
 }
 
-void gth_image_add_frame (GthImage *self, GthImage *frame_image, uint delay) {
+void gth_image_add_frame (GthImage *self, GthImage *frame_image, guint delay) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	GthImagePrivate *priv = self->priv;
 	GthFrame *frame = gth_frame_new (frame_image, delay);
@@ -510,7 +512,7 @@ void gth_image_add_frame (GthImage *self, GthImage *frame_image, uint delay) {
 	frame->start = priv->total_time;
 	priv->total_time += frame->delay;
 	if (priv->frames->len == 1) {
-		gth_image_set_pixels (self, frame->image);
+		gth_image_set_frame (self, frame->image);
 		priv->current_frame = 0;
 		priv->current_time = 0;
 	}
@@ -550,7 +552,7 @@ gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong millise
 		}
 		frame = g_ptr_array_index (priv->frames, priv->current_frame);
 	}
-	gth_image_set_pixels (self, frame->image);
+	gth_image_set_frame (self, frame->image);
 	return TRUE;
 }
 
@@ -568,7 +570,7 @@ void gth_image_next_frame (GthImage *self) {
 		priv->current_frame += 1;
 	}
 	GthFrame *frame = g_ptr_array_index (priv->frames, priv->current_frame);
-	gth_image_set_pixels (self, frame->image);
+	gth_image_set_frame (self, frame->image);
 }
 
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
