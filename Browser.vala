@@ -379,7 +379,7 @@ public class Gth.Browser : Gtk.Box {
 		if (window.current_page == Window.Page.BROWSER) {
 			window.title = title;
 		}
-		location_button.label = title;
+		location_label.label = title;
 	}
 
 	Gtk.SelectionModel grid_model = null;
@@ -2064,6 +2064,7 @@ public class Gth.Browser : Gtk.Box {
 	//[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
+	[GtkChild] unowned Gtk.Label location_label;
 	[GtkChild] unowned Gth.ActionList location_actions;
 	[GtkChild] unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] unowned Gtk.Button edit_catalog_button;

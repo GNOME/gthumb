@@ -133,6 +133,9 @@ public class Gth.ActionItem : Gtk.Box {
 		append (icon);
 
 		label = new Gtk.Label ("");
+		label.max_width_chars = 50;
+		label.ellipsize = Pango.EllipsizeMode.MIDDLE;
+		label.single_line_mode = true;
 		append (label);
 	}
 

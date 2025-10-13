@@ -141,7 +141,13 @@
                   <object class="GtkMenuButton" id="location_button">
                     <style>
                       <class name="for_toolbar"/>
+                      <class name="flat"/>
                     </style>
+                    <child>
+                      <object class="GtkLabel" id="location_label">
+                        <property name="ellipsize">middle</property>
+                      </object>
+                    </child>
                     <property name="popover">
                       <object class="GtkPopover">
                         <style>
