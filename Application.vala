@@ -274,12 +274,15 @@ public class Gth.Application : Adw.Application {
 			// No location specified.
 			var location = Gth.Settings.get_startup_location (settings);
 			var file_to_select = Gth.Settings.get_file (settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
-			open_window (location, file_to_select, true);
-			return 0;
+			open_window (location, file_to_select);
 		}
-
-		// At least a location was specified.
-		// TODO
+		else {
+			// At least a location was specified.
+			var one_per_window = remaining_args.length > 1;
+			foreach (unowned var arg in remaining_args) {
+				open_window (File.new_for_commandline_arg (arg), null, one_per_window);
+			}
+		}
 		return 0;
 	}
 
@@ -717,21 +720,19 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
-		var reuse_active_window = false;
-		if (!force_new_window) {
-			reuse_active_window = settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW);
-		}
-
 		Gth.Window window = null;
-		if (reuse_active_window) {
+		if (!force_new_window && settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW)) {
 			window = active_window as Gth.Window;
 		}
-
 		if (window == null) {
 			window = new Gth.Window ();
 		}
-		window.browser.open_location (location, LoadAction.OPEN, file_to_select);
-
+		if (file_to_select != null) {
+			window.browser.open_location (location, LoadAction.OPEN, file_to_select);
+		}
+		else {
+			window.open.begin (location);
+		}
 		if (!arg_slideshow) {
 			window.present ();
 		}

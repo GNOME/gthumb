@@ -13,6 +13,12 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <child>
+                  <object class="AdwSwitchRow" id="single_window_switch">
+                    <property name="title" translatable="yes">Open in Active Window</property>
+                    <signal name="notify::active" handler="on_single_window_activated"/>
+                  </object>
+                </child>
+                <child>
                   <object class="AdwSwitchRow" id="open_fullscreen_switch">
                     <property name="title" translatable="yes">Open in Fullscreen Mode</property>
                     <signal name="notify::active" handler="on_fullscreen_activated"/>
