@@ -479,5 +479,12 @@
         <attribute name="action">win.delete-files-from-disk</attribute>
       </item>
     </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Add to Catalog…</attribute>
+        <attribute name="action">win.add-to-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
   </menu>
 </interface>
