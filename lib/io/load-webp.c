@@ -25,6 +25,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 	guint natural_height = WebPDemuxGetI (demux, WEBP_FF_CANVAS_HEIGHT);
 	guint frames = WebPDemuxGetI (demux, WEBP_FF_FRAME_COUNT);
 	uint32_t background_color = WebPDemuxGetI (demux, WEBP_FF_BACKGROUND_COLOR);
+	gboolean is_animated = frames > 1;
 	//guint loops = WebPDemuxGetI (demux, WEBP_FF_LOOP_COUNT);
 
 	WebPIterator iter;
@@ -43,7 +44,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 	}
 #endif
 
-	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
+	GthImage *image = is_animated ? (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL) : gth_image_new (canvas_width, canvas_height);
 	gth_image_set_has_alpha (image, iter.has_alpha);
 	guint frame_idx = 0;
 	GthImage *background = NULL;
@@ -56,7 +57,16 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 			height = (guint) (scale_factor * height);
 		}
 #endif
-		GthImage *foreground = gth_image_new (width, height);
+		if (!is_animated && ((width != canvas_width) || (height != canvas_height))) {
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Wrong image size");
+			WebPDemuxReleaseIterator (&iter);
+			WebPFreeDecBuffer (&config.output);
+			WebPDemuxDelete (demux);
+			g_object_unref (image);
+			return NULL;
+		}
+
+		GthImage *foreground = (frames > 1) ? gth_image_new (width, height) : g_object_ref (image);
 
 		config.options.no_fancy_upsampling = 1;
 #if SCALING_WORKS
@@ -89,41 +99,46 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 			return NULL;
 		}
 
-		GthImage *canvas = gth_image_new (canvas_width, canvas_height);
-		if (canvas == NULL) {
-			g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
-				"Cannot allocate memory for frame %d.", frame_idx);
-			g_object_unref (foreground);
-			WebPDemuxReleaseIterator (&iter);
-			WebPFreeDecBuffer (&config.output);
-			WebPDemuxDelete (demux);
-			g_object_unref (image);
-			return NULL;
-		}
-		guint x_offset = iter.x_offset;
-		guint y_offset = iter.y_offset;
+		if (is_animated) {
+			GthImage *canvas = gth_image_new (canvas_width, canvas_height);
+			if (canvas == NULL) {
+				g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+					"Cannot allocate memory for frame %d.", frame_idx);
+				g_object_unref (foreground);
+				WebPDemuxReleaseIterator (&iter);
+				WebPFreeDecBuffer (&config.output);
+				WebPDemuxDelete (demux);
+				g_object_unref (image);
+				return NULL;
+			}
+			guint x_offset = iter.x_offset;
+			guint y_offset = iter.y_offset;
 #if SCALING_WORKS
-		if (scale_factor < 1.0) {
-			x_offset = (guint) (scale_factor * x_offset);
-			y_offset = (guint) (scale_factor * y_offset);
-		}
+			if (scale_factor < 1.0) {
+				x_offset = (guint) (scale_factor * x_offset);
+				y_offset = (guint) (scale_factor * y_offset);
+			}
 #endif
-		gth_image_render_frame (canvas, background, background_color,
-			foreground, x_offset, y_offset,
-			(iter.blend_method == WEBP_MUX_BLEND));
-		gth_image_add_frame (image, canvas, iter.duration);
+			gth_image_render_frame (canvas, background, background_color,
+				foreground, x_offset, y_offset,
+				(iter.blend_method == WEBP_MUX_BLEND));
+			gth_image_add_frame (image, canvas, iter.duration);
 
-		if (background != NULL) {
-			g_object_unref (background);
-			background = NULL;
-		}
-		if (iter.dispose_method == WEBP_MUX_DISPOSE_NONE) {
-			background = g_object_ref (canvas);
-		}
+			if (background != NULL) {
+				g_object_unref (background);
+				background = NULL;
+			}
+			if (iter.dispose_method == WEBP_MUX_DISPOSE_NONE) {
+				background = g_object_ref (canvas);
+			}
 
-		g_object_unref (canvas);
+			g_object_unref (canvas);
+		}
 		g_object_unref (foreground);
 		frame_idx++;
+		if (!is_animated) {
+			break;
+		}
 	}
 	while (WebPDemuxNextFrame (&iter));
 
