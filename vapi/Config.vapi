@@ -2,6 +2,7 @@
 class Config {
 	public const string APP_NAME;
 	public const string APP_ID;
+	public const string APP_EXEC;
 	public const string DOMAIN;
 	public const string GETTEXT_PACKAGE;
 	public const string G_LOG_DOMAIN;

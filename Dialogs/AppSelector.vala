@@ -2,6 +2,9 @@ public class Gth.AppSelector : Object {
 	public async AppInfo? select_app (Gtk.Window? parent, GenericArray<Gth.FileData> files, Cancellable? cancellable = null) throws Error {
 		callback = select_app.callback;
 		dialog = new AppSelectorDialog (files);
+		if (!dialog.has_applications ()) {
+			throw new IOError.FAILED (_("No application registered for this file type"));
+		}
 		dialog.selected.connect (() => {
 			result = dialog.app_info;
 			dialog.close ();
@@ -59,7 +62,7 @@ class Gth.AppSelectorDialog : Adw.Dialog {
 		apps = new GenericList<AppInfo>();
 		var used_apps = new GenericSet<string>(str_hash, str_equal);
 		foreach (unowned var app in applications) {
-			if ("gthumb" in app.get_executable ()) {
+			if (app.get_executable () == Config.APP_EXEC) {
 				continue;
 			}
 			if (app.get_id () in used_apps) {
@@ -69,6 +72,10 @@ class Gth.AppSelectorDialog : Adw.Dialog {
 			apps.model.append (app);
 		}
 		app_list.bind_model (apps.model, new_app_row);
+	}
+
+	public bool has_applications () {
+		return apps.length () > 0;
 	}
 
 	Gtk.Widget new_app_row (Object item) {

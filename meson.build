@@ -243,6 +243,7 @@ else
 endif
 config.set('FLATPAK', get_option('flatpak') ? 'true' : 'false')
 config.set_quoted('BUILD_TAG', get_option('flatpak') ? '-flatpak' : '')
+config.set_quoted('APP_EXEC', exec_name)
 if vector_ops
   config.set('HAVE_VECTOR_OPERATIONS', 1)
 endif
