@@ -162,7 +162,7 @@ public class Gth.FileManager {
 
 		var is_local = parent.get_uri_scheme () == "file";
 		var files_per_request = is_local ? LOCAL_FILES_PER_REQUEST : REMOTE_FILES_PER_REQUEST;
-
+		Error error = null;
 		while (queue.length > 0) {
 			var folder_data = queue.pop_head ();
 			var action = child_func (folder_data, true);
@@ -172,11 +172,27 @@ public class Gth.FileManager {
 			if (action == ForEachAction.STOP) {
 				break;
 			}
-			var enum_flags = (ForEachFlags.NOFOLLOW_LINKS in flags) ? FileQueryInfoFlags.NOFOLLOW_SYMLINKS : FileQueryInfoFlags.NONE;
-			var enumerator = yield folder_data.file.enumerate_children_async (file_attributes, enum_flags, Priority.DEFAULT, cancellable);
+			FileEnumerator enumerator = null;
+			try {
+				var enum_flags = (ForEachFlags.NOFOLLOW_LINKS in flags) ? FileQueryInfoFlags.NOFOLLOW_SYMLINKS : FileQueryInfoFlags.NONE;
+				enumerator = yield folder_data.file.enumerate_children_async (file_attributes, enum_flags, Priority.DEFAULT, cancellable);
+			}
+			catch (Error _error) {
+				error = _error;
+				action = ForEachAction.STOP;
+				break;
+			}
 			while (action != ForEachAction.STOP) {
-				var info_list = yield enumerator.next_files_async (files_per_request, Priority.DEFAULT, cancellable);
-				if (info_list == null) {
+				List<FileInfo> info_list = null;
+				try {
+					info_list = yield enumerator.next_files_async (files_per_request, Priority.DEFAULT, cancellable);
+					if (info_list == null) {
+						break;
+					}
+				}
+				catch (Error _error) {
+					error = _error;
+					action = ForEachAction.STOP;
 					break;
 				}
 				foreach (var info in info_list) {
@@ -188,13 +204,20 @@ public class Gth.FileManager {
 						&& (info.get_file_type () == FileType.DIRECTORY))
 					{
 						// Always set the symbolic icon for directories.
-						var more_info = yield child.query_info_async (
-							FileAttribute.STANDARD_SYMBOLIC_ICON,
-							FileQueryInfoFlags.NONE,
-							Priority.DEFAULT,
-							cancellable);
-						if (more_info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
-							info.set_symbolic_icon (more_info.get_symbolic_icon ());
+						try {
+							var more_info = yield child.query_info_async (
+								FileAttribute.STANDARD_SYMBOLIC_ICON,
+								FileQueryInfoFlags.NONE,
+								Priority.DEFAULT,
+								cancellable);
+							if (more_info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
+								info.set_symbolic_icon (more_info.get_symbolic_icon ());
+							}
+						}
+						catch (Error _error) {
+							error = _error;
+							action = ForEachAction.STOP;
+							break;
 						}
 					}
 
@@ -215,9 +238,16 @@ public class Gth.FileManager {
 						&& (info.get_file_type () == FileType.REGULAR)
 						&& (metadata_attributes_v.length > 0))
 					{
-						yield app.metadata_reader.update (child_data, metadata_attributes_v, cancellable);
+						try {
+							yield app.metadata_reader.update (child_data, metadata_attributes_v, cancellable);
+						}
+						catch (Error _error) {
+							error = _error;
+							action = ForEachAction.STOP;
+						}
 					}
-					if (cancellable.is_cancelled ()) {
+					if ((error == null) && cancellable.is_cancelled ()) {
+						error = new IOError.CANCELLED ("Cancelled");
 						action = ForEachAction.STOP;
 						break;
 					}
@@ -226,6 +256,9 @@ public class Gth.FileManager {
 			if (action == ForEachAction.STOP) {
 				break;
 			}
+		}
+		if (error != null) {
+			throw error;
 		}
 	}
 
