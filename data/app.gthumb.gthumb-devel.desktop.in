@@ -7,7 +7,7 @@ Categories=GNOME;GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;
 Exec=gthumb-devel %U
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)
 Icon=app.gthumb.gthumb-devel
-MimeType=image/jpeg;image/png;image/gif;image/tiff;image/x-png;image/svg+xml;image/webp;image/jxl;image/avif;image/heif;image/heic;
+MimeType=image/png;image/apng;image/jpeg;image/webp;image/svg+xml;image/jxl;image/heif;image/heic;image/avif;image/tiff;image/gif;
 StartupNotify=true
 Terminal=false
 Type=Application
