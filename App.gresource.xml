@@ -132,5 +132,6 @@
     <file preprocess="xml-stripblanks">shortcuts-preferences.ui</file>
     <file preprocess="xml-stripblanks">shortcut-dialog.ui</file>
     <file preprocess="xml-stripblanks">shortcut-row.ui</file>
+    <file preprocess="xml-stripblanks">unknown-viewer.ui</file>
   </gresource>
 </gresources>

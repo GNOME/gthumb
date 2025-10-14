@@ -206,6 +206,7 @@ public enum Gth.ShortcutContext {
 	DOC, // Not handled by the application, specified for documentation only.
 	FIXED, // Not customizable.
 	BROWSER,
+	VIEWER,
 	IMAGE_VIEWER,
 	MEDIA_VIEWER,
 	IMAGE_EDITOR,
@@ -214,15 +215,18 @@ public enum Gth.ShortcutContext {
 
 const Gth.ShortcutContext SHORTCUT_CONTEXT_BROWSER_VIEWER = (
 	Gth.ShortcutContext.BROWSER |
+	Gth.ShortcutContext.VIEWER |
 	Gth.ShortcutContext.IMAGE_VIEWER |
 	Gth.ShortcutContext.MEDIA_VIEWER);
 
 const Gth.ShortcutContext SHORTCUT_CONTEXT_VIEWERS = (
+	Gth.ShortcutContext.VIEWER |
 	Gth.ShortcutContext.IMAGE_VIEWER |
 	Gth.ShortcutContext.MEDIA_VIEWER);
 
 const Gth.ShortcutContext SHORTCUT_CONTEXT_ANY = (
 	Gth.ShortcutContext.BROWSER |
+	Gth.ShortcutContext.VIEWER |
 	Gth.ShortcutContext.IMAGE_VIEWER |
 	Gth.ShortcutContext.MEDIA_VIEWER |
 	Gth.ShortcutContext.IMAGE_EDITOR |
