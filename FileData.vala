@@ -348,6 +348,10 @@ public class Gth.FileData : Object {
 		thumbnail_state = ThumbnailState.ICON;
 	}
 
+	public bool has_thumbnail () {
+		return thumbnail_state != ThumbnailState.ICON;
+	}
+
 	public ThumbnailState thumbnail_state { get; set; default = ThumbnailState.ICON; }
 
 	public void set_thumbnail_loading () {

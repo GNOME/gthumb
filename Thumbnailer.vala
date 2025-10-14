@@ -104,8 +104,9 @@ public class Gth.Thumbnailer {
 	}
 
 	public void queue_load_next () {
-		if (load_event != 0)
+		if (load_event != 0) {
 			return;
+		}
 		load_event = Util.after_next_rearrange (() => {
 			load_next ();
 			load_event = 0;
@@ -126,17 +127,24 @@ public class Gth.Thumbnailer {
 			return;
 		}
 		FileData file = null;
-		if (browser != null) {
+		if ((file == null) && (browser != null)) {
 			file = browser.get_next_file_for_thumbnailer ();
 			// if (file != null) {
 			// 	stdout.printf ("> LOAD THUMBNAIL [next]: %s\n", file.file.get_basename ());
 			// }
 		}
 		if (file == null) {
-			file = file_queue.pop_head ();
-			// if (file != null) {
-			// 	stdout.printf ("> LOAD THUMBNAIL [queue]: %s\n", file.file.get_basename ());
-			// }
+			while (true) {
+				file = file_queue.pop_head ();
+				if (file == null) {
+					break;
+				}
+				if (file.has_thumbnail ()) {
+					continue;
+				}
+				// stdout.printf ("> LOAD THUMBNAIL [queue]: %s\n", file.file.get_basename ());
+				break;
+			}
 		}
 		if (file == null) {
 			return;

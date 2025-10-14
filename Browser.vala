@@ -1290,19 +1290,26 @@ public class Gth.Browser : Gtk.Box {
 
 	public Gth.FileData? get_next_file_for_thumbnailer () {
 		// stdout.printf ("\n>>>> get_next_file_for_thumbnailer\n\n");
+		// First visible item.
 		var top = 0;
 		var bottom = file_grid.vadjustment.get_page_size ();
 		foreach (unowned Gtk.ListItem item in binded_grid_items) {
-			if (!item.child.get_mapped ())
+			if (!item.child.get_mapped ()) {
 				continue;
+			}
 			Graphene.Rect bounds;
 			if (item.child.compute_bounds (file_grid, out bounds)) {
-				var file_data = item.item as FileData;
 				if (bounds.origin.x < 0) {
 					continue;
 				}
-				if (thumbnailer.already_added (file_data))
+
+				var file_data = item.item as FileData;
+				if (file_data.has_thumbnail ()) {
 					continue;
+				}
+				if (thumbnailer.already_added (file_data)) {
+					continue;
+				}
 
 				//stdout.printf ("> (%f,%f)[%f,%f] (state: %s) <=> [%f,%f]\n",
 				//	bounds.origin.x, bounds.origin.y,
@@ -1310,8 +1317,9 @@ public class Gth.Browser : Gtk.Box {
 				//	file_data.thumbnail_state.to_string (),
 				//	top, bottom);
 
-				if ((bounds.origin.y < top - bounds.size.height) || (bounds.origin.y > bottom))
+				if ((bounds.origin.y < top - bounds.size.height) || (bounds.origin.y > bottom)) {
 					continue;
+				}
 
 				//stdout.printf ("> y: %f, height %f (%s) <=> [%f,%f]\n",
 				//	bounds.origin.y,
@@ -1321,6 +1329,17 @@ public class Gth.Browser : Gtk.Box {
 
 				return file_data;
 			}
+		}
+		// First binded item.
+		foreach (unowned Gtk.ListItem item in binded_grid_items) {
+			var file_data = item.item as FileData;
+			if (file_data.has_thumbnail ()) {
+				continue;
+			}
+			if (thumbnailer.already_added (file_data)) {
+				continue;
+			}
+			return file_data;
 		}
 		return null;
 	}
@@ -1684,10 +1703,11 @@ public class Gth.Browser : Gtk.Box {
 		try {
 			var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
 			file_data.update_info (info);
-			file_data.thumbnail_state = ThumbnailState.ICON;
+			file_data.remove_thumbnail ();
 			file_filter.after_adding_files ();
 			if (file_filter.filter.match (file_data)) {
 				thumbnailer.queue_load_next ();
+				thumbnailer.add (file_data);
 			}
 		}
 		catch (Error error) {
