@@ -1689,6 +1689,9 @@ public class Gth.Browser : Gtk.Box {
 				stdout.printf ("> BROWSER: APPEND\n");
 				new_files.model.append (file);
 			}
+			else {
+				file_changed (file);
+			}
 		}
 		if (!new_files.is_empty ()) {
 			add_files.begin (new_files);
