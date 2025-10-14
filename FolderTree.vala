@@ -237,7 +237,9 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 			catch (Error error) {
 			}
-			local_job.done ();
+			finally {
+				local_job.done ();
+			}
 		});
 		return local_job;
 	}

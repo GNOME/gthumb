@@ -105,12 +105,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 		current_page = new_page;
 		switch (current_page) {
 		case Page.BROWSER:
-			if (!browser.never_loaded && (previuos_page == Page.VIEWER)) {
+			var from_viewer = !browser.never_loaded && (previuos_page == Page.VIEWER);
+			if (from_viewer) {
 				//if (viewer.main_view.show_sidebar) {
 				//	browser.content_view.max_sidebar_width = viewer.main_view.max_sidebar_width;
 				//}
 				viewer.before_close_page ();
 				browser.restore_window_size ();
+			}
+			stack.set_visible_child (browser);
+			if (from_viewer) {
 				if ((viewer.current_file != null)
 					&& (browser.property_sidebar.current_file != null)
 					&& viewer.current_file.file.equal (browser.property_sidebar.current_file.file))
@@ -118,13 +122,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 					browser.property_sidebar.update_view ();
 				}
 				else if (viewer.position >= 0) {
-					browser.select_position (viewer.position);
+					browser.select_position (viewer.position, Browser.SelectFile.SCROLL_TO_FILE);
 				}
 				else if (viewer.current_file != null) {
-					browser.select_file (viewer.current_file.file);
+					browser.select_file (viewer.current_file.file, Browser.SelectFile.SCROLL_TO_FILE);
 				}
 			}
-			stack.set_visible_child (browser);
 			if (browser.never_loaded) {
 				yield browser.first_load ();
 				if (previuos_page == Page.VIEWER) {
@@ -659,7 +662,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return;
 			}
 			var new_window = new Gth.Window ();
-			new_window.viewer.open_file.begin (file_data);
+			new_window.viewer.view_file (file_data);
 			new_window.present ();
 		});
 		action_group.add_action (action);
@@ -810,6 +813,35 @@ public class Gth.Window : Adw.ApplicationWindow {
 		//stdout.printf ("> shortcut: '%s'\n", shortcut.detailed_action);
 		activate_action_variant (shortcut.action_name, shortcut.action_parameter);
 		return true;
+	}
+
+	public async void open (File file) {
+		var local_job = new_job ("Open");
+		try {
+			var type_info = yield Files.query_info (file, FileAttribute.STANDARD_TYPE, local_job.cancellable);
+			switch (type_info.get_file_type ()) {
+			case FileType.DIRECTORY:
+				yield browser.open_location_async (file, LoadAction.OPEN, local_job);
+				break;
+			case FileType.REGULAR:
+				var attributes = browser.get_list_attributes ();
+				var info = yield Files.query_info (file, attributes, local_job.cancellable);
+				var file_data = new FileData (file, info);
+				yield viewer.view_file_async (file_data, ViewFlags.FOCUS, local_job);
+				break;
+			default:
+				throw new IOError.FAILED (_("File type not supported"));
+			}
+		}
+		catch (Error error) {
+			show_error (error);
+			if (browser.never_loaded) {
+				browser.open_home ();
+			}
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	construct {

@@ -129,7 +129,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		init_actions ();
 	}
 
-	public async bool load (FileData file_data, Job job) throws Error {
+	public async bool load (FileData file_data, Job job) {
 		if (playbin == null)
 			return false;
 		reset_state ();

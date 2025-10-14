@@ -559,15 +559,15 @@ public class Gth.Browser : Gtk.Box {
 		select_position (pos, flags);
 	}
 
-	public uint get_file_position (File file) {
+	public int get_file_position (File file) {
 		var iter = visible_files.iterator ();
-		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
-		return (pos >= 0) ? (uint) pos : uint.MAX;
+		return iter.find_first ((file_data) => file_data.file.equal (file));
 	}
 
 	public void select_position (int position, SelectFile flags = SelectFile.DEFAULT) {
-		if (position < 0)
+		if (position < 0) {
 			return;
+		}
 		if (SelectFile.SCROLL_TO_FILE in flags) {
 			file_grid.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
 		}
@@ -1543,8 +1543,8 @@ public class Gth.Browser : Gtk.Box {
 		if (file == null) {
 			return false;
 		}
-		window.viewer.set_file_position (position);
-		yield window.viewer.view_file_async (file, flags);
+		window.viewer.position = (int) position;
+		yield window.viewer.view_file_async (file, flags | ViewFlags.FOCUS | ViewFlags.DONT_UPDATE_POSITION);
 		return true;
 	}
 
@@ -1553,8 +1553,8 @@ public class Gth.Browser : Gtk.Box {
 		if (file == null) {
 			return false;
 		}
-		window.viewer.set_file_position (position);
-		window.viewer.view_file (file, flags);
+		window.viewer.position = (int) position;
+		window.viewer.view_file (file, flags | ViewFlags.DONT_UPDATE_POSITION);
 		return true;
 	}
 

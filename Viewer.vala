@@ -13,79 +13,59 @@ public class Gth.Viewer : Gtk.Box {
 	public int position;
 	public int toasts = 0;
 
-	Gth.Job load_job = null;
-
-	async void load_file (FileData file_data, ViewFlags flags = ViewFlags.DEFAULT) throws Error {
+	async bool load_file_async (FileData file_data, ViewFlags flags, Job job) {
 		// Ask to save the current file if modified
 		if ((current_file != null) && current_file.get_is_modified ()) {
 			yield ask_whether_to_save ();
 		}
-
-		// Cancel the previous job
-		if (load_job != null) {
-			load_job.cancel ();
+		activate_viewer_for_file (file_data);
+		var loaded = yield current_viewer.load (file_data, job);
+		yield window.set_page (Window.Page.VIEWER);
+		current_file = file_data;
+		property_sidebar.current_file = current_file;
+		// Do not update the sidebar when loading images
+		// the file info is already updated by the ImageLoader.
+		if (!(loaded && (current_viewer is ImageViewer))) {
+			update_sidebar ();
 		}
-
-		// Load
-		var local_job = window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
-			JobFlags.FOREGROUND,
-			"gth-content-loading-symbolic");
-		load_job = local_job;
-		try {
-			activate_viewer_for_file (file_data);
-			var loaded = yield current_viewer.load (file_data, load_job);
-			yield window.set_page (Window.Page.VIEWER);
-			current_file = file_data;
-			property_sidebar.current_file = current_file;
-			update_title ();
-			// Do not update the sidebar when loading images
-			// the file info is already updated by the ImageLoader.
-			if (!loaded || !(current_viewer is ImageViewer)) {
-				update_sidebar ();
-			}
-			if (ViewFlags.FULLSCREEN in flags) {
-				window.fullscreened = true;
-			}
+		if (loaded && (ViewFlags.FULLSCREEN in flags)) {
+			window.fullscreened = true;
 		}
-		catch (Error error) {
-			stdout.printf ("ERROR: %s\n", error.message);
-			local_job.error = error;
+		if (ViewFlags.FOCUS in flags) {
+			focus_viewer ();
 		}
-		local_job.done ();
-		if (load_job == local_job) {
-			load_job = null;
-		}
-		if (local_job.error != null) {
-			throw local_job.error;
-		}
+		update_title ();
+		return loaded;
 	}
 
-	public async void open_file (FileData file_data) {
+	Job load_job = null;
+
+	public async bool view_file_async (FileData file_data, ViewFlags flags = ViewFlags.DEFAULT, Job? job = null) {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		var local_job = window.new_job (_("Loading %s").printf (file_data.file.get_uri ()),
+		var local_job = (job != null) ? job : window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"gth-content-loading-symbolic");
 		load_job = local_job;
-		try {
-			yield load_file (file_data);
-			if (window.browser.never_loaded) {
-				yield window.browser.first_load ();
-				yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
-				var position = window.browser.get_file_position (file_data.file);
-				if (position != uint.MAX) {
-					set_file_position (position);
-				}
-			}
+		var loaded = yield load_file_async (file_data, flags, local_job);
+		if (!(ViewFlags.DONT_UPDATE_POSITION in flags)) {
+			position = window.browser.get_file_position (file_data.file);
 		}
-		catch (Error error) {
-			window.show_error (error);
+		if (position != -1) {
+			status.set_file_position (position);
 		}
-		local_job.done ();
+		if (window.browser.never_loaded) {
+			yield window.browser.first_load ();
+			yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
+		}
+		if (local_job != job) {
+			local_job.done ();
+		}
 		if (load_job == local_job) {
 			load_job = null;
 		}
+		return loaded;
 	}
 
 	public async void open_unsaved_image (FileData file_data, Gth.Image image) {
@@ -198,18 +178,6 @@ public class Gth.Viewer : Gtk.Box {
 
 	public bool is_loading () {
 		return (load_job != null) && load_job.is_running ();
-	}
-
-	public async bool view_file_async (FileData file, ViewFlags flags = ViewFlags.DEFAULT) {
-		try {
-			yield load_file (file, flags);
-			focus_viewer ();
-			return true;
-		}
-		catch (Error error) {
-			window.show_error (error);
-			return false;
-		}
 	}
 
 	uint view_timeout = 0;
@@ -410,11 +378,6 @@ public class Gth.Viewer : Gtk.Box {
 			window.title = title.str;
 		}
 		set_header_state (state);
-	}
-
-	public void set_file_position (uint _position) {
-		position = (int) _position;
-		status.set_file_position (position);
 	}
 
 	public void set_list_info (uint files) {

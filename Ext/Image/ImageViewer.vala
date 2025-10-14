@@ -109,7 +109,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.image = image;
 	}
 
-	public async bool load (FileData file_data, Job job) throws Error {
+	public async bool load (FileData file_data, Job job) {
 		var success = false;
 		try {
 			var image = yield app.image_loader.load_file (file_data.file, LoadFlags.DEFAULT, job.cancellable);
@@ -119,7 +119,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 		catch (Error error) {
 			if (error is IOError.CANCELLED) {
-				throw error;
+				return false;
 			}
 			stdout.printf ("> ERROR: %s\n", error.message);
 			window.show_error (error);
