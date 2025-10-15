@@ -45,7 +45,7 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 
 	GthImage *image = NULL;
 	int tracks = heif_context_number_of_sequence_tracks (ctx);
-	g_print ("=> TRACKS: %d\n", tracks);
+	//g_print ("=> TRACKS: %d\n", tracks);
 	if (tracks > 0) {
 		heif_track *track = heif_context_get_track (ctx, 0);
 		if (track != NULL) {
@@ -57,19 +57,19 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 					&img, heif_colorspace_RGB,
 					heif_chroma_interleaved_RGB, options);
 				if (err.code != heif_error_Ok) {
-					g_print ("  err.code != heif_error_Ok\n");
+					//g_print ("  err.code != heif_error_Ok\n");
 					break;
 				}
 
 				int width = heif_image_get_primary_width (img);
 				int height = heif_image_get_primary_height (img);
 				guint delay = (uint32_t) (tick_milliseconds * heif_image_get_duration (img));
-				g_print ("> FRAME SIZE: %u, %u\n", width, height);
-				g_print ("  DELAY: %u\n", delay);
+				//g_print ("> FRAME SIZE: %u, %u\n", width, height);
+				//g_print ("  DELAY: %u\n", delay);
 
 				GthImage *frame = gth_image_new (width, height);
 				if (frame == NULL) {
-					g_print ("  FRAME == NULL\n");
+					//g_print ("  FRAME == NULL\n");
 					heif_image_release (img);
 					err.code = heif_error_Memory_allocation_error;
 					break;
@@ -77,7 +77,7 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 				int data_stride;
 				const uint8_t *data = heif_image_get_plane_readonly (img, heif_channel_interleaved, &data_stride);
 				if (data == NULL) {
-					g_print ("  DATA == NULL\n");
+					//g_print ("  DATA == NULL\n");
 					g_object_unref (frame);
 					heif_image_release (img);
 					err.code = heif_error_Decoder_plugin_error;
@@ -90,7 +90,7 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 				heif_image_release (img);
 			}
 			if (err.code != heif_error_End_of_sequence) {
-				g_print ("  err.code != heif_error_End_of_sequence\n");
+				//g_print ("  err.code != heif_error_End_of_sequence\n");
 				g_object_unref (image);
 				image = NULL;
 			}
