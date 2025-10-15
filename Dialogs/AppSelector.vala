@@ -62,7 +62,7 @@ class Gth.AppSelectorDialog : Adw.Dialog {
 		apps = new GenericList<AppInfo>();
 		var used_apps = new GenericSet<string>(str_hash, str_equal);
 		foreach (unowned var app in applications) {
-			if (app.get_executable () == Config.APP_EXEC) {
+			if (Config.APP_ID in app.get_id ()) {
 				continue;
 			}
 			if (app.get_id () in used_apps) {
