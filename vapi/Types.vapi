@@ -9,7 +9,10 @@ public enum Gth.Transform {
 	TRANSPOSE,
 	ROTATE_90,
 	TRANSVERSE,
-	ROTATE_270
+	ROTATE_270;
+
+	[CCode (cheader_filename = "lib/util.h", cname = "get_next_transformation")]
+	public Transform apply_transformation (Transform transform);
 }
 
 [CCode (cheader_filename = "lib/types.h")]

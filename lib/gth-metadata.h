@@ -60,6 +60,9 @@ struct _GthMetadataClass {
 
 GType             gth_metadata_get_type             (void);
 GthMetadata *     gth_metadata_new                  (void);
+GthMetadata *     gth_metadata_new_typed            (const char      *value_type,
+						     const char      *raw,
+						     const char      *formatted);
 GthMetadata *     gth_metadata_new_for_string       (const char      *raw,
 						     const char      *formatted);
 GthMetadata *     gth_metadata_new_for_string_list  (GthStringList   *list);

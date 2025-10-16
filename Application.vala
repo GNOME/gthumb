@@ -30,6 +30,7 @@ public class Gth.Application : Adw.Application {
 	public Scripts scripts;
 	public ImageEditor image_editor;
 	public Shortcuts shortcuts;
+	public Work.Factory io_factory;
 
 	public Application () {
 		Object (
@@ -744,7 +745,6 @@ public class Gth.Application : Adw.Application {
 	}
 
 	const int MAX_IO_WORKERS = 4;
-	Work.Factory io_factory;
 }
 
 public delegate void Gth.WindowFunc (Gth.Window win);

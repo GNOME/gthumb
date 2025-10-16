@@ -7,4 +7,5 @@ namespace Exiv2 {
 	public static bool can_write_metadata (string mime_type);
 	public static Bytes write_metadata_to_buffer (Bytes buffer, FileInfo info, Gth.Image? image_data = null) throws Error;
 	public static Bytes clear_metadata (Bytes buffer) throws Error;
+	public static void update_dimensions (FileInfo info, Gth.Transform transform);
 }

@@ -31,6 +31,7 @@ gboolean scale_if_larger (
 	guint size);
 
 gboolean transformation_changes_size (GthTransform transform);
+GthTransform get_next_transformation (GthTransform original, GthTransform transform);
 
 void get_transformation_steps (
 	GthTransform transform,

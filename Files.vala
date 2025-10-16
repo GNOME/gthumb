@@ -140,9 +140,9 @@ public class Gth.Files {
 		return ByteArray.free_to_bytes (result);
 	}
 
-	public static Bytes load_file (File file, Cancellable? cancellable = null) throws Error {
+	public static Bytes load_file (File file, Cancellable? cancellable = null, bool add_zero = true) throws Error {
 		var stream = file.read (cancellable);
-		return Files.read_all (stream, cancellable, true);
+		return Files.read_all (stream, cancellable, add_zero);
 	}
 
 	public static string load_contents (File file, Cancellable? cancellable = null) throws Error {

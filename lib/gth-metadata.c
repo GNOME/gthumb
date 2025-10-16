@@ -208,6 +208,19 @@ gth_metadata_new (void)
 
 
 GthMetadata *
+gth_metadata_new_typed (const char *value_type,
+			const char *raw,
+			const char *formatted)
+{
+	return g_object_new (GTH_TYPE_METADATA,
+		"value-type", value_type,
+		"raw", raw,
+		"formatted", (formatted != NULL ? formatted : raw),
+		NULL);
+}
+
+
+GthMetadata *
 gth_metadata_new_for_string (const char *raw,
 			     const char *formatted)
 {
@@ -226,8 +239,8 @@ gth_metadata_new_for_string_list (GthStringList *list)
 
 
 GthMetadata *
-gth_metadata_new_for_point (double           x,
-			    double           y)
+gth_metadata_new_for_point (double x,
+			    double y)
 {
 	GthMetadata *self = (GthMetadata *) g_object_new (GTH_TYPE_METADATA, NULL);
 	self->priv->data_type = GTH_METADATA_TYPE_POINT;

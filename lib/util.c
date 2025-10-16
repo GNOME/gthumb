@@ -70,6 +70,75 @@ gboolean transformation_changes_size (GthTransform transform) {
 }
 
 
+/* -- get_next_transformation -- */
+
+
+static GthTransform
+get_next_value_rotation_90 (GthTransform value)
+{
+	static GthTransform new_value [8] = {6, 7, 8, 5, 2, 3, 4, 1};
+	return new_value[value - 1];
+}
+
+
+static GthTransform
+get_next_value_mirror (GthTransform value)
+{
+	static GthTransform new_value [8] = {2, 1, 4, 3, 6, 5, 8, 7};
+	return new_value[value - 1];
+}
+
+
+static GthTransform
+get_next_value_flip (GthTransform value)
+{
+	static GthTransform new_value [8] = {4, 3, 2, 1, 8, 7, 6, 5};
+	return new_value[value - 1];
+}
+
+
+GthTransform
+get_next_transformation (GthTransform original,
+			 GthTransform transform)
+{
+	GthTransform result;
+
+	result = ((original >= 1) && (original <= 8)) ? original : GTH_TRANSFORM_NONE;
+	switch (transform) {
+	case GTH_TRANSFORM_NONE:
+		break;
+	case GTH_TRANSFORM_ROTATE_90:
+		result = get_next_value_rotation_90 (result);
+		break;
+	case GTH_TRANSFORM_ROTATE_180:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_rotation_90 (result);
+		break;
+	case GTH_TRANSFORM_ROTATE_270:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_rotation_90 (result);
+		break;
+	case GTH_TRANSFORM_FLIP_H:
+		result = get_next_value_mirror (result);
+		break;
+	case GTH_TRANSFORM_FLIP_V:
+		result = get_next_value_flip (result);
+		break;
+	case GTH_TRANSFORM_TRANSPOSE:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_mirror (result);
+		break;
+	case GTH_TRANSFORM_TRANSVERSE:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_flip (result);
+		break;
+	}
+
+	return result;
+}
+
+
 void get_transformation_steps (
 	GthTransform transform,
 	int width,

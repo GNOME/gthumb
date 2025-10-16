@@ -408,11 +408,25 @@ public class Gth.Window : Adw.ApplicationWindow {
 			menu.remove_all_actions ();
 
 			// Actions
+
 			var action = new ActionInfo ("win.edit-scripts", null, _("Personalize…"));
 			action.category = tool_actions_category;
 			menu.append_action (action);
 
+			// Tools
+
+			action = new ActionInfo ("win.rotate-right", null, _("Rotate Right"),
+				new ThemedIcon ("gth-rotate-right-symbolic"));
+			action.category = internal_tools_category;
+			menu.append_action (action);
+
+			action = new ActionInfo ("win.rotate-left", null, _("Rotate Left"),
+				new ThemedIcon ("gth-rotate-left-symbolic"));
+			action.category = internal_tools_category;
+			menu.append_action (action);
+
 			// Scripts
+
 			foreach (unowned var script in app.scripts.entries) {
 				if (!script.visible) {
 					continue;
@@ -774,6 +788,47 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("rotate-left", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			var rotation = new ImageRotation (Transform.ROTATE_270);
+			exec_file_operation.begin (_("Rotate Left"), rotation, files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("rotate-right", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			var rotation = new ImageRotation (Transform.ROTATE_90);
+			exec_file_operation.begin (_("Rotate Right"), rotation, files);
+		});
+		action_group.add_action (action);
+	}
+
+	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files) {
+		var local_job = new_job (name, JobFlags.FOREGROUND);
+		foreach (var file in files) {
+			try {
+				yield operation.exec (file, local_job.cancellable);
+			}
+			catch (Error error) {
+				local_job.error = error;
+				break;
+			}
+		}
+		local_job.done ();
+		if (local_job.error != null) {
+			show_error (local_job.error);
+		}
 	}
 
 	void add_fake_job () {
@@ -908,7 +963,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		viewer.window = this;
 
 		tool_actions_category = new ActionCategory ("", -1);
-		scripts_category = new ActionCategory (_("Scripts"), 1);
+		internal_tools_category = new ActionCategory (_("Tools"), 1);
+		scripts_category = new ActionCategory (_("Scripts"), 2);
 
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (on_key_pressed);
@@ -923,6 +979,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	DesktopBackground desktop_background = null;
 	ActionCategory tool_actions_category;
 	ActionCategory scripts_category;
+	ActionCategory internal_tools_category;
 	ProgressDialog progress_dialog = null;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 }

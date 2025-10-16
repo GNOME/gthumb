@@ -55,6 +55,7 @@ public class Gth.Metadata : Object {
 	public string value_type { get; set; }
 
 	public Metadata ();
+	public Metadata.typed (string value_type, string raw, string? formatted = null);
 	public Metadata.for_string (string raw, string? formatted = null);
 	public Metadata.for_string_list (StringList list);
 	public Metadata.for_point (double x, double y);

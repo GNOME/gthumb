@@ -209,3 +209,11 @@ public enum Gth.ForEachAction {
 }
 
 public delegate Gth.ForEachAction Gth.ForEachChildFunc (Gth.FileData child, bool is_parent);
+
+[Flags]
+public enum Gth.TransformFlags {
+	DEFAULT,
+	CHANGE_IMAGE,
+	RESET,
+	ALWAYS_SAVE,
+}
