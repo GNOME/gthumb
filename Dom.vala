@@ -242,8 +242,7 @@ public class Dom.Document : Dom.Element {
 	}
 
 	public void load_file (File file) throws Error {
-		var bytes = Gth.Files.load_file (file);
-		unowned var contents = (string) bytes.get_data ();
+		var contents = Gth.Files.load_contents (file);
 		load_xml (contents);
 	}
 

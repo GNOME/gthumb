@@ -108,7 +108,7 @@ public class Gth.Files {
 
 	const uint8[] ZERO = {0};
 
-	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable, uint8[] buffer, bool add_zero= false) throws Error {
+	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable, uint8[] buffer, bool add_zero = false) throws Error {
 		var result = new ByteArray ();
 		while (true) {
 			var size = stream.read (buffer, cancellable);
@@ -140,7 +140,7 @@ public class Gth.Files {
 		return ByteArray.free_to_bytes (result);
 	}
 
-	public static Bytes load_file (File file, Cancellable? cancellable = null, bool add_zero = true) throws Error {
+	public static Bytes load_file (File file, Cancellable? cancellable = null, bool add_zero = false) throws Error {
 		var stream = file.read (cancellable);
 		return Files.read_all (stream, cancellable, add_zero);
 	}
