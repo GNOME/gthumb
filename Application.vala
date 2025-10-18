@@ -31,6 +31,7 @@ public class Gth.Application : Adw.Application {
 	public ImageEditor image_editor;
 	public Shortcuts shortcuts;
 	public Work.Factory io_factory;
+	public FileActions tools;
 
 	public Application () {
 		Object (
@@ -60,6 +61,7 @@ public class Gth.Application : Adw.Application {
 		image_editor = new ImageEditor ();
 		filters = new Filters ();
 		scripts = new Scripts ();
+		tools = new FileActions ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();
@@ -203,6 +205,12 @@ public class Gth.Application : Adw.Application {
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
 		register_image_saver ("image/tiff", save_jpeg, typeof (TiffPreferences));
 		register_image_saver ("image/webp", save_jpeg, typeof (WebpPreferences));
+
+		tools.register (ToolCategory.IMAGES, "win.rotate-right", _("Rotate Right"), "gth-rotate-right-symbolic", "bracketright");
+		tools.register (ToolCategory.IMAGES, "win.rotate-left", _("Rotate Left"), "gth-rotate-left-symbolic", "bracketleft");
+		tools.register (ToolCategory.METADATA, "win.clear-metadata", _("Clear Metadata"));
+		tools.register (ToolCategory.METADATA, "win.apply-orientation", _("Rotate Physically"));
+		tools.register (ToolCategory.METADATA, "win.reset-orientation", _("Reset EXIF Orientation"));
 
 		shortcuts = new Shortcuts ();
 		shortcuts.register_all ();
@@ -648,6 +656,7 @@ public class Gth.Application : Adw.Application {
 
 		filters.load_from_file ();
 		scripts.load_from_file ();
+		// TODO tools.load_from_file ();
 		shortcuts.load_from_file ();
 	}
 

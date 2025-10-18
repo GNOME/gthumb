@@ -39,7 +39,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 				seekable.seek (0, SeekType.SET, cancellable);
 			}
 			var bytes = Files.read_all_with_buffer (input_stream, cancellable, tmp_buffer);
-			input_stream.close ();
+			input_stream.close (cancellable);
 
 			// Read the exif orientation
 
@@ -131,7 +131,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 
 			var output_stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
 			output_stream.write_all (bytes.get_data (), null, cancellable);
-			output_stream.close ();
+			output_stream.close (cancellable);
 		}
 	}
 

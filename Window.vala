@@ -410,20 +410,22 @@ public class Gth.Window : Adw.ApplicationWindow {
 			// Actions
 
 			var action = new ActionInfo ("win.edit-scripts", null, _("Personalize…"));
-			action.category = tool_actions_category;
+			action.category = app.tools.actions;
 			menu.append_action (action);
 
 			// Tools
 
-			action = new ActionInfo ("win.rotate-right", null, _("Rotate Right"),
-				new ThemedIcon ("gth-rotate-right-symbolic"));
-			action.category = internal_tools_category;
-			menu.append_action (action);
-
-			action = new ActionInfo ("win.rotate-left", null, _("Rotate Left"),
-				new ThemedIcon ("gth-rotate-left-symbolic"));
-			action.category = internal_tools_category;
-			menu.append_action (action);
+			foreach (var tool in app.tools.entries) {
+				if (!tool.visible) {
+					continue;
+				}
+				action = new ActionInfo (tool.action_name,
+					null,
+					tool.display_name,
+					(tool.icon_name != null) ? new ThemedIcon (tool.icon_name) : null);
+				action.category = tool.get_action_category ();
+				menu.append_action (action);
+			}
 
 			// Scripts
 
@@ -435,7 +437,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 					new Variant.string (script.id),
 					script.display_name,
 					new ThemedIcon ("gth-script-symbolic"));
-				action.category = scripts_category;
+				action.category = app.tools.scripts;
 				menu.append_action (action);
 			}
 		}
@@ -796,8 +798,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (_("No file selected"));
 				return;
 			}
-			var rotation = new ImageRotation (Transform.ROTATE_270);
-			exec_file_operation.begin (_("Rotate Left"), rotation, files);
+			var operation = new ImageRotation (Transform.ROTATE_270);
+			exec_file_operation.begin (_("Rotate Left"), operation, files);
 		});
 		action_group.add_action (action);
 
@@ -808,8 +810,44 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (_("No file selected"));
 				return;
 			}
-			var rotation = new ImageRotation (Transform.ROTATE_90);
-			exec_file_operation.begin (_("Rotate Right"), rotation, files);
+			var operation = new ImageRotation (Transform.ROTATE_90);
+			exec_file_operation.begin (_("Rotate Right"), operation, files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("apply-orientation", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			var operation = new ImageRotation (Transform.NONE, TransformFlags.CHANGE_IMAGE | TransformFlags.ALWAYS_SAVE);
+			exec_file_operation.begin (_("Rotate Physically"), operation, files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("reset-orientation", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			var operation = new ImageRotation (Transform.NONE, TransformFlags.RESET);
+			exec_file_operation.begin (_("Clear EXIF Rotation"), operation, files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("clear-metadata", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			var operation = new ClearMetadata ();
+			exec_file_operation.begin (_("Clear Metadata"), operation, files);
 		});
 		action_group.add_action (action);
 	}
@@ -962,10 +1000,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		browser.window = this;
 		viewer.window = this;
 
-		tool_actions_category = new ActionCategory ("", -1);
-		internal_tools_category = new ActionCategory (_("Tools"), 1);
-		scripts_category = new ActionCategory (_("Scripts"), 2);
-
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (on_key_pressed);
 		stack.add_controller (key_events);
@@ -977,9 +1011,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	uint fake_job_id = 0;
 	DesktopBackground desktop_background = null;
-	ActionCategory tool_actions_category;
-	ActionCategory scripts_category;
-	ActionCategory internal_tools_category;
 	ProgressDialog progress_dialog = null;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 }

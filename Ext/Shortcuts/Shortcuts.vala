@@ -177,8 +177,11 @@ public class Gth.Shortcuts {
 		register ("file-tool-crop", N_("Crop"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
 		register ("file-tool-resize", N_("Resize"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
 
-		register ("rotate-right", N_("Rotate Right"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SCRIPTS, "bracketright");
-		register ("rotate-left", N_("Rotate Left"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SCRIPTS, "bracketleft");
+		foreach (var tool in app.tools.entries) {
+			register (tool.action_name, tool.display_name,
+				SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SCRIPTS,
+				tool.default_shortcut);
+		}
 
 		register ("add-to-selection-1", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Alt>1");
 		register ("add-to-selection-2", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Alt>2");
