@@ -18,22 +18,29 @@ typedef enum {
 
 
 struct _GthImagePrivate {
-	guchar *buffer;
-	gsize size;
-	gboolean buffer_unowned;
+	GBytes *bytes;
 	int row_stride;
 	guint width;
 	guint height;
+
+	// Metatadata
 	MetadataFlags metadata_flags;
 	gboolean has_alpha;
-	guint original_width;
-	guint original_height;
-	guint original_image_width;
-	guint original_image_height;
 	GthIccProfile *icc_profile;
-	GBytes *bytes;
 	GHashTable *attributes;
 	GFileInfo *info;
+
+	// The image could be loaded at a smaller size (for example when
+	// generating thumbnails), this is the original size:
+	guint original_width;
+	guint original_height;
+
+	// Info about the original image if this image is a thumbnail.
+	// TODO: move to attributes
+	guint original_image_width;
+	guint original_image_height;
+
+	// Animation
 	GPtrArray *frames;
 	guint total_time; // Milliseconds
 	guint current_time;
@@ -78,19 +85,10 @@ static void gth_frame_unref (GthFrame *frame) {
 }
 
 static void _gth_image_free_data (GthImage *self) {
-	if (self->priv->buffer != NULL) {
-		if (!self->priv->buffer_unowned) {
-			g_free (self->priv->buffer);
-		}
-		self->priv->buffer = NULL;
-	}
 	if (self->priv->bytes != NULL) {
-		if (!self->priv->buffer_unowned) {
-			g_bytes_unref (self->priv->bytes);
-		}
+		g_bytes_unref (self->priv->bytes);
 		self->priv->bytes = NULL;
 	}
-	self->priv->buffer_unowned = FALSE;
 }
 
 static void _gth_image_free_icc_profile (GthImage *self) {
@@ -135,9 +133,7 @@ static void gth_image_class_init (GthImageClass *klass) {
 
 static void gth_image_init (GthImage *self) {
 	self->priv = gth_image_get_instance_private (self);
-	self->priv->buffer = NULL;
-	self->priv->size = 0;
-	self->priv->buffer_unowned = FALSE;
+	self->priv->bytes = NULL;
 	self->priv->row_stride = 0;
 	self->priv->width = 0;
 	self->priv->height = 0;
@@ -146,7 +142,6 @@ static void gth_image_init (GthImage *self) {
 	self->priv->original_width = 0;
 	self->priv->original_height = 0;
 	self->priv->icc_profile = NULL;
-	self->priv->bytes = NULL;
 	self->priv->attributes = NULL;
 	self->priv->info = g_file_info_new ();
 	self->priv->frames = g_ptr_array_new_with_free_func ((GDestroyNotify) gth_frame_unref);
@@ -159,17 +154,16 @@ void gth_image_init_pixels (GthImage *self, guint width, guint height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	g_return_if_fail (width > 0);
 	g_return_if_fail (height > 0);
-	g_return_if_fail (self->priv->buffer == NULL);
+	g_return_if_fail (self->priv->bytes == NULL);
 
 	self->priv->row_stride = (int) (width * PIXEL_BYTES);
-	self->priv->size = (gsize) self->priv->row_stride * height;
+	gsize size = (gsize) self->priv->row_stride * height;
 	// TODO: check the size
-	self->priv->buffer = g_malloc (self->priv->size);
-	self->priv->buffer_unowned = FALSE;
+	guchar *buffer = g_malloc (size);
 	// TODO: check if buffer is NULL
+	self->priv->bytes = g_bytes_new_take (buffer, size);
 	self->priv->width = width;
 	self->priv->height = height;
-	self->priv->bytes = g_bytes_new_static (self->priv->buffer, self->priv->size);
 }
 
 GthImage * gth_image_new (guint width, guint height) {
@@ -186,7 +180,8 @@ GthImage * gth_image_new_from_texture (GdkTexture* texture) {
 	GthImage *image = gth_image_new (
 		(guint) gdk_texture_get_width (texture),
 		(guint) gdk_texture_get_height (texture));
-	gdk_texture_download (texture, image->priv->buffer, image->priv->row_stride);
+	const guchar *buffer = g_bytes_get_data (image->priv->bytes, NULL);
+	gdk_texture_download (texture, buffer, image->priv->row_stride);
 	return image;
 }
 
@@ -224,25 +219,28 @@ GthImage * gth_image_dup (GthImage *self) {
 	return image;
 }
 
+static GBytes * _g_bytes_new_slice (GBytes *bytes, gsize offset, gsize new_size) {
+	gsize old_size;
+	const guchar *old_buffer = g_bytes_get_data (bytes, &old_size);
+	old_buffer += offset;
+	guchar *new_buffer = g_memdup2 (old_buffer, old_size);
+	return g_bytes_new_take (new_buffer, new_size);
+}
+
 void gth_image_copy_pixels (GthImage *src, GthImage *dest) {
 	_gth_image_free_data (dest);
-	dest->priv->buffer = g_memdup2 (src->priv->buffer, src->priv->size);
-	dest->priv->size = src->priv->size;
+	dest->priv->bytes = _g_bytes_new_slice (src->priv->bytes, 0, g_bytes_get_size (src->priv->bytes));
 	dest->priv->row_stride = src->priv->row_stride;
 	dest->priv->width = src->priv->width;
 	dest->priv->height = src->priv->height;
-	dest->priv->bytes = g_bytes_new_static (dest->priv->buffer, dest->priv->size);
 }
 
 static void gth_image_set_frame (GthImage *self, GthImage *frame) {
 	_gth_image_free_data (self);
-	self->priv->buffer_unowned = TRUE;
-	self->priv->buffer = frame->priv->buffer;
-	self->priv->size = frame->priv->size;
+	self->priv->bytes = g_bytes_ref (frame->priv->bytes);
 	self->priv->row_stride = frame->priv->row_stride;
 	self->priv->width = frame->priv->width;
 	self->priv->height = frame->priv->height;
-	self->priv->bytes = frame->priv->bytes;
 }
 
 void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
@@ -279,9 +277,7 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 
 guchar* gth_image_get_pixels (GthImage *self, gsize *size) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
-	if (size != NULL)
-		*size = self->priv->size;
-	return self->priv->buffer;
+	return (guchar*) g_bytes_get_data (self->priv->bytes, size);
 }
 
 guint gth_image_get_row_stride (GthImage *self) {
@@ -297,11 +293,11 @@ guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, in
 		*width = (int) self->priv->width;
 	if (height != NULL)
 		*height = (int) self->priv->height;
-	return self->priv->buffer;
+	return gth_image_get_pixels (self, NULL);
 }
 
 void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int data_stride) {
-	unsigned char *surface_data = self->priv->buffer;
+	unsigned char *surface_data = gth_image_get_pixels (self, NULL);
 	int row_stride = self->priv->row_stride;
 	if (with_alpha) {
 		for (int row = 0; row < self->priv->height; row++) {
@@ -368,6 +364,25 @@ GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, g
 		(gsize) self->priv->row_stride);
 }
 
+GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height) {
+	g_return_val_if_fail (GTH_IS_IMAGE (source), NULL);
+	g_return_val_if_fail (x + width <= source->priv->width, NULL);
+	g_return_val_if_fail (y + height <= source->priv->height, NULL);
+	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
+	image->priv->row_stride = source->priv->row_stride;
+	image->priv->width = width;
+	image->priv->height = height;
+	gsize start_offset = (y * source->priv->row_stride) + (x * PIXEL_BYTES);
+	gsize end_offset = ((y + height - 1) * source->priv->row_stride) + ((x + width) * PIXEL_BYTES);
+	image->priv->bytes = g_bytes_new_from_bytes (source->priv->bytes, start_offset,	end_offset - start_offset);
+	if (image->priv->bytes == NULL) {
+		g_object_unref (image);
+		return NULL;
+	}
+	gth_image_copy_metadata (source, image);
+	return image;
+}
+
 guint gth_image_get_width (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
 	return self->priv->width;
@@ -380,7 +395,7 @@ guint gth_image_get_height (GthImage *self) {
 
 gsize gth_image_get_size (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
-	return self->priv->size;
+	return (self->priv->bytes != NULL) ? g_bytes_get_size (self->priv->bytes) : 0;
 }
 
 void gth_image_set_has_alpha (GthImage *self, gboolean has_alpha) {
@@ -506,6 +521,7 @@ cairo_surface_t* gth_image_get_scaled_texture (GthImage *self, double factor, gu
 
 void gth_image_add_frame (GthImage *self, GthImage *frame_image, guint delay) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_if_fail (GTH_IS_IMAGE (frame_image));
 	GthImagePrivate *priv = self->priv;
 	GthFrame *frame = gth_frame_new (frame_image, delay);
 	g_ptr_array_add (priv->frames, frame);
@@ -615,7 +631,7 @@ void gth_image_apply_icc_profile (GthImage *self,
 		return;
 	}
 
-	if (self->priv->buffer == NULL) {
+	if (self->priv->bytes == NULL) {
 		return;
 	}
 
@@ -634,7 +650,7 @@ void gth_image_apply_icc_profile (GthImage *self,
 	}
 
 	cmsHTRANSFORM hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
-	const unsigned char *row_pointer = self->priv->buffer;
+	const unsigned char *row_pointer = gth_image_get_pixels (self, NULL);
 	for (guint row = 0; row < self->priv->height; row++) {
 		if (g_cancellable_is_cancelled (cancellable)) {
 			break;
