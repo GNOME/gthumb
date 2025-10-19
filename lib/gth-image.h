@@ -120,6 +120,7 @@ GthImage * gth_image_resize_finish (GthImage *self, GAsyncResult *result,
 
 // Transform
 GthImage * gth_image_apply_transform (GthImage *self, GthTransform transform, GCancellable *cancellable);
+GthImage * gth_image_cut (GthImage *self, guint x, guint y, guint width, guint height, GCancellable *cancellable);
 
 // Edit
 

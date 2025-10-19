@@ -54,5 +54,6 @@ namespace Gth {
 		public Image? resize_to (uint width, uint height, ScaleFilter quality, Cancellable? cancellable = null);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 		public Image? apply_transform (Gth.Transform transform, Cancellable cancellable);
+		public Image? cut (uint x, uint y, uint width, uint height, Cancellable cancellable);
 	}
 }

@@ -319,6 +319,7 @@ lib_files = files(
   'lib/gth-color-manager.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
+  'lib/gth-image-cut.c',
   'lib/gth-image-edit.c',
   'lib/gth-image-resize.c',
   'lib/gth-image-transform.c',
