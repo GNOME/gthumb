@@ -472,33 +472,41 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("flip-horizontal", null);
 		action.activate.connect (() => {
-			edit_image.begin (_("Horizontal Flip"), (image, cancellable) => {
-				return image.apply_transform (Gth.Transform.FLIP_H, cancellable);
-			});
+			if (image_view.image == null) {
+				return;
+			}
+			var operation = new ImageTransform (image_view.image, Transform.FLIP_H);
+			edit_image.begin (_("Horizontal Flip"), operation);
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("flip-vertical", null);
 		action.activate.connect (() => {
-			edit_image.begin (_("Vertical Flip"), (image, cancellable) => {
-				return image.apply_transform (Gth.Transform.FLIP_V, cancellable);
-			});
+			if (image_view.image == null) {
+				return;
+			}
+			var operation = new ImageTransform (image_view.image, Transform.FLIP_V);
+			edit_image.begin (_("Vertical Flip"), operation);
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("rotate-right", null);
 		action.activate.connect (() => {
-			edit_image.begin (_("Rotate Right"), (image, cancellable) => {
-				return image.apply_transform (Gth.Transform.ROTATE_90, cancellable);
-			});
+			if (image_view.image == null) {
+				return;
+			}
+			var operation = new ImageTransform (image_view.image, Transform.ROTATE_90);
+			edit_image.begin (_("Rotate Right"), operation);
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("rotate-left", null);
 		action.activate.connect (() => {
-			edit_image.begin (_("Rotate Left"), (image, cancellable) => {
-				return image.apply_transform (Gth.Transform.ROTATE_270, cancellable);
-			});
+			if (image_view.image == null) {
+				return;
+			}
+			var operation = new ImageTransform (image_view.image, Transform.ROTATE_270);
+			edit_image.begin (_("Rotate Right"), operation);
 		});
 		action_group.add_action (action);
 
@@ -576,14 +584,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action_group.add_action (action);
 	}
 
-	async void edit_image (string title, EditorFunc editor_func) {
+	async void edit_image (string title, ImageOperation operation) {
 		var local_job = window.new_job (title, JobFlags.FOREGROUND);
 		try {
 			// TODO: load the original image if needed.
-			image_view.image = yield app.image_editor.exec_async (
-				image_view.image,
-				local_job.cancellable,
-				editor_func);
+			image_view.image = yield app.image_editor.exec_operation (
+				operation,
+				local_job.cancellable);
 			window.viewer.current_file.set_is_modified (true);
 			window.viewer.update_title ();
 			// TODO window.viewer.update_sensitivity ();
@@ -743,4 +750,18 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	const float ZOOM_ADJ_MIN = 0f;
 	const float ZOOM_ADJ_MAX = 100f;
 	const double DRAG_THRESHOLD = 1;
+}
+
+class Gth.ImageTransform : Gth.ImageOperation {
+	public Image image;
+	public Transform tranform;
+
+	public ImageTransform (Image _image, Transform _tranform) {
+		image = _image;
+		tranform = _tranform;
+	}
+
+	public override Gth.Image? get_image (Cancellable cancellable) {
+		return image.apply_transform (tranform, cancellable);
+	}
 }
