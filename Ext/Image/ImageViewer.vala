@@ -13,6 +13,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.transparency = (TransparencyStyle) settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		animation_actions = builder.get_object ("animation_actions") as Gtk.Box;
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
+		apply_icc_profile = settings.get_boolean (PREF_IMAGE_APPLY_ICC_PROFILE);
 		window.viewer.set_viewer_widget (builder.get_object ("main_view") as Gtk.Widget);
 		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
@@ -94,7 +95,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	public async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
 		try {
-			var icc_profile = image.get_icc_profile ();
+			// TODO: make sure to apply only once?
+			var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
 			if (icc_profile != null) {
 				var monitor_profile = yield window.get_monitor_profile (cancellable);
 				if (monitor_profile != null) {
@@ -137,6 +139,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public void save_preferences () {
 		settings.set_enum (PREF_IMAGE_ZOOM_TYPE, image_view.zoom_type);
 		settings.set_enum (PREF_IMAGE_TRANSPARENCY, image_view.transparency);
+		settings.set_boolean (PREF_IMAGE_APPLY_ICC_PROFILE, apply_icc_profile);
 	}
 
 	public void release_resources () {
@@ -582,6 +585,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		action.set_enabled (false);
 		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("apply-icc-profile", null, new Variant.boolean (true));
+		action.activate.connect ((action, param) => {
+			apply_icc_profile = Util.toggle_state (action);
+			window.viewer.reload ();
+		});
+		action_group.add_action (action);
 	}
 
 	async void edit_image (string title, ImageOperation operation) {
@@ -593,7 +603,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				local_job.cancellable);
 			window.viewer.current_file.set_is_modified (true);
 			window.viewer.update_title ();
-			// TODO window.viewer.update_sensitivity ();
+			update_sensitivity ();
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -714,6 +724,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return (Math.log (z) + Math.E) * 15;
 	}
 
+	void update_sensitivity () {
+		var has_image = (window.viewer.current_file != null) && (image_view.image != null) && !image_view.image.get_is_empty ();
+		var is_modified = has_image && window.viewer.current_file.get_is_modified ();
+		Util.enable_action (action_group, "apply-icc-profile", has_image && image_view.image.has_icc_profile () && !is_modified);
+		Util.enable_action (action_group, "save", has_image && is_modified);
+	}
+
 	construct {
 		settings = new GLib.Settings (GTHUMB_IMAGES_SCHEMA);
 		settings.changed.connect ((key) => {
@@ -744,6 +761,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	unowned Gtk.Adjustment zoom_adjustment;
 	double last_x = -1;
 	double last_y = -1;
+	bool apply_icc_profile;
 
 	const float ZOOM_MIN = 0.05f;
 	const float ZOOM_MAX = 10f;

@@ -59,6 +59,7 @@ void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean
 guint gth_image_get_width (GthImage *self);
 guint gth_image_get_height (GthImage *self);
 gsize gth_image_get_size (GthImage *self);
+gboolean gth_image_get_is_empty (GthImage *self);
 void gth_image_set_has_alpha (GthImage *self, gboolean has_alpha);
 gboolean gth_image_get_has_alpha (GthImage *self, gboolean *has_alpha);
 void gth_image_set_natural_size (GthImage *self, guint width, guint height);

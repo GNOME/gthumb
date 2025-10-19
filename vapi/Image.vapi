@@ -14,6 +14,7 @@ namespace Gth {
 		public uint get_width ();
 		public uint get_height ();
 		public size_t get_size ();
+		public bool get_is_empty ();
 		public void set_has_alpha (bool has_alpha);
 		public bool get_has_alpha (out bool has_alpha);
 		public void set_natural_size (uint width, uint height);

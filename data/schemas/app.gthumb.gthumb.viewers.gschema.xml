@@ -47,6 +47,9 @@
     <key name="transparency" enum="app.gthumb.gthumb.TransparencyStyle">
       <default>'gray'</default>
     </key>
+    <key name="apply-icc-profile" type="b">
+      <default>true</default>
+    </key>
   </schema>
 
   <schema id="app.gthumb.gthumb.viewers.videos" path="/app/gthumb/gthumb/viewers/videos/" gettext-domain="gthumb">

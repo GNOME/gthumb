@@ -8,5 +8,6 @@ public interface Gth.FileViewer : Object {
 	public abstract bool on_scroll (double dx, double dy, Gdk.ModifierType state);
 	public abstract bool get_pixel_size (out uint width, out uint height);
 	public virtual async void save () throws Error {}
+	public virtual void update_sensitivity () {}
 	public abstract void focus ();
 }

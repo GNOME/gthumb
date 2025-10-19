@@ -398,6 +398,11 @@ gsize gth_image_get_size (GthImage *self) {
 	return (self->priv->bytes != NULL) ? g_bytes_get_size (self->priv->bytes) : 0;
 }
 
+gboolean gth_image_get_is_empty (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
+	return gth_image_get_size (self) == 0;
+}
+
 void gth_image_set_has_alpha (GthImage *self, gboolean has_alpha) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	self->priv->metadata_flags |= METADATA_FLAG_HAS_ALPHA;

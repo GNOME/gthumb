@@ -28,6 +28,7 @@ public class Gth.Viewer : Gtk.Box {
 		if (!(loaded && (current_viewer is ImageViewer))) {
 			update_sidebar ();
 		}
+		current_viewer.update_sensitivity ();
 		if (loaded && (ViewFlags.FULLSCREEN in flags)) {
 			window.fullscreened = true;
 		}
@@ -66,6 +67,13 @@ public class Gth.Viewer : Gtk.Box {
 			load_job = null;
 		}
 		return loaded;
+	}
+
+	public void reload () {
+		if (current_file == null) {
+			return;
+		}
+		view_file_async.begin (current_file);
 	}
 
 	public async void open_unsaved_image (FileData file_data, Gth.Image image) {

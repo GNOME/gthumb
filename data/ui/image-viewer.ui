@@ -100,6 +100,12 @@
   </object>
   <menu id="options_menu">
     <section>
+      <item>
+        <attribute name="label" translatable="yes">Apply Color Profile</attribute>
+        <attribute name="action">image.apply-icc-profile</attribute>
+      </item>
+    </section>
+    <section>
       <attribute name="label" translatable="yes">Transparency</attribute>
       <item>
         <attribute name="label" translatable="yes">Background</attribute>
