@@ -473,6 +473,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action.activate.connect (() => ask_name_and_save.begin ());
 		action_group.add_action (action);
 
+		action = new SimpleAction ("save", null);
+		action.activate.connect (() => save.begin ());
+		action_group.add_action (action);
+
 		action = new SimpleAction ("flip-horizontal", null);
 		action.activate.connect (() => {
 			if (image_view.image == null) {
