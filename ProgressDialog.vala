@@ -105,6 +105,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		else if (foreground_jobs > shown_foreground_jobs) {
 			queue_show_dialog ();
 		}
+		window.set_busy ((job_dialogs == 0) && (jobs.length () > 0));
 	}
 
 	~ProgressDialog() {

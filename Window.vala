@@ -908,6 +908,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return true;
 	}
 
+	public void set_busy (bool busy) {
+		cursor = busy ? new Gdk.Cursor.from_name ("progress", null) : null;
+	}
+
 	public async void open (File file) {
 		var local_job = new_job ("Open");
 		try {
@@ -956,12 +960,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 			browser.status.set_n_jobs (jobs.size ());
 			viewer.status.set_n_jobs (jobs.size ());
-			if (jobs.size () > 0) {
-				cursor = new Gdk.Cursor.from_name ("progress", null);
-			}
-			else {
-				cursor = null;
-			}
 		});
 		file_manager = new FileManager (this);
 		closing = false;
