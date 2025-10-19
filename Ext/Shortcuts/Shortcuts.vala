@@ -217,6 +217,7 @@ public class Gth.Shortcuts {
 		register ("image.set-zoom('max-width')", N_("Zoom to Fit Width"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "w");
 		register ("image.set-zoom('max-height')", N_("Zoom to Fit Height"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "h");
 		register ("image.set-zoom('best-fit')", N_("Automatic Zoom"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "0");
+		register ("image.set-zoom('fill-space')", N_("Fill Space"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>f");
 
 		register ("image.scroll-left", N_("Scroll Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Left");
 		register ("image.scroll-right", N_("Scroll Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "Right");
