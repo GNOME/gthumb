@@ -397,4 +397,14 @@ namespace Gth.Util {
 		}
 		return null;
 	}
+
+	public static uint get_workers (int max_workers = -1) {
+		var n_workers = GLib.get_num_processors () - 1;
+		if (max_workers > 0) {
+			return n_workers.clamp (1, max_workers);
+		}
+		else {
+			return uint.min (n_workers, 1);
+		}
+	}
 }

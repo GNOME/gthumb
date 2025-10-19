@@ -47,7 +47,7 @@ public class Gth.Application : Adw.Application {
 		restart = false;
 		quitting = false;
 		jobs = new Gth.JobQueue ();
-		io_factory = new Work.Factory (get_workers (MAX_IO_WORKERS));
+		io_factory = new Work.Factory (Util.get_workers (MAX_IO_WORKERS));
 		image_loader = new ImageLoader (io_factory);
 		thumb_loader = new ThumbLoader (io_factory);
 		image_saver = new ImageSaver (io_factory);
@@ -746,11 +746,6 @@ public class Gth.Application : Adw.Application {
 		if (!arg_slideshow) {
 			window.present ();
 		}
-	}
-
-	uint get_workers (int max_workers) {
-		var n_workers = GLib.get_num_processors () - 1;
-		return n_workers.clamp (1, max_workers);
 	}
 
 	const int MAX_IO_WORKERS = 4;
