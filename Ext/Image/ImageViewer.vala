@@ -512,7 +512,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("scroll-left", null);
 		action.activate.connect (() => {
-			image_view.scroll_by (-image_view.hadjustment.step_increment, 0);
+			image_view.scroll_by (0 - image_view.hadjustment.step_increment, 0);
 		});
 		action_group.add_action (action);
 
@@ -524,7 +524,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("scroll-up", null);
 		action.activate.connect (() => {
-			image_view.scroll_by (0, -image_view.vadjustment.step_increment);
+			image_view.scroll_by (0, 0 - image_view.vadjustment.step_increment);
 		});
 		action_group.add_action (action);
 
