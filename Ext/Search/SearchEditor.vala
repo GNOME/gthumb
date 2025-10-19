@@ -1,5 +1,5 @@
 public class Gth.SearchEditor : Object {
-	public async Gth.Catalog? new_search (Gtk.Window? parent, File default_folder, Cancellable? cancellable = null) throws Error {
+	public async Gth.Catalog? new_search (Gtk.Window? parent, File default_folder, Job job) throws Error {
 		callback = new_search.callback;
 		dialog = new SearchDialog (default_folder);
 		dialog.changed.connect (() => {
@@ -12,14 +12,16 @@ public class Gth.SearchEditor : Object {
 				callback = null;
 			}
 		});
-		cancelled_event = cancellable.cancelled.connect (() => {
+		cancelled_event = job.cancellable.cancelled.connect (() => {
 			dialog.close ();
 		});
+		job.opens_dialog ();
 		dialog.present (parent);
 		dialog.focus_first_rule ();
 		yield;
+		job.dialog_closed ();
 		if (cancelled_event != 0) {
-			cancellable.disconnect (cancelled_event);
+			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
 		}
 		if (result == null) {

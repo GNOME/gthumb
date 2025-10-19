@@ -1,5 +1,5 @@
 public class Gth.AppSelector : Object {
-	public async AppInfo? select_app (Gtk.Window? parent, GenericArray<Gth.FileData> files, Cancellable? cancellable = null) throws Error {
+	public async AppInfo? select_app (Gtk.Window? parent, GenericArray<Gth.FileData> files, Job job) throws Error {
 		callback = select_app.callback;
 		dialog = new AppSelectorDialog (files);
 		if (!dialog.has_applications ()) {
@@ -15,15 +15,17 @@ public class Gth.AppSelector : Object {
 				callback = null;
 			}
 		});
-		if (cancellable != null) {
-			cancelled_event = cancellable.cancelled.connect (() => {
+		if (job.cancellable != null) {
+			cancelled_event = job.cancellable.cancelled.connect (() => {
 				dialog.close ();
 			});
 		}
+		job.opens_dialog ();
 		dialog.present (parent);
 		yield;
+		job.dialog_closed ();
 		if (cancelled_event != 0) {
-			cancellable.disconnect (cancelled_event);
+			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
 		}
 		if (result == null) {

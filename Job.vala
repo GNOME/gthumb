@@ -118,7 +118,9 @@ public class Gth.Job : Object {
 	}
 
 	public void dialog_closed () {
-		open_dialogs -= 1;
+		if (open_dialogs > 0) {
+			open_dialogs -= 1;
+		}
 	}
 }
 

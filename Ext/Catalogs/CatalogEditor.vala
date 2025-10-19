@@ -1,5 +1,5 @@
 public class Gth.CatalogEditor : Object {
-	public async Gth.Catalog? edit_catalog (Gtk.Window? parent, File? file = null, Cancellable? cancellable = null) throws Error {
+	public async Gth.Catalog? edit_catalog (Gtk.Window? parent, File? file = null, Job job) throws Error {
 		callback = edit_catalog.callback;
 		dialog = new CatalogDialog ();
 		dialog.changed.connect (() => {
@@ -12,14 +12,16 @@ public class Gth.CatalogEditor : Object {
 				callback = null;
 			}
 		});
-		cancelled_event = cancellable.cancelled.connect (() => {
+		cancelled_event = job.cancellable.cancelled.connect (() => {
 			dialog.close ();
 		});
-		yield dialog.load_file (file, cancellable);
+		yield dialog.load_file (file, job.cancellable);
+		job.opens_dialog ();
 		dialog.present (parent);
 		yield;
+		job.dialog_closed ();
 		if (cancelled_event != 0) {
-			cancellable.disconnect (cancelled_event);
+			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
 		}
 		if (result == null) {

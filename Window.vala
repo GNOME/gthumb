@@ -328,7 +328,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				throw new IOError.FAILED (_("No file selected"));
 			}
 			var app_selector = new Gth.AppSelector ();
-			var app_info = yield app_selector.select_app (this, files, local_job.cancellable);
+			var app_info = yield app_selector.select_app (this, files, local_job);
 			var uris = new List<string>();
 			foreach (unowned var file_data in files) {
 				uris.append (file_data.file.get_uri ());
@@ -384,14 +384,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO: load the metadata from file again?
 		var local_job = new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
 		try {
-			local_job.opens_dialog ();
 			var dialog = new EditMetadata ();
 			yield dialog.edit (this, file_data, local_job);
 			yield app.metadata_writer.save (file_data, local_job.cancellable);
-			local_job.dialog_closed ();
 		}
 		catch (Error error) {
-			local_job.dialog_closed ();
 			show_error (error);
 		}
 		finally {

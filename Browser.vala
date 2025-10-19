@@ -1359,19 +1359,15 @@ public class Gth.Browser : Gtk.Box {
 			"gth-search-symbolic");
 		search_job = local_job;
 		try {
-			local_job.opens_dialog ();
 			var editor = new Gth.SearchEditor ();
 			var catalog = yield editor.new_search (window,
 				folder_tree.current_folder.file,
-				local_job.cancellable);
+				local_job);
 			yield catalog.save_async (local_job.cancellable);
-			local_job.dialog_closed ();
-
 			var search = new UpdateSearch ();
 			yield search.update_file (this, catalog.file, local_job);
 		}
 		catch (Error error) {
-			local_job.dialog_closed ();
 			window.show_error (error);
 		}
 		finally {
@@ -1393,10 +1389,8 @@ public class Gth.Browser : Gtk.Box {
 		try {
 			local_job.opens_dialog ();
 			var editor = new Gth.CatalogEditor ();
-			var catalog = yield editor.edit_catalog (window, file_data.file, local_job.cancellable);
-			local_job.dialog_closed ();
+			var catalog = yield editor.edit_catalog (window, file_data.file, local_job);
 			yield catalog.save_async (local_job.cancellable);
-
 			if (editor.search_parameters_changed ()) {
 				// Start searching if the search parameters changed.
 				var search = new UpdateSearch ();
@@ -1404,7 +1398,6 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 		catch (Error error) {
-			local_job.dialog_closed ();
 			window.show_error (error);
 		}
 		finally {
@@ -2030,12 +2023,12 @@ public class Gth.Browser : Gtk.Box {
 			local_job.opens_dialog ();
 			var location = yield dialog.select_folder (window, local_job.cancellable);
 			open_location (location);
-			local_job.dialog_closed ();
 		}
 		catch (Error error) {
 			window.show_error (error);
 		}
 		finally {
+			local_job.dialog_closed ();
 			local_job.done ();
 		}
 	}
