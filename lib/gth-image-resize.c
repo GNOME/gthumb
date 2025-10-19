@@ -288,33 +288,21 @@ out:
 
 
 GthImage *
-gth_image_resize (GthImage		*image,
-		  guint			 size,
-		  GthResizeFlags	 flags,
-		  GthScaleFilter	 quality,
-		  GCancellable		*cancellable)
+gth_image_resize_to (GthImage		*image,
+		     guint		 scaled_width,
+		     guint		 scaled_height,
+		     GthScaleFilter	 quality,
+		     GCancellable	*cancellable)
 {
-	guint original_width = gth_image_get_width (image);
-	guint original_height = gth_image_get_height (image);
-	guint scaled_width = original_width;
-	guint scaled_height = original_height;
-	if (!scale_keeping_ratio (
-		&scaled_width,
-		&scaled_height,
-		size,
-		size,
-		(flags & GTH_RESIZE_UPSCALE) != 0))
-	{
-		//return gth_image_dup (image);
-		return g_object_ref (image);
-	}
-
 	GthImage *scaled = gth_image_new (scaled_width, scaled_height);
 	if (scaled == NULL) {
 		return NULL;
 	}
 
 	gth_image_copy_metadata (image, scaled);
+
+	guint original_width = gth_image_get_width (image);
+	guint original_height = gth_image_get_height (image);
 	if (!gth_image_has_original_size (image)) {
 		gth_image_set_natural_size (scaled, original_width, original_height);
 	}
@@ -340,6 +328,31 @@ gth_image_resize (GthImage		*image,
 	g_object_unref (tmp);
 
 	return scaled;
+}
+
+
+GthImage *
+gth_image_resize (GthImage		*image,
+		  guint			 size,
+		  GthResizeFlags	 flags,
+		  GthScaleFilter	 quality,
+		  GCancellable		*cancellable)
+{
+	guint original_width = gth_image_get_width (image);
+	guint original_height = gth_image_get_height (image);
+	guint scaled_width = original_width;
+	guint scaled_height = original_height;
+	if (!scale_keeping_ratio (
+		&scaled_width,
+		&scaled_height,
+		size,
+		size,
+		(flags & GTH_RESIZE_UPSCALE) != 0))
+	{
+		//return gth_image_dup (image);
+		return g_object_ref (image);
+	}
+	return gth_image_resize_to (image, scaled_width, scaled_height, quality, cancellable);
 }
 
 

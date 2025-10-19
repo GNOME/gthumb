@@ -32,6 +32,7 @@ namespace Gth {
 
 		public Gdk.Texture get_texture ();
 		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
+		public Image get_subimage (uint x, uint y, uint width, uint height);
 
 		public virtual bool get_is_scalable ();
 		public virtual Cairo.Surface? get_scaled_texture (double factor, uint x, uint y, uint width, uint height);
@@ -47,11 +48,11 @@ namespace Gth {
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
 
-		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
-		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
-
 		public void fill_vertical (Image pattern, Fill fill);
 
+		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
+		public Image? resize_to (uint width, uint height, ScaleFilter quality, Cancellable? cancellable = null);
+		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 		public Image? apply_transform (Gth.Transform transform, Cancellable cancellable);
 	}
 }

@@ -5,7 +5,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			if (value == _image) {
 				return;
 			}
-			stop_animation ();
+			before_changing_image ();
 			_image = value;
 			if (_default_zoom_type != ZoomType.KEEP_PREVIOUS) {
 				_zoom_type = _default_zoom_type;
@@ -30,6 +30,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public float zoom {
 		get { return _zoom; }
 		set {
+			if ((_zoom_type == ZoomType.KEEP_PREVIOUS) && (value == _zoom)) {
+				return;
+			}
 			_zoom_type = ZoomType.KEEP_PREVIOUS;
 			if (_image != null) {
 				set_zoom_and_keep_center_visible (value);
@@ -152,6 +155,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public override void size_allocate (int width, int height, int baseline) {
 		viewport.size = { width, height };
+
+		// stdout.printf ("> width: %d (%f), height: %d (%f), zoom: %f\n",
+		// 	width, viewport.size.width,
+		// 	height, viewport.size.height,
+		// 	_zoom);
+
 		if (_image != null) {
 			if (_zoom_type.fit_to_allocation ()) {
 				set_valid_zoom (get_zoom_for_allocation (width, height));
@@ -217,6 +226,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				ctx.fill ();
 			}
 		}
+		else if (scaled_texture != null) {
+			// stdout.printf ("> TEXTURE BOX: %f,%f\n", texture_box.size.width, texture_box.size.height);
+			// stdout.printf ("  SCALED TEXTURE: %d,%d\n", scaled_texture.width, scaled_texture.height);
+			snapshot.append_scaled_texture (scaled_texture, Gsk.ScalingFilter.NEAREST, texture_box);
+		}
 		else {
 			var texture = _image.get_texture_for_rect (
 				(uint) image_box.origin.x,
@@ -224,7 +238,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				(uint) image_box.size.width,
 				(uint) image_box.size.height);
 			if (texture != null) {
-				snapshot.append_scaled_texture (texture, Gsk.ScalingFilter.LINEAR, texture_box);
+				snapshot.append_scaled_texture (texture, _zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR, texture_box);
 			}
 		}
 		snapshot.restore ();
@@ -391,7 +405,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			texture_width = viewport.size.width;
 		}
 		else {
-			texture_width = zoomed_width;
+			texture_width = Math.roundf (zoomed_width);
 			texture_x = Util.center_content (viewport.size.width, zoomed_width);
 		}
 
@@ -401,7 +415,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			texture_height = viewport.size.height;
 		}
 		else {
-			texture_height = zoomed_height;
+			texture_height = Math.roundf (zoomed_height);
 			texture_y = Util.center_content (viewport.size.height, zoomed_height);
 		}
 		texture_box = {
@@ -414,10 +428,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	// To be called after updating texture_box.
 	void update_image_box () {
 		if (_image == null) {
-			image_box = {
-				{ 0, 0 },
-				{ 0, 0 }
-			};
+			image_box = { { 0, 0 },	{ 0, 0 } };
 			return;
 		}
 
@@ -449,6 +460,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ image_width, image_height }
 		};
 		//Util.print_rectangle ("> update_image_box:", image_box);
+		queue_update_scaled_texture ();
 	}
 
 	void get_zoomed_size_for_zoom (float zoom_level, out float width, out float height) {
@@ -521,12 +533,90 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	void start_animation () {
 		if (animation_id == 0) {
-			animation_id = Timeout.add (10, () => {
-				var _continue = _image.change_time (ChangeTime.ADD, 10);
+			animation_id = Timeout.add (ANIMATION_DELAY, () => {
+				var _continue = _image.change_time (ChangeTime.ADD, ANIMATION_DELAY);
 				queue_draw ();
 				return _continue ? Source.CONTINUE : Source.REMOVE;
 			});
 		}
+	}
+
+	void cancel_filter_update () {
+		if (filter_id != 0) {
+			Source.remove (filter_id);
+			filter_id = 0;
+		}
+		if (filter_cancellable != null) {
+			filter_cancellable.cancel ();
+		}
+	}
+
+	uint filter_count = 0;
+
+	void queue_update_scaled_texture () {
+		invalidate_scaled_texture ();
+		cancel_filter_update ();
+		filter_id = Util.after_next_rearrange (() => {
+			filter_id = 0;
+			update_scaled_texture ();
+		});
+	}
+
+	void update_scaled_texture () {
+		if ((_image == null) || _image.get_is_scalable () || _image.get_is_animated ()) {
+			return;
+		}
+		if (_zoom >= 1f) {
+			return;
+		}
+		if ((texture_box.size.width == 0) || (texture_box.size.height == 0)) {
+			return;
+		}
+		if ((image_box.size.width == 0) || (image_box.size.height == 0)) {
+			return;
+		}
+
+		var scaler = new TextureScaler ();
+		scaler.image = image;
+		scaler.image_box = image_box;
+		scaler.texture_box = texture_box;
+		scaler.filter = (image_box.size.width * image_box.size.height >= BIG_IMAGE) ? ScaleFilter.BOX : ScaleFilter.TRIANGLE;
+
+		filter_count++;
+		// stdout.printf ("> UPDATE SCALED TEXTURE %u\n", filter_count);
+		// stdout.printf ("  ZOOM: %f\n", _zoom);
+		// stdout.printf ("  IMAGE BOX SIZE: %f, %f\n", image_box.size.width, image_box.size.height);
+		// stdout.printf ("  TEXTURE BOX SIZE: %f, %f\n", texture_box.size.width, texture_box.size.height);
+		// stdout.printf ("  FILTER: %d\n", scaler.filter);
+
+		var local_cancellable = new Cancellable ();
+		filter_cancellable = local_cancellable;
+		app.image_editor.exec_operation.begin (scaler, local_cancellable, (obj, res) => {
+			try {
+				var scaled = app.image_editor.exec_operation.end (res);
+				scaled_texture = scaled.get_texture ();
+				// stdout.printf ("< SCALED TEXTURE READY!\n");
+				queue_draw ();
+			}
+			catch (Error error) {
+				// stdout.printf ("! SCALED TEXTURE CANCELLED\n");
+			}
+			if (filter_cancellable == local_cancellable) {
+				filter_cancellable = null;
+			}
+		});
+	}
+
+	void before_changing_image () {
+		stop_animation ();
+		cancel_filter_update ();
+		viewport.size = { 0, 0 };
+		image_box = { { 0, 0 },	{ 0, 0 } };
+		scaled_texture = null;
+	}
+
+	void invalidate_scaled_texture () {
+		scaled_texture = null;
 	}
 
 	construct {
@@ -540,7 +630,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		vadj_changed_id = 0;
 		focusable = true;
 		animation_id = 0;
+		filter_id = 0;
 		_paused = false;
+		scaled_texture = null;
+		filter_cancellable = null;
 	}
 
 	Gth.Image _image;
@@ -561,9 +654,37 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	ulong hadj_changed_id;
 	ulong vadj_changed_id;
 	uint animation_id;
+	uint filter_id;
 	bool _paused;
+	Gdk.Texture scaled_texture;
+	Cancellable filter_cancellable;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
+	const uint ANIMATION_DELAY = 10;
+	const uint BIG_IMAGE = 3000 * 3000;
 }
 
+
+class Gth.TextureScaler : Gth.ImageOperation {
+	public Image image;
+	public Graphene.Rect image_box;
+	public Graphene.Rect texture_box;
+	public ScaleFilter filter;
+
+	public override Gth.Image? get_image (Cancellable cancellable) {
+		var visible = image.get_subimage ((uint) image_box.origin.x,
+			(uint) image_box.origin.y,
+			(uint) image_box.size.width,
+			(uint) image_box.size.height);
+		if (visible == null) {
+			return null;
+		}
+		var scaled_width = (uint) texture_box.size.width;
+		var scaled_height = (uint) texture_box.size.height;
+		// stdout.printf ("> VISIBLE: %u, %u\n", visible.get_width (), visible.get_height ());
+		// stdout.printf ("  SCALED: %u, %u\n", scaled_width, scaled_height);
+		return visible.resize_to (scaled_width, scaled_height,
+			filter, cancellable);
+	}
+}

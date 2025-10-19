@@ -105,6 +105,9 @@ gboolean gth_image_apply_icc_profile_finish(GthImage *self,
 	GError **error);
 
 // Resize
+GthImage * gth_image_resize_to (GthImage *self,
+	guint scaled_width, guint scaled_height,
+	GthScaleFilter quality,	GCancellable *cancellable);
 GthImage * gth_image_resize (GthImage *self,
 	guint size, GthResizeFlags flags, GthScaleFilter quality,
 	GCancellable *cancellable);
