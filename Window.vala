@@ -912,7 +912,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public async void open (File file) {
 		var local_job = new_job ("Open");
 		try {
-			var type_info = yield Files.query_info (file, FileAttribute.STANDARD_TYPE, local_job.cancellable);
+			var source = app.get_source_for_file (file);
+			var type_info = source.get_display_info (file);
 			switch (type_info.get_file_type ()) {
 			case FileType.DIRECTORY:
 				yield browser.open_location_async (file, LoadAction.OPEN, local_job);

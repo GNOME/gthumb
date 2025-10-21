@@ -84,13 +84,15 @@ public class Gth.FileSourceVfs : FileSource {
 		if (uri.has_prefix ("file://")) {
 			try {
 				info = file.query_info (
-					FileAttribute.STANDARD_DISPLAY_NAME + "," + FileAttribute.STANDARD_SYMBOLIC_ICON,
+					(FileAttribute.STANDARD_TYPE + "," +
+					 FileAttribute.STANDARD_DISPLAY_NAME + "," +
+					 FileAttribute.STANDARD_SYMBOLIC_ICON),
 					FileQueryInfoFlags.NONE,
 					null);
 			}
 			catch (Error error) {
 			}
-			icon_name = "folder-symbolic";
+			icon_name = (info.get_file_type () == FileType.DIRECTORY) ? "folder-symbolic" : "file-symbolic";
 		}
 		else {
 			icon_name = "folder-remote-symbolic";
