@@ -1,6 +1,7 @@
 public class Gth.FileListItem : Gtk.Box {
 	public unowned string[] attributes_v;
 	public FileData file_data;
+	public weak Gth.Browser browser;
 
 	public FileListItem (Gth.Browser _browser, string[] _attributes_v) {
 		browser = _browser;
@@ -39,6 +40,18 @@ public class Gth.FileListItem : Gtk.Box {
 			browser.open_file_context_menu (this, (int) x, (int) y);
 		});
 		add_controller (click_events);
+
+		var drag_source = new Gtk.DragSource ();
+		drag_source.set_actions (Gdk.DragAction.MOVE);
+		drag_source.prepare.connect ((_source, x, y) => {
+			if (!browser.reordering) {
+				return null;
+			}
+			//hot_x = (int) x;
+			//hot_y = (int) y;
+			return new Gdk.ContentProvider.for_value (this);
+		});
+		add_controller (drag_source);
 	}
 
 	public void bind (FileData _file_data) {
@@ -71,7 +84,6 @@ public class Gth.FileListItem : Gtk.Box {
 
 	}
 
-	weak Gth.Browser browser;
 	Gth.Thumbnail thumbnail;
 	Gtk.Inscription first_label;
 	Gtk.Inscription second_label;

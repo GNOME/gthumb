@@ -26,6 +26,14 @@ popover.deeper > contents {
 	border: 1px solid var(--dimmed-border-color);
 }
 
+.thumbnail-grid > child.drop-target-left {
+	border-left-color: var(--accent-color);
+}
+
+.thumbnail-grid > child.drop-target-right {
+	border-right-color: var(--accent-color);
+}
+
 .thumbnail-card {
 	padding: 12px;
 	border-radius: 9px;

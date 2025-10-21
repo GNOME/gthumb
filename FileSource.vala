@@ -28,19 +28,19 @@ public abstract class Gth.FileSource : Object {
 		return list;
 	}
 
-	public abstract void monitor_directory (File file, bool activate);
-
-	// public abstract void monitor_roots (bool activate);
+	public virtual void monitor_directory (File file, bool activate) {
+		// void
+	}
 
 	public abstract async void add_files (Window window, File location, GenericList<File> files, Job job) throws Error;
 
 	public abstract async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error;
 
-	// public abstract async void deleted_from_disk (Window window, File location, GenericList<File> files, Job job) throws Error;
+	public virtual bool is_reorderable () {
+		return false;
+	}
 
-	// public abstract bool is_reorderable ();
-
-	// public abstract async void reorder_files (File location, GenericList<File> visible_files, GenericList<File> files_to_move, int position) throws Error;
-
-	// public abstract async uint64 get_free_space (File location);
+	public virtual async void save_order (Window window, File location, GenericList<File> files, Job job) throws Error {
+		throw new IOError.FAILED ("Cannot save order for this location");
+	}
 }

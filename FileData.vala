@@ -419,6 +419,17 @@ public class Gth.FileData : Object {
 		return null;
 	}
 
+	public uint get_position () {
+		if (!info.has_attribute ("Private::Position")) {
+			return 0;
+		}
+		return info.get_attribute_uint32 ("Private::Position");
+	}
+
+	public void set_position (uint position) {
+		info.set_attribute_uint32 ("Private::Position", position);
+	}
+
 	public void set_is_modified (bool value) {
 		info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, value);
 	}

@@ -313,8 +313,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (current_page == Page.VIEWER) {
 			return viewer.current_file.file.get_parent ();
 		}
-		var source = app.get_source_for_file (browser.folder_tree.current_folder.file);
-		if (source is FileSourceVfs) {
+		if (browser.folder_tree.current_source is FileSourceVfs) {
 			return browser.folder_tree.current_folder.file;
 		}
 		return null;

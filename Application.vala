@@ -93,7 +93,7 @@ public class Gth.Application : Adw.Application {
 		register_sorter ({ "File::Path", _("File Path"), "standard::display-name", Sorters.cmp_uri });
 		register_sorter ({ "Frame::Pixels", _("Width and Height"), "Frame::Width,Frame::Height", Sorters.cmp_frame_dimensions });
 		register_sorter ({ "Frame::AspectRatio", _("Aspect Ratio"), "Frame::Width,Frame::Height", Sorters.cmp_aspect_ratio });
-		register_sorter ({ "Private::Unsorted", _("Unsorted"), "", null });
+		register_sorter ({ "Private::Unsorted", _("Unsorted"), "", Sorters.cmp_position });
 
 		file_sources = new GenericArray<FileSource>();
 		register_source (typeof (Gth.FileSourceVfs));

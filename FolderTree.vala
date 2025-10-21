@@ -4,6 +4,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public Gtk.ListView view;
 	public FileData current_root;
 	public FileData current_folder;
+	public FileSource current_source;
 	public GenericList<FileData> current_children;
 	public GenericList<FileData> visible_roots;
 	public bool show_hidden {
@@ -168,6 +169,7 @@ public class Gth.FolderTree : Gtk.Box {
 				}
 				current_folder = file_data;
 				current_children.copy (children);
+				current_source = source;
 			}
 
 			//if (load_action != LoadAction.OPEN_FROM_HISTORY) {
@@ -511,6 +513,7 @@ public class Gth.FolderTree : Gtk.Box {
 	construct {
 		current_root = null;
 		current_folder = null;
+		current_source = null;
 		current_children = new GenericList<FileData>();
 		roots = app.roots;
 		visible_roots = new GenericList<FileData>();

@@ -188,6 +188,17 @@ public class Gth.Catalog : Object {
 		}
 	}
 
+	public static async void save_order (File location, GenericList<File> files, Job job) throws Error {
+		var catalog = yield Catalog.load_from_file (location, job.cancellable);
+		catalog.sort_type = "Private::Unsorted";
+		catalog.inverse_order = false;
+		catalog.remove_all_files ();
+		foreach (unowned var file in files) {
+			catalog.add_file (file);
+		}
+		yield catalog.save_async (job.cancellable);
+	}
+
 	public virtual void load_doc (Dom.Document doc) {
 		foreach (unowned var child in doc.first_child) {
 			switch (child.tag_name) {
@@ -201,7 +212,7 @@ public class Gth.Catalog : Object {
 				break;
 
 			case "order":
-				sort_type = child.get_attribute ("type");
+				sort_type = app.migration.sorter.get_new_key (child.get_attribute ("type"));
 				inverse_order = child.get_attribute ("inverse") == "1";
 				break;
 
@@ -304,8 +315,8 @@ public class Gth.Catalog : Object {
 			info.set_attribute_boolean ("sort::inverse", inverse_order);
 		}
 		else {
-			info.remove_attribute ("sort::type");
-			info.remove_attribute ("sort::inverse");
+			info.set_attribute_string ("sort::type", "Private::Unsorted");
+			info.set_attribute_boolean ("sort::inverse", false);
 		}
 
 		// Secondary sort order (date)
@@ -371,6 +382,11 @@ public class Gth.Catalog : Object {
 		}
 		file_set.remove (file);
 		return true;
+	}
+
+	public void remove_all_files () {
+		files.length = 0;
+		file_set.remove_all ();
 	}
 
 	const string CATALOG_FORMAT = "1.0";

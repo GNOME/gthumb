@@ -30,6 +30,7 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.FileFilter file_filter;
 	public SimpleActionGroup folder_actions;
 	public SimpleActionGroup catalog_actions;
+	public bool reordering = false;
 
 	construct {
 		history = new History (this);
@@ -305,6 +306,9 @@ public class Gth.Browser : Gtk.Box {
 		update_search_button.visible = is_search;
 		update_folder_button.visible = (source_type == typeof (FileSourceVfs));
 		Util.enable_action (window.action_group, "remove-from-catalog", is_catalog || is_search);
+
+		var is_reorderable = folder_tree.current_source.is_reorderable ();
+		reorder_button.visible = is_reorderable;
 	}
 
 	string list_attributes = null;
@@ -596,14 +600,13 @@ public class Gth.Browser : Gtk.Box {
 			free_space_job.cancel ();
 			free_space_job = null;
 		}
-		var location = folder_tree.current_folder.file;
-		var source = app.get_source_for_file (location);
-		if (!(source is FileSourceVfs)) {
+		if (!(folder_tree.current_source is FileSourceVfs)) {
 			status.set_free_space_info (0);
 			return;
 		}
 		var local_job = window.new_job ("Free Space");
 		free_space_job = local_job;
+		var location = folder_tree.current_folder.file;
 		location.query_filesystem_info_async.begin (FileAttribute.FILESYSTEM_FREE, Priority.DEFAULT, local_job.cancellable, (_obj, res) => {
 			try {
 				var info = location.query_filesystem_info_async.end (res);
@@ -974,8 +977,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("duplicate-files", null);
 		action.activate.connect (() => {
-			var source = app.get_source_for_file (folder_tree.current_folder.file);
-			if (!(source is FileSourceVfs)) {
+			if (!(folder_tree.current_source is FileSourceVfs)) {
 				window.show_error (new IOError.FAILED (_("Cannot move files here")));
 				return;
 			}
@@ -1022,6 +1024,12 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("remove-from-catalog", null);
 		action.activate.connect (() => remove_from_catalog ());
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("reorder-files", null, new Variant.boolean (reordering));
+		action.activate.connect ((_action, _params) => {
+			activate_reordering (Util.toggle_state (_action));
+		});
 		action_group.add_action (action);
 	}
 
@@ -1286,7 +1294,50 @@ public class Gth.Browser : Gtk.Box {
 			open_context_menu ((int) x, (int) y);
 		});
 		empty_folder.add_controller (click_events);
+
+		drop_target = new Gtk.DropTarget (typeof (FileListItem), Gdk.DragAction.MOVE);
+		drop_target.drop.connect ((value, x, y) => {
+			if (!reordering) {
+				return false;
+			}
+			var item = value;
+			var source = value.get_object () as FileListItem;
+			if (source.browser != this) {
+				return false;
+			}
+			DropSide side;
+			var destination = get_item_at (x, y, out side);
+			if (destination == null) {
+				return false;
+			}
+			reorder_selected_file ((side == DropSide.LEFT) ? destination.position : destination.position + 1);
+			return true;
+		});
+		drop_target.motion.connect ((x, y) => {
+			DropSide side;
+			var item = get_item_at (x, y, out side);
+			if (item != null) {
+				if ((last_drop_target != null) && (last_drop_target.parent != null)) {
+					last_drop_target.parent.remove_css_class ("drop-target-left");
+					last_drop_target.parent.remove_css_class ("drop-target-right");
+				}
+				last_drop_target = item.child;
+				last_drop_target.parent.add_css_class ("drop-target-" + ((side == DropSide.LEFT) ? "left" : "right"));
+			}
+			return Gdk.DragAction.MOVE;
+		});
+		drop_target.leave.connect (() => {
+			if (last_drop_target != null) {
+				if (last_drop_target.parent != null) {
+					last_drop_target.parent.remove_css_class ("drop-target-left");
+					last_drop_target.parent.remove_css_class ("drop-target-right");
+				}
+				last_drop_target = null;
+			}
+		});
 	}
+
+	Gtk.Widget last_drop_target = null;
 
 	public Gth.FileData? get_next_file_for_thumbnailer () {
 		// stdout.printf ("\n>>>> get_next_file_for_thumbnailer\n\n");
@@ -2065,6 +2116,170 @@ public class Gth.Browser : Gtk.Box {
 		window.remove_files (files);
 	}
 
+	enum DropSide {
+		NONE,
+		LEFT,
+		RIGHT;
+	}
+
+	Gtk.ListItem? get_item_at (double x, double y, out DropSide side) {
+		Graphene.Point p = { (float) x, (float) y };
+		window.compute_point (file_grid, p, out p);
+		var top = 0;
+		var bottom = file_grid.vadjustment.get_page_size ();
+		Gtk.ListItem closest_item = null;
+		float min_distance = 0f;
+		side = DropSide.NONE;
+		foreach (unowned Gtk.ListItem item in binded_grid_items) {
+			if (!item.child.get_mapped ()) {
+				continue;
+			}
+			Graphene.Rect bounds;
+			if (item.child.compute_bounds (file_grid, out bounds)) {
+				if (bounds.origin.x < 0) {
+					continue;
+				}
+
+				// stdout.printf ("> (%f,%f)[%f,%f] <=> VIEW: [%f,%f]\n",
+				// 	bounds.origin.x, bounds.origin.y,
+				// 	bounds.size.width, bounds.size.height,
+				// 	top, bottom);
+
+				if ((bounds.origin.y < top - bounds.size.height) || (bounds.origin.y > bottom)) {
+					continue;
+				}
+
+				// stdout.printf ("> (%f,%f)[%f,%f] <=> POINT: [%f,%f]\n",
+				// 	bounds.origin.x, bounds.origin.y,
+				// 	bounds.size.width, bounds.size.height,
+				// 	p.x, p.y);
+
+				if ((p.y < bounds.origin.y) || (p.y > bounds.origin.y + bounds.size.height)) {
+					continue;
+				}
+
+				if ((p.x >= bounds.origin.x) && (p.x <= bounds.origin.x + bounds.size.width)) {
+					side = (p.x < bounds.origin.x + (bounds.size.width / 2)) ? DropSide.LEFT : DropSide.RIGHT;
+					return item;
+				}
+
+				if (p.x < bounds.origin.x) {
+					var distance = bounds.origin.x - p.x;
+					if ((closest_item == null) || (distance < min_distance)) {
+						closest_item = item;
+						min_distance = distance;
+						side = DropSide.LEFT;
+					}
+				}
+				else {
+					var distance = p.x - (bounds.origin.x + bounds.size.width);
+					if ((closest_item == null) || (distance < min_distance)) {
+						closest_item = item;
+						min_distance = distance;
+						side = DropSide.RIGHT;
+					}
+				}
+			}
+		}
+		return closest_item;
+	}
+
+	void activate_reordering (bool value) {
+		reordering = value;
+		if (reordering) {
+			add_controller (drop_target);
+			file_grid.enable_rubberband = false;
+		}
+		else {
+			remove_controller (drop_target);
+			file_grid.enable_rubberband = true;
+		}
+		Util.set_active (window.action_group, "reorder-files", reordering);
+	}
+
+	void reorder_selected_file (uint destination) {
+		//stdout.printf ("> MOVE SELECTION TO %u\n", destination);
+
+		// Create the new file list.
+
+		var new_list = new GenericList<FileData> ();
+		var visible = new GenericSet<File> (Util.file_hash, Util.file_equal);
+
+		// Add the visible files to the list.
+
+		var iter = visible_files.iterator ();
+		while (iter.next ()) {
+			var file_data = iter.get ();
+			new_list.model.append (file_data);
+			visible.add (file_data.file);
+		}
+
+		var selected = new GenericList<FileData> ();
+		var selection = file_grid.model.get_selection ();
+		var n_selected = (uint) selection.get_size ();
+		for (var i = 0; i < n_selected; i++) {
+			var old_pos = selection.get_nth (i);
+			var selected_file = file_grid.model.get_item (old_pos) as FileData;
+			selected.model.append (selected_file);
+
+			// Remove the selected file from the new list.
+			iter = new_list.iterator ();
+			while (iter.next ()) {
+				if (iter.get () == selected_file) {
+					var pos = iter.index ();
+					if (pos < destination) {
+						destination--;
+					}
+					new_list.model.remove (pos);
+				}
+			}
+		}
+
+		// Add the selected files at destination.
+		foreach (var file in selected) {
+			new_list.model.insert (destination, file);
+			destination++;
+		}
+
+		// Update the visible files position.
+		var pos = 0;
+		iter = new_list.iterator ();
+		while (iter.next ()) {
+			var file_data = iter.get ();
+			file_data.set_position (pos++);
+		}
+
+		// Add the hidden files at the end.
+		foreach (var file_data in folder_tree.current_children) {
+			if (!visible.contains (file_data.file)) {
+				new_list.model.append (file_data);
+				file_data.set_position (pos++);
+			}
+		}
+
+		var files = new GenericList<File> ();
+		iter = new_list.iterator ();
+		while (iter.next ()) {
+			var file_data = iter.get ();
+			files.model.append (file_data.file);
+			//stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
+		}
+
+		var local_job = window.new_job (_("Saving"), JobFlags.FOREGROUND);
+		folder_tree.current_source.save_order.begin (window, folder_tree.current_folder.file, files, local_job, (_obj, res) => {
+			try {
+				folder_tree.current_source.save_order.end (res);
+			}
+			catch (Error error) {
+				window.show_error (error);
+			}
+			finally {
+				local_job.done ();
+				file_sorter.set_order ("Private::Unsorted", false);
+			}
+		});
+	}
+
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] public unowned Gth.FilterBar filter_bar;
@@ -2088,6 +2303,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.Button edit_catalog_button;
 	[GtkChild] unowned Gtk.Button update_search_button;
 	[GtkChild] unowned Gtk.Button update_folder_button;
+	[GtkChild] unowned Gtk.Button reorder_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] public unowned Gth.FolderStatus folder_status;
@@ -2107,6 +2323,7 @@ public class Gth.Browser : Gtk.Box {
 	ActionCategory parents_category;
 	uint total_files = 0;
 	uint64 total_size = 0;
+	Gtk.DropTarget drop_target;
 }
 
 public class Gth.FileSorter : Gtk.Sorter {
@@ -2126,7 +2343,7 @@ public class Gth.FileSorter : Gtk.Sorter {
 		inverse = _inverse;
 		sort_info = app.get_sorter_by_id (name);
 		if (sort_info == null) {
-			sort_info = app.get_sorter_by_id ("File::Name");
+			sort_info = app.get_sorter_by_id ("Private::Unsorted");
 		}
 		changed (Gtk.SorterChange.DIFFERENT);
 	}

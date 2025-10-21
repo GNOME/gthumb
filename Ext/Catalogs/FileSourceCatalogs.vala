@@ -123,9 +123,11 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 			case FileType.REGULAR:
 				try {
 					var catalog = yield Catalog.load_from_file (folder_data.file, cancellable);
+					uint position = 0;
 					foreach (var file in catalog.files) {
 						try {
 							var file_data = yield FileData.read_metadata (file, all_attributes, cancellable);
+							file_data.set_position (position);
 							action = child_func (file_data, false);
 						}
 						catch (Error error) {
@@ -137,6 +139,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 						if (action == ForEachAction.STOP) {
 							break;
 						}
+						position++;
 					}
 				}
 				catch (Error error) {
@@ -176,15 +179,19 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		return new Gth.FileData (file, info);
 	}
 
-	public override void monitor_directory (File file, bool activate) {
-		// void
-	}
-
 	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
 		yield Catalog.add_files (destination, files, job);
 	}
 
 	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
 		yield Catalog.remove_files (location, files, job);
+	}
+
+	public override async void save_order (Window window, File location, GenericList<File> files, Job job) throws Error {
+		yield Catalog.save_order (location, files, job);
+	}
+
+	public override bool is_reorderable () {
+		return true;
 	}
 }

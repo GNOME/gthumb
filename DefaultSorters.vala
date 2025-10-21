@@ -30,11 +30,15 @@ public class Gth.Sorters {
 		return time_a.compare (time_b);
 	}
 
+	public static int cmp_position (Gth.FileData a, Gth.FileData b) {
+		return Util.uint_cmp (a.get_position (), b.get_position ());
+	}
+
 	public static int cmp_frame_dimensions (Gth.FileData a, Gth.FileData b) {
-		return 0;
+		return 0; // TODO
 	}
 
 	public static int cmp_aspect_ratio (Gth.FileData a, Gth.FileData b) {
-		return 0;
+		return 0; // TODO
 	}
 }
