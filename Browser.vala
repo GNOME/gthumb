@@ -2043,6 +2043,7 @@ public class Gth.Browser : Gtk.Box {
 			var selector = new Gth.FolderSelector ();
 			selector.root = Catalog.get_root ();
 			var last_catalog = Settings.get_file (app.settings, PREF_BROWSER_LAST_CATALOG);
+			local_job.opens_dialog ();
 			var catalog_file = yield selector.select_folder (window, last_catalog, local_job.cancellable);
 			yield Catalog.add_files (catalog_file, files, local_job);
 			app.settings.set_string (PREF_BROWSER_LAST_CATALOG, catalog_file.get_uri ());
@@ -2051,6 +2052,7 @@ public class Gth.Browser : Gtk.Box {
 			window.show_error (error);
 		}
 		finally {
+			local_job.dialog_closed ();
 			local_job.done ();
 		}
 	}
