@@ -50,15 +50,15 @@ public class Gth.Viewer : Gtk.Box {
 			"gth-content-loading-symbolic");
 		load_job = local_job;
 		var loaded = yield load_file_async (file_data, flags, local_job);
+		if (window.browser.never_loaded) {
+			yield window.browser.first_load ();
+			yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
+		}
 		if (!(ViewFlags.DONT_UPDATE_POSITION in flags)) {
 			position = window.browser.get_file_position (file_data.file);
 		}
 		if (position != -1) {
 			status.set_file_position (position);
-		}
-		if (window.browser.never_loaded) {
-			yield window.browser.first_load ();
-			yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
 		}
 		if (local_job != job) {
 			local_job.done ();
