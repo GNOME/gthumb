@@ -69,6 +69,13 @@ public class Gth.Viewer : Gtk.Box {
 		return loaded;
 	}
 
+	public async bool open_file_async (File file, ViewFlags flags, Job job) {
+		var attributes = window.browser.get_list_attributes ();
+		var info = yield Files.query_info (file, attributes, job.cancellable);
+		var file_data = new FileData (file, info);
+		return yield view_file_async (file_data, ViewFlags.FOCUS, job);
+	}
+
 	public void reload () {
 		if (current_file == null) {
 			return;

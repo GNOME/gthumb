@@ -918,10 +918,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				yield browser.open_location_async (file, LoadAction.OPEN, local_job);
 				break;
 			case FileType.REGULAR:
-				var attributes = browser.get_list_attributes ();
-				var info = yield Files.query_info (file, attributes, local_job.cancellable);
-				var file_data = new FileData (file, info);
-				yield viewer.view_file_async (file_data, ViewFlags.FOCUS, local_job);
+				yield viewer.open_file_async (file, ViewFlags.FOCUS, local_job);
 				break;
 			default:
 				throw new IOError.FAILED (_("File type not supported"));
@@ -936,6 +933,28 @@ public class Gth.Window : Adw.ApplicationWindow {
 		finally {
 			local_job.done ();
 		}
+	}
+
+	public async void restore_state (WindowState state) {
+		var local_job = new_job ("Restore State");
+		if (state.page == Page.BROWSER) {
+			try {
+				yield browser.open_location_async (state.location, LoadAction.OPEN, local_job);
+				browser.select_files (state.selected);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+		}
+		else if (state.page == Page.VIEWER) {
+			try {
+				yield viewer.open_file_async (state.file, ViewFlags.DEFAULT, local_job);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+		}
+		local_job.done ();
 	}
 
 	construct {

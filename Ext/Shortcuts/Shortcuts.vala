@@ -183,15 +183,15 @@ public class Gth.Shortcuts {
 				tool.default_shortcut);
 		}
 
-		register ("add-to-selection-1", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Alt>1");
-		register ("add-to-selection-2", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Alt>2");
-		register ("add-to-selection-3", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Alt>3");
-		register ("remove-from-selection-1", N_("Remove from Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Shift><Alt>1");
-		register ("remove-from-selection-2", N_("Remove from Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Shift><Alt>2");
-		register ("remove-from-selection-3", N_("Remove from Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Shift><Alt>3");
-		register ("go-to-selection-1", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Primary>1");
-		register ("go-to-selection-2", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Primary>2");
-		register ("go-to-selection-3", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.HIDDEN, "<Primary>3");
+		register ("win.add-to-selection(1)", N_("Add to Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>1");
+		register ("win.add-to-selection(2)", N_("Add to Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>2");
+		register ("win.add-to-selection(3)", N_("Add to Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>3");
+		register ("win.remove-from-selection(1)", N_("Remove from Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Shift><Alt>1");
+		register ("win.remove-from-selection(2)", N_("Remove from Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Shift><Alt>2");
+		register ("win.remove-from-selection(3)", N_("Remove from Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Shift><Alt>3");
+		register ("win.open-selection(1)", N_("Show Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary>1");
+		register ("win.open-selection(2)", N_("Show Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary>2");
+		register ("win.open-selection(3)", N_("Show Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary>3");
 
 		register ("win.reset-filter", N_("View All"), ShortcutContext.BROWSER, ShortcutCategory.FILTERS);
 
@@ -266,9 +266,6 @@ public class Gth.Shortcuts {
 
 		register ("doc.file-list-select-all", N_("Select All"), ShortcutContext.BROWSER | ShortcutContext.DOC, ShortcutCategory.FILE_MANAGER, "<Primary>a");
 		register ("doc.file-list-unselect-all", N_("Select None"), ShortcutContext.BROWSER | ShortcutContext.DOC, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>a");
-		register ("doc.add-to-selection", N_("Add to Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Alt>1...3");
-		register ("doc.remove-from-selection", N_("Remove from Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Shift><Alt>1...3");
-		register ("doc.go-to-selection", N_("Show Selection"), SHORTCUT_CONTEXT_BROWSER_VIEWER | ShortcutContext.DOC, ShortcutCategory.SELECTIONS, "<Primary>1...3");
 	}
 
 	public void show_help () {

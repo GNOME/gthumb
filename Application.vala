@@ -32,6 +32,7 @@ public class Gth.Application : Adw.Application {
 	public Shortcuts shortcuts;
 	public Work.Factory io_factory;
 	public FileActions tools;
+	public Selections selections;
 
 	public Application () {
 		Object (
@@ -62,6 +63,7 @@ public class Gth.Application : Adw.Application {
 		filters = new Filters ();
 		scripts = new Scripts ();
 		tools = new FileActions ();
+		selections = new Selections ();
 
 		tests = new HashTable<string, Gth.Test>(str_hash, str_equal);
 		ordered_tests = new GenericList<Gth.Test>();
@@ -99,6 +101,7 @@ public class Gth.Application : Adw.Application {
 		file_sources = new GenericArray<FileSource>();
 		register_source (typeof (Gth.FileSourceVfs));
 		register_source (typeof (Gth.FileSourceCatalogs));
+		register_source (typeof (Gth.FileSourceSelections));
 
 		MetadataCategory.init ();
 		MetadataCategory.register ("File", N_("File"));

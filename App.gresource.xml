@@ -64,6 +64,7 @@
     <file preprocess="xml-stripblanks">gth-delete-metadata-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-empty.svg</file>
     <file preprocess="xml-stripblanks">gth-reorder-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-flag-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

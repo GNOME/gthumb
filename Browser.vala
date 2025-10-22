@@ -439,6 +439,10 @@ public class Gth.Browser : Gtk.Box {
 					folder_status.title = _("Empty Catalog");
 					folder_status.description = "";
 					break;
+				case "gthumb/selection":
+					folder_status.title = _("No Files");
+					folder_status.description = "";
+					break;
 				case "gthumb/library":
 					folder_status.title = folder_tree.current_folder.get_display_name ();
 					folder_status.description = "";
@@ -577,6 +581,22 @@ public class Gth.Browser : Gtk.Box {
 		}
 		else {
 			file_grid.model.select_item ((uint) position, true);
+		}
+	}
+
+	public void select_files (GenericList<File> list) {
+		var first = true;
+		foreach (unowned var file in list) {
+			var position = get_file_position (file);
+			if (position >= 0) {
+				if (first) {
+					select_position (position, SelectFile.SCROLL_TO_FILE);
+					first = false;
+				}
+				else {
+					file_grid.model.select_item ((uint) position, false);
+				}
+			}
 		}
 	}
 
@@ -1029,6 +1049,24 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction.stateful ("reorder-files", null, new Variant.boolean (reordering));
 		action.activate.connect ((_action, _params) => {
 			activate_reordering (Util.toggle_state (_action));
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("add-to-selection", VariantType.INT32);
+		action.activate.connect ((_action, _params) => {
+			add_to_selection ((uint) _params.get_int32 ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("remove-from-selection", VariantType.INT32);
+		action.activate.connect ((_action, _params) => {
+			remove_from_selection ((uint) _params.get_int32 ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-selection", VariantType.INT32);
+		action.activate.connect ((_action, _params) => {
+			open_selection ((uint) _params.get_int32 ());
 		});
 		action_group.add_action (action);
 	}
@@ -1752,7 +1790,9 @@ public class Gth.Browser : Gtk.Box {
 			file_data.update_info (info);
 			file_data.remove_thumbnail ();
 			file_filter.after_adding_files ();
+			stdout.printf ("> BROWSER: UPDATE FILE [1]\n");
 			if (file_filter.filter.match (file_data)) {
+				stdout.printf ("> BROWSER: UPDATE FILE [2]\n");
 				thumbnailer.queue_load_next ();
 				thumbnailer.add (file_data);
 			}
@@ -1786,7 +1826,7 @@ public class Gth.Browser : Gtk.Box {
 	public void files_deleted (GenericList<File> files) {
 		var removed_files = 0;
 		foreach (unowned var file in files) {
-			//stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
+			stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
 
 			// If the current folder was deleted get its position inside
 			// the folder tree.
@@ -2280,6 +2320,45 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
+	void add_to_selection (uint number) {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			window.show_error (new IOError.FAILED (_("No file selected")));
+			return;
+		}
+		var selection = app.selections.get_selection (number);
+		foreach (unowned var file in files) {
+			selection.add_file (file);
+		}
+	}
+
+	void remove_from_selection (uint number) {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			window.show_error (new IOError.FAILED (_("No file selected")));
+			return;
+		}
+		var selection = app.selections.get_selection (number);
+		foreach (unowned var file in files) {
+			selection.remove_file (file);
+		}
+	}
+
+	WindowState state = null;
+
+	void open_selection (uint number) {
+		var uri = "selection:///%u".printf (number);
+		var location = File.new_for_uri (uri);
+		if (folder_tree.current_folder.file.equal (location)) {
+			if (state != null) {
+				window.restore_state.begin (state);
+				return;
+			}
+		}
+		state = new WindowState (window);
+		open_location (location);
+	}
+
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] public unowned Gth.FilterBar filter_bar;
@@ -2287,7 +2366,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Gtk.MenuButton scripts_menu_button;
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
 	[GtkChild] unowned Gth.ActionPopover history_popover;
-	[GtkChild] unowned Gtk.GridView file_grid;
+	[GtkChild] public unowned Gtk.GridView file_grid;
 	[GtkChild] unowned Gtk.Stack folder_stack;
 	[GtkChild] unowned Gtk.Widget non_empty_folder;
 	[GtkChild] public unowned Adw.StatusPage empty_folder;
