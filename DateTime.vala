@@ -64,8 +64,9 @@ public class Gth.DateTime {
 	}
 
 	public void set_from_gdatetime (GLib.DateTime gtime) {
-		date = Gth.Date.from_ymd (gtime.get_year (), (uint8) gtime.get_month (), (uint8) gtime.get_day_of_month ());
-		time = Gth.Time.from_hms ((uint8) gtime.get_hour (), (uint8) gtime.get_minute (), (uint8) gtime.get_second ());
+		var local = gtime.to_local ();
+		date = Gth.Date.from_ymd (local.get_year (), (uint8) local.get_month (), (uint8) local.get_day_of_month ());
+		time = Gth.Time.from_hms ((uint8) local.get_hour (), (uint8) local.get_minute (), (uint8) local.get_second ());
 	}
 
 	public GLib.DateTime? to_local_gtime () {
