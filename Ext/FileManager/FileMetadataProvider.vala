@@ -3,7 +3,8 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 	const string[] Supported_Attributes = {
 		"Private::File::Size",
 		"Private::File::DisplaySize",
-		"Private::File::DisplayMtime",
+		"Private::File::DisplayModified",
+		"Private::File::DisplayCreated",
 		"Private::File::ContentType",
 		"Private::File::Location",
 	};
@@ -23,7 +24,14 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 		if (time != null) {
 			var mtime = new Gth.DateTime ();
 			mtime.set_from_gdatetime (time);
-			info.set_attribute_string ("Private::File::DisplayMtime", mtime.to_display_string ());
+			info.set_attribute_string ("Private::File::DisplayModified", mtime.to_display_string ());
+		}
+
+		time = info.get_creation_date_time ();
+		if (time != null) {
+			var ctime = new Gth.DateTime ();
+			ctime.set_from_gdatetime (time);
+			info.set_attribute_string ("Private::File::DisplayCreated", ctime.to_display_string ());
 		}
 
 		if (file != null) {

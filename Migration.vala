@@ -16,7 +16,8 @@ public class Gth.Migration {
 		metadata = new MigrationMap ();
 		metadata.add ("gth::file::content-type", "Private::File::ContentType");
 		metadata.add ("gth::file::display-size", "Private::File::DisplaySize");
-		metadata.add ("gth::file::display-mtime", "Private::File::DisplayMtime");
+		metadata.add ("gth::file::display-mtime", "Private::File::DisplayModified");
+		metadata.add ("gth::file::display-ctime", "Private::File::DisplayCreated");
 		metadata.add ("gth::file::location", "Private::File::Location");
 		metadata.add ("gth::file::is-modified", PrivateAttribute.LOADED_IMAGE_IS_MODIFIED);
 		metadata.add ("general::dimensions", "Frame::Pixels");

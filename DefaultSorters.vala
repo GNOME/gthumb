@@ -30,6 +30,12 @@ public class Gth.Sorters {
 		return time_a.compare (time_b);
 	}
 
+	public static int cmp_created_time (Gth.FileData a, Gth.FileData b) {
+		var time_a = a.get_creation_time ();
+		var time_b = b.get_creation_time ();
+		return time_a.compare (time_b);
+	}
+
 	public static int cmp_position (Gth.FileData a, Gth.FileData b) {
 		return Util.uint_cmp (a.get_position (), b.get_position ());
 	}

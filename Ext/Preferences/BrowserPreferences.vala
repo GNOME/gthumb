@@ -95,7 +95,8 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 	const string[] CAPTION_ATTRIBUTES = {
 		"standard::display-name",
 		"Private::File::DisplaySize",
-		"Private::File::DisplayMtime",
+		"Private::File::DisplayCreated",
+		"Private::File::DisplayModified",
 		"Frame::Pixels",
 		"Metadata::Title",
 		"Metadata::Rating",
