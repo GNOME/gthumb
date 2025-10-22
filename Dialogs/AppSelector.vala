@@ -1,5 +1,5 @@
 public class Gth.AppSelector : Object {
-	public async AppInfo? select_app (Gtk.Window? parent, GenericArray<Gth.FileData> files, Job job) throws Error {
+	public async AppInfo? select_app (Gtk.Window? parent, GenericList<Gth.FileData> files, Job job) throws Error {
 		callback = select_app.callback;
 		dialog = new AppSelectorDialog (files);
 		if (!dialog.has_applications ()) {
@@ -45,7 +45,7 @@ class Gth.AppSelectorDialog : Adw.Dialog {
 	public signal void selected ();
 	public AppInfo app_info;
 
-	public AppSelectorDialog (GenericArray<Gth.FileData> files) {
+	public AppSelectorDialog (GenericList<Gth.FileData> files) {
 		var applications = new List<AppInfo>();
 		var content_types = new GenericSet<string>(str_hash, str_equal);
 		foreach (unowned var file in files) {

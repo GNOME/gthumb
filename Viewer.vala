@@ -399,12 +399,6 @@ public class Gth.Viewer : Gtk.Box {
 		status.set_list_info (files);
 	}
 
-	public GenericArray<Gth.FileData> get_selected () {
-		var selected_files = new GenericArray<Gth.FileData>();
-		selected_files.add (current_file);
-		return selected_files;
-	}
-
 	public GenericList<File> get_selected_file () {
 		var selected_files = new GenericList<File>();
 		if (current_file != null) {

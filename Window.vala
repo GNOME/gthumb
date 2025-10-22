@@ -260,17 +260,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		progress_dialog.force_close ();
 	}
 
-	public GenericArray<Gth.FileData>? get_selected () {
-		switch (current_page) {
-		case Page.BROWSER:
-			return browser.get_selected ();
-		case Page.VIEWER:
-			return viewer.get_selected ();
-		default:
-			return null;
-		}
-	}
-
 	public FileData? get_current_file_data () {
 		switch (current_page) {
 		case Page.BROWSER:
@@ -322,8 +311,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	async void open_selected_files () {
 		var local_job = new_job ("Choosing Application");
 		try {
-			var files = get_selected ();
-			if (files.length == 0) {
+			var files = get_selected_file_data_list ();
+			if (files.length () == 0) {
 				throw new IOError.FAILED (_("No file selected"));
 			}
 			var app_selector = new Gth.AppSelector ();

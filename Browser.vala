@@ -600,19 +600,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public GenericArray<Gth.FileData> get_selected () {
-		var selected_files = new GenericArray<Gth.FileData>();
-		var selected = file_grid.model.get_selection ();
-		for (int64 idx = 0; idx < selected.get_size (); idx++) {
-			var pos = selected.get_nth ((uint) idx);
-			var file = file_grid.model.get_item (pos) as FileData;
-			if (file != null) {
-				selected_files.add (file);
-			}
-		}
-		return selected_files;
-	}
-
 	Gth.Job free_space_job = null;
 
 	void update_free_space_info () {
