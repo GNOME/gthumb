@@ -359,8 +359,9 @@ public class Gth.Catalog : Object {
 		app.monitor.catalog_saved (this, previous_file);
 	}
 
-	public void clear_files () {
+	public void remove_all_files () {
 		files.length = 0;
+		file_set.remove_all ();
 	}
 
 	public bool add_file (File file) {
@@ -382,11 +383,6 @@ public class Gth.Catalog : Object {
 		}
 		file_set.remove (file);
 		return true;
-	}
-
-	public void remove_all_files () {
-		files.length = 0;
-		file_set.remove_all ();
 	}
 
 	const string CATALOG_FORMAT = "1.0";

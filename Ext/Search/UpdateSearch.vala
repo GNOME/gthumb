@@ -49,7 +49,7 @@ public class Gth.UpdateSearch {
 
 		// Clear the search results.
 
-		search.clear_files ();
+		search.remove_all_files ();
 		yield search.save_async (job.cancellable);
 		app.monitor.file_created (search.file);
 
