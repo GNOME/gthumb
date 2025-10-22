@@ -1463,7 +1463,6 @@ public class Gth.Browser : Gtk.Box {
 			"gth-search-symbolic");
 		search_job = local_job;
 		try {
-			local_job.opens_dialog ();
 			var editor = new Gth.CatalogEditor ();
 			var catalog = yield editor.edit_catalog (window, file_data.file, local_job);
 			yield catalog.save_async (local_job.cancellable);

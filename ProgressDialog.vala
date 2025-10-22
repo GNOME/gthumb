@@ -96,6 +96,10 @@ public class Gth.ProgressDialog : Adw.Dialog {
 				foreground_jobs += 1;
 			}
 		}
+		// stdout.printf ("> foreground_jobs: %u, job_dialogs: %u, shown_foreground_jobs: %u\n",
+		// 	foreground_jobs,
+		// 	job_dialogs,
+		// 	shown_foreground_jobs);
 		if ((job_dialogs > 0)
 			|| (jobs.model.n_items == 0)
 			|| (!presented_by_user && (foreground_jobs == 0)))
