@@ -186,9 +186,9 @@ public class Gth.Shortcuts {
 		register ("win.add-to-selection(1)", N_("Add to Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>1");
 		register ("win.add-to-selection(2)", N_("Add to Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>2");
 		register ("win.add-to-selection(3)", N_("Add to Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>3");
-		register ("win.remove-from-selection(1)", N_("Remove from Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Shift><Alt>1");
-		register ("win.remove-from-selection(2)", N_("Remove from Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Shift><Alt>2");
-		register ("win.remove-from-selection(3)", N_("Remove from Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Shift><Alt>3");
+		register ("win.remove-from-selection(1)", N_("Remove from Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary><Alt>1");
+		register ("win.remove-from-selection(2)", N_("Remove from Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary><Alt>2");
+		register ("win.remove-from-selection(3)", N_("Remove from Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary><Alt>3");
 		register ("win.open-selection(1)", N_("Show Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary>1");
 		register ("win.open-selection(2)", N_("Show Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary>2");
 		register ("win.open-selection(3)", N_("Show Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary>3");

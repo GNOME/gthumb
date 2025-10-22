@@ -58,6 +58,10 @@ public class Gth.Monitor : Object {
 		app.foreach_window ((win) => win.update_scripts_actions ());
 	}
 
+	public void selection_changed (uint number) {
+		app.foreach_window ((win) => win.update_selection_status (number));
+	}
+
 	public void watch_file (File file, bool watch) {
 		if (watch) {
 			stdout.printf ("> START WATCH FILE: %s\n", file.get_uri ());

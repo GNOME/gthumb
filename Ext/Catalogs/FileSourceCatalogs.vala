@@ -189,6 +189,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 
 	public override async void save_order (Window window, File location, GenericList<File> files, Job job) throws Error {
 		yield Catalog.save_order (location, files, job);
+		// TODO app.monitor.order_changed (location);
 	}
 
 	public override bool is_reorderable () {

@@ -69,6 +69,17 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkToggleButton" id="selection_button">
+                        <property name="icon-name">gth-flag-symbolic</property>
+                        <property name="action-name">win.show-selections</property>
+                        <property name="tooltip-text" translatable="yes">Selections</property>
+                        <property name="hexpand">true</property>
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkSeparator">
                         <property name="orientation">horizontal</property>
                       </object>
@@ -405,6 +416,7 @@
     </child>
     <property name="folder_menu">folder_menu</property>
     <property name="catalog_menu">catalog_menu</property>
+    <property name="selection_menu">selection_menu</property>
   </template>
   <menu id="file_menu">
     <section>
@@ -547,7 +559,7 @@
         <attribute name="action">folder.copy</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Paste into Folder</attribute>
+        <attribute name="label" translatable="yes">Paste</attribute>
         <attribute name="action">folder.paste</attribute>
       </item>
     </section>
@@ -608,6 +620,20 @@
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
         <attribute name="action">catalog.delete</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="selection_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open in New Window</attribute>
+        <attribute name="action">folder.open-new-window</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Paste</attribute>
+        <attribute name="action">folder.paste</attribute>
       </item>
     </section>
   </menu>

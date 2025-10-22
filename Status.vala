@@ -16,6 +16,11 @@ public class Gth.Status : Gtk.Box {
 		selection_info.visible = files > 0;
 	}
 
+	public void set_selection_size (uint number, uint files) {
+		var button = (number == 1) ? selection1 : (number == 2) ? selection2 : selection3;
+		button.visible = files > 0;
+	}
+
 	public void set_free_space_info (uint64 size) {
 		free_space.label = GLib.format_size (size, FormatSizeFlags.DEFAULT);
 		free_space_info.visible = size > 0;
@@ -30,4 +35,7 @@ public class Gth.Status : Gtk.Box {
 	[GtkChild] unowned Gth.JobStatus job_status;
 	[GtkChild] unowned Gtk.Box free_space_info;
 	[GtkChild] unowned Gtk.Label free_space;
+	[GtkChild] unowned Gtk.Button selection1;
+	[GtkChild] unowned Gtk.Button selection2;
+	[GtkChild] unowned Gtk.Button selection3;
 }

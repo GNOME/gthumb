@@ -7,7 +7,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
-   sodipodi:docname="gth-flag-symbolic.svg"
+   sodipodi:docname="gth-flag-square-symbolic.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="31.999999"
-     inkscape:cx="3.9843751"
+     inkscape:cx="4.0000001"
      inkscape:cy="9.8906253"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -111,8 +111,13 @@
      transform="translate(-31.97559,-220.36218)">
     <path
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:Sans;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;baseline-shift:baseline;text-anchor:start;display:inline;overflow:visible;visibility:visible;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:2.21347;marker:none;enable-background:accumulate"
-       d="m 35.527882,220.58178 c -0.570097,0.0714 -0.990747,0.5672 -0.968394,1.14132 v 13.28082 c -0.02118,1.49668 2.23465,1.49668 2.213471,0 v -4.13656 l 7.712564,-3.87357 v -1.10674 l -7.712564,-2.90518 v -1.25877 c 0.02672,-0.6834 -0.566571,-1.22726 -1.245077,-1.14132 z"
-       id="path3763"
+       d="m 35.371632,220.58178 c -0.570097,0.0714 -0.990747,0.5672 -0.968394,1.14132 v 13.28082 c -0.02118,1.49668 2.23465,1.49668 2.213471,0 V 221.7231 c 0.02672,-0.6834 -0.566571,-1.22726 -1.245077,-1.14132 z"
+       id="path1"
+       sodipodi:nodetypes="cccccc" />
+    <path
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:Sans;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;baseline-shift:baseline;text-anchor:start;display:inline;overflow:visible;visibility:visible;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:2.21347;marker:none;enable-background:accumulate"
+       d="m 38.715382,220.58178 c -0.570097,0.0714 -0.990747,0.5672 -0.968394,1.14132 v 13.28082 c -0.02118,1.49668 2.23465,1.49668 2.213471,0 v -4.13656 l 6.306314,-3.87357 v -1.10674 l -6.306314,-2.90518 v -1.25877 c 0.02672,-0.6834 -0.566571,-1.22726 -1.245077,-1.14132 z"
+       id="path3"
        sodipodi:nodetypes="cccccccccc" />
   </g>
 </svg>

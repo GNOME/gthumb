@@ -41,6 +41,24 @@ public class Gth.Selection {
 		return true;
 	}
 
+	public void add_files (GenericList<File> files) {
+		foreach (unowned var file in files) {
+			add_file (file);
+		}
+		var location = File.new_for_uri ("selection:///%u".printf (number));
+		app.monitor.files_added (location, files);
+		app.monitor.selection_changed (number);
+	}
+
+	public void remove_files (GenericList<File> files) {
+		foreach (unowned var file in files) {
+			remove_file (file);
+		}
+		var location = File.new_for_uri ("selection:///%u".printf (number));
+		app.monitor.files_removed (location, files);
+		app.monitor.selection_changed (number);
+	}
+
 	public void set_files (GenericList<File> files) {
 		sort_type = "Private::Unsorted";
 		inverse_order = false;
@@ -48,6 +66,7 @@ public class Gth.Selection {
 		foreach (unowned var file in files) {
 			add_file (file);
 		}
+		// TODO app.monitor.order_changed (location);
 	}
 
 	public static FileData get_root () {
@@ -57,7 +76,7 @@ public class Gth.Selection {
 		return new FileData (file, info);
 	}
 
-	public static uint get_selection_number (File file) {
+	public static uint get_number (File file) {
 		var uri = file.get_uri ();
 		if (!uri.has_prefix (ROOT)) {
 			return 0;
@@ -83,16 +102,26 @@ public class Gth.Selection {
 		return new FileData (file, info);
 	}
 
+	const string[] ICONS = {
+		"gth-flag-symbolic",
+		"gth-flag-1-symbolic",
+		"gth-flag-2-symbolic",
+		"gth-flag-3-symbolic",
+	};
+
 	public static void update_file_info (File file, FileInfo info) {
-		var number = Selection.get_selection_number (file);
+		var number = Selection.get_number (file);
 
 		info.set_file_type (FileType.DIRECTORY);
-		info.set_content_type ("gthumb/selection");
-		info.set_symbolic_icon (new ThemedIcon ("gth-flag-symbolic"));
+		info.set_symbolic_icon (new ThemedIcon (ICONS[number]));
 		info.set_sort_order ((int) number);
 		info.set_attribute_boolean (FileAttribute.ACCESS_CAN_READ, true);
 		if (number > 0) {
+			info.set_content_type ("gthumb/selection");
 			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE, true);
+		}
+		else {
+			info.set_content_type ("gthumb/selections");
 		}
 		info.set_attribute_boolean (FileAttribute.ACCESS_CAN_DELETE, false);
 		info.set_attribute_boolean (FileAttribute.ACCESS_CAN_RENAME, false);

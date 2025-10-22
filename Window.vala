@@ -232,14 +232,19 @@ public class Gth.Window : Adw.ApplicationWindow {
 		// TODO
 	}
 
+	public bool can_open_clipboard = false;
+	public bool can_paste_from_clipboad = false;
+
 	void update_sensitivity_for_clipboard () {
 		unowned var clipboard = get_clipboard ();
 		unowned var formats = clipboard.get_formats ();
-		var can_open = formats.match (Gdk.ContentFormats.parse ("image/png"));
-		Util.enable_action (action_group, "open-clipboard", can_open);
-		var can_paste = formats.match (new Gdk.ContentFormats ({ "gthumb/cut-files", "text/uri-list" }));
-		Util.enable_action (action_group, "paste-files", can_paste);
-		Util.enable_action (browser.folder_actions, "paste", can_paste);
+		can_open_clipboard = formats.match (Gdk.ContentFormats.parse ("image/png"));
+		can_paste_from_clipboad = formats.match (new Gdk.ContentFormats ({ "gthumb/cut-files", "text/uri-list" }));
+		Util.enable_action (action_group, "open-clipboard", can_open_clipboard);
+		if (!can_paste_from_clipboad) {
+			Util.enable_action (action_group, "paste-files", can_paste_from_clipboad);
+			Util.enable_action (browser.folder_actions, "paste", can_paste_from_clipboad);
+		}
 	}
 
 	public void save_preferences () {
@@ -944,6 +949,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 		}
 		local_job.done ();
+	}
+
+	public void update_selection_status (uint number) {
+		var selection = app.selections.get_selection (number);
+		var size = selection.files.length;
+		browser.status.set_selection_size (number, size);
 	}
 
 	construct {

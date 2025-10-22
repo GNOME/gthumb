@@ -41,7 +41,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 				continue;
 			}
 
-			var number = Selection.get_selection_number (folder_data.file);
+			var number = Selection.get_number (folder_data.file);
 			if (number == 0) {
 				for (var i = 1; i <= Selection.MAX_SELECTIONS; i++) {
 					var child_data = Selection.get_selection_data ((uint) i);
@@ -105,9 +105,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 		if (selection == null) {
 			throw new IOError.FAILED ("Wrong Destination");
 		}
-		foreach (unowned var file in files) {
-			selection.add_file (file);
-		}
+		selection.add_files (files);
 	}
 
 	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
@@ -115,9 +113,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 		if (selection == null) {
 			throw new IOError.FAILED ("Wrong Destination");
 		}
-		foreach (unowned var file in files) {
-			selection.remove_file (file);
-		}
+		selection.remove_files (files);
 	}
 
 	public override async void save_order (Window window, File location, GenericList<File> files, Job job) throws Error {

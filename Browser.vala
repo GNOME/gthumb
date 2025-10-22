@@ -10,11 +10,13 @@ public class Gth.Browser : Gtk.Box {
 
 	public MenuModel folder_menu { set; get; }
 	public MenuModel catalog_menu { set; get; }
+	public MenuModel selection_menu { set; get; }
 
 	enum SidebarState {
 		NONE,
 		FILES,
 		CATALOGS,
+		SELECTIONS,
 	}
 
 	public IterableList<FileData> visible_files;
@@ -151,10 +153,15 @@ public class Gth.Browser : Gtk.Box {
 		update_load_sensitivity ();
 		update_location_commands ();
 		var is_catalog = folder_tree.current_folder.file.has_uri_scheme ("catalog");
-		set_sidebar_state (is_catalog ? SidebarState.CATALOGS : SidebarState.FILES);
+		var is_selection = folder_tree.current_folder.file.has_uri_scheme ("selection");
+		set_sidebar_state (is_catalog ? SidebarState.CATALOGS : is_selection ? SidebarState.SELECTIONS : SidebarState.FILES);
 		if (is_catalog) {
 			last_catalog = folder_tree.current_folder.file;
 			folder_tree.menu_model = catalog_menu;
+		}
+		else if (is_selection) {
+			last_selection = folder_tree.current_folder.file;
+			folder_tree.menu_model = selection_menu;
 		}
 		else {
 			last_folder = folder_tree.current_folder.file;
@@ -248,11 +255,19 @@ public class Gth.Browser : Gtk.Box {
 			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = true;
 			catalog_button.active = false;
+			selection_button.active = false;
 			break;
 		case SidebarState.CATALOGS:
 			sidebar_stack.set_visible_child (folder_tree);
 			vfs_button.active = false;
 			catalog_button.active = true;
+			selection_button.active = false;
+			break;
+		case SidebarState.SELECTIONS:
+			sidebar_stack.set_visible_child (folder_tree);
+			vfs_button.active = false;
+			catalog_button.active = false;
+			selection_button.active = true;
 			break;
 		case SidebarState.NONE:
 			break;
@@ -440,7 +455,28 @@ public class Gth.Browser : Gtk.Box {
 					folder_status.description = "";
 					break;
 				case "gthumb/selection":
-					folder_status.title = _("No Files");
+					folder_status.title = _("Empty Selection");
+					var str = new StringBuilder ();
+					var number = Selection.get_number (folder_tree.current_folder.file);
+					var action = "win.add-to-selection(%u)".printf (number);
+					var shortcut = app.shortcuts.by_action.get (action);
+					if (shortcut != null) {
+						// Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
+						str.append_printf (_("Use %s to add files to selection %u"), shortcut.accelerator_label, number);
+					}
+					action = "win.open-selection(%u)".printf (number);
+					shortcut = app.shortcuts.by_action.get (action);
+					if (shortcut != null) {
+						if (str.len > 0) {
+							str.append ("\n\n");
+						}
+						// Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
+						str.append_printf (_("Use %s to view selection %u"), shortcut.accelerator_label, number);
+					}
+					folder_status.description = str.str;
+					break;
+				case "gthumb/selections":
+					folder_status.title = folder_tree.current_folder.get_display_name ();
 					folder_status.description = "";
 					break;
 				case "gthumb/library":
@@ -799,6 +835,18 @@ public class Gth.Browser : Gtk.Box {
 				last_catalog = File.new_for_uri ("catalog:///");
 			}
 			open_location (last_catalog);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("show-selections", null);
+		action.activate.connect ((_action, param) => {
+			if (sidebar_state == SidebarState.SELECTIONS) {
+				return;
+			}
+			if (last_selection == null) {
+				last_selection = File.new_for_uri ("selection:///");
+			}
+			open_location (last_selection);
 		});
 		action_group.add_action (action);
 
@@ -1511,7 +1559,7 @@ public class Gth.Browser : Gtk.Box {
 		var file_data = folder_tree.current_folder;
 		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
 		Util.enable_action (window.action_group, "cut-files", can_write);
-		Util.enable_action (window.action_group, "paste-files", can_write);
+		Util.enable_action (window.action_group, "paste-files", can_write && window.can_paste_from_clipboad);
 		Util.enable_action (window.action_group, "move-files-to", can_write);
 		Util.enable_action (window.action_group, "rename-files", can_write);
 		Util.enable_action (window.action_group, "duplicate-files", can_write);
@@ -1536,7 +1584,7 @@ public class Gth.Browser : Gtk.Box {
 		else {
 			Util.enable_action (folder_actions, "new", can_write);
 			Util.enable_action (folder_actions, "cut", can_delete);
-			Util.enable_action (folder_actions, "paste", can_write);
+			Util.enable_action (folder_actions, "paste", can_write && window.can_paste_from_clipboad);
 			Util.enable_action (folder_actions, "move-to", can_delete);
 			Util.enable_action (folder_actions, "rename", can_rename);
 			Util.enable_action (folder_actions, "trash", can_trash);
@@ -1586,7 +1634,7 @@ public class Gth.Browser : Gtk.Box {
 			app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, file_sorter.inverse);
 		}
 
-		if (folder_tree.sort.name != null) {
+		if ((folder_tree.sort.name != null) && (folder_tree.sort.name != "Private::Unsorted")) {
 			app.settings.set_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE, folder_tree.sort.name);
 			app.settings.set_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE, folder_tree.sort.inverse);
 		}
@@ -2313,9 +2361,7 @@ public class Gth.Browser : Gtk.Box {
 			return;
 		}
 		var selection = app.selections.get_selection (number);
-		foreach (unowned var file in files) {
-			selection.add_file (file);
-		}
+		selection.add_files (files);
 	}
 
 	void remove_from_selection (uint number) {
@@ -2325,9 +2371,7 @@ public class Gth.Browser : Gtk.Box {
 			return;
 		}
 		var selection = app.selections.get_selection (number);
-		foreach (unowned var file in files) {
-			selection.remove_file (file);
-		}
+		selection.remove_files (files);
 	}
 
 	WindowState state = null;
@@ -2358,6 +2402,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Adw.StatusPage empty_folder;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
+	[GtkChild] unowned Gtk.ToggleButton selection_button;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
 	//[GtkChild] unowned Gtk.Stack second_sidebar_stack;
 	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
@@ -2382,6 +2427,7 @@ public class Gth.Browser : Gtk.Box {
 	Queue<File> current_parents;
 	File last_folder = null;
 	File last_catalog = null;
+	File last_selection = null;
 	GenericArray<Gtk.ListItem> binded_grid_items;
 	ActionCategory actions_category;
 	ActionCategory bookmarks_category;

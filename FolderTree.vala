@@ -233,7 +233,11 @@ public class Gth.FolderTree : Gtk.Box {
 			try {
 				var all_children = source.list_children.end (res);
 				set_file_data_children (file_data, all_children);
-				if ((current_folder != null) && file_data.file.equal (current_folder.file.get_parent ())) {
+				var current_parent = current_folder.file.get_parent ();
+				if ((current_folder != null)
+					&& (current_parent != null)
+					&& file_data.file.equal (current_parent))
+				{
 					queue_select_current_folder ();
 				}
 			}
@@ -274,7 +278,11 @@ public class Gth.FolderTree : Gtk.Box {
 		return null;
 	}
 
-	public Gtk.TreeListRow? get_file_row (File file, out int position = null) {
+	public Gtk.TreeListRow? get_file_row (File? file, out int position = null) {
+		if (file == null) {
+			position = -1;
+			return null;
+		}
 		var iter = new TreeIterator<Gth.FileData> (tree_model);
 		while (iter.next ()) {
 			var file_data = iter.get_data ();

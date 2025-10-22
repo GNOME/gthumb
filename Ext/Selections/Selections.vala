@@ -11,7 +11,7 @@ public class Gth.Selections {
 	}
 
 	public Selection? get_selection_from_file (File file) {
-		var number = Selection.get_selection_number (file);
+		var number = Selection.get_number (file);
 		return get_selection (number);
 	}
 
