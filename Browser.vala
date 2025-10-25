@@ -2344,6 +2344,11 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void reorder_selected_file (uint destination) {
+		var selection = file_grid.model.get_selection ();
+		var n_selected = (uint) selection.get_size ();
+		if (n_selected == 0) {
+			return;
+		}
 		//stdout.printf ("> MOVE SELECTION TO %u\n", destination);
 
 		// Create the new file list.
@@ -2361,8 +2366,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		var selected = new GenericList<FileData> ();
-		var selection = file_grid.model.get_selection ();
-		var n_selected = (uint) selection.get_size ();
 		for (var i = 0; i < n_selected; i++) {
 			var old_pos = selection.get_nth (i);
 			var selected_file = file_grid.model.get_item (old_pos) as FileData;
