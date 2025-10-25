@@ -39,6 +39,10 @@ public class Gth.Catalog : Object {
 				catalog.load_doc (doc);
 			}
 		}
+		else {
+			catalog = new Catalog ();
+			catalog.load_old_format (data);
+		}
 		if (catalog == null) {
 			throw new IOError.FAILED ("Could not load the catalog.");
 		}
@@ -383,6 +387,25 @@ public class Gth.Catalog : Object {
 		}
 		file_set.remove (file);
 		return true;
+	}
+
+	void load_old_format (string text) throws Error {
+		remove_all_files ();
+		var mem_stream = new MemoryInputStream.from_data (text.data, null);
+		var data_stream = new DataInputStream (mem_stream);
+		var is_search = text.has_prefix ("# Search");
+		var list_start = is_search ? 10 : 1;
+		var row = 0;
+		string line;
+		size_t line_length;
+		while ((line = data_stream.read_line (out line_length)) != null) {
+			row++;
+			if ((row > list_start) && (line_length > 2)) {
+				var uri = line.substring (1, (long) line_length - 2);
+				var file = File.new_for_uri (uri);
+				add_file (file);
+			}
+		}
 	}
 
 	const string CATALOG_FORMAT = "1.0";
