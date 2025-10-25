@@ -448,6 +448,7 @@ public class Gth.Browser : Gtk.Box {
 
 	void thaw_thumbnail_list () {
 		file_filter.reset ();
+		file_sorter.reset ();
 		file_filter_model.model = filtered_model;
 		file_sort_model.model = sorted_model;
 		file_grid.model = grid_model;
@@ -1669,7 +1670,7 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 
-		if (file_sorter.name != null) {
+		if ((file_sorter.name != null) && (file_sorter.name != "Private::Unsorted")) {
 			app.settings.set_string (PREF_BROWSER_SORT_TYPE, app.migration.test.get_old_key (file_sorter.name));
 			app.settings.set_boolean (PREF_BROWSER_SORT_INVERSE, file_sorter.inverse);
 		}
@@ -2420,6 +2421,8 @@ public class Gth.Browser : Gtk.Box {
 			}
 			finally {
 				local_job.done ();
+				folder_tree.current_folder.info.set_attribute_string ("sort::type", "Private::Unsorted");
+				folder_tree.current_folder.info.set_attribute_boolean ("sort::inverse", false);
 				file_sorter.set_order ("Private::Unsorted", false);
 			}
 		});
@@ -2512,12 +2515,14 @@ public class Gth.FileSorter : Gtk.Sorter {
 	public string name;
 	public bool inverse;
 	public weak Gth.SortInfo? sort_info;
+	public Gth.Sort last;
 
 	public FileSorter (Browser _browser) {
 		name = null;
 		inverse = false;
 		sort_info = null;
 		browser = _browser;
+		last = { null, false };
 	}
 
 	public void set_order (string _name, bool _inverse) {
@@ -2527,7 +2532,21 @@ public class Gth.FileSorter : Gtk.Sorter {
 		if (sort_info == null) {
 			sort_info = app.get_sorter_by_id ("Private::Unsorted");
 		}
+		if ((name != null) && (name != "Private::Unsorted")) {
+			last = { name, inverse };
+		}
 		changed (Gtk.SorterChange.DIFFERENT);
+	}
+
+	public void reset () {
+		if (browser.folder_tree.current_folder != null) {
+			set_order (
+				browser.folder_tree.current_folder.get_sort_name (last.name),
+				browser.folder_tree.current_folder.get_inverse_order (last.inverse));
+		}
+		else {
+			set_order (last.name, last.inverse);
+		}
 	}
 
 	public void set_inverse (bool _inverse) {
