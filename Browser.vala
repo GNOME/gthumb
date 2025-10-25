@@ -397,6 +397,14 @@ public class Gth.Browser : Gtk.Box {
 		file_filter.update_filter ();
 		update_total_files ();
 		update_selection_info ();
+		if (list_attributes != null) {
+			var list_attribute_valid = Util.attributes_match_any_pattern (filter_bar.filter.attributes, list_attributes);
+			if (!list_attribute_valid) {
+				// The filter requires metadata that was not loaded, reload
+				// the current location to get the filter metadata as well.
+				reload ();
+			}
+		}
 	}
 
 	public void update_title () {

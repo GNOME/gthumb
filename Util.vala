@@ -96,6 +96,9 @@ namespace Gth.Util {
 	}
 
 	static bool attributes_match_patterns (string[] attribute_v, string[] pattern_v) {
+		if (attribute_v.length == 0) {
+			return true;
+		}
 		foreach (unowned var attribute in attribute_v) {
 			foreach (unowned var pattern in pattern_v) {
 				if (Util.attribute_matches_pattern (attribute, pattern)) {
@@ -112,7 +115,10 @@ namespace Gth.Util {
 			|| Util.attributes_match_patterns (pattern_v, attribute_v);
 	}
 
-	public static bool attributes_match_any_pattern (string attributes, string patterns) {
+	public static bool attributes_match_any_pattern (string? attributes, string patterns) {
+		if (attributes == null) {
+			return true;
+		}
 		var attribute_v = attributes.split (",");
 		var pattern_v = patterns.split (",");
 		return attributes_match_any_pattern_v (attribute_v, pattern_v);

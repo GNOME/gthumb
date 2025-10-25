@@ -132,5 +132,6 @@ public class Gth.TestExpr : Gth.Test {
 				break;
 			}
 		}
+		update_attributes ();
 	}
 }
