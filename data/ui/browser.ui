@@ -254,12 +254,12 @@
                         </style>
                       </object>
                     </child>
-                    <child>
+                    <!--child>
                       <object class="GtkButton">
                         <property name="icon-name">applications-science-symbolic</property>
                         <property name="action-name">win.fake-job</property>
                       </object>
-                    </child>
+                    </child-->
                     <child>
                       <object class="GtkMenuButton" id="scripts_menu_button">
                         <property name="icon-name">gth-script-symbolic</property>
