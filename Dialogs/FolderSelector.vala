@@ -1,9 +1,10 @@
 public class Gth.FolderSelector : Object {
 	public FileData root = null;
+	public bool for_moving = false;
 
 	public async File? select_folder (Gtk.Window? parent, File? current_folder = null, Cancellable? cancellable = null) throws Error {
 		callback = select_folder.callback;
-		dialog = new FolderSelectorDialog (root, current_folder);
+		dialog = new FolderSelectorDialog (root, for_moving, current_folder);
 		dialog.selected.connect (() => {
 			result = dialog.selected_folder;
 			dialog.close ();
@@ -43,7 +44,7 @@ class Gth.FolderSelectorDialog : Adw.Dialog {
 	public signal void selected ();
 	public File selected_folder;
 
-	public FolderSelectorDialog (FileData? root, File? _selected_folder = null) {
+	public FolderSelectorDialog (FileData? root, bool for_moving, File? _selected_folder = null) {
 		selected_folder = _selected_folder;
 		if (root != null) {
 			folder_tree.set_root (root);
@@ -55,10 +56,10 @@ class Gth.FolderSelectorDialog : Adw.Dialog {
 			selected_folder = Files.get_home ();
 		}
 		folder_tree.job_queue = app.jobs;
+		folder_tree.skip_nochild_folders = for_moving;
 		folder_tree.load.connect ((location, action) => {
 			load_folder.begin (location, action);
 		});
-		stdout.printf ("> %s\n", selected_folder.get_uri ());
 		folder_tree.load_folder.begin (selected_folder);
 	}
 

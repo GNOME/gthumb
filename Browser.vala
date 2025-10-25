@@ -1326,6 +1326,12 @@ public class Gth.Browser : Gtk.Box {
 			delete_catalog.begin ();
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("move-to", null);
+		action.activate.connect ((_action, param) => {
+			move_catalog.begin ();
+		});
+		action_group.add_action (action);
 	}
 
 	void init_folder_tree () {
@@ -2162,6 +2168,37 @@ public class Gth.Browser : Gtk.Box {
 			window.show_error (error);
 		}
 		finally {
+			local_job.done ();
+		}
+	}
+
+	async void move_catalog () {
+		var local_job = window.new_job ("Move Catalog");
+		try {
+			var selector = new Gth.FolderSelector ();
+			selector.root = Catalog.get_root ();
+			selector.for_moving = true;
+			var catalog = folder_tree.context_file.file;
+			var parent = catalog.get_parent ();
+			local_job.opens_dialog ();
+			var destination = yield selector.select_folder (window, parent, local_job.cancellable);
+			if (destination.equal (parent)) {
+				throw new IOError.FAILED (_("Source and destination are the same"));
+			}
+			var new_catalog = destination.get_child (catalog.get_basename ());
+			var gio_source = Catalog.to_gio_file (catalog);
+			var gio_destination = Catalog.to_gio_file (new_catalog);
+			yield gio_source.move_async (gio_destination,
+				FileCopyFlags.ALL_METADATA, Priority.DEFAULT,
+				local_job.cancellable, null);
+			app.monitor.file_created (new_catalog);
+			app.monitor.file_deleted (catalog);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.dialog_closed ();
 			local_job.done ();
 		}
 	}

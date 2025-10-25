@@ -31,6 +31,7 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 	}
 	public FileData context_file;
+	public bool skip_nochild_folders = false; // Used to show only libraries when moving a catalog.
 
 	[Signal (action=true)]
 	public signal void load (File location, LoadAction action);
@@ -406,9 +407,13 @@ public class Gth.FolderTree : Gtk.Box {
 		var folders = new GenericList<FileData> ();
 		foreach (unowned var file in all_children) {
 			if (file.info.get_file_type () == FileType.DIRECTORY) {
-				if (_show_hidden || !file.info.get_is_hidden ()) {
-					folders.model.append (file);
+				if (!_show_hidden && file.info.get_is_hidden ()) {
+					continue;
 				}
+				if (skip_nochild_folders && file.info.get_attribute_boolean ("gthumb::no-child")) {
+					continue;
+				}
+				folders.model.append (file);
 			}
 		}
 
