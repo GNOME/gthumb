@@ -435,6 +435,13 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Open Folder</attribute>
+        <attribute name="action">win.open-container</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Set as Desktop Background</attribute>
         <attribute name="action">win.set-desktop-background</attribute>
       </item>
@@ -498,41 +505,43 @@
       </submenu>
     </section>
     <section>
-      <attribute name="label" translatable="yes">Selection</attribute>
-      <attribute name="display-hint">inline-buttons</attribute>
-      <item>
-        <attribute name="label" translatable="yes">Add to Selection 1</attribute>
-        <attribute name="verb-icon">gth-flag-1-symbolic</attribute>
-        <attribute name="action">win.add-to-selection</attribute>
-        <attribute name="target">1</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Add to Selection 2</attribute>
-        <attribute name="verb-icon">gth-flag-2-symbolic</attribute>
-        <attribute name="action">win.add-to-selection</attribute>
-        <attribute name="target">2</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Add to Selection 3</attribute>
-        <attribute name="verb-icon">gth-flag-3-symbolic</attribute>
-        <attribute name="action">win.add-to-selection</attribute>
-        <attribute name="target">3</attribute>
-      </item>
-    </section>
-    <section>
+      <section>
+        <attribute name="label" translatable="yes">Add to Selection</attribute>
+        <attribute name="display-hint">inline-buttons</attribute>
+        <item>
+          <attribute name="label" translatable="yes">Selection 1</attribute>
+          <attribute name="verb-icon">gth-flag-1-symbolic</attribute>
+          <attribute name="action">win.add-to-selection</attribute>
+          <attribute name="target">1</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Selection 2</attribute>
+          <attribute name="verb-icon">gth-flag-2-symbolic</attribute>
+          <attribute name="action">win.add-to-selection</attribute>
+          <attribute name="target">2</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Selection 3</attribute>
+          <attribute name="verb-icon">gth-flag-3-symbolic</attribute>
+          <attribute name="action">win.add-to-selection</attribute>
+          <attribute name="target">3</attribute>
+        </item>
+      </section>
       <item>
         <attribute name="label" translatable="yes">Add to Catalog…</attribute>
         <attribute name="action">win.add-to-catalog</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
-      <item>
-        <attribute name="label" translatable="yes">Remove from Catalog</attribute>
-        <attribute name="action">win.remove-from-catalog</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
+    </section>
+    <section>
       <item>
         <attribute name="label" translatable="yes">Remove from Selection</attribute>
         <attribute name="action">win.remove-from-current-selection</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Remove from Catalog</attribute>
+        <attribute name="action">win.remove-from-catalog</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>

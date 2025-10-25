@@ -725,6 +725,9 @@ public class Gth.Browser : Gtk.Box {
 			property_sidebar.set_selection_info (total_files, total_size);
 		}
 		status.set_selection_info (total_files, total_size);
+
+		var can_open_container = (total_files == 1) && !(folder_tree.current_source is FileSourceVfs);
+		Util.enable_action (window.action_group, "open-container", can_open_container);
 	}
 
 	void init_actions () {
@@ -1126,6 +1129,18 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("open-selection", VariantType.INT32);
 		action.activate.connect ((_action, _params) => {
 			open_selection ((uint) _params.get_int32 ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-container", null);
+		action.activate.connect ((_action, _params) => {
+			var selected_file = get_selected_file ();
+			if (selected_file != null) {
+				var parent = selected_file.get_parent ();
+				if (parent != null) {
+					open_location (parent, LoadAction.OPEN, selected_file);
+				}
+			}
 		});
 		action_group.add_action (action);
 	}
