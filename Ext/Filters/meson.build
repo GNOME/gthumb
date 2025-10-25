@@ -14,5 +14,6 @@ filters_files = files(
  'TestSelector.vala',
  'TestSize.vala',
  'TestString.vala',
+ 'TestStringList.vala',
  'Test.vala',
 )

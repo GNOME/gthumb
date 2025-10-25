@@ -176,10 +176,10 @@ public class Gth.TestTimeOriginal : Gth.TestDate {
 	}
 }
 
-public class Gth.TestTitleEmbedded : Gth.TestString {
+public class Gth.TestTitle : Gth.TestString {
 	construct {
 		id = "Metadata::Title";
-		display_name = _("Title (Embedded)");
+		display_name = _("Title");
 		attributes = "Metadata::Title";
 	}
 
@@ -188,10 +188,10 @@ public class Gth.TestTitleEmbedded : Gth.TestString {
 	}
 }
 
-public class Gth.TestDescriptionEmbedded : Gth.TestString {
+public class Gth.TestDescription : Gth.TestString {
 	construct {
 		id = "Metadata::Description";
-		display_name = _("Description (Embedded)");
+		display_name = _("Description");
 		attributes = "Metadata::Description";
 	}
 
@@ -212,11 +212,28 @@ public class Gth.TestRating : Gth.TestInt {
 	}
 }
 
-public class Gth.TestTagEmbedded : Gth.Test {
+public class Gth.TestTag : Gth.TestStringList {
 	construct {
-		id = "Metadata::Tags";
-		display_name = _("Tag (Embedded)");
+		id = "Metadata::Tag";
+		display_name = _("Tag");
 		attributes = "Metadata::Tags";
+	}
+
+	public override Gth.StringList? get_file_value (FileData file) {
+		var tag_data = file.info.get_attribute_object ("Metadata::Tags") as Metadata;
+		return (tag_data != null) ? tag_data.string_list : null;
+	}
+}
+
+public class Gth.TestLocation : Gth.TestString {
+	construct {
+		id = "Metadata::Place";
+		display_name = _("Place");
+		attributes = "Metadata::Place";
+	}
+
+	public override string? get_file_value (FileData file) {
+		return file.get_embedded_place ();
 	}
 }
 

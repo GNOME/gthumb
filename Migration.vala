@@ -28,6 +28,12 @@ public class Gth.Migration {
 		metadata.add ("general::datetime", "Metadata::DateTime");
 		metadata.add ("general::tags", "Metadata::Tags");
 		metadata.add ("general::rating", "Metadata::Rating");
+		metadata.add ("comment::caption", "Metadata::Title");
+		metadata.add ("comment::note", "Metadata::Description");
+		metadata.add ("comment::place", "Metadata::Place");
+		metadata.add ("comment::time", "Metadata::DateTime");
+		metadata.add ("comment::categories", "Metadata::Tags");
+		metadata.add ("comment::rating", "Metadata::Rating");
 		metadata.add ("gth::file::emblems", "Private::File::Emblems");
 		metadata.add ("gth::standard::secondary-sort-order", "Private::SecondarySortOrder");
 		metadata.add ("image::width", "Frame::Width");
@@ -67,8 +73,11 @@ public class Gth.Migration {
 		test.add ("general::title", "Metadata::Title");
 		test.add ("general::description", "Metadata::Description");
 		test.add ("general::rating", "Metadata::Rating");
-		test.add ("general::tags", "Metadata::Tags");
+		test.add ("general::tags", "Metadata::Tag");
 		test.add ("frame::aspect-ratio", "Frame::AspectRatio");
+		test.add ("comment::note", "Metadata::Description");
+		test.add ("comment::place", "Metadata::Place");
+		test.add ("comment::category", "Metadata::Tag");
 	}
 }
 

@@ -80,9 +80,10 @@ public class Gth.Application : Adw.Application {
 		register_test (typeof (Gth.TestFileTypeRaw));
 		//register_test (typeof (Gth.TestFileTypeText));
 		register_test (typeof (Gth.TestTimeOriginal));
-		register_test (typeof (Gth.TestTitleEmbedded));
-		register_test (typeof (Gth.TestDescriptionEmbedded));
-		register_test (typeof (Gth.TestTagEmbedded));
+		register_test (typeof (Gth.TestTitle));
+		register_test (typeof (Gth.TestDescription));
+		register_test (typeof (Gth.TestLocation));
+		register_test (typeof (Gth.TestTag));
 		register_test (typeof (Gth.TestRating));
 		register_test (typeof (Gth.TestFrameAspectRatio));
 		register_test (typeof (Gth.TestVisible));

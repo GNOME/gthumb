@@ -96,6 +96,7 @@ public class Gth.FileData : Object {
 		embedded_otime = null;
 		embedded_title = null;
 		embedded_description = null;
+		embedded_place = null;
 		embedded_rating = -1;
 		icon_name = null;
 		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (get_content_type ()));
@@ -195,6 +196,18 @@ public class Gth.FileData : Object {
 			}
 		}
 		return embedded_description;
+	}
+
+	string embedded_place = null;
+
+	public unowned string? get_embedded_place () {
+		if (embedded_place == null) {
+			var metadata = info.get_attribute_object ("Metadata::Place") as Gth.Metadata;
+			if (metadata != null) {
+				embedded_place = metadata.get_formatted ();
+			}
+		}
+		return embedded_place;
 	}
 
 	int embedded_rating = -1;
