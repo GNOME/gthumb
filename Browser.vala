@@ -285,7 +285,6 @@ public class Gth.Browser : Gtk.Box {
 		if (!is_selected (item.file_data.file)) {
 			select_file (item.file_data.file);
 		}
-		update_file_context_menu_sensitivity ();
 		Graphene.Point p = Graphene.Point.zero ();
 		item.compute_point (non_empty_folder, Graphene.Point.zero (), out p);
 		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
@@ -293,7 +292,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void open_context_menu (int x, int y) {
-		update_file_context_menu_sensitivity ();
 		Graphene.Point p = Graphene.Point.zero ();
 		file_grid.compute_point (folder_stack.get_visible_child (), Graphene.Point.zero (), out p);
 		context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
@@ -309,14 +307,18 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void update_location_commands () {
+		var file_data = folder_tree.current_folder;
 		var is_catalog = false;
 		var is_search = false;
-		var uri = folder_tree.current_folder.file.get_uri ();
+		var uri = file_data.file.get_uri ();
 		var source_type = app.get_source_type_for_uri (uri);
-		if (folder_tree.current_folder.file.has_uri_scheme ("catalog")) {
+		if (file_data.file.has_uri_scheme ("catalog")) {
 			is_catalog = uri.has_suffix (".catalog");
 			is_search = uri.has_suffix (".search");
 		}
+		var is_selection = file_data.file.has_uri_scheme ("selection");
+		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
+
 		edit_catalog_button.visible = is_catalog || is_search;
 		update_search_button.visible = is_search;
 		update_folder_button.visible = (source_type == typeof (FileSourceVfs));
@@ -324,6 +326,16 @@ public class Gth.Browser : Gtk.Box {
 
 		var is_reorderable = folder_tree.current_source.is_reorderable ();
 		reorder_button.visible = is_reorderable;
+
+		Util.enable_action (window.action_group, "cut-files", can_write);
+		Util.enable_action (window.action_group, "paste-files", can_write && window.can_paste_from_clipboad);
+		Util.enable_action (window.action_group, "move-files-to", can_write);
+		Util.enable_action (window.action_group, "rename-files", can_write);
+		Util.enable_action (window.action_group, "duplicate-files", can_write);
+		Util.enable_action (window.action_group, "trash-files", can_write);
+		Util.enable_action (window.action_group, "delete-files-from-disk", can_write);
+		Util.enable_action (window.action_group, "remove-files", can_write);
+		Util.enable_action (window.action_group, "remove-from-current-selection", is_selection);
 	}
 
 	string list_attributes = null;
@@ -458,7 +470,7 @@ public class Gth.Browser : Gtk.Box {
 					folder_status.title = _("Empty Selection");
 					var str = new StringBuilder ();
 					var number = Selection.get_number (folder_tree.current_folder.file);
-					var action = "win.add-to-selection(%u)".printf (number);
+					var action = "win.add-to-selection('%u')".printf (number);
 					var shortcut = app.shortcuts.by_action.get (action);
 					if (shortcut != null) {
 						// Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
@@ -1087,15 +1099,27 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("add-to-selection", VariantType.INT32);
+		action = new SimpleAction ("add-to-selection", VariantType.STRING);
 		action.activate.connect ((_action, _params) => {
-			add_to_selection ((uint) _params.get_int32 ());
+			add_to_selection (uint.parse (_params.get_string (), 10));
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("remove-from-selection", VariantType.INT32);
 		action.activate.connect ((_action, _params) => {
 			remove_from_selection ((uint) _params.get_int32 ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("remove-from-current-selection", null);
+		action.activate.connect ((_action, _params) => {
+			var is_selection = folder_tree.current_folder.file.has_uri_scheme ("selection");
+			if (is_selection) {
+				var files = get_selected_files ();
+				if ((files != null) && !files.is_empty ()) {
+					window.remove_files (files);
+				}
+			}
 		});
 		action_group.add_action (action);
 
@@ -1553,19 +1577,6 @@ public class Gth.Browser : Gtk.Box {
 				search_job = null;
 			}
 		}
-	}
-
-	void update_file_context_menu_sensitivity () {
-		var file_data = folder_tree.current_folder;
-		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
-		Util.enable_action (window.action_group, "cut-files", can_write);
-		Util.enable_action (window.action_group, "paste-files", can_write && window.can_paste_from_clipboad);
-		Util.enable_action (window.action_group, "move-files-to", can_write);
-		Util.enable_action (window.action_group, "rename-files", can_write);
-		Util.enable_action (window.action_group, "duplicate-files", can_write);
-		Util.enable_action (window.action_group, "trash-files", can_write);
-		Util.enable_action (window.action_group, "delete-files-from-disk", can_write);
-		Util.enable_action (window.action_group, "remove-files", can_write);
 	}
 
 	void update_folder_context_menu_sensitivity (FileData file_data) {

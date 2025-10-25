@@ -158,6 +158,7 @@ public class Gth.Shortcuts {
 		register ("win.move-files-to", N_("Move Files"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER);
 		register ("win.duplicate-files", N_("Duplicate"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>d");
 		register ("win.remove-files", N_("Delete"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "Delete");
+		register ("win.trash-files", N_("Move to Trash"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER);
 		register ("win.delete-files-from-disk", N_("Delete Permanently"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Shift>Delete");
 		register ("open-with-gimp", N_("Open with Gimp"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "g");
 		register ("open-with-inkscape", N_("Open with Inkscape"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "k");
@@ -183,9 +184,9 @@ public class Gth.Shortcuts {
 				tool.default_shortcut);
 		}
 
-		register ("win.add-to-selection(1)", N_("Add to Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>1");
-		register ("win.add-to-selection(2)", N_("Add to Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>2");
-		register ("win.add-to-selection(3)", N_("Add to Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>3");
+		register ("win.add-to-selection('1')", N_("Add to Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>1");
+		register ("win.add-to-selection('2')", N_("Add to Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>2");
+		register ("win.add-to-selection('3')", N_("Add to Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Alt>3");
 		register ("win.remove-from-selection(1)", N_("Remove from Selection 1"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary><Alt>1");
 		register ("win.remove-from-selection(2)", N_("Remove from Selection 2"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary><Alt>2");
 		register ("win.remove-from-selection(3)", N_("Remove from Selection 3"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SELECTIONS, "<Primary><Alt>3");
@@ -229,7 +230,7 @@ public class Gth.Shortcuts {
 		register ("image.scroll-page-down", N_("Scroll Down Fast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>Down");
 		register ("image.recenter", N_("Scroll to Center"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>Down");
 
-		register ("save", N_("Save Image"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>s");
+		register ("image.save", N_("Save Image"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>s");
 		register ("image.save-as", N_("Save Image As"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>s");
 		register ("revert-to-saved", N_("Revert Image to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "F4");
 

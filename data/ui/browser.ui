@@ -458,8 +458,6 @@
         <attribute name="verb-icon">edit-paste-symbolic</attribute>
         <attribute name="action">win.paste-files</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
         <attribute name="action">win.file-list-select-all</attribute>
@@ -485,26 +483,56 @@
         <attribute name="action">win.duplicate-files</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
+      <submenu>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Move to Trash</attribute>
+            <attribute name="action">win.trash-files</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Delete Permanently</attribute>
+            <attribute name="action">win.delete-files-from-disk</attribute>
+          </item>
+        </section>
+      </submenu>
     </section>
     <section>
+      <attribute name="label" translatable="yes">Selection</attribute>
+      <attribute name="display-hint">inline-buttons</attribute>
       <item>
-        <attribute name="label" translatable="yes">Remove from Catalog</attribute>
-        <attribute name="action">win.remove-from-catalog</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
+        <attribute name="label" translatable="yes">Add to Selection 1</attribute>
+        <attribute name="verb-icon">gth-flag-1-symbolic</attribute>
+        <attribute name="action">win.add-to-selection</attribute>
+        <attribute name="target">1</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Move to Trash</attribute>
-        <attribute name="action">win.trash-files</attribute>
+        <attribute name="label" translatable="yes">Add to Selection 2</attribute>
+        <attribute name="verb-icon">gth-flag-2-symbolic</attribute>
+        <attribute name="action">win.add-to-selection</attribute>
+        <attribute name="target">2</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">win.delete-files-from-disk</attribute>
+        <attribute name="label" translatable="yes">Add to Selection 3</attribute>
+        <attribute name="verb-icon">gth-flag-3-symbolic</attribute>
+        <attribute name="action">win.add-to-selection</attribute>
+        <attribute name="target">3</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">Add to Catalog…</attribute>
         <attribute name="action">win.add-to-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Remove from Catalog</attribute>
+        <attribute name="action">win.remove-from-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Remove from Selection</attribute>
+        <attribute name="action">win.remove-from-current-selection</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
@@ -516,8 +544,6 @@
         <attribute name="label" translatable="yes">Paste</attribute>
         <attribute name="action">win.paste-files</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
         <attribute name="action">win.file-list-select-all</attribute>
