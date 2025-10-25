@@ -27,9 +27,7 @@ public class Gth.TestDate : Gth.Test {
 		default:
 			break;
 		}
-		if (negative)
-			matches = !matches;
-		return matches;
+		return negative ? !matches : matches;
 	}
 
 	public override Dom.Element create_element (Dom.Document doc) {

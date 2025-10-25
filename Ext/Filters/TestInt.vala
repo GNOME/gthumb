@@ -24,7 +24,7 @@ public class Gth.TestInt : Gth.Test {
 		default:
 			break;
 		}
-		return matches;
+		return negative ? !matches : matches;
 	}
 
 	public override Dom.Element create_element (Dom.Document doc) {
