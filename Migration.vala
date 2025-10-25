@@ -24,7 +24,7 @@ public class Gth.Migration {
 		metadata.add ("general::duration", "Metadata::Duration");
 		metadata.add ("general::title", "Metadata::Title");
 		metadata.add ("general::description", "Metadata::Description");
-		metadata.add ("general::location", "Metadata::Location");
+		metadata.add ("general::location", "Metadata::Place");
 		metadata.add ("general::datetime", "Metadata::DateTime");
 		metadata.add ("general::tags", "Metadata::Tags");
 		metadata.add ("general::rating", "Metadata::Rating");

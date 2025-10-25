@@ -129,7 +129,7 @@ public class Gth.Application : Adw.Application {
 
 		MetadataInfo.register ("Metadata::Title", N_("Title"), "Comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Description", N_("Comment"), "Comment", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-		MetadataInfo.register ("Metadata::Location", N_("Place"), "Comment", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Metadata::Place", N_("Place"), "Comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::DateTime", N_("Date"), "Comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Tags", N_("Tags"), "Comment", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Metadata::Rating", N_("Rating"), "Comment", METADATA_ALLOW_EVERYWHERE);

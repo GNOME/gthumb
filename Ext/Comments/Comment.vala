@@ -23,7 +23,7 @@ public class Gth.Comment : Object {
 			note = metadata.raw;
 		}
 
-		metadata = info.get_attribute_object ("Metadata::Location") as Gth.Metadata;
+		metadata = info.get_attribute_object ("Metadata::Place") as Gth.Metadata;
 		if (metadata != null) {
 			place = metadata.raw;
 		}
@@ -155,7 +155,7 @@ public class Gth.Comment : Object {
 		}
 
 		if (!Strings.empty (place)) {
-			info.set_attribute_object ("Metadata::Location", new Metadata.for_string (place));
+			info.set_attribute_object ("Metadata::Place", new Metadata.for_string (place));
 		}
 
 		if (rating > 0) {

@@ -541,7 +541,7 @@ static void exiv2_update_general_attributes (GFileInfo *info) {
 		}
 	}
 
-	if (set_attribute_from_tagset (info, "Metadata::Location", _LOCATION_TAG_NAMES)) {
+	if (set_attribute_from_tagset (info, "Metadata::Place", _LOCATION_TAG_NAMES)) {
 		updated = TRUE;
 	}
 	if (set_string_list_attribute_from_tagset (info, "Metadata::Tags", _KEYWORDS_TAG_NAMES)) {
@@ -1333,7 +1333,7 @@ void update_exif_tags_from_general_attributes (GFileInfo *info) {
 			g_file_info_remove_attribute (info, _TITLE_TAG_NAMES[i]);
 	}
 
-	metadata = g_file_info_get_attribute_object (info, "Metadata::Location");
+	metadata = g_file_info_get_attribute_object (info, "Metadata::Place");
 	if (metadata != NULL) {
 		g_object_set (metadata, "value-type", NULL, NULL);
 		for (int i = 0; _LOCATION_TAG_NAMES[i] != NULL; i++) {

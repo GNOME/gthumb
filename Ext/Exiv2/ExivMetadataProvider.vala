@@ -13,7 +13,7 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 		"Metadata::DateTime",
 		"Metadata::Title",
 		"Metadata::Description",
-		"Metadata::Location",
+		"Metadata::Place",
 		"Metadata::Tags"
 	};
 

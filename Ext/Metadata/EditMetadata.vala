@@ -71,7 +71,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 		}
 
 		set_entry_value (title_entry, "Metadata::Title");
-		set_entry_value (place, "Metadata::Location");
+		set_entry_value (place, "Metadata::Place");
 		set_rating (rating.entry, "Metadata::Rating");
 
 		// IPTC
@@ -122,7 +122,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 		file_data.info.set_attribute_object ("Metadata::Description", metadata);
 
 		set_string_attribute (title_entry, "Metadata::Title");
-		set_string_attribute (place, "Metadata::Location");
+		set_string_attribute (place, "Metadata::Place");
 
 		var date_time = new Gth.DateTime.from_date_time (date.date, time.time);
 		if (date_time.date.is_valid ()) {

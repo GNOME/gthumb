@@ -4,7 +4,7 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 		"Metadata::DateTime",
 		"Metadata::Title",
 		"Metadata::Description",
-		"Metadata::Location",
+		"Metadata::Place",
 		"Metadata::Tags",
 		"Metadata::Rating",
 	};
