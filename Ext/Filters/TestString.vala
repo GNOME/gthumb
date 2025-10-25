@@ -150,5 +150,3 @@ public class Gth.TestString : Gth.Test {
 	PatternSpec pattern = null;
 	string lowercase_text = null;
 }
-
-public delegate string Gth.FileDataGetStringFunc (Gth.FileData file);
