@@ -318,10 +318,11 @@ public class Gth.Browser : Gtk.Box {
 		}
 		var is_selection = file_data.file.has_uri_scheme ("selection");
 		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
+		var is_vfs_folder = (source_type == typeof (FileSourceVfs));
 
 		edit_catalog_button.visible = is_catalog || is_search;
 		update_search_button.visible = is_search;
-		update_folder_button.visible = (source_type == typeof (FileSourceVfs));
+		update_folder_button.visible = is_vfs_folder;
 		Util.enable_action (window.action_group, "remove-from-catalog", is_catalog || is_search);
 
 		var is_reorderable = folder_tree.current_source.is_reorderable ();
@@ -336,6 +337,8 @@ public class Gth.Browser : Gtk.Box {
 		Util.enable_action (window.action_group, "delete-files-from-disk", can_write);
 		Util.enable_action (window.action_group, "remove-files", can_write);
 		Util.enable_action (window.action_group, "remove-from-current-selection", is_selection);
+		Util.enable_action (window.action_group, "open-terminal-here", is_vfs_folder);
+		Util.enable_action (window.action_group, "open-file-manager-here", is_vfs_folder);
 	}
 
 	string list_attributes = null;
@@ -1152,6 +1155,22 @@ public class Gth.Browser : Gtk.Box {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("open-terminal-here", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.current_folder != null) {
+				open_terminal (folder_tree.current_folder.file);
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-file-manager-here", null);
+		action.activate.connect ((_action, param) => {
+			if (folder_tree.current_folder != null) {
+				open_file_manager (folder_tree.current_folder.file);
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	public void view_fullscreen () {
@@ -1179,16 +1198,7 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("open-terminal", null);
 		action.activate.connect ((_action, param) => {
 			if (folder_tree.context_file != null) {
-				try {
-					var settings = new GLib.Settings (GTHUMB_TERMINAL_SCHEMA);
-					var files = new List<File> ();
-					files.append (folder_tree.context_file.file);
-					var info = AppInfo.create_from_commandline (settings.get_string (PREF_TERMINAL_COMMAND), _("Terminal"), AppInfoCreateFlags.NONE);
-					info.launch (files, window.display.get_app_launch_context ());
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
+				open_terminal (folder_tree.context_file.file);
 			}
 		});
 		action_group.add_action (action);
@@ -1196,19 +1206,7 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("open-file-manager", null);
 		action.activate.connect ((_action, param) => {
 			if (folder_tree.context_file != null) {
-				var launcher = new Gtk.FileLauncher (folder_tree.context_file.file);
-				var local_job = window.new_job ("Open %s".printf (folder_tree.context_file.file.get_uri ()));
-				launcher.launch.begin (window, local_job.cancellable, (_obj, res) => {
-					try {
-						launcher.launch.end (res);
-					}
-					catch (Error error) {
-						window.show_error (error);
-					}
-					finally {
-						local_job.done ();
-					}
-				});
+				open_file_manager (folder_tree.context_file.file);
 			}
 		});
 		action_group.add_action (action);
@@ -2464,6 +2462,37 @@ public class Gth.Browser : Gtk.Box {
 		}
 		state = new WindowState (window);
 		open_location (location);
+	}
+
+	void open_terminal (File file) {
+		try {
+			var files = new List<File> ();
+			files.append (file);
+			var context = window.display.get_app_launch_context ();
+			context.set_timestamp (0);
+			var settings = new GLib.Settings (GTHUMB_TERMINAL_SCHEMA);
+			var info = AppInfo.create_from_commandline (settings.get_string (PREF_TERMINAL_COMMAND), _("Terminal"), AppInfoCreateFlags.NONE);
+			info.launch (files, context);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+	}
+
+	void open_file_manager (File file) {
+		var launcher = new Gtk.FileLauncher (file);
+		var local_job = window.new_job ("Open %s".printf (file.get_uri ()));
+		launcher.launch.begin (window, local_job.cancellable, (_obj, res) => {
+			try {
+				launcher.launch.end (res);
+			}
+			catch (Error error) {
+				window.show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
 	}
 
 	[GtkChild] unowned Adw.OverlaySplitView main_view;

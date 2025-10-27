@@ -55,6 +55,14 @@ public class Gth.GenericList<T> {
 	public void sort (CompareDataFunc<T> func) {
 		model.sort (func);
 	}
+
+	public List<T> to_glist () {
+		List<T> list = new List<T> ();
+		foreach (unowned T item in this) {
+			list.append (item);
+		}
+		return list;
+	}
 }
 
 public class Gth.IterableList<T> {

@@ -549,6 +549,18 @@
   <menu id="current_folder_menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">Open with File Manager</attribute>
+        <attribute name="action">win.open-file-manager-here</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Open in Terminal</attribute>
+        <attribute name="action">win.open-terminal-here</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <!-- Translators: it's a verb, as in "Paste Files" -->
         <attribute name="label" translatable="yes">Paste</attribute>
         <attribute name="action">win.paste-files</attribute>

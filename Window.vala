@@ -840,6 +840,28 @@ public class Gth.Window : Adw.ApplicationWindow {
 			exec_file_operation.begin (_("Clear Metadata"), operation, files);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("open-with-gimp", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			open_with_command ("gimp %U", "Gimp", files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("open-with-inkscape", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			open_with_command ("org.inkscape.Inkscape %U", "Inkscape", files);
+		});
+		action_group.add_action (action);
 	}
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files) {
@@ -869,6 +891,22 @@ public class Gth.Window : Adw.ApplicationWindow {
 			local_job.done ();
 		});
 		//local_job.progress = 0.3f;
+	}
+
+	void open_with_command (string command, string display_name, GenericList<File>? files) {
+		var local_job = new_job ("Choosing Application");
+		try {
+			var context = display.get_app_launch_context ();
+			context.set_timestamp (0);
+			var app_info = AppInfo.create_from_commandline (command, display_name, AppInfoCreateFlags.SUPPORTS_URIS);
+			app_info.launch (files.to_glist (), context);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	public bool on_key_pressed (Gtk.EventControllerKey controller, uint keyval, uint keycode, Gdk.ModifierType state) {

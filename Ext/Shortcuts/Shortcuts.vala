@@ -133,6 +133,8 @@ public class Gth.Shortcuts {
 		register ("win.load-next", N_("Next Visited"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Alt>Right");
 		register ("win.load-next-folder", N_("Next Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Alt>n");
 		register ("win.load-prev-folder", N_("Previous Folder"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Alt>p");
+		register ("win.open-file-manager-here", N_("Open with File Manager"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>m");
+		register ("win.open-terminal-here", N_("Open in Terminal"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>t");
 		register ("win.hidden-files", N_("Hidden Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>h");
 		register ("win.sort-files", N_("Sort Files"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary>s");
 		register ("win.sort-folders", N_("Sort Folders"), ShortcutContext.BROWSER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>s");
@@ -160,13 +162,12 @@ public class Gth.Shortcuts {
 		register ("win.remove-files", N_("Delete"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "Delete");
 		register ("win.trash-files", N_("Move to Trash"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER);
 		register ("win.delete-files-from-disk", N_("Delete Permanently"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Shift>Delete");
-		register ("open-with-gimp", N_("Open with Gimp"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "g");
-		register ("open-with-inkscape", N_("Open with Inkscape"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "k");
-		register ("folder-context-open-in-terminal", N_("Open in Terminal"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>t");
 		register ("win.edit-metadata", N_("Edit Comment"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "c");
 		register ("print", N_("Print"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>p");
 		register ("win.open-clipboard", N_("Open Clipboard"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>v");
 		register ("win.scripts", N_("Scripts"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>x");
+		register ("win.open-with-gimp", N_("Open with Gimp"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "g");
+		register ("win.open-with-inkscape", N_("Open with Inkscape"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "k");
 
 		register ("win.toggle-fullscreen", N_("Fullscreen"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "f");
 
