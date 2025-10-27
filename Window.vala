@@ -848,7 +848,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (_("No file selected"));
 				return;
 			}
-			open_with_command ("gimp %U", "Gimp", files);
+			open_with_command ({ "gimp", "org.gimp.GIMP" }, "Gimp", files);
 		});
 		action_group.add_action (action);
 
@@ -859,7 +859,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (_("No file selected"));
 				return;
 			}
-			open_with_command ("org.inkscape.Inkscape %U", "Inkscape", files);
+			open_with_command ({ "inkscape", "org.inkscape.Inkscape" }, "Inkscape", files);
 		});
 		action_group.add_action (action);
 	}
@@ -893,19 +893,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 		//local_job.progress = 0.3f;
 	}
 
-	void open_with_command (string command, string display_name, GenericList<File>? files) {
-		var local_job = new_job ("Choosing Application");
-		try {
-			var context = display.get_app_launch_context ();
-			context.set_timestamp (0);
-			var app_info = AppInfo.create_from_commandline (command, display_name, AppInfoCreateFlags.SUPPORTS_URIS);
-			app_info.launch (files.to_glist (), context);
+	void open_with_command (string[] try_commands, string display_name, GenericList<File>? files) {
+		var launched = false;
+		foreach (unowned var command in try_commands) {
+			try {
+				var context = display.get_app_launch_context ();
+				context.set_timestamp (0);
+				var app_info = AppInfo.create_from_commandline ("%s %%U".printf (command), display_name, AppInfoCreateFlags.SUPPORTS_URIS);
+				app_info.launch (files.to_glist (), context);
+				launched = true;
+				break;
+			}
+			catch (Error error) {
+			}
 		}
-		catch (Error error) {
+		if (!launched) {
+			var error = new IOError.FAILED (_("Application '%s' not found").printf (display_name));
 			show_error (error);
-		}
-		finally {
-			local_job.done ();
 		}
 	}
 
