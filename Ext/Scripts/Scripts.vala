@@ -40,7 +40,6 @@ public class Gth.Scripts {
 		}
 		local_job.done ();
 		loaded = true;
-		app.monitor.scripts_changed ();
 		return true;
 	}
 
