@@ -222,6 +222,7 @@ public class Gth.Application : Adw.Application {
 		shortcuts = new Shortcuts ();
 		shortcuts.register_all ();
 
+		register_types ();
 		init_settings ();
 		init_actions ();
 	}
@@ -754,6 +755,13 @@ public class Gth.Application : Adw.Application {
 		if (!arg_slideshow) {
 			window.present ();
 		}
+	}
+
+	void register_types() {
+		// Types used in .ui files
+		typeof (Gth.VideoView).ensure ();
+		typeof (Gth.FolderStatus).ensure ();
+		typeof (Gth.ImageView).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

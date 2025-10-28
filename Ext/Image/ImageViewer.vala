@@ -6,7 +6,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		window = _window;
 
-		typeof (Gth.ImageView).ensure ();
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
