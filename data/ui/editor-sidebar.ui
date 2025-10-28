@@ -83,52 +83,88 @@
                     <property name="title" translatable="yes">Colors</property>
                     <property name="separate-rows">true</property>
                     <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Enhance Contrast</property>
-                        <property name="start-icon-name">gth-adjust-contrast-symbolic</property>
-                        <property name="action-name">image.adjust-contrast</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Special Effects</property>
-                        <property name="start-icon-name">gth-special-effects-symbolic</property>
-                        <property name="action-name">image.special-effects</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Colors</property>
-                        <property name="start-icon-name">gth-adjust-colors-symbolic</property>
-                        <property name="action-name">image.adjust-colors</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Color Curves</property>
-                        <property name="start-icon-name">gth-curves-symbolic</property>
-                        <property name="action-name">image.edit-color-curves</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Focus</property>
-                        <property name="start-icon-name">gth-sharpen-symbolic</property>
-                        <property name="action-name">image.adjust-focus</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Grayscale</property>
-                        <property name="start-icon-name">gth-grayscale-symbolic</property>
-                        <property name="action-name">image.grayscale</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Color Picker</property>
-                        <property name="start-icon-name">gth-eyedropper-symbolic</property>
-                        <property name="action-name">image.color-picker</property>
+                      <object class="GtkGrid">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">12</property>
+                        <property name="column-homogeneous">true</property>
+                        <property name="row-homogeneous">true</property>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Contrast</property>
+                            <property name="icon-name">gth-adjust-contrast-symbolic</property>
+                            <property name="action-name">image.adjust-contrast</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Special Effects</property>
+                            <property name="icon-name">gth-special-effects-symbolic</property>
+                            <property name="action-name">image.special-effects</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Colors</property>
+                            <property name="icon-name">gth-adjust-colors-symbolic</property>
+                            <property name="action-name">image.adjust-colors</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Color Curves</property>
+                            <property name="icon-name">gth-curves-symbolic</property>
+                            <property name="action-name">image.edit-color-curves</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Focus</property>
+                            <property name="icon-name">gth-sharpen-symbolic</property>
+                            <property name="action-name">image.adjust-focus</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Grayscale</property>
+                            <property name="icon-name">gth-grayscale-symbolic</property>
+                            <property name="action-name">image.grayscale</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Color Picker</property>
+                            <property name="icon-name">gth-eyedropper-symbolic</property>
+                            <property name="action-name">image.color-picker</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">3</property>
+                            </layout>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -140,9 +176,9 @@
                     <child>
                       <object class="GtkGrid">
                         <property name="column-spacing">12</property>
+                        <property name="row-spacing">12</property>
                         <property name="column-homogeneous">true</property>
                         <property name="row-homogeneous">true</property>
-                        <property name="row-spacing">12</property>
                         <child>
                           <object class="GtkButton">
                             <property name="icon-name">gth-rotate-left-symbolic</property>
@@ -202,26 +238,45 @@
                 <child>
                   <object class="AdwPreferencesGroup">
                     <property name="title" translatable="yes">Format</property>
-                    <property name="separate-rows">true</property>
                     <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Resize</property>
-                        <property name="start-icon-name">gth-resize-symbolic</property>
-                        <property name="action-name">image.resize</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Crop</property>
-                        <property name="start-icon-name">gth-crop-symbolic</property>
-                        <property name="action-name">image.crop</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwButtonRow">
-                        <property name="title" translatable="yes">Rotate</property>
-                        <property name="start-icon-name">gth-rotate-symbolic</property>
-                        <property name="action-name">image.rotate</property>
+                      <object class="GtkGrid">
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">12</property>
+                        <property name="column-homogeneous">true</property>
+                        <property name="row-homogeneous">true</property>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="action-name">image.resize</property>
+                            <property name="icon-name">gth-resize-symbolic</property>
+                            <property name="label" translatable="yes">Resize</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="action-name">image.crop</property>
+                            <property name="icon-name">gth-crop-symbolic</property>
+                            <property name="label" translatable="yes">Crop</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="action-name">image.rotate</property>
+                            <property name="icon-name">gth-rotate-symbolic</property>
+                            <property name="label" translatable="yes">Rotate</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

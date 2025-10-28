@@ -759,6 +759,7 @@ public class Gth.Application : Adw.Application {
 
 	void register_types() {
 		// Types used in .ui files
+		typeof (Gth.ToolButton).ensure ();
 		typeof (Gth.VideoView).ensure ();
 		typeof (Gth.FolderStatus).ensure ();
 		typeof (Gth.ImageView).ensure ();
