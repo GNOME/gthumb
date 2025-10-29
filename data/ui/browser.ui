@@ -655,6 +655,12 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Paste</attribute>
+        <attribute name="action">folder.paste</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Rename</attribute>
         <attribute name="action">catalog.rename</attribute>
       </item>

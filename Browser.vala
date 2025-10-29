@@ -306,6 +306,12 @@ public class Gth.Browser : Gtk.Box {
 		Util.enable_action (window.action_group, "load-parent", parent != null);
 	}
 
+	public void update_clipboard_actions () {
+		var file_data = folder_tree.current_folder;
+		var can_write = (file_data != null) && file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
+		Util.enable_action (window.action_group, "paste-files", can_write && window.can_paste_from_clipboad);
+	}
+
 	void update_location_commands () {
 		var file_data = folder_tree.current_folder;
 		var is_catalog = false;
@@ -329,7 +335,6 @@ public class Gth.Browser : Gtk.Box {
 		reorder_button.visible = is_reorderable;
 
 		Util.enable_action (window.action_group, "cut-files", can_write);
-		Util.enable_action (window.action_group, "paste-files", can_write && window.can_paste_from_clipboad);
 		Util.enable_action (window.action_group, "move-files-to", can_write);
 		Util.enable_action (window.action_group, "rename-files", can_write);
 		Util.enable_action (window.action_group, "duplicate-files", can_write);
@@ -339,6 +344,7 @@ public class Gth.Browser : Gtk.Box {
 		Util.enable_action (window.action_group, "remove-from-current-selection", is_selection);
 		Util.enable_action (window.action_group, "open-terminal-here", is_vfs_folder);
 		Util.enable_action (window.action_group, "open-file-manager-here", is_vfs_folder);
+		update_clipboard_actions ();
 	}
 
 	string list_attributes = null;
@@ -1609,19 +1615,20 @@ public class Gth.Browser : Gtk.Box {
 			|| (file_data.get_content_type () == "gthumb/search")
 			|| (file_data.get_content_type () == "gthumb/library"))
 		{
-			Util.enable_action (catalog_actions, "rename", can_rename);
 			Util.enable_action (catalog_actions, "move-to", can_delete);
+			Util.enable_action (catalog_actions, "rename", can_rename);
 			Util.enable_action (catalog_actions, "delete", can_delete);
 		}
 		else {
 			Util.enable_action (folder_actions, "new", can_write);
 			Util.enable_action (folder_actions, "cut", can_delete);
-			Util.enable_action (folder_actions, "paste", can_write && window.can_paste_from_clipboad);
 			Util.enable_action (folder_actions, "move-to", can_delete);
 			Util.enable_action (folder_actions, "rename", can_rename);
 			Util.enable_action (folder_actions, "trash", can_trash);
 			Util.enable_action (folder_actions, "delete", can_delete);
 		}
+		var can_paste = (file_data.get_content_type () != "gthumb/library");
+		Util.enable_action (folder_actions, "paste", can_paste && can_write && window.can_paste_from_clipboad);
 	}
 
 	public void release_resources () {

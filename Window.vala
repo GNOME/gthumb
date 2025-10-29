@@ -241,10 +241,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		can_open_clipboard = formats.match (Gdk.ContentFormats.parse ("image/png"));
 		can_paste_from_clipboad = formats.match (new Gdk.ContentFormats ({ "gthumb/cut-files", "text/uri-list" }));
 		Util.enable_action (action_group, "open-clipboard", can_open_clipboard);
-		if (!can_paste_from_clipboad) {
-			Util.enable_action (action_group, "paste-files", can_paste_from_clipboad);
-			Util.enable_action (browser.folder_actions, "paste", can_paste_from_clipboad);
-		}
+		browser.update_clipboard_actions ();
 	}
 
 	public void save_preferences () {
