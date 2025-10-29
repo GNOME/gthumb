@@ -862,6 +862,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 			open_with_command ({ "inkscape", "org.inkscape.Inkscape" }, "Inkscape", files);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("copy-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			copy_files_to_clipboard (files);
+		});
+		action_group.add_action (action);
 	}
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files) {
