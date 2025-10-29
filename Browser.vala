@@ -708,6 +708,7 @@ public class Gth.Browser : Gtk.Box {
 		weak Gth.FileData selected_file = null;
 		uint total_files = 0;
 		uint64 total_size = 0;
+		var selected_image = false;
 		var selected = file_grid.model.get_selection ();
 		for (int64 idx = 0; idx < selected.get_size (); idx++) {
 			var pos = selected.get_nth ((uint) idx);
@@ -716,6 +717,9 @@ public class Gth.Browser : Gtk.Box {
 				total_files++;
 				total_size += file.info.get_size ();
 				selected_file = file;
+				if (total_files == 1) {
+					selected_image = Util.content_type_is_image (file.get_content_type ());
+				}
 			}
 		}
 		if (total_files == 1) {
@@ -746,6 +750,7 @@ public class Gth.Browser : Gtk.Box {
 
 		var can_open_container = (total_files == 1) && !(folder_tree.current_source is FileSourceVfs);
 		Util.enable_action (window.action_group, "open-container", can_open_container);
+		Util.enable_action (window.action_group, "set-desktop-background", (total_files == 1) && selected_image);
 	}
 
 	void init_actions () {

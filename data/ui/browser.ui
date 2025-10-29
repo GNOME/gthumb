@@ -439,8 +439,6 @@
         <attribute name="action">win.open-container</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Set as Desktop Background</attribute>
         <attribute name="action">win.set-desktop-background</attribute>

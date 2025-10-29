@@ -36,6 +36,7 @@ public class Gth.Viewer : Gtk.Box {
 			focus_viewer ();
 		}
 		update_title ();
+		update_sensitivity ();
 		return loaded;
 	}
 
@@ -373,6 +374,11 @@ public class Gth.Viewer : Gtk.Box {
 		else {
 			hide_overlay_after_timeout ();
 		}
+	}
+
+	public void update_sensitivity () {
+		var is_image = (current_file != null) && Util.content_type_is_image (current_file.get_content_type ());
+		Util.enable_action (window.action_group, "set-desktop-background", is_image);
 	}
 
 	public void update_title () {

@@ -365,6 +365,27 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	public void set_desktop_background () {
+		var file_data = get_current_file_data ();
+		if (file_data == null) {
+			show_error (new IOError.FAILED (_("No file selected")));
+			return;
+		}
+		desktop_background = new DesktopBackground (this);
+		var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
+		desktop_background.set_file.begin (file_data, local_job.cancellable, (_obj, res) => {
+			try {
+				desktop_background.set_file.end (res);
+			}
+			catch (Error error) {
+				show_error (error);
+			}
+			finally {
+				local_job.done ();
+			}
+		});
+	}
+
 	public void metadata_changed (FileData file_data) {
 		viewer.metadata_changed (file_data);
 		browser.metadata_changed (file_data);
@@ -596,26 +617,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("set-desktop-background", null);
-		action.activate.connect (() => {
-			var file_data = get_current_file_data ();
-			if (file_data == null) {
-				show_error (new IOError.FAILED (_("No file selected")));
-				return;
-			}
-			desktop_background = new DesktopBackground (this);
-			var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
-			desktop_background.set_file.begin (file_data, local_job.cancellable, (_obj, res) => {
-				try {
-					desktop_background.set_file.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
+		action.activate.connect (() => set_desktop_background ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("undo-desktop-background", null);
