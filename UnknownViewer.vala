@@ -7,7 +7,6 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 		unowned var main_view = builder.get_object ("main_view") as Gtk.Widget;
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (main_view);
-		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);

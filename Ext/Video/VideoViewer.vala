@@ -50,7 +50,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		zoom_to_fit = settings.get_boolean (PREF_VIDEO_ZOOM_TO_FIT);
 		scroll_action = (ScrollAction) settings.get_enum (PREF_VIDEO_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (view_stack);
-		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("video-view");
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 

@@ -222,10 +222,6 @@ public class Gth.Viewer : Gtk.Box {
 		main_view.show_sidebar = show;
 	}
 
-	public void set_context_menu (Menu? menu) {
-		context_menu.menu_model = menu;
-	}
-
 	public void set_viewer_widget (Gtk.Widget? widget) {
 		if (viewer_container.child == widget) {
 			return;

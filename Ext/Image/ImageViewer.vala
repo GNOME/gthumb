@@ -14,7 +14,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		apply_icc_profile = settings.get_boolean (PREF_IMAGE_APPLY_ICC_PROFILE);
 		window.viewer.set_viewer_widget (builder.get_object ("main_view") as Gtk.Widget);
-		window.viewer.set_context_menu (builder.get_object ("context_menu") as Menu);
 		window.viewer.viewer_container.add_css_class ("image-view");
 		window.viewer.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 		window.viewer.set_mediabar (builder.get_object ("mediabar") as Gtk.Widget, Gtk.Align.CENTER);

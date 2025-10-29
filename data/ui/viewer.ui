@@ -197,6 +197,45 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Save</attribute>
+        <attribute name="action">image.save</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Save As…</attribute>
+        <attribute name="action">image.save-as</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Print</attribute>
+        <attribute name="action">image.print</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Set as Desktop Background</attribute>
+        <attribute name="action">win.set-desktop-background</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <!-- Translators: it's a verb, as in "Copy Files" -->
+        <attribute name="label" translatable="yes">Copy</attribute>
+        <attribute name="action">win.copy-files</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy Image</attribute>
+        <attribute name="action">image.copy-image</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy Frame</attribute>
+        <attribute name="action">video.copy-frame</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Copy To…</attribute>
         <attribute name="action">win.copy-files-to</attribute>
       </item>
@@ -209,15 +248,59 @@
         <attribute name="label" translatable="yes">Rename</attribute>
         <attribute name="action">win.rename-files</attribute>
       </item>
+      <submenu>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Move to Trash</attribute>
+            <attribute name="action">win.trash-files</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Delete</attribute>
+            <attribute name="action">win.delete-files-from-disk</attribute>
+          </item>
+        </section>
+      </submenu>
+    </section>
+    <section>
+      <section>
+        <attribute name="label" translatable="yes">Add to Selection</attribute>
+        <attribute name="display-hint">inline-buttons</attribute>
+        <item>
+          <attribute name="label" translatable="yes">Selection 1</attribute>
+          <attribute name="verb-icon">gth-flag-1-symbolic</attribute>
+          <attribute name="action">win.add-to-selection</attribute>
+          <attribute name="target">1</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Selection 2</attribute>
+          <attribute name="verb-icon">gth-flag-2-symbolic</attribute>
+          <attribute name="action">win.add-to-selection</attribute>
+          <attribute name="target">2</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Selection 3</attribute>
+          <attribute name="verb-icon">gth-flag-3-symbolic</attribute>
+          <attribute name="action">win.add-to-selection</attribute>
+          <attribute name="target">3</attribute>
+        </item>
+      </section>
+      <item>
+        <attribute name="label" translatable="yes">Add to Catalog…</attribute>
+        <attribute name="action">win.add-to-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Move to Trash</attribute>
-        <attribute name="action">win.trash-files</attribute>
+        <attribute name="label" translatable="yes">Remove from Selection</attribute>
+        <attribute name="action">win.remove-from-current-selection</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">win.delete-files-from-disk</attribute>
+        <attribute name="label" translatable="yes">Remove from Catalog</attribute>
+        <attribute name="action">win.remove-from-catalog</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
   </menu>
