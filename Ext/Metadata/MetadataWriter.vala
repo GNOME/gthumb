@@ -37,7 +37,10 @@ public class Gth.MetadataWriter {
 			}
 			if (!saved) {
 				var comment = new Comment.from_info (file_data.info);
-				Files.save_content (file_data.file, comment.to_xml (), cancellable);
+				var comment_file = Comment.get_comment_file (file_data.file);
+				var comment_dir = comment_file.get_parent ();
+				Files.ensure_directory_exists (comment_dir);
+				Files.save_content (comment_file, comment.to_xml (), cancellable);
 			}
 			app.monitor.metadata_changed (file_data);
 		}

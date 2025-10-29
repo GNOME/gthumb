@@ -79,18 +79,15 @@ public class Gth.Files {
 		return true;
 	}
 
-	public static bool ensure_directory_exists (File dir) {
+	public static void ensure_directory_exists (File dir) throws Error {
 		try {
 			dir.make_directory_with_parents ();
 		}
-		catch (IOError e) {
-			if (e.code != IOError.EXISTS)
-				return false;
+		catch (IOError error) {
+			if (error.code != IOError.EXISTS) {
+				throw error;
+			}
 		}
-		catch (Error e) {
-			return false;
-		}
-		return true;
 	}
 
 	public static File get_temp_file (string suffix = "") {
