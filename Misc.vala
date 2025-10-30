@@ -262,6 +262,11 @@ namespace Gth.Util {
 		}
 	}
 
+	public static bool get_active (SimpleActionGroup action_group, string name) {
+		var state = action_group.get_action_state (name);
+		return (state != null) && state.get_boolean ();
+	}
+
 	public static void remove_all_children (Gtk.Box box) {
 		unowned Gtk.Widget child;
 		while ((child = box.get_first_child ()) != null) {

@@ -32,7 +32,10 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.FileFilter file_filter;
 	public SimpleActionGroup folder_actions;
 	public SimpleActionGroup catalog_actions;
-	public bool reordering = false;
+	public bool dragging = false;
+	public bool reordering {
+		get { return Util.get_active (window.action_group, "reorder-files"); }
+	}
 
 	construct {
 		history = new History (this);
@@ -1112,7 +1115,7 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect (() => remove_from_catalog ());
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("reorder-files", null, new Variant.boolean (reordering));
+		action = new SimpleAction.stateful ("reorder-files", null, new Variant.boolean (false));
 		action.activate.connect ((_action, _params) => {
 			activate_reordering (Util.toggle_state (_action));
 		});
@@ -1424,11 +1427,26 @@ public class Gth.Browser : Gtk.Box {
 		});
 		empty_folder.add_controller (click_events);
 
-		drop_target = new Gtk.DropTarget (typeof (FileListItem), Gdk.DragAction.MOVE);
-		drop_target.drop.connect ((value, x, y) => {
-			if (!reordering) {
-				return false;
-			}
+		void add_copy_on_drop (Gtk.Widget folder) {
+			var copy_on_drop = new Gtk.DropTarget (typeof (Gdk.FileList), Gdk.DragAction.MOVE | Gdk.DragAction.COPY);
+			copy_on_drop.drop.connect ((value, x, y) => {
+				var file_list = value as Gdk.FileList;
+				drop_files.begin (file_list);
+				return true;
+			});
+			copy_on_drop.enter.connect ((x, y) => {
+				return folder_tree.current_source.is_reorderable () ? Gdk.DragAction.COPY : Gdk.DragAction.MOVE;
+			});
+			copy_on_drop.motion.connect ((x, y) => {
+				return folder_tree.current_source.is_reorderable () ? Gdk.DragAction.COPY : Gdk.DragAction.MOVE;
+			});
+			folder.add_controller (copy_on_drop);
+		}
+		add_copy_on_drop (empty_folder);
+		add_copy_on_drop (non_empty_folder);
+
+		var reorder_on_drop = new Gtk.DropTarget (typeof (FileListItem), Gdk.DragAction.MOVE);
+		reorder_on_drop.drop.connect ((value, x, y) => {
 			var item = value;
 			var source = value.get_object () as FileListItem;
 			if (source.browser != this) {
@@ -1439,10 +1457,10 @@ public class Gth.Browser : Gtk.Box {
 			if (destination == null) {
 				return false;
 			}
-			reorder_selected_file ((side == DropSide.LEFT) ? destination.position : destination.position + 1);
+			reorder_selected_files (source.file_data, (side == DropSide.LEFT) ? destination.position : destination.position + 1);
 			return true;
 		});
-		drop_target.motion.connect ((x, y) => {
+		reorder_on_drop.motion.connect ((x, y) => {
 			DropSide side;
 			var item = get_item_at (x, y, out side);
 			if (item != null) {
@@ -1455,7 +1473,7 @@ public class Gth.Browser : Gtk.Box {
 			}
 			return Gdk.DragAction.MOVE;
 		});
-		drop_target.leave.connect (() => {
+		reorder_on_drop.leave.connect (() => {
 			if (last_drop_target != null) {
 				if (last_drop_target.parent != null) {
 					last_drop_target.parent.remove_css_class ("drop-target-left");
@@ -1464,6 +1482,7 @@ public class Gth.Browser : Gtk.Box {
 				last_drop_target = null;
 			}
 		});
+		non_empty_folder.add_controller (reorder_on_drop);
 	}
 
 	Gtk.Widget last_drop_target = null;
@@ -1974,6 +1993,30 @@ public class Gth.Browser : Gtk.Box {
 		update_selection_info ();
 	}
 
+	async void drop_files (Gdk.FileList file_list) {
+		var copy = folder_tree.current_source.is_reorderable ();
+		var job = window.new_job (copy ? _("Adding Files") : _("Moving Files"), JobFlags.FOREGROUND);
+		var files = file_list.get_files ();
+		var local_files = new GenericList<File> ();
+		foreach (unowned var file in files) {
+			local_files.model.append (file);
+		}
+		try {
+			if (copy) {
+				yield folder_tree.current_source.add_files (window, folder_tree.current_folder.file, local_files, job);
+			}
+			else {
+				yield window.file_manager.move_files (local_files, folder_tree.current_folder.file, job);
+			}
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			job.done ();
+		}
+	}
+
 	async void paste_files_from_clipboard (File destination, Job job) throws Error {
 		unowned var clipboard = get_clipboard ();
 		unowned string mime_type;
@@ -2208,6 +2251,9 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void focus_thumbnail_list () {
+		if (window.current_page != Window.Page.BROWSER) {
+			return;
+		}
 		if (total_files > 0) {
 			file_grid.grab_focus ();
 		}
@@ -2272,8 +2318,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	Gtk.ListItem? get_item_at (double x, double y, out DropSide side) {
-		Graphene.Point p = { (float) x, (float) y };
-		window.compute_point (file_grid, p, out p);
+		Graphene.Point point = { (float) x, (float) y };
 		var top = 0;
 		var bottom = file_grid.vadjustment.get_page_size ();
 		Gtk.ListItem closest_item = null;
@@ -2301,19 +2346,19 @@ public class Gth.Browser : Gtk.Box {
 				// stdout.printf ("> (%f,%f)[%f,%f] <=> POINT: [%f,%f]\n",
 				// 	bounds.origin.x, bounds.origin.y,
 				// 	bounds.size.width, bounds.size.height,
-				// 	p.x, p.y);
+				// 	point.x, point.y);
 
-				if ((p.y < bounds.origin.y) || (p.y > bounds.origin.y + bounds.size.height)) {
+				if ((point.y < bounds.origin.y) || (point.y > bounds.origin.y + bounds.size.height)) {
 					continue;
 				}
 
-				if ((p.x >= bounds.origin.x) && (p.x <= bounds.origin.x + bounds.size.width)) {
-					side = (p.x < bounds.origin.x + (bounds.size.width / 2)) ? DropSide.LEFT : DropSide.RIGHT;
+				if ((point.x >= bounds.origin.x) && (point.x <= bounds.origin.x + bounds.size.width)) {
+					side = (point.x < bounds.origin.x + (bounds.size.width / 2)) ? DropSide.LEFT : DropSide.RIGHT;
 					return item;
 				}
 
-				if (p.x < bounds.origin.x) {
-					var distance = bounds.origin.x - p.x;
+				if (point.x < bounds.origin.x) {
+					var distance = bounds.origin.x - point.x;
 					if ((closest_item == null) || (distance < min_distance)) {
 						closest_item = item;
 						min_distance = distance;
@@ -2321,7 +2366,7 @@ public class Gth.Browser : Gtk.Box {
 					}
 				}
 				else {
-					var distance = p.x - (bounds.origin.x + bounds.size.width);
+					var distance = point.x - (bounds.origin.x + bounds.size.width);
 					if ((closest_item == null) || (distance < min_distance)) {
 						closest_item = item;
 						min_distance = distance;
@@ -2333,26 +2378,26 @@ public class Gth.Browser : Gtk.Box {
 		return closest_item;
 	}
 
-	void activate_reordering (bool value) {
-		reordering = value;
-		if (reordering) {
-			add_controller (drop_target);
-			file_grid.enable_rubberband = false;
-		}
-		else {
-			remove_controller (drop_target);
-			file_grid.enable_rubberband = true;
-		}
-		Util.set_active (window.action_group, "reorder-files", reordering);
+	void activate_reordering (bool active) {
+		file_grid.enable_rubberband = !active;
+		Util.set_active (window.action_group, "reorder-files", active);
 	}
 
-	void reorder_selected_file (uint destination) {
+	void reorder_selected_files (FileData dragged_file, uint destination) {
+		// Get the selected files or use the dragged file.
 		var selection = file_grid.model.get_selection ();
 		var n_selected = (uint) selection.get_size ();
+		var selected = new GenericList<FileData> ();
 		if (n_selected == 0) {
-			return;
+			selected.model.append (dragged_file);
 		}
-		//stdout.printf ("> MOVE SELECTION TO %u\n", destination);
+		else {
+			for (var i = 0; i < n_selected; i++) {
+				var old_pos = selection.get_nth (i);
+				var selected_file = file_grid.model.get_item (old_pos) as FileData;
+				selected.model.append (selected_file);
+			}
+		}
 
 		// Create the new file list.
 
@@ -2360,7 +2405,6 @@ public class Gth.Browser : Gtk.Box {
 		var visible = new GenericSet<File> (Util.file_hash, Util.file_equal);
 
 		// Add the visible files to the list.
-
 		var iter = visible_files.iterator ();
 		while (iter.next ()) {
 			var file_data = iter.get ();
@@ -2368,13 +2412,8 @@ public class Gth.Browser : Gtk.Box {
 			visible.add (file_data.file);
 		}
 
-		var selected = new GenericList<FileData> ();
-		for (var i = 0; i < n_selected; i++) {
-			var old_pos = selection.get_nth (i);
-			var selected_file = file_grid.model.get_item (old_pos) as FileData;
-			selected.model.append (selected_file);
-
-			// Remove the selected file from the new list.
+		// Remove the selected files from the new list.
+		foreach (var selected_file in selected) {
 			iter = new_list.iterator ();
 			while (iter.next ()) {
 				if (iter.get () == selected_file) {
@@ -2545,7 +2584,6 @@ public class Gth.Browser : Gtk.Box {
 	ActionCategory parents_category;
 	uint total_files = 0;
 	uint64 total_size = 0;
-	Gtk.DropTarget drop_target;
 }
 
 public class Gth.FileSorter : Gtk.Sorter {

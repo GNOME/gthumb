@@ -925,7 +925,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 			return false;
 		}
 		//stdout.printf ("> ON KEY PRESSED keyval: %u, keycode: %u, state: %b\n", keyval, keycode, state);
-		//stdout.printf ("> ON KEY PRESSED current_modifiers: %b\n", current_modifiers);
 		var context = ShortcutContext.NONE;
 		if (current_page == Page.BROWSER) {
 			context |= ShortcutContext.BROWSER;
