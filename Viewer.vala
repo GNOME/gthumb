@@ -509,6 +509,9 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void focus_viewer () {
+		if (window.current_page != Window.Page.VIEWER) {
+			return;
+		}
 		if (current_viewer != null) {
 			current_viewer.focus ();
 		}
