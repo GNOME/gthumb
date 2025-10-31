@@ -250,11 +250,17 @@ public class Gth.Catalog : Object {
 			root.append_child (new Dom.Element.with_text ("date", date.to_exif_date ()));
 		}
 
+		// Order
+		root.append_child (new Dom.Element.with_attributes ("order",
+			"type", sort_type,
+			"inverse", inverse_order ? "1" : "0"));
+
 		// Files
 		var files_node = new Dom.Element ("files");
 		root.append_child (files_node);
 		foreach (unowned var file in files) {
-			files_node.append_child (new Dom.Element.with_attributes ("file", "uri", file.get_uri ()));
+			files_node.append_child (new Dom.Element.with_attributes ("file",
+				"uri", file.get_uri ()));
 		}
 	}
 
