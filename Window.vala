@@ -1001,7 +1001,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void update_selection_status (uint number) {
 		var selection = app.selections.get_selection (number);
 		var size = selection.files.length;
-		browser.status.set_selection_size (number, size);
+		browser.selections_status.set_selection_size (number, size);
 	}
 
 	construct {
@@ -1064,6 +1064,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (on_key_pressed);
 		stack.add_controller (key_events);
+
+		update_selection_status (1);
+		update_selection_status (2);
+		update_selection_status (3);
 	}
 
 	~Window () {

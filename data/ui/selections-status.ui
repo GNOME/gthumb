@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthSelectionsStatus">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkButton" id="selection1">
+        <property name="icon-name">gth-flag-1-symbolic</property>
+        <property name="action-name">win.open-selection</property>
+        <property name="action-target">1</property>
+        <property name="visible">false</property>
+        <property name="tooltip-text" translatable="yes">Selection 1</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="selection2">
+        <property name="icon-name">gth-flag-2-symbolic</property>
+        <property name="action-name">win.open-selection</property>
+        <property name="action-target">2</property>
+        <property name="visible">false</property>
+        <property name="tooltip-text" translatable="yes">Selection 2</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="selection3">
+        <property name="icon-name">gth-flag-3-symbolic</property>
+        <property name="action-name">win.open-selection</property>
+        <property name="action-target">3</property>
+        <property name="visible">false</property>
+        <property name="tooltip-text" translatable="yes">Selection 3</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

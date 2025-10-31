@@ -226,6 +226,11 @@
                         </style>
                       </object>
                     </child>
+                    <child>
+                      <object class="GthSelectionsStatus" id="selections_status">
+                        <property name="margin-start">12</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child type="end">
@@ -386,22 +391,30 @@
                         </style>
                         <child>
                           <object class="GthFilterBar" id="filter_bar">
+                            <property name="hexpand">true</property>
                           </object>
                         </child>
                         <child>
-                          <object class="GthStatus" id="status">
-                            <property name="margin_start">24</property>
-                            <property name="margin_end">12</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkToggleButton" id="view_properties">
-                            <property name="icon-name">gth-left-symbolic</property>
-                            <property name="action-name">win.browser-properties-collapsed</property>
-                            <property name="tooltip-text" translatable="true">View Properties</property>
-                            <style>
-                              <class name="flat"/>
-                            </style>
+                          <object class="GtkBox">
+                            <property name="orientation">horizontal</property>
+                            <property name="hexpand">true</property>
+                            <property name="halign">end</property>
+                            <property name="spacing">12</property>
+                            <property name="margin-start">12</property>
+                            <child>
+                              <object class="GthStatus" id="status">
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkToggleButton" id="view_properties">
+                                <property name="icon-name">gth-left-symbolic</property>
+                                <property name="action-name">win.browser-properties-collapsed</property>
+                                <property name="tooltip-text" translatable="true">View Properties</property>
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>

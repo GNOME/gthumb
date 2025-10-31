@@ -27,6 +27,7 @@ public class Gth.Browser : Gtk.Box {
 	public int thumbnail_size;
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
 	[GtkChild] public unowned Gth.Status status;
+	[GtkChild] public unowned Gth.SelectionsStatus selections_status;
 	public bool never_loaded;
 	public Gth.FileSorter file_sorter;
 	public Gth.FileFilter file_filter;
@@ -331,8 +332,9 @@ public class Gth.Browser : Gtk.Box {
 
 		edit_catalog_button.visible = is_catalog || is_search;
 		update_search_button.visible = is_search;
-		update_folder_button.visible = is_vfs_folder;
+		update_folder_button.visible = !is_search;
 		Util.enable_action (window.action_group, "remove-from-catalog", is_catalog || is_search);
+		Util.enable_action (window.action_group, "reload", is_vfs_folder);
 
 		var is_reorderable = folder_tree.current_source.is_reorderable ();
 		reorder_button.visible = is_reorderable;
