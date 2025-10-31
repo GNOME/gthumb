@@ -145,5 +145,39 @@ public class Gth.Selection {
 		}
 	}
 
+	public Dom.Element create_element (Dom.Document doc) {
+		var node = new Dom.Element.with_attributes ("selection", "number", "%u".printf (number));
+		node.append_child (new Dom.Element.with_attributes ("order", "type", sort_type, "inverse", inverse_order ? "1" : "0"));
+		var files_node = new Dom.Element ("files");
+		foreach (unowned var file in files) {
+			files_node.append_child (new Dom.Element.with_attributes ("file", "uri", file.get_uri ()));
+		}
+		node.append_child (files_node);
+		return node;
+	}
+
+	public void load_from_element (Dom.Element node) {
+		foreach (unowned var child in node) {
+			switch (child.tag_name) {
+			case "files":
+				foreach (unowned var file_node in child) {
+					unowned var uri = file_node.get_attribute ("uri");
+					if (uri != null) {
+						add_file (File.new_for_uri (uri));
+					}
+				}
+				break;
+
+			case "order":
+				sort_type = app.migration.sorter.get_new_key (child.get_attribute ("type"));
+				inverse_order = child.get_attribute ("inverse") == "1";
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	const string ROOT = "selection:///";
 }

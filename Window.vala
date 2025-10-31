@@ -252,10 +252,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	void before_closing () {
-		var save_preferences = !app.quitting && app.one_window () && get_realized ();
+		var save_preferences = app.one_window () && get_realized ();
 		if (save_preferences) {
 			browser.save_preferences (current_page == Page.BROWSER);
 			viewer.save_preferences (current_page == Page.VIEWER);
+			app.selections.save_to_file ();
 		}
 		viewer.release_resources ();
 		browser.release_resources ();

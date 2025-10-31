@@ -5,6 +5,7 @@ const string FILTERS_FILE = "filters.xml";
 const string SCRIPTS_FILE = "scripts.xml";
 const string TOOLS_FILE = "tools.xml";
 const string SHORTCUTS_FILE = "shortcuts.xml";
+const string SELECTIONS_FILE = "selections.xml";
 
 const int HORIZONTAL_SPACING = 12; // pixels
 const int VERTICAL_SPACING = 12; // pixels

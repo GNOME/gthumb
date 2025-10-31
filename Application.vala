@@ -665,6 +665,7 @@ public class Gth.Application : Adw.Application {
 		filters.load_from_file ();
 		scripts.load_from_file ();
 		tools.load_from_file ();
+		selections.load_from_file ();
 		shortcuts.load_from_file ();
 		monitor.scripts_changed ();
 	}

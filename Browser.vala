@@ -887,7 +887,7 @@ public class Gth.Browser : Gtk.Box {
 				return;
 			}
 			if (last_selection == null) {
-				last_selection = File.new_for_uri ("selection:///");
+				last_selection = File.new_for_uri ("selection:///1");
 			}
 			open_location (last_selection);
 		});

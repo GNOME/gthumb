@@ -73,6 +73,15 @@ public class Dom.Element : InitiallyUnowned {
 		return int.try_parse (value, out result, null, 10);
 	}
 
+	public bool get_attribute_as_uint (string name, out uint result) {
+		var value = get_attribute (name);
+		if (value == null) {
+			result = 0;
+			return false;
+		}
+		return uint.try_parse (value, out result, null, 10);
+	}
+
 	public bool get_attribute_as_int64 (string name, out int64 result) {
 		var value = get_attribute (name);
 		if (value == null) {
