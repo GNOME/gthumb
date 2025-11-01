@@ -98,7 +98,7 @@ public class Gth.Viewer : Gtk.Box {
 			if (image_viewer == null) {
 				throw new IOError.FAILED (_("Cannot view this kind of files"));
 			}
-			yield image_viewer.view_image (image, file_data, local_job.cancellable);
+			yield image_viewer.view_unsaved_image (image, file_data, local_job.cancellable);
 			yield window.set_page (Window.Page.VIEWER);
 			current_file = file_data;
 			property_sidebar.current_file = file_data;

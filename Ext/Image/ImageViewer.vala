@@ -91,7 +91,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		init_actions ();
 	}
 
-	public async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
+	async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
 		try {
 			// TODO: make sure to apply only once?
 			var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
@@ -115,6 +115,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			var image = yield app.image_loader.load_file (file_data.file, LoadFlags.DEFAULT, job.cancellable);
 			file_data.update_info (image.info, false);
 			yield view_image (image, file_data, job.cancellable);
+			history.clear ();
+			history.add (image, false);
 			success = true;
 		}
 		catch (Error error) {
@@ -129,7 +131,15 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return success;
 	}
 
+	public async void view_unsaved_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
+		yield view_image (image, file_data, cancellable);
+		history.clear ();
+		history.add (image, true);
+		update_toolbar_actions ();
+	}
+
 	public void deactivate () {
+		history.clear ();
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("image", null);
 	}
@@ -263,6 +273,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 		finally {
 			local_job.done ();
+			history.current_was_saved ();
 		}
 		return file_data;
 	}
@@ -594,6 +605,32 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			window.viewer.reload ();
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("undo", null);
+		action.activate.connect ((action, param) => {
+			bool is_modified;
+			var image = history.undo (out is_modified);
+			if (image != null) {
+				image_view.image = image;
+				window.viewer.current_file.set_is_modified (is_modified);
+				window.viewer.update_title ();
+				update_sensitivity ();
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("redo", null);
+		action.activate.connect ((action, param) => {
+			bool is_modified;
+			var image = history.redo (out is_modified);
+			if (image != null) {
+				image_view.image = image;
+				window.viewer.current_file.set_is_modified (is_modified);
+				window.viewer.update_title ();
+				update_sensitivity ();
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	async void edit_image (string title, ImageOperation operation) {
@@ -603,6 +640,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			image_view.image = yield app.image_editor.exec_operation (
 				operation,
 				local_job.cancellable);
+			history.add (image_view.image, true);
 			window.viewer.current_file.set_is_modified (true);
 			window.viewer.update_title ();
 			update_sensitivity ();
@@ -746,6 +784,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		builder = null;
 		dragging = false;
 		clicking = false;
+		history = new ImageHistory ();
+		history.changed.connect (() => {
+			Util.enable_action (action_group, "undo", history.can_undo);
+			Util.enable_action (action_group, "redo", history.can_redo);
+		});
 	}
 
 	weak Gth.Window window;
@@ -764,6 +807,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	double last_x = -1;
 	double last_y = -1;
 	bool apply_icc_profile;
+	ImageHistory history;
 
 	const float ZOOM_MIN = 0.05f;
 	const float ZOOM_MAX = 10f;
