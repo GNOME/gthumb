@@ -297,20 +297,29 @@ class Gth.CopyOperation {
 		}
 	}
 
-	async void copy_files_generic (GenericList<File> files, File destination_dir, CopyFlags copy_flags, Job job) throws Error {
+	async void copy_files_generic (GenericList<File> _files, File destination_dir, CopyFlags copy_flags, Job job) throws Error {
+		var explicitly_requested = new GenericSet<File> (Util.file_hash, Util.file_equal);
+		var files = new GenericList<File> ();
+		foreach (var file in _files) {
+			var original_dir = file.get_parent ();
+			// Ignore if source and destination are the same.
+			if ((original_dir == null) || !original_dir.equal (destination_dir)) {
+				files.model.append (file);
+				explicitly_requested.add (file);
+			}
+		}
+		if (files.length () == 0) {
+			return;
+		}
 		var attributes = REQUIRED_ATTRIBUTES + "," + FileAttribute.STANDARD_SIZE;
 		var moving = CopyFlags.MOVE in copy_flags;
-		var explicitly_requested = new GenericSet<File> (Util.file_hash, Util.file_equal);
-		foreach (var file in files) {
-			explicitly_requested.add (file);
-		}
 		var file_data_list = yield FileManager.query_list_info (files, attributes, job.cancellable);
 		total_bytes = 0;
 		foreach (var file_data in file_data_list) {
 			total_bytes += (uint64) file_data.info.get_size ();
 		}
 		copied_bytes = 0;
-		total_files = files.model.get_n_items ();
+		total_files = file_data_list.model.get_n_items ();
 		current_file = 0;
 		var moved_directories = new GenericList<File>();
 		File source_base_dir = null;
