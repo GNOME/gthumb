@@ -48,7 +48,11 @@ public class Gth.ScriptsDialog : Adw.PreferencesDialog {
 			move_script_to_position (source_row, last_pos);
 		});
 		row.delete_row.connect ((source_row) => {
+			if (app.shortcuts.remove_detailed_action (script.detailed_action)) {
+				app.shortcuts.changed ();
+			}
 			app.scripts.entries.remove (script);
+			app.scripts.changed (script.id);
 		});
 		row.visibility_switch.notify["active"].connect ((_obj, _prop) => {
 			var local_switch = _obj as Gtk.Switch;
@@ -77,7 +81,10 @@ public class Gth.ScriptsDialog : Adw.PreferencesDialog {
 		try {
 			var script = script_page.get_script ();
 			if (current_script == null) {
-				app.scripts.entries.model.append (script.duplicate ());
+				var shortcut = script_page.shortcut_row.get_shortcut ();
+				shortcut.description = script.display_name;
+				app.shortcuts.add (shortcut);
+				app.scripts.entries.model.append (script);
 				app.scripts.changed ();
 			}
 			else {

@@ -34,7 +34,14 @@ public class Gth.ShortcutRow : Adw.ActionRow {
 		}
 	}
 
+	public Shortcut get_shortcut () {
+		return shortcut;
+	}
+
 	public void save_if_modified () {
+		if (shortcut == null) {
+			return;
+		}
 		if (row_shortcut.accelerator != shortcut.accelerator) {
 			save ();
 		}

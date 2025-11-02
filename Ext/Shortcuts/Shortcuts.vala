@@ -100,6 +100,18 @@ public class Gth.Shortcuts {
 		}
 	}
 
+	public bool remove_detailed_action (string detailed_action) {
+		var iter = entries.iterator ();
+		while (iter.next ()) {
+			var shortcut = iter.get ();
+			if (shortcut.detailed_action == detailed_action) {
+				iter.remove ();
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void add (Shortcut shortcut) {
 		entries.model.append (shortcut);
 		by_action.set (shortcut.detailed_action, shortcut);

@@ -5,12 +5,17 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	public signal void save ();
 
 	public void set_script (Gth.Script? current_script) {
+		Shortcut shortcut = null;
 		if (current_script != null) {
 			script = current_script.duplicate ();
+			shortcut = app.shortcuts.find_by_action (script.detailed_action);
 		}
 		else {
 			script = new Gth.Script ();
 			script.visible = true;
+		}
+		if (shortcut == null) {
+			shortcut = script.create_shortcut ();
 		}
 		script.bind_property ("display_name", name_entry, "text", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		//script.bind_property ("command", command, "subtitle", BindingFlags.SYNC_CREATE);
@@ -18,7 +23,7 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 		script.bind_property ("for_each_file", for_each_file, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		script.bind_property ("wait_command", wait_command, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		command_preview.label = script.get_preview ();
-		shortcut_row.set_shortcut (app.shortcuts.find_by_action (script.detailed_action), _("Shortcut"));
+		shortcut_row.set_shortcut (shortcut, _("Shortcut"));
 	}
 
 	public Script? get_script () throws Error {
