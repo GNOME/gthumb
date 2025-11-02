@@ -5,10 +5,10 @@ extension_data.set('GTHUMB_API_VERSION', api_version)
 extension_common_deps = [ common_deps, gthumb_h_dep ]
 
 subdir('file_viewer')
+subdir('list_tools')
 subdir('catalogs')
 subdir('edit_metadata')
 subdir('exiv2_tools')
-subdir('image_rotation')
 
 # after exiv2
 subdir('comments')
@@ -17,10 +17,10 @@ subdir('comments')
 subdir('jpeg_utils')
 subdir('cairo_io')
 subdir('image_viewer')
+subdir('image_rotation')
 subdir('importer')
 
 # list tools
-subdir('list_tools')
 subdir('change_date')
 subdir('convert_format')
 subdir('rename_series')

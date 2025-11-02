@@ -26,7 +26,11 @@ shared_library('webalbums',
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
-  link_with : [ export_tools_mod, image_rotation_mod ],
+  link_with : [
+    export_tools_mod,
+    image_rotation_mod,
+    list_tools_mod
+  ],
   override_options : [ 'b_lundef=false' ],
   install : true,
   install_dir : extensions_install_dir,
