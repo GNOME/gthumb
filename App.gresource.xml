@@ -68,6 +68,7 @@
     <file preprocess="xml-stripblanks">gth-flag-1-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-flag-2-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-flag-3-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-file-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

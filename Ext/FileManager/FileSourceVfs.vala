@@ -89,12 +89,13 @@ public class Gth.FileSourceVfs : FileSource {
 					 FileAttribute.STANDARD_SYMBOLIC_ICON),
 					FileQueryInfoFlags.NONE,
 					null);
+					icon_name = (info.get_file_type () == FileType.DIRECTORY) ? "folder-symbolic" : "gth-file-symbolic";
 			}
 			catch (Error error) {
+				icon_name = "gth-file-symbolic";
 			}
-			icon_name = (info.get_file_type () == FileType.DIRECTORY) ? "folder-symbolic" : "file-symbolic";
 		}
-		else {
+		if (icon_name == null) {
 			icon_name = "folder-remote-symbolic";
 		}
 		if (info == null) {
