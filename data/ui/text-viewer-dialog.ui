@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthTextViewerDialog">
+    <property name="title" translatable="yes">Details</property>
+    <property name="content-width">700</property>
+    <property name="content-height">500</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow">
+            <property name="has-frame">true</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-bottom">10</property>
+            <child>
+              <object class="GtkTextView" id="text_view">
+                <property name="editable">false</property>
+                <property name="left-margin">12</property>
+                <property name="right-margin">12</property>
+                <property name="top-margin">12</property>
+                <property name="bottom-margin">12</property>
+                <property name="wrap-mode">word-char</property>
+                <property name="monospace">true</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

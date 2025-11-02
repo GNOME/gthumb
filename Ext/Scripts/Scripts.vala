@@ -55,6 +55,7 @@ public class Gth.Scripts {
 			Files.save_content (file, doc.to_xml ());
 		}
 		catch (Error error) {
+			//stdout.printf ("> ERROR: %s\n", error.message);
 		}
 	}
 

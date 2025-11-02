@@ -114,7 +114,15 @@ public class Gth.Script : Object {
 			}
 		}
 		catch (Error error) {
-			window.show_error (error);
+			if (!(error is IOError.CANCELLED)) {
+				var toast = Util.new_literal_toast (error.message);
+				toast.button_label = _("Details");
+				toast.action_name = "win.view-script-output";
+				toast.priority = Adw.ToastPriority.HIGH;
+				toast.timeout = 0;
+				window.script_output = process.read_output ();
+				window.add_toast (toast);
+			}
 		}
 		finally {
 			local_job.done ();
@@ -128,7 +136,7 @@ public class Gth.Script : Object {
 		return preview;
 	}
 
-	//string last_output = null;
+	ScriptProcess process = null;
 
 	async void exec_command (string command, Job job) throws Error {
 		//stdout.printf ("> exec_command: %s\n", command);
@@ -141,26 +149,11 @@ public class Gth.Script : Object {
 			Shell.parse_argv (command, out argv);
 		}
 
-		var process = new ScriptProcess ();
+		process = new ScriptProcess ();
 		process.wait_command = wait_command;
 		process.spawn (argv);
 		if (wait_command) {
-			try {
-				yield process.wait_process (job.cancellable);
-			}
-			catch (Error error) {
-				if (!job.is_cancelled ()) {
-					//var stream = process.get_stdout_pipe ();
-					//try {
-					//	var bytes = Files.read_all (stream, null, true);
-					//	last_output = (string) Bytes.unref_to_data (bytes);
-					//	//stdout.printf (">> OUTPUT: %s\n", last_output);
-					//}
-					//catch (Error _error) {
-					//}
-				}
-				throw error;
-			}
+			yield process.wait_process (job.cancellable);
 		}
 	}
 
@@ -419,16 +412,33 @@ class Gth.ScriptProcess {
 	}
 
 	public void spawn (string[] argv) throws Error {
+		output_memory = new MemoryOutputStream (null, GLib.realloc, GLib.free);
+		output_stream = new DataOutputStream (output_memory);
+
 		var flags = SpawnFlags.SEARCH_PATH;
 		if (wait_command) {
 			flags |= SpawnFlags.DO_NOT_REAP_CHILD;
 		}
-		Process.spawn_async (null, argv, null, flags, child_setup, out child_pid);
-	}
+		string[] env = Environ.get ();
+		int standard_input;
+		int standard_output;
+		int standard_error;
+		Process.spawn_async_with_pipes (null, argv, env, flags, child_setup,
+			out child_pid,
+			out standard_input,
+			out standard_output,
+			out standard_error);
 
-	SourceFunc wait_callback;
-	Error wait_error;
-	uint watch_id;
+		output = new IOChannel.unix_new (standard_output);
+		output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+			return process_line (channel, condition);
+		});
+
+		error = new IOChannel.unix_new (standard_error);
+		error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+			return process_line (channel, condition);
+		});
+	}
 
 	public async void wait_process (Cancellable cancellable) throws Error {
 		cancellable.cancelled.connect (() => {
@@ -453,6 +463,53 @@ class Gth.ScriptProcess {
 		}
 	}
 
+	public Bytes read_output () {
+		read_channel (output);
+		read_channel (error);
+		output_stream.close ();
+		output_memory.close ();
+		return output_memory.steal_as_bytes ();
+	}
+
+	bool process_line (IOChannel channel, IOCondition condition) {
+		if (condition == IOCondition.HUP) {
+			// print ("%s: The fd has been closed.\n", stream_name);
+			return false;
+		}
+
+		var _continue = false;
+		try {
+			string line;
+			size_t length = -1;
+			size_t terminator_pos = -1;
+			var status = channel.read_line (out line, out length, out terminator_pos);
+			if (length > 0) {
+				output_stream.write (line.data[0:length]);
+			}
+			if (status != IOStatus.EOF) {
+				_continue = true;
+			}
+		}
+		catch (Error error) {
+			//print ("> ERROR: %s\n", error.message);
+		}
+
+		return _continue;
+	}
+
+	void read_channel (IOChannel channel) {
+		if (channel != null) {
+			try {
+				string str;
+				size_t length;
+				channel.read_to_end (out str, out length);
+				output_stream.write (str.data[0:length]);
+			}
+			catch (Error error) {
+			}
+		}
+	}
+
 	void child_setup () {
 		// Detach from the TTY
 		Posix.setsid ();
@@ -465,4 +522,11 @@ class Gth.ScriptProcess {
 	}
 
 	Pid child_pid;
+	SourceFunc wait_callback;
+	Error wait_error;
+	uint watch_id;
+	IOChannel output;
+	IOChannel error;
+	MemoryOutputStream output_memory;
+	DataOutputStream output_stream;
 }

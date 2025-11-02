@@ -869,6 +869,26 @@ public class Gth.Window : Adw.ApplicationWindow {
 			copy_files_to_clipboard (files);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("view-script-output", null);
+		action.activate.connect (() => {
+			if (script_output != null) {
+				var job = new_job ("Script Output");
+				var viewer = new TextViewer ();
+				viewer.view_buffer.begin (this, script_output, job, (_obj, res) => {
+					try {
+						viewer.view_buffer.end (res);
+					}
+					catch (Error error) {
+						show_error (error);
+					}
+					finally {
+						job.done ();
+					}
+				});
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files) {
@@ -1078,5 +1098,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 	uint fake_job_id = 0;
 	DesktopBackground desktop_background = null;
 	ProgressDialog progress_dialog = null;
+	public Bytes script_output = null;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 }

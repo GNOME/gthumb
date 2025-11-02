@@ -5,4 +5,5 @@ dialogs_files = files(
   'ReadText.vala',
   'SortFilesDialog.vala',
   'SortFoldersDialog.vala',
+  'TextViewer.vala',
 )
