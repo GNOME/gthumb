@@ -21,9 +21,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				break;
 			}
 			queue_resize ();
-			if (!_paused && (_image != null) && _image.get_is_animated ()) {
-				start_animation ();
-			}
+			start_animation ();
 		}
 	}
 
@@ -180,6 +178,34 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		update_image_box ();
 		update_adjustments ();
 		resized ();
+	}
+
+	public bool get_pixel_at_position (double pointer_x, double pointer_y, out uint pixel_x, out uint pixel_y) {
+		var inside = true;
+		var px = (pointer_x - texture_box.origin.x + viewport.origin.x) / _zoom;
+		if (px < 0) {
+			px = 0;
+			inside = false;
+		}
+		pixel_x = (uint) px;
+		var max_x = image.get_width () - 1;
+		if (pixel_x > max_x) {
+			pixel_x = max_x;
+			inside = false;
+		}
+
+		var py = (pointer_y - texture_box.origin.y + viewport.origin.y) / _zoom;
+		if (py < 0) {
+			py = 0;
+			inside = false;
+		}
+		pixel_y = (uint) py;
+		var max_y = image.get_height () - 1;
+		if (pixel_y > max_y) {
+			pixel_y = max_y;
+			inside = false;
+		}
+		return inside;
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
@@ -524,6 +550,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		return false;
 	}
 
+	public override void map () {
+		base.map ();
+		start_animation ();
+	}
+
+	public override void unmap () {
+		base.unmap ();
+		stop_animation ();
+	}
+
 	void stop_animation () {
 		if (animation_id != 0) {
 			Source.remove (animation_id);
@@ -532,6 +568,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	void start_animation () {
+		if (!get_mapped () || _paused || (_image == null) || !_image.get_is_animated ()) {
+			return;
+		}
 		if (animation_id == 0) {
 			animation_id = Timeout.add (ANIMATION_DELAY, () => {
 				var _continue = _image.change_time (ChangeTime.ADD, ANIMATION_DELAY);
