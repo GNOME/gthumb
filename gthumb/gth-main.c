@@ -1416,7 +1416,9 @@ gth_main_activate_extensions (void)
 		"find_duplicates",
 		"gstreamer_tools",
 		"gstreamer_utils",
+#ifndef FLATPAK_BUILD
 		"image_print",
+#endif
 		"image_rotation",
 		"importer",
 		"jpeg_utils",

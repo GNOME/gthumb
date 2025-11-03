@@ -50,7 +50,9 @@ if use_gstreamer
   subdir('gstreamer_utils')
   subdir('gstreamer_tools')
 endif
-subdir('image_print')
+if not get_option('flatpak-build')
+  subdir('image_print')
+endif
 if use_libchamplain
   subdir('map_view')
 endif
