@@ -78,7 +78,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public Gtk.Adjustment hadjustment {
 		get { return _hadjustment; }
 		set construct {
-			if (_hadjustment != null) {
+			if ((_hadjustment != null) && (hadj_changed_id != 0)) {
 				_hadjustment.disconnect (hadj_changed_id);
 			}
 			_hadjustment = value;
@@ -109,7 +109,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public Gtk.Adjustment vadjustment {
 		get { return _vadjustment; }
 		set construct {
-			if (_vadjustment != null) {
+			if ((_vadjustment != null) && (vadj_changed_id != 0)) {
 				_vadjustment.disconnect (vadj_changed_id);
 			}
 			_vadjustment = value;
@@ -135,20 +135,30 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public signal void resized ();
 
+	public override Gtk.SizeRequestMode get_request_mode () {
+		return Gtk.SizeRequestMode.HEIGHT_FOR_WIDTH;
+	}
+
 	public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
 		minimum = 0;
 		natural = 0;
 		natural_baseline = -1;
 		minimum_baseline = -1;
-
-		float zoomed_width, zoomed_height;
-		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
-		if (orientation == Gtk.Orientation.HORIZONTAL) {
-			natural = (int) zoomed_width;
+		if (_image != null) {
+			uint natural_width, natural_height;
+			_image.get_natural_size (out natural_width, out natural_height);
+			var new_zoom = 1.0;
+			if (for_size > 0) {
+				new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, for_size, for_size);
+			}
+			if (orientation == Gtk.Orientation.HORIZONTAL) {
+				natural = (int) (new_zoom * natural_width);
+			}
+			else {
+				natural = (int) (new_zoom * natural_height);
+			}
 		}
-		else {
-			natural = (int) zoomed_height;
-		}
+		//stdout.printf ("> orientation: %s > natural: %d\n", orientation.to_string (), natural);
 	}
 
 	public override void size_allocate (int width, int height, int baseline) {
@@ -237,6 +247,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				break;
 			}
 		}
+
 		if (_image.get_is_scalable ()) {
 			var texture = _image.get_scaled_texture (
 				_zoom,
@@ -268,6 +279,51 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				snapshot.append_scaled_texture (texture, _zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR, texture_box);
 			}
 		}
+
+		if (selection_box.size.width > 0) {
+			// var ctx = snapshot.append_cairo (selection_box);
+			// ctx.rectangle (selection_box.origin.x, selection_box.origin.y,
+			// 	selection_box.size.width, selection_box.size.height);
+			// ctx.set_source_rgba (1, 0, 0, 0.75);
+			// ctx.set_line_width (4);
+			// ctx.stroke ();
+
+			var box = selection_box;
+			box.origin.x += texture_box.origin.x;
+			box.origin.y += texture_box.origin.y;
+
+			Gdk.RGBA background_color = { 0, 0, 0, 0.5f };
+			var round_x =  Math.roundf (box.origin.x);
+			snapshot.append_color (background_color, {
+				{ 0, 0 },
+				{ round_x, viewport.size.height }
+			});
+			var round_width = Math.roundf (box.size.width);
+			snapshot.append_color (background_color, {
+				{ round_x + round_width, 0 },
+				{ viewport.size.width - (round_x + round_width) - 0.5f, viewport.size.height }
+			});
+			var round_y = Math.roundf (box.origin.y);
+			snapshot.append_color (background_color, {
+				{ round_x, 0 },
+				{ round_width, round_y }
+			});
+			var round_height = Math.roundf (box.size.height);
+			snapshot.append_color (background_color, {
+				{ round_x, round_y + round_height },
+				{ round_width, viewport.size.height - (round_y + round_height) }
+			});
+
+			var rect = new Gsk.RoundedRect ();
+			rect.init_from_rect (box, 0);
+			Gdk.RGBA border_color = { 1, 1, 1, 1 };
+			var border_width = 2f;
+			snapshot.append_border (rect,
+				{ border_width, border_width, border_width, border_width },
+				{ border_color, border_color, border_color, border_color }
+			);
+		}
+
 		snapshot.restore ();
 	}
 
@@ -279,6 +335,13 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			transparency_pattern = Util.build_transparency_pattern (TRANSP_PATTERN_SIZE);
 		}
 		return transparency_pattern;
+	}
+
+	public void scroll_to (double x, double y) {
+		set_scroll_offset (_zoom, (float) x, (float) y);
+		update_texture_box ();
+		update_image_box ();
+		queue_draw ();
 	}
 
 	public void scroll_by (double dx, double dy) {
@@ -411,14 +474,22 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		y = y.clamp (0, max_y);
 		viewport.origin = { x, y };
 		if (_hadjustment != null) {
-			SignalHandler.block (_hadjustment, hadj_changed_id);
+			if (hadj_changed_id != 0) {
+				SignalHandler.block (_hadjustment, hadj_changed_id);
+			}
 			_hadjustment.set_value (x);
-			SignalHandler.unblock (_hadjustment, hadj_changed_id);
+			if (hadj_changed_id != 0) {
+				SignalHandler.unblock (_hadjustment, hadj_changed_id);
+			}
 		}
 		if (_vadjustment != null) {
-			SignalHandler.block (_vadjustment, vadj_changed_id);
+			if (vadj_changed_id != 0) {
+				SignalHandler.block (_vadjustment, vadj_changed_id);
+			}
 			_vadjustment.set_value (y);
-			SignalHandler.unblock (_vadjustment, vadj_changed_id);
+			if (vadj_changed_id != 0) {
+				SignalHandler.unblock (_vadjustment, vadj_changed_id);
+			}
 		}
 	}
 
@@ -666,6 +737,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		scaled_texture = null;
 	}
 
+	public void set_selection (Graphene.Rect selection) {
+		selection_box = selection;
+		queue_draw ();
+	}
+
+	public void remove_selection () {
+		selection_box = { { 0, 0 }, { 0, 0 } };
+		queue_draw ();
+	}
+
 	construct {
 		_image = null;
 		_zoom_type = ZoomType.BEST_FIT;
@@ -683,6 +764,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		_paused = false;
 		scaled_texture = null;
 		filter_cancellable = null;
+		selection_box = { { 0, 0 }, { 0, 0 } };
 	}
 
 	Gth.Image _image;
@@ -697,6 +779,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Graphene.Rect texture_box;
 	// Visible area of the image
 	Graphene.Rect image_box;
+	Graphene.Rect selection_box;
 	Gtk.Adjustment _hadjustment;
 	Gtk.Adjustment _vadjustment;
 	bool _first_allocation;

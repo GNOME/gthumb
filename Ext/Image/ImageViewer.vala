@@ -31,10 +31,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		zoom_adjustment = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
 		zoom_adj_changed_id = zoom_adjustment.value_changed.connect ((local_adj) => {
-			var x = local_adj.get_value ();
-			x = (adj_to_zoom (x) - adj_to_zoom (ZOOM_ADJ_MIN)) / (adj_to_zoom (ZOOM_ADJ_MAX) - adj_to_zoom (ZOOM_ADJ_MIN));
-			var zoom = ZOOM_MIN + (x * (ZOOM_MAX - ZOOM_MIN));
-			image_view.zoom = (float) zoom.clamp (ZOOM_MIN, ZOOM_MAX);
+			image_view.zoom = ZoomScale.get_zoom (local_adj.get_value ());
 		});
 
 		image_view.resized.connect (() => update_zoom_info ());
@@ -751,20 +748,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		// Update the zoom adjustment.
 		unowned var adj = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
 		SignalHandler.block (adj, zoom_adj_changed_id);
-		var x = ((double) image_view.zoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
-		x = x * (adj_to_zoom (ZOOM_ADJ_MAX) - adj_to_zoom (ZOOM_ADJ_MIN)) + adj_to_zoom (ZOOM_ADJ_MIN);
-		x = zoom_to_adj (x);
-		x = x.clamp (ZOOM_ADJ_MIN, ZOOM_ADJ_MAX);
-		adj.set_value (x);
+		adj.set_value (ZoomScale.get_adj_value (image_view.zoom));
 		SignalHandler.unblock (adj, zoom_adj_changed_id);
-	}
-
-	inline double adj_to_zoom (double x) {
-		return Math.exp (x / 15 - Math.E);
-	}
-
-	inline double zoom_to_adj (double z) {
-		return (Math.log (z) + Math.E) * 15;
 	}
 
 	void update_sensitivity () {
@@ -812,10 +797,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	bool apply_icc_profile;
 	ImageHistory history;
 
-	const float ZOOM_MIN = 0.05f;
-	const float ZOOM_MAX = 10f;
-	const float ZOOM_ADJ_MIN = 0f;
-	const float ZOOM_ADJ_MAX = 100f;
 	const double DRAG_THRESHOLD = 1;
 }
 

@@ -150,5 +150,6 @@
     <file preprocess="xml-stripblanks">editor-menu.ui</file>
     <file preprocess="xml-stripblanks">text-viewer-dialog.ui</file>
     <file preprocess="xml-stripblanks">color-picker.ui</file>
+    <file preprocess="xml-stripblanks">image-overview.ui</file>
   </gresource>
 </gresources>

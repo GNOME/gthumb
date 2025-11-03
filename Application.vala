@@ -760,12 +760,13 @@ public class Gth.Application : Adw.Application {
 
 	void register_types() {
 		// Types used in .ui files
-		typeof (Gth.ToolButton).ensure ();
-		typeof (Gth.VideoView).ensure ();
+		typeof (Gth.ColorPreview).ensure ();
 		typeof (Gth.FolderStatus).ensure ();
+		typeof (Gth.ImageOverview).ensure ();
 		typeof (Gth.ImageView).ensure ();
 		typeof (Gth.SidebarResizer).ensure ();
-		typeof (Gth.ColorPreview).ensure ();
+		typeof (Gth.ToolButton).ensure ();
+		typeof (Gth.VideoView).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

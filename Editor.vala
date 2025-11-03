@@ -23,6 +23,7 @@ public class Gth.Editor : Gtk.Box {
 			current_editor = null;
 		}
 		window.editor.content.child = null;
+		window.editor.sidebar.child = null;
 		window.insert_action_group ("editor", null);
 	}
 

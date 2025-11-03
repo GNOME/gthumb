@@ -15,8 +15,31 @@ public class Gth.ColorPicker : ImageTool {
 		image_view.default_zoom_type = ZoomType.KEEP_PREVIOUS;
 		image_view.image = viewer.image_view.image;
 		image_view.zoom = viewer.image_view.zoom;
-		image_view.hadjustment.value = viewer.image_view.hadjustment.value;
-		image_view.vadjustment.value = viewer.image_view.vadjustment.value;
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			last_x = x;
+			last_y = y;
+		});
+		image_view.add_controller (motion_events);
+
+		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		scroll_events.scroll.connect ((controller, dx, dy) => {
+			var step = (dy < 0) ? 0.1f : -0.1f;
+			var new_zoom = image_view.zoom + (image_view.zoom * step);
+			if ((last_x >= 0) && (last_y >= 0)) {
+				image_view.set_zoom_and_center_at (new_zoom, (float) last_x, (float) last_y);
+			}
+			else {
+				image_view.zoom = new_zoom;
+			}
+			return false;
+		});
+		image_view.add_controller (scroll_events);
+		// TODO image_view.scroll_to (viewer.image_view.hadjustment.value, viewer.image_view.vadjustment.value);
+
+		navigator = builder.get_object ("navigator") as Gth.ImageOverview;
+		navigator.main_view = image_view;
 
 		position_x = builder.get_object ("position_x") as Adw.SpinRow;
 		position_x.adjustment.configure (0, 1, image_view.image.get_width (), 10, 1, 0);
@@ -184,110 +207,7 @@ public class Gth.ColorPicker : ImageTool {
 	unowned Adw.ActionRow rgb_percent_format;
 	unowned Adw.ActionRow hsl_format;
 	unowned Gth.ColorPreview color_preview;
-}
-
-public class Gth.ColorPreview : Gtk.Widget {
-	public Gdk.RGBA color {
-		set {
-			_color = value;
-			queue_draw ();
-		}
-		get {
-			return _color;
-		}
-	}
-
-	construct {
-		add_css_class ("color-preview");
-	}
-
-	public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
-		if (orientation == Gtk.Orientation.HORIZONTAL) {
-			minimum = NATURAL_WIDTH;
-			natural = NATURAL_WIDTH;
-			natural_baseline = -1;
-			minimum_baseline = -1;
-		}
-		else {
-			minimum = NATURAL_HEIGHT;
-			natural = NATURAL_HEIGHT;
-			natural_baseline = -1;
-			minimum_baseline = -1;
-		}
-	}
-
-	public override void size_allocate (int width, int height, int baseline) {
-		viewport = {
-			{ PADDING, PADDING },
-			{ width - (PADDING * 2), height - (PADDING * 2) }
-		};
-	}
-
-	public override void snapshot (Gtk.Snapshot snapshot) {
-		var background = new Gsk.RoundedRect ();
-		background.init_from_rect (viewport, BORDER_RADIUS);
-		snapshot.push_rounded_clip (background);
-
-		if (_color.alpha < 1f) {
-			var ctx = snapshot.append_cairo (viewport);
-			ctx.rectangle (viewport.origin.x, viewport.origin.y,
-				viewport.size.width, viewport.size.height);
-			var pattern = get_transparency_pattern ();
-			var matrix = Cairo.Matrix.identity ();
-			matrix.translate (- viewport.origin.x, - viewport.origin.y);
-			pattern.set_matrix (matrix);
-			ctx.set_source (pattern);
-			ctx.fill ();
-		}
-		snapshot.append_color (_color, viewport);
-
-		// Border
-		Gdk.RGBA border_color = { 1.0f, 1.0f, 1.0f, 0.05f };
-		float border_width = 2;
-		snapshot.append_border (background,
-			{ border_width, border_width, border_width, border_width } ,
-			{ border_color, border_color, border_color, border_color }
-		);
-
-		snapshot.pop ();
-	}
-
-	Cairo.Pattern get_transparency_pattern () {
-		if (transparency_pattern == null) {
-			transparency_pattern = build_transparency_pattern (TRANSP_PATTERN_SIZE);
-		}
-		return transparency_pattern;
-	}
-
-	public static Cairo.Pattern build_transparency_pattern (int half_size) {
-		var size = half_size * 2;
-		var surface = new Cairo.ImageSurface (Cairo.Format.RGB24, size, size);
-		var ctx = new Cairo.Context (surface);
-
-		ctx.set_source_rgba (0.66, 0.66, 0.66, 1.0);
-		ctx.rectangle (0, 0, half_size, half_size);
-		ctx.fill ();
-		ctx.rectangle (half_size, half_size, half_size, half_size);
-		ctx.fill ();
-
-		ctx.set_source_rgba (0.33, 0.33, 0.33, 1.0);
-		ctx.rectangle (half_size, 0, half_size, half_size);
-		ctx.fill ();
-		ctx.rectangle (0, half_size, half_size, half_size);
-		ctx.fill ();
-
-		var transparency_pattern = new Cairo.Pattern.for_surface (surface);
-		transparency_pattern.set_extend (Cairo.Extend.REPEAT);
-		return transparency_pattern;
-	}
-
-	Graphene.Rect viewport;
-	Gdk.RGBA _color;
-	static Cairo.Pattern transparency_pattern = null;
-
-	const int TRANSP_PATTERN_SIZE = 14; // pixels
-	const int BORDER_RADIUS = 10;
-	const int PADDING = 0;
-	const int NATURAL_WIDTH = 70; // pixels
-	const int NATURAL_HEIGHT = 50; // pixels
+	unowned Gth.ImageOverview navigator;
+	double last_x = -1;
+	double last_y = -1;
 }
