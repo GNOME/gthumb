@@ -69,11 +69,6 @@ typedef enum {
 	GTH_FILL_END,
 } GthFill;
 
-typedef enum {
-	GTH_CHANGE_TIME_ADD,
-	GTH_CHANGE_TIME_SET,
-} GthChangeTime;
-
 G_END_DECLS
 
 #endif /* LIB_TYPES_H */

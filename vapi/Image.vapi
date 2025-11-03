@@ -32,7 +32,7 @@ namespace Gth {
 		//public const Gdk.MemoryFormat MEMORY_FORMAT;
 
 		public Gdk.Texture get_texture ();
-		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
+		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height, uint frame_index = 0);
 		public Image get_subimage (uint x, uint y, uint width, uint height);
 		public bool get_rgba (uint x, uint y, out uint8 red, out uint8 green, out uint8 blue, out uint8 alpha);
 
@@ -41,8 +41,8 @@ namespace Gth {
 
 		public bool get_is_animated ();
 		public uint get_frames ();
-		public bool change_time (ChangeTime op, ulong milliseconds);
-		public void next_frame ();
+		public bool get_frame_at (ref ulong time, out uint frame_index);
+		public bool next_frame (ref uint frame_index);
 
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();

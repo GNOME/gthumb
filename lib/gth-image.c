@@ -43,8 +43,6 @@ struct _GthImagePrivate {
 	// Animation
 	GPtrArray *frames;
 	guint total_time; // Milliseconds
-	guint current_time;
-	guint current_frame;
 };
 
 typedef struct {
@@ -146,8 +144,6 @@ static void gth_image_init (GthImage *self) {
 	self->priv->info = g_file_info_new ();
 	self->priv->frames = g_ptr_array_new_with_free_func ((GDestroyNotify) gth_frame_unref);
 	self->priv->total_time = 0;
-	self->priv->current_time = 0;
-	self->priv->current_frame = 0;
 }
 
 void gth_image_init_pixels (GthImage *self, guint width, guint height) {
@@ -325,43 +321,41 @@ GdkTexture * gth_image_get_texture (GthImage *self) {
 		(gsize) self->priv->row_stride);
 }
 
-GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, guint width, guint height) {
+GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, guint width, guint height, guint frame_index) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	GthImagePrivate *priv = self->priv;
+	if ((priv->frames->len > 0) && (frame_index > 0) && (frame_index < priv->frames->len)) {
+		GthFrame *frame = g_ptr_array_index (priv->frames, frame_index);
+		priv = frame->image->priv;
+	}
 
 	// Check x and width
 	if (width == 0) {
 		return NULL;
 	}
-	if (x >= self->priv->width) {
+	if (x >= priv->width) {
 		return NULL;
 	}
-	guint max_width = self->priv->width - x;
+	guint max_width = priv->width - x;
 	width = CLAMP (width, 0, max_width);
 
 	// Check y and height
 	if (height == 0) {
 		return NULL;
 	}
-	if (y >= self->priv->height) {
+	if (y >= priv->height) {
 		return NULL;
 	}
-	guint max_height = self->priv->height - y;
+	guint max_height = priv->height - y;
 	height = CLAMP (height, 0, max_height);
 
-	gsize start_offset = (y * self->priv->row_stride) + (x * PIXEL_BYTES);
-	gsize end_offset = ((y + height - 1) * self->priv->row_stride) + ((x + width) * PIXEL_BYTES);
-	GBytes* bytes = g_bytes_new_from_bytes (self->priv->bytes,
-		start_offset,
-		end_offset - start_offset);
-	//g_print ("> Image: [%u,%u] (stride: %d)\n", self->priv->width, self->priv->height, self->priv->row_stride);
-	//g_print ("> Rect: (%u,%u)[%u,%u]\n", x, y, width, height);
-	//g_print ("  Bytes: [%ld -> %ld] (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (self->priv->bytes));
-	return gdk_memory_texture_new (
-		(int) width,
-		(int) height,
-		GTH_IMAGE_MEMORY_FORMAT,
-		bytes,
-		(gsize) self->priv->row_stride);
+	gsize start_offset = (y * priv->row_stride) + (x * PIXEL_BYTES);
+	gsize end_offset = ((y + height - 1) * priv->row_stride) + ((x + width) * PIXEL_BYTES);
+	GBytes* bytes = g_bytes_new_from_bytes (priv->bytes, start_offset, end_offset - start_offset);
+	//g_print ("> Image: [%u,%u] (stride: %d)\n", priv->width, priv->height, priv->row_stride);
+	//g_print ("  Rect: (%u,%u)[%u,%u]\n", x, y, width, height);
+	//g_print ("  Bytes: [%ld -> %ld] (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (priv->bytes));
+	return gdk_memory_texture_new ((int) width, (int) height, GTH_IMAGE_MEMORY_FORMAT, bytes, (gsize) priv->row_stride);
 }
 
 GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height) {
@@ -550,8 +544,6 @@ void gth_image_add_frame (GthImage *self, GthImage *frame_image, guint delay) {
 	priv->total_time += frame->delay;
 	if (priv->frames->len == 1) {
 		gth_image_set_frame (self, frame->image);
-		priv->current_frame = 0;
-		priv->current_time = 0;
 	}
 }
 
@@ -565,49 +557,48 @@ guint gth_image_get_frames (GthImage *self) {
 	return self->priv->frames->len;
 }
 
-gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong milliseconds) {
+gboolean gth_image_get_frame_at (GthImage *self, gulong *time, guint *frame_index) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	GthImagePrivate *priv = self->priv;
-	if (op == GTH_CHANGE_TIME_ADD) {
-		priv->current_time += milliseconds;
-	}
-	else if (op == GTH_CHANGE_TIME_SET) {
-		priv->current_time = milliseconds;
-		priv->current_frame = 0;
-	}
-	if (priv->current_frame >= priv->frames->len) {
+	if (priv->frames->len == 0) {
 		return FALSE;
 	}
-	GthFrame *frame = g_ptr_array_index (priv->frames, priv->current_frame);
-	//g_print ("> %ul > %ul\n", priv->current_time, frame->start + frame->delay);
-	while (priv->current_time > frame->start + frame->delay) {
-		priv->current_frame += 1;
-		if (priv->current_frame >= priv->frames->len) {
-			// TODO: always loop?
-			priv->current_frame = 0;
-			priv->current_time = priv->current_time - priv->total_time;
-		}
-		frame = g_ptr_array_index (priv->frames, priv->current_frame);
+	if (priv->frames->len == 1) {
+		*frame_index = 0;
+		return TRUE;
 	}
-	gth_image_set_frame (self, frame->image);
+	guint current_frame = 0;
+	GthFrame *frame = g_ptr_array_index (priv->frames, current_frame);
+	gulong current_time = *time;
+	while (current_time > frame->start + frame->delay) {
+		//g_print ("> %ul > %ul\n", current_time, frame->start + frame->delay);
+		current_frame += 1;
+		if (current_frame >= priv->frames->len) {
+			// TODO: always loop?
+			current_frame = 0;
+			current_time = current_time - priv->total_time;
+		}
+		frame = g_ptr_array_index (priv->frames, current_frame);
+	}
+	*time = current_time;
+	*frame_index = current_frame;
 	return TRUE;
 }
 
-void gth_image_next_frame (GthImage *self) {
+gboolean gth_image_next_frame (GthImage *self, guint *frame_index) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	GthImagePrivate *priv = self->priv;
 	if (priv->frames->len <= 1) {
-		return;
+		return FALSE;
 	}
-	if (priv->current_frame >= priv->frames->len - 1) {
-		priv->current_frame = 0;
+	if (*frame_index >= priv->frames->len - 1) {
+		*frame_index = 0;
 	}
 	else {
-		priv->current_frame += 1;
+		*frame_index = *frame_index + 1;
 	}
-	GthFrame *frame = g_ptr_array_index (priv->frames, priv->current_frame);
-	gth_image_set_frame (self, frame->image);
+	return TRUE;
 }
 
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {

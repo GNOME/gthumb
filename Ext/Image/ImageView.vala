@@ -262,7 +262,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				(uint) image_box.origin.x,
 				(uint) image_box.origin.y,
 				(uint) image_box.size.width,
-				(uint) image_box.size.height);
+				(uint) image_box.size.height,
+				current_frame);
 			if (texture != null) {
 				snapshot.append_scaled_texture (texture, _zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR, texture_box);
 			}
@@ -560,6 +561,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		stop_animation ();
 	}
 
+	public void next_frame () {
+		if ((image != null) && image.next_frame (ref current_frame)) {
+			queue_draw ();
+		}
+	}
+
 	void stop_animation () {
 		if (animation_id != 0) {
 			Source.remove (animation_id);
@@ -573,7 +580,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 		if (animation_id == 0) {
 			animation_id = Timeout.add (ANIMATION_DELAY, () => {
-				var _continue = _image.change_time (ChangeTime.ADD, ANIMATION_DELAY);
+				current_time += ANIMATION_DELAY;
+				var _continue = _image.get_frame_at (ref current_time, out current_frame);
 				queue_draw ();
 				return _continue ? Source.CONTINUE : Source.REMOVE;
 			});
@@ -669,6 +677,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		vadj_changed_id = 0;
 		focusable = true;
 		animation_id = 0;
+		current_time = 0;
+		current_frame = 0;
 		filter_id = 0;
 		_paused = false;
 		scaled_texture = null;
@@ -693,6 +703,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	ulong hadj_changed_id;
 	ulong vadj_changed_id;
 	uint animation_id;
+	ulong current_time;
+	uint current_frame;
 	uint filter_id;
 	bool _paused;
 	Gdk.Texture scaled_texture;

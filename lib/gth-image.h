@@ -50,7 +50,7 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size);
 guint gth_image_get_row_stride (GthImage *self);
 GdkTexture * gth_image_get_texture (GthImage *self);
-GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, guint width, guint height);
+GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, guint width, guint height, guint frame_index);
 GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height);
 gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guchar *green, guchar *blue, guchar *alpha);
 guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, int *height);
@@ -85,8 +85,8 @@ cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double factor, g
 void gth_image_add_frame (GthImage *self, GthImage *frame, uint delay);
 gboolean gth_image_get_is_animated (GthImage *self);
 guint gth_image_get_frames (GthImage *self);
-gboolean gth_image_change_time (GthImage *self, GthChangeTime op, gulong milliseconds);
-void gth_image_next_frame (GthImage *self);
+gboolean gth_image_get_frame_at (GthImage *self, gulong *time, guint *frame_index);
+gboolean gth_image_next_frame (GthImage *self, guint *frame_index);
 
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);

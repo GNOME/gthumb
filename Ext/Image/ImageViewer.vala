@@ -591,10 +591,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		action = new SimpleAction ("next-frame", null);
 		action.activate.connect ((action, param) => {
-			if (image_view.image != null) {
-				image_view.image.next_frame ();
-				image_view.queue_draw ();
-			}
+			image_view.next_frame ();
 		});
 		action.set_enabled (false);
 		action_group.add_action (action);
