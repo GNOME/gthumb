@@ -383,6 +383,22 @@ GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint wid
 	return image;
 }
 
+gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guchar *green, guchar *blue, guchar *alpha) {
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	if ((x >= self->priv->width) || (y >= self->priv->height)) {
+		*red = 0;
+		*green = 0;
+		*blue = 0;
+		*alpha = 0;
+		return FALSE;
+	}
+	const guchar *buffer = g_bytes_get_data (self->priv->bytes, NULL);
+	guchar *pixel_p = buffer + (y * self->priv->row_stride) + (x * PIXEL_BYTES);
+	int temp;
+	PIXEL_TO_RGBA (pixel_p, *red, *green, *blue, *alpha);
+	return TRUE;
+}
+
 guint gth_image_get_width (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), 0);
 	return self->priv->width;

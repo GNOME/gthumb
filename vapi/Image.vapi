@@ -34,6 +34,7 @@ namespace Gth {
 		public Gdk.Texture get_texture ();
 		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height);
 		public Image get_subimage (uint x, uint y, uint width, uint height);
+		public bool get_rgba (uint x, uint y, out uint8 red, out uint8 green, out uint8 blue, out uint8 alpha);
 
 		public virtual bool get_is_scalable ();
 		public virtual Cairo.Surface? get_scaled_texture (double factor, uint x, uint y, uint width, uint height);

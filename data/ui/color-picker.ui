@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkScrolledWindow" id="main_view">
+    <child>
+      <object class="GthImageView" id="image_view">
+      </object>
+    </child>
+  </object>
+  <object class="AdwPreferencesPage" id="options">
+    <property name="margin-start">0</property>
+    <property name="margin-end">6</property>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Position</property>
+        <child>
+          <object class="AdwSpinRow" id="position_x">
+            <property name="title" translatable="yes">X</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow" id="position_y">
+            <property name="title" translatable="yes">Y</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Color</property>
+        <child>
+          <object class="AdwActionRow" id="hex_format">
+            <property name="title"></property>
+            <property name="activatable">false</property>
+            <child type="suffix">
+              <object class="GtkButton">
+                <property name="icon-name">edit-copy-symbolic</property>
+                <property name="action-name">tool.copy-color</property>
+                <property name="action-target">'hex'</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="flat"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="rgb_format">
+            <property name="title"></property>
+            <property name="activatable">false</property>
+            <child type="suffix">
+              <object class="GtkButton">
+                <property name="icon-name">edit-copy-symbolic</property>
+                <property name="action-name">tool.copy-color</property>
+                <property name="action-target">'rgb'</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="flat"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="rgb_percent_format">
+            <property name="title"></property>
+            <property name="activatable">false</property>
+            <child type="suffix">
+              <object class="GtkButton">
+                <property name="icon-name">edit-copy-symbolic</property>
+                <property name="action-name">tool.copy-color</property>
+                <property name="action-target">'rgb_percent'</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="flat"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="hsl_format">
+            <property name="title"></property>
+            <property name="activatable">false</property>
+            <child type="suffix">
+              <object class="GtkButton">
+                <property name="icon-name">edit-copy-symbolic</property>
+                <property name="action-name">tool.copy-color</property>
+                <property name="action-target">'hsl'</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="flat"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GthColorPreview" id="color_preview">
+            <property name="margin-top">24</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
