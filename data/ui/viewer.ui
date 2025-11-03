@@ -55,48 +55,48 @@
             </child>
             <child type="end">
               <object class="GtkBox">
-                  <property name="orientation">horizontal</property>
-                  <property name="spacing">6</property>
-                  <child>
-                    <object class="GtkBox" id="right_toolbar">
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkMenuButton" id="scripts_menu_button">
-                      <property name="icon-name">gth-script-symbolic</property>
-                      <property name="tooltip-text" translatable="true">Tools</property>
-                      <property name="popover">
-                        <object class="GthActionPopover" id="tools_popover">
-                        </object>
-                      </property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkToggleButton">
-                      <property name="action-name">win.edit-metadata</property>
-                      <property name="icon-name">gth-note-symbolic</property>
-                      <property name="tooltip-text" translatable="true">Edit Comment</property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkToggleButton">
-                      <property name="action-name">win.editor-tools</property>
-                      <property name="icon-name">gth-paintbrush-symbolic</property>
-                      <property name="tooltip-text" translatable="true">Edit Image</property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkToggleButton">
-                      <property name="action-name">win.viewer-properties</property>
-                      <property name="icon-name">gth-info-outline-symbolic</property>
-                      <property name="tooltip-text" translatable="true">Properties</property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkMenuButton" id="app_menu_button">
-                      <property name="icon-name">open-menu-symbolic</property>
-                    </object>
-                  </child>
+                <property name="orientation">horizontal</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkBox" id="right_toolbar">
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton">
+                    <property name="action-name">win.viewer-properties</property>
+                    <property name="icon-name">gth-info-outline-symbolic</property>
+                    <property name="tooltip-text" translatable="true">Properties</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton">
+                    <property name="action-name">win.editor-tools</property>
+                    <property name="icon-name">gth-paintbrush-symbolic</property>
+                    <property name="tooltip-text" translatable="true">Edit Image</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton">
+                    <property name="action-name">win.edit-metadata</property>
+                    <property name="icon-name">gth-note-symbolic</property>
+                    <property name="tooltip-text" translatable="true">Edit Comment</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuButton" id="scripts_menu_button">
+                    <property name="icon-name">gth-script-symbolic</property>
+                    <property name="tooltip-text" translatable="true">Tools</property>
+                    <property name="popover">
+                      <object class="GthActionPopover" id="tools_popover">
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuButton" id="app_menu_button">
+                    <property name="icon-name">open-menu-symbolic</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

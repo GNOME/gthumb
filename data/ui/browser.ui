@@ -266,20 +266,10 @@
                       </object>
                     </child-->
                     <child>
-                      <object class="GtkMenuButton" id="scripts_menu_button">
-                        <property name="icon-name">gth-script-symbolic</property>
-                        <property name="tooltip-text" translatable="true">Tools</property>
-                        <property name="popover">
-                          <object class="GthActionPopover" id="tools_popover">
-                          </object>
-                        </property>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkToggleButton">
-                        <property name="icon-name">gth-note-symbolic</property>
-                        <property name="action-name">win.edit-metadata</property>
-                        <property name="tooltip-text" translatable="true">Edit Comment</property>
+                        <property name="icon-name">gth-info-outline-symbolic</property>
+                        <property name="action-name">win.browser-properties-pinned</property>
+                        <property name="tooltip-text" translatable="true">File Properties</property>
                       </object>
                     </child>
                     <child>
@@ -291,9 +281,19 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton">
-                        <property name="icon-name">gth-info-outline-symbolic</property>
-                        <property name="action-name">win.browser-properties-pinned</property>
-                        <property name="tooltip-text" translatable="true">File Properties</property>
+                        <property name="icon-name">gth-note-symbolic</property>
+                        <property name="action-name">win.edit-metadata</property>
+                        <property name="tooltip-text" translatable="true">Edit Comment</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton" id="scripts_menu_button">
+                        <property name="icon-name">gth-script-symbolic</property>
+                        <property name="tooltip-text" translatable="true">Tools</property>
+                        <property name="popover">
+                          <object class="GthActionPopover" id="tools_popover">
+                          </object>
+                        </property>
                       </object>
                     </child>
                   </object>
