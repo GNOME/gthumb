@@ -115,7 +115,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GthEditorSidebar" id="editor_sidebar">
+                  <object class="GthEditorPalette" id="editor_palette">
                   </object>
                 </child>
               </object>

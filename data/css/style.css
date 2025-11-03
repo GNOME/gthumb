@@ -237,3 +237,12 @@ button.category {
 	border-radius: 1.5em;
 	padding: 3px 16px;
 }
+
+.for_toolbar > .text-button {
+	padding: 2px 12px;
+}
+
+.color-preview {
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+	border-radius: 12px;
+}

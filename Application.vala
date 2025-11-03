@@ -764,6 +764,8 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.VideoView).ensure ();
 		typeof (Gth.FolderStatus).ensure ();
 		typeof (Gth.ImageView).ensure ();
+		typeof (Gth.SidebarResizer).ensure ();
+		typeof (Gth.ColorPreview).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

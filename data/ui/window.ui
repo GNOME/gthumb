@@ -18,6 +18,10 @@
               <object class="GthViewer" id="viewer">
               </object>
             </child>
+            <child>
+              <object class="GthEditor" id="editor">
+              </object>
+            </child>
           </object>
         </child>
       </object>

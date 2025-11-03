@@ -68,6 +68,7 @@
     <file preprocess="xml-stripblanks">gth-flag-1-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-flag-2-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-flag-3-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-checkmark-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-file-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
@@ -144,6 +145,10 @@
     <file preprocess="xml-stripblanks">file-action-row.ui</file>
     <file preprocess="xml-stripblanks">tool-button.ui</file>
     <file preprocess="xml-stripblanks">selections-status.ui</file>
+    <file preprocess="xml-stripblanks">editor-palette.ui</file>
+    <file preprocess="xml-stripblanks">editor.ui</file>
+    <file preprocess="xml-stripblanks">editor-menu.ui</file>
     <file preprocess="xml-stripblanks">text-viewer-dialog.ui</file>
+    <file preprocess="xml-stripblanks">color-picker.ui</file>
   </gresource>
 </gresources>

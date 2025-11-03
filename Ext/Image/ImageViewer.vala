@@ -139,7 +139,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public void deactivate () {
-		history.clear ();
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("image", null);
 	}
@@ -151,7 +150,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public void release_resources () {
-		// TODO
+		history.clear ();
+		builder = null;
 	}
 
 	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
@@ -631,6 +631,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("color-picker", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new ColorPicker ());
+		});
+		action_group.add_action (action);
 	}
 
 	async void edit_image (string title, ImageOperation operation) {
@@ -794,7 +800,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	weak Gth.Window window;
 	GLib.Settings settings;
 	Gtk.Builder builder;
-	unowned Gth.ImageView image_view;
+	public unowned Gth.ImageView image_view;
 	unowned Gtk.Box animation_actions;
 	ulong zoom_adj_changed_id;
 	SimpleActionGroup action_group;

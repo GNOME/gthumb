@@ -184,14 +184,6 @@ public class Gth.Shortcuts {
 
 		register ("win.toggle-fullscreen", N_("Fullscreen"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "f");
 
-		register ("file-tool-adjust-contrast", N_("Adjust Contrast"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "a");
-		register ("file-tool-flip", N_("Flip"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "l");
-		register ("file-tool-mirror", N_("Mirror"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "m");
-		register ("file-tool-rotate-right", N_("Rotate Right"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "r");
-		register ("file-tool-rotate-left", N_("Rotate Left"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>r");
-		register ("file-tool-crop", N_("Crop"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
-		register ("file-tool-resize", N_("Resize"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
-
 		foreach (var tool in app.tools.entries) {
 			register (tool.action_name, tool.display_name,
 				SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.SCRIPTS,
@@ -210,7 +202,7 @@ public class Gth.Shortcuts {
 
 		register ("win.reset-filter", N_("View All"), ShortcutContext.BROWSER, ShortcutCategory.FILTERS);
 
-		register ("win.pop-page", N_("Close"), SHORTCUT_CONTEXT_VIEWERS | ShortcutContext.FIXED, ShortcutCategory.VIEWER, "Escape");
+		register ("win.pop-page", N_("Close"), SHORTCUT_CONTEXT_VIEWERS | ShortcutContext.EDITOR | ShortcutContext.FIXED, ShortcutCategory.VIEWER, "Escape");
 		register ("win.view-next", N_("Next File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Down");
 		register ("win.view-previous", N_("Previous File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Up");
 		register ("win.view-first", N_("First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Home");
@@ -247,10 +239,18 @@ public class Gth.Shortcuts {
 		register ("image.save", N_("Save Image"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>s");
 		register ("image.save-as", N_("Save Image As"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>s");
 		register ("revert-to-saved", N_("Revert Image to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "F4");
+		register ("image.undo", N_("Undo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>z");
+		register ("image.redo", N_("Redo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>z");
+		register ("apply-editor-changes", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "Return");
 
-		register ("undo", N_("Undo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>z");
-		register ("redo", N_("Redo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>z");
-		register ("apply-editor-changes", null, ShortcutContext.IMAGE_EDITOR, ShortcutCategory.HIDDEN, "Return");
+		register ("file-tool-adjust-contrast", N_("Adjust Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "a");
+		register ("file-tool-flip", N_("Flip"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "l");
+		register ("file-tool-mirror", N_("Mirror"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "m");
+		register ("file-tool-rotate-right", N_("Rotate Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "r");
+		register ("file-tool-rotate-left", N_("Rotate Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>r");
+		register ("file-tool-crop", N_("Crop"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
+		register ("file-tool-resize", N_("Resize"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
+		register ("image.color-picker", N_("Color Picker"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "p");
 
 		register ("slideshow", N_("Start Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
 		register ("slideshow-close", N_("Terminate Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");

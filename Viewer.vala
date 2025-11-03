@@ -215,7 +215,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	public void show_editor_tools (bool show) {
 		if (show) {
-			sidebar_stack.set_visible_child (editor_sidebar);
+			sidebar_stack.set_visible_child (editor_palette);
 			window.action_group.change_action_state ("viewer-properties", new Variant.boolean (false));
 		}
 		var action = window.action_group.lookup_action ("editor-tools") as SimpleAction;
@@ -272,6 +272,8 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void before_close_page () {
+		viewer_signals.disconnect_all ();
+		viewer_container.child = null;
 		Util.remove_all_children (left_toolbar);
 		Util.remove_all_children (right_toolbar);
 		set_mediabar (null);
@@ -550,11 +552,11 @@ public class Gth.Viewer : Gtk.Box {
 			window.active_resizer = null;
 		});
 
-		editor_sidebar.resizer.add_handle (main_view, Gtk.PackType.START);
-		editor_sidebar.resizer.started.connect ((obj) => {
+		editor_palette.resizer.add_handle (main_view, Gtk.PackType.START);
+		editor_palette.resizer.started.connect ((obj) => {
 			window.active_resizer = obj;
 		});
-		editor_sidebar.resizer.ended.connect (() => {
+		editor_palette.resizer.ended.connect (() => {
 			window.active_resizer = null;
 		});
 
@@ -641,7 +643,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Gtk.Box right_toolbar;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
-	[GtkChild] unowned Gth.EditorSidebar editor_sidebar;
+	[GtkChild] unowned Gth.EditorPalette editor_palette;
 	[GtkChild] public unowned Gth.ViewerStatus status;
 	[GtkChild] unowned Adw.ToolbarView toolbar_view;
 	[GtkChild] unowned Gtk.Revealer fullscreen_toolbar_revealer;

@@ -8,12 +8,14 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] public unowned Gtk.Stack stack;
 	[GtkChild] public unowned Gth.Browser browser;
 	[GtkChild] public unowned Gth.Viewer viewer;
+	[GtkChild] public unowned Gth.Editor editor;
 	public unowned Gth.SidebarResizer active_resizer;
 
 	public enum Page {
 		NONE = 0,
 		BROWSER,
 		VIEWER,
+		EDITOR,
 	}
 
 	ulong clipboard_event = 0;
@@ -101,6 +103,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return;
 			}
 		}
+		if (current_page == Page.EDITOR) {
+			editor.before_close_page ();
+		}
 		var previuos_page = current_page;
 		current_page = new_page;
 		switch (current_page) {
@@ -152,6 +157,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 			stack.set_visible_child (viewer);
 			viewer.update_title ();
 			viewer.focus_viewer ();
+			break;
+		case Page.EDITOR:
+			stack.set_visible_child (editor);
+			//editor.update_title ();
 			break;
 		case Page.NONE:
 			break;
@@ -584,6 +593,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			else if (current_page == Page.VIEWER) {
 				set_page.begin (Page.BROWSER);
 			}
+			else if (current_page == Page.EDITOR) {
+				set_page.begin (Page.VIEWER);
+			}
 		});
 		action_group.add_action (action);
 
@@ -954,6 +966,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 			context |= viewer.current_viewer.shortcut_context;
 			//stdout.printf ("> viewer.current_viewer.shortcut_context: %s\n", viewer.current_viewer.shortcut_context.to_string ());
 		}
+		else if (current_page == Page.EDITOR) {
+			context |= ShortcutContext.EDITOR;
+			//stdout.printf ("> viewer.current_viewer.shortcut_context: %s\n", viewer.current_viewer.shortcut_context.to_string ());
+		}
+
 		var shortcut = app.shortcuts.find_by_key (context, keyval, state);
 		if ((shortcut == null)
 			|| (ShortcutContext.DOC in shortcut.context))
@@ -1081,6 +1098,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		init_actions ();
 		browser.window = this;
 		viewer.window = this;
+		editor.window = this;
 
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (on_key_pressed);

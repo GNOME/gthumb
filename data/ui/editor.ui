@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthEditor">
+    <child>
+      <object class="AdwOverlaySplitView" id="main_view">
+        <property name="min_sidebar_width">200</property>
+        <property name="max_sidebar_width">400</property>
+        <property name="sidebar_width_fraction">1.0</property>
+        <property name="sidebar_width_unit">px</property>
+        <property name="sidebar_position">end</property>
+        <property name="content">
+          <object class="AdwToolbarView">
+            <property name="hexpand">true</property>
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <child type="start">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkButton" id="back_to_viewer_button">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="action-name">win.pop-page</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="fullscreen_button">
+                        <property name="icon-name">gth-fullscreen-symbolic</property>
+                        <property name="action-name">win.toggle-fullscreen</property>
+                        <property name="tooltip-text" translatable="yes">Fullscreen</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkMenuButton" id="app_menu_button">
+                        <property name="icon-name">open-menu-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <child>
+                  <object class="GtkOverlay" id="content">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">TODO</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="sidebar">
+          <object class="AdwToolbarView">
+            <property name="hexpand">true</property>
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="show-back-button">false</property>
+                <property name="show-end-title-buttons">true</property>
+                <property name="show-start-title-buttons">false</property>
+                <property name="title-widget">
+                  <object class="AdwWindowTitle" id="sidebar_header">
+                  </object>
+                </property>
+                <child type="start">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <style>
+                      <class name="for_toolbar"/>
+                    </style>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="action-name">win.pop-page</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <style>
+                      <class name="for_toolbar"/>
+                    </style>
+                    <child>
+                      <object class="GtkButton" id="apply_button">
+                        <property name="icon-name">gth-checkmark-symbolic</property>
+                        <property name="action-name">editor.apply</property>
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="GthSidebarResizer" id="sidebar_resizer">
+                <child>
+                  <object class="GtkOverlay" id="sidebar">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">TODO</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>
