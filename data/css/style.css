@@ -150,17 +150,25 @@ button.for_statusbar label {
 }
 
 .dialog-content > .message-area {
-	padding: 36px 24px 12px;
+	padding: 0px 24px 6px;
 }
 
 .dialog-content > .response-area {
 	padding: 12px 24px 24px;
 }
 
-.dialog-buttons > .text-button,
 .dialog-content > .response-area > .text-button {
 	padding: 10px 20px;
 	border-radius: 12px;
+}
+
+.dialog-content > .response-area.small-buttons {
+	padding-top: 6px;
+}
+
+.dialog-content > .response-area.small-buttons > .text-button {
+	padding: 6px 18px;
+	border-radius: 9px;
 }
 
 .action-item {

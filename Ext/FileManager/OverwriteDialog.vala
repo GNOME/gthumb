@@ -90,6 +90,7 @@ public class Gth.OverwriteDialog : Object {
 			rename.default_value = destination.info.get_edit_name ();
 			rename.check_extension = check_extension;
 			rename.check_exists = true;
+			rename.add_filename_generator ();
 			rename.folder = destination.file.get_parent ();
 			try {
 				new_name = yield rename.read_value (parent, job);

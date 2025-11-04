@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GthEntryDialog">
-    <property name="content-width">500</property>
+    <property name="content-width">700</property>
+    <property name="default-widget">save_button</property>
     <child>
-      <object class="GtkWindowHandle">
-        <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-title">false</property>
+          </object>
+        </child>
+        <property name="content">
           <object class="GtkBox">
             <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+            <property name="spacing">0</property>
             <style>
               <class name="dialog-content"/>
             </style>
             <child>
               <object class="GtkBox">
                 <property name="orientation">vertical</property>
-                <property name="spacing">24</property>
+                <property name="spacing">12</property>
                 <style>
                   <class name="message-area"/>
                 </style>
@@ -31,8 +37,23 @@
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkEntry" id="entry">
-                        <property name="halign">fill</property>
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkEntry" id="entry">
+                            <property name="halign">fill</property>
+                            <property name="hexpand">true</property>
+                            <property name="activates-default">true</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="generator_button">
+                            <property name="icon-name">gth-script-symbolic</property>
+                            <property name="visible">false</property>
+                            <signal name="clicked" handler="on_generator_clicked"/>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
@@ -52,18 +73,12 @@
             <child>
               <object class="GtkBox">
                 <property name="spacing">12</property>
-                <property name="halign">fill</property>
+                <property name="halign">end</property>
                 <property name="homogeneous">true</property>
                 <style>
                   <class name="response-area"/>
+                  <class name="small-buttons"/>
                 </style>
-                <child>
-                  <object class="GtkButton">
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use_underline">true</property>
-                    <signal name="clicked" handler="on_cancel_clicked"/>
-                  </object>
-                </child>
                 <child>
                   <object class="GtkButton" id="save_button">
                     <property name="label" translatable="yes">_Save</property>
@@ -77,7 +92,7 @@
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
     </child>
   </template>

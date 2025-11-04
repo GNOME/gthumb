@@ -47,11 +47,12 @@ int main (string[] args) {
 	test_uri_from_path ("/a/b:c", "file:///a/b%3Ac");
 	test_uri_from_path ("/日/本", "file:///日/本");
 
-	test_get_duplicated ("file:///abc.txt", "file:///abc%20(2).txt");
-	test_get_duplicated ("file:///abc%20(2).txt", "file:///abc%20(3).txt");
-	test_get_duplicated ("file:///abc%20().txt", "file:///abc%20()%20(2).txt");
-	test_get_duplicated ("file:///abc%20(-1).txt", "file:///abc%20(-1)%20(2).txt");
-	test_get_duplicated ("file:///abc%20(x).txt", "file:///abc%20(x)%20(2).txt");
+	test_get_duplicated ("file:///abc.txt", "file:///abc-2.txt");
+	test_get_duplicated ("file:///abc-2.txt", "file:///abc-3.txt");
+	test_get_duplicated ("file:///abc--2.txt", "file:///abc--3.txt");
+	test_get_duplicated ("file:///abc-.txt", "file:///abc--2.txt");
+	test_get_duplicated ("file:///abc-x.txt", "file:///abc-x-2.txt");
+	test_get_duplicated ("file:///.txt", "file:///-2.txt");
 
 	test_get_basename ("file.txt", "file.txt");
 	test_get_basename ("/dir/file.txt", "file.txt");

@@ -412,4 +412,11 @@ namespace Gth.Util {
 			return uint.min (n_workers, 1);
 		}
 	}
+
+	public static void select_filename_without_ext (Gtk.Entry entry) {
+		var ext_start = Util.get_extension_start (entry.text);
+		if (ext_start > 1) {
+			entry.select_region (0, entry.text.char_count (ext_start));
+		}
+	}
 }

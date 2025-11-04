@@ -159,13 +159,13 @@ namespace Gth.Util {
 		}
 		var new_uri = new StringBuilder ();
 		try {
-			var regex = new Regex ("^(.*)%20\\(([0-9]+)\\)$");
+			var regex = new Regex ("^(.*)-([0-9]+)$");
 			MatchInfo info;
 			regex.match (uri_no_ext, 0, out info);
 			if (info.matches ()) {
 				new_uri.append (info.fetch (1));
 				var n = uint.parse (info.fetch (2), 10);
-				new_uri.append_printf ("%%20(%u)", n + 1);
+				new_uri.append_printf ("-%u", n + 1);
 			}
 			else {
 				throw new IOError.FAILED ("Not a duplicate");
@@ -173,7 +173,7 @@ namespace Gth.Util {
 		}
 		catch (Error error) {
 			new_uri.append (uri_no_ext);
-			new_uri.append ("%20(2)");
+			new_uri.append ("-2");
 		}
 		new_uri.append (ext);
 		return File.new_for_uri (new_uri.str);

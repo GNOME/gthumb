@@ -3,11 +3,16 @@
   <template class="GthScriptParametersDialog">
     <property name="content-width">500</property>
     <child>
-      <object class="GtkWindowHandle">
-        <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-title">false</property>
+          </object>
+        </child>
+        <property name="content">
           <object class="GtkBox">
             <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+            <property name="spacing">0</property>
             <style>
               <class name="dialog-content"/>
             </style>
@@ -51,7 +56,6 @@
                 </child>
                 <child>
                   <object class="AdwPreferencesGroup" id="entry_group">
-                    <property name="separate-rows">true</property>
                   </object>
                 </child>
               </object>
@@ -64,13 +68,6 @@
                 <style>
                   <class name="response-area"/>
                 </style>
-                <child>
-                  <object class="GtkButton">
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use_underline">true</property>
-                    <signal name="clicked" handler="on_cancel_clicked"/>
-                  </object>
-                </child>
                 <child>
                   <object class="GtkButton" id="skip_button">
                     <property name="label" translatable="yes">_Skip</property>
@@ -91,7 +88,7 @@
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
     </child>
   </template>

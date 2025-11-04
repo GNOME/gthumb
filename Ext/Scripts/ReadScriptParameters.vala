@@ -83,11 +83,6 @@ class Gth.ScriptParametersDialog : Adw.Dialog {
 	}
 
 	[GtkCallback]
-	void on_cancel_clicked (Gtk.Button button) {
-		close ();
-	}
-
-	[GtkCallback]
 	void on_skip_clicked (Gtk.Button button) {
 		skipped = true;
 		close ();

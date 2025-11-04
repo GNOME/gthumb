@@ -2,6 +2,7 @@ public class Gth.ReadText : Object {
 	public string default_value;
 	public bool is_filename;
 	public CheckTextFunc check_func;
+	public TextGenerator generator;
 
 	string title;
 	string save_label;
@@ -12,12 +13,14 @@ public class Gth.ReadText : Object {
 		default_value = null;
 		is_filename = false; // TODO: select the name without the extension
 		check_func = null;
+		generator = null;
 	}
 
 	public async string read_value (Gtk.Window? parent, Job job) throws Error {
 		callback = read_value.callback;
 		dialog = new EntryDialog (title, default_value);
 		dialog.check_func = check_func;
+		dialog.generator = generator;
 		if (save_label != null) {
 			dialog.save_button.label = save_label;
 		}
@@ -36,14 +39,9 @@ public class Gth.ReadText : Object {
 		});
 		job.opens_dialog ();
 		dialog.present (parent);
-		Util.after_timeout (200, () => {
-			if (is_filename) {
-				var ext_start = Util.get_extension_start (default_value);
-				if (ext_start > 1) {
-					dialog.entry.select_region (0, default_value.char_count (ext_start));
-				}
-			}
-		});
+		if (is_filename) {
+			Util.after_timeout (200, () => Util.select_filename_without_ext (dialog.entry));
+		}
 		yield;
 		job.dialog_closed ();
 		if (cancelled_event != 0) {
@@ -64,13 +62,33 @@ public class Gth.ReadText : Object {
 
 
 public delegate bool CheckTextFunc (string value) throws Error;
+public delegate string GenerateTextFunc (string value) throws Error;
 
+public class Gth.TextGenerator {
+	public string tooltip;
+	public string icon_name;
+	public unowned GenerateTextFunc generate;
+}
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/entry-dialog.ui")]
 public class Gth.EntryDialog : Adw.Dialog {
 	public signal void saved ();
 
 	public unowned CheckTextFunc check_func;
+	public TextGenerator generator {
+		set {
+			_generator = value;
+			if (_generator != null) {
+				if (_generator.icon_name != null) {
+					generator_button.icon_name = _generator.icon_name;
+				}
+				if (_generator.tooltip != null) {
+					generator_button.tooltip_text = _generator.tooltip;
+				}
+				generator_button.visible = true;
+			}
+		}
+	}
 
 	public EntryDialog (string _title, string? default_value = null) {
 		title = _title;
@@ -86,8 +104,15 @@ public class Gth.EntryDialog : Adw.Dialog {
 	}
 
 	[GtkCallback]
-	void on_cancel_clicked (Gtk.Button button) {
-		close ();
+	void on_generator_clicked (Gtk.Button button) {
+		try {
+			entry.text = _generator.generate (entry.text);
+			entry.grab_focus ();
+			Util.select_filename_without_ext (entry);
+		}
+		catch (Error error) {
+			show_error (error.message);
+		}
 	}
 
 	[GtkCallback]
@@ -103,14 +128,20 @@ public class Gth.EntryDialog : Adw.Dialog {
 			saved ();
 		}
 		catch (Error error) {
-			error_label.label = error.message;
-			error_label.visible = true;
-			entry.grab_focus ();
+			show_error (error.message);
 		}
+	}
+
+	void show_error (string msg) {
+		error_label.label = msg;
+		error_label.visible = true;
+		entry.grab_focus ();
 	}
 
 	[GtkChild] public unowned Gtk.Entry entry;
 	[GtkChild] public unowned Gtk.Label title_label;
 	[GtkChild] public unowned Gtk.Label error_label;
 	[GtkChild] public unowned Gtk.Button save_button;
+	[GtkChild] public unowned Gtk.Button generator_button;
+	TextGenerator _generator = null;
 }

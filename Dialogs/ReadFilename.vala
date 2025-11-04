@@ -12,6 +12,14 @@ public class Gth.ReadFilename : Gth.ReadText {
 		check_func = check_filename;
 	}
 
+	public void add_filename_generator () {
+		generator = new TextGenerator () {
+			tooltip = _("Automatic Filename"),
+			icon_name = "gth-script-symbolic",
+			generate = get_unused_filename,
+		};
+	}
+
 	bool check_filename (string value) throws Error {
 		if (check_extension) {
 			var ext_start = Util.get_extension_start (value);
@@ -31,4 +39,22 @@ public class Gth.ReadFilename : Gth.ReadText {
 		}
 		return true;
 	}
+
+	string get_unused_filename (string value) throws Error {
+		if (folder == null) {
+			return value;
+		}
+		var tries = 0u;
+		var destination = folder.get_child_for_display_name (value);
+		while (destination.query_exists (null)) {
+			tries++;
+			if (tries >= MAX_TRIES) {
+				throw new IOError.FAILED ("Too many files");
+			}
+			destination = Util.get_duplicated (destination);
+		}
+		return destination.get_basename ();
+	}
+
+	const uint MAX_TRIES = 1000;
 }
