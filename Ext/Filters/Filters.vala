@@ -70,6 +70,7 @@ public class Gth.Filters {
 								var test = Object.new (registered_test.get_type ()) as Gth.Test;
 								test.load_from_element (node);
 								entries.model.append (test);
+								app.shortcuts.add (registered_test.create_shortcut ());
 							}
 						}
 					}

@@ -4,10 +4,14 @@ public class Gth.FilterBar : Gtk.Box {
 
 	public signal void changed ();
 
-	public void reset_filter () {
-		if (select_filter_by_id ("")) {
+	public void set_filter (string id) {
+		if (select_filter_by_id (id)) {
 			changed ();
 		}
+	}
+
+	public void reset_filter () {
+		set_filter ("");
 	}
 
 	construct {
@@ -17,12 +21,7 @@ public class Gth.FilterBar : Gtk.Box {
 		insert_action_group ("filterbar", action_group);
 
 		var action = new SimpleAction.stateful ("set-filter", GLib.VariantType.STRING, new Variant.string (""));
-		action.activate.connect ((_action, param) => {
-			var id = param.get_string ();
-			if (select_filter_by_id (id)) {
-				changed ();
-			}
-		});
+		action.activate.connect ((_action, param) => set_filter (param.get_string ()));
 		action_group.add_action (action);
 
 		action = new SimpleAction ("reset-filter", null);

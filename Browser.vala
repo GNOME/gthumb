@@ -777,6 +777,10 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect (() => filter_bar.reset_filter ());
 		action_group.add_action (action);
 
+		action = new SimpleAction ("set-filter", VariantType.STRING);
+		action.activate.connect ((_action, param) => filter_bar.set_filter (param.get_string ()));
+		action_group.add_action (action);
+
 		action = new SimpleAction.stateful ("set-general-filter", VariantType.STRING, new Variant.string ((general_filter != null) ? general_filter.id : ""));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param);

@@ -143,6 +143,15 @@ public class Gth.Test : Object {
 		doc.append_child (node);
 		return doc.to_xml ();
 	}
+
+	public Gth.Shortcut create_shortcut () {
+		var shortcut = new Shortcut ("win.set-filter", new Variant.string (id));
+		shortcut.description = display_name;
+		shortcut.context = ShortcutContext.BROWSER;
+		shortcut.category = ShortcutCategory.FILTERS;
+		//shortcut.set_accelerator ();
+		return shortcut;
+	}
 }
 
 public class Gth.TestIterator {
