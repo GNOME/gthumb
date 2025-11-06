@@ -154,6 +154,10 @@ public class Gth.Script : Object {
 		process.spawn (argv);
 		if (wait_command) {
 			yield process.wait_process (job.cancellable);
+			// var output = process.read_output ();
+			// if (output != null) {
+			// 	stdout.printf ("> OUTPUT: %s\n", (string) output.get_data ());
+			// }
 		}
 	}
 
@@ -428,16 +432,8 @@ class Gth.ScriptProcess {
 			out standard_input,
 			out standard_output,
 			out standard_error);
-
 		output = new IOChannel.unix_new (standard_output);
-		output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-			return process_line (channel, condition);
-		});
-
 		error = new IOChannel.unix_new (standard_error);
-		error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-			return process_line (channel, condition);
-		});
 	}
 
 	public async void wait_process (Cancellable cancellable) throws Error {
@@ -471,39 +467,18 @@ class Gth.ScriptProcess {
 		return output_memory.steal_as_bytes ();
 	}
 
-	bool process_line (IOChannel channel, IOCondition condition) {
-		if (condition == IOCondition.HUP) {
-			// print ("%s: The fd has been closed.\n", stream_name);
-			return false;
-		}
-
-		var _continue = false;
-		try {
-			string line;
-			size_t length = -1;
-			size_t terminator_pos = -1;
-			var status = channel.read_line (out line, out length, out terminator_pos);
-			if (length > 0) {
-				output_stream.write (line.data[0:length]);
-			}
-			if (status != IOStatus.EOF) {
-				_continue = true;
-			}
-		}
-		catch (Error error) {
-			//print ("> ERROR: %s\n", error.message);
-		}
-
-		return _continue;
-	}
-
 	void read_channel (IOChannel channel) {
 		if (channel != null) {
 			try {
-				string str;
-				size_t length;
-				channel.read_to_end (out str, out length);
-				output_stream.write (str.data[0:length]);
+				string line;
+				size_t length = -1;
+				size_t terminator_pos = -1;
+				while (channel.read_line (out line, out length, out terminator_pos) != IOStatus.EOF) {
+					if (length > 0) {
+						output_stream.write (line.data[0:terminator_pos]);
+						output_stream.put_string ("\n");
+					}
+				}
 			}
 			catch (Error error) {
 			}
