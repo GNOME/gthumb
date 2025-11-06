@@ -10,11 +10,11 @@ public class Gth.ColorPicker : ImageTool {
 		window.editor.apply_button.visible = false;
 		window.editor.content.child = builder.get_object ("main_view") as Gtk.Widget;
 		window.editor.content.add_css_class ("image-view");
+		window.editor.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.default_zoom_type = ZoomType.KEEP_PREVIOUS;
+		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		image_view.image = viewer.image_view.image;
-		image_view.zoom = viewer.image_view.zoom;
 
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
@@ -38,8 +38,11 @@ public class Gth.ColorPicker : ImageTool {
 		image_view.add_controller (scroll_events);
 		// TODO image_view.scroll_to (viewer.image_view.hadjustment.value, viewer.image_view.vadjustment.value);
 
-		navigator = builder.get_object ("navigator") as Gth.ImageOverview;
-		navigator.main_view = image_view;
+		overview = builder.get_object ("overview") as Gth.ImageOverview;
+		overview_button = builder.get_object ("overview_button") as Gtk.MenuButton;
+		overview_button.notify["active"].connect (() => {
+			overview.main_view = image_view;
+		});
 
 		position_x = builder.get_object ("position_x") as Adw.SpinRow;
 		position_x.adjustment.configure (0, 1, image_view.image.get_width (), 10, 1, 0);
@@ -207,7 +210,8 @@ public class Gth.ColorPicker : ImageTool {
 	unowned Adw.ActionRow rgb_percent_format;
 	unowned Adw.ActionRow hsl_format;
 	unowned Gth.ColorPreview color_preview;
-	unowned Gth.ImageOverview navigator;
+	unowned Gth.ImageOverview overview;
+	unowned Gtk.MenuButton overview_button;
 	double last_x = -1;
 	double last_y = -1;
 }

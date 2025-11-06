@@ -25,6 +25,7 @@ public class Gth.Editor : Gtk.Box {
 		window.editor.content.child = null;
 		window.editor.sidebar.child = null;
 		window.insert_action_group ("editor", null);
+		Util.remove_all_children (left_toolbar);
 	}
 
 	public void focus_viewer () {
@@ -34,6 +35,10 @@ public class Gth.Editor : Gtk.Box {
 		if (current_editor != null) {
 			// TODO current_editor.focus ();
 		}
+	}
+
+	public void set_left_toolbar (Gtk.Widget toolbar) {
+		left_toolbar.append (toolbar);
 	}
 
 	void init () {
@@ -72,4 +77,5 @@ public class Gth.Editor : Gtk.Box {
 	[GtkChild] public unowned Gtk.Button apply_button;
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] public unowned Gtk.Overlay sidebar;
+	[GtkChild] unowned Gtk.Box left_toolbar;
 }

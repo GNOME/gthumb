@@ -381,6 +381,7 @@ public class Gth.Viewer : Gtk.Box {
 	public void update_sensitivity () {
 		var is_image = (current_file != null) && Util.content_type_is_image (current_file.get_content_type ());
 		Util.enable_action (window.action_group, "set-desktop-background", is_image);
+		Util.enable_action (window.action_group, "editor-tools", is_image);
 	}
 
 	public void update_title () {
@@ -643,7 +644,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Gtk.Box right_toolbar;
 	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
-	[GtkChild] unowned Gth.EditorPalette editor_palette;
+	[GtkChild] public unowned Gth.EditorPalette editor_palette;
 	[GtkChild] public unowned Gth.ViewerStatus status;
 	[GtkChild] unowned Adw.ToolbarView toolbar_view;
 	[GtkChild] unowned Gtk.Revealer fullscreen_toolbar_revealer;

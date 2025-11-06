@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class="GtkBox" id="left_toolbar">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkButton" id="adapt_window_button">
+        <property name="icon-name">gth-fullscreen-alt-symbolic</property>
+        <property name="action-name">win.adapt-to-content</property>
+        <property name="tooltip-text" translatable="yes">Adapt Window to Content</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuButton" id="overview_button">
+        <property name="icon-name">gth-zoom-menu-symbolic</property>
+        <property name="direction">down</property>
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="popover">
+          <object class="GtkPopover">
+            <property name="has-arrow">true</property>
+            <property name="position">bottom</property>
+            <style>
+              <class name="deeper"/>
+            </style>
+            <child>
+              <object class="GthImageOverview" id="overview">
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
+                <property name="width-request">250</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </object>
   <object class="GtkOverlay" id="main_view">
     <child>
       <object class="GthImageView" id="image_view">
@@ -28,6 +66,7 @@
             <child type="suffix">
               <object class="GthColorPreview" id="color_preview">
                 <property name="valign">center</property>
+                <property name="hexpand">true</property>
               </object>
             </child>
           </object>
@@ -115,10 +154,6 @@
             <property name="title" translatable="yes">Y</property>
           </object>
         </child>
-      </object>
-    </child>
-    <child>
-      <object class="GthImageOverview" id="navigator">
       </object>
     </child>
   </object>

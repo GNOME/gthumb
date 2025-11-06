@@ -360,7 +360,13 @@ GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, g
 
 GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (source), NULL);
+	// if (x + width > source->priv->width) {
+	// 	g_printf ("> subimage: x: %u, width: %u, max_width: %u\n", x, width, source->priv->width);
+	// }
 	g_return_val_if_fail (x + width <= source->priv->width, NULL);
+	// if (y + height > source->priv->height) {
+	// 	g_printf ("> subimage: y: %u, height: %u, max_height: %u\n", y, height, source->priv->height);
+	// }
 	g_return_val_if_fail (y + height <= source->priv->height, NULL);
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
 	image->priv->row_stride = source->priv->row_stride;

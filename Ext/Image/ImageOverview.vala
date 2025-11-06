@@ -6,14 +6,13 @@ public class Gth.ImageOverview : Gtk.Box {
 			_main_view.resized.connect (() => update_selection ());
 			hadj_changed = _main_view.hadjustment.value_changed.connect ((adj) => update_selection ());
 			vadj_changed = _main_view.vadjustment.value_changed.connect ((adj) => update_selection ());
-			SignalHandler.block (zoom_scale.adjustment, zoom_changed_id);
-			zoom_scale.adjustment.value = ZoomScale.get_adj_value (_main_view.zoom);
-			SignalHandler.unblock (zoom_scale.adjustment, zoom_changed_id);
 			preview.image = _main_view.image;
+			Util.enable_action (action_group, "set-zoom", _main_view != null);
+			Util.enable_action (action_group, "view-all", _main_view != null);
 		}
 	}
 
-	void update_selection () {
+	void update_selection (bool debug = false) {
 		var z = _main_view.zoom / preview.zoom;
 		viewport = { {
 				(float) (_main_view.hadjustment.value / z),
@@ -23,10 +22,16 @@ public class Gth.ImageOverview : Gtk.Box {
 				(float) (_main_view.vadjustment.page_size / z)
 			}
 		};
-		// stdout.printf ("> (%f,%f)[%f,%f]\n",
-		// 	viewport.origin.x, viewport.origin.y,
-		// 	viewport.size.width, viewport.size.height);
+		if (debug) {
+			stdout.printf ("> (%f,%f)[%f,%f]\n",
+				viewport.origin.x, viewport.origin.y,
+				viewport.size.width, viewport.size.height);
+		}
 		preview.set_selection (viewport);
+
+		SignalHandler.block (zoom_scale.adjustment, zoom_changed_id);
+		zoom_scale.adjustment.value = ZoomScale.get_adj_value (_main_view.zoom);
+		SignalHandler.unblock (zoom_scale.adjustment, zoom_changed_id);
 	}
 
 	construct {
@@ -43,6 +48,8 @@ public class Gth.ImageOverview : Gtk.Box {
 			}
 		});
 
+		preview.resized.connect (() => update_selection ());
+
 		var click_events = new Gtk.GestureClick ();
 		click_events.pressed.connect ((n_press, x, y) => {
 			dragging = true;
@@ -53,7 +60,7 @@ public class Gth.ImageOverview : Gtk.Box {
 			dragging = false;
 			preview.cursor = null;
 		});
-		add_controller (click_events);
+		preview.add_controller (click_events);
 
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
@@ -61,7 +68,7 @@ public class Gth.ImageOverview : Gtk.Box {
 				move_to (x, y);
 			}
 		});
-		add_controller (motion_events);
+		preview.add_controller (motion_events);
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		scroll_events.scroll.connect ((controller, dx, dy) => {
@@ -72,6 +79,17 @@ public class Gth.ImageOverview : Gtk.Box {
 			}
 		});
 		add_controller (scroll_events);
+
+		action_group = new SimpleActionGroup ();
+		insert_action_group ("overview", action_group);
+
+		var action = new SimpleAction ("view-all", null);
+		action.activate.connect (() => _main_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER);
+		action_group.add_action (action);
+
+		action = new SimpleAction ("set-zoom", VariantType.DOUBLE);
+		action.activate.connect ((obj, param) => _main_view.zoom = (float) param.get_double ());
+		action_group.add_action (action);
 	}
 
 	void move_to (double x, double y) {
@@ -90,4 +108,5 @@ public class Gth.ImageOverview : Gtk.Box {
 	ulong vadj_changed;
 	ulong zoom_changed_id;
 	bool dragging;
+	SimpleActionGroup action_group;
 }

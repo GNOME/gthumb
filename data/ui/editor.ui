@@ -30,6 +30,10 @@
                         <property name="tooltip-text" translatable="yes">Fullscreen</property>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkBox" id="left_toolbar">
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child type="end">
