@@ -57,6 +57,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 				}
 			}
 			else {
+				var selection_changed = false;
 				try {
 					var selection = app.selections.get_selection (number);
 					if (selection == null) {
@@ -74,6 +75,10 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 							if (cancellable.is_cancelled ()) {
 								action = ForEachAction.STOP;
 							}
+							else {
+								selection.remove_file (file);
+								selection_changed = true;
+							}
 						}
 						if (action == ForEachAction.STOP) {
 							break;
@@ -85,6 +90,11 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 					//stdout.printf ("ERROR [2]: %s\n", error.message);
 					if (cancellable.is_cancelled ()) {
 						action = ForEachAction.STOP;
+					}
+				}
+				finally {
+					if (selection_changed) {
+						app.monitor.selection_changed (number);
 					}
 				}
 			}
