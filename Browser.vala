@@ -2075,6 +2075,7 @@ public class Gth.Browser : Gtk.Box {
 		var local_job = window.new_job ("New Folder");
 		try {
 			var read_filename = new ReadFilename (_("New Folder"), _("_Create"));
+			read_filename.check_exists = true;
 			var basename = yield read_filename.read_value (window, local_job);
 			var folder = folder_tree.context_file.file.get_child_for_display_name (basename);
 			yield Files.make_directory_async (folder, local_job.cancellable);
