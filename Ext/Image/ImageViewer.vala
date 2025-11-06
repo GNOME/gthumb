@@ -125,6 +125,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			image_view.image = null;
 		}
 		update_toolbar_actions ();
+		update_sensitivity ();
 		return success;
 	}
 
@@ -133,6 +134,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		history.clear ();
 		history.add (image, true);
 		update_toolbar_actions ();
+		update_sensitivity ();
 	}
 
 	public void deactivate () {
@@ -277,6 +279,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	public override async void save () throws Error {
 		window.viewer.current_file = yield save_to (window.viewer.current_file.file);
+	}
+
+	public void revert_to_saved () {
+		set_image (history.revert (), false);
 	}
 
 	public void focus () {
@@ -483,6 +489,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action.activate.connect (() => save.begin ());
 		action_group.add_action (action);
 
+		action = new SimpleAction ("revert", null);
+		action.activate.connect (() => revert_to_saved ());
+		action_group.add_action (action);
+
 		action = new SimpleAction ("flip-horizontal", null);
 		action.activate.connect (() => {
 			if (image_view.image == null) {
@@ -605,10 +615,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			bool is_modified;
 			var image = history.undo (out is_modified);
 			if (image != null) {
-				image_view.image = image;
-				window.viewer.current_file.set_is_modified (is_modified);
-				window.viewer.update_title ();
-				update_sensitivity ();
+				set_image (image, is_modified);
 			}
 		});
 		action_group.add_action (action);
@@ -618,10 +625,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			bool is_modified;
 			var image = history.redo (out is_modified);
 			if (image != null) {
-				image_view.image = image;
-				window.viewer.current_file.set_is_modified (is_modified);
-				window.viewer.update_title ();
-				update_sensitivity ();
+				set_image (image, is_modified);
 			}
 		});
 		action_group.add_action (action);
@@ -637,13 +641,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var local_job = window.new_job (title, JobFlags.FOREGROUND);
 		try {
 			// TODO: load the original image if needed.
-			image_view.image = yield app.image_editor.exec_operation (
+			var image = yield app.image_editor.exec_operation (
 				operation,
 				local_job.cancellable);
-			history.add (image_view.image, true);
-			window.viewer.current_file.set_is_modified (true);
-			window.viewer.update_title ();
-			update_sensitivity ();
+			history.add (image, true);
+			set_image (image, true);
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -757,6 +759,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var is_modified = has_image && window.viewer.current_file.get_is_modified ();
 		Util.enable_action (action_group, "apply-icc-profile", has_image && image_view.image.has_icc_profile () && !is_modified);
 		Util.enable_action (action_group, "save", has_image && is_modified);
+	}
+
+	void set_image (Image image, bool is_modified) {
+		image_view.image = image;
+		window.viewer.current_file.set_is_modified (is_modified);
+		window.viewer.update_title ();
+		update_sensitivity ();
 	}
 
 	construct {

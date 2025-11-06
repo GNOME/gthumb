@@ -238,10 +238,10 @@ public class Gth.Shortcuts {
 
 		register ("image.save", N_("Save Image"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>s");
 		register ("image.save-as", N_("Save Image As"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>s");
-		register ("revert-to-saved", N_("Revert Image to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "F4");
 		register ("image.undo", N_("Undo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>z");
 		register ("image.redo", N_("Redo Edit"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>z");
 		register ("apply-editor-changes", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "Return");
+		register ("image.revert", N_("Revert to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "F4");
 
 		register ("file-tool-adjust-contrast", N_("Adjust Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "a");
 		register ("file-tool-flip", N_("Flip"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "l");
