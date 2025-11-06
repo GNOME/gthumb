@@ -83,9 +83,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			_hadjustment = value;
 			if (_hadjustment != null) {
-				update_adjustments ();
+				update_scroll_offset ();
 				hadj_changed_id = _hadjustment.value_changed.connect ((adj) => {
 					viewport.origin = { (float) adj.get_value (), viewport.origin.y };
+					update_texture_box ();
 					update_image_box ();
 					queue_draw ();
 				});
@@ -114,9 +115,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			_vadjustment = value;
 			if (_vadjustment != null) {
-				update_adjustments ();
+				update_scroll_offset ();
 				vadj_changed_id = _vadjustment.value_changed.connect ((adj) => {
 					viewport.origin = { viewport.origin.x, (float) adj.get_value () };
+					update_texture_box ();
 					update_image_box ();
 					queue_draw ();
 				});
@@ -144,6 +146,18 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		natural = 0;
 		natural_baseline = -1;
 		minimum_baseline = -1;
+		if ((for_size == -1) && (width_request == -1) && (height_request == -1)) {
+			// Can adapt to any size.
+			return;
+		}
+		if ((width_request != -1) && ((width_request < for_size) || (for_size == -1))) {
+			// Respect width_request
+			for_size = width_request;
+		}
+		if ((height_request != -1) && ((height_request < for_size) || (for_size == -1))) {
+			// Respect height_request
+			for_size = height_request;
+		}
 		if (_image != null) {
 			uint natural_width, natural_height;
 			_image.get_natural_size (out natural_width, out natural_height);
@@ -158,20 +172,20 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				natural = (int) (new_zoom * natural_height);
 			}
 		}
-		//stdout.printf ("> orientation: %s > natural: %d\n", orientation.to_string (), natural);
 	}
 
 	public override void size_allocate (int width, int height, int baseline) {
 		viewport.size = { width, height };
 
-		// stdout.printf ("> width: %d (%f), height: %d (%f), zoom: %f\n",
+		// stdout.printf ("> size_allocate: width: %d (%f), height: %d (%f), zoom: %f\n",
 		// 	width, viewport.size.width,
 		// 	height, viewport.size.height,
 		// 	_zoom);
 
+		var offset_updated = false;
 		if (_image != null) {
 			if (_zoom_type.fit_to_allocation ()) {
-				set_valid_zoom (get_zoom_for_allocation (width, height));
+				set_valid_zoom (get_zoom_for_allocation (_zoom_type, width, height));
 				recenter_image ();
 			}
 			else {
@@ -180,13 +194,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				}
 				else {
 					update_scroll_offset ();
+					offset_updated = true;
 				}
 			}
 			_first_allocation = false;
 		}
 		update_texture_box ();
 		update_image_box ();
-		update_adjustments ();
+		if (!offset_updated) {
+			update_scroll_offset ();
+		}
 		resized ();
 	}
 
@@ -292,7 +309,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			box.origin.x += texture_box.origin.x;
 			box.origin.y += texture_box.origin.y;
 
-			Gdk.RGBA background_color = { 0, 0, 0, 0.5f };
+			Gdk.RGBA background_color = { 0, 0, 0, 0.25f };
 			var round_x =  Math.roundf (box.origin.x);
 			snapshot.append_color (background_color, {
 				{ 0, 0 },
@@ -338,27 +355,31 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	public void scroll_to (double x, double y) {
-		set_scroll_offset (_zoom, (float) x, (float) y);
+		set_scroll_offset ((float) x, (float) y);
 		update_texture_box ();
 		update_image_box ();
 		queue_draw ();
 	}
 
 	public void scroll_by (double dx, double dy) {
-		set_scroll_offset (_zoom, viewport.origin.x + (float) dx, viewport.origin.y + (float) dy);
+		set_scroll_offset (viewport.origin.x + (float) dx, viewport.origin.y + (float) dy);
 		update_texture_box ();
 		update_image_box ();
 		queue_draw ();
 	}
 
-	float get_zoom_for_allocation (int width, int height) {
+	public float get_zoom_for_type (ZoomType type) {
+		return get_zoom_for_allocation (type, (int) viewport.size.width, (int) viewport.size.height);
+	}
+
+	float get_zoom_for_allocation (ZoomType type, int width, int height) {
 		if (image == null) {
 			return _zoom;
 		}
 		float new_zoom = _zoom;
 		uint natural_width, natural_height;
 		_image.get_natural_size (out natural_width, out natural_height);
-		switch (_zoom_type) {
+		switch (type) {
 		case ZoomType.MAXIMIZE:
 			new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width, height);
 			/*stdout.printf ("[%u,%u] in [%d,%d] -> %f\n",
@@ -408,7 +429,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 		var offset_x = Util.center_content (zoomed_width, viewport.size.width);
 		var offset_y = Util.center_content (zoomed_height, viewport.size.height);
-		set_scroll_offset (_zoom, offset_x, offset_y);
+		set_scroll_offset (offset_x, offset_y);
 	}
 
 	float set_valid_zoom (float new_zoom) {
@@ -434,7 +455,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		var old_zoom = _zoom;
 		new_zoom = set_valid_zoom (new_zoom);
 		if ((texture_box.size.width == 0) || (viewport.size.width == 0)) {
-			set_scroll_offset (new_zoom, 0, 0);
+			update_adjustments (0, 0);
 		}
 		else {
 			// Pixel under the pointer.
@@ -456,40 +477,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			// Offset to center the pointer.
 			var offset_x = center_x - (viewport.size.width / 2);
 			var offset_y = center_y - (viewport.size.height / 2);
-			set_scroll_offset (new_zoom, offset_x, offset_y);
-		}
-	}
-
-	void update_scroll_offset () {
-		// Make sure the scroll offsets are valid.
-		set_scroll_offset (_zoom, viewport.origin.x, viewport.origin.y);
-	}
-
-	void set_scroll_offset (float zoom_level, float x, float y) {
-		float zoomed_width, zoomed_height;
-		get_zoomed_size_for_zoom (zoom_level, out zoomed_width, out zoomed_height);
-		var max_x = float.max (zoomed_width - viewport.size.width, 0);
-		var max_y = float.max (zoomed_height - viewport.size.height, 0);
-		x = x.clamp (0, max_x);
-		y = y.clamp (0, max_y);
-		viewport.origin = { x, y };
-		if (_hadjustment != null) {
-			if (hadj_changed_id != 0) {
-				SignalHandler.block (_hadjustment, hadj_changed_id);
-			}
-			_hadjustment.set_value (x);
-			if (hadj_changed_id != 0) {
-				SignalHandler.unblock (_hadjustment, hadj_changed_id);
-			}
-		}
-		if (_vadjustment != null) {
-			if (vadj_changed_id != 0) {
-				SignalHandler.block (_vadjustment, vadj_changed_id);
-			}
-			_vadjustment.set_value (y);
-			if (vadj_changed_id != 0) {
-				SignalHandler.unblock (_vadjustment, vadj_changed_id);
-			}
+			update_adjustments (offset_x, offset_y);
 		}
 	}
 
@@ -520,11 +508,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ texture_x, texture_y },
 			{ texture_width, texture_height }
 		};
-		//Util.print_rectangle ("> update_texture_box:", texture_box);
+		// Util.print_rectangle ("> update_texture_box:", texture_box);
 	}
 
 	// To be called after updating texture_box.
 	void update_image_box () {
+		invalidate_scaled_texture ();
+		cancel_filter_update ();
+
 		if (_image == null) {
 			image_box = { { 0, 0 },	{ 0, 0 } };
 			return;
@@ -557,8 +548,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ image_x, image_y },
 			{ image_width, image_height }
 		};
-		//Util.print_rectangle ("> update_image_box:", image_box);
 		queue_update_scaled_texture ();
+		//Util.print_rectangle ("> update_image_box: ", image_box);
 	}
 
 	void get_zoomed_size_for_zoom (float zoom_level, out float width, out float height) {
@@ -574,12 +565,46 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	void set_origin (float x, float y, float zoomed_width, float zoomed_height) {
+		var max_x = float.max (zoomed_width - viewport.size.width, 0);
+		var max_y = float.max (zoomed_height - viewport.size.height, 0);
+		//stdout.printf ("> set_scroll_offset x: %f (max: %f), y: %f (max: %f) (zoom_level: %f)\n", x, max_x, y, max_y, zoom_level);
+		x = x.clamp (0, max_x);
+		y = y.clamp (0, max_y);
+		viewport.origin = { x, y };
+	}
+
+	void set_scroll_offset (float x, float y) {
+		float zoomed_width, zoomed_height;
+		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
+		set_origin (x, y, zoomed_width, zoomed_height);
+		if (_hadjustment != null) {
+			if (hadj_changed_id != 0) {
+				SignalHandler.block (_hadjustment, hadj_changed_id);
+			}
+			_hadjustment.set_value (x);
+			if (hadj_changed_id != 0) {
+				SignalHandler.unblock (_hadjustment, hadj_changed_id);
+			}
+		}
+		if (_vadjustment != null) {
+			if (vadj_changed_id != 0) {
+				SignalHandler.block (_vadjustment, vadj_changed_id);
+			}
+			_vadjustment.set_value (y);
+			if (vadj_changed_id != 0) {
+				SignalHandler.unblock (_vadjustment, vadj_changed_id);
+			}
+		}
+	}
+
 	const double STEP_INCREMENT = 0.1;
 	const double PAGE_INCREMENT = 0.5;
 
-	void update_adjustments () {
+	void update_adjustments (float x, float y) {
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
+		set_origin (x, y, zoomed_width, zoomed_height);
 		if (_vadjustment != null) {
 			_vadjustment.freeze_notify ();
 			_vadjustment.set_lower (0);
@@ -612,6 +637,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			_hadjustment.set_value (viewport.origin.x);
 			_hadjustment.thaw_notify ();
 		}
+	}
+
+	void update_scroll_offset () {
+		// Make sure the scroll offsets are valid.
+		update_adjustments (viewport.origin.x, viewport.origin.y);
 	}
 
 	public override bool focus (Gtk.DirectionType direction) {
@@ -669,11 +699,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
-	uint filter_count = 0;
+	//uint filter_count = 0;
 
 	void queue_update_scaled_texture () {
-		invalidate_scaled_texture ();
-		cancel_filter_update ();
 		filter_id = Util.after_next_rearrange (() => {
 			filter_id = 0;
 			update_scaled_texture ();
@@ -695,16 +723,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 
 		var scaler = new TextureScaler ();
-		scaler.image = image;
+		scaler.image = _image;
 		scaler.image_box = image_box;
 		scaler.texture_box = texture_box;
 		scaler.filter = (image_box.size.width * image_box.size.height >= BIG_IMAGE) ? ScaleFilter.BOX : ScaleFilter.TRIANGLE;
 
-		filter_count++;
+		// filter_count++;
 		// stdout.printf ("> UPDATE SCALED TEXTURE %u\n", filter_count);
-		// stdout.printf ("  ZOOM: %f\n", _zoom);
-		// stdout.printf ("  IMAGE BOX SIZE: %f, %f\n", image_box.size.width, image_box.size.height);
-		// stdout.printf ("  TEXTURE BOX SIZE: %f, %f\n", texture_box.size.width, texture_box.size.height);
+		// stdout.printf ("  IMAGE BOX SIZE: %f, %f\n", scaler.image_box.size.width, scaler.image_box.size.height);
+		// stdout.printf ("  TEXTURE BOX SIZE: %f, %f\n", scaler.texture_box.size.width, scaler.texture_box.size.height);
 		// stdout.printf ("  FILTER: %d\n", scaler.filter);
 
 		var local_cancellable = new Cancellable ();
