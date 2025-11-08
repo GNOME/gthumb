@@ -133,6 +133,8 @@ void gth_image_render_frame (GthImage *canvas, GthImage *background,
 	guint foreground_y, gboolean blend);
 void gth_image_stretch_histogram (GthImage *self, double crop_size);
 void gth_image_equalize_histogram (GthImage *self, gboolean linear);
+void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight);
+void gth_image_grayscale_saturation (GthImage *self);
 
 G_END_DECLS
 

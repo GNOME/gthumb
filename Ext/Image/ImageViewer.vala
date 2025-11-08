@@ -640,6 +640,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			window.editor.activate_tool (new AdjustContrast ());
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("grayscale", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new Grayscale ());
+		});
+		action_group.add_action (action);
 	}
 
 	public async bool edit_image (string title, ImageOperation operation, string? icon_name = null) {

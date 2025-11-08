@@ -66,5 +66,7 @@ namespace Gth {
 
 		public void stretch_histogram (double crop_size);
 		public void equalize_histogram (bool linear);
+		public void grayscale (double red_weight, double green_weight, double blue_weight);
+		public void grayscale_saturation ();
 	}
 }

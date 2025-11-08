@@ -322,6 +322,7 @@ lib_files = files(
   'lib/gth-image.c',
   'lib/gth-image-cut.c',
   'lib/gth-image-edit.c',
+  'lib/gth-image-grayscale.c',
   'lib/gth-image-histogram.c',
   'lib/gth-image-resize.c',
   'lib/gth-image-transform.c',

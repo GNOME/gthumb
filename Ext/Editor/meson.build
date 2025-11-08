@@ -5,6 +5,7 @@ editor_files = files(
   'EditorPalette.vala',
   'EditorSidebar.vala',
   'FilterGrid.vala',
+  'Grayscale.vala',
   'ImageTool.vala',
   'ToolButton.vala',
 )
