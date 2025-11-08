@@ -94,7 +94,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (current_page == Page.NONE) {
 			update_scripts_actions ();
 		}
-		if ((current_page == Page.VIEWER) && viewer.current_file.get_is_modified ()) {
+		if ((current_page == Page.VIEWER)
+			&& viewer.current_file.get_is_modified ()
+			&& (new_page != Page.EDITOR))
+		{
 			try {
 				yield viewer.ask_whether_to_save ();
 			}
