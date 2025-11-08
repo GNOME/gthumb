@@ -243,13 +243,13 @@ public class Gth.Shortcuts {
 		register ("apply-editor-changes", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "Return");
 		register ("image.revert", N_("Revert to Saved"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "F4");
 
-		register ("file-tool-adjust-contrast", N_("Adjust Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "a");
 		register ("file-tool-flip", N_("Flip"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "l");
 		register ("file-tool-mirror", N_("Mirror"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "m");
 		register ("file-tool-rotate-right", N_("Rotate Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "r");
 		register ("file-tool-rotate-left", N_("Rotate Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>r");
 		register ("file-tool-crop", N_("Crop"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
 		register ("file-tool-resize", N_("Resize"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
+		register ("image.adjust-contrast", N_("Adjust Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "a");
 		register ("image.color-picker", N_("Color Picker"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "p");
 
 		register ("slideshow", N_("Start Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");

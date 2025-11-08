@@ -3,26 +3,33 @@ public class Gth.FilterGrid : Gtk.Box {
 
 	public void add (uint id, ImageOperation operation, string title, string? tooltip = null) {
 		var preview = new Gtk.Picture ();
-		var label = new Gtk.Label (title);
-		var button_content = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-		button_content.append (preview);
-		button_content.append (label);
 
 		var button = new Gtk.ToggleButton ();
-		button.child = button_content;
-		button.add_css_class ("filter-preview");
+		button.child = preview;
 		if (tooltip != null) {
 			button.tooltip_text = tooltip;
 		}
 		button.action_name = "grid.set-filter";
 		button.action_target = new Variant.uint32 (id);
-		grid.append (button);
+
+		var label = new Gtk.Label (title);
+
+		var cell_widget = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+		cell_widget.add_css_class ("filter-preview");
+		cell_widget.append (button);
+		cell_widget.append (label);
+		grid.attach (cell_widget, column, row);
+
+		column++;
+		if(column == MAX_COLUMNS) {
+			column = 0;
+			row++;
+		}
 
 		var cell = new Cell () {
-			button = button,
+			operation = operation,
 			preview = preview,
 			label = label,
-			operation = operation
 		};
 		cells.set (id, cell);
 	}
@@ -56,12 +63,10 @@ public class Gth.FilterGrid : Gtk.Box {
 
 	construct {
 		orientation = Gtk.Orientation.VERTICAL;
-		grid = new Gtk.FlowBox ();
+		grid = new Gtk.Grid ();
 		grid.row_spacing = 20;
 		grid.column_spacing = 20;
-		grid.max_children_per_line = 3;
 		grid.halign = Gtk.Align.CENTER;
-		grid.selection_mode = Gtk.SelectionMode.NONE;
 		append (grid);
 		cells = new HashTable<uint, Cell?> (null, null);
 
@@ -79,18 +84,23 @@ public class Gth.FilterGrid : Gtk.Box {
 			activated (new_id);
 		});
 		action_group.add_action (action);
+
+		row = 0;
+		column = 0;
 	}
 
 	struct Cell {
-		unowned Gtk.ToggleButton button;
+		Gth.ImageOperation operation;
 		unowned Gtk.Picture preview;
 		unowned Gtk.Label label;
-		Gth.ImageOperation operation;
 	}
 
-	Gtk.FlowBox grid;
+	Gtk.Grid grid;
 	HashTable <uint, Cell?> cells;
 	SimpleActionGroup action_group;
+	int row;
+	int column;
 
 	const int PREVIEW_SIZE = 110;
+	const int MAX_COLUMNS = 2;
 }
