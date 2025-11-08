@@ -1,13 +1,10 @@
 public class Gth.ColorPicker : ImageTool {
-	public override void activate (Window _window) {
-		window = _window;
-		viewer = window.viewer.current_viewer as ImageViewer;
+	public override void activate () {
 		init_actions ();
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/color-picker.ui");
 		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
-		window.editor.sidebar_header.title = _("Color Picker");
-		window.editor.apply_button.visible = false;
+		window.editor.hide_apply ();
 		window.editor.content.child = builder.get_object ("main_view") as Gtk.Widget;
 		window.editor.content.add_css_class ("image-view");
 		window.editor.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
@@ -198,8 +195,11 @@ public class Gth.ColorPicker : ImageTool {
 		action_group.add_action (action);
 	}
 
-	weak Window window;
-	weak ImageViewer viewer;
+	construct {
+		title = _("Color Picker");
+		icon_name = "gth-eyedropper-symbolic";
+	}
+
 	weak Gth.ImageView image_view;
 	Gtk.Builder builder;
 	SimpleActionGroup action_group;
