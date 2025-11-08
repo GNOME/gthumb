@@ -728,27 +728,30 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 		if (total_files == 1) {
-			var local_job = window.new_job ("Metadata for %s".printf (selected_file.get_display_name ()),
-				JobFlags.DEFAULT,
-				"gth-note-symbolic");
-			sidebar_job = local_job;
-			property_sidebar.load.begin (selected_file, local_job.cancellable, (_obj, res) => {
-				try {
-					property_sidebar.load.end (res);
-				}
-				catch (Error error) {
-					stdout.printf ("ERROR: %s\n", error.message);
-				}
-				finally {
-					local_job.done ();
-					if (local_job == sidebar_job) {
-						sidebar_job = null;
+			if ((property_sidebar.current_file == null)
+				|| !property_sidebar.current_file.file.equal (selected_file.file))
+			{
+				var local_job = window.new_job ("Metadata for %s".printf (selected_file.get_display_name ()),
+					JobFlags.DEFAULT,
+					"gth-note-symbolic");
+				sidebar_job = local_job;
+				property_sidebar.load.begin (selected_file, local_job.cancellable, (_obj, res) => {
+					try {
+						property_sidebar.load.end (res);
 					}
-				}
-			});
+					catch (Error error) {
+						stdout.printf ("ERROR: Browser.update_selection_info: %s\n", error.message);
+					}
+					finally {
+						local_job.done ();
+						if (local_job == sidebar_job) {
+							sidebar_job = null;
+						}
+					}
+				});
+			}
 		}
 		else {
-			//property_sidebar.current_file = null;
 			property_sidebar.set_selection_info (total_files, total_size);
 		}
 		status.set_selection_info (total_files, total_size);
