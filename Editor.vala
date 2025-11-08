@@ -13,11 +13,16 @@ public class Gth.Editor : Gtk.Box {
 			window.set_page.end (res);
 			window.insert_action_group ("editor", action_group);
 			current_editor = tool;
-			current_editor.activate (window);
+			current_editor.set_window (window);
+			current_editor.activate ();
+			sidebar_header.title = current_editor.title;
 		});
 	}
 
 	public void before_close_page () {
+		if (apply_job != null) {
+			apply_job.cancel ();
+		}
 		if (current_editor != null) {
 			current_editor.deactivate ();
 			current_editor = null;
@@ -41,6 +46,11 @@ public class Gth.Editor : Gtk.Box {
 		left_toolbar.append (toolbar);
 	}
 
+	public void hide_apply () {
+		apply_button.visible = false;
+		header_bar.show_end_title_buttons = true;
+	}
+
 	void init () {
 		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/editor-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
@@ -61,8 +71,13 @@ public class Gth.Editor : Gtk.Box {
 		action_group = new SimpleActionGroup ();
 
 		var action = new SimpleAction ("apply", null);
-		action.activate.connect ((_action, param) => {
-			// TODO
+		action.activate.connect (() => {
+			current_editor.apply_changes.begin ((_obj, res) => {
+				var edited = current_editor.apply_changes.end (res);
+				if (edited) {
+					window.set_page.begin (Window.Page.VIEWER);
+				}
+			});
 		});
 		action_group.add_action (action);
 	}
@@ -70,6 +85,7 @@ public class Gth.Editor : Gtk.Box {
 	weak Window _window;
 	public SimpleActionGroup action_group;
 	ImageTool current_editor;
+	Job apply_job = null;
 	[GtkChild] public unowned Gtk.Overlay content;
 	[GtkChild] public unowned Adw.WindowTitle sidebar_header;
 	[GtkChild] public unowned Gth.SidebarResizer sidebar_resizer;
@@ -78,4 +94,5 @@ public class Gth.Editor : Gtk.Box {
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] public unowned Gtk.Overlay sidebar;
 	[GtkChild] unowned Gtk.Box left_toolbar;
+	[GtkChild] unowned Adw.HeaderBar header_bar;
 }

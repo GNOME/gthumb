@@ -38,7 +38,7 @@
 
 #endif
 
-#define RGBA_TO_PIXEL(red, green, blue, alpha) \
+#define PACK_RGBA(red, green, blue, alpha) \
 	((guint32) (((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue)))
 
 #define PIXEL_MULTIPLY_ALPHA(r, p, a) \
@@ -48,6 +48,22 @@
 #define PIXEL_OVER(b, f, a) \
 	temp = ((a) * (b)) + 0x80; \
 	b = f + ((temp + (temp >> 8)) >> 8);
+
+#define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
+	G_STMT_START { \
+		if (alpha == 0xFF) { \
+			*(guint32*) pixel = PACK_RGBA (red, green, blue, 0xFF); \
+		} \
+		else if (alpha == 0) { \
+			*(guint32*) pixel = 0; \
+		} \
+		else { \
+			PIXEL_MULTIPLY_ALPHA (r, red, alpha); \
+			PIXEL_MULTIPLY_ALPHA (g, green, alpha); \
+			PIXEL_MULTIPLY_ALPHA (b, blue, alpha); \
+			*(guint32*) pixel = PACK_RGBA (r, g, b, alpha); \
+		} \
+	} G_STMT_END
 
 #define PIXEL_TO_RGBA(pixel, red, green, blue, alpha) \
 	G_STMT_START { \

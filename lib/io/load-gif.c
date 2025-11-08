@@ -90,7 +90,7 @@ static GthImage * render_frame (GifFileType *file, RenderContext *render_ctx) {
 				}
 				else {
 					entry = &render_ctx->color_map->Colors[screen_row[j]];
-					*(guint32*) pixel_p = RGBA_TO_PIXEL (entry->Red, entry->Green, entry->Blue, 0xFF);
+					*(guint32*) pixel_p = PACK_RGBA (entry->Red, entry->Green, entry->Blue, 0xFF);
 				}
 			}
 			pixel_p += 4;

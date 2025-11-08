@@ -247,7 +247,6 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 	int l;
 	unsigned char *p_surface;
 	guchar r, g, b;
-	guint32 pixel;
 	unsigned char *p_buffer;
 	int x;
 	volatile gboolean read_all_scanlines = FALSE;
@@ -296,8 +295,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 						r = cmyk_tab[ki + c];
 						g = cmyk_tab[ki + m];
 						b = cmyk_tab[ki + y];
-						pixel = RGBA_TO_PIXEL (r, g, b, 0xff);
-						memcpy (p_surface, &pixel, sizeof (guint32));
+						*(guint32*) p_surface = PACK_RGBA (r, g, b, 0xff);
 
 						p_surface += pixel_step;
 						p_buffer += 4; // srcinfo.output_components
@@ -331,8 +329,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 					for (x = 0; x < output_width; x++) {
 						r = g = b = p_buffer[0];
-						pixel = RGBA_TO_PIXEL (r, g, b, 0xff);
-						memcpy (p_surface, &pixel, sizeof (guint32));
+						*(guint32*) p_surface = PACK_RGBA (r, g, b, 0xff);
 
 						p_surface += pixel_step;
 						p_buffer += 1; // srcinfo.output_components
@@ -368,8 +365,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 						r = p_buffer[0];
 						g = p_buffer[1];
 						b = p_buffer[2];
-						pixel = RGBA_TO_PIXEL (r, g, b, 0xff);
-						memcpy (p_surface, &pixel, sizeof (guint32));
+						*(guint32*) p_surface = PACK_RGBA (r, g, b, 0xff);
 
 						p_surface += pixel_step;
 						p_buffer += 3; // srcinfo.output_components
@@ -422,8 +418,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 						r = range_limit[Y + r_cr_tab[Cr]];
 						g = range_limit[Y + SCALE_DOWN (g_cb_tab[Cb] + g_cr_tab[Cr])];
 						b = range_limit[Y + b_cb_tab[Cb]];
-						pixel = RGBA_TO_PIXEL (r, g, b, 0xff);
-						memcpy (p_surface, &pixel, sizeof (guint32));
+						*(guint32*) p_surface = PACK_RGBA (r, g, b, 0xff);
 
 						p_surface += pixel_step;
 						p_buffer += 3; // srcinfo.output_components
@@ -487,8 +482,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 						r = cmyk_tab[Ki + c];
 						g = cmyk_tab[Ki + m];
 						b = cmyk_tab[Ki + y];
-						pixel = RGBA_TO_PIXEL (r, g, b, 0xff);
-						memcpy (p_surface, &pixel, sizeof (guint32));
+						*(guint32*) p_surface = PACK_RGBA (r, g, b, 0xff);
 
 						p_surface += pixel_step;
 						p_buffer += 4; // srcinfo.output_components

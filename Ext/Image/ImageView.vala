@@ -723,7 +723,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 
 		var scaler = new TextureScaler ();
-		scaler.image = _image;
 		scaler.image_box = image_box;
 		scaler.texture_box = texture_box;
 		scaler.filter = (image_box.size.width * image_box.size.height >= BIG_IMAGE) ? ScaleFilter.BOX : ScaleFilter.TRIANGLE;
@@ -736,7 +735,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 		var local_cancellable = new Cancellable ();
 		filter_cancellable = local_cancellable;
-		app.image_editor.exec_operation.begin (scaler, local_cancellable, (obj, res) => {
+		app.image_editor.exec_operation.begin (_image, scaler, local_cancellable, (obj, res) => {
 			try {
 				var scaled = app.image_editor.exec_operation.end (res);
 				scaled_texture = scaled.get_texture ();
@@ -828,13 +827,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 
 class Gth.TextureScaler : Gth.ImageOperation {
-	public Image image;
 	public Graphene.Rect image_box;
 	public Graphene.Rect texture_box;
 	public ScaleFilter filter;
 
-	public override Gth.Image? get_image (Cancellable cancellable) {
-		var visible = image.get_subimage ((uint) image_box.origin.x,
+	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+		var visible = input.get_subimage ((uint) image_box.origin.x,
 			(uint) image_box.origin.y,
 			(uint) image_box.size.width,
 			(uint) image_box.size.height);

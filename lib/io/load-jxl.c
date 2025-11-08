@@ -9,23 +9,13 @@
 #include "load-jxl.h"
 
 static void convert_pixels (int width, int height, guchar *buffer) {
-	guchar *p = buffer, r, g, b, a;
-	guint temp; // used in PIXEL_MULTIPLY_ALPHA
+	guchar *p = buffer;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
 	for (int y = 0; y < height; y++) {
-		for (int x = width; x; x--, p += 4) {
-			a = p[3];
-			if (a == 0xFF) {
-				*(guint32*)p = RGBA_TO_PIXEL (p[0], p[1], p[2], 0xFF);
-			}
-			else if (a == 0) {
-				*(guint32*)p = 0;
-			}
-			else {
-				PIXEL_MULTIPLY_ALPHA (r, p[0], a);
-				PIXEL_MULTIPLY_ALPHA (g, p[1], a);
-				PIXEL_MULTIPLY_ALPHA (b, p[2], a);
-				*(guint32*)p = RGBA_TO_PIXEL (r, g, b, a);
-			}
+		for (int x = 0; x < width; x++) {
+			RGBA_TO_PIXEL (p, p[0], p[1], p[2], p[3]);
+			p += 4;
 		}
 	}
 }

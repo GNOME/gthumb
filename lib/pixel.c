@@ -3,10 +3,10 @@
 
 guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
 	guint temp;
-	PIXEL_MULTIPLY_ALPHA(r, r, a);
-	PIXEL_MULTIPLY_ALPHA(g, g, a);
-	PIXEL_MULTIPLY_ALPHA(b, b, a);
-	return RGBA_TO_PIXEL (r, g, b, a);
+	PIXEL_MULTIPLY_ALPHA (r, r, a);
+	PIXEL_MULTIPLY_ALPHA (g, g, a);
+	PIXEL_MULTIPLY_ALPHA (b, b, a);
+	return PACK_RGBA (r, g, b, a);
 }
 
 
@@ -37,22 +37,10 @@ void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
 }
 
 static void non_premultiplied_line_to_pixel_line (int r_idx, int g_idx, int b_idx, int a_idx, guchar *dest, guchar *src, guint width) {
-	guchar r, g, b, a;
-	guint temp; // used in PIXEL_MULTIPLY_ALPHA
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
 	for (guint x = 0; x < width; x++) {
-		a = src[a_idx];
-		if (a == 0xFF) {
-			*(guint32*) dest = RGBA_TO_PIXEL (src[r_idx], src[g_idx], src[b_idx], 0xFF);
-		}
-		else if (a == 0) {
-			*(guint32*) dest = 0;
-		}
-		else {
-			PIXEL_MULTIPLY_ALPHA (r, src[r_idx], a);
-			PIXEL_MULTIPLY_ALPHA (g, src[g_idx], a);
-			PIXEL_MULTIPLY_ALPHA (b, src[b_idx], a);
-			*(guint32*) dest = RGBA_TO_PIXEL (r, g, b, a);
-		}
+		RGBA_TO_PIXEL (dest, src[r_idx], src[g_idx], src[b_idx], src[a_idx]);
 		src += 4;
 		dest += 4;
 	}
@@ -72,7 +60,7 @@ void abgr_line_to_pixel (guchar *dest, guchar *src, guint width) {
 
 void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
 	for (guint x = 0; x < width; x++) {
-		*(guint32*) dest = RGBA_TO_PIXEL (src[0], src[1], src[2], 0xFF);
+		*(guint32*) dest = PACK_RGBA (src[0], src[1], src[2], 0xFF);
 		src += 3;
 		dest += 4;
 	}
@@ -80,11 +68,11 @@ void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
 
 void pixel_over (uint8_t* background, uint8_t* foreground) {
 	guint temp;
-	uint8_t Falpha_comp = 0xff - foreground[PIXEL_ALPHA];
-	PIXEL_OVER(background[PIXEL_RED], foreground[PIXEL_RED], Falpha_comp);
-	PIXEL_OVER(background[PIXEL_GREEN], foreground[PIXEL_GREEN], Falpha_comp);
-	PIXEL_OVER(background[PIXEL_BLUE], foreground[PIXEL_BLUE], Falpha_comp);
-	PIXEL_OVER(background[PIXEL_ALPHA], foreground[PIXEL_ALPHA], Falpha_comp);
+	uint8_t alpha_comp = 0xFF - foreground[PIXEL_ALPHA];
+	PIXEL_OVER(background[PIXEL_RED], foreground[PIXEL_RED], alpha_comp);
+	PIXEL_OVER(background[PIXEL_GREEN], foreground[PIXEL_GREEN], alpha_comp);
+	PIXEL_OVER(background[PIXEL_BLUE], foreground[PIXEL_BLUE], alpha_comp);
+	PIXEL_OVER(background[PIXEL_ALPHA], foreground[PIXEL_ALPHA], alpha_comp);
 }
 
 #undef PIXEL_TO_RGB

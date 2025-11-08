@@ -1,5 +1,6 @@
 #include <config.h>
 #include <math.h>
+#include "lib/gth-histogram.h"
 #include "lib/gth-image.h"
 #include "lib/types.h"
 
@@ -7,9 +8,7 @@
 typedef double v4r __attribute__ ((vector_size(sizeof(double) * 4)));
 #endif /* HAVE_VECTOR_OPERATIONS */
 
-
-void
-gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
+void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	int row_stride;
 	guint width;
 	guint height;

@@ -130,6 +130,8 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
 void gth_image_render_frame (GthImage *canvas, GthImage *background,
 	guint32 background_color, GthImage *foreground, guint foreground_x,
 	guint foreground_y, gboolean blend);
+void gth_image_stretch_histogram (GthImage *self, double crop_size);
+void gth_image_equalize_histogram (GthImage *self, gboolean linear);
 
 G_END_DECLS
 

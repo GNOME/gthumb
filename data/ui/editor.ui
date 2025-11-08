@@ -71,9 +71,9 @@
           <object class="AdwToolbarView">
             <property name="hexpand">true</property>
             <child type="top">
-              <object class="AdwHeaderBar">
+              <object class="AdwHeaderBar" id="header_bar">
                 <property name="show-back-button">false</property>
-                <property name="show-end-title-buttons">true</property>
+                <property name="show-end-title-buttons">false</property>
                 <property name="show-start-title-buttons">false</property>
                 <property name="title-widget">
                   <object class="AdwWindowTitle" id="sidebar_header">

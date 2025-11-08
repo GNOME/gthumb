@@ -255,6 +255,13 @@ namespace Gth.Util {
 		}
 	}
 
+	public static void set_state (SimpleActionGroup action_group, string name, Variant state) {
+		var action = action_group.lookup_action (name) as SimpleAction;
+		if (action != null) {
+			action.set_state (state);
+		}
+	}
+
 	public static void set_active (SimpleActionGroup action_group, string name, bool active) {
 		var action = action_group.lookup_action (name) as SimpleAction;
 		if (action != null) {

@@ -394,7 +394,7 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public GenericList<Gth.Test> get_file_type_filters () {
-		var result = new GenericList<Gth.Test> ( );
+		var result = new GenericList<Gth.Test>();
 		foreach (unowned var filter in ordered_tests) {
 			if (filter.id.has_prefix ("Type::")) {
 				result.model.append (filter.duplicate ());
@@ -767,6 +767,7 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.SidebarResizer).ensure ();
 		typeof (Gth.ToolButton).ensure ();
 		typeof (Gth.VideoView).ensure ();
+		typeof (Gth.FilterGrid).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

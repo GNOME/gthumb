@@ -12,7 +12,15 @@ namespace Gth {
 		public unowned uint8[] get_pixels ();
 		public uint get_row_stride ();
 		public uint get_width ();
+		public uint width {
+			[CCode (cname = "gth_image_get_width")]
+			get;
+		}
 		public uint get_height ();
+		public uint height {
+			[CCode (cname = "gth_image_get_height")]
+			get;
+		}
 		public size_t get_size ();
 		public bool get_is_empty ();
 		public void set_has_alpha (bool has_alpha);
@@ -57,5 +65,8 @@ namespace Gth {
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
 		public Image? apply_transform (Gth.Transform transform, Cancellable cancellable);
 		public Image? cut (uint x, uint y, uint width, uint height, Cancellable cancellable);
+
+		public void stretch_histogram (double crop_size);
+		public void equalize_histogram (bool linear);
 	}
 }
