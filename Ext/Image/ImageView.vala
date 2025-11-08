@@ -142,12 +142,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
+		// stdout.printf ("> ImageView.measure: orientation: %s, for_size: %d\n", orientation.to_string (), for_size);
 		minimum = 0;
 		natural = 0;
 		natural_baseline = -1;
 		minimum_baseline = -1;
-		if ((for_size == -1) && (width_request == -1) && (height_request == -1)) {
+		if ((for_size == -1) && (width_request == -1) && (height_request == -1)
+			&& (halign == Gtk.Align.FILL) && (valign == Gtk.Align.FILL))
+		{
 			// Can adapt to any size.
+			// stdout.printf ("  natural [0]: %d\n", natural);
 			return;
 		}
 		if ((width_request != -1) && ((width_request < for_size) || (for_size == -1))) {
@@ -161,17 +165,28 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (_image != null) {
 			uint natural_width, natural_height;
 			_image.get_natural_size (out natural_width, out natural_height);
-			var new_zoom = 1.0;
-			if (for_size > 0) {
-				new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, for_size, for_size);
+			if (_zoom_type == KEEP_PREVIOUS) {
+				float zoomed_width, zoomed_height;
+				get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
+				natural_width = (uint) zoomed_width;
+				natural_height = (uint) zoomed_height;
+			}
+			else if (_zoom_type != ZoomType.NATURAL_SIZE) {
+				if (for_size > 0) {
+					_image.get_natural_size (out natural_width, out natural_height);
+					var new_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, for_size, for_size);
+					natural_width = (uint) (new_zoom * natural_width);
+					natural_height = (uint) (new_zoom * natural_height);
+				}
 			}
 			if (orientation == Gtk.Orientation.HORIZONTAL) {
-				natural = (int) (new_zoom * natural_width);
+				natural = (int) natural_width;
 			}
 			else {
-				natural = (int) (new_zoom * natural_height);
+				natural = (int) natural_height;
 			}
 		}
+		// stdout.printf ("  natural [1]: %d\n", natural);
 	}
 
 	public override void size_allocate (int width, int height, int baseline) {
@@ -755,7 +770,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		stop_animation ();
 		cancel_filter_update ();
 		viewport.size = { 0, 0 };
-		image_box = { { 0, 0 },	{ 0, 0 } };
+		image_box = { { 0, 0 }, { 0, 0 } };
+		texture_box = { { 0, 0 }, { 0, 0 } };
 		scaled_texture = null;
 	}
 

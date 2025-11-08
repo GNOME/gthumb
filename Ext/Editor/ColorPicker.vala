@@ -5,7 +5,7 @@ public class Gth.ColorPicker : ImageTool {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/color-picker.ui");
 		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
 		window.editor.hide_apply ();
-		window.editor.content.child = builder.get_object ("main_view") as Gtk.Widget;
+		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
 		window.editor.content.add_css_class ("image-view");
 		window.editor.set_left_toolbar (builder.get_object ("left_toolbar") as Gtk.Widget);
 

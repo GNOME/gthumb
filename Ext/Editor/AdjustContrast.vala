@@ -4,19 +4,26 @@ public class Gth.AdjustContrast : ImageTool {
 		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
-		filter_grid.add (Method.STRETCH_0_5, new Operation (Method.STRETCH_0_5), _("Stretch"));
+		filter_grid.add (Method.STRETCH_0_5, new Operation (Method.STRETCH_0_5), _("Balanced"));
+		filter_grid.add (Method.STRETCH_1_5, new Operation (Method.STRETCH_1_5), _("Extended"));
 		filter_grid.add (Method.EQUALIZE_SQUARE_ROOT, new Operation (Method.EQUALIZE_SQUARE_ROOT), _("Equalize"));
-		filter_grid.add (Method.EQUALIZE_LINEAR, new Operation (Method.EQUALIZE_LINEAR), _("Uniform"));
+		filter_grid.add (Method.EQUALIZE_LINEAR, new Operation (Method.EQUALIZE_LINEAR), _("Linear"));
 		filter_grid.activated.connect ((id) => update_preview ((Method) id));
 
-		window.editor.content.child = builder.get_object ("main_view") as Gtk.Widget;
+		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
 		window.editor.content.add_css_class ("image-view");
 
 		original = viewer.image_view.image;
+		resized = null;
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		image_view.image = original;
+		image_view.resized.connect (() => {
+			if (resized == null) {
+				update_preview ((Method) filter_grid.get_activated ());
+			}
+		});
 
 		update_thumbnails ();
 		filter_grid.activate (Method.STRETCH_0_5);
@@ -46,19 +53,34 @@ public class Gth.AdjustContrast : ImageTool {
 		}
 		var job = window.new_job ("Update Preview");
 		preview_job = job;
-		try {
-			var operation = new Operation (method);
-			image_view.image = operation.execute (original, job.cancellable);
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			job.done ();
-			if (job == preview_job) {
-				preview_job = null;
+		preview_filter_async.begin (method, job.cancellable, (_obj, res) => {
+			try {
+				image_view.image = preview_filter_async.end (res);
 			}
+			catch (Error error) {
+				window.show_error (error);
+			}
+			finally {
+				job.done ();
+				if (job == preview_job) {
+					preview_job = null;
+				}
+			}
+		});
+	}
+
+	uint get_preview_size () {
+		int width = image_view.get_width ();
+		int height = image_view.get_height ();
+		return (uint) ((original.width > original.height) ? width : height);
+	}
+
+	async Image? preview_filter_async (Method method, Cancellable cancellable) throws Error {
+		if (resized == null) {
+			resized = original; //yield original.resize_async (get_preview_size (), ResizeFlags.DEFAULT, ScaleFilter.BOX, cancellable);
 		}
+		var operation = new Operation (method);
+		return yield app.image_editor.exec_operation (resized, operation, cancellable);
 	}
 
 	void update_thumbnails () {
@@ -68,7 +90,8 @@ public class Gth.AdjustContrast : ImageTool {
 		var job = window.new_job ("Update Thumbnails");
 		thumbnails_job = job;
 		try {
-			var sample = viewer.image_view.image.resize (THUMBNAIL_SIZE, ResizeFlags.DEFAULT, ScaleFilter.BOX, job.cancellable);
+			var sample = viewer.image_view.image.resize (THUMBNAIL_SIZE,
+				ResizeFlags.SQUARED, ScaleFilter.BOX, job.cancellable);
 			filter_grid.update_previews (sample, job.cancellable);
 		}
 		catch (Error error) {
@@ -84,7 +107,6 @@ public class Gth.AdjustContrast : ImageTool {
 
 	enum Method {
 		NONE = 0,
-		STRETCH,
 		STRETCH_0_5,
 		STRETCH_1_5,
 		EQUALIZE_LINEAR,
@@ -94,7 +116,7 @@ public class Gth.AdjustContrast : ImageTool {
 			return CROP_SIZE[this];
 		}
 
-		const double[] CROP_SIZE = { 0.0, 0.0, 0.005, 0.015 };
+		const double[] CROP_SIZE = { 0.0, 0.005, 0.015 };
 	}
 
 	class Operation : ImageOperation {
@@ -108,7 +130,7 @@ public class Gth.AdjustContrast : ImageTool {
 			}
 			var output = input.dup ();
 			switch (method) {
-			case Method.STRETCH, Method.STRETCH_0_5, Method.STRETCH_1_5:
+			case Method.STRETCH_0_5, Method.STRETCH_1_5:
 				output.stretch_histogram (method.get_crop_size ());
 				break;
 			case Method.EQUALIZE_LINEAR:
@@ -137,6 +159,7 @@ public class Gth.AdjustContrast : ImageTool {
 	Job preview_job = null;
 	unowned ImageView image_view;
 	Image original;
+	Image resized;
 
 	const uint THUMBNAIL_SIZE = 140;
 }

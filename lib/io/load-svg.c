@@ -93,7 +93,7 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 	}
 
 	GthImageSvg *image = (GthImageSvg *) g_object_new (gth_image_svg_get_type (), NULL);
-	gth_image_set_natural_size (GTH_IMAGE (image), width, height);
+	gth_image_set_original_size (GTH_IMAGE (image), width, height);
 	image->rsvg = g_object_ref (rsvg);
 	image->original_max_size = MAX (width, height);
 	image->scale_factor = (double) max_size / image->original_max_size;
@@ -132,15 +132,15 @@ static gboolean gth_image_svg_get_is_scalable (GthImage *base) {
 
 static cairo_surface_t * gth_image_svg_get_scaled_texture (GthImage *base, double scale_factor, guint x, guint y, guint width, guint height) {
 	GthImageSvg *self = GTH_IMAGE_SVG (base);
-	guint nat_width, nat_height;
-	gth_image_get_natural_size (base, &nat_width, &nat_height);
+	guint original_width, original_height;
+	gth_image_get_original_size (base, &original_width, &original_height);
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	cairo_t *cr = cairo_create (surface);
 	RsvgRectangle viewport = {
 		.x = - ((double) x) * scale_factor,
 		.y = - ((double) y) * scale_factor,
-		.width = (double) nat_width * scale_factor,
-		.height = (double) nat_height * scale_factor
+		.width = (double) original_width * scale_factor,
+		.height = (double) original_height * scale_factor
 	};
 	if (!rsvg_handle_render_document (self->rsvg, cr, &viewport, NULL)) {
 		cairo_surface_destroy (surface);

@@ -43,12 +43,9 @@ gboolean scale_keeping_ratio (
 	gboolean allow_upscaling)
 {
 	return scale_keeping_ratio_min (
-		width,
-		height,
-		0,
-		0,
-		max_width,
-		max_height,
+		width, height,
+		0, 0,
+		max_width, max_height,
 		allow_upscaling);
 }
 
@@ -59,6 +56,34 @@ gboolean scale_if_larger (
 	guint size)
 {
 	return scale_keeping_ratio (width, height, size, size, FALSE);
+}
+
+
+gboolean scale_to_cover (
+	guint *width,
+	guint *height,
+	guint size,
+	gboolean allow_upscaling)
+{
+	if ((*width < size) && (*height < size) && !allow_upscaling) {
+		return FALSE;
+	}
+
+	int scaled_width, scaled_height;
+	if (*width > *height) {
+		scaled_height = size;
+		scaled_width = (int) (((double) *width / *height) * scaled_height);
+	}
+	else {
+		scaled_width = size;
+		scaled_height = (int) (((double) *height / *width) * scaled_width);
+	}
+
+	gboolean modified = (scaled_width != *width) || (scaled_height != *height);
+	*width = scaled_width;
+	*height = scaled_height;
+
+	return modified;
 }
 
 

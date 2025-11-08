@@ -209,14 +209,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		if (image == NULL) {
 			return NULL;
 		}
-
-		if (transformation_changes_size (orientation)) {
-			guint tmp = natural_width;
-			natural_width = natural_height;
-			natural_height = tmp;
-		}
 	}
-	gth_image_set_natural_size (image, natural_width, natural_height);
 
 	return image;
 }

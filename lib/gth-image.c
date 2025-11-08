@@ -167,7 +167,6 @@ GthImage * gth_image_new (guint width, guint height) {
 	g_return_val_if_fail (height > 0, NULL);
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
 	gth_image_init_pixels (image, width, height);
-	gth_image_set_natural_size (image, width, height);
 	return image;
 }
 
@@ -360,13 +359,13 @@ GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, g
 
 GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (source), NULL);
-	// if (x + width > source->priv->width) {
-	// 	g_printf ("> subimage: x: %u, width: %u, max_width: %u\n", x, width, source->priv->width);
-	// }
+	if (x + width > source->priv->width) {
+		g_printf ("> subimage: x: %u, width: %u, max_width: %u\n", x, width, source->priv->width);
+	}
 	g_return_val_if_fail (x + width <= source->priv->width, NULL);
-	// if (y + height > source->priv->height) {
-	// 	g_printf ("> subimage: y: %u, height: %u, max_height: %u\n", y, height, source->priv->height);
-	// }
+	if (y + height > source->priv->height) {
+		g_printf ("> subimage: y: %u, height: %u, max_height: %u\n", y, height, source->priv->height);
+	}
 	g_return_val_if_fail (y + height <= source->priv->height, NULL);
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
 	image->priv->row_stride = source->priv->row_stride;
@@ -439,14 +438,20 @@ gboolean gth_image_get_has_alpha (GthImage *self, gboolean *has_alpha) {
 	return TRUE;
 }
 
-void gth_image_set_natural_size (GthImage *self, guint width, guint height) {
+void gth_image_get_natural_size (GthImage *self, guint *width, guint *height) {
+	g_return_if_fail (GTH_IS_IMAGE (self));
+	if (width != NULL) *width = self->priv->width;
+	if (height != NULL) *height = self->priv->height;
+}
+
+void gth_image_set_original_size (GthImage *self, guint width, guint height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	self->priv->metadata_flags |= METADATA_FLAG_ORIGINAL_SIZE;
 	self->priv->original_width = width;
 	self->priv->original_height = height;
 }
 
-gboolean gth_image_get_natural_size (GthImage *self, guint *width, guint *height) {
+gboolean gth_image_get_original_size (GthImage *self, guint *width, guint *height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if ((self->priv->metadata_flags & METADATA_FLAG_ORIGINAL_SIZE) == 0)
 		return FALSE;

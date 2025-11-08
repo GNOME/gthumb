@@ -259,7 +259,7 @@ button.category {
 	margin: 6px 0;
 	padding: 4px;
 	border: 3px solid var(--border-color);
-	background: transparent;
+	background: rgba(0, 0, 0, 0.1);
 }
 
 .filter-preview > button:hover {
@@ -275,4 +275,8 @@ button.category {
 .filter-preview > button:active,
 .filter-preview > button:checked:active {
 	border-color: oklab(from var(--accent-bg-color) 0.75 a b);
+}
+
+.filter-preview > label {
+	font-size: 0.9em;
 }

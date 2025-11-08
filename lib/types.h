@@ -59,9 +59,9 @@ typedef enum {
 #define GTH_MAX_IMAGE_SIZE 32767
 
 typedef enum {
-	GTH_RESIZE_DEFAULT = 0, // KEEP_RATIO + NO UPSCALE
-	GTH_RESIZE_IGNORE_RATIO = 1 << 1,
-	GTH_RESIZE_UPSCALE = 1 << 2,
+	GTH_RESIZE_DEFAULT = 0, // NO UPSCALE, NOT SQUARED
+	GTH_RESIZE_UPSCALE = 1 << 1,
+	GTH_RESIZE_SQUARED = 1 << 2,
 } GthResizeFlags;
 
 typedef enum {

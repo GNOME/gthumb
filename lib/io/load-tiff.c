@@ -216,8 +216,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 	TIFFSetDirectory (tif, best_directory);
 
-	uint natural_width = (uint) max_width;
-	uint natural_height = (uint) max_height;
 	GthImage *image = gth_image_new (image_width, image_height);
 	if (image == NULL) {
 		TIFFClose (tif);
@@ -292,16 +290,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		GthImage *rotated = gth_image_apply_transform (image, orientation, cancellable);
 		g_object_unref (image);
 		image = rotated;
-		if (image != NULL) {
-			if (transformation_changes_size (orientation)) {
-				guint tmp = natural_width;
-				natural_width = natural_height;
-				natural_height = tmp;
-			}
-		}
-	}
-	if (image != NULL) {
-		gth_image_set_natural_size (image, natural_width, natural_height);
 	}
 
 	_TIFFfree (raster);

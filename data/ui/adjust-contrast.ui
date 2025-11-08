@@ -10,10 +10,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkOverlay" id="main_view">
-    <child>
-      <object class="GthImageView" id="image_view">
-      </object>
-    </child>
+  <object class="GthImageView" id="image_view">
   </object>
 </interface>

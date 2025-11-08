@@ -59,8 +59,8 @@ public enum Gth.ScaleFilter {
 [Flags]
 public enum Gth.ResizeFlags {
 	DEFAULT,
-	IGNORE_RATIO,
-	UPSCALE
+	UPSCALE,
+	SQUARED,
 }
 
 [CCode (cheader_filename = "lib/types.h", has_type_id = false)]

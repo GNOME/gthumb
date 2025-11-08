@@ -30,6 +30,12 @@ gboolean scale_if_larger (
 	guint *height,
 	guint size);
 
+gboolean scale_to_cover (
+	guint *width,
+	guint *height,
+	guint max_width,
+	gboolean allow_upscaling);
+
 gboolean transformation_changes_size (GthTransform transform);
 GthTransform get_next_transformation (GthTransform original, GthTransform transform);
 

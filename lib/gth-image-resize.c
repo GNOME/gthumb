@@ -304,7 +304,7 @@ gth_image_resize_to (GthImage		*image,
 	guint original_width = gth_image_get_width (image);
 	guint original_height = gth_image_get_height (image);
 	if (!gth_image_has_original_size (image)) {
-		gth_image_set_natural_size (scaled, original_width, original_height);
+		gth_image_set_original_image_size (scaled, original_width, original_height);
 	}
 
 	if (g_once_init_enter (&coefficients_initialization)) {
@@ -342,17 +342,42 @@ gth_image_resize (GthImage		*image,
 	guint original_height = gth_image_get_height (image);
 	guint scaled_width = original_width;
 	guint scaled_height = original_height;
-	if (!scale_keeping_ratio (
-		&scaled_width,
-		&scaled_height,
-		size,
-		size,
-		(flags & GTH_RESIZE_UPSCALE) != 0))
-	{
-		//return gth_image_dup (image);
-		return g_object_ref (image);
+	if ((flags & GTH_RESIZE_SQUARED) != 0) {
+		if (!scale_to_cover (
+			&scaled_width,
+			&scaled_height,
+			size,
+			(flags & GTH_RESIZE_UPSCALE) != 0))
+		{
+			return g_object_ref (image);
+		}
 	}
-	return gth_image_resize_to (image, scaled_width, scaled_height, quality, cancellable);
+	else {
+		if (!scale_keeping_ratio (
+			&scaled_width,
+			&scaled_height,
+			size,
+			size,
+			(flags & GTH_RESIZE_UPSCALE) != 0))
+		{
+			return g_object_ref (image);
+		}
+	}
+
+	GthImage *resized = gth_image_resize_to (image, scaled_width,
+		scaled_height, quality, cancellable);
+
+	if ((flags & GTH_RESIZE_SQUARED) != 0) {
+		GthImage *squared = gth_image_cut (resized,
+			(scaled_width - size) / 2,
+			(scaled_height - size) / 2,
+			size, size,
+			NULL);
+		g_object_unref (resized);
+		resized = squared;
+	}
+
+	return resized;
 }
 
 

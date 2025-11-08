@@ -3,6 +3,7 @@ public class Gth.FilterGrid : Gtk.Box {
 
 	public void add (uint id, ImageOperation operation, string title, string? tooltip = null) {
 		var preview = new Gtk.Picture ();
+		preview.content_fit = Gtk.ContentFit.SCALE_DOWN;
 
 		var button = new Gtk.ToggleButton ();
 		button.child = preview;
@@ -11,8 +12,12 @@ public class Gth.FilterGrid : Gtk.Box {
 		}
 		button.action_name = "grid.set-filter";
 		button.action_target = new Variant.uint32 (id);
+		button.halign = Gtk.Align.CENTER;
 
 		var label = new Gtk.Label (title);
+		label.wrap = true;
+		label.justify = Gtk.Justification.CENTER;
+		label.halign = Gtk.Align.CENTER;
 
 		var cell_widget = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 		cell_widget.add_css_class ("filter-preview");
@@ -21,7 +26,7 @@ public class Gth.FilterGrid : Gtk.Box {
 		grid.attach (cell_widget, column, row);
 
 		column++;
-		if(column == MAX_COLUMNS) {
+		if (column == MAX_COLUMNS) {
 			column = 0;
 			row++;
 		}
@@ -34,11 +39,10 @@ public class Gth.FilterGrid : Gtk.Box {
 		cells.set (id, cell);
 	}
 
-	public void update_previews (Gth.Image image, Cancellable cancellable) {
+	public void update_previews (Gth.Image image, Cancellable cancellable) throws Error {
 		var preview_size = uint.max (image.width, image.height);
 		foreach (var id in cells.get_keys ()) {
 			var cell = cells.get (id);
-			//var filter_preview = app.image_editor.exec_operation (image, cell.operation, cancellable);
 			var filter_preview = cell.operation.execute (image, cancellable);
 			if (filter_preview != null) {
 				cell.preview.paintable = filter_preview.get_texture ();
