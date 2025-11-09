@@ -317,6 +317,7 @@ lib_files = files(
   'lib/exiv2-utils.cpp',
   'lib/gstreamer-utils.c',
   'lib/gth-color-manager.c',
+  'lib/gth-curve.c',
   'lib/gth-histogram.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image.c',
@@ -328,6 +329,7 @@ lib_files = files(
   'lib/gth-image-transform.c',
   'lib/gth-metadata.c',
   'lib/gth-option.c',
+  'lib/gth-point.c',
   'lib/gth-string-list.c',
   'lib/io/image-info.c',
   'lib/io/load-jpeg.c',
@@ -367,6 +369,7 @@ endif
 vapi_files = files(
   'vapi/ColorManager.vapi',
   'vapi/Config.vapi',
+  'vapi/Curve.vapi',
   'vapi/Exiv2.vapi',
   'vapi/Histogram.vapi',
   'vapi/IccProfile.vapi',

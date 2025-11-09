@@ -131,6 +131,7 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
 void gth_image_render_frame (GthImage *canvas, GthImage *background,
 	guint32 background_color, GthImage *foreground, guint foreground_x,
 	guint foreground_y, gboolean blend);
+void gth_image_apply_value_map (GthImage *self, long *value_map, int rows, int columns);
 void gth_image_stretch_histogram (GthImage *self, double crop_size);
 void gth_image_equalize_histogram (GthImage *self, gboolean linear);
 void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight);

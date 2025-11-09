@@ -64,6 +64,7 @@ namespace Gth {
 		public Image? apply_transform (Gth.Transform transform, Cancellable cancellable);
 		public Image? cut (uint x, uint y, uint width, uint height, Cancellable cancellable);
 
+		public void apply_value_map (long[,] map);
 		public void stretch_histogram (double crop_size);
 		public void equalize_histogram (bool linear);
 		public void grayscale (double red_weight, double green_weight, double blue_weight);

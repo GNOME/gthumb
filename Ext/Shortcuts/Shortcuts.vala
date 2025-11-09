@@ -252,6 +252,7 @@ public class Gth.Shortcuts {
 		register ("image.adjust-contrast", N_("Adjust Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "a");
 		register ("image.color-picker", N_("Color Picker"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "p");
 		register ("image.grayscale", N_("Grayscale"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>g");
+		register ("image.special-effects", N_("Special Effects"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>e");
 
 		register ("slideshow", N_("Start Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
 		register ("slideshow-close", N_("Terminate Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");

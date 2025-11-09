@@ -7,5 +7,6 @@ editor_files = files(
   'FilterGrid.vala',
   'Grayscale.vala',
   'ImageTool.vala',
+  'SpecialEffects.vala',
   'ToolButton.vala',
 )
