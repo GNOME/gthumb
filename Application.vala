@@ -768,6 +768,7 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.ToolButton).ensure ();
 		typeof (Gth.VideoView).ensure ();
 		typeof (Gth.FilterGrid).ensure ();
+		typeof (Gth.HistogramView).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

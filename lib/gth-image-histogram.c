@@ -78,7 +78,7 @@ static void apply_value_map (GthImage *self, long **value_map) {
 
 void gth_image_stretch_histogram (GthImage *self, double crop_size) {
 	GthHistogram *histogram = gth_histogram_new ();
-	gth_histogram_calculate (histogram, self);
+	gth_histogram_update (histogram, self);
 	long **value_map = get_value_map_for_stretch (histogram, crop_size);
 	apply_value_map (self, value_map);
 
@@ -119,7 +119,7 @@ static long ** get_value_map_for_equalize (GthHistogram *histogram, gboolean lin
 
 void gth_image_equalize_histogram (GthImage *self, gboolean linear) {
 	GthHistogram *histogram = gth_histogram_new ();
-	gth_histogram_calculate (histogram, self);
+	gth_histogram_update (histogram, self);
 	long **value_map = get_value_map_for_equalize (histogram, linear);
 	apply_value_map (self, value_map);
 

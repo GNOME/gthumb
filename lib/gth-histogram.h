@@ -38,7 +38,7 @@ struct _GthHistogramClass {
 
 GType gth_histogram_get_type (void) G_GNUC_CONST;
 GthHistogram * gth_histogram_new (void);
-void gth_histogram_calculate (GthHistogram *self, GthImage *image);
+void gth_histogram_update (GthHistogram *self, GthImage *image);
 double gth_histogram_get_count (GthHistogram *self, int start, int end);
 double gth_histogram_get_value (GthHistogram *self, GthChannel channel, int bin);
 double gth_histogram_get_channel_value (GthHistogram *self, GthChannel channel, int bin);

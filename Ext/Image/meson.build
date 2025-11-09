@@ -1,4 +1,5 @@
 image_files = files(
+  'HistogramView.vala',
   'ImageHistory.vala',
   'ImageMetadataProvider.vala',
   'ImageOverview.vala',

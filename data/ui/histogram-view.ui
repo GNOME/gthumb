@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthHistogramView">
+    <property name="orientation">vertical</property>
+    <property name="spacing">12</property>
+    <child>
+      <object class="GtkDrawingArea" id="view">
+        <property name="content-height">200</property>
+        <style>
+          <class name="view"/>
+          <class name="frame"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <style>
+          <class name="smaller-text"/>
+        </style>
+        <child>
+          <object class="GtkDropDown">
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item translatable="yes">Value</item>
+                  <item translatable="yes">Red</item>
+                  <item translatable="yes">Green</item>
+                  <item translatable="yes">Blue</item>
+                  <item translatable="yes">Alpha</item>
+                  <item translatable="yes">Histogram</item>
+                </items>
+              </object>
+            </property>
+            <signal name="notify::selected" handler="on_channel_selected"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkToggleButton" id="volume_button">
+            <property name="hexpand">true</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">Logarithmic</property>
+            <signal name="notify::active" handler="on_logarithmic_toggled"/>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

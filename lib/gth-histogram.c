@@ -81,7 +81,7 @@ static void gth_histogram_changed (GthHistogram *self) {
 	g_signal_emit (self, gth_histogram_signals[CHANGED], 0);
 }
 
-void gth_histogram_calculate (GthHistogram *self, GthImage *image) {
+void gth_histogram_update (GthHistogram *self, GthImage *image) {
 	g_return_if_fail (GTH_IS_HISTOGRAM (self));
 
 	if (image == NULL) {

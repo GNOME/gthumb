@@ -1,7 +1,7 @@
 using GLib;
 
 namespace Gth {
-	[CCode (cheader_filename = "lib/gth-histogram.h")]
+	[CCode (cheader_filename = "lib/gth-histogram.h", has_type_id = false)]
 	public enum Channel {
 		VALUE,
 		RED,
@@ -16,7 +16,7 @@ namespace Gth {
 	public class Histogram : Object {
 		public signal void changed ();
 		public Histogram ();
-		public void calculate (Image image);
+		public void update (Image image);
 		public double get_count (int start, int end);
 		public double get_value (Channel channel, int bin);
 		public double get_channel_value (Channel channel, int bin);

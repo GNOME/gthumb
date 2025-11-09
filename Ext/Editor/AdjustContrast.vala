@@ -16,6 +16,9 @@ public class Gth.AdjustContrast : ImageTool {
 		original = viewer.image_view.image;
 		resized = null;
 
+		histogram_view = builder.get_object ("histogram_view") as Gth.HistogramView;
+		histogram_view.histogram = histogram;
+
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		image_view.image = original;
@@ -56,6 +59,7 @@ public class Gth.AdjustContrast : ImageTool {
 		preview_filter_async.begin (method, job.cancellable, (_obj, res) => {
 			try {
 				image_view.image = preview_filter_async.end (res);
+				histogram.update (image_view.image);
 			}
 			catch (Error error) {
 				window.show_error (error);
@@ -151,6 +155,7 @@ public class Gth.AdjustContrast : ImageTool {
 	construct {
 		title = _("Adjust Contrast");
 		icon_name = "gth-adjust-contrast-symbolic";
+		histogram = new Histogram ();
 	}
 
 	Gtk.Builder builder;
@@ -158,8 +163,10 @@ public class Gth.AdjustContrast : ImageTool {
 	Job thumbnails_job = null;
 	Job preview_job = null;
 	unowned ImageView image_view;
+	unowned HistogramView histogram_view;
 	Image original;
 	Image resized;
+	Histogram histogram;
 
 	const uint THUMBNAIL_SIZE = 140;
 }
