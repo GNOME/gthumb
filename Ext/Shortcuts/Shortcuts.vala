@@ -250,8 +250,8 @@ public class Gth.Shortcuts {
 		// register ("file-tool-crop", N_("Crop"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
 		// register ("file-tool-resize", N_("Resize"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
 		register ("image.color-picker", N_("Color Picker"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "p");
-		register ("image.grayscale", N_("Grayscale"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>g");
-		register ("image.special-effects", N_("Special Effects"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>e");
+		register ("image.grayscale", N_("Grayscale"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>g");
+		register ("image.special-effects", N_("Special Effects"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>e");
 
 		register ("editor.apply", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "<Primary>Return");
 
