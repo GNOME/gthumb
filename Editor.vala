@@ -27,10 +27,11 @@ public class Gth.Editor : Gtk.Box {
 			current_editor.deactivate ();
 			current_editor = null;
 		}
-		window.editor.content.child = null;
-		window.editor.sidebar.child = null;
+		content.child = null;
+		sidebar.child = null;
 		window.insert_action_group ("editor", null);
 		Util.remove_all_children (left_toolbar);
+		set_action_bar (null);
 	}
 
 	public void focus_viewer () {
@@ -42,8 +43,19 @@ public class Gth.Editor : Gtk.Box {
 		}
 	}
 
-	public void set_left_toolbar (Gtk.Widget toolbar) {
-		left_toolbar.append (toolbar);
+	public void set_left_toolbar (Gtk.Widget widget) {
+		left_toolbar.append (widget);
+	}
+
+	public void set_action_bar (Gtk.Widget? widget) {
+		Util.remove_all_children (action_bar);
+		if (widget != null) {
+			action_bar.append (widget);
+			action_bar.visible = true;
+		}
+		else {
+			action_bar.visible = false;
+		}
 	}
 
 	public void hide_apply () {
@@ -95,4 +107,5 @@ public class Gth.Editor : Gtk.Box {
 	[GtkChild] public unowned Gtk.Overlay sidebar;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Adw.HeaderBar header_bar;
+	[GtkChild] unowned Gtk.Box action_bar;
 }

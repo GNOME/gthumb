@@ -65,6 +65,18 @@ public class Gth.FilterGrid : Gtk.Box {
 		return state.get_uint32 ();
 	}
 
+	public ImageOperation? get_operation (uint id) {
+		var cell = cells.get (id);
+		if (cell == null) {
+			return null;
+		}
+		return cell.operation;
+	}
+
+	public ImageOperation? get_active_operation () {
+		return get_operation (get_activated ());
+	}
+
 	construct {
 		orientation = Gtk.Orientation.VERTICAL;
 		grid = new Gtk.Grid ();

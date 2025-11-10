@@ -51,9 +51,6 @@
   <object class="GtkBox" id="options">
     <property name="orientation">vertical</property>
     <property name="spacing">24</property>
-    <property name="margin-top">12</property>
-    <property name="margin-start">12</property>
-    <property name="margin-end">12</property>
     <child>
       <object class="AdwPreferencesGroup">
         <child>

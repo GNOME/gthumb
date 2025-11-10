@@ -114,12 +114,27 @@
                 </child>
               </object>
             </child>
+            <child type="bottom">
+              <object class="GtkBox" id="action_bar">
+                <property name="orientation">vertical</property>
+                <property name="spacing">6</property>
+                <property name="visible">false</property>
+                <style>
+                  <class name="toolbar"/>
+                  <class name="sidebar-footer"/>
+                </style>
+              </object>
+            </child>
             <property name="content">
               <object class="GthSidebarResizer" id="sidebar_resizer">
                 <child>
                   <object class="GtkOverlay" id="sidebar">
                     <property name="hexpand">true</property>
                     <property name="vexpand">true</property>
+                    <property name="margin-top">24</property>
+                    <property name="margin-bottom">12</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-end">12</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="label">TODO</property>

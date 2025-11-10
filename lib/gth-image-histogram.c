@@ -40,7 +40,7 @@ static long* get_value_map_for_stretch (GthHistogram *histogram, double crop_siz
 	int lower_limit = (int) (crop_size * n_pixels);
 	int higher_limit = (int) ((1.0 - crop_size) * n_pixels);
 	long *value_map = g_new (long, MAP_ROWS * MAP_COLUMNS);
-	int ofs = 0;
+	int ofs = GTH_CHANNEL_RED * MAP_COLUMNS;
 	for (int channel = GTH_CHANNEL_RED; channel <= GTH_CHANNEL_BLUE; channel++) {
 		guchar min = 0;
 		double sum = 0;
@@ -97,7 +97,7 @@ static double get_histogram_value (GthHistogram *histogram, GthChannel channel, 
 
 static long* get_value_map_for_equalize (GthHistogram *histogram, gboolean linear) {
 	long *value_map = g_new (long, MAP_ROWS * MAP_COLUMNS);
-	int ofs = 0;
+	int ofs = GTH_CHANNEL_RED * MAP_COLUMNS;
 	for (int channel = GTH_CHANNEL_RED; channel <= GTH_CHANNEL_BLUE; channel++) {
 		double sum = 0.0;
 		for (int value = 0; value < 255; value++) {
