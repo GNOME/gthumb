@@ -198,37 +198,30 @@ public class Gth.SpecialEffects : ImageTool {
 			set_effect (effect, amount);
 		}
 
-		Point interpolate (Point p1, Point p2, double alpha) {
-			return {
-				p1.x * (1 - alpha) + p2.x * alpha,
-				p1.y * (1 - alpha) + p2.y * alpha,
-			};
-		}
-
 		void set_effect (Effect _effect, double _amount) {
 			effect = _effect;
 			amount = _amount;
 			switch (effect) {
 			case Effect.WARMER:
-				// var red_point = interpolate ({ 117, 136 }, { 77, 169 }, amount);
-				// var blue_point = interpolate ({ 136, 119 }, { 183, 74 }, amount);
-				var red_point = interpolate ({ 127, 127 }, { 77, 169 }, amount);
-				var blue_point = interpolate ({ 127, 127 }, { 183, 74 }, amount);
+				// var red_point = Point.interpolate (Point (117, 136), Point (77, 169), amount);
+				// var blue_point = Point.interpolate (Point (136, 119), Point (183, 74), amount);
+				var red_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
+				var blue_point = Point.interpolate (Point (127, 127), Point (183, 74), amount);
 				// stdout.printf ("> red point: %f, %f\n", red_point.x, red_point.y);
 				// stdout.printf ("  blu point: %f, %f\n", blue_point.x, blue_point.y);
 				points = Points () {
 					value = null,
-					red   = { { 0, 0 }, red_point, { 255, 255 } },
+					red   = { Point (0, 0), red_point, Point (255, 255) },
 					green = null,
-					blue  = { { 0, 0 }, blue_point, { 255, 255 } },
+					blue  = { Point (0, 0), blue_point, Point (255, 255) },
 				};
 				break;
 			case Effect.COOLER:
 				points = Points () {
 					value = null,
-					red   = { { 0, 0 }, { 136, 119 }, { 255, 255 } },
+					red   = { Point (0, 0), Point (136, 119), Point (255, 255) },
 					green = null,
-					blue  = { { 0, 0 }, { 117, 136 }, { 255, 255 } },
+					blue  = { Point (0, 0), Point (117, 136), Point (255, 255) },
 				};
 				break;
 			default:

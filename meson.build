@@ -375,15 +375,16 @@ vapi_files = files(
   'vapi/IccProfile.vapi',
   'vapi/IccTransform.vapi',
   'vapi/Image.vapi',
+  'vapi/Lib.vapi',
   'vapi/Loaders.vapi',
   'vapi/Metadata.vapi',
   'vapi/Option.vapi',
+  'vapi/Point.vapi',
   'vapi/Savers.vapi',
   'vapi/StringList.vapi',
   'vapi/Types.vapi',
   'vapi/Video.vapi',
   'vapi/Zip.vapi',
-  'vapi/Lib.vapi',
 )
 
 subdir('Ext')

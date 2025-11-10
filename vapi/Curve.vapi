@@ -1,13 +1,6 @@
 using GLib;
 
 namespace Gth {
-	[CCode (cheader_filename = "lib/gth-point.h", has_type_id = false)]
-	public struct Point {
-		double x;
-		double y;
-		public double distance (Point other);
-	}
-
 	[CCode (cheader_filename = "lib/gth-curve.h")]
 	public class Curve : Object {
 		[CCode (array_length_cname = "n", array_length_type = "int")]

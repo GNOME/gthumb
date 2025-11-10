@@ -10,6 +10,8 @@ typedef struct {
 	double y;
 } GthPoint;
 
+void gth_point_init (GthPoint *p, double x, double y);
+void gth_point_init_interpolate (GthPoint *result, GthPoint *p1, GthPoint *p2, double alpha);
 double gth_point_distance (GthPoint *p1, GthPoint *p2);
 
 G_END_DECLS
