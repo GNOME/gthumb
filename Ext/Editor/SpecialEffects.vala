@@ -5,14 +5,14 @@ public class Gth.SpecialEffects : ImageTool {
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 		/* Translators: this is the name of a filter that produces warmer colors. */
-		filter_grid.add (Effect.WARMER, new CurvesOperation (Effect.WARMER, 0.158730159), _("Warmer"));
+		filter_grid.add (Effect.WARMER, new EffectOperation (Effect.WARMER, 0.158730159), _("Warmer"));
 		/* Translators: this is the name of a filter that produces cooler colors. */
-		filter_grid.add (Effect.COOLER, new CurvesOperation (Effect.COOLER), _("Cooler"));
+		filter_grid.add (Effect.COOLER, new EffectOperation (Effect.COOLER, 0.158730159), _("Cooler"));
 		/* Translators: this is the name of an image filter that produces darker edges. */
 		//filter_grid.add (Effect.VIGNETTE, new VignetteOperation (), _("Vignette"));
 		filter_grid.activated.connect ((id) => {
 			var effect = (Effect) id;
-			if (effect == Effect.WARMER) {
+			if (effect.has_parameter ()) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 			}
 			else {
@@ -39,7 +39,7 @@ public class Gth.SpecialEffects : ImageTool {
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect (() => {
 			var id = filter_grid.get_activated ();
-			var operation = filter_grid.get_operation (id) as CurvesOperation;
+			var operation = filter_grid.get_operation (id) as EffectOperation;
 			if (operation != null) {
 				operation.set_amount (amount_adjustment.value / 100.0);
 				update_preview ((Effect) id);
@@ -99,7 +99,7 @@ public class Gth.SpecialEffects : ImageTool {
 		if (resized == null) {
 			resized = original; //yield original.resize_async (get_preview_size (), ResizeFlags.DEFAULT, ScaleFilter.BOX, cancellable);
 		}
-		var operation = filter_grid.get_operation ((int) effect) as CurvesOperation;
+		var operation = filter_grid.get_operation ((int) effect) as EffectOperation;
 		if (operation == null) {
 			return resized;
 		}
@@ -133,7 +133,7 @@ public class Gth.SpecialEffects : ImageTool {
 
 	void reset_amount () {
 		var id = filter_grid.get_activated ();
-		var operation = filter_grid.get_operation (id) as CurvesOperation;
+		var operation = filter_grid.get_operation (id) as EffectOperation;
 		if (operation != null) {
 			operation.set_amount (operation.default_amount);
 		}
@@ -144,58 +144,26 @@ public class Gth.SpecialEffects : ImageTool {
 		NONE = 0,
 		WARMER,
 		COOLER,
-		VIGNETTE,
-	}
+		// No parameters:
+		VIGNETTE;
 
-	struct Points {
-		Point[] value;
-		Point[] red;
-		Point[] green;
-		Point[] blue;
-
-		public long[,] to_value_map () {
-			var value_map = new long[4, 256];
-			for (var channel = Channel.VALUE; channel <= Channel.BLUE; channel += 1) {
-				var curve = new Bezier (get_points (channel));
-				for (var v = 0; v <= 255; v++) {
-					var u = curve.eval (v);
-					if (channel != Channel.VALUE) {
-						u = value_map[Channel.VALUE, (int) u];
-					}
-					value_map[channel, v] = (long) u;
-				}
-			}
-			return value_map;
-		}
-
-		unowned Point[] get_points (Channel channel) {
-			if (channel == Channel.VALUE) {
-				return value;
-			}
-			else if (channel == Channel.RED) {
-				return red;
-			}
-			else if (channel == Channel.GREEN) {
-				return green;
-			}
-			else if (channel == Channel.BLUE) {
-				return blue;
-			}
-			return null;
+		public bool has_parameter () {
+			return (this != NONE) && (this <= COOLER);
 		}
 	}
 
-	class CurvesOperation : ImageOperation {
+	class EffectOperation : CurveOperation {
 		public double amount;
 		public double default_amount;
+		public Effect effect;
 
-		public CurvesOperation (Effect _effect, double _amount = MIN) {
+		public EffectOperation (Effect _effect, double _amount = 0.0) {
+			default_amount = _amount;
 			set_effect (_effect, _amount);
-			default_amount = amount;
 		}
 
-		public void set_amount (double amount) {
-			set_effect (effect, amount);
+		public void set_amount (double _amount) {
+			set_effect (effect, _amount);
 		}
 
 		void set_effect (Effect _effect, double _amount) {
@@ -203,49 +171,30 @@ public class Gth.SpecialEffects : ImageTool {
 			amount = _amount;
 			switch (effect) {
 			case Effect.WARMER:
-				// var red_point = Point.interpolate (Point (117, 136), Point (77, 169), amount);
-				// var blue_point = Point.interpolate (Point (136, 119), Point (183, 74), amount);
 				var red_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
 				var blue_point = Point.interpolate (Point (127, 127), Point (183, 74), amount);
-				// stdout.printf ("> red point: %f, %f\n", red_point.x, red_point.y);
-				// stdout.printf ("  blu point: %f, %f\n", blue_point.x, blue_point.y);
 				points = Points () {
 					value = null,
-					red   = { Point (0, 0), red_point, Point (255, 255) },
+					red   = { Point (0, 0), red_point /* Point (117, 136) */, Point (255, 255) },
 					green = null,
-					blue  = { Point (0, 0), blue_point, Point (255, 255) },
+					blue  = { Point (0, 0), blue_point /* Point (136, 119) */, Point (255, 255) },
 				};
 				break;
 			case Effect.COOLER:
+				var red_point = Point.interpolate (Point (127, 127), Point (183, 74), amount);
+				var blue_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
 				points = Points () {
 					value = null,
-					red   = { Point (0, 0), Point (136, 119), Point (255, 255) },
+					red   = { Point (0, 0), red_point /*Point (136, 119)*/, Point (255, 255) },
 					green = null,
-					blue  = { Point (0, 0), Point (117, 136), Point (255, 255) },
+					blue  = { Point (0, 0), blue_point /*Point (117, 136)*/, Point (255, 255) },
 				};
 				break;
 			default:
 				points = Points ();
 				break;
 			}
-			value_map = points.to_value_map ();
 		}
-
-		public override Gth.Image? execute (Image input, Cancellable cancellable) {
-			if (input == null) {
-				return null;
-			}
-			var output = input.dup ();
-			output.apply_value_map (value_map);
-			return output;
-		}
-
-		Effect effect;
-		Points points;
-		long [,] value_map;
-
-		public const double MIN = 0.0;
-		public const double MAX = 100.0;
 	}
 
 	class VignetteOperation : ImageOperation {
