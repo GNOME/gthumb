@@ -21,7 +21,7 @@ popover.deeper > contents {
 }
 
 .thumbnail-grid > child {
-	margin: 5px;
+	margin: 10px;
 	border-radius: 10px;
 	border: 1px solid var(--dimmed-border-color);
 }
@@ -35,8 +35,8 @@ popover.deeper > contents {
 }
 
 .thumbnail-card {
-	padding: 12px;
-	border-radius: 9px;
+	padding: 6px;
+	border-radius: 4px;
 }
 
 .thumbnail-icon {
