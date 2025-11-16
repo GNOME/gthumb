@@ -345,9 +345,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		last_x = x;
 		last_y = y;
-		if (toasts == 0) {
-			reveal_overlay_controls ();
-		}
+		reveal_overlay_controls ();
 	}
 
 	bool on_scroll (Gtk.EventController controller, double dx, double dy) {

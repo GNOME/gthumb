@@ -17,7 +17,6 @@ popover.deeper > contents {
 
 .thumbnail-grid {
 	padding: 10px;
-
 }
 
 .thumbnail-grid > child {
@@ -253,6 +252,10 @@ button.category {
 .color-preview {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 	border-radius: 12px;
+}
+
+toast {
+    margin-bottom: 96px;
 }
 
 .filter-preview > button {

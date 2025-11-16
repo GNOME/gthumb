@@ -26,17 +26,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public void add_toast (Adw.Toast toast) {
 		viewer.toasts++;
-		viewer.reveal_overlay_controls (false);
-
 		toast_overlay.dismiss_all ();
 		toast_overlay.add_toast (toast);
 
 		var local_toast = toast;
 		local_toast.dismissed.connect (() => {
 			viewer.toasts--;
-			if (viewer.toasts == 0) {
-				viewer.reveal_overlay_controls ();
-			}
 			local_toast = null;
 		});
 	}
@@ -150,6 +145,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			browser.update_title ();
 			browser.focus_thumbnail_list ();
 			break;
+
 		case Page.VIEWER:
 			if (previuos_page == Page.BROWSER) {
 				browser.save_window_size ();
