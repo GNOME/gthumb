@@ -25,6 +25,9 @@ public class Gth.ImageEditor {
 
 		public override void run (uint8[] tmp_buffer) {
 			output = operation.execute (input, cancellable);
+			if (cancellable.is_cancelled ()) {
+				output = null;
+			}
 		}
 	}
 
