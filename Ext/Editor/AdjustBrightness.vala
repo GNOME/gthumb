@@ -7,8 +7,8 @@ public class Gth.AdjustBrightness : ImageTool {
 		filter_grid.add (Method.GAMMA_CORRECTION, new Operation (Method.GAMMA_CORRECTION, 1.0), _("Gamma"));
 		filter_grid.add (Method.LINEAR, new Operation (Method.LINEAR, 0.0), _("Linear"));
 		filter_grid.activated.connect ((id) => {
-			var method = (Method) id;
-			if (method == Method.GAMMA_CORRECTION) {
+			var operation = filter_grid.get_operation (id) as Operation;
+			if (operation.method == Method.GAMMA_CORRECTION) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
 				scale.digits = 2;
@@ -17,16 +17,16 @@ public class Gth.AdjustBrightness : ImageTool {
 				// scale.add_mark (gamma_to_adj (0.015), Gtk.PositionType.BOTTOM, null);
 				// scale.add_mark (gamma_to_adj (0.025), Gtk.PositionType.BOTTOM, null);
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (0, MIN_GAMMA, MAX_GAMMA, 0.1, 0.1, 0);
+				amount_adjustment.configure (operation.amount, MIN_GAMMA, MAX_GAMMA, 0.1, 0.1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
-			else if (method == Method.LINEAR) {
+			else if (operation.method == Method.LINEAR) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
 				scale.digits = 2;
 				scale.clear_marks ();
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (0, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
+				amount_adjustment.configure (operation.amount, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
 			else {
@@ -122,6 +122,7 @@ public class Gth.AdjustBrightness : ImageTool {
 	}
 
 	class Operation : ImageOperation {
+		public Method method;
 		public double amount;
 		public double default_amount;
 
@@ -148,8 +149,6 @@ public class Gth.AdjustBrightness : ImageTool {
 			}
 			return output;
 		}
-
-		Method method;
 	}
 
 	construct {

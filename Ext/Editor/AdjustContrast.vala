@@ -11,8 +11,8 @@ public class Gth.AdjustContrast : ImageTool {
 		// Translators: filter that equalizes the histogram.
 		filter_grid.add (Method.EQUALIZE, new Operation (Method.EQUALIZE), _("Equalize"));
 		filter_grid.activated.connect ((id) => {
-			var method = (Method) id;
-			if (method == Method.STRETCH) {
+			var operation = filter_grid.get_operation (id) as Operation;
+			if (operation.method == Method.STRETCH) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
 				scale.digits = 0;
@@ -21,20 +21,21 @@ public class Gth.AdjustContrast : ImageTool {
 				scale.add_mark (crop_size_to_adj (0.015), Gtk.PositionType.BOTTOM, null);
 				scale.add_mark (crop_size_to_adj (0.025), Gtk.PositionType.BOTTOM, null);
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (0, crop_size_to_adj (MIN_STRETCH),
+				amount_adjustment.configure (crop_size_to_adj (operation.amount),
+					crop_size_to_adj (MIN_STRETCH),
 					crop_size_to_adj (MAX_STRETCH), 1, 1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
-			else if (method == Method.LINEAR) {
+			else if (operation.method == Method.LINEAR) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
 				scale.digits = 2;
 				scale.clear_marks ();
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (0, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
+				amount_adjustment.configure (operation.amount, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
-			else if (method == Method.EQUALIZE) {
+			else if (operation.method == Method.EQUALIZE) {
 				window.editor.set_action_bar (builder.get_object ("equalize_action_bar") as Gtk.Widget);
 			}
 			queue_update_preview ();
