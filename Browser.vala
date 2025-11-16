@@ -438,14 +438,19 @@ public class Gth.Browser : Gtk.Box {
 	Gtk.SelectionModel grid_model = null;
 	ListModel sorted_model = null;
 	ListModel filtered_model = null;
+	bool thumbnail_list_frozen = false;
 
 	void freeze_thumbnail_list () {
-		grid_model = file_grid.model;
-		sorted_model = file_sort_model.model;
-		filtered_model = file_filter_model.model;
-		file_grid.model = null;
-		file_sort_model.model = null;
-		file_filter_model.model = null;
+		// stdout.printf ("> freeze_thumbnail_list\n");
+		if (!thumbnail_list_frozen) {
+			grid_model = file_grid.model;
+			sorted_model = file_sort_model.model;
+			filtered_model = file_filter_model.model;
+			file_grid.model = null;
+			file_sort_model.model = null;
+			file_filter_model.model = null;
+			thumbnail_list_frozen = true;
+		}
 	}
 
 	void update_total_files () {
@@ -461,6 +466,11 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void thaw_thumbnail_list () {
+		// stdout.printf ("> thaw_thumbnail_list\n");
+		if (!thumbnail_list_frozen) {
+			return;
+		}
+		thumbnail_list_frozen = false;
 		file_filter.reset ();
 		file_sorter.reset ();
 		file_filter_model.model = filtered_model;
