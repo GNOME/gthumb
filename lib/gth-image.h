@@ -134,8 +134,14 @@ void gth_image_render_frame (GthImage *canvas, GthImage *background,
 void gth_image_apply_value_map (GthImage *self, long *value_map, int rows, int columns);
 void gth_image_stretch_histogram (GthImage *self, double crop_size);
 void gth_image_equalize_histogram (GthImage *self, gboolean linear);
-void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight);
-void gth_image_grayscale_saturation (GthImage *self);
+void gth_image_gamma_correction (GthImage *self, double gamma);
+void gth_image_adjust_brightness (GthImage *self, double amount);
+void gth_image_adjust_contrast (GthImage *self, double amount);
+void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount);
+void gth_image_grayscale_saturation (GthImage *self, double amount);
+gboolean gth_image_blur (GthImage *self, int radius, GCancellable *cancellable);
+gboolean gth_image_sharpen (GthImage *self, double amount, double radius, double threshold, GCancellable *cancellable);
+// void gth_image_apply_vignette (GthImage *self, uchar alpha, long *value_map, int rows, int columns);
 
 G_END_DECLS
 

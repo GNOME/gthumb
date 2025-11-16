@@ -190,7 +190,7 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 		}
 		catch (Error error) {
-			stdout.printf ("ERROR: %s\n", error.message);
+			stdout.printf ("ERROR: FolderTree.load_folder: %s\n", error.message);
 			local_job.error = error;
 			// Watch again the current folder.
 			if (load_action.changes_current_folder ()) {

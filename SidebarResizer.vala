@@ -86,8 +86,11 @@ class Gth.ResizeHandle : Gtk.Widget {
 			natural = minimum;
 		}
 		else {
-			minimum = -1;
+			minimum = 0;
 			natural = for_size;
+			if (natural < minimum) {
+				minimum = natural;
+			}
 		}
 	}
 }

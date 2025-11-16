@@ -12,6 +12,7 @@ G_BEGIN_DECLS
 #define SQR(x) ((x) * (x))
 #define MIN3(x,y,z) ((y) <= (z) ? MIN ((x), (y)) : MIN ((x), (z)))
 #define MAX3(x,y,z) ((y) >= (z) ? MAX ((x), (y)) : MAX ((x), (z)))
+#define INTERPOLATE(a, b, x) (((1.0 - (x)) * (a)) + ((x) * (b)))
 
 gboolean scale_keeping_ratio_min (
 	guint *width,

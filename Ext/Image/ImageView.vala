@@ -6,10 +6,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				return;
 			}
 			before_changing_image ();
-			_image = value;
-			if (_default_zoom_type != ZoomType.KEEP_PREVIOUS) {
+			if (_default_zoom_type == ZoomType.KEEP_PREVIOUS) {
+				if (_image == null) {
+					_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+				}
+			}
+			else {
 				_zoom_type = _default_zoom_type;
 			}
+			_image = value;
 			switch (_zoom_type) {
 			case ZoomType.NATURAL_SIZE:
 				set_zoom_and_update_scroll_offset (1f);
@@ -129,6 +134,66 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public Gtk.ScrollablePolicy hscroll_policy { get; set; }
 
 	public Gtk.ScrollablePolicy vscroll_policy { get; set; }
+
+	public SimpleActionGroup action_group;
+
+	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
+		var step = (dy < 0) ? 0.1f : -0.1f;
+		var new_zoom = zoom + (zoom * step);
+		if (last_position.is_valid ()) {
+			set_zoom_and_center_at (new_zoom, last_position.x, last_position.y);
+		}
+		else {
+			zoom = new_zoom;
+		}
+		return true;
+	}
+
+	public void add_scroll_controller () {
+		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		scroll_events.scroll.connect ((controller, dx, dy) => {
+			return on_scroll (dx, dy, controller.get_current_event_state ());
+		});
+		add_controller (scroll_events);
+	}
+
+	public void add_drag_controller () {
+		var click_events = new Gtk.GestureClick ();
+		click_events.button = Gdk.BUTTON_PRIMARY;
+		click_events.pressed.connect ((n_press, x, y) => {
+			//stdout.printf ("> PRESSED %f,%f\n", x, y);
+			clicking = true;
+			dragging = false;
+			drag_start = ClickPoint (x, y);
+			prev_cursor = cursor;
+		});
+		click_events.released.connect ((n_press, x, y) => {
+			//stdout.printf ("> RELEASED\n");
+			clicking = false;
+			dragging = false;
+			cursor = prev_cursor;
+		});
+		add_controller (click_events);
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			if (!dragging && clicking) {
+				if (drag_start.drag_threshold (x, y)) {
+					dragging = true;
+					cursor = new Gdk.Cursor.from_name ("grabbing", null);
+				}
+			}
+			if (dragging) {
+				var dx = (float) (drag_start.x - x);
+				var dy = (float) (drag_start.y - y);
+				// stdout.printf ("scroll_by: %f,%f\n", dx, dy);
+				scroll_by (dx, dy);
+				drag_start = ClickPoint (x, y);
+			}
+			last_position = ClickPoint (x, y);
+		});
+		add_controller (motion_events);
+	}
 
 	public bool get_border (out Gtk.Border border)  {
 		border = Gtk.Border();
@@ -789,6 +854,202 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		queue_draw ();
 	}
 
+	void init_actions () {
+		action_group = new SimpleActionGroup ();
+
+		var action = new SimpleAction.stateful ("zoom-100", null, new Variant.boolean (false));
+		action.activate.connect ((action, param) => {
+			if (zoom_type != ZoomType.NATURAL_SIZE) {
+				zoom_type = ZoomType.NATURAL_SIZE;
+			}
+			else {
+				zoom_type = ZoomType.BEST_FIT;
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("zoom-best-fit", null, new Variant.boolean (false));
+		action.activate.connect ((_action, param) => {
+			if (zoom_type != ZoomType.BEST_FIT) {
+				zoom_type = ZoomType.BEST_FIT;
+			}
+			else {
+				zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("zoom-view-all", null, new Variant.boolean (false));
+		action.activate.connect ((_action, param) => {
+			if (zoom_type != ZoomType.MAXIMIZE_IF_LARGER) {
+				zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+			}
+			else {
+				zoom_type = ZoomType.BEST_FIT;
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-zoom", VariantType.STRING, new Variant.string (""));
+		action.activate.connect ((action, param) => {
+			unowned var value = param.get_string ();
+			action.set_state (new Variant.string (value));
+			switch (value) {
+			case "best-fit":
+				zoom_type = ZoomType.BEST_FIT;
+				break;
+			case "max-size":
+				zoom_type = ZoomType.MAXIMIZE;
+				break;
+			case "max-size-if-larger":
+				zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+				break;
+			case "max-width":
+				zoom_type = ZoomType.MAXIMIZE_WIDTH;
+				break;
+			case "max-height":
+				zoom_type = ZoomType.MAXIMIZE_HEIGHT;
+				break;
+			case "fill-space":
+				zoom_type = ZoomType.FILL_SPACE;
+				break;
+			case "50":
+				zoom = 0.5f;
+				break;
+			case "100":
+				zoom = 1f;
+				break;
+			case "200":
+				zoom = 2f;
+				break;
+			case "300":
+				zoom = 3f;
+				break;
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-in", null);
+		action.activate.connect ((_action, param) => {
+			zoom += _zoom * 0.1f;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-out", null);
+		action.activate.connect ((_action, param) => {
+			zoom -= _zoom * 0.1f;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-in-fast", null);
+		action.activate.connect ((_action, param) => {
+			zoom += _zoom * 0.5f;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("zoom-out-fast", null);
+		action.activate.connect ((_action, param) => {
+			zoom -= _zoom * 0.5f;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("set-transparency", VariantType.STRING, new Variant.string (transparency.get_state ()));
+		action.activate.connect ((action, param) => {
+			unowned var value = param.get_string ();
+			action.set_state (new Variant.string (value));
+			var style = TransparencyStyle.GRAY;
+			switch (value) {
+			case "checkered":
+				style = TransparencyStyle.CHECKERED;
+				break;
+
+			case "white":
+				style = TransparencyStyle.WHITE;
+				break;
+
+			case "gray":
+				style = TransparencyStyle.GRAY;
+				break;
+
+			case "black":
+				style = TransparencyStyle.BLACK;
+				break;
+			}
+			transparency = style;
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-left", null);
+		action.activate.connect (() => {
+			scroll_by (0 - hadjustment.step_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-right", null);
+		action.activate.connect (() => {
+			scroll_by (hadjustment.step_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-up", null);
+		action.activate.connect (() => {
+			scroll_by (0, 0 - vadjustment.step_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-down", null);
+		action.activate.connect (() => {
+			scroll_by (0, vadjustment.step_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-left", null);
+		action.activate.connect (() => {
+			scroll_by (-hadjustment.page_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-right", null);
+		action.activate.connect (() => {
+			scroll_by (hadjustment.page_increment, 0);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-up", null);
+		action.activate.connect (() => {
+			scroll_by (0, -vadjustment.page_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("scroll-page-down", null);
+		action.activate.connect (() => {
+			scroll_by (0, vadjustment.page_increment);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("recenter", null);
+		action.activate.connect (() => {
+			recenter ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("toggle-paused", null, new Variant.boolean (false));
+		action.activate.connect ((action, param) => {
+			if (image != null) {
+				paused = Util.toggle_state (action);
+				Util.enable_action (action_group, "next-frame", paused);
+			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("next-frame", null);
+		action.activate.connect ((action, param) => {
+			next_frame ();
+		});
+		action.set_enabled (false);
+		action_group.add_action (action);
+	}
+
 	construct {
 		_image = null;
 		_zoom_type = ZoomType.BEST_FIT;
@@ -807,6 +1068,13 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		scaled_texture = null;
 		filter_cancellable = null;
 		selection_box = { { 0, 0 }, { 0, 0 } };
+		dragging = false;
+		clicking = false;
+		drag_start = { -1, -1 };
+		last_position = { -1, -1 };
+		init_actions ();
+		hadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
+		vadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
 	}
 
 	Gth.Image _image;
@@ -834,6 +1102,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	bool _paused;
 	Gdk.Texture scaled_texture;
 	Cancellable filter_cancellable;
+
+	bool dragging;
+	bool clicking;
+	ClickPoint drag_start;
+	ClickPoint last_position;
+	Gdk.Cursor prev_cursor = null;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;

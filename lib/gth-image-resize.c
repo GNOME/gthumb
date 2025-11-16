@@ -6,9 +6,6 @@
 
 typedef double ScaleReal;
 typedef ScaleReal (*WeightFunc) (ScaleReal distance);
-#ifdef HAVE_VECTOR_OPERATIONS
-typedef ScaleReal v4r __attribute__ ((vector_size(sizeof(ScaleReal) * 4)));
-#endif /* HAVE_VECTOR_OPERATIONS */
 
 
 // gth_image_resize_if_larger
@@ -195,18 +192,14 @@ horizontal_scale_and_transpose (GthImage *image,
 	ScaleReal *weights = g_new (ScaleReal, 2.0 * support + 3.0);
 
 	int x, y, i, n, temp;
-#ifdef HAVE_VECTOR_OPERATIONS
-	v4r v_pixel, v_rgba;
-#else
 	ScaleReal r, g, b, a, w;
-#endif /* HAVE_VECTOR_OPERATIONS */
 
 	scale = 1.0 / scale;
 	for (y = 0; y < scaled_height; y++) {
-		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-			filter->cancelled = TRUE;
-			goto out;
-		}
+		// if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+		// 	filter->cancelled = TRUE;
+		// 	goto out;
+		// }
 
 		ScaleReal bisect = ((ScaleReal) y + 0.5) / scale_factor;
 		int start = bisect - support + 0.5;
@@ -238,23 +231,6 @@ horizontal_scale_and_transpose (GthImage *image,
 
 			p_src_pixel = p_src_row;
 
-#ifdef HAVE_VECTOR_OPERATIONS
-
-			v_rgba = (v4r) { 0.0, 0.0, 0.0, 0.0 };
-			for (i = 0; i < n; i++) {
-				v_pixel = (v4r) { p_src_pixel[0], p_src_pixel[1], p_src_pixel[2], p_src_pixel[3] };
-				v_rgba = v_rgba + (v_pixel * weights[i]);
-				p_src_pixel += 4;
-			}
-			v_rgba = v_rgba + 0.5;
-
-			p_dest_pixel[0] = PIXEL_CLAMP (v_rgba[0]);
-			p_dest_pixel[1] = PIXEL_CLAMP (v_rgba[1]);
-			p_dest_pixel[2] = PIXEL_CLAMP (v_rgba[2]);
-			p_dest_pixel[3] = PIXEL_CLAMP (v_rgba[3]);
-
-#else /* !HAVE_VECTOR_OPERATIONS */
-
 			r = g = b = a = 0.0;
 			for (i = 0; i < n; i++) {
 				w = weights[i];
@@ -271,8 +247,6 @@ horizontal_scale_and_transpose (GthImage *image,
 			p_dest_pixel[PIXEL_GREEN] = PIXEL_CLAMP (g + 0.5);
 			p_dest_pixel[PIXEL_BLUE] = PIXEL_CLAMP (b + 0.5);
 			p_dest_pixel[PIXEL_ALPHA] = PIXEL_CLAMP (a + 0.5);
-
-#endif /* HAVE_VECTOR_OPERATIONS */
 
 			p_dest_pixel += 4;
 			p_src_row += src_rowstride;
@@ -433,8 +407,9 @@ resize_image_thread (GTask		*task,
 		cancellable);
 
 	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-		if (resized_image != NULL)
+		if (resized_image != NULL) {
 			g_object_unref (resized_image);
+		}
 		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
 		return;
 	}
@@ -458,9 +433,7 @@ gth_image_resize_async (GthImage		*image,
 			gpointer		 user_data)
 {
 	GTask *task = g_task_new (NULL, cancellable, callback, user_data);
-	g_task_set_task_data (
-		task,
-		resize_data_new (image,	size, flags, quality),
+	g_task_set_task_data (task, resize_data_new (image, size, flags, quality),
 		(GDestroyNotify) resize_data_free);
 	g_task_run_in_thread (task, resize_image_thread);
 	g_object_unref (task);

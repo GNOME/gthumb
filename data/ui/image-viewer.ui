@@ -102,7 +102,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Apply Color Profile</attribute>
-        <attribute name="action">image.apply-icc-profile</attribute>
+        <attribute name="action">viewer.apply-icc-profile</attribute>
       </item>
     </section>
     <section>
@@ -131,6 +131,33 @@
   </menu>
   <object class="GtkBox" id="left_toolbar">
     <property name="spacing">6</property>
+    <child>
+      <object class="GtkMenuButton" id="overview_button">
+        <property name="icon-name">gth-zoom-menu-symbolic</property>
+        <property name="direction">down</property>
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="popover">
+          <object class="GtkPopover">
+            <property name="has-arrow">true</property>
+            <property name="position">bottom</property>
+            <style>
+              <class name="deeper"/>
+            </style>
+            <child>
+              <object class="GthImageOverview" id="overview">
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
+                <property name="width-request">250</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
     <child>
       <object class="GtkBox" id="animation_actions">
         <property name="spacing">6</property>

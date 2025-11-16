@@ -22,7 +22,7 @@
                           <object class="GtkButton">
                             <property name="icon-name">document-save-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Save</property>
-                            <property name="action-name">image.save</property>
+                            <property name="action-name">viewer.save</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -36,7 +36,7 @@
                           <object class="GtkButton">
                             <property name="icon-name">document-save-as-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Save As…</property>
-                            <property name="action-name">image.save-as</property>
+                            <property name="action-name">viewer.save-as</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -50,7 +50,7 @@
                           <object class="GtkButton">
                             <property name="icon-name">edit-undo-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Undo</property>
-                            <property name="action-name">image.undo</property>
+                            <property name="action-name">viewer.undo</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -64,7 +64,7 @@
                           <object class="GtkButton">
                             <property name="icon-name">edit-redo-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Redo</property>
-                            <property name="action-name">image.redo</property>
+                            <property name="action-name">viewer.redo</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -92,7 +92,7 @@
                           <object class="GthToolButton">
                             <property name="label" translatable="yes">Contrast</property>
                             <property name="icon-name">gth-adjust-contrast-symbolic</property>
-                            <property name="action-name">image.adjust-contrast</property>
+                            <property name="action-name">viewer.adjust-contrast</property>
                             <layout>
                               <property name="column">0</property>
                               <property name="row">0</property>
@@ -101,12 +101,23 @@
                         </child>
                         <child>
                           <object class="GthToolButton">
-                            <property name="label" translatable="yes">Special Effects</property>
-                            <property name="icon-name">gth-special-effects-symbolic</property>
-                            <property name="action-name">image.special-effects</property>
+                            <property name="label" translatable="yes">Brightness</property>
+                            <property name="icon-name">gth-adjust-brightness-symbolic</property>
+                            <property name="action-name">viewer.adjust-brightness</property>
                             <layout>
                               <property name="column">1</property>
                               <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Saturation</property>
+                            <property name="icon-name">gth-adjust-brightness-symbolic</property>
+                            <property name="action-name">viewer.adjust-saturation</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">1</property>
                             </layout>
                           </object>
                         </child>
@@ -116,8 +127,30 @@
                             <property name="icon-name">gth-adjust-colors-symbolic</property>
                             <property name="action-name">image.adjust-colors</property>
                             <layout>
-                              <property name="column">0</property>
+                              <property name="column">1</property>
                               <property name="row">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Grayscale</property>
+                            <property name="icon-name">gth-grayscale-symbolic</property>
+                            <property name="action-name">viewer.grayscale</property>
+                            <layout>
+                              <property name="column">0</property>
+                              <property name="row">2</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GthToolButton">
+                            <property name="label" translatable="yes">Special Effects</property>
+                            <property name="icon-name">gth-special-effects-symbolic</property>
+                            <property name="action-name">viewer.special-effects</property>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">2</property>
                             </layout>
                           </object>
                         </child>
@@ -127,8 +160,8 @@
                             <property name="icon-name">gth-curves-symbolic</property>
                             <property name="action-name">image.edit-color-curves</property>
                             <layout>
-                              <property name="column">1</property>
-                              <property name="row">1</property>
+                              <property name="column">0</property>
+                              <property name="row">3</property>
                             </layout>
                           </object>
                         </child>
@@ -136,21 +169,10 @@
                           <object class="GthToolButton">
                             <property name="label" translatable="yes">Focus</property>
                             <property name="icon-name">gth-sharpen-symbolic</property>
-                            <property name="action-name">image.adjust-focus</property>
-                            <layout>
-                              <property name="column">0</property>
-                              <property name="row">2</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GthToolButton">
-                            <property name="label" translatable="yes">Grayscale</property>
-                            <property name="icon-name">gth-grayscale-symbolic</property>
-                            <property name="action-name">image.grayscale</property>
+                            <property name="action-name">viewer.sharpen-image</property>
                             <layout>
                               <property name="column">1</property>
-                              <property name="row">2</property>
+                              <property name="row">3</property>
                             </layout>
                           </object>
                         </child>
@@ -158,10 +180,10 @@
                           <object class="GthToolButton">
                             <property name="label" translatable="yes">Color Picker</property>
                             <property name="icon-name">gth-eyedropper-symbolic</property>
-                            <property name="action-name">image.color-picker</property>
+                            <property name="action-name">viewer.color-picker</property>
                             <layout>
                               <property name="column">0</property>
-                              <property name="row">3</property>
+                              <property name="row">4</property>
                             </layout>
                           </object>
                         </child>
@@ -182,7 +204,7 @@
                         <child>
                           <object class="GtkButton">
                             <property name="icon-name">gth-rotate-left-symbolic</property>
-                            <property name="action-name">image.rotate-left</property>
+                            <property name="action-name">viewer.rotate-left</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -195,7 +217,7 @@
                         <child>
                           <object class="GtkButton">
                             <property name="icon-name">gth-rotate-right-symbolic</property>
-                            <property name="action-name">image.rotate-right</property>
+                            <property name="action-name">viewer.rotate-right</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -208,7 +230,7 @@
                         <child>
                           <object class="GtkButton">
                             <property name="icon-name">gth-flip-horizontal-symbolic</property>
-                            <property name="action-name">image.flip-horizontal</property>
+                            <property name="action-name">viewer.flip-horizontal</property>
                             <style>
                               <class name="tool-button"/>
                             </style>
@@ -221,7 +243,7 @@
                         <child>
                           <object class="GtkButton">
                             <property name="icon-name">gth-flip-vertical-symbolic</property>
-                            <property name="action-name">image.flip-vertical</property>
+                            <property name="action-name">viewer.flip-vertical</property>
                             <style>
                               <class name="tool-button"/>
                             </style>

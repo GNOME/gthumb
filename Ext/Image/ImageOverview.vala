@@ -4,6 +4,7 @@ public class Gth.ImageOverview : Gtk.Box {
 		set {
 			_main_view = value;
 			_main_view.resized.connect (() => update_selection ());
+			_main_view.notify["image"].connect (() => preview.image = _main_view.image);
 			hadj_changed = _main_view.hadjustment.value_changed.connect ((adj) => update_selection ());
 			vadj_changed = _main_view.vadjustment.value_changed.connect ((adj) => update_selection ());
 			preview.image = _main_view.image;

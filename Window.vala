@@ -157,14 +157,29 @@ public class Gth.Window : Adw.ApplicationWindow {
 					viewer.main_view.max_sidebar_width = browser.content_view.max_sidebar_width;
 				}
 			}
+			else if (previuos_page == Page.EDITOR) {
+				viewer.main_view.max_sidebar_width = editor.main_view.max_sidebar_width;
+			}
 			stack.set_visible_child (viewer);
 			viewer.update_title ();
 			viewer.focus_viewer ();
+			if (previuos_page == Page.EDITOR) {
+				var image_viewer = viewer.current_viewer as ImageViewer;
+				if (image_viewer != null) {
+					image_viewer.after_closing_editor ();
+				}
+			}
 			break;
+
 		case Page.EDITOR:
+			if (previuos_page == Page.VIEWER) {
+				if (viewer.main_view.show_sidebar) {
+					editor.main_view.max_sidebar_width = viewer.main_view.max_sidebar_width;
+				}
+			}
 			stack.set_visible_child (editor);
-			//editor.update_title ();
 			break;
+
 		case Page.NONE:
 			break;
 		}
@@ -967,21 +982,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 		else if ((current_page == Page.VIEWER) && (viewer.current_viewer != null)) {
 			context |= viewer.current_viewer.shortcut_context;
-			//stdout.printf ("> viewer.current_viewer.shortcut_context: %s\n", viewer.current_viewer.shortcut_context.to_string ());
+			// stdout.printf ("> viewer.current_viewer.shortcut_context: %s\n", viewer.current_viewer.shortcut_context.to_string ());
 		}
 		else if (current_page == Page.EDITOR) {
-			context |= ShortcutContext.EDITOR;
-			//stdout.printf ("> viewer.current_viewer.shortcut_context: %s\n", viewer.current_viewer.shortcut_context.to_string ());
+			context |= ShortcutContext.EDITOR | editor.current_editor.shortcut_context;
+			// stdout.printf ("> editor.current_editor.shortcut_context: %s\n", editor.current_editor.shortcut_context.to_string ());
 		}
 
 		var shortcut = app.shortcuts.find_by_key (context, keyval, state);
 		if ((shortcut == null)
 			|| (ShortcutContext.DOC in shortcut.context))
 		{
-			//stdout.printf ("> NULL\n");
+			// stdout.printf ("> NULL\n");
 			return false;
 		}
-		//stdout.printf ("> shortcut: '%s'\n", shortcut.detailed_action);
+		// stdout.printf ("> shortcut: '%s'\n", shortcut.detailed_action);
 		activate_action_variant (shortcut.action_name, shortcut.action_parameter);
 		return true;
 	}

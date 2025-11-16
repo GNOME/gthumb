@@ -1,12 +1,8 @@
 #include <config.h>
 #include <math.h>
-#include "lib/gth-histogram.h"
 #include "lib/gth-image.h"
 #include "lib/types.h"
-
-#ifdef HAVE_VECTOR_OPERATIONS
-typedef double v4r __attribute__ ((vector_size(sizeof(double) * 4)));
-#endif /* HAVE_VECTOR_OPERATIONS */
+#include "lib/util.h"
 
 void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	int row_stride;
@@ -29,9 +25,6 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	int temp;
 	int alpha;
 	float factor;
-#ifdef HAVE_VECTOR_OPERATIONS
-	v4r v_dest, v_src;
-#endif
 
 	for (int row_idx = 0; row_idx < height; row_idx++) {
 		guchar *dest_pixel = dest_row + (first_column * PIXEL_BYTES);
@@ -43,23 +36,9 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 			}
 			else {
 				factor = (float) (0xFF - alpha) / 0xFF;
-
-#ifdef HAVE_VECTOR_OPERATIONS
-
-				v_dest = (v4r) { dest_pixel[0], dest_pixel[1], dest_pixel[2], 0.0 };
-				v_src = (v4r) { pattern_pixel[0], pattern_pixel[1], pattern_pixel[2], 0.0 };
-				v_dest = v_dest * factor + v_src;
-				dest_pixel[PIXEL_RED] = CLAMP (v_dest[PIXEL_RED], 0, 255);
-				dest_pixel[PIXEL_GREEN] = CLAMP (v_dest[PIXEL_GREEN], 0, 255);
-				dest_pixel[PIXEL_BLUE] = CLAMP (v_dest[PIXEL_BLUE], 0, 255);
-
-#else /* !HAVE_VECTOR_OPERATIONS */
-
 				dest_pixel[PIXEL_RED] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_RED] + pattern_pixel[PIXEL_RED]);
 				dest_pixel[PIXEL_GREEN] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_GREEN] + pattern_pixel[PIXEL_GREEN]);
 				dest_pixel[PIXEL_BLUE] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_BLUE] + pattern_pixel[PIXEL_BLUE]);
-
-#endif
 			}
 			dest_pixel += PIXEL_BYTES;
 			pattern_pixel += PIXEL_BYTES;
@@ -144,5 +123,199 @@ void gth_image_render_frame (GthImage *canvas, GthImage *background,
 		if (i >= foreground_y) {
 			foreground_row += foreground_row_stride;
 		}
+	}
+}
+
+void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount) {
+	if (amount < 0) {
+		amount = tan (amount) * G_PI;
+	}
+	// g_print ("> amount: %f\n", amount);
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	int value, itemp;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+			value = (red_weight * red) + (green_weight * green) + (blue_weight * blue);
+
+			itemp = INTERPOLATE (red, value, amount);
+			red = CLAMP (itemp, 0, 255);
+
+			itemp = INTERPOLATE (green, value, amount);
+			green = CLAMP (itemp, 0, 255);
+
+			itemp = INTERPOLATE (blue, value, amount);
+			blue = CLAMP (itemp, 0, 255);
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
+	}
+}
+
+void gth_image_grayscale_saturation (GthImage *self, double amount) {
+	if (amount < 0) {
+		amount = tan (amount) * G_PI;
+	}
+	// g_print ("> amount: %f\n", amount);
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha, min, max;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	int value, itemp;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+			max = MAX (MAX (red, green), blue);
+			min = MIN (MIN (red, green), blue);
+			value = (max + min) / 2;
+
+			itemp = INTERPOLATE (red, value, amount);
+			red = CLAMP (itemp, 0, 255);
+
+			itemp = INTERPOLATE (green, value, amount);
+			green = CLAMP (itemp, 0, 255);
+
+			itemp = INTERPOLATE (blue, value, amount);
+			blue = CLAMP (itemp, 0, 255);
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
+	}
+}
+
+void gth_image_gamma_correction (GthImage *self, double gamma) {
+	if (gamma == 1.0) {
+		return;
+	}
+	// g_print ("> gamma: %f\n", gamma);
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	double value;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+
+			value = 255.0 * pow (((double) red / 255.0), gamma);
+			red = CLAMP (value, 0, 255);
+
+			value = 255.0 * pow (((double) green / 255.0), gamma);
+			green = CLAMP (value, 0, 255);
+
+			value = 255.0 * pow (((double) blue / 255.0), gamma);
+			blue = CLAMP (value, 0, 255);
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
+	}
+}
+
+void gth_image_adjust_brightness (GthImage *self, double amount) {
+	if (amount == 0) {
+		return;
+	}
+	// g_print ("> amount: %f\n", amount);
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	double dtemp;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+
+			if (amount > 0) {
+				dtemp = INTERPOLATE (red, 0.0, amount);
+				red = CLAMP (dtemp, 0, 255);
+
+				dtemp = INTERPOLATE (green, 0.0, amount);
+				green = CLAMP (dtemp, 0, 255);
+
+				dtemp = INTERPOLATE (blue, 0.0, amount);
+				blue = CLAMP (dtemp, 0, 255);
+			}
+			else {
+				dtemp = INTERPOLATE (red, 255.0, -amount);
+				red = CLAMP (dtemp, 0, 255);
+
+				dtemp = INTERPOLATE (green, 255.0, -amount);
+				green = CLAMP (dtemp, 0, 255);
+
+				dtemp = INTERPOLATE (blue, 255.0, -amount);
+				blue = CLAMP (dtemp, 0, 255);
+			}
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
+	}
+}
+
+void gth_image_adjust_contrast (GthImage *self, double amount) {
+	if (amount == 0) {
+		return;
+	}
+	if (amount < 0) {
+		amount = tan (amount * G_PI_2);
+	}
+	// g_print ("> amount: %f\n", amount);
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	double dtemp;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+
+			dtemp = INTERPOLATE (red, 127.0, amount);
+			red = CLAMP (dtemp, 0, 255);
+
+			dtemp = INTERPOLATE (green, 127.0, amount);
+			green = CLAMP (dtemp, 0, 255);
+
+			dtemp = INTERPOLATE (blue, 127.0, amount);
+			blue = CLAMP (dtemp, 0, 255);
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
 	}
 }

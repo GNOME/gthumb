@@ -1,5 +1,7 @@
 editor_files = files(
+  'AdjustBrightness.vala',
   'AdjustContrast.vala',
+  'AdjustSaturation.vala',
   'ColorPicker.vala',
   'ColorPreview.vala',
   'CurveOperation.vala',
@@ -9,6 +11,7 @@ editor_files = files(
   'Grayscale.vala',
   'ImageTool.vala',
   'Points.vala',
+  'SharpenImage.vala',
   'SpecialEffects.vala',
   'ToolButton.vala',
 )

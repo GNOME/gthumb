@@ -19,6 +19,16 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window.viewer.set_mediabar (builder.get_object ("mediabar") as Gtk.Widget, Gtk.Align.CENTER);
 		zoom_info = builder.get_object ("zoom_info") as Gtk.Label;
 
+		unowned var overview_button = builder.get_object ("overview_button") as Gtk.MenuButton;
+		overview_button.notify["active"].connect ((obj, spec) => {
+			var local_button = obj as Gtk.MenuButton;
+			if (local_button.active) {
+				var overview = builder.get_object ("overview") as Gth.ImageOverview;
+				overview.main_view = image_view;
+			}
+			window.viewer.on_actived_popup (local_button.active);
+		});
+
 		var zoom_button = builder.get_object ("zoom_button") as Gtk.Widget;
 		zoom_button.notify["active"].connect ((obj, spec) => {
 			window.viewer.on_actived_popup (((Gtk.MenuButton) obj).active);
@@ -35,51 +45,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 
 		image_view.resized.connect (() => update_zoom_info ());
+		image_view.add_drag_controller ();
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		scroll_events.scroll.connect ((controller, dx, dy) => {
 			return on_scroll (dx, dy, controller.get_current_event_state ());
 		});
 		image_view.add_controller (scroll_events);
-
-		var click_events = new Gtk.GestureClick ();
-		click_events.button = Gdk.BUTTON_PRIMARY;
-		click_events.pressed.connect ((n_press, x, y) => {
-			//stdout.printf ("> PRESSED %f,%f\n", x, y);
-			clicking = true;
-			dragging = false;
-			drag_start = { x, y };
-		});
-		click_events.released.connect ((n_press, x, y) => {
-			//stdout.printf ("> RELEASED\n");
-			clicking = false;
-			dragging = false;
-			image_view.cursor = null;
-		});
-		image_view.add_controller (click_events);
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
-			if (!dragging && clicking) {
-				var dx = (drag_start.x - x).abs ();
-				var dy = (drag_start.y - y).abs ();
-				//stdout.printf ("delta: %f,%f\n", dx, dy);
-				if ((dx >= DRAG_THRESHOLD) || (dy >= DRAG_THRESHOLD)) {
-					dragging = true;
-					image_view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
-				}
-			}
-			if (dragging) {
-				var dx = (float) (drag_start.x - x);
-				var dy = (float) (drag_start.y - y);
-				//stdout.printf ("scroll_by: %f,%f\n", dx, dy);
-				image_view.scroll_by (dx, dy);
-				drag_start = { x, y };
-			}
-			last_x = x;
-			last_y = y;
-		});
-		image_view.add_controller (motion_events);
 
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (window.on_key_pressed);
@@ -142,7 +114,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			edit_job.cancel ();
 		}
 		window.viewer.viewer_container.remove_css_class ("image-view");
+		window.insert_action_group ("viewer", null);
 		window.insert_action_group ("image", null);
+	}
+
+	public void after_closing_editor () {
+		// Restore the image.* actions overwritten by the Editor.
+		window.insert_action_group ("image", image_view.action_group);
 	}
 
 	public void save_preferences () {
@@ -165,15 +143,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		case ScrollAction.CHANGE_FILE:
 			return window.viewer.on_scroll_change_file (dx, dy);
 		case ScrollAction.CHANGE_ZOOM:
-			var step = (dy < 0) ? 0.1f : -0.1f;
-			var new_zoom = image_view.zoom + (image_view.zoom * step);
-			if ((last_x >= 0) && (last_y >= 0)) {
-				image_view.set_zoom_and_center_at (new_zoom, (float) last_x, (float) last_y);
-			}
-			else {
-				image_view.zoom = new_zoom;
-			}
-			return true;
+			return image_view.on_scroll (dx, dy, state);
 		default:
 			break;
 		}
@@ -355,132 +325,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	void init_actions () {
+		window.insert_action_group ("image", image_view.action_group);
+
 		action_group = new SimpleActionGroup ();
-		window.insert_action_group ("image", action_group);
+		window.insert_action_group ("viewer", action_group);
 
-		var action = new SimpleAction.stateful ("zoom-100", null, new Variant.boolean (false));
-		action.activate.connect ((action, param) => {
-			if (image_view.zoom_type != ZoomType.NATURAL_SIZE) {
-				image_view.zoom_type = ZoomType.NATURAL_SIZE;
-			}
-			else {
-				image_view.zoom_type = ZoomType.BEST_FIT;
-			}
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("zoom-best-fit", null, new Variant.boolean (false));
-		action.activate.connect ((_action, param) => {
-			if (image_view.zoom_type != ZoomType.BEST_FIT) {
-				image_view.zoom_type = ZoomType.BEST_FIT;
-			}
-			else {
-				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-			}
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("zoom-view-all", null, new Variant.boolean (false));
-		action.activate.connect ((_action, param) => {
-			if (image_view.zoom_type != ZoomType.MAXIMIZE_IF_LARGER) {
-				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-			}
-			else {
-				image_view.zoom_type = ZoomType.BEST_FIT;
-			}
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("set-zoom", VariantType.STRING, new Variant.string (""));
-		action.activate.connect ((action, param) => {
-			unowned var value = param.get_string ();
-			action.set_state (new Variant.string (value));
-			switch (value) {
-			case "best-fit":
-				image_view.zoom_type = ZoomType.BEST_FIT;
-				break;
-			case "max-size":
-				image_view.zoom_type = ZoomType.MAXIMIZE;
-				break;
-			case "max-size-if-larger":
-				image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-				break;
-			case "max-width":
-				image_view.zoom_type = ZoomType.MAXIMIZE_WIDTH;
-				break;
-			case "max-height":
-				image_view.zoom_type = ZoomType.MAXIMIZE_HEIGHT;
-				break;
-			case "fill-space":
-				image_view.zoom_type = ZoomType.FILL_SPACE;
-				break;
-			case "50":
-				image_view.zoom = 0.5f;
-				break;
-			case "100":
-				image_view.zoom = 1f;
-				break;
-			case "200":
-				image_view.zoom = 2f;
-				break;
-			case "300":
-				image_view.zoom = 3f;
-				break;
-			}
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("zoom-in", null);
-		action.activate.connect ((_action, param) => {
-			zoom_adjustment.value += zoom_adjustment.step_increment;
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("zoom-out", null);
-		action.activate.connect ((_action, param) => {
-			zoom_adjustment.value -= zoom_adjustment.step_increment;
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("zoom-in-fast", null);
-		action.activate.connect ((_action, param) => {
-			zoom_adjustment.value += zoom_adjustment.page_increment;
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("zoom-out-fast", null);
-		action.activate.connect ((_action, param) => {
-			zoom_adjustment.value -= zoom_adjustment.page_increment;
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("set-transparency", VariantType.STRING, new Variant.string (image_view.transparency.get_state ()));
-		action.activate.connect ((action, param) => {
-			unowned var value = param.get_string ();
-			action.set_state (new Variant.string (value));
-			var style = TransparencyStyle.GRAY;
-			switch (value) {
-			case "checkered":
-				style = TransparencyStyle.CHECKERED;
-				break;
-
-			case "white":
-				style = TransparencyStyle.WHITE;
-				break;
-
-			case "gray":
-				style = TransparencyStyle.GRAY;
-				break;
-
-			case "black":
-				style = TransparencyStyle.BLACK;
-				break;
-			}
-			image_view.transparency = style;
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("copy-image", null);
+		var action = new SimpleAction ("copy-image", null);
 		action.activate.connect (() => copy_image.begin ());
 		action_group.add_action (action);
 
@@ -532,76 +382,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("scroll-left", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (0 - image_view.hadjustment.step_increment, 0);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-right", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (image_view.hadjustment.step_increment, 0);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-up", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (0, 0 - image_view.vadjustment.step_increment);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-down", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (0, image_view.vadjustment.step_increment);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-page-left", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (-image_view.hadjustment.page_increment, 0);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-page-right", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (image_view.hadjustment.page_increment, 0);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-page-up", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (0, -image_view.vadjustment.page_increment);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("scroll-page-down", null);
-		action.activate.connect (() => {
-			image_view.scroll_by (0, image_view.vadjustment.page_increment);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("recenter", null);
-		action.activate.connect (() => {
-			image_view.recenter ();
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("toggle-paused", null, new Variant.boolean (false));
-		action.activate.connect ((action, param) => {
-			if (image_view.image != null) {
-				image_view.paused = Util.toggle_state (action);
-				Util.enable_action (action_group, "next-frame", image_view.paused);
-			}
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("next-frame", null);
-		action.activate.connect ((action, param) => {
-			image_view.next_frame ();
-		});
-		action.set_enabled (false);
-		action_group.add_action (action);
-
 		action = new SimpleAction.stateful ("apply-icc-profile", null, new Variant.boolean (true));
 		action.activate.connect ((action, param) => {
 			apply_icc_profile = Util.toggle_state (action);
@@ -650,6 +430,24 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action = new SimpleAction ("special-effects", null);
 		action.activate.connect ((action, param) => {
 			window.editor.activate_tool (new SpecialEffects ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("adjust-saturation", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new AdjustSaturation ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("adjust-brightness", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new AdjustBrightness ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("sharpen-image", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new SharpenImage ());
 		});
 		action_group.add_action (action);
 	}
@@ -807,8 +605,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 		window = null;
 		builder = null;
-		dragging = false;
-		clicking = false;
 		history = new ImageHistory ();
 		history.changed.connect (() => {
 			Util.enable_action (action_group, "undo", history.can_undo);
@@ -823,19 +619,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	unowned Gtk.Box animation_actions;
 	ulong zoom_adj_changed_id;
 	SimpleActionGroup action_group;
-	bool dragging;
-	bool clicking;
-	ClickPoint drag_start;
 	ScrollAction scroll_action;
 	unowned Gtk.Label zoom_info;
 	unowned Gtk.Adjustment zoom_adjustment;
-	double last_x = -1;
-	double last_y = -1;
 	bool apply_icc_profile;
 	ImageHistory history;
 	Job edit_job = null;
-
-	const double DRAG_THRESHOLD = 1;
 }
 
 class Gth.ImageTransform : Gth.ImageOperation {

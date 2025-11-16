@@ -12,9 +12,10 @@ public class Gth.Editor : Gtk.Box {
 		window.set_page.begin (Window.Page.EDITOR, (_obj, res) => {
 			window.set_page.end (res);
 			window.insert_action_group ("editor", action_group);
+			show_apply ();
 			current_editor = tool;
-			current_editor.set_window (window);
-			current_editor.activate ();
+			current_editor.activate (window);
+			current_editor.focus ();
 			sidebar_header.title = current_editor.title;
 		});
 	}
@@ -34,15 +35,6 @@ public class Gth.Editor : Gtk.Box {
 		set_action_bar (null);
 	}
 
-	public void focus_viewer () {
-		if (window.current_page != Window.Page.EDITOR) {
-			return;
-		}
-		if (current_editor != null) {
-			// TODO current_editor.focus ();
-		}
-	}
-
 	public void set_left_toolbar (Gtk.Widget widget) {
 		left_toolbar.append (widget);
 	}
@@ -56,6 +48,11 @@ public class Gth.Editor : Gtk.Box {
 		else {
 			action_bar.visible = false;
 		}
+	}
+
+	public void show_apply () {
+		apply_button.visible = true;
+		header_bar.show_end_title_buttons = false;
 	}
 
 	public void hide_apply () {
@@ -73,6 +70,12 @@ public class Gth.Editor : Gtk.Box {
 		});
 		sidebar_resizer.ended.connect (() => {
 			window.active_resizer = null;
+		});
+
+		overview_button.notify["active"].connect (() => {
+			if (current_editor != null) {
+				overview.main_view = current_editor.image_view;
+			}
 		});
 
 		current_editor = null;
@@ -96,7 +99,7 @@ public class Gth.Editor : Gtk.Box {
 
 	weak Window _window;
 	public SimpleActionGroup action_group;
-	ImageTool current_editor;
+	public ImageTool current_editor;
 	Job apply_job = null;
 	[GtkChild] public unowned Gtk.Overlay content;
 	[GtkChild] public unowned Adw.WindowTitle sidebar_header;
@@ -108,4 +111,6 @@ public class Gth.Editor : Gtk.Box {
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Adw.HeaderBar header_bar;
 	[GtkChild] unowned Gtk.Box action_bar;
+	[GtkChild] unowned Gth.ImageOverview overview;
+	[GtkChild] unowned Gtk.MenuButton overview_button;
 }

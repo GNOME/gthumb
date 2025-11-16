@@ -198,17 +198,17 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Save</attribute>
-        <attribute name="action">image.save</attribute>
+        <attribute name="action">viewer.save</attribute>
         <attribute name="hidden-when">action-missing</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Save As…</attribute>
-        <attribute name="action">image.save-as</attribute>
+        <attribute name="action">viewer.save-as</attribute>
         <attribute name="hidden-when">action-missing</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Print</attribute>
-        <attribute name="action">image.print</attribute>
+        <attribute name="action">viewer.print</attribute>
         <attribute name="hidden-when">action-missing</attribute>
       </item>
       <item>
@@ -225,7 +225,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">Copy Image</attribute>
-        <attribute name="action">image.copy-image</attribute>
+        <attribute name="action">viewer.copy-image</attribute>
         <attribute name="hidden-when">action-missing</attribute>
       </item>
       <item>

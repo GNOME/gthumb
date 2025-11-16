@@ -169,8 +169,25 @@ public enum Gth.TransparencyStyle {
 }
 
 public struct Gth.ClickPoint {
-	double x;
-	double y;
+	float x;
+	float y;
+
+	public ClickPoint (double _x = -1, double _y = -1) {
+		x = (float) _x;
+		y = (float) _y;
+	}
+
+	public bool is_valid () {
+		return (x >= 0) && (y >= 0);
+	}
+
+	public bool drag_threshold (double px, double py) {
+		var dx = (x - px).abs ();
+		var dy = (y - py).abs ();
+		return (dx >= DRAG_THRESHOLD) || (dy >= DRAG_THRESHOLD);
+	}
+
+	const double DRAG_THRESHOLD = 1;
 }
 
 [Flags]

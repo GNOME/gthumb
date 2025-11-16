@@ -15,6 +15,9 @@
   <object class="GtkBox" id="action_bar">
     <property name="orientation">vertical</property>
     <property name="spacing">12</property>
+    <style>
+      <class name="smaller-text"/>
+    </style>
     <child>
       <object class="GtkScale">
         <property name="hexpand">true</property>
@@ -38,7 +41,6 @@
         <property name="use-underline">true</property>
         <style>
           <class name="flat"/>
-          <class name="smaller-text"/>
         </style>
       </object>
     </child>

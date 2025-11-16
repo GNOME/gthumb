@@ -42,18 +42,4 @@
       </object>
     </child>
   </object>
-  <object class="GtkBox" id="equalize_action_bar">
-    <property name="orientation">vertical</property>
-    <property name="spacing">12</property>
-    <child>
-      <object class="AdwPreferencesGroup">
-        <child>
-          <object class="AdwSwitchRow" id="equalize_linear">
-            <property name="title" translatable="yes">Linear</property>
-            <property name="active">false</property>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
 </interface>

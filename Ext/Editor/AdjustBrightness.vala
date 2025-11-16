@@ -1,28 +1,23 @@
-public class Gth.AdjustContrast : ImageTool {
+public class Gth.AdjustBrightness : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-contrast.ui");
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-brightness.ui");
 		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
-		// Translators: filter that adjust the contrast balancing the white component.
-		filter_grid.add (Method.STRETCH, new Operation (Method.STRETCH, 0.005), _("Balanced"));
-		// Translators: filter that makes a linear tranformation of the colors.
-		filter_grid.add (Method.LINEAR, new Operation (Method.LINEAR), _("Linear"));
-		// Translators: filter that equalizes the histogram.
-		filter_grid.add (Method.EQUALIZE, new Operation (Method.EQUALIZE), _("Equalize"));
+		filter_grid.add (Method.GAMMA_CORRECTION, new Operation (Method.GAMMA_CORRECTION, 1.0), _("Gamma"));
+		filter_grid.add (Method.LINEAR, new Operation (Method.LINEAR, 0.0), _("Linear"));
 		filter_grid.activated.connect ((id) => {
 			var method = (Method) id;
-			if (method == Method.STRETCH) {
+			if (method == Method.GAMMA_CORRECTION) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
-				scale.digits = 0;
+				scale.digits = 2;
 				scale.clear_marks ();
-				scale.add_mark (crop_size_to_adj (0.005), Gtk.PositionType.BOTTOM, null);
-				scale.add_mark (crop_size_to_adj (0.015), Gtk.PositionType.BOTTOM, null);
-				scale.add_mark (crop_size_to_adj (0.025), Gtk.PositionType.BOTTOM, null);
+				// scale.add_mark (gamma_to_adj (0.005), Gtk.PositionType.BOTTOM, null);
+				// scale.add_mark (gamma_to_adj (0.015), Gtk.PositionType.BOTTOM, null);
+				// scale.add_mark (gamma_to_adj (0.025), Gtk.PositionType.BOTTOM, null);
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (0, crop_size_to_adj (MIN_STRETCH),
-					crop_size_to_adj (MAX_STRETCH), 1, 1, 0);
+				amount_adjustment.configure (0, MIN_GAMMA, MAX_GAMMA, 0.1, 0.1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
 			else if (method == Method.LINEAR) {
@@ -34,8 +29,8 @@ public class Gth.AdjustContrast : ImageTool {
 				amount_adjustment.configure (0, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
-			else if (method == Method.EQUALIZE) {
-				window.editor.set_action_bar (builder.get_object ("equalize_action_bar") as Gtk.Widget);
+			else {
+				window.editor.set_action_bar (null);
 			}
 			queue_update_preview ();
 		});
@@ -52,23 +47,7 @@ public class Gth.AdjustContrast : ImageTool {
 			var id = filter_grid.get_activated ();
 			var operation = filter_grid.get_operation (id) as Operation;
 			if (operation != null) {
-				if (operation.method == Method.STRETCH) {
-					operation.amount = adj_to_crop_size (amount_adjustment.value);
-				}
-				else if (operation.method == Method.LINEAR) {
-					operation.amount = -amount_adjustment.value;
-				}
-				queue_update_preview ();
-			}
-		});
-
-		var linear_switch = builder.get_object ("equalize_linear") as Adw.SwitchRow;
-		linear_switch.notify["active"].connect ((obj, param) => {
-			var local_switch = obj as Adw.SwitchRow;
-			var id = filter_grid.get_activated ();
-			var operation = filter_grid.get_operation (id) as Operation;
-			if ((operation != null) && (operation.method == Method.EQUALIZE)) {
-				operation.equalize_linear = local_switch.active;
+				operation.amount = amount_adjustment.value;
 				queue_update_preview ();
 			}
 		});
@@ -77,7 +56,7 @@ public class Gth.AdjustContrast : ImageTool {
 		reset_button.clicked.connect (() => reset_amount ());
 
 		update_thumbnails ();
-		filter_grid.activate (Method.STRETCH);
+		filter_grid.activate (Method.GAMMA_CORRECTION);
 	}
 
 	public override void before_deactivate () {
@@ -96,12 +75,7 @@ public class Gth.AdjustContrast : ImageTool {
 		var method = (Method) filter_grid.get_activated ();
 		if (method.has_adjustment ()) {
 			SignalHandler.block (amount_adjustment, amount_changed_id);
-			if (method == Method.STRETCH) {
-				amount_adjustment.set_value (crop_size_to_adj (operation.amount));
-			}
-			else if (method == Method.LINEAR) {
-				amount_adjustment.set_value (-operation.amount);
-			}
+			amount_adjustment.set_value (operation.amount);
 			SignalHandler.unblock (amount_adjustment, amount_changed_id);
 		}
 	}
@@ -137,36 +111,24 @@ public class Gth.AdjustContrast : ImageTool {
 		}
 	}
 
-	public static double adj_to_crop_size (double x) {
-		return x / 1000;
-	}
-
-	public static double crop_size_to_adj (double x) {
-		return 1000.0 * x;
-	}
-
 	enum Method {
 		NONE = 0,
-		STRETCH,
-		EQUALIZE,
+		GAMMA_CORRECTION,
 		LINEAR;
 
 		public bool has_adjustment () {
-			return (this == STRETCH) || (this == LINEAR);
+			return (this == GAMMA_CORRECTION) || (this == LINEAR);
 		}
 	}
 
 	class Operation : ImageOperation {
-		public Method method;
 		public double amount;
 		public double default_amount;
-		public bool equalize_linear;
 
 		public Operation (Method _method, double _amount = 0.0) {
 			method = _method;
 			amount = _amount;
 			default_amount = _amount;
-			equalize_linear = false;
 		}
 
 		public override Gth.Image? execute (Image input, Cancellable cancellable) {
@@ -175,25 +137,24 @@ public class Gth.AdjustContrast : ImageTool {
 			}
 			var output = input.dup ();
 			switch (method) {
-			case Method.STRETCH:
-				output.stretch_histogram (amount);
-				break;
-			case Method.EQUALIZE:
-				output.equalize_histogram (equalize_linear);
+			case Method.GAMMA_CORRECTION:
+				output.gamma_correction (amount);
 				break;
 			case Method.LINEAR:
-				output.adjust_contrast (amount);
+				output.adjust_brightness (amount);
 				break;
 			default:
 				break;
 			}
 			return output;
 		}
+
+		Method method;
 	}
 
 	construct {
-		title = _("Contrast");
-		icon_name = "gth-adjust-contrast-symbolic";
+		title = _("Brightness");
+		icon_name = "gth-adjust-brightness-symbolic";
 	}
 
 	Gtk.Builder builder;
@@ -203,8 +164,8 @@ public class Gth.AdjustContrast : ImageTool {
 	ulong amount_changed_id = 0;
 
 	const uint THUMBNAIL_SIZE = 140;
-	const double MIN_STRETCH = 0;
-	const double MAX_STRETCH = 0.030;
+	const double MIN_GAMMA = 0;
+	const double MAX_GAMMA = 2;
 	const double MIN_LINEAR = -1.0;
 	const double MAX_LINEAR = 1.0;
 }

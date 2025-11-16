@@ -217,8 +217,6 @@ add_project_arguments([
   '-DLOCALEDIR="@0@"'.format(join_paths(prefix, get_option('localedir'))),
 ], language: 'c')
 
-vector_ops = (c_comp.get_id() == 'gcc') and (c_comp.version().version_compare('>=4.0.7'))
-
 config = configuration_data()
 config.set_quoted('GETTEXT_PACKAGE', gettext_package)
 config.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
@@ -243,9 +241,6 @@ else
 endif
 config.set('FLATPAK', get_option('flatpak') ? 'true' : 'false')
 config.set_quoted('BUILD_TAG', get_option('flatpak') ? '-flatpak' : '')
-if vector_ops
-  config.set('HAVE_VECTOR_OPERATIONS', 1)
-endif
 if have_progressive_jpeg
   config.set('HAVE_PROGRESSIVE_JPEG', 1)
 endif
@@ -320,10 +315,10 @@ lib_files = files(
   'lib/gth-curve.c',
   'lib/gth-histogram.c',
   'lib/gth-icc-profile.c',
+  'lib/gth-image-blur.c',
   'lib/gth-image.c',
   'lib/gth-image-cut.c',
   'lib/gth-image-edit.c',
-  'lib/gth-image-grayscale.c',
   'lib/gth-image-histogram.c',
   'lib/gth-image-resize.c',
   'lib/gth-image-transform.c',
@@ -555,7 +550,6 @@ summary(
     'prefix': prefix,
     'libjpeg 8': have_libjpeg_80,
     'prog jpeg': have_progressive_jpeg,
-    'vector ops': vector_ops,
     'lcms2': use_lcms2,
     'colord': use_colord,
     'libwebp': use_libwebp,

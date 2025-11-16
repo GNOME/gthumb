@@ -181,7 +181,7 @@ public class Gth.Viewer : Gtk.Box {
 				property_sidebar.load.end (res);
 			}
 			catch (Error error) {
-				stdout.printf ("ERROR: %s\n", error.message);
+				stdout.printf ("ERROR: Viewer.update_sidebar: %s\n", error.message);
 			}
 			finally {
 				local_job.done ();

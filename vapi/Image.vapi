@@ -67,7 +67,11 @@ namespace Gth {
 		public void apply_value_map (long[,] map);
 		public void stretch_histogram (double crop_size);
 		public void equalize_histogram (bool linear);
-		public void grayscale (double red_weight, double green_weight, double blue_weight);
-		public void grayscale_saturation ();
+		public void gamma_correction (double gamma);
+		public void adjust_brightness (double amount);
+		public void adjust_contrast (double amount);
+		public void grayscale (double red_weight, double green_weight, double blue_weight, double amount);
+		public void grayscale_saturation (double amount);
+		public bool sharpen (double amount, double radius, double threshold, Cancellable cancellable);
 	}
 }

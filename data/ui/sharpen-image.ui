@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkBox" id="options">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="description" translatable="yes">Adjust blurred images.</property>
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="activatable">false</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkScale">
+                    <property name="hexpand">true</property>
+                    <property name="draw-value">true</property>
+                    <property name="value-pos">top</property>
+                    <property name="digits">1</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment" id="amount_adjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">3</property>
+                        <property name="step_increment">0.1</property>
+                        <property name="page_increment">0.1</property>
+                        <property name="value">0.5</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Radius</property>
+            <child type="suffix">
+              <object class="GtkScale">
+                <property name="hexpand">true</property>
+                <property name="draw-value">true</property>
+                <property name="value-pos">left</property>
+                <property name="digits">0</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="radius_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">10</property>
+                    <property name="step_increment">1</property>
+                    <property name="page_increment">1</property>
+                    <property name="value">2</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Threshold</property>
+            <child type="suffix">
+              <object class="GtkScale">
+                <property name="hexpand">true</property>
+                <property name="draw-value">true</property>
+                <property name="value-pos">left</property>
+                <property name="digits">0</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="threshold_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">255</property>
+                    <property name="step_increment">1</property>
+                    <property name="page_increment">1</property>
+                    <property name="value">0</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="reset_button">
+        <property name="label" translatable="yes">_Reset</property>
+        <property name="halign">end</property>
+        <property name="use-underline">true</property>
+        <property name="margin-top">12</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="margin-top">24</property>
+        <child>
+          <object class="AdwSwitchRow" id="preview">
+            <property name="title" translatable="yes">Preview</property>
+            <property name="active">true</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkScrolledWindow" id="content">
+    <child>
+      <object class="GthImageView" id="image_view">
+      </object>
+    </child>
+  </object>
+</interface>

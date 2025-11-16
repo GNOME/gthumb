@@ -210,6 +210,7 @@ public enum Gth.ShortcutContext {
 	IMAGE_VIEWER,
 	MEDIA_VIEWER,
 	EDITOR,
+	IMAGE_EDITOR,
 	SLIDESHOW,
 }
 
@@ -230,7 +231,12 @@ const Gth.ShortcutContext SHORTCUT_CONTEXT_ANY = (
 	Gth.ShortcutContext.IMAGE_VIEWER |
 	Gth.ShortcutContext.MEDIA_VIEWER |
 	Gth.ShortcutContext.EDITOR |
+	Gth.ShortcutContext.IMAGE_EDITOR |
 	Gth.ShortcutContext.SLIDESHOW);
+
+const Gth.ShortcutContext SHORTCUT_CONTEXT_IMAGE = (
+	Gth.ShortcutContext.IMAGE_VIEWER |
+	Gth.ShortcutContext.IMAGE_EDITOR);
 
 public enum Gth.ShortcutCategory {
 	HIDDEN,

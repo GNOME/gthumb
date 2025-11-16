@@ -1,5 +1,5 @@
 public class Gth.SpecialEffects : ImageTool {
-	public override void activate () {
+	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/special-effects.ui");
 		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
 
@@ -18,23 +18,15 @@ public class Gth.SpecialEffects : ImageTool {
 			else {
 				window.editor.set_action_bar (null);
 			}
-			update_preview (effect);
+			queue_update_preview ();
 		});
 
 		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
 		window.editor.content.add_css_class ("image-view");
 
-		original = viewer.image_view.image;
-		resized = null;
-
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-		image_view.image = original;
-		image_view.resized.connect (() => {
-			if (resized == null) {
-				update_preview ((Effect) filter_grid.get_activated ());
-			}
-		});
+		image_view.resized.connect (() => update_preview_on_resize ());
+		add_default_controllers (image_view);
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect (() => {
@@ -42,7 +34,7 @@ public class Gth.SpecialEffects : ImageTool {
 			var operation = filter_grid.get_operation (id) as EffectOperation;
 			if (operation != null) {
 				operation.set_amount (amount_adjustment.value / 100.0);
-				update_preview ((Effect) id);
+				queue_update_preview ();
 			}
 		});
 
@@ -53,12 +45,9 @@ public class Gth.SpecialEffects : ImageTool {
 		filter_grid.activate (Effect.WARMER);
 	}
 
-	public override void deactivate () {
+	public override void before_deactivate () {
 		if (thumbnails_job != null) {
 			thumbnails_job.cancel ();
-		}
-		if (preview_job != null) {
-			preview_job.cancel ();
 		}
 		builder = null;
 	}
@@ -67,46 +56,11 @@ public class Gth.SpecialEffects : ImageTool {
 		return filter_grid.get_active_operation ();
 	}
 
-	void update_preview (Effect effect) {
-		if (preview_job != null) {
-			preview_job.cancel ();
-		}
-		var job = window.new_job ("Update Preview");
-		preview_job = job;
-		preview_filter_async.begin (effect, job.cancellable, (_obj, res) => {
-			try {
-				image_view.image = preview_filter_async.end (res);
-			}
-			catch (Error error) {
-				window.show_error (error);
-			}
-			finally {
-				job.done ();
-				if (job == preview_job) {
-					preview_job = null;
-				}
-			}
-		});
-	}
-
-	uint get_preview_size () {
-		int width = image_view.get_width ();
-		int height = image_view.get_height ();
-		return (uint) ((original.width > original.height) ? width : height);
-	}
-
-	async Image? preview_filter_async (Effect effect, Cancellable cancellable) throws Error {
-		if (resized == null) {
-			resized = original; //yield original.resize_async (get_preview_size (), ResizeFlags.DEFAULT, ScaleFilter.BOX, cancellable);
-		}
-		var operation = filter_grid.get_operation ((int) effect) as EffectOperation;
-		if (operation == null) {
-			return resized;
-		}
+	public override void update_options_from_operation (ImageOperation image_operation) {
+		var operation = image_operation as EffectOperation;
 		SignalHandler.block (amount_adjustment, amount_changed_id);
 		amount_adjustment.set_value (Math.round (operation.amount * 100.0));
 		SignalHandler.unblock (amount_adjustment, amount_changed_id);
-		return yield app.image_editor.exec_operation (resized, operation, cancellable);
 	}
 
 	void update_thumbnails () {
@@ -136,8 +90,8 @@ public class Gth.SpecialEffects : ImageTool {
 		var operation = filter_grid.get_operation (id) as EffectOperation;
 		if (operation != null) {
 			operation.set_amount (operation.default_amount);
+			update_preview ();
 		}
-		update_preview ((Effect) id);
 	}
 
 	enum Effect {
@@ -216,11 +170,7 @@ public class Gth.SpecialEffects : ImageTool {
 	Gtk.Builder builder;
 	Gth.FilterGrid filter_grid;
 	Job thumbnails_job = null;
-	Job preview_job = null;
-	unowned ImageView image_view;
 	unowned Gtk.Adjustment amount_adjustment;
-	Image original;
-	Image resized;
 	ulong amount_changed_id = 0;
 
 	const uint THUMBNAIL_SIZE = 140;
