@@ -39,6 +39,14 @@ public class Gth.Editor : Gtk.Box {
 		left_toolbar.append (widget);
 	}
 
+	public void set_content (Gtk.Widget? widget) {
+		content.child = widget;
+	}
+
+	public void set_options (Gtk.Widget? widget) {
+		sidebar.child = widget;
+	}
+
 	public void set_action_bar (Gtk.Widget? widget) {
 		Util.remove_all_children (action_bar);
 		if (widget != null) {

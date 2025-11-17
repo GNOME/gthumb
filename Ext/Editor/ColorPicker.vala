@@ -3,10 +3,8 @@ public class Gth.ColorPicker : ImageTool {
 		init_actions ();
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/color-picker.ui");
-		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
+		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 		window.editor.hide_apply ();
-		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
-		window.editor.content.add_css_class ("image-view");
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.zoom = viewer.image_view.zoom;
@@ -14,6 +12,8 @@ public class Gth.ColorPicker : ImageTool {
 		image_view.hadjustment.value = viewer.image_view.hadjustment.value;
 		image_view.vadjustment.value = viewer.image_view.vadjustment.value;
 		add_default_controllers (image_view);
+
+		window.editor.set_content (image_view);
 
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {

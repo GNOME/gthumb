@@ -1,13 +1,13 @@
 public class Gth.AdjustSaturation : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-saturation.ui");
-		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
-		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
-		window.editor.content.add_css_class ("image-view");
+		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.resized.connect (() => update_preview_on_resize ());
 		add_default_controllers (image_view);
+
+		window.editor.set_content (image_view);
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect (() => {

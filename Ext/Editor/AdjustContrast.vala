@@ -1,18 +1,21 @@
 public class Gth.AdjustContrast : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-contrast.ui");
-		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
+		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 		// Translators: filter that adjust the contrast balancing the white component.
 		filter_grid.add (Method.STRETCH, new Operation (Method.STRETCH, 0.005), _("Balanced"));
 		// Translators: filter that makes a linear tranformation of the colors.
-		filter_grid.add (Method.LINEAR, new Operation (Method.LINEAR), _("Linear"));
+		filter_grid.add (Method.LINEAR, new Operation (Method.LINEAR, -0.1), _("Linear"));
 		// Translators: filter that equalizes the histogram.
 		filter_grid.add (Method.EQUALIZE, new Operation (Method.EQUALIZE), _("Equalize"));
 		filter_grid.activated.connect ((id) => {
 			var operation = filter_grid.get_operation (id) as Operation;
-			if (operation.method == Method.STRETCH) {
+			if (operation == null) {
+				window.editor.set_action_bar (null);
+			}
+			else if (operation.method == Method.STRETCH) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
 				scale.digits = 0;
@@ -32,7 +35,7 @@ public class Gth.AdjustContrast : ImageTool {
 				scale.digits = 2;
 				scale.clear_marks ();
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (operation.amount, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
+				amount_adjustment.configure (-operation.amount, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
 			else if (operation.method == Method.EQUALIZE) {
@@ -41,12 +44,11 @@ public class Gth.AdjustContrast : ImageTool {
 			queue_update_preview ();
 		});
 
-		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
-		window.editor.content.add_css_class ("image-view");
-
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.resized.connect (() => update_preview_on_resize ());
 		add_default_controllers (image_view);
+
+		window.editor.set_content (image_view);
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect (() => {
@@ -206,6 +208,6 @@ public class Gth.AdjustContrast : ImageTool {
 	const uint THUMBNAIL_SIZE = 140;
 	const double MIN_STRETCH = 0;
 	const double MAX_STRETCH = 0.030;
-	const double MIN_LINEAR = -1.0;
-	const double MAX_LINEAR = 1.0;
+	const double MIN_LINEAR = -0.5;
+	const double MAX_LINEAR = 0.5;
 }

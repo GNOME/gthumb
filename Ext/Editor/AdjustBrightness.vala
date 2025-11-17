@@ -1,14 +1,17 @@
 public class Gth.AdjustBrightness : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-brightness.ui");
-		window.editor.sidebar.child = builder.get_object ("options") as Gtk.Widget;
+		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 		filter_grid.add (Method.GAMMA_CORRECTION, new Operation (Method.GAMMA_CORRECTION, 1.0), _("Gamma"));
 		filter_grid.add (Method.LINEAR, new Operation (Method.LINEAR, 0.0), _("Linear"));
 		filter_grid.activated.connect ((id) => {
 			var operation = filter_grid.get_operation (id) as Operation;
-			if (operation.method == Method.GAMMA_CORRECTION) {
+			if (operation == null) {
+				window.editor.set_action_bar (null);
+			}
+			else if (operation.method == Method.GAMMA_CORRECTION) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
 				scale.digits = 2;
@@ -35,12 +38,11 @@ public class Gth.AdjustBrightness : ImageTool {
 			queue_update_preview ();
 		});
 
-		window.editor.content.child = builder.get_object ("image_view") as Gtk.Widget;
-		window.editor.content.add_css_class ("image-view");
-
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.resized.connect (() => update_preview_on_resize ());
 		add_default_controllers (image_view);
+
+		window.editor.set_content (image_view);
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect (() => {

@@ -90,6 +90,9 @@
                   <object class="GtkOverlay" id="content">
                     <property name="hexpand">true</property>
                     <property name="vexpand">true</property>
+                    <style>
+                      <class name="image-view"/>
+                    </style>
                     <child>
                       <object class="GtkLabel">
                         <property name="label">TODO</property>
