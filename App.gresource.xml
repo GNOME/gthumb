@@ -71,6 +71,7 @@
     <file preprocess="xml-stripblanks">gth-checkmark-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-file-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-brightness-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-adjust-saturation-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

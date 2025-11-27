@@ -83,7 +83,6 @@ public class Gth.ColorPicker : ImageTool {
 
 	public override void before_deactivate () {
 		builder = null;
-		window.editor.content.remove_css_class ("image-view");
 		window.insert_action_group ("tool", null);
 	}
 

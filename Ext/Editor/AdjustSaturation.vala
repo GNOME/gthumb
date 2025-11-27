@@ -1,7 +1,10 @@
 public class Gth.AdjustSaturation : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-saturation.ui");
-		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
+
+		var options = builder.get_object ("options") as Gtk.Widget;
+		window.editor.set_options (options);
+		options.insert_action_group ("saturation", action_group);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.resized.connect (() => update_preview_on_resize ());
@@ -21,8 +24,7 @@ public class Gth.AdjustSaturation : ImageTool {
 		reset_button.clicked.connect (() => {
 			if (operation != null) {
 				amount = 0.0;
-				var local_combo = builder.get_object ("method") as Adw.ComboRow;
-				local_combo.selected = 0;
+				Util.set_state (action_group, "aspect-ratio", new Variant.string ("brightness"));
 				queue_update_preview ();
 			}
 		});
@@ -34,14 +36,6 @@ public class Gth.AdjustSaturation : ImageTool {
 		});
 
 		operation = new Operation (Method.BRIGHTNESS);
-
-		var method_combo = builder.get_object ("method") as Adw.ComboRow;
-		method_combo.notify["selected"].connect ((obj, param) => {
-			var local_combo = obj as Adw.ComboRow;
-			operation.method = (Method) (local_combo.selected + 1);
-			queue_update_preview ();
-		});
-
 		amount = DEFAULT_VALUE;
 	}
 
@@ -75,7 +69,7 @@ public class Gth.AdjustSaturation : ImageTool {
 		NONE = 0,
 		BRIGHTNESS,
 		SATURATION,
-		AVARAGE;
+		AVERAGE;
 	}
 
 	class Operation : ImageOperation {
@@ -98,7 +92,7 @@ public class Gth.AdjustSaturation : ImageTool {
 			case Method.BRIGHTNESS:
 				output.grayscale (0.2125, 0.7154, 0.072, amount);
 				break;
-			case Method.AVARAGE:
+			case Method.AVERAGE:
 				output.grayscale (0.3333, 0.3333, 0.3333, amount);
 				break;
 			case Method.SATURATION:
@@ -114,10 +108,29 @@ public class Gth.AdjustSaturation : ImageTool {
 	construct {
 		title = _("Saturation");
 		icon_name = "gth-adjust-brightness-symbolic";
+
+		action_group = new SimpleActionGroup ();
+		var action = new SimpleAction.stateful ("method", VariantType.STRING, new Variant.string ("brightness"));
+		action.activate.connect ((_action, param) => {
+			var method = param.get_string ();
+			action.set_state (method);
+			if (method == "brightness") {
+				operation.method = Method.BRIGHTNESS;
+			}
+			else if (method == "saturation") {
+				operation.method = Method.SATURATION;
+			}
+			else if (method == "average") {
+				operation.method = Method.AVERAGE;
+			}
+			queue_update_preview ();
+		});
+		action_group.add_action (action);
 	}
 
 	Gtk.Builder builder;
 	Operation operation;
+	SimpleActionGroup action_group;
 	unowned Gtk.Adjustment amount_adjustment;
 	ulong amount_changed_id = 0;
 	double amount;

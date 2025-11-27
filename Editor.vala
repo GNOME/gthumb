@@ -16,7 +16,7 @@ public class Gth.Editor : Gtk.Box {
 			current_editor = tool;
 			current_editor.activate (window);
 			current_editor.focus ();
-			sidebar_header.title = current_editor.title;
+			sidebar_main_page.title = current_editor.title;
 		});
 	}
 
@@ -60,12 +60,12 @@ public class Gth.Editor : Gtk.Box {
 
 	public void show_apply () {
 		apply_button.visible = true;
-		header_bar.show_end_title_buttons = false;
+		sidebar_header.show_end_title_buttons = false;
 	}
 
 	public void hide_apply () {
 		apply_button.visible = false;
-		header_bar.show_end_title_buttons = true;
+		sidebar_header.show_end_title_buttons = true;
 	}
 
 	void init () {
@@ -110,14 +110,15 @@ public class Gth.Editor : Gtk.Box {
 	public ImageTool current_editor;
 	Job apply_job = null;
 	[GtkChild] public unowned Gtk.Overlay content;
-	[GtkChild] public unowned Adw.WindowTitle sidebar_header;
+	[GtkChild] public unowned Adw.NavigationView sidebar_view;
+	[GtkChild] public unowned Adw.NavigationPage sidebar_main_page;
 	[GtkChild] public unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Gtk.Button apply_button;
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] public unowned Gtk.Overlay sidebar;
 	[GtkChild] unowned Gtk.Box left_toolbar;
-	[GtkChild] unowned Adw.HeaderBar header_bar;
+	[GtkChild] unowned Adw.HeaderBar sidebar_header;
 	[GtkChild] unowned Gtk.Box action_bar;
 	[GtkChild] unowned Gth.ImageOverview overview;
 	[GtkChild] unowned Gtk.MenuButton overview_button;

@@ -39,7 +39,8 @@ public class Gth.AdjustContrast : ImageTool {
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
 			else if (operation.method == Method.EQUALIZE) {
-				window.editor.set_action_bar (builder.get_object ("equalize_action_bar") as Gtk.Widget);
+				window.editor.set_action_bar (null);
+				//window.editor.set_action_bar (builder.get_object ("equalize_action_bar") as Gtk.Widget);
 			}
 			queue_update_preview ();
 		});

@@ -518,7 +518,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		zoom_info.label = "%d%%".printf ((int) Math.round (image_view.zoom * 100));
 
 		// Update the 'set-zoom' action state.
-		var action = action_group.lookup_action ("set-zoom") as SimpleAction;
+		var action = image_view.action_group.lookup_action ("set-zoom") as SimpleAction;
 		if (action != null) {
 			var state = "";
 			switch (image_view.zoom_type) {
@@ -558,19 +558,25 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			action.set_state (new Variant.string (state));
 		}
 
-		action = action_group.lookup_action ("zoom-100") as SimpleAction;
+		action = image_view.action_group.lookup_action ("zoom-100") as SimpleAction;
 		if (action != null) {
-			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.NATURAL_SIZE));
+			var active = image_view.zoom_type == ZoomType.NATURAL_SIZE;
+			action.set_state (new Variant.boolean (active));
+			var button = builder.get_object ("natural_size_button") as Gtk.ToggleButton;
+			button.active = active;
 		}
 
-		action = action_group.lookup_action ("zoom-best-fit") as SimpleAction;
+		action = image_view.action_group.lookup_action ("zoom-best-fit") as SimpleAction;
 		if (action != null) {
 			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.BEST_FIT));
 		}
 
-		action = action_group.lookup_action ("zoom-view-all") as SimpleAction;
+		action = image_view.action_group.lookup_action ("zoom-view-all") as SimpleAction;
 		if (action != null) {
-			action.set_state (new Variant.boolean (image_view.zoom_type == ZoomType.MAXIMIZE_IF_LARGER));
+			var active = image_view.zoom_type == ZoomType.MAXIMIZE_IF_LARGER;
+			action.set_state (new Variant.boolean (active));
+			var button = builder.get_object ("view_all_button") as Gtk.ToggleButton;
+			button.active = active;
 		}
 
 		// Update the zoom adjustment.

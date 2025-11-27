@@ -53,7 +53,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkToggleButton">
+      <object class="GtkToggleButton" id="natural_size_button">
         <property name="icon-name">gth-view-zoom-original-symbolic</property>
         <property name="action-name">image.zoom-100</property>
         <property name="tooltip-text" translatable="yes">100%</property>
@@ -63,7 +63,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkToggleButton">
+      <object class="GtkToggleButton" id="view_all_button">
         <property name="icon-name">gth-view-zoom-fit-symbolic</property>
         <property name="action-name">image.zoom-view-all</property>
         <property name="tooltip-text" translatable="yes">Full Image</property>

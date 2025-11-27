@@ -6,7 +6,7 @@ public class Gth.Grayscale : ImageTool {
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 		filter_grid.add (Method.BRIGHTNESS, new Operation (Method.BRIGHTNESS), _("Brightness"));
 		filter_grid.add (Method.SATURATION, new Operation (Method.SATURATION), _("Lightness"));
-		filter_grid.add (Method.AVARAGE, new Operation (Method.AVARAGE), _("Average"));
+		filter_grid.add (Method.AVERAGE, new Operation (Method.AVERAGE), _("Average"));
 		filter_grid.activated.connect ((id) => queue_update_preview ());
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
@@ -56,7 +56,7 @@ public class Gth.Grayscale : ImageTool {
 		NONE = 0,
 		BRIGHTNESS,
 		SATURATION,
-		AVARAGE;
+		AVERAGE;
 	}
 
 	class Operation : ImageOperation {
@@ -73,7 +73,7 @@ public class Gth.Grayscale : ImageTool {
 			case Method.BRIGHTNESS:
 				output.grayscale (0.2125, 0.7154, 0.072, 1.0);
 				break;
-			case Method.AVARAGE:
+			case Method.AVERAGE:
 				output.grayscale (0.3333, 0.3333, 0.3333, 1.0);
 				break;
 			case Method.SATURATION:

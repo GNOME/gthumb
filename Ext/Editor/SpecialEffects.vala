@@ -41,7 +41,7 @@ public class Gth.SpecialEffects : ImageTool {
 		reset_button.clicked.connect (() => reset_amount ());
 
 		update_thumbnails ();
-		filter_grid.activate (Effect.WARMER);
+		// filter_grid.activate (Effect.WARMER);
 	}
 
 	public override void before_deactivate () {

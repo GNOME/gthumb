@@ -3,8 +3,6 @@
   <object class="GtkBox" id="options">
     <property name="orientation">vertical</property>
     <property name="margin-top">24</property>
-    <property name="margin-start">12</property>
-    <property name="margin-end">12</property>
     <child>
       <object class="GthFilterGrid" id="filter_grid">
       </object>
@@ -23,6 +21,7 @@
         <property name="hexpand">true</property>
         <property name="draw-value">true</property>
         <property name="digits">0</property>
+        <property name="margin-bottom">12</property>
         <property name="adjustment">
           <object class="GtkAdjustment" id="amount_adjustment">
             <property name="lower">0</property>
@@ -39,6 +38,7 @@
         <property name="label" translatable="yes">_Reset</property>
         <property name="halign">end</property>
         <property name="use-underline">true</property>
+        <property name="visible">false</property>
         <style>
           <class name="flat"/>
         </style>

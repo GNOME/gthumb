@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="GtkBox" id="options">
-    <property name="orientation">vertical</property>
+  <object class="AdwPreferencesPage" id="options">
     <child>
       <object class="AdwPreferencesGroup">
         <child>
@@ -32,40 +31,69 @@
                     </property>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkButton" id="reset_button">
+                    <property name="label" translatable="yes">_Reset</property>
+                    <property name="halign">end</property>
+                    <property name="use-underline">true</property>
+                    <property name="margin-top">12</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Method</property>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Brightness</property>
+            <property name="activatable">true</property>
+            <property name="activatable_widget">brightness_button</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="brightness_button">
+                <property name="action-name">saturation.method</property>
+                <property name="action-target">'brightness'</property>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="AdwComboRow" id="method">
-            <property name="title" translatable="yes">Method</property>
-            <property name="model">
-              <object class="GtkStringList">
-                <items>
-                  <item translatable="yes">Brightness</item>
-                  <item translatable="yes">Lightness</item>
-                  <item translatable="yes">Average</item>
-                </items>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Lightness</property>
+            <property name="activatable">true</property>
+            <property name="activatable_widget">lightness_button</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="lightness_button">
+                <property name="action-name">saturation.method</property>
+                <property name="action-target">'saturation'</property>
               </object>
-            </property>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Average</property>
+            <property name="activatable">true</property>
+            <property name="activatable_widget">average_button</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="average_button">
+                <property name="action-name">saturation.method</property>
+                <property name="action-target">'average'</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
     </child>
     <child>
-      <object class="GtkButton" id="reset_button">
-        <property name="label" translatable="yes">_Reset</property>
-        <property name="halign">end</property>
-        <property name="use-underline">true</property>
-        <property name="margin-top">12</property>
-        <style>
-          <class name="flat"/>
-        </style>
-      </object>
-    </child>
-    <child>
       <object class="AdwPreferencesGroup">
-        <property name="margin-top">24</property>
         <child>
           <object class="AdwSwitchRow" id="preview">
             <property name="title" translatable="yes">Preview</property>

@@ -14,8 +14,14 @@ public class Gth.CurveOperation : ImageOperation {
 			return null;
 		}
 		var output = input.dup ();
-		output.apply_value_map (value_map);
+		if (value_map != null) {
+			output.apply_value_map (value_map);
+		}
 		return output;
+	}
+
+	construct {
+		value_map = null;
 	}
 
 	long [,] value_map;

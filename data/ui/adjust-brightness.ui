@@ -1,45 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="GtkBox" id="options">
-    <property name="orientation">vertical</property>
+  <object class="AdwPreferencesPage" id="options">
     <child>
-      <object class="GthFilterGrid" id="filter_grid">
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="activatable">false</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkScale" id="amount_scale">
+                    <property name="hexpand">true</property>
+                    <property name="draw-value">true</property>
+                    <property name="digits">0</property>
+                    <property name="margin-bottom">12</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment" id="amount_adjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">100</property>
+                        <property name="step_increment">1</property>
+                        <property name="page_increment">5</property>
+                        <property name="value">50</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="reset_button">
+                    <property name="label" translatable="yes">_Reset</property>
+                    <property name="halign">end</property>
+                    <property name="use-underline">true</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Method</property>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Gamma</property>
+            <property name="activatable">true</property>
+            <property name="activatable_widget">gamma_button</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="gamma_button">
+                <property name="action-name">brightness.method</property>
+                <property name="action-target">'gamma'</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Curve</property>
+            <property name="activatable">true</property>
+            <property name="activatable_widget">curve_button</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="curve_button">
+                <property name="action-name">brightness.method</property>
+                <property name="action-target">'curve'</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Linear</property>
+            <property name="activatable">true</property>
+            <property name="activatable_widget">linear_button</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="linear_button">
+                <property name="action-name">brightness.method</property>
+                <property name="action-target">'linear'</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwSwitchRow" id="preview">
+            <property name="title" translatable="yes">Preview</property>
+            <property name="active">true</property>
+          </object>
+        </child>
       </object>
     </child>
   </object>
   <object class="GthImageView" id="image_view">
-  </object>
-  <object class="GtkBox" id="action_bar">
-    <property name="orientation">vertical</property>
-    <property name="spacing">12</property>
-    <style>
-      <class name="smaller-text"/>
-    </style>
-    <child>
-      <object class="GtkScale" id="amount_scale">
-        <property name="hexpand">true</property>
-        <property name="draw-value">true</property>
-        <property name="digits">0</property>
-        <property name="adjustment">
-          <object class="GtkAdjustment" id="amount_adjustment">
-            <property name="lower">0</property>
-            <property name="upper">100</property>
-            <property name="step_increment">1</property>
-            <property name="page_increment">5</property>
-            <property name="value">50</property>
-          </object>
-        </property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton" id="reset_button">
-        <property name="label" translatable="yes">_Reset</property>
-        <property name="halign">end</property>
-        <property name="use-underline">true</property>
-        <style>
-          <class name="flat"/>
-        </style>
-      </object>
-    </child>
   </object>
 </interface>

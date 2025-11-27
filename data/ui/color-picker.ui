@@ -2,9 +2,7 @@
 <interface>
   <object class="GthImageView" id="image_view">
   </object>
-  <object class="GtkBox" id="options">
-    <property name="orientation">vertical</property>
-    <property name="spacing">24</property>
+  <object class="AdwPreferencesPage" id="options">
     <child>
       <object class="AdwPreferencesGroup">
         <child>
@@ -90,15 +88,19 @@
     </child>
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="title" translatable="yes">Position</property>
         <child>
-          <object class="AdwSpinRow" id="position_x">
-            <property name="title" translatable="yes">X</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwSpinRow" id="position_y">
-            <property name="title" translatable="yes">Y</property>
+          <object class="AdwExpanderRow">
+            <property name="title" translatable="yes">Position</property>
+            <child>
+              <object class="AdwSpinRow" id="position_x">
+                <property name="title" translatable="yes">X</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="position_y">
+                <property name="title" translatable="yes">Y</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
