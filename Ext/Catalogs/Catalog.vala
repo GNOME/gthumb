@@ -216,8 +216,10 @@ public class Gth.Catalog : Object {
 				break;
 
 			case "order":
-				sort_type = app.migration.sorter.get_new_key (child.get_attribute ("type"));
-				inverse_order = child.get_attribute ("inverse") == "1";
+				if (child.has_attribute ("type")) {
+					sort_type = app.migration.sorter.get_new_key (child.get_attribute ("type"));
+					inverse_order = child.get_attribute ("inverse") == "1";
+				}
 				break;
 
 			case "date":
