@@ -69,7 +69,7 @@ public class Gth.FileListItem : Gtk.Box {
 					}
 					uri_list.append (file.get_uri ());
 				}
-				var text_provider = new Gdk.ContentProvider.for_bytes ("text/plain", new Bytes (text.str.data));
+				var text_provider = new Gdk.ContentProvider.for_value (text.str);
 				var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
 				providers += text_provider;
 				providers += uri_provider;

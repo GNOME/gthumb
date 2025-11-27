@@ -494,7 +494,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			uri_list.append (file.get_uri ());
 		}
 		unowned var clipboard = get_clipboard ();
-		var text_provider = new Gdk.ContentProvider.for_bytes ("text/plain", new Bytes (text.str.data));
+		var text_provider = new Gdk.ContentProvider.for_value (text.str);
 		var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
 		var provider = new Gdk.ContentProvider.union ({ text_provider, uri_provider });
 		clipboard.set_content (provider);
