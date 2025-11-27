@@ -143,7 +143,7 @@ public class Gth.Script : Object {
 
 		string[] argv;
 		if (shell_script) {
-			argv = { "sh", "-c", command };
+			argv = { "sh", "-c", command, null };
 		}
 		else {
 			Shell.parse_argv (command, out argv);
@@ -418,6 +418,16 @@ class Gth.ScriptProcess {
 	public void spawn (string[] argv) throws Error {
 		output_memory = new MemoryOutputStream (null, GLib.realloc, GLib.free);
 		output_stream = new DataOutputStream (output_memory);
+
+		// Add the command to execute to the output stream.
+		output_stream.put_string ("$");
+		foreach (unowned var arg in argv) {
+			if (arg != null) {
+				output_stream.put_string (" ");
+				output_stream.put_string (arg);
+			}
+		}
+		output_stream.put_string ("\n\n");
 
 		var flags = SpawnFlags.SEARCH_PATH;
 		if (wait_command) {
