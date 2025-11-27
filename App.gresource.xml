@@ -161,5 +161,6 @@
     <file preprocess="xml-stripblanks">window.ui</file>
     <file preprocess="xml-stripblanks">sharpen-image.ui</file>
     <file preprocess="xml-stripblanks">crop.ui</file>
+    <file preprocess="xml-stripblanks">adjust-colors.ui</file>
   </gresource>
 </gresources>

@@ -1,5 +1,6 @@
 editor_files = files(
   'AdjustBrightness.vala',
+  'AdjustColors.vala',
   'AdjustContrast.vala',
   'AdjustSaturation.vala',
   'ColorPicker.vala',

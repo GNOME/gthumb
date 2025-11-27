@@ -456,6 +456,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			window.editor.activate_tool (new Crop ());
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("adjust-colors", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new AdjustColors ());
+		});
+		action_group.add_action (action);
 	}
 
 	public async bool edit_image (string title, ImageOperation operation, string? icon_name = null) {

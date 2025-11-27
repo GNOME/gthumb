@@ -125,7 +125,7 @@
                           <object class="GthToolButton">
                             <property name="label" translatable="yes">Colors</property>
                             <property name="icon-name">gth-adjust-colors-symbolic</property>
-                            <property name="action-name">image.adjust-colors</property>
+                            <property name="action-name">viewer.adjust-colors</property>
                             <layout>
                               <property name="column">1</property>
                               <property name="row">1</property>
