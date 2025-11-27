@@ -13,10 +13,10 @@ public class Gth.Viewer : Gtk.Box {
 	public int position;
 	public int toasts = 0;
 
-	async bool load_file_async (FileData file_data, ViewFlags flags, Job job) {
+	async bool load_file_async (FileData file_data, ViewFlags flags, Job job) throws Error {
 		// Ask to save the current file if modified
 		if ((current_file != null) && current_file.get_is_modified ()) {
-			yield ask_whether_to_save ();
+			yield ask_whether_to_save (job);
 		}
 		activate_viewer_for_file (file_data);
 		var loaded = yield current_viewer.load (file_data, job);
@@ -127,7 +127,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
-	public async void ask_whether_to_save () throws Error {
+	public async void ask_whether_to_save (Job? job = null) throws Error {
 		var dialog = new Adw.AlertDialog (
 			_("File Modified"),
 			_("If you don’t save, changes to the file will be permanently lost.")
@@ -141,7 +141,13 @@ public class Gth.Viewer : Gtk.Box {
 		dialog.set_response_appearance ("save", Adw.ResponseAppearance.SUGGESTED);
 		dialog.default_response = "save";
 		dialog.close_response = "cancel";
+		if (job != null) {
+			job.opens_dialog ();
+		}
 		var response = yield dialog.choose (window, null);
+		if (job != null) {
+			job.dialog_closed ();
+		}
 		if (response == "cancel") {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
