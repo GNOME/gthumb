@@ -32,6 +32,7 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 	public FileData context_file;
 	public bool skip_nochild_folders = false; // Used to show only libraries when moving a catalog.
+	public LoadState load_state = LoadState.NONE;
 
 	[Signal (action=true)]
 	public signal void load (File location, LoadAction action);
@@ -56,7 +57,23 @@ public class Gth.FolderTree : Gtk.Box {
 		load_folder.begin (current_folder.file);
 	}
 
+	public bool get_is_loading () {
+		return (load_job != null);
+	}
+
 	public async void load_folder (File location, LoadAction load_action = LoadAction.OPEN, Job? external_job = null) throws Error {
+		try {
+			load_state = LoadState.LOADING;
+			yield load_folder_private (location, load_action, external_job);
+			load_state = LoadState.SUCCESS;
+		}
+		catch (Error error) {
+			load_state = LoadState.ERROR;
+			throw error;
+		}
+	}
+
+	async void load_folder_private (File location, LoadAction load_action = LoadAction.OPEN, Job? external_job = null) throws Error {
 		var source = app.get_source_for_file (location);
 		if (source == null) {
 			throw new IOError.FAILED (_("File type not supported"));

@@ -244,3 +244,10 @@ public enum Gth.GridType {
 	CENTER_LINES,
 	UNIFORM
 }
+
+public enum Gth.LoadState {
+	NONE,
+	LOADING,
+	SUCCESS,
+	ERROR,
+}

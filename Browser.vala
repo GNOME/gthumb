@@ -534,6 +534,21 @@ public class Gth.Browser : Gtk.Box {
 					break;
 				}
 			}
+			else if (folder_tree.load_state == LoadState.LOADING) {
+				folder_status.title = "";
+				folder_status.description = "";
+				folder_status.icon_name = "gth-content-loading-symbolic";
+			}
+			else if (folder_tree.load_state == LoadState.ERROR) {
+				folder_status.title = "";
+				folder_status.description = "";
+				folder_status.icon_name = "gth-thumbnail-error-symbolic";
+			}
+			else {
+				folder_status.title = "";
+				folder_status.description = "";
+				folder_status.icon_name = "";
+			}
 		}
 	}
 
