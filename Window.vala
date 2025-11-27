@@ -416,9 +416,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	async void edit_metadata (FileData file_data) {
-		// TODO: load the metadata from file again?
 		var local_job = new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
 		try {
+			var source = new FileSourceVfs ();
+			var result = yield source.read_metadata (file_data.file, "*", local_job.cancellable);
+			file_data.update_info (result.info);
 			var dialog = new EditMetadata ();
 			yield dialog.edit (this, file_data, local_job);
 			yield app.metadata_writer.save (file_data, local_job.cancellable);
