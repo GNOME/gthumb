@@ -196,7 +196,7 @@ public enum Gth.ViewFlags {
 	NO_DELAY,
 	FULLSCREEN,
 	FOCUS,
-	DONT_UPDATE_POSITION,
+	WITH_NEW_POSITION,
 }
 
 public enum Gth.ScrollAction {

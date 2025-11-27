@@ -42,7 +42,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	Job load_job = null;
 
-	public async bool view_file_async (FileData file_data, ViewFlags flags = ViewFlags.DEFAULT, Job? job = null) {
+	public async bool view_file_async (FileData file_data, ViewFlags flags = ViewFlags.DEFAULT, Job? job = null, uint new_position = 0) {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
@@ -50,16 +50,30 @@ public class Gth.Viewer : Gtk.Box {
 			JobFlags.FOREGROUND,
 			"gth-content-loading-symbolic");
 		load_job = local_job;
-		var loaded = yield load_file_async (file_data, flags, local_job);
+		var loaded = false;
+		var cancelled = false;
+		try {
+			loaded = yield load_file_async (file_data, flags, local_job);
+		}
+		catch (Error error) {
+			if (error is IOError.CANCELLED) {
+				cancelled = true;
+			}
+		}
 		if (window.browser.never_loaded) {
 			yield window.browser.first_load ();
 			yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
 		}
-		if (!(ViewFlags.DONT_UPDATE_POSITION in flags)) {
-			position = window.browser.get_file_position (file_data.file);
-		}
-		if (position != -1) {
-			status.set_file_position (position);
+		if (!cancelled) {
+			if (ViewFlags.WITH_NEW_POSITION in flags) {
+				position = (int) new_position;
+			}
+			else {
+				position = window.browser.get_file_position (file_data.file);
+			}
+			if (position != -1) {
+				status.set_file_position (position);
+			}
 		}
 		if (local_job != job) {
 			local_job.done ();
@@ -198,7 +212,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	uint view_timeout = 0;
 
-	public void view_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT) {
+	public void view_file (FileData file, ViewFlags flags = ViewFlags.DEFAULT, uint new_position = 0) {
 		// TODO
 		//if (view_timeout != 0) {
 		//	Source.remove (view_timeout);
@@ -210,7 +224,7 @@ public class Gth.Viewer : Gtk.Box {
 		//	});
 		//	return;
 		//}
-		view_file_async.begin (file, flags);
+		view_file_async.begin (file, flags, null, new_position);
 	}
 
 	public void show_editor_tools (bool show) {

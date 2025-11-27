@@ -1761,8 +1761,7 @@ public class Gth.Browser : Gtk.Box {
 		if (file == null) {
 			return false;
 		}
-		window.viewer.position = (int) position;
-		yield window.viewer.view_file_async (file, flags | ViewFlags.FOCUS | ViewFlags.DONT_UPDATE_POSITION);
+		yield window.viewer.view_file_async (file, flags | ViewFlags.FOCUS | ViewFlags.WITH_NEW_POSITION, null, (int) position);
 		return true;
 	}
 
@@ -1771,8 +1770,7 @@ public class Gth.Browser : Gtk.Box {
 		if (file == null) {
 			return false;
 		}
-		window.viewer.position = (int) position;
-		window.viewer.view_file (file, flags | ViewFlags.DONT_UPDATE_POSITION);
+		window.viewer.view_file (file, flags | ViewFlags.WITH_NEW_POSITION, position);
 		return true;
 	}
 
