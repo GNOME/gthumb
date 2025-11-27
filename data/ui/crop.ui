@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwPreferencesPage" id="options">
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Aspect Ratio</property>
+        <child>
+          <object class="GtkListBox" id="ratio_list">
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="boxed-list"/>
+            </style>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Other</property>
+                <property name="activatable_widget">other_aspect_ratio</property>
+                <child type="prefix">
+                  <object class="GtkCheckButton" id="other_aspect_ratio">
+                    <property name="action-name">crop.aspect-ratio</property>
+                    <property name="action-target">'other'</property>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkDropDown" id="aspect_ratio_list">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkEntry" id="aspect_ratio_entry">
+                    <property name="valign">center</property>
+                    <property name="visible">false</property>
+                    <property name="secondary-icon-activatable">true</property>
+                    <property name="secondary-icon-name">close-symbolic</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwSwitchRow" id="rotated_ratio">
+            <property name="title" translatable="yes">Rotated</property>
+            <property name="active">false</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow" id="step">
+            <property name="title" translatable="yes">Step</property>
+            <property name="adjustment">step_adjustment</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwExpanderRow">
+            <property name="title" translatable="yes">Selection</property>
+            <child>
+              <object class="AdwSpinRow" id="selection_x">
+                <property name="title" translatable="yes">X</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="selection_y">
+                <property name="title" translatable="yes">Y</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="selection_width">
+                <property name="title" translatable="yes">Width</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="selection_height">
+                <property name="title" translatable="yes">Height</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="separate-rows">true</property>
+        <child>
+          <object class="AdwButtonRow" id="maximize">
+            <property name="title" translatable="yes">Expand</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwButtonRow" id="center">
+            <property name="title" translatable="yes" context="Verb">Center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkBox" id="action_bar">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">6</property>
+    <property name="halign">end</property>
+    <style>
+      <class name="smaller-text"/>
+    </style>
+    <child>
+      <object class="GtkButton" id="more_options">
+        <property name="label" translatable="yes">Options</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+  </object>
+  <object class="GthImageView" id="image_view">
+  </object>
+  <object class="GtkAdjustment" id="step_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">1000</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+    <property name="value">1</property>
+  </object>
+  <object class="AdwNavigationPage" id="more_options_page">
+    <property name="title">Options</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkLabel">
+            <property name="label">TODO</property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

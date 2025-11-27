@@ -268,7 +268,7 @@
                         </child>
                         <child>
                           <object class="GthToolButton">
-                            <property name="action-name">image.crop</property>
+                            <property name="action-name">viewer.crop</property>
                             <property name="icon-name">gth-crop-symbolic</property>
                             <property name="label" translatable="yes">Crop</property>
                             <layout>

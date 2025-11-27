@@ -137,6 +137,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public SimpleActionGroup action_group;
 
+	public ImageController controller;
+
 	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
 		var step = (dy < 0) ? 0.1f : -0.1f;
 		var new_zoom = zoom + (zoom * step);
@@ -201,6 +203,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	public signal void resized ();
+	public signal void scrolled ();
 
 	public override Gtk.SizeRequestMode get_request_mode () {
 		return Gtk.SizeRequestMode.HEIGHT_FOR_WIDTH;
@@ -254,6 +257,20 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		// stdout.printf ("  natural [1]: %d\n", natural);
 	}
 
+	public override void realize () {
+		base.realize ();
+		if (controller != null) {
+			controller.on_realize ();
+		}
+	}
+
+	public override void unrealize () {
+		base.unrealize ();
+		if (controller != null) {
+			controller.on_unrealize ();
+		}
+	}
+
 	public override void size_allocate (int width, int height, int baseline) {
 		viewport.size = { width, height };
 
@@ -283,6 +300,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		update_image_box ();
 		if (!offset_updated) {
 			update_scroll_offset ();
+		}
+		if (controller != null) {
+			controller.on_size_allocated ();
 		}
 		resized ();
 	}
@@ -375,6 +395,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			if (texture != null) {
 				snapshot.append_scaled_texture (texture, _zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR, texture_box);
 			}
+		}
+
+		if (controller != null) {
+			snapshot.push_clip (texture_box);
+			controller.on_snapshot (snapshot);
+			snapshot.pop ();
 		}
 
 		if (selection_box.size.width > 0) {
@@ -652,6 +678,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		x = x.clamp (0, max_x);
 		y = y.clamp (0, max_y);
 		viewport.origin = { x, y };
+		scrolled ();
 	}
 
 	void set_scroll_offset (float x, float y) {
@@ -1075,6 +1102,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		init_actions ();
 		hadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
 		vadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
+		controller = null;
 	}
 
 	Gth.Image _image;
@@ -1084,9 +1112,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	float _zoom;
 	// viewport.origin: scroll offsets
 	// viewport.size: allocation size
-	Graphene.Rect viewport;
+	public Graphene.Rect viewport;
 	// Position and size of the texture node
-	Graphene.Rect texture_box;
+	public Graphene.Rect texture_box;
 	// Visible area of the image
 	Graphene.Rect image_box;
 	Graphene.Rect selection_box;

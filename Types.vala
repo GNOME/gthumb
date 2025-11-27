@@ -236,3 +236,11 @@ public enum Gth.TransformFlags {
 	RESET,
 	ALWAYS_SAVE,
 }
+
+public enum Gth.GridType {
+	NONE,
+	RULE_OF_THIRDS,
+	GOLDEN_RATIO,
+	CENTER_LINES,
+	UNIFORM
+}
