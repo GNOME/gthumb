@@ -501,19 +501,18 @@
         <attribute name="action">win.duplicate-files</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
-      <submenu>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <section>
-          <item>
-            <attribute name="label" translatable="yes">Move to Trash</attribute>
-            <attribute name="action">win.trash-files</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">Delete Permanently</attribute>
-            <attribute name="action">win.delete-files-from-disk</attribute>
-          </item>
-        </section>
-      </submenu>
+    </section>
+    <section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Move to Trash</attribute>
+          <attribute name="action">win.trash-files</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Delete</attribute>
+          <attribute name="action">win.delete-files-from-disk</attribute>
+        </item>
+      </section>
     </section>
     <section>
       <section>

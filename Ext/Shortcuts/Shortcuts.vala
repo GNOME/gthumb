@@ -173,7 +173,7 @@ public class Gth.Shortcuts {
 		register ("win.duplicate-files", N_("Duplicate"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>d");
 		register ("win.remove-files", N_("Remove"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "Delete");
 		register ("win.trash-files", N_("Move to Trash"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER);
-		register ("win.delete-files-from-disk", N_("Delete from Disk"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Shift>Delete");
+		register ("win.delete-files-from-disk", N_("Delete Files"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Shift>Delete");
 		register ("win.edit-metadata", N_("Edit Comment"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "c");
 		// register ("print", N_("Print"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary>p");
 		register ("win.open-clipboard", N_("Open Clipboard"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.FILE_MANAGER, "<Primary><Shift>v");
