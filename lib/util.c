@@ -610,7 +610,7 @@ char * _g_format_duration_not_localized (gint64 msecs) {
 	_time = _time - (min * 60);
 	hour = _time / (60*60);
 
-	return g_strdup_printf ("%d∶%02d∶%02d", hour, min, sec);
+	return g_strdup_printf ("%d:%02d:%02d", hour, min, sec);
 }
 
 /* this is totem_time_to_string renamed, thanks to the authors :) */
