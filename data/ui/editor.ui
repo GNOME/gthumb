@@ -105,7 +105,7 @@
           </object>
         </property>
         <property name="sidebar">
-          <object class="AdwNavigationView" id="sidebar_view">
+          <object class="AdwNavigationView" id="sidebar">
             <child>
               <object class="AdwNavigationPage" id="sidebar_main_page">
                 <property name="title">Page</property>
@@ -166,7 +166,7 @@
                     <property name="content">
                       <object class="GthSidebarResizer" id="sidebar_resizer">
                         <child>
-                          <object class="GtkOverlay" id="sidebar">
+                          <object class="GtkOverlay" id="sidebar_content">
                             <property name="hexpand">true</property>
                             <property name="vexpand">true</property>
                             <property name="margin-start">0</property>

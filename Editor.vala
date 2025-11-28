@@ -29,7 +29,7 @@ public class Gth.Editor : Gtk.Box {
 			current_editor = null;
 		}
 		content.child = null;
-		sidebar.child = null;
+		sidebar_content.child = null;
 		window.insert_action_group ("editor", null);
 		Util.remove_all_children (left_toolbar);
 		set_action_bar (null);
@@ -44,7 +44,7 @@ public class Gth.Editor : Gtk.Box {
 	}
 
 	public void set_options (Gtk.Widget? widget) {
-		sidebar.child = widget;
+		sidebar_content.child = widget;
 	}
 
 	public void set_action_bar (Gtk.Widget? widget) {
@@ -110,13 +110,13 @@ public class Gth.Editor : Gtk.Box {
 	public ImageTool current_editor;
 	Job apply_job = null;
 	[GtkChild] public unowned Gtk.Overlay content;
-	[GtkChild] public unowned Adw.NavigationView sidebar_view;
+	[GtkChild] public unowned Adw.NavigationView sidebar;
 	[GtkChild] public unowned Adw.NavigationPage sidebar_main_page;
 	[GtkChild] public unowned Gth.SidebarResizer sidebar_resizer;
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Gtk.Button apply_button;
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
-	[GtkChild] public unowned Gtk.Overlay sidebar;
+	[GtkChild] public unowned Gtk.Overlay sidebar_content;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Adw.HeaderBar sidebar_header;
 	[GtkChild] unowned Gtk.Box action_bar;
