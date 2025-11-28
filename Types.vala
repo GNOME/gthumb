@@ -242,7 +242,20 @@ public enum Gth.GridType {
 	RULE_OF_THIRDS,
 	GOLDEN_RATIO,
 	CENTER_LINES,
-	UNIFORM
+	UNIFORM;
+
+	public unowned string to_state () {
+		return STATE[this];
+	}
+
+	public static GridType from_state (string? state) {
+		var idx = Util.enum_index (STATE, state);
+		return (GridType) idx;
+	}
+
+	const string[] STATE = {
+		"none", "rule-of-thirds", "golden-ratio", "center-lines", "uniform"
+	};
 }
 
 public enum Gth.LoadState {

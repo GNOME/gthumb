@@ -109,7 +109,22 @@
     </style>
     <child>
       <object class="GtkButton" id="more_options">
-        <property name="label" translatable="yes">Options</property>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Options</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
         <style>
           <class name="flat"/>
         </style>
@@ -133,8 +148,20 @@
           <object class="AdwHeaderBar"/>
         </child>
         <property name="content">
-          <object class="GtkLabel">
-            <property name="label">TODO</property>
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Grid</property>
+                <child>
+                  <object class="GtkListBox" id="grid_list">
+                    <property name="selection-mode">none</property>
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>

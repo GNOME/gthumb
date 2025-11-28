@@ -2,9 +2,15 @@ public class Gth.ImageSelector : Object, ImageController {
 	public signal void changed ();
 
 	public Graphene.Rect selection;
-	public bool show_mask { get; set; }
-	public bool show_grid { get; set; }
-	public GridType grid_type { get; set; default = GridType.RULE_OF_THIRDS; }
+	public GridType grid_type {
+		get { return _grid_type; }
+		set {
+			_grid_type = value;
+			if (view != null) {
+				view.queue_draw ();
+			}
+		}
+	}
 	public float ratio { get { return _ratio; } }
 	public int step {
 		get {
@@ -735,7 +741,7 @@ public class Gth.ImageSelector : Object, ImageController {
 			);
 		}
 
-		if (grid_type != GridType.NONE) {
+		if (_grid_type != GridType.NONE) {
 			append_grid (snapshot, box);
 		}
 	}
@@ -747,7 +753,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		var thin_stroke = new Gsk.Stroke (0.5f);
 		var builder = new Gsk.PathBuilder ();
 
-		switch (grid_type) {
+		switch (_grid_type) {
 		case GridType.RULE_OF_THIRDS:
 			for (var i = 1; i < 3; i++) {
 				builder.move_to (rect.origin.x + rect.size.width * i / 3, rect.origin.y);
@@ -882,6 +888,7 @@ public class Gth.ImageSelector : Object, ImageController {
 	construct {
 		_ratio = 0;
 		_step = 1;
+		_grid_type = GridType.RULE_OF_THIRDS;
 		active = false;
 	}
 
@@ -899,6 +906,7 @@ public class Gth.ImageSelector : Object, ImageController {
 	ClickPoint click_position;
 	ClickPoint drag_start;
 	Graphene.Rect selection_at_drag_start;
+	GridType _grid_type;
 
 	const float GOLDEN_RATIO = 1.6180339887f;
 	const float GOLDER_RATIO_FACTOR = (GOLDEN_RATIO / (1.0f + 2.0f * GOLDEN_RATIO));

@@ -2,15 +2,13 @@ public class Gth.Crop : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/crop.ui");
 		window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
-
-		var options = builder.get_object ("options") as Gtk.Widget;
-		options.insert_action_group ("crop", action_group);
-		window.editor.set_options (options);
+		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
+		window.editor.sidebar.insert_action_group ("crop", action_group);
 
 		var more_options = builder.get_object ("more_options") as Gtk.Button;
 		more_options.clicked.connect (() => {
 			var page = builder.get_object ("more_options_page") as Adw.NavigationPage;
-			window.editor.sidebar_view.push (page);
+			window.editor.sidebar.push (page);
 		});
 
 		var entry = builder.get_object ("aspect_ratio_entry") as Gtk.Entry;
@@ -171,11 +169,19 @@ public class Gth.Crop : ImageTool {
 			selector.step = (int) local_adj.value;
 		});
 
+		var grid_list = builder.get_object ("grid_list") as Gtk.ListBox;
+		grid_list.append (new_grid_type_row (GridType.NONE, _("None")));
+		grid_list.append (new_grid_type_row (GridType.RULE_OF_THIRDS, _("Rule of Thirds")));
+		grid_list.append (new_grid_type_row (GridType.GOLDEN_RATIO, _("Golden Ratio")));
+		grid_list.append (new_grid_type_row (GridType.CENTER_LINES, _("Center Lines")));
+		grid_list.append (new_grid_type_row (GridType.UNIFORM, _("Uniform")));
+
 		update_ratio ();
 		selector.changed ();
 	}
 
 	public override void before_deactivate () {
+		window.editor.sidebar.insert_action_group ("crop", null);
 		builder = null;
 	}
 
@@ -187,13 +193,25 @@ public class Gth.Crop : ImageTool {
 		var row = new Adw.ActionRow ();
 		var check_button = new Gtk.CheckButton ();
 		check_button.action_name = "crop.aspect-ratio";
-		check_button.action_target= "%u".printf (idx);
+		check_button.action_target = "%u".printf (idx);
 		row.add_prefix (check_button);
 		if (description != null) {
 			var label = new Gtk.Label (description);
 			label.add_css_class ("dimmed");
 			row.add_suffix (label);
 		}
+		row.set_title (name);
+		row.activatable = true;
+		row.activatable_widget = check_button;
+		return row;
+	}
+
+	Gtk.Widget new_grid_type_row (GridType grid_type, string name) {
+		var row = new Adw.ActionRow ();
+		var check_button = new Gtk.CheckButton ();
+		check_button.action_name = "crop.grid-type";
+		check_button.action_target = grid_type.to_state ();
+		row.add_prefix (check_button);
 		row.set_title (name);
 		row.activatable = true;
 		row.activatable_widget = check_button;
@@ -244,10 +262,19 @@ public class Gth.Crop : ImageTool {
 		icon_name = "gth-crop-symbolic";
 
 		action_group = new SimpleActionGroup ();
+
 		var action = new SimpleAction.stateful ("aspect-ratio", VariantType.STRING, new Variant.string ("0"));
 		action.activate.connect ((_action, param) => {
-			action.set_state (param.get_string ());
+			_action.set_state (param.get_string ());
 			update_ratio ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("grid-type", VariantType.STRING, new Variant.string (GridType.RULE_OF_THIRDS.to_state ()));
+		action.activate.connect ((_action, param) => {
+			unowned var state = param.get_string ();
+			_action.set_state (state);
+			selector.grid_type = GridType.from_state (state);
 		});
 		action_group.add_action (action);
 	}

@@ -27,7 +27,7 @@ namespace Gth.Util {
 		});
 	}
 
-	public static int enum_index (string[] values, string? value, int default = 0) {
+	public static int enum_index (string[] values, string? value, int _default = 0) {
 		if (value != null) {
 			for (var i = 0; i < values.length; i++) {
 				if (value == values[i]) {
@@ -35,7 +35,7 @@ namespace Gth.Util {
 				}
 			}
 		}
-		return default;
+		return _default;
 	}
 
 	public static unowned string? get_uri_scheme (string uri_string) {
