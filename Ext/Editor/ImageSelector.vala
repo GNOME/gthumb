@@ -203,7 +203,7 @@ public class Gth.ImageSelector : Object, ImageController {
 			return;
 		}
 
-		if (current_area == null) {
+		if ((current_area == null) || (current_area.type == AreaType.IMAGE)) {
 			Graphene.Rect new_selection = { point, { 0, 0 } };
 			resize_and_set_selection (new_selection, selector_to_real (10), selector_to_real (10), AreaType.BOTTOM_RIGHT);
 			set_active_area (get_area_from_type (AreaType.BOTTOM_RIGHT));
@@ -319,7 +319,7 @@ public class Gth.ImageSelector : Object, ImageController {
 	}
 
 	public bool on_dragging (float x, float y) {
-		if (current_area == null) {
+		if ((current_area == null) || (current_area.type == AreaType.IMAGE)) {
 			return false;
 		}
 
@@ -467,7 +467,7 @@ public class Gth.ImageSelector : Object, ImageController {
 	void set_active_area (EventArea? area) {
 		active = (area != null);
 		current_area = area;
-		view.cursor = (current_area == null) ? default_cursor : current_area.cursor;
+		view.cursor = (current_area != null) ? current_area.cursor : null;
 	}
 
 	public bool can_snap () {
@@ -585,6 +585,9 @@ public class Gth.ImageSelector : Object, ImageController {
 
 		area = get_area_from_type (AreaType.BOTTOM_RIGHT);
 		area.rect = { { x + width - border, y + height - border }, { border, border } };
+
+		area = get_area_from_type (AreaType.IMAGE);
+		area.rect = view.texture_box;
 	}
 
 	void selection_changed () {
@@ -617,7 +620,6 @@ public class Gth.ImageSelector : Object, ImageController {
 	}
 
 	public void on_realize () {
-		default_cursor = new Gdk.Cursor.from_name ("crosshair", null);
 		areas = {};
 		areas += new EventArea (AreaType.TOP, "n-resize");
 		areas += new EventArea (AreaType.BOTTOM, "s-resize");
@@ -628,13 +630,13 @@ public class Gth.ImageSelector : Object, ImageController {
 		areas += new EventArea (AreaType.BOTTOM_LEFT, "sw-resize");
 		areas += new EventArea (AreaType.BOTTOM_RIGHT, "se-resize");
 		areas += new EventArea (AreaType.INNER, "grab");
+		areas += new EventArea (AreaType.IMAGE, "crosshair");
 		current_area = null;
 		init_selection ();
 		update_event_areas ();
 	}
 
 	public void on_unrealize () {
-		default_cursor = null;
 		areas = {};
 	}
 
@@ -849,7 +851,8 @@ public class Gth.ImageSelector : Object, ImageController {
 		TOP_RIGHT,
 		BOTTOM_LEFT,
 		BOTTOM_RIGHT,
-		INNER;
+		INNER,
+		IMAGE;
 
 		public bool left_side () {
 			return (this == AreaType.LEFT)
@@ -892,7 +895,6 @@ public class Gth.ImageSelector : Object, ImageController {
 	bool active;
 	bool clicked;
 	bool dragging;
-	Gdk.Cursor default_cursor;
 	Gdk.Cursor prev_cursor;
 	ClickPoint click_position;
 	ClickPoint drag_start;
