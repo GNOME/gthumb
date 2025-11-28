@@ -186,14 +186,14 @@ public class Gth.ImageSelector : Object, ImageController {
 		if (width == selection.size.width) {
 			return;
 		}
-		set_selection ({ selection.origin, { width, selection.size.height } });
+		resize_and_set_selection (selection, width - selection.size.width, 0, AreaType.RIGHT);
 	}
 
 	public void set_height (float height) {
 		if (height == selection.size.height) {
 			return;
 		}
-		set_selection ({ selection.origin, { selection.size.width, height } });
+		resize_and_set_selection (selection, 0, height - selection.size.height, AreaType.BOTTOM);
 	}
 
 	void on_button_press (float x, float y) {
