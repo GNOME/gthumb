@@ -69,6 +69,14 @@ public class Gth.Selection {
 		// TODO app.monitor.order_changed (location);
 	}
 
+	public GenericArray<File> get_files () {
+		var new_files = new GenericArray<File>();
+		foreach (unowned var file in files) {
+			new_files.add (file);
+		}
+		return new_files;
+	}
+
 	public static FileData get_root () {
 		var file = File.new_for_uri (ROOT);
 		var info = new FileInfo ();

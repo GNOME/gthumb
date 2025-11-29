@@ -64,7 +64,8 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 						throw new IOError.FAILED ("Wrong Selection");
 					}
 					uint position = 0;
-					foreach (var file in selection.files) {
+					var local_files = selection.get_files ();
+					foreach (var file in local_files) {
 						try {
 							var file_data = yield FileData.read_metadata (file, all_attributes, cancellable);
 							file_data.set_position (position);
