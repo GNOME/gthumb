@@ -257,7 +257,7 @@
                         <property name="row-homogeneous">true</property>
                         <child>
                           <object class="GthToolButton">
-                            <property name="action-name">image.resize</property>
+                            <property name="action-name">viewer.resize</property>
                             <property name="icon-name">gth-resize-symbolic</property>
                             <property name="label" translatable="yes">Resize</property>
                             <layout>

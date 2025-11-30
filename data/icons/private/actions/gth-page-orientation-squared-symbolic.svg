@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="16px"
+   viewBox="0 0 16 16"
+   width="16px"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="gth-page-orientation-squared-symbolic.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="34.59375"
+     inkscape:cx="8.0072267"
+     inkscape:cy="7.8482385"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;stroke-linecap:round;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
+     d="m 4.8632812,1.0175781 c -2.1301409,0 -3.87695307,1.7448591 -3.87695307,3.875 v 6.2148439 c 0,2.130141 1.74681217,3.875 3.87695307,3.875 h 6.2734378 c 2.130141,0 3.876953,-1.744859 3.876953,-3.875 V 4.8925781 c 0,-2.1301409 -1.746812,-3.875 -3.876953,-3.875 z m 0,2 h 6.2734378 c 1.056735,0 1.876953,0.8182646 1.876953,1.875 v 6.2148439 c 0,1.056735 -0.820218,1.875 -1.876953,1.875 H 4.8632812 c -1.0567353,0 -1.8769531,-0.818265 -1.8769531,-1.875 V 4.8925781 c 0,-1.0567354 0.8202178,-1.875 1.8769531,-1.875 z"
+     id="rect2" />
+</svg>

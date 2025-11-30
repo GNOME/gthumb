@@ -79,10 +79,10 @@ public class Gth.Crop : ImageTool {
 		});
 
 		var aspect_ratio_group = builder.get_object ("aspect_ratio_group") as Gth.AspectRatioGroup;
+		aspect_ratio_group.activate (window, original);
 		aspect_ratio_group.changed.connect ((local_group, after_rotation) => {
 			update_ratio (after_rotation);
 		});
-		aspect_ratio_group.activate (window, original);
 
 		var maximize = builder.get_object ("maximize") as Adw.ButtonRow;
 		maximize.activated.connect (() => selector.maximize ());

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwPreferencesPage" id="options">
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Dimensions</property>
+        <child>
+          <object class="AdwSpinRow" id="width">
+            <property name="title" translatable="yes">Width</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow" id="height">
+            <property name="title" translatable="yes">Height</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Unit</property>
+            <child type="suffix">
+              <object class="AdwToggleGroup" id="unit_group">
+                <property name="active-name">percent</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="AdwToggle">
+                    <property name="label" translatable="yes">pixel</property>
+                    <property name="name">pixels</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwToggle">
+                    <property name="label" translatable="yes">%</property>
+                    <property name="name">percent</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="special_size_group">
+        <property name="separate-rows">true</property>
+      </object>
+    </child>
+    <child>
+      <object class="GthAspectRatioGroup" id="aspect_ratio_group">
+      </object>
+    </child>
+  </object>
+  <object class="GthImageView" id="image_view">
+  </object>
+</interface>

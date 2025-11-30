@@ -283,3 +283,7 @@ toast {
 .filter-preview > label {
 	font-size: 0.9em;
 }
+
+.button-label {
+	font-weight: bold;
+}

@@ -72,6 +72,9 @@
     <file preprocess="xml-stripblanks">gth-file-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-brightness-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-saturation-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-page-orientation-landscape-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-page-orientation-portrait-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-page-orientation-squared-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -162,6 +165,7 @@
     <file preprocess="xml-stripblanks">sharpen-image.ui</file>
     <file preprocess="xml-stripblanks">crop.ui</file>
     <file preprocess="xml-stripblanks">adjust-colors.ui</file>
+    <file preprocess="xml-stripblanks">resize-image.ui</file>
     <file preprocess="xml-stripblanks">aspect-ratio-group.ui</file>
     <file preprocess="xml-stripblanks">grid-group.ui</file>
   </gresource>

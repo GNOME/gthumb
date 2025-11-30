@@ -4,7 +4,7 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 
 	public float ratio { get; set; default = 1; }
 
-	public void activate (Gtk.Window window, Gth.Image original) {
+	public void activate (Gtk.Window window, Gth.Image original, bool activate_image_ratio = false) {
 		entry.icon_release.connect (() => {
 			entry.visible = false;
 			other_list.visible = true;
@@ -33,16 +33,18 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 			var geometry = monitor.geometry;
 			var ratio = (float) geometry.width / geometry.height;
 			ratios += ratio;
-			ratio_list.insert (new_ratio_row (_("Screen"), pos, (n_monitors > 1) ? monitor.model : null), (int) pos);
+			var description = "%u:%u".printf ((uint) geometry.width, (uint) geometry.height);
+			ratio_list.insert (new_ratio_row (_("Screen"), pos, description), (int) pos);
 			pos++;
 		}
 
 		ratios += (float) original.width / original.height;
-		ratio_list.insert (new_ratio_row (_("Image"), pos), (int) pos);
+		ratio_list.insert (new_ratio_row (_("Image"), pos, "%u:%u".printf (original.width, original.height)), (int) pos);
+		image_pos = pos;
 		pos++;
 
 		ratios += 1;
-		ratio_list.insert (new_ratio_row (_("Square"), pos), (int) pos);
+		ratio_list.insert (new_ratio_row (_("Square"), pos, "1:1"), (int) pos);
 		pos++;
 
 		fixed_ratios = pos;
@@ -74,6 +76,18 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 
 		rotated.notify["active"].connect (() => update_ratio (true));
 		rotated.sensitive = false;
+
+		if (activate_image_ratio) {
+			set_image_ratio ();
+		}
+	}
+
+	public void disable_ratio () {
+		Util.set_state (action_group, "aspect-ratio", new Variant.string ("%d".printf (0)));
+	}
+
+	public void set_image_ratio () {
+		Util.set_state (action_group, "aspect-ratio", new Variant.string ("%u".printf (image_pos)));
 	}
 
 	uint entry_index () {
@@ -143,6 +157,7 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 	SimpleActionGroup action_group;
 	float[] ratios;
 	uint fixed_ratios;
+	uint image_pos;
 	[GtkChild] Gtk.ListBox ratio_list;
 	[GtkChild] Gtk.Entry entry;
 	[GtkChild] Adw.SwitchRow rotated;

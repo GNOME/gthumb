@@ -16,6 +16,7 @@ editor_files = files(
   'ImageSelector.vala',
   'ImageTool.vala',
   'Points.vala',
+  'ResizeImage.vala',
   'SharpenImage.vala',
   'SpecialEffects.vala',
   'ToolButton.vala',
