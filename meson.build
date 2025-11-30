@@ -62,6 +62,8 @@ gnome.post_install(
 
 # Dependencies
 
+gtk_dep = dependency('gtk+-3.0', version : gtk_version)
+
 exiv2_dep = dependency('exiv2', version : exiv2_version)
 
 if get_option('clutter')
@@ -198,18 +200,32 @@ with_webalbums = bison.found() and flex.found()
 vector_ops = (c_comp.get_id() == 'gcc') and (c_comp.version().version_compare('>=4.0.7'))
 
 common_deps = [
+  gtk_dep,
   libm_dep,
   dependency('threads'),
   dependency('glib-2.0', version : glib_version),
   dependency('gthread-2.0'),
   dependency('gmodule-2.0'),
   dependency('gio-unix-2.0'),
-  dependency('gtk+-3.0', version : gtk_version),
-  dependency('x11'),
   dependency('libpng'),
   dependency('zlib'),
   dependency('gsettings-desktop-schemas')
 ]
+
+code = '''#include <gtk/gtk.h>
+int main(int argc, char **argv) {
+#ifdef GDK_WINDOWING_X11
+  return 0;
+#else
+  return 1;
+#endif
+}
+'''
+result = c_comp.run(code, name : 'GDK has X11 backend', dependencies : gtk_dep)
+use_x11 = result.returncode() == 0
+if use_x11
+  common_deps += dependency('x11')
+endif
 
 # config.h
 
@@ -369,6 +385,7 @@ summary = [
   '        libbrasero: @0@'.format(use_libbrasero),
   '        web albums: @0@'.format(with_webalbums),
   '        vector ops: @0@'.format(vector_ops),
+  '               x11: @0@'.format(use_x11),
   ''
 ]
 message('\n'.join(summary))
