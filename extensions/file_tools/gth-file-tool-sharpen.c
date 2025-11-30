@@ -119,6 +119,10 @@ static gboolean
 apply_cb (gpointer user_data)
 {
 	GthFileToolSharpen *self = user_data;
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
 	if (self->priv->show_preview) {
 		cairo_surface_destroy (self->priv->preview_source);
 		self->priv->preview_source = _cairo_image_surface_copy (self->priv->original_source);
@@ -156,10 +160,6 @@ preview_checkbutton_toggled_cb (GtkToggleButton    *toggle_button,
 				GthFileToolSharpen *self)
 {
 	self->priv->show_preview = gtk_toggle_button_get_active (toggle_button);
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
 	apply_cb (self);
 }
 
