@@ -219,7 +219,7 @@ public class Gth.ImageSelector : Object, ImageController {
 	void respect_image_bounds (Graphene.Rect rect, AreaType area_type, ref float dx, ref float dy) {
 		// Min size
 
-		if (area_type.left_side () || area_type.right_side ()) {
+		if (area_type.horizontal_direction ()) {
 			var min_size = (float) _step;
 			if (_ratio > 1) {
 				min_size = _step * _ratio;
@@ -229,7 +229,7 @@ public class Gth.ImageSelector : Object, ImageController {
 				dx = min_dx;
 			}
 		}
-		if (area_type.top_side () || area_type.bottom_side ()) {
+		if (area_type.vertical_direction ()) {
 			var min_size = (float) _step;
 			if ((_ratio != 0) && (_ratio < 1)) {
 				min_size = _step / _ratio;
@@ -312,12 +312,12 @@ public class Gth.ImageSelector : Object, ImageController {
 		if (!snap_enabled ()) {
 			return;
 		}
-		if (area_type.left_side () || area_type.right_side ()) {
+		if (area_type.horizontal_direction ()) {
 			var width = rect.size.width + dx;
 			var new_width = snap_length (width, _step);
 			dx -= (width - new_width);
 		}
-		if (area_type.top_side () || area_type.bottom_side ()) {
+		if (area_type.vertical_direction ()) {
 			var height = rect.size.height + dy;
 			var new_height = snap_length (height, _step);
 			dy -= (height - new_height);
@@ -456,7 +456,6 @@ public class Gth.ImageSelector : Object, ImageController {
 			// 	image_box.size.height);
 			return false;
 		}
-		//set_selection (rect);
 		return true;
 	}
 
@@ -860,28 +859,36 @@ public class Gth.ImageSelector : Object, ImageController {
 		INNER,
 		IMAGE;
 
+		public bool horizontal_direction () {
+			return (this != TOP) && (this != BOTTOM);
+		}
+
+		public bool vertical_direction () {
+			return (this != LEFT) && (this != RIGHT);
+		}
+
 		public bool left_side () {
-			return (this == AreaType.LEFT)
-				|| (this == AreaType.TOP_LEFT)
-				|| (this == AreaType.BOTTOM_LEFT);
+			return (this == LEFT)
+				|| (this == TOP_LEFT)
+				|| (this == BOTTOM_LEFT);
 		}
 
 		public bool right_side () {
-			return (this == AreaType.RIGHT)
-				|| (this == AreaType.TOP_RIGHT)
-				|| (this == AreaType.BOTTOM_RIGHT);
+			return (this == RIGHT)
+				|| (this == TOP_RIGHT)
+				|| (this == BOTTOM_RIGHT);
 		}
 
 		public bool top_side () {
-			return (this == AreaType.TOP)
-				|| (this == AreaType.TOP_LEFT)
-				|| (this == AreaType.TOP_RIGHT);
+			return (this == TOP)
+				|| (this == TOP_LEFT)
+				|| (this == TOP_RIGHT);
 		}
 
 		public bool bottom_side () {
-			return (this == AreaType.BOTTOM)
-				|| (this == AreaType.BOTTOM_LEFT)
-				|| (this == AreaType.BOTTOM_RIGHT);
+			return (this == BOTTOM)
+				|| (this == BOTTOM_LEFT)
+				|| (this == BOTTOM_RIGHT);
 		}
 	}
 
