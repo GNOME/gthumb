@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthAspectRatioGroup">
+    <property name="title" translatable="yes">Aspect Ratio</property>
+    <property name="separate-rows">true</property>
+    <child>
+      <object class="GtkListBox" id="ratio_list">
+        <property name="selection-mode">none</property>
+        <style>
+          <class name="boxed-list"/>
+        </style>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Other</property>
+            <property name="activatable_widget">other</property>
+            <child type="prefix">
+              <object class="GtkCheckButton" id="other">
+                <property name="action-name">group.aspect-ratio</property>
+                <property name="action-target">'other'</property>
+              </object>
+            </child>
+            <child type="suffix">
+              <object class="GtkDropDown" id="other_list">
+                <property name="valign">center</property>
+              </object>
+            </child>
+            <child type="suffix">
+              <object class="GtkEntry" id="entry">
+                <property name="valign">center</property>
+                <property name="visible">false</property>
+                <property name="secondary-icon-activatable">true</property>
+                <property name="secondary-icon-name">close-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSwitchRow" id="rotated">
+            <property name="title" translatable="yes">Rotated</property>
+            <property name="active">false</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

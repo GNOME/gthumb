@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthGridGroup">
+    <property name="title" translatable="yes">Grid</property>
+    <child>
+      <object class="GtkListBox" id="grid_list">
+        <property name="selection-mode">none</property>
+        <style>
+          <class name="boxed-list"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

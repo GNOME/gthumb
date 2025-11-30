@@ -162,5 +162,7 @@
     <file preprocess="xml-stripblanks">sharpen-image.ui</file>
     <file preprocess="xml-stripblanks">crop.ui</file>
     <file preprocess="xml-stripblanks">adjust-colors.ui</file>
+    <file preprocess="xml-stripblanks">aspect-ratio-group.ui</file>
+    <file preprocess="xml-stripblanks">grid-group.ui</file>
   </gresource>
 </gresources>

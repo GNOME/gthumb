@@ -3,7 +3,6 @@ public class Gth.Crop : ImageTool {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/crop.ui");
 		window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
-		window.editor.sidebar.insert_action_group ("crop", action_group);
 
 		var more_options = builder.get_object ("more_options") as Gtk.Button;
 		more_options.clicked.connect (() => {
@@ -11,26 +10,8 @@ public class Gth.Crop : ImageTool {
 			window.editor.sidebar.push (page);
 		});
 
-		var entry = builder.get_object ("aspect_ratio_entry") as Gtk.Entry;
-		entry.icon_release.connect (() => {
-			var local_list = builder.get_object ("aspect_ratio_list") as Gtk.DropDown;
-			var local_entry = builder.get_object ("aspect_ratio_entry") as Gtk.Entry;
-			local_entry.visible = false;
-			local_list.visible = true;
-			local_list.selected = 0;
-		});
-		entry.activate.connect ((obj) => {
-			var local_action = action_group.lookup_action ("aspect-ratio") as SimpleAction;
-			if (local_action != null) {
-				local_action.set_state ("other");
-			}
-			update_ratio ();
-		});
-
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.image = original;
-		//add_default_controllers (image_view);
-
 		window.editor.set_content (image_view);
 
 		selector = new ImageSelector (image_view);
@@ -97,66 +78,11 @@ public class Gth.Crop : ImageTool {
 			selector.set_height ((float) local_adj.value);
 		});
 
-		ratios = {};
-		uint pos = 0;
-		var ratio_list = builder.get_object ("ratio_list") as Gtk.ListBox;
-
-		ratios += 0;
-		ratio_list.insert (new_ratio_row (_("Disabled"), pos), (int) pos);
-		pos++;
-
-		var display = window.root.get_display ();
-		var monitors = display.get_monitors ();
-		var n_monitors = monitors.get_n_items ();
-		for (var i = 0; i < n_monitors; i++) {
-			var monitor = monitors.get_item (i) as Gdk.Monitor;
-			var geometry = monitor.geometry;
-			var ratio = (float) geometry.width / geometry.height;
-			ratios += ratio;
-			ratio_list.insert (new_ratio_row (_("Screen"), pos, (n_monitors > 1) ? monitor.model : null), (int) pos);
-			pos++;
-		}
-
-		ratios += (float) original.width / original.height;
-		ratio_list.insert (new_ratio_row (_("Image"), pos), (int) pos);
-		pos++;
-
-		ratios += 1;
-		ratio_list.insert (new_ratio_row (_("Square"), pos), (int) pos);
-		pos++;
-
-		fixed_ratios = pos;
-
-		var ratio_names = new Gtk.StringList (null);
-		foreach (var other in OTHER_RATIOS) {
-			ratio_names.append ("%d:%d".printf ((int) other.width, (int) other.height));
-			ratios += (float) other.width / other.height;
-		}
-
-		ratio_names.append (_("Other…"));
-		ratios += 0.0f;
-
-		var aspect_ratio_list = builder.get_object ("aspect_ratio_list") as Gtk.DropDown;
-		aspect_ratio_list.model = ratio_names;
-		aspect_ratio_list.notify["selected"].connect ((obj, param) => {
-			var local_action = action_group.lookup_action ("aspect-ratio") as SimpleAction;
-			if (local_action != null) {
-				local_action.set_state ("other");
-			}
-			var idx = update_ratio ();
-			var local_list = builder.get_object ("aspect_ratio_list") as Gtk.DropDown;
-			var local_entry = builder.get_object ("aspect_ratio_entry") as Gtk.Entry;
-			if (idx == entry_index ()) {
-				if (!local_entry.visible) {
-					local_list.visible = false;
-					local_entry.visible = true;
-					local_entry.grab_focus ();
-				}
-			}
+		var aspect_ratio_group = builder.get_object ("aspect_ratio_group") as Gth.AspectRatioGroup;
+		aspect_ratio_group.changed.connect ((local_group, after_rotation) => {
+			update_ratio (after_rotation);
 		});
-
-		var rotated = builder.get_object ("rotated_ratio") as Adw.SwitchRow;
-		rotated.notify["active"].connect (() => update_ratio (true));
+		aspect_ratio_group.activate (window, original);
 
 		var maximize = builder.get_object ("maximize") as Adw.ButtonRow;
 		maximize.activated.connect (() => selector.maximize ());
@@ -169,12 +95,12 @@ public class Gth.Crop : ImageTool {
 			selector.step = (int) local_adj.value;
 		});
 
-		var grid_list = builder.get_object ("grid_list") as Gtk.ListBox;
-		grid_list.append (new_grid_type_row (GridType.NONE, _("None")));
-		grid_list.append (new_grid_type_row (GridType.RULE_OF_THIRDS, _("Rule of Thirds")));
-		grid_list.append (new_grid_type_row (GridType.GOLDEN_RATIO, _("Golden Ratio")));
-		grid_list.append (new_grid_type_row (GridType.CENTER_LINES, _("Center Lines")));
-		grid_list.append (new_grid_type_row (GridType.UNIFORM, _("Uniform")));
+		var grid_group = builder.get_object ("grid_group") as Gth.GridGroup;
+		grid_group.notify["grid-type"].connect ((obj, _param) => {
+			var local_grid = obj as Gth.GridGroup;
+			selector.grid_type = local_grid.grid_type;
+		});
+		grid_group.grid_type = Gth.GridType.RULE_OF_THIRDS;
 
 		update_ratio ();
 		selector.changed ();
@@ -189,115 +115,24 @@ public class Gth.Crop : ImageTool {
 		return new CutOperation (selector.selection);
 	}
 
-	Gtk.Widget new_ratio_row (string name, uint idx, string? description = null) {
-		var row = new Adw.ActionRow ();
-		var check_button = new Gtk.CheckButton ();
-		check_button.action_name = "crop.aspect-ratio";
-		check_button.action_target = "%u".printf (idx);
-		row.add_prefix (check_button);
-		if (description != null) {
-			var label = new Gtk.Label (description);
-			label.add_css_class ("dimmed");
-			row.add_suffix (label);
-		}
-		row.set_title (name);
-		row.activatable = true;
-		row.activatable_widget = check_button;
-		return row;
-	}
-
-	Gtk.Widget new_grid_type_row (GridType grid_type, string name) {
-		var row = new Adw.ActionRow ();
-		var check_button = new Gtk.CheckButton ();
-		check_button.action_name = "crop.grid-type";
-		check_button.action_target = grid_type.to_state ();
-		row.add_prefix (check_button);
-		row.set_title (name);
-		row.activatable = true;
-		row.activatable_widget = check_button;
-		return row;
-	}
-
-	uint entry_index () {
-		return ratios.length - 1;
-	}
-
-	uint update_ratio (bool swap_sides = false) {
-		var rotated = builder.get_object ("rotated_ratio") as Adw.SwitchRow;
-		var ratio_state = action_group.get_action_state ("aspect-ratio");
-		var value = ratio_state.get_string ();
-
-		var local_list = builder.get_object ("aspect_ratio_list") as Gtk.DropDown;
-		uint idx = 0;
-		if (value == "other") {
-			idx = local_list.selected + fixed_ratios;
-		}
-		else {
-			idx = uint.parse (value, 10);
-		}
-
-		var local_entry = builder.get_object ("aspect_ratio_entry") as Gtk.Entry;
-		var ratio = 0f;
-		if (idx == entry_index ()) {
-			if (Strings.empty (local_entry.text)) {
-				local_entry.text = "%.2f".printf (selector.ratio);
-			}
-			ratio = float.parse (local_entry.text);
-		}
-		else {
-			ratio = ratios[idx];
-		}
-		if ((ratio > 0) && rotated.active) {
-			ratio = 1f / ratio;
-		}
-		selector.set_ratio (ratio, swap_sides);
+	void update_ratio (bool swap_sides = false) {
+		var aspect_ratio_group = builder.get_object ("aspect_ratio_group") as Gth.AspectRatioGroup;
+		selector.set_ratio (aspect_ratio_group.ratio, swap_sides);
 		var step = builder.get_object ("step") as Adw.SpinRow;
 		step.sensitive = selector.can_snap ();
-		rotated.sensitive = (ratio != 0);
-		return idx;
 	}
 
 	construct {
 		title = _("Crop");
 		icon_name = "gth-crop-symbolic";
-
-		action_group = new SimpleActionGroup ();
-
-		var action = new SimpleAction.stateful ("aspect-ratio", VariantType.STRING, new Variant.string ("0"));
-		action.activate.connect ((_action, param) => {
-			_action.set_state (param.get_string ());
-			update_ratio ();
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("grid-type", VariantType.STRING, new Variant.string (GridType.RULE_OF_THIRDS.to_state ()));
-		action.activate.connect ((_action, param) => {
-			unowned var state = param.get_string ();
-			_action.set_state (state);
-			selector.grid_type = GridType.from_state (state);
-		});
-		action_group.add_action (action);
 	}
 
 	Gtk.Builder builder;
 	ImageSelector selector;
-	SimpleActionGroup action_group;
-	float[] ratios;
-	uint fixed_ratios;
 	ulong selection_x_changed_id = 0;
 	ulong selection_y_changed_id = 0;
 	ulong selection_width_changed_id = 0;
 	ulong selection_height_changed_id = 0;
-
-	Graphene.Size[] OTHER_RATIOS = {
-		{ 16, 9 },
-		{ 16, 10 },
-		{ 21, 9 },
-		{ 5, 4 },
-		{ 4, 3 },
-		{ 3, 2 },
-		{ 2, 1 },
-	};
 }
 
 public class Gth.CutOperation : ImageOperation {
