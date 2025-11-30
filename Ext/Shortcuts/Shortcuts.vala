@@ -224,7 +224,7 @@ public class Gth.Shortcuts {
 		register ("image.set-zoom('max-width')", N_("Zoom to Fit Width"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "w");
 		register ("image.set-zoom('max-height')", N_("Zoom to Fit Height"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "h");
 		register ("image.set-zoom('best-fit')", N_("Automatic Zoom"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "0");
-		register ("image.set-zoom('fill-space')", N_("Fill Space"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>f");
+		register ("image.set-zoom('fill-space')", N_("Fill Space"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "9");
 
 		register ("image.scroll-left", N_("Scroll Left"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "Left");
 		register ("image.scroll-right", N_("Scroll Right"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "Right");
@@ -242,16 +242,21 @@ public class Gth.Shortcuts {
 		register ("viewer.undo", N_("Undo"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>z");
 		register ("viewer.redo", N_("Redo"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>z");
 
-		register ("viewer.adjust-contrast", N_("Adjust Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "a");
+		register ("viewer.adjust-contrast", N_("Contrast"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>a");
+		register ("viewer.adjust-brightness", N_("Brightness"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>b");
+		register ("viewer.adjust-saturation", N_("Saturation"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>t");
+		register ("viewer.adjust-colors", N_("Colors"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>c");
+		register ("viewer.crop", N_("Crop"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>p");
+		register ("viewer.grayscale", N_("Grayscale"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>g");
+		register ("viewer.special-effects", N_("Special Effects"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>e");
+		register ("viewer.sharpen-image", N_("Focus"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>f");
+		register ("viewer.color-picker", N_("Color Picker"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "p");
 		register ("viewer.flip-vertical", N_("Vertical Flip"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "l");
 		register ("viewer.flip-horizontal", N_("Horizontal Flip"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "m");
 		register ("viewer.rotate-right", N_("Rotate Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "r");
 		register ("viewer.rotate-left", N_("Rotate Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>r");
-		// register ("file-tool-crop", N_("Crop"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>c");
-		// register ("file-tool-resize", N_("Resize"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>s");
-		register ("viewer.color-picker", N_("Color Picker"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "p");
-		register ("viewer.grayscale", N_("Grayscale"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>g");
-		register ("viewer.special-effects", N_("Special Effects"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>e");
+		register ("viewer.resize", N_("Resize"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>s");
+		//register ("viewer.rotate", N_("Rotate"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>r");
 
 		register ("editor.apply", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "<Primary>Return");
 
