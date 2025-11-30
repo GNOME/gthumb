@@ -240,6 +240,7 @@ _cairo_image_surface_box_blur (cairo_surface_t *source,
 	}
 
 	cairo_surface_destroy (tmp);
+	g_free (div_kernel_size);
 
 	return completed;
 }
