@@ -1,3 +1,12 @@
+Version 3.12.8.2
+~~~~~~~~~~~~~~~~
+Released: 2025-11-30
+
+Bugfixes:
+ * Fixed extensions dependencies
+ * Only depend on libX11 if used (Chris Mayo)
+ * Use GNOME module post_install (Matt Turner)
+
 Version 3.12.8.1
 ~~~~~~~~~~~~~~~~
 Released: 2025-10-26
