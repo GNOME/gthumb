@@ -6,7 +6,6 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 		thumbnail_size_adjustment.set_value (settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
 
 		// Caption
-		var caption_model = caption_first_row.model as Gtk.StringList;
 		caption_model.append (_("Hidden"));
 		foreach (unowned var attr_id in CAPTION_ATTRIBUTES) {
 			unowned var info = MetadataInfo.get (attr_id);
@@ -21,13 +20,16 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 			var idx = get_caption_index (caption);
 			if (idx != uint.MAX) {
 				if (row == 0) {
-					caption_first_row.selected = idx + 1;
+					caption_row_1.selected = idx + 1;
 				}
 				if (row == 1) {
-					caption_second_row.selected = idx + 1;
+					caption_row_2.selected = idx + 1;
+				}
+				if (row == 2) {
+					caption_row_3.selected = idx + 1;
 				}
 				row++;
-				if (row == 2) {
+				if (row == 3) {
 					break;
 				}
 			}
@@ -70,23 +72,32 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 			return;
 		}
 		var caption_v = new StringBuilder ();
-		if (caption_first_row.selected > 0) {
-			unowned var attr = CAPTION_ATTRIBUTES[caption_first_row.selected - 1];
+		if (caption_row_1.selected > 0) {
+			unowned var attr = CAPTION_ATTRIBUTES[caption_row_1.selected - 1];
 			caption_v.append (app.migration.metadata.get_old_key (attr));
 		}
-		if (caption_second_row.selected > 0) {
+		if (caption_row_2.selected > 0) {
 			if (caption_v.len > 0) {
 				caption_v.append (",");
 			}
-			unowned var attr = CAPTION_ATTRIBUTES[caption_second_row.selected - 1];
+			unowned var attr = CAPTION_ATTRIBUTES[caption_row_2.selected - 1];
+			caption_v.append (app.migration.metadata.get_old_key (attr));
+		}
+		if (caption_row_3.selected > 0) {
+			if (caption_v.len > 0) {
+				caption_v.append (",");
+			}
+			unowned var attr = CAPTION_ATTRIBUTES[caption_row_3.selected - 1];
 			caption_v.append (app.migration.metadata.get_old_key (attr));
 		}
 		settings.set_string (PREF_BROWSER_THUMBNAIL_CAPTION, caption_v.str);
 	}
 
 	[GtkChild] unowned Gtk.Adjustment thumbnail_size_adjustment;
-	[GtkChild] unowned Adw.ComboRow caption_first_row;
-	[GtkChild] unowned Adw.ComboRow caption_second_row;
+	[GtkChild] unowned Adw.ComboRow caption_row_1;
+	[GtkChild] unowned Adw.ComboRow caption_row_2;
+	[GtkChild] unowned Adw.ComboRow caption_row_3;
+	[GtkChild] unowned Gtk.StringList caption_model;
 
 	GLib.Settings settings;
 	bool constructing;

@@ -30,9 +30,16 @@ public class Gth.FileListItem : Gtk.Box {
 		second_label.add_css_class ("dimmed");
 		labels.append (second_label);
 
+		third_label = new Gtk.Inscription ("");
+		third_label.text_overflow = Gtk.InscriptionOverflow.ELLIPSIZE_MIDDLE;
+		third_label.halign = Gtk.Align.START;
+		third_label.add_css_class ("dimmed");
+		labels.append (third_label);
+
 		labels.visible = attributes_v.length > 0;
 		first_label.visible = attributes_v.length > 0;
 		second_label.visible = attributes_v.length > 1;
+		third_label.visible = attributes_v.length > 2;
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
@@ -94,6 +101,9 @@ public class Gth.FileListItem : Gtk.Box {
 		if (attributes_v.length > 1) {
 			second_label.set_text (file_data.get_attribute_as_string (attributes_v[1]));
 		}
+		if (attributes_v.length > 2) {
+			third_label.set_text (file_data.get_attribute_as_string (attributes_v[2]));
+		}
 		thumbnail.bind (file_data);
 	}
 
@@ -104,18 +114,20 @@ public class Gth.FileListItem : Gtk.Box {
 		thumbnail.size = size;
 		first_label.set_size_request (size, -1);
 		second_label.set_size_request (size, -1);
+		third_label.set_size_request (size, -1);
 	}
 
 	public void unbind () {
 		thumbnail.unbind ();
 		first_label.set_text ("");
 		second_label.set_text ("");
-
+		third_label.set_text ("");
 	}
 
 	Gth.Thumbnail thumbnail;
 	Gtk.Inscription first_label;
 	Gtk.Inscription second_label;
+	Gtk.Inscription third_label;
 	int size;
 
 	const int V_SPACING = 6;
