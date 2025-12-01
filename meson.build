@@ -2,7 +2,7 @@ project('gthumb',
   [ 'vala', 'c', 'cpp' ],
   license: 'GPL2+',
   version: '4',
-  meson_version: '>=0.58'
+  meson_version: '>=1.0'
 )
 
 adwaita_version = '>= 1.8.0'
