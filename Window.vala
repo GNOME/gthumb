@@ -186,6 +186,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return jobs.new_job (description, flags, icon_name);
 	}
 
+	void ensure_progress_dialog () {
+		if (progress_dialog == null) {
+			progress_dialog = new ProgressDialog (this);
+			progress_dialog.set_queue (jobs);
+		}
+	}
+
 	bool cancel_jobs () {
 		if (jobs.size () == 0) {
 			return false;
@@ -1071,10 +1078,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				});
 				return;
 			}
-			if (progress_dialog == null) {
-				progress_dialog = new ProgressDialog (this);
-				progress_dialog.set_queue (jobs);
-			}
+			ensure_progress_dialog ();
 			browser.status.set_n_jobs (jobs.size ());
 			viewer.status.set_n_jobs (jobs.size ());
 		});
@@ -1086,6 +1090,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		close_request.connect (() => {
 			if (file_not_saved ()) {
 				save_and_close.begin ();
+				return true;
+			}
+			if (jobs.has_foreground_jobs ()) {
+				ensure_progress_dialog ();
+				progress_dialog.show_dialog (true);
 				return true;
 			}
 			closing = true;

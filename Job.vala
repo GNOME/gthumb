@@ -165,6 +165,15 @@ public class Gth.JobQueue : Object {
 		return queue[0];
 	}
 
+	public bool has_foreground_jobs () {
+		foreach (unowned var job in queue) {
+			if (job.foreground) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void cancel_all () {
 		var local_queue = new GenericArray<Gth.Job>();
 		foreach (unowned var job in queue) {
