@@ -7,6 +7,16 @@ public class Gth.ProgressDialog : Adw.Dialog {
 			presented_by_user = false;
 		});
 		jobs = new GenericList<Job>();
+		sorted_model = new Gtk.SortListModel (jobs.model, new Gtk.CustomSorter ((a, b) => {
+			unowned var job_a = a as Job;
+			unowned var job_b = b as Job;
+			// Show the foreground jobs first.
+			if (job_a.foreground != job_b.foreground) {
+				return job_a.foreground ? -1 : 1;
+			}
+			// Show older jobs first.
+			return (job_a.id < job_b.id) ? -1 : (job_a.id > job_b.id) ? 1 : 0;
+		}));
 		job_list.bind_model (jobs.model, (obj) => {
 			return new ProgressRow (this, obj as Job);
 		});
@@ -124,6 +134,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 	bool presented = false;
 	bool presented_by_user = false;
 	uint show_event = 0;
+	Gtk.SortListModel sorted_model;
 
 	const uint SHOW_DELAY = 500;
 }
