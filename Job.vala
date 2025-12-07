@@ -167,12 +167,14 @@ public class Gth.JobQueue : Object {
 
 	public void cancel_all () {
 		var local_queue = new GenericArray<Gth.Job>();
-		foreach (unowned var item in queue) {
-			local_queue.add (item);
+		foreach (unowned var job in queue) {
+			local_queue.add (job);
 		}
 		while (local_queue.length > 0) {
-			var job = local_queue.steal_index (0);
+			var idx = local_queue.length - 1;
+			var job = local_queue[idx];
 			job.cancel ();
+			local_queue.remove_index (idx);
 		}
 	}
 
