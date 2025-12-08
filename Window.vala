@@ -382,9 +382,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.set_content_type ("image/jpeg");
 			unsaved_file.set_is_modified (true);
 			unsaved_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD, true);
-			// Use this window if the viewer is ImageViewer and the file is
-			// not modified.
-			var window = new Gth.Window ();
+
+			// Use this window if in browser mode
+			Window window = (current_page == Page.BROWSER) ? this : new Gth.Window ();
 			window.viewer.open_unsaved_image.begin (unsaved_file, image);
 			window.present ();
 		}
