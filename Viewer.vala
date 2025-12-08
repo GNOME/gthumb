@@ -62,7 +62,14 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		if (window.browser.never_loaded) {
 			yield window.browser.first_load ();
-			yield window.browser.load_folder (file_data.file.get_parent (), LoadAction.OPEN);
+			flags |= ViewFlags.LOAD_PARENT_DIRECTORY;
+		}
+		var parent = file_data.file.get_parent ();
+		if ((ViewFlags.LOAD_PARENT_DIRECTORY in flags)
+			&& ((window.browser.folder_tree.current_folder == null)
+				|| !window.browser.folder_tree.current_folder.file.equal (parent)))
+		{
+			yield window.browser.load_folder (parent, LoadAction.OPEN);
 		}
 		if (!cancelled) {
 			if (ViewFlags.WITH_NEW_POSITION in flags) {
@@ -88,7 +95,7 @@ public class Gth.Viewer : Gtk.Box {
 		var attributes = window.browser.get_list_attributes ();
 		var info = yield Files.query_info (file, attributes, job.cancellable);
 		var file_data = new FileData (file, info);
-		return yield view_file_async (file_data, ViewFlags.FOCUS, job);
+		return yield view_file_async (file_data, flags, job);
 	}
 
 	public void reload () {

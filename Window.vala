@@ -1020,7 +1020,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				yield browser.open_location_async (file, LoadAction.OPEN, local_job);
 				break;
 			case FileType.REGULAR:
-				yield viewer.open_file_async (file, ViewFlags.FOCUS, local_job);
+				yield viewer.open_file_async (file, ViewFlags.FOCUS | ViewFlags.LOAD_PARENT_DIRECTORY, local_job);
 				break;
 			default:
 				throw new IOError.FAILED (_("File type not supported"));
@@ -1050,7 +1050,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 		else if (state.page == Page.VIEWER) {
 			try {
-				yield viewer.open_file_async (state.file, ViewFlags.DEFAULT, local_job);
+				yield viewer.open_file_async (state.file, ViewFlags.FOCUS, local_job);
 			}
 			catch (Error error) {
 				show_error (error);

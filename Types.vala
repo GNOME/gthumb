@@ -197,6 +197,7 @@ public enum Gth.ViewFlags {
 	FULLSCREEN,
 	FOCUS,
 	WITH_NEW_POSITION,
+	LOAD_PARENT_DIRECTORY,
 }
 
 public enum Gth.ScrollAction {
