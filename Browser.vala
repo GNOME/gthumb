@@ -328,6 +328,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 		var is_selection = file_data.file.has_uri_scheme ("selection");
 		var can_write = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE);
+		var can_rename = file_data.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_RENAME);
 		var is_vfs_folder = (source_type == typeof (FileSourceVfs));
 
 		edit_catalog_button.visible = is_catalog || is_search;
@@ -341,7 +342,7 @@ public class Gth.Browser : Gtk.Box {
 
 		Util.enable_action (window.action_group, "cut-files", can_write);
 		Util.enable_action (window.action_group, "move-files-to", can_write);
-		Util.enable_action (window.action_group, "rename-files", can_write);
+		Util.enable_action (window.action_group, "rename-files", can_rename);
 		Util.enable_action (window.action_group, "duplicate-files", can_write);
 		Util.enable_action (window.action_group, "trash-files", can_write);
 		Util.enable_action (window.action_group, "delete-files-from-disk", can_write);

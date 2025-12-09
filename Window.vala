@@ -440,6 +440,20 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	async void rename_files (GenericList<File> files) {
+		var local_job = new_job (_("Rename"), JobFlags.FOREGROUND);
+		try {
+			var dialog = new Gth.RenameFiles ();
+			yield dialog.rename (this, files, local_job);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
 	public void update_scripts_actions () {
 		ActionList[] menus = {
 			browser.tools_popover.actions,
@@ -922,6 +936,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 					}
 				});
 			}
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("rename-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				return;
+			}
+			rename_files.begin (files);
 		});
 		action_group.add_action (action);
 	}

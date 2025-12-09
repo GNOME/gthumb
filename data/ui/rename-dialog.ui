@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthRenameDialog">
+    <property name="title" translatable="yes">Rename</property>
+    <property name="content_width">700</property>
+    <property name="content_height">710</property>
+  </template>
+</interface>
