@@ -56,6 +56,7 @@ public class Gth.Thumbnailer {
 		save_to_cache = true;
 		file_queue = new Queue<FileData>();
 		job_queue = new GenericArray<ThumbnailJob>();
+		active = true;
 	}
 
 	public Thumbnailer.for_browser (Gth.Browser _browser) {
@@ -113,6 +114,10 @@ public class Gth.Thumbnailer {
 		});
 	}
 
+	public void set_active (bool _active) {
+		active = _active;
+	}
+
 	uint load_event = 0;
 
 	void cancel_load_next () {
@@ -123,6 +128,9 @@ public class Gth.Thumbnailer {
 	}
 
 	void load_next () {
+		if (!active) {
+			return;
+		}
 		if (job_queue.length >= app.thumb_loader.factory.n_workers) {
 			return;
 		}
@@ -375,5 +383,5 @@ public class Gth.Thumbnailer {
 	weak Gth.Window window;
 	Queue<FileData> file_queue;
 	GenericArray<ThumbnailJob> job_queue;
+	bool active;
 }
-

@@ -1098,6 +1098,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return true;
 			}
 			closing = true;
+			browser.stop_thumbnailer ();
 			if (cancel_jobs ()) {
 				return true;
 			}

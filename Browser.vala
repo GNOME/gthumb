@@ -2573,6 +2573,10 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
+	public void stop_thumbnailer () {
+		thumbnailer.set_active (false);
+	}
+
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
 	[GtkChild] public unowned Gth.FilterBar filter_bar;
