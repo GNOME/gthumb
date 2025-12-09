@@ -532,7 +532,7 @@ public class Gth.Application : Adw.Application {
 		foreach (var w in get_windows ()) {
 			if (w is Gth.Window) {
 				var win = w as Gth.Window;
-				if (win != null) {
+				if ((win != null) && !win.closing) {
 					func (win);
 				}
 			}
