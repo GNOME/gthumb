@@ -31,7 +31,7 @@
               <property name="row">0</property>
             </layout>
             <property name="orientation">horizontal</property>
-            <property name="spacing">6</property>
+            <property name="spacing">12</property>
             <property name="valign">center</property>
             <property name="halign">fill</property>
             <property name="hexpand">true</property>
@@ -81,6 +81,30 @@
                 <property name="search-match-mode">substring</property>
               </object>
             </child>
+            <child>
+              <object class="GtkBox" id="enumerator_options">
+                <property name="spacing">6</property>
+                <property name="visible">false</property>
+                <child>
+                  <object class="GtkSpinButton" id="enumerator_digits">
+                    <property name="width-chars">2</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment" id="digits_adj">
+                        <property name="lower">1</property>
+                        <property name="upper">99</property>
+                        <property name="step-increment">1</property>
+                        <property name="value">1</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">digits</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
         <child>
@@ -93,12 +117,31 @@
             <property name="valign">center</property>
             <property name="halign">end</property>
             <property name="spacing">6</property>
+            <property name="margin-start">6</property>
+            <child>
+              <object class="GtkButton">
+                <property name="action-name">row.delete</property>
+                <property name="icon-name">gth-minus-symbolic</property>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="action-name">row.add</property>
+                <property name="icon-name">gth-plus-symbolic</property>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
             <child>
               <object class="GtkMenuButton">
                 <property name="valign">center</property>
-                <property name="margin-start">6</property>
                 <property name="icon-name">view-more-symbolic</property>
                 <property name="menu-model">row-menu</property>
+                <property name="visible">false</property>
                 <style>
                   <class name="flat"/>
                   <class name="circular"/>

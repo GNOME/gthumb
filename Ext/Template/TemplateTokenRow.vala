@@ -10,8 +10,9 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 	public signal void edit_entry (string title, Gtk.Entry entry);
 	public signal void data_changed ();
 
-	public TemplateTokenRow (TemplateToken _token, bool as_icon_content = false) {
+	public TemplateTokenRow (TemplateToken _token, bool _as_icon_content = false) {
 		token = _token;
+		as_icon_content = _as_icon_content;
 		title.label = _(token.code.description);
 		var args = Template.get_token_args (token.value);
 		switch (token.code.type) {
@@ -27,7 +28,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 
 		case TemplateCodeType.TEXT:
 			value.text = token.value;
-			edit_value_box.visible = true;
+			edit_value_box.visible = !as_icon_content;
 			break;
 
 		case TemplateCodeType.QUOTED:
@@ -35,7 +36,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 				value.text = args[0];
 			}
 			value.visible = true;
-			edit_value_box.visible = true;
+			edit_value_box.visible = !as_icon_content;
 			edit_value_button.visible = true;
 			break;
 
@@ -67,7 +68,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 			date_format.notify["selected"].connect (() => {
 				if (date_format.selected == DATE_FORMATS.length) {
 					date_format.visible = false;
-					edit_value_box.visible = true;
+					edit_value_box.visible = !as_icon_content;
 					edit_value_button.visible = true;
 					hide_value_button.visible = true;
 				}
@@ -116,6 +117,25 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 
 			attribute_selector.model = sort_model;
 			attribute_selector.visible = true;
+
+			// Select the ID in args[0] if set.
+			var value_idx = 0u;
+			if ((args != null) && (args[0] != null)) {
+				unowned var id = args[0];
+				for (var i = 0; i < sort_model.get_n_items (); i++) {
+					var item = sort_model.get_object (i) as AttributeItem;
+					if (item.info.id == id) {
+						value_idx = (uint) i;
+						break;
+					}
+				}
+			}
+			attribute_selector.selected = value_idx;
+			break;
+
+		case TemplateCodeType.ENUMERATOR:
+			enumerator_digits.value = (token.value != null) ? token.value.length : 1;
+			enumerator_options.visible = !as_icon_content;
 			break;
 
 		default:
@@ -134,6 +154,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 		drag_source.drag_begin.connect ((_obj, drag) => {
 			var icon_widget = new Gtk.ListBox ();
 			icon_widget.set_size_request (this.get_width (), this.get_height ());
+			token.value = get_value ();
 			icon_widget.append (new TemplateTokenRow (token, true));
 
 			unowned var drag_icon = Gtk.DragIcon.get_for_drag (drag) as Gtk.DragIcon;
@@ -217,7 +238,13 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 		action_group.add_action (action);
 	}
 
-	public string append_value (StringBuilder str) {
+	public string get_value () {
+		var str = new StringBuilder ();
+		append_value (str);
+		return str.str;
+	}
+
+	public void append_value (StringBuilder str) {
 		switch (token.code.type) {
 		case TemplateCodeType.SPACE:
 			str.append_c (' ');
@@ -228,10 +255,10 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 			break;
 
 		case TemplateCodeType.ENUMERATOR:
-			//var digits = enumerator_digits.get_value_as_int ();
-			//for (var i = 0; i < digits; i++) {
-			//	str.append_c ('#');
-			//}
+			var digits = enumerator_digits.get_value_as_int ();
+			for (var i = 0; i < digits; i++) {
+				str.append_c ('#');
+			}
 			break;
 
 		case TemplateCodeType.SIMPLE:
@@ -277,7 +304,6 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 			str.append_printf ("{ %s }", default_value.text);
 			break;
 		}
-		return "";
 	}
 
 	construct {
@@ -286,6 +312,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 		default_value.changed.connect (() => data_changed ());
 		date_format.notify["selected"].connect (() => data_changed ());
 		attribute_selector.notify["selected"].connect (() => data_changed ());
+		enumerator_digits.value_changed.connect (() => data_changed ());
 	}
 
 	[GtkChild] unowned Gtk.Label title;
@@ -298,9 +325,12 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 	[GtkChild] unowned Gtk.DropDown date_format;
 	[GtkChild] unowned Gtk.Button hide_value_button;
 	[GtkChild] unowned Gtk.DropDown attribute_selector;
+	[GtkChild] unowned Gtk.SpinButton enumerator_digits;
+	[GtkChild] unowned Gtk.Box enumerator_options;
 	GenericList<AttributeItem> attributes;
 	int hot_x;
 	int hot_y;
+	bool as_icon_content;
 
 	const string[] DATE_FORMATS = {
 		"%Y-%m-%d--%H.%M.%S",

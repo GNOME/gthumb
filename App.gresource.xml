@@ -75,6 +75,8 @@
     <file preprocess="xml-stripblanks">gth-page-orientation-landscape-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-page-orientation-portrait-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-page-orientation-squared-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-plus-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-minus-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

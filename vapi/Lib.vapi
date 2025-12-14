@@ -22,4 +22,7 @@ namespace Lib {
 
 	[CCode (cname = "_g_file_info_copy_attributes")]
 	public static void copy_file_attributes (FileInfo src, FileInfo dest);
+
+	[CCode (cname = "_g_date_time_to_exif_date")]
+	public static string date_time_to_exif_date (DateTime date_time);
 }

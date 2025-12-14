@@ -56,6 +56,15 @@ public class Gth.GenericList<T> {
 		model.sort (func);
 	}
 
+	public void reverse_order () {
+		var len = (int) model.n_items;
+		for (int i = len - 2; i >= 0; i--) {
+			var obj = model.get_object ((uint) i);
+			model.remove ((uint) i);
+			model.append (obj);
+		}
+	}
+
 	public List<T> to_glist () {
 		List<T> list = new List<T> ();
 		foreach (unowned T item in this) {

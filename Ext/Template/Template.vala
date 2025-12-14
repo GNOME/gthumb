@@ -247,7 +247,7 @@ public class Gth.Template {
 		_for_each_token (template, flags, 0, func);
 	}
 
-	static string _eval (string template, TemplateFlags flags, unichar parent_code, TemplateEvalFunc? func) {
+	public static string eval_with_parent_code (string template, TemplateFlags flags, unichar parent_code, TemplateEvalFunc? func) {
 		var result = new StringBuilder ();
 		var with_enumerator = !(TemplateFlags.NO_ENUMERATOR in flags);
 		var stop = false;
@@ -259,7 +259,7 @@ public class Gth.Template {
 					var args = new GenericArray<string?>();
 					var input_args = Template.get_token_args (token);
 					foreach (unowned var arg in input_args) {
-						args.add (_eval (arg, flags, code, func));
+						args.add (eval_with_parent_code (arg, flags, code, func));
 					}
 					args.add (null);
 					stop = func (flags, parent_code, code, args.data, result);
@@ -284,7 +284,7 @@ public class Gth.Template {
 	}
 
 	public static string eval (string template, TemplateFlags flags, TemplateEvalFunc? func) {
-		return _eval (template, flags, 0, func);
+		return eval_with_parent_code (template, flags, 0, func);
 	}
 
 	public static void append_template_code (StringBuilder str,	unichar code, string[] args) {
@@ -327,7 +327,8 @@ public enum Gth.TemplateFlags {
 	DEFAULT,
 	NO_ENUMERATOR,
 	PREVIEW,
-	PARTIAL;
+	PARTIAL,
+	NO_HIGHLIGHT;
 }
 
 public delegate bool Gth.TemplateForEachFunc (
@@ -344,7 +345,8 @@ public delegate bool Gth.TemplateEvalFunc (
 
 public delegate string Gth.TemplatePreviewFunc (
 	string template,
-	Gth.TemplateFlags flags);
+	Gth.TemplateFlags flags,
+	unichar parent_code);
 
 public enum Gth.TemplateCodeType {
 	SPACE,

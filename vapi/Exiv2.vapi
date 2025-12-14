@@ -8,4 +8,7 @@ namespace Exiv2 {
 	public static Bytes write_metadata_to_buffer (Bytes buffer, FileInfo info, Gth.Image? image_data = null) throws Error;
 	public static Bytes clear_metadata (Bytes buffer) throws Error;
 	public static void update_dimensions (FileInfo info, Gth.Transform transform);
+
+	[CCode (cname = "_ORIGINAL_DATE_TAG_NAMES", array_length = false, array_null_terminated = true)]
+	public string[] ORIGINAL_DATE_TAG_NAMES;
 }

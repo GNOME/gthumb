@@ -771,6 +771,7 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.HistogramView).ensure ();
 		typeof (Gth.AspectRatioGroup).ensure ();
 		typeof (Gth.GridGroup).ensure ();
+		typeof (Gth.RenameTemplatePage).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

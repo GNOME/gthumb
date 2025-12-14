@@ -170,6 +170,14 @@ button.for_statusbar label {
 	border-radius: 9px;
 }
 
+.preferences-page {
+	padding: 12px 24px 0 24px;
+}
+
+.preferences-page > .response-area {
+	padding: 0 24px 24px;
+}
+
 .action-item {
 	padding: 2px;
 }

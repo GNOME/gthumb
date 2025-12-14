@@ -11,7 +11,7 @@ public class Gth.ReadText : Object {
 		title = _title;
 		save_label = _save_label;
 		default_value = null;
-		is_filename = false; // TODO: select the name without the extension
+		is_filename = false;
 		check_func = null;
 		generator = null;
 	}
@@ -92,7 +92,6 @@ public class Gth.EntryDialog : Adw.Dialog {
 
 	public EntryDialog (string _title, string? default_value = null) {
 		title = _title;
-		title_label.label = _title;
 		check_func = null;
 		if (default_value != null) {
 			entry.text = default_value;
@@ -106,6 +105,9 @@ public class Gth.EntryDialog : Adw.Dialog {
 	[GtkCallback]
 	void on_generator_clicked (Gtk.Button button) {
 		try {
+			if (_generator == null) {
+				throw new IOError.FAILED ("No Generator");
+			}
 			entry.text = _generator.generate (entry.text);
 			entry.grab_focus ();
 			Util.select_filename_without_ext (entry);
@@ -138,8 +140,7 @@ public class Gth.EntryDialog : Adw.Dialog {
 		entry.grab_focus ();
 	}
 
-	[GtkChild] public unowned Gtk.Entry entry;
-	[GtkChild] public unowned Gtk.Label title_label;
+	[GtkChild] public unowned Adw.EntryRow entry;
 	[GtkChild] public unowned Gtk.Label error_label;
 	[GtkChild] public unowned Gtk.Button save_button;
 	[GtkChild] public unowned Gtk.Button generator_button;

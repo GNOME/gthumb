@@ -265,3 +265,22 @@ public enum Gth.LoadState {
 	SUCCESS,
 	ERROR,
 }
+
+public enum Gth.TextTransform {
+	NONE,
+	LOWERCASE,
+	UPPERCASE;
+
+	public unowned string to_state () {
+		return STATE[this];
+	}
+
+	public static TextTransform from_state (string? state) {
+		var idx = Util.enum_index (STATE, state);
+		return (TextTransform) idx;
+	}
+
+	const string[] STATE = {
+		"none", "lowercase", "uppercase"
+	};
+}

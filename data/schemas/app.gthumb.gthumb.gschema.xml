@@ -82,4 +82,28 @@
       <default>'kgx --working-directory=%f'</default>
     </key>
   </schema>
+
+  <enum id="app.gthumb.gthumb.GthTextTransform">
+    <value nick="none" value="0"/>
+    <value nick="lowercase" value="1"/>
+    <value nick="uppercase" value="2"/>
+  </enum>
+
+  <schema id="app.gthumb.gthumb.rename" path="/app/gthumb/gthumb/rename/" gettext-domain="gthumb">
+    <key name="template" type="s">
+      <default>'####%E'</default>
+    </key>
+    <key name="first-index" type="i">
+      <default>1</default>
+    </key>
+    <key name="sort-name" type="s">
+      <default>'Private::Unsorted'</default>
+    </key>
+    <key name="reverse-order" type="b">
+      <default>false</default>
+    </key>
+    <key name="text-transform" enum="app.gthumb.gthumb.GthTextTransform">
+      <default>'none'</default>
+    </key>
+  </schema>
 </schemalist>

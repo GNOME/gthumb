@@ -2,7 +2,200 @@
 <interface>
   <template class="GthRenameDialog">
     <property name="title" translatable="yes">Rename</property>
-    <property name="content_width">700</property>
-    <property name="content_height">710</property>
+    <property name="width-request">700</property>
+    <child>
+      <object class="AdwNavigationView" id="main_view">
+        <child>
+          <object class="AdwNavigationPage" id="main_page">
+            <property name="title" translatable="yes">Rename</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar"/>
+                </child>
+                <property name="content">
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">24</property>
+                    <style>
+                      <class name="preferences-page"/>
+                    </style>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="name_group">
+                        <child>
+                          <object class="AdwEntryRow" id="name">
+                            <property name="title" translatable="yes">Name</property>
+                            <child type="suffix">
+                              <object class="GtkButton">
+                                <property name="icon-name">go-next-symbolic</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwButtonRow">
+                            <property name="title" translatable="yes">Edit Template</property>
+                            <property name="visible">false</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="template_group">
+                        <child>
+                          <object class="AdwActionRow" id="template">
+                            <property name="title" translatable="yes">Template</property>
+                            <property name="activatable">true</property>
+                            <signal name="activated" handler="on_activated_template"/>
+                            <child type="suffix">
+                              <object class="GtkLabel" id="template_preview">
+                                <property name="wrap">true</property>
+                                <property name="wrap-mode">char</property>
+                                <property name="use-markup">true</property>
+                              </object>
+                            </child>
+                            <child type="suffix">
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                                <property name="margin-start">12</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSpinRow" id="enumerator_start">
+                            <property name="title" translatable="yes">First Index</property>
+                            <property name="climb-rate">1</property>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="enumerator_limit">
+                                <property name="lower">0</property>
+                                <property name="upper">1000000000</property>
+                                <property name="step-increment">1</property>
+                                <property name="value">1</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwComboRow" id="case_transform">
+                            <property name="title" translatable="yes">Transform</property>
+                            <property name="model">
+                              <object class="GtkStringList">
+                                <items>
+                                  <item translatable="yes">None</item>
+                                  <item translatable="yes">Lowercase</item>
+                                  <item translatable="yes">Uppercase</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="sort_group">
+                        <child>
+                          <object class="AdwComboRow" id="sort_name">
+                            <property name="title" translatable="yes">Sort</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwComboRow" id="sort_direction">
+                            <property name="title" translatable="yes">Direction</property>
+                            <property name="model">
+                              <object class="GtkStringList" id="orders">
+                                <items>
+                                  <item translatable="yes">Ascending</item>
+                                  <item translatable="yes">Descending</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="name_list_group">
+                        <property name="title" translatable="yes">Preview</property>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="vexpand">true</property>
+                            <property name="height-request">300</property>
+                            <style>
+                              <class name="frame"/>
+                              <class name="rounded"/>
+                            </style>
+                            <child>
+                              <object class="GtkColumnView" id="name_list_column_view">
+                                <property name="show-column-separators">true</property>
+                                <property name="show-row-separators">true</property>
+                                <property name="reorderable">false</property>
+                                <style>
+                                  <class name="data-table"/>
+                                  <class name="rounded"/>
+                                </style>
+                                <child>
+                                  <object class="GtkColumnViewColumn" id="old_name_column">
+                                    <property name="title" translatable="yes">Before</property>
+                                    <property name="expand">true</property>
+                                    <property name="resizable">true</property>
+                                    <property name="factory">
+                                      <object class="GtkSignalListItemFactory"></object>
+                                    </property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkColumnViewColumn" id="new_name_column">
+                                    <property name="title" translatable="yes">After</property>
+                                    <property name="expand">true</property>
+                                    <property name="resizable">true</property>
+                                    <property name="factory">
+                                      <object class="GtkSignalListItemFactory"></object>
+                                    </property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="spacing">12</property>
+                        <property name="halign">center</property>
+                        <property name="homogeneous">true</property>
+                        <style>
+                          <class name="response-area"/>
+                        </style>
+                        <child>
+                          <object class="GtkButton" id="save_button">
+                            <property name="label" translatable="yes" context="Verb">_Rename</property>
+                            <property name="use_underline">true</property>
+                            <style>
+                              <class name="suggested-action"/>
+                              <class name="pill"/>
+                            </style>
+                            <signal name="clicked" handler="on_save"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="GthRenameTemplatePage" id="template_page">
+          </object>
+        </child>
+      </object>
+    </child>
   </template>
 </interface>

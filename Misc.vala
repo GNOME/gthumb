@@ -410,6 +410,42 @@ namespace Gth.Util {
 		return null;
 	}
 
+	public static bool push_page (Gtk.Widget widget, Adw.NavigationPage page) {
+		unowned var parent = widget.parent;
+		while (parent != null) {
+			if (parent is Adw.PreferencesDialog) {
+				var dialog = parent as Adw.PreferencesDialog;
+				dialog.push_subpage (page);
+				return true;
+			}
+			if (parent is Adw.NavigationView) {
+				var view = parent as Adw.NavigationView;
+				view.push (page);
+				return true;
+			}
+			parent = parent.parent;
+		}
+		return false;
+	}
+
+	public static bool pop_page (Gtk.Widget widget) {
+		unowned var parent = widget.parent;
+		while (parent != null) {
+			if (parent is Adw.PreferencesDialog) {
+				var dialog = parent as Adw.PreferencesDialog;
+				dialog.pop_subpage ();
+				return true;
+			}
+			if (parent is Adw.NavigationView) {
+				var view = parent as Adw.NavigationView;
+				view.pop ();
+				return true;
+			}
+			parent = parent.parent;
+		}
+		return false;
+	}
+
 	public static uint get_workers (int max_workers = -1) {
 		var n_workers = GLib.get_num_processors () - 1;
 		if (max_workers > 0) {
@@ -420,7 +456,7 @@ namespace Gth.Util {
 		}
 	}
 
-	public static void select_filename_without_ext (Gtk.Entry entry) {
+	public static void select_filename_without_ext (Gtk.Editable entry) {
 		var ext_start = Util.get_extension_start (entry.text);
 		if (ext_start > 1) {
 			entry.select_region (0, entry.text.char_count (ext_start));

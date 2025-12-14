@@ -135,4 +135,16 @@ public class Gth.Strings {
 		}
 		return result.str;
 	}
+
+	public static string? get_number_in_name (string name) {
+		try {
+			var re = new Regex ("[0-9]+");
+			MatchInfo info;
+			re.match (name, 0, out info);
+			return info.matches () ? info.fetch (0) : null;
+		}
+		catch (Error error) {
+			return null;
+		}
+	}
 }

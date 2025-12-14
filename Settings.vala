@@ -10,6 +10,7 @@ const string GTHUMB_WEBP_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.webp";
 const string GTHUMB_AVIF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.avif";
 const string GTHUMB_TIFF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.tiff";
 const string GTHUMB_TERMINAL_SCHEMA = GTHUMB_SCHEMA + ".terminal";
+const string GTHUMB_RENAME_SCHEMA = GTHUMB_SCHEMA + ".rename";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 const string PREF_GENERAL_SHOW_FORMAT_OPTIONS = "show-format-options";
@@ -72,6 +73,12 @@ const string PREF_TIFF_HRESOLUTION = "horizontal-resolution";
 const string PREF_TIFF_VRESOLUTION = "vertical-resolution";
 
 const string PREF_TERMINAL_COMMAND = "command";
+
+const string PREF_RENAME_TEMPLATE = "template";
+const string PREF_RENAME_FIRST_INDEX = "first-index";
+const string PREF_RENAME_SORT_NAME = "sort-name";
+const string PREF_RENAME_REVERSE_ORDER = "reverse-order";
+const string PREF_RENAME_TEXT_TRANSFORM = "text-transform";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {

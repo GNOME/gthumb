@@ -1,7 +1,8 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/template-page.ui")]
 public class Gth.TemplatePage : Adw.NavigationPage {
 	public GenericList<TemplateCodeInfo> allowed_codes;
-	public unowned TemplatePreviewFunc get_preview_func;
+	public unowned TemplatePreviewFunc get_preview_func = null;
+	public unichar parent_code = 0;
 
 	public signal void save ();
 
@@ -100,10 +101,12 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 			add_token (source_row.get_index () + 1);
 		});
 		row.edit_entry.connect ((source_row, title, entry) => {
-			unowned var dialog = Util.get_preferences_dialog (this);
 			var template_page = new TemplatePage ();
 			template_page.title = title;
+			template_page.parent_code = source_row.token.code.code;
+			stdout.printf ("> template_page.parent_code: '%s'\n", template_page.parent_code.to_string ());
 			if (source_row.token.code.type == TemplateCodeType.DATE) {
+				stdout.printf ("> DATE\n");
 				if (date_codes == null) {
 					date_codes = create_date_codes ();
 				}
@@ -117,11 +120,10 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 			template_page.set_template_text (entry.text, flags | TemplateFlags.PARTIAL);
 			template_page.save.connect ((page) => {
 				entry.text = page.get_template ();
-				unowned var local_dialog = Util.get_preferences_dialog (this);
-				local_dialog.pop_subpage ();
+				Util.pop_page (this);
 				changed ();
 			});
-			dialog.push_subpage (template_page);
+			Util.push_page (this, template_page);
 		});
 		row.data_changed.connect (() => changed (true));
 		return row;
@@ -137,19 +139,17 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 	}
 
 	void add_token (int pos = -1) {
-		unowned var dialog = Util.get_preferences_dialog (this);
 		if (code_chooser == null) {
 			code_chooser = new TemplateCodeChooser (this);
 		}
 		code_chooser.pos = (pos == -1) ? (int) template_tokens.length () : pos;
-		dialog.push_subpage (code_chooser);
+		Util.push_page (this, code_chooser);
 	}
 
 	public void add_token_for_code (TemplateCodeInfo code, int pos) {
 		var token = new TemplateToken.with_code (code);
 		template_tokens.model.insert (pos, token);
-		unowned var dialog = Util.get_preferences_dialog (this);
-		dialog.pop_subpage ();
+		Util.pop_page (this);
 		changed ();
 	}
 
@@ -177,7 +177,7 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 
 	void update_preview () {
 		if (get_preview_func != null) {
-			preview.subtitle = get_preview_func (get_template (), flags);
+			preview.subtitle = get_preview_func (get_template (), flags, parent_code);
 		}
 	}
 

@@ -83,8 +83,12 @@ public class Gth.DateTime {
 	}
 
 	public string strftime (string format) {
+		string value = null;
 		var time = to_local_gtime ();
-		return (time != null) ? time.format (format) : "";
+		if (time != null) {
+			value = time.format (format);
+		}
+		return value ?? "";
 	}
 
 	public string to_display_string () {
