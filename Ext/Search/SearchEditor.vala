@@ -64,11 +64,6 @@ class Gth.SearchDialog : Adw.Dialog {
 	}
 
 	[GtkCallback]
-	void on_cancel (Gtk.Button source) {
-		close ();
-	}
-
-	[GtkCallback]
 	private void on_save (Gtk.Button source) {
 		try {
 			rules_group.update_from_options ();
