@@ -123,7 +123,6 @@
     <file preprocess="xml-stripblanks">job-status.ui</file>
     <file preprocess="xml-stripblanks">jpeg-preferences.ui</file>
     <file preprocess="xml-stripblanks">metadata-dialog.ui</file>
-    <file preprocess="xml-stripblanks">metadata-view.ui</file>
     <file preprocess="xml-stripblanks">png-preferences.ui</file>
     <file preprocess="xml-stripblanks">preferences-dialog.ui</file>
     <file preprocess="xml-stripblanks">progress-dialog.ui</file>
