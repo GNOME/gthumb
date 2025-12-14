@@ -383,8 +383,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.set_is_modified (true);
 			unsaved_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD, true);
 
-			// Use this window if in browser mode
-			Window window = (current_page == Page.BROWSER) ? this : new Gth.Window ();
+			// Use this window if in browser mode or in viewer mode and the image was not modified
+			Window window = (current_page == Page.BROWSER) ? this : null;
+			if (window == null) {
+				if ((current_page == Page.VIEWER) && (viewer.current_viewer is ImageViewer)) {
+					if ((viewer.current_file == null) || !viewer.current_file.get_is_modified ()) {
+						window = this;
+					}
+				}
+			}
+			if (window == null) {
+				window = new Gth.Window ();
+			}
 			window.viewer.open_unsaved_image.begin (unsaved_file, image);
 			window.present ();
 		}
