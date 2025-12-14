@@ -46,23 +46,14 @@ public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	[GtkCallback]
 	void on_activated_command (Adw.ActionRow row) {
 		command_page.set_template_text (script.command, TemplateFlags.NO_ENUMERATOR);
-		unowned var dialog = Util.get_preferences_dialog (this);
-		dialog.push_subpage (command_page);
+		Util.push_page (this, command_page);
 	}
 
 	[GtkCallback]
 	private void on_save_command (Gth.TemplatePage source) {
 		script.command = command_page.get_template ();
 		command_preview.label = script.get_preview ();
-		unowned var dialog = Util.get_preferences_dialog (this);
-		dialog.pop_subpage ();
-	}
-
-	construct {
-		command_page.get_preview_func = (template, flags) => {
-			var script_template = new ScriptTemplate (template, flags | TemplateFlags.PREVIEW);
-			return script_template.get_command ();
-		};
+		Util.pop_page (this);
 	}
 
 	[GtkChild] unowned Adw.EntryRow name_entry;

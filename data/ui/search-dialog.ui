@@ -6,36 +6,42 @@
     <child>
       <object class="AdwToolbarView">
         <child type="top">
-          <object class="AdwHeaderBar">
-            <property name="show-start-title-buttons">false</property>
-            <property name="show-end-title-buttons">false</property>
-            <child type="start">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">_Cancel</property>
-                <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_cancel" />
-              </object>
-            </child>
-            <child type="end">
-              <object class="GtkButton">
-                <property name="label" translatable="yes" context="Verb">_Search</property>
-                <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_save" />
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-              </object>
-            </child>
-          </object>
+          <object class="AdwHeaderBar" />
         </child>
         <property name="content">
-          <object class="AdwPreferencesPage">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">24</property>
+            <style>
+              <class name="preferences-page"/>
+            </style>
+            <child>
+              <object class="GthTestExprEditorGroup" id="rules_group">
+              </object>
+            </child>
             <child>
               <object class="GthSearchSourceEditorGroup" id="sources_group">
               </object>
             </child>
             <child>
-              <object class="GthTestExprEditorGroup" id="rules_group">
+              <object class="GtkBox">
+                <property name="spacing">12</property>
+                <property name="halign">center</property>
+                <property name="homogeneous">true</property>
+                <style>
+                  <class name="response-area"/>
+                </style>
+                <child>
+                  <object class="GtkButton" id="save_button">
+                    <property name="label" translatable="yes" context="Verb">_Search</property>
+                    <property name="use_underline">true</property>
+                    <style>
+                      <class name="suggested-action"/>
+                      <class name="pill"/>
+                    </style>
+                    <signal name="clicked" handler="on_save" />
+                  </object>
+                </child>
               </object>
             </child>
           </object>
