@@ -49,7 +49,6 @@
                   <object class="AdwExpanderRow" id="limits_row">
                     <property name="title" translatable="yes">Limited Content</property>
                     <property name="show-enable-switch">true</property>
-
                     <child>
                       <object class="AdwSpinRow">
                         <property name="title" translatable="yes">Max Files</property>
