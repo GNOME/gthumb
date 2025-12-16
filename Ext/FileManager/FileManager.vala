@@ -112,6 +112,16 @@ public class Gth.FileManager {
 		}
 	}
 
+	public async void rename_files (GenericList<RenamedFile> files, Job job) throws Error {
+		var operation = new CopyOperation (window);
+		try {
+			yield operation.rename_files (files, job);
+		}
+		finally {
+			app.monitor.files_renamed (operation.renamed_files);
+		}
+	}
+
 	public static async GenericList<FileData> query_list_info (GenericList<File> files, string attributes, Cancellable cancellable) throws Error {
 		var file_attributes = Util.extract_file_attributes (attributes);
 		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);
@@ -268,11 +278,13 @@ public class Gth.FileManager {
 class Gth.CopyOperation {
 	public GenericList<File> deleted_files;
 	public GenericList<File> created_files;
+	public GenericList<RenamedFile> renamed_files;
 
 	public CopyOperation (Window _window) {
 		window = _window;
 		deleted_files = new GenericList<File> ();
 		created_files = new GenericList<File> ();
+		renamed_files = new GenericList<RenamedFile> ();
 		copied_sources = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		last_made_destination = null;
 		last_overwrite_response = OverwriteResponse.NONE;
@@ -292,7 +304,24 @@ class Gth.CopyOperation {
 		foreach (var file in files) {
 			job.subtitle = file.get_basename ();
 			job.progress = Util.calc_progress (current_file, total_files);
-			yield copy_file (file, destination_dir, CopyFlags.DUPLICATE, job);
+			yield copy_file (file,
+				get_default_destination (file, destination_dir),
+				CopyFlags.DUPLICATE,
+				job);
+			current_file++;
+		}
+	}
+
+	public async void rename_files (GenericList<RenamedFile> files, Job job) throws Error {
+		total_files = files.model.get_n_items ();
+		current_file = 0;
+		foreach (var renamed_file in files) {
+			job.subtitle = renamed_file.old_file.get_basename ();
+			job.progress = Util.calc_progress (current_file, total_files);
+			yield copy_file (renamed_file.old_file,
+				renamed_file.new_file,
+				CopyFlags.RENAME,
+				job);
 			current_file++;
 		}
 	}
@@ -348,7 +377,10 @@ class Gth.CopyOperation {
 						var new_destination_dir = Util.build_destination_dir (file_data.file.get_parent (),
 							source_base_dir, destination_dir);
 						//stdout.printf ("> copy: %s -> %s\n", file_data.file.get_uri (), new_destination_dir.get_uri ());
-						yield copy_file (file_data.file, new_destination_dir, copy_flags, job);
+						yield copy_file (file_data.file,
+							get_default_destination (file_data.file, new_destination_dir),
+							copy_flags,
+							job);
 					}
 					catch (Error error) {
 						// Ignore NOT_FOUND errors when moving files.
@@ -391,13 +423,13 @@ class Gth.CopyOperation {
 		return destination_dir.get_child (source_file.get_basename ());
 	}
 
-	async void copy_file (File source_file, File destination_dir, CopyFlags flags, Job job) throws Error {
+	async void copy_file (File source_file, File default_destination_file, CopyFlags flags, Job job) throws Error {
 		var other_flags = CopyFlags.DEFAULT;
 		if (last_overwrite_response == OverwriteResponse.OVERWRITE_ALL) {
 			other_flags |= CopyFlags.OVERWRITE;
 		}
 		var destination_file = yield copy_file_to_destination (source_file,
-			get_default_destination (source_file, destination_dir),
+			default_destination_file,
 			flags | CopyFlags.ALL_METADATA | CopyFlags.UPDATE_PROGRESS | other_flags,
 			job);
 
@@ -406,9 +438,14 @@ class Gth.CopyOperation {
 			return;
 		}
 
-		created_files.model.append (destination_file);
-		if (CopyFlags.MOVE in flags) {
-			deleted_files.model.append (source_file);
+		if (CopyFlags.RENAME in flags) {
+			renamed_files.model.append (new RenamedFile (source_file, destination_file));
+		}
+		else {
+			created_files.model.append (destination_file);
+			if (CopyFlags.MOVE in flags) {
+				deleted_files.model.append (source_file);
+			}
 		}
 		copied_sources.add (source_file);
 
@@ -450,7 +487,7 @@ class Gth.CopyOperation {
 			if (CopyFlags.ALL_METADATA in flags) {
 				copy_flags |= FileCopyFlags.ALL_METADATA | FileCopyFlags.TARGET_DEFAULT_MODIFIED_TIME;
 			}
-			if (CopyFlags.MOVE in flags) {
+			if ((CopyFlags.MOVE in flags) || (CopyFlags.RENAME in flags)) {
 				yield source_file.move_async (destination_file,
 					copy_flags,
 					Priority.DEFAULT,
@@ -545,6 +582,7 @@ public enum Gth.CopyFlags {
 	IGNORE_ERRORS,
 	MOVE,
 	DUPLICATE,
+	RENAME,
 	ALL_METADATA,
 	UPDATE_PROGRESS,
 }

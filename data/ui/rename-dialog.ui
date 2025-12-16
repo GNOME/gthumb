@@ -21,25 +21,20 @@
                       <class name="preferences-page"/>
                     </style>
                     <child>
-                      <object class="AdwPreferencesGroup" id="name_group">
+                      <object class="AdwToggleGroup" id="strategy_group">
+                        <property name="homogeneous">true</property>
+                        <property name="halign">center</property>
+                        <property name="active-name">template</property>
                         <child>
-                          <object class="AdwEntryRow" id="name">
-                            <property name="title" translatable="yes">Name</property>
-                            <child type="suffix">
-                              <object class="GtkButton">
-                                <property name="icon-name">go-next-symbolic</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                              </object>
-                            </child>
+                          <object class="AdwToggle">
+                            <property name="label" translatable="yes">Name</property>
+                            <property name="name">simple</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwButtonRow">
-                            <property name="title" translatable="yes">Edit Template</property>
-                            <property name="visible">false</property>
+                          <object class="AdwToggle">
+                            <property name="label" translatable="yes">Template</property>
+                            <property name="name">template</property>
                           </object>
                         </child>
                       </object>
@@ -160,6 +155,31 @@
                                 </child>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="name_group">
+                        <child>
+                          <object class="AdwEntryRow" id="name">
+                            <property name="title" translatable="yes">Name</property>
+                            <child type="suffix">
+                              <object class="GtkButton" id="reset_name">
+                                <property name="icon-name">edit-undo-symbolic</property>
+                                <property name="valign">center</property>
+                                <signal name="clicked" handler="on_undo_clicked"/>
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwButtonRow">
+                            <property name="title" translatable="yes">Edit Template</property>
+                            <property name="visible">false</property>
                           </object>
                         </child>
                       </object>

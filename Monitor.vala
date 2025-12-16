@@ -38,6 +38,13 @@ public class Gth.Monitor : Object {
 		});
 	}
 
+	public signal void files_renamed (GenericList<RenamedFile> files) {
+		app.foreach_window ((win) => {
+			// TODO win.browser.files_renamed (files);
+			// TODO win.viewer.files_renamed (files);
+		});
+	}
+
 	public void file_created (File file) {
 		var parent = file.get_parent ();
 		if (parent == null) {

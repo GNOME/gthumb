@@ -48,7 +48,6 @@ public class Gth.RenameTemplate {
 
 	bool eval_template (FileData file_data, Gth.TemplateFlags flags, unichar parent_code, unichar code, string[] args, StringBuilder str) {
 		var preview = TemplateFlags.PREVIEW in flags;
-		var quote_values = false; //!(TemplateFlags.PARTIAL in flags) && (parent_code == 0);
 
 		if ((parent_code == Code.TIMESTAMP)
 			|| (parent_code == Code.CREATION_TIME)
@@ -61,9 +60,13 @@ public class Gth.RenameTemplate {
 				var value = preview_date.format (format);
 				// If the format is not valid show it as literal text.
 				if (value != null) {
-					str.append ("<span foreground=\"#4696f8\">");
+					if (highlight) {
+						str.append ("<span foreground=\"#4696f8\">");
+					}
 					str.append (value);
-					str.append ("</span>");
+					if (highlight) {
+						str.append ("</span>");
+					}
 				}
 				else {
 					str.append (format);
@@ -135,9 +138,6 @@ public class Gth.RenameTemplate {
 			var now = new GLib.DateTime.now_local ();
 			var format = args[0];
 			var timestamp = now.format (format ?? DEFAULT_STRFTIME_FORMAT);
-			if (quote_values) {
-				timestamp = Shell.quote (timestamp);
-			}
 			str.append (timestamp);
 			break;
 

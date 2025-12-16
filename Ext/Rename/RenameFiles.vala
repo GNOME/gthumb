@@ -1,5 +1,5 @@
 public class Gth.RenameFiles : Object {
-	public async void rename (Gth.Window window, GenericList<File> files, Job job) throws Error {
+	public async GenericList<RenamedFile>? rename (Gth.Window window, GenericList<File> files, Job job) throws Error {
 		callback = rename.callback;
 		dialog = new RenameDialog (window, files);
 		dialog.saved.connect (() => {
@@ -29,10 +29,7 @@ public class Gth.RenameFiles : Object {
 		if (!saved) {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
-		var renamed_files = yield dialog.get_renamed_files (job);
-		foreach (var entry in renamed_files) {
-			stdout.printf ("> %s -> %s\n", entry.file_data.get_display_name (), entry.new_name);
-		}
+		return yield dialog.get_renamed_files (job);
 	}
 
 	SourceFunc callback = null;
@@ -48,19 +45,22 @@ public class Gth.RenameDialog : Adw.Window {
 	public RenameDialog (Gth.Window _window, GenericList<File> _files) throws Error {
 		window = _window;
 		files = _files;
-		var single_file = files.length () == 1;
+		single_file = files.length () == 1;
 		if (single_file) {
 			var file = files.first ();
 			var info = file.query_info (FileAttribute.STANDARD_EDIT_NAME, FileQueryInfoFlags.NONE, null);
 			name.text = info.get_edit_name ();
+			strategy_group.active_name = "simple";
 		}
 		name_group.visible = single_file;
 		template_group.visible = !single_file;
+		name_list_group.visible = !single_file;
 		sort_group.visible = !single_file;
-		if (single_file) {
-			Util.after_timeout (200, () => Util.select_filename_without_ext (name));
+		strategy_group.visible = single_file;
+		name_list = new GenericList<RenameEntry> ();
+		if (!single_file) {
+			construct_name_list ();
 		}
-		construct_name_list ();
 
 		// Set values from the settings
 		settings = new GLib.Settings (GTHUMB_RENAME_SCHEMA);
@@ -100,13 +100,53 @@ public class Gth.RenameDialog : Adw.Window {
 			attributes_changed = true;
 			update_file_list ();
 		});
+		if (single_file) {
+			name_changed_id = name.changed.connect (() => update_file_list ());
+			strategy_group.notify["active-name"].connect (() => {
+				if (strategy_group.active_name == "simple") {
+					template_group.visible = false;
+					reset_name.visible = true;
+					focus_name ();
+				}
+				else {
+					template_group.visible = true;
+					reset_name.visible = false;
+				}
+				update_file_list ();
+			});
+		}
 
 		set_template (settings.get_string (PREF_RENAME_TEMPLATE));
+
+		if (single_file) {
+			focus_name ();
+		}
 	}
 
-	public async GenericList<RenameEntry> get_renamed_files (Job job) throws Error {
+	public async GenericList<RenamedFile> get_renamed_files (Job job) throws Error {
+		if (single_file) {
+			var result = new GenericList<RenamedFile> ();
+			var file_data = file_data_list.first ();
+			var old_file = file_data.file;
+			var old_parent = old_file.get_parent ();
+			var new_file = old_parent.get_child_for_display_name (name.text);
+			result.model.append (new RenamedFile (old_file, new_file));
+			return result;
+		}
+
 		yield update_file_data_list (job);
-		return name_list;
+		var result = new GenericList<RenamedFile> ();
+		foreach (unowned var entry in name_list) {
+			try {
+				var old_file = entry.file_data.file;
+				var old_parent = old_file.get_parent ();
+				var new_file = old_parent.get_child_for_display_name (entry.new_name);
+				result.model.append (new RenamedFile (old_file, new_file));
+			}
+			catch (Error error) {
+			}
+		}
+		return result;
 	}
 
 	public void save_preferences () {
@@ -132,7 +172,6 @@ public class Gth.RenameDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_save (Gtk.Button button) {
-		// save_preferences ();
 		saved ();
 	}
 
@@ -140,6 +179,13 @@ public class Gth.RenameDialog : Adw.Window {
 	void on_activated_template (Adw.ActionRow row) {
 		template_page.set_template_text (template_text);
 		main_view.push (template_page);
+	}
+
+	[GtkCallback]
+	void on_undo_clicked (Gtk.Button button) {
+		var file = files.first ();
+		var info = file.query_info (FileAttribute.STANDARD_EDIT_NAME, FileQueryInfoFlags.NONE, null);
+		update_name (info.get_edit_name ());
 	}
 
 	string get_template_attributes () {
@@ -186,7 +232,6 @@ public class Gth.RenameDialog : Adw.Window {
 	}
 
 	void construct_name_list () {
-		name_list = new GenericList<RenameEntry> ();
 		name_list_column_view.model = new Gtk.SingleSelection (name_list.model);
 
 		// Old name
@@ -261,6 +306,14 @@ public class Gth.RenameDialog : Adw.Window {
 
 	void update_entry_list () {
 		name_list.model.remove_all ();
+
+		if (strategy_group.active_name == "simple") {
+			var file_data = file_data_list.first ();
+			var new_name = name.text;
+			name_list.model.append (new RenameEntry (file_data, new_name));
+			return;
+		}
+
 		var rename_template = new RenameTemplate (template_text, TemplateFlags.DEFAULT);
 		rename_template.enumerator_index = (int) enumerator_start.value;
 
@@ -284,7 +337,23 @@ public class Gth.RenameDialog : Adw.Window {
 			}
 			name_list.model.append (new RenameEntry (file_data, new_name));
 			rename_template.enumerator_index++;
+
+			if (single_file) {
+				update_name (new_name);
+				focus_name ();
+			}
 		}
+	}
+
+	void update_name (string value) {
+		SignalHandler.block (name, name_changed_id);
+		name.text = value;
+		SignalHandler.unblock (name, name_changed_id);
+	}
+
+	void focus_name () {
+		name.grab_focus ();
+		Util.select_filename_without_ext (name);
 	}
 
 	Gth.Window window;
@@ -296,6 +365,8 @@ public class Gth.RenameDialog : Adw.Window {
 	string template_text;
 	string template_attributes = null;
 	GLib.Settings settings;
+	bool single_file;
+	ulong name_changed_id;
 
 	[GtkChild] unowned Adw.PreferencesGroup name_group;
 	[GtkChild] unowned Adw.EntryRow name;
@@ -312,6 +383,9 @@ public class Gth.RenameDialog : Adw.Window {
 	[GtkChild] unowned Adw.NavigationView main_view;
 	[GtkChild] unowned Gth.RenameTemplatePage template_page;
 	[GtkChild] unowned Gtk.Label template_preview;
+	[GtkChild] unowned Adw.ToggleGroup strategy_group;
+	[GtkChild] unowned Adw.PreferencesGroup name_list_group;
+	[GtkChild] unowned Gtk.Button reset_name;
 
 	const string REQUIRED_ATTRIBUTES =
 		FileAttribute.STANDARD_TYPE + "," +
@@ -320,7 +394,7 @@ public class Gth.RenameDialog : Adw.Window {
 		FileAttribute.STANDARD_EDIT_NAME;
 }
 
-public class Gth.RenameEntry : Object {
+class Gth.RenameEntry : Object {
 	public FileData file_data;
 	public string new_name;
 

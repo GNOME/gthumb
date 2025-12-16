@@ -454,7 +454,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var local_job = new_job (_("Rename"), JobFlags.FOREGROUND);
 		try {
 			var dialog = new Gth.RenameFiles ();
-			yield dialog.rename (this, files, local_job);
+			var renamed_files = yield dialog.rename (this, files, local_job);
+			yield file_manager.rename_files (renamed_files, local_job);
 		}
 		catch (Error error) {
 			show_error (error);
