@@ -111,6 +111,10 @@ public class Gth.Viewer : Gtk.Box {
 		update_sidebar ();
 		update_title ();
 		update_sensitivity ();
+		position = window.browser.get_file_position (file_data.file);
+		if (position != -1) {
+			status.set_file_position (position);
+		}
 	}
 
 	public async void open_unsaved_image (FileData file_data, Gth.Image image) {

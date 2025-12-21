@@ -3,7 +3,9 @@ public class Gth.PropertySidebar : Gtk.Box {
 	public Gth.FileData current_file {
 		get { return _file; }
 		set {
-			_file = value;
+			if (value != _file) {
+				_file = value;
+			}
 			update_view ();
 		}
 	}
@@ -23,12 +25,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 		var source = new FileSourceVfs ();
 		var result = yield source.read_metadata (file_data.file, "*", cancellable);
 		file_data.update_info (result.info);
-		if (current_file != file_data) {
-			current_file = file_data;
-		}
-		else {
-			update_view ();
-		}
+		current_file = file_data;
 	}
 
 	public void set_selection_info (uint files, uint64 size) {

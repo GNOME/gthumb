@@ -2091,14 +2091,14 @@ public class Gth.Browser : Gtk.Box {
 			local_job.done ();
 		}
 
-		// TODO: Update the viewer
-		// if (window.viewer.current_file != null) {
-		// 	var iter = folder_tree.current_children.iterator ();
-		// 	var viewer_file = iter.find_first_item ((file_data) => file_data.file.equal (window.viewer.current_file.file));
-		// 	if (viewer_file != null) {
-		// 		window.viewer.renamed_file (viewer_file);
-		// 	}
-		// }
+		// Update the viewer
+		if (window.viewer.current_file != null) {
+			var iter = folder_tree.current_children.iterator ();
+			var viewer_file = iter.find_first_item ((file_data) => file_data.file.equal (window.viewer.current_file.file));
+			if (viewer_file != null) {
+				window.viewer.renamed_file (viewer_file);
+			}
+		}
 	}
 
 	async void drop_files (Gdk.FileList file_list) {
