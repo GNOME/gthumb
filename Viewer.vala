@@ -105,6 +105,14 @@ public class Gth.Viewer : Gtk.Box {
 		view_file_async.begin (current_file);
 	}
 
+	public void renamed_file (FileData file_data) {
+		current_file = file_data;
+		property_sidebar.current_file = current_file;
+		update_sidebar ();
+		update_title ();
+		update_sensitivity ();
+	}
+
 	public async void open_unsaved_image (FileData file_data, Gth.Image image) {
 		if (load_job != null) {
 			load_job.cancel ();

@@ -195,4 +195,8 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 	public override bool is_reorderable () {
 		return true;
 	}
+
+	public override async void files_renamed (Window window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
+		yield Catalog.rename_files (location, renamed_files, job);
+	}
 }

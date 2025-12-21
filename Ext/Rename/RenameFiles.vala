@@ -299,7 +299,7 @@ public class Gth.RenameDialog : Adw.Window {
 	}
 
 	async void update_file_data_list (Job job) {
-		file_data_list = yield FileManager.query_list_info (files, template_attributes, job.cancellable);
+		file_data_list = yield FileManager.query_list_info (files, template_attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
 		attributes_changed = false;
 		update_entry_list ();
 	}

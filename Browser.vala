@@ -121,26 +121,12 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
-	async void add_files (GenericList<File> files) {
+	async void add_files (GenericList<File> files, Job job) throws Error {
 		var attributes = get_list_attributes ();
-		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
-			JobFlags.FOREGROUND,
-			"folder-symbolic");
-		foreach (var file in files) {
-			try {
-				var info = yield Files.query_info (file, attributes, local_job.cancellable);
-				var file_data = new FileData (file, info);
-				folder_tree.current_children.model.append (file_data);
-			}
-			catch (Error error) {
-				if (error is IOError.CANCELLED) {
-					break;
-				}
-			}
+		var file_data_list = yield FileManager.query_list_info (files, attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
+		foreach (var file_data in file_data_list) {
+			folder_tree.current_children.model.append (file_data);
 		}
-		local_job.done ();
-		file_filter.after_adding_files ();
-		update_total_files ();
 	}
 
 	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
@@ -732,6 +718,9 @@ public class Gth.Browser : Gtk.Box {
 	Gth.Job sidebar_job = null;
 
 	void update_selection_info () {
+		if (thumbnail_list_frozen) {
+			return;
+		}
 		if (sidebar_job != null) {
 			sidebar_job.cancel ();
 			sidebar_job = null;
@@ -747,8 +736,8 @@ public class Gth.Browser : Gtk.Box {
 			if (file != null) {
 				total_files++;
 				total_size += file.info.get_size ();
-				selected_file = file;
 				if (total_files == 1) {
+					selected_file = file;
 					selected_image = Util.content_type_is_image (file.get_content_type ());
 				}
 			}
@@ -1895,20 +1884,31 @@ public class Gth.Browser : Gtk.Box {
 		}
 		var new_files = new GenericList<File>();
 		foreach (unowned var file in files) {
-			stdout.printf ("> BROWSER: FILE ADDED: %s\n", file.get_uri ());
+			// stdout.printf ("> BROWSER: FILE ADDED: %s\n", file.get_uri ());
 			var iter = folder_tree.current_children.iterator ();
 			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
 			if (pos < 0) {
-				stdout.printf ("> BROWSER: APPEND\n");
+				// stdout.printf ("> BROWSER: APPEND\n");
 				new_files.model.append (file);
 			}
-			else {
-				file_changed (file);
+		}
+		if (new_files.is_empty ()) {
+			return;
+		}
+		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"folder-symbolic");
+		add_files.begin (new_files, local_job, (_obj, res) => {
+			try {
+				add_files.end (res);
+				file_filter.after_adding_files ();
+				update_total_files ();
 			}
-		}
-		if (!new_files.is_empty ()) {
-			add_files.begin (new_files);
-		}
+			catch (Error error) {
+				window.show_error (error);
+			}
+			local_job.done ();
+		});
 	}
 
 	async void update_file (FileData file_data) {
@@ -1921,9 +1921,9 @@ public class Gth.Browser : Gtk.Box {
 			file_data.update_info (info);
 			file_data.remove_thumbnail ();
 			file_filter.after_adding_files ();
-			stdout.printf ("> BROWSER: UPDATE FILE [1]\n");
+			// stdout.printf ("> BROWSER: UPDATE FILE [1]\n");
 			if (file_filter.filter.match (file_data)) {
-				stdout.printf ("> BROWSER: UPDATE FILE [2]\n");
+				// stdout.printf ("> BROWSER: UPDATE FILE [2]\n");
 				thumbnailer.queue_load_next ();
 				thumbnailer.add (file_data);
 			}
@@ -1938,26 +1938,19 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void file_changed (File file) {
-		stdout.printf ("> BROWSER: FILE CHANGED: %s\n", file.get_uri ());
+		// stdout.printf ("> BROWSER: FILE CHANGED: %s\n", file.get_uri ());
 		var iter = folder_tree.current_children.iterator ();
 		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
 		if (file_data != null) {
-			stdout.printf ("> BROWSER: UPDATE FILE\n");
+			// stdout.printf ("> BROWSER: UPDATE FILE\n");
 			update_file.begin (file_data);
 		}
-	}
-
-	public void files_removed (File parent, GenericList<File> files) {
-		if (!folder_tree.current_folder.file.equal (parent)) {
-			return;
-		}
-		files_deleted (files);
 	}
 
 	public void files_deleted (GenericList<File> files) {
 		var removed_files = 0;
 		foreach (unowned var file in files) {
-			stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
+			// stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
 
 			// If the current folder was deleted get its position inside
 			// the folder tree.
@@ -2022,9 +2015,90 @@ public class Gth.Browser : Gtk.Box {
 
 		if (removed_files > 0) {
 			file_filter.after_removing_files ();
+			update_total_files ();
+			update_selection_info ();
 		}
-		update_total_files ();
-		update_selection_info ();
+	}
+
+	public void files_renamed (GenericList<RenamedFile> renamed_files) {
+		var new_files = new GenericList<File>();
+		foreach (unowned var renamed in renamed_files) {
+			// stdout.printf ("> BROWSER: FILE RENAMED: %s -> %s\n", renamed.old_file.get_uri (), renamed.new_file.get_uri ());
+			var iter = folder_tree.current_children.iterator ();
+			var pos = iter.find_first ((file_data) => file_data.file.equal (renamed.old_file));
+			if (pos >= 0) {
+				new_files.model.append (renamed.new_file);
+			}
+		}
+		if (!new_files.is_empty ()) {
+			update_renamed_files.begin (renamed_files, new_files);
+		}
+	}
+
+	async void update_renamed_files (GenericList<RenamedFile> renamed_files, GenericList<File> new_files) {
+		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
+			JobFlags.FOREGROUND,
+			"folder-symbolic");
+		try {
+			// Update the file list.
+			var attributes = get_list_attributes ();
+			var file_data_list = yield window.file_manager.query_list_info (new_files, attributes, QueryListFlags.NOT_RECURSIVE, local_job.cancellable);
+
+			FileData new_sidebar_file = null;
+			var file_data_iter = file_data_list.iterator ();
+			var renamed_iter = renamed_files.iterator ();
+			while (file_data_iter.next () && renamed_iter.next ()) {
+				var file_data = file_data_iter.get ();
+				var renamed = renamed_iter.get ();
+				if (!file_data.file.equal (renamed.new_file)) {
+					// stdout.printf ("> ERROR: %s -> %s\n",
+					// 	file_data.file.get_uri (),
+					// 	renamed.new_file.get_uri ());
+					continue;
+				}
+				var iter = folder_tree.current_children.iterator ();
+				var child_data = iter.find_first_item ((file_data) => file_data.file.equal (renamed.old_file));
+				if (child_data != null) {
+					child_data.set_file (file_data.file);
+					child_data.update_info (file_data.info);
+					child_data.renamed ();
+
+					// Check whether to update the sidebar as well.
+					if ((new_sidebar_file == null) && (property_sidebar.current_file != null)) {
+						if (renamed.old_file.equal (property_sidebar.current_file.file)
+							|| renamed.new_file.equal (property_sidebar.current_file.file))
+						{
+							new_sidebar_file = child_data;
+						}
+					}
+				}
+			}
+			file_filter.reset ();
+			file_sorter.changed (Gtk.SorterChange.DIFFERENT);
+
+			// Update the property sidebar.
+			if (new_sidebar_file != null) {
+				yield property_sidebar.load (new_sidebar_file, local_job.cancellable);
+			}
+
+			// Update the catalog/selection
+			yield folder_tree.current_source.files_renamed (window, folder_tree.current_folder.file, renamed_files, local_job);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+
+		// TODO: Update the viewer
+		// if (window.viewer.current_file != null) {
+		// 	var iter = folder_tree.current_children.iterator ();
+		// 	var viewer_file = iter.find_first_item ((file_data) => file_data.file.equal (window.viewer.current_file.file));
+		// 	if (viewer_file != null) {
+		// 		window.viewer.renamed_file (viewer_file);
+		// 	}
+		// }
 	}
 
 	async void drop_files (Gdk.FileList file_list) {
@@ -2671,18 +2745,15 @@ public class Gth.FileSorter : Gtk.Sorter {
 		changed (Gtk.SorterChange.INVERTED);
 	}
 
-	public int cmp_func (Object a, Object b) {
+	public int cmp_func (Object? a, Object? b) {
 		var result = sort_info.cmp_func ((FileData) a, (FileData) b);
 		return inverse ? -result : result;
 	}
 
 	public override Gtk.Ordering compare (Object? a, Object? b) {
-		var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+		var result = cmp_func (a, b);
 		if (result == 0) {
 			return Gtk.Ordering.EQUAL;
-		}
-		if (inverse) {
-			result = -result;
 		}
 		return (result < 0) ? Gtk.Ordering.SMALLER : Gtk.Ordering.LARGER;
 	}

@@ -192,6 +192,19 @@ public class Gth.Catalog : Object {
 		}
 	}
 
+	public static async void rename_files (File destination, GenericList<RenamedFile> renamed_files, Job job) throws Error {
+		var catalog = yield Catalog.load_from_file (destination, job.cancellable);
+		var changed = false;
+		foreach (unowned var renamed in renamed_files) {
+			if (catalog.rename_file (renamed.old_file, renamed.new_file)) {
+				changed = true;
+			}
+		}
+		if (changed) {
+			yield catalog.save_async (job.cancellable);
+		}
+	}
+
 	public static async void save_order (File location, GenericList<File> files, Job job) throws Error {
 		var catalog = yield Catalog.load_from_file (location, job.cancellable);
 		catalog.sort_type = "Private::Unsorted";
@@ -395,6 +408,36 @@ public class Gth.Catalog : Object {
 		}
 		file_set.remove (file);
 		return true;
+	}
+
+	public bool rename_file (File old_file, File new_file) {
+		var changed = false;
+		int new_pos = -1;
+
+		// Remove the old file
+		if (file_set.contains (old_file)) {
+			uint pos;
+			if (files.find_with_equal_func (old_file, Util.file_equal, out pos)) {
+				files.remove_index (pos);
+				file_set.remove (old_file);
+				new_pos = (int) pos;
+				changed = true;
+			}
+		}
+
+		// Add the new file at the same position
+		if (!file_set.contains (new_file)) {
+			if (new_pos >= 0) {
+				files.insert (new_pos, new_file);
+			}
+			else {
+				files.add (new_file);
+			}
+			file_set.add (new_file);
+			changed = true;
+		}
+
+		return changed;
 	}
 
 	void load_old_format (string text) throws Error {

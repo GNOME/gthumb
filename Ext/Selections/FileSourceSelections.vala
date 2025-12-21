@@ -138,4 +138,12 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 	public override bool is_reorderable () {
 		return true;
 	}
+
+	public override async void files_renamed (Window window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
+		var selection = app.selections.get_selection_from_file (location);
+		if (selection == null) {
+			throw new IOError.FAILED ("Wrong Destination");
+		}
+		selection.files_renamed (renamed_files);
+	}
 }

@@ -69,6 +69,33 @@ public class Gth.Selection {
 		// TODO app.monitor.order_changed (location);
 	}
 
+	public void files_renamed (GenericList<RenamedFile> renamed_files) {
+		foreach (var renamed in renamed_files) {
+			int new_pos = -1;
+
+			// Remove the old file
+			if (file_set.contains (renamed.old_file)) {
+				uint pos;
+				if (files.find_with_equal_func (renamed.old_file, Util.file_equal, out pos)) {
+					files.remove_index (pos);
+					file_set.remove (renamed.old_file);
+					new_pos = (int) pos;
+				}
+			}
+
+			// Add the new file at the same position.
+			if (!file_set.contains (renamed.new_file)) {
+				if (new_pos >= 0) {
+					files.insert (new_pos, renamed.new_file);
+				}
+				else {
+					files.add (renamed.new_file);
+				}
+				file_set.add (renamed.new_file);
+			}
+		}
+	}
+
 	public GenericArray<File> get_files () {
 		var new_files = new GenericArray<File>();
 		foreach (unowned var file in files) {

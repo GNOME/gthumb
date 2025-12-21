@@ -65,8 +65,15 @@ public class Gth.DateTime {
 
 	public void set_from_gdatetime (GLib.DateTime gtime) {
 		var local = gtime.to_local ();
-		date = Gth.Date.from_ymd (local.get_year (), (uint8) local.get_month (), (uint8) local.get_day_of_month ());
-		time = Gth.Time.from_hms ((uint8) local.get_hour (), (uint8) local.get_minute (), (uint8) local.get_second ());
+		date = Gth.Date.from_ymd (
+			local.get_year (),
+			(uint8) local.get_month (),
+			(uint8) local.get_day_of_month ());
+		time = Gth.Time.from_hms (
+			(uint8) local.get_hour (),
+			(uint8) local.get_minute (),
+			(uint8) local.get_second (),
+			(uint) ((local.get_seconds () - local.get_second ()) * 1000000));
 	}
 
 	public GLib.DateTime? to_local_gtime () {
@@ -141,6 +148,12 @@ public class Gth.DateTime {
 				return -1;
 			}
 			else if (time.second > other.time.second) {
+				return 1;
+			}
+			else if (time.usecond < other.time.usecond) {
+				return -1;
+			}
+			else if (time.usecond > other.time.usecond) {
 				return 1;
 			}
 			else {
@@ -340,7 +353,10 @@ public struct Gth.Time {
 	}
 
 	public Time.from_gdatetime (GLib.DateTime datetime) {
-		this.from_hms ((uint8) datetime.get_hour (), (uint8) datetime.get_minute (), (uint8) datetime.get_second ());
+		this.from_hms (
+			(uint8) datetime.get_hour (),
+			(uint8) datetime.get_minute (),
+			(uint8) datetime.get_second ());
 	}
 
 	public Time.parse (string text) {

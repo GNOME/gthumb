@@ -122,7 +122,7 @@ public class Gth.FileManager {
 		}
 	}
 
-	public static async GenericList<FileData> query_list_info (GenericList<File> files, string attributes, Cancellable cancellable) throws Error {
+	public static async GenericList<FileData> query_list_info (GenericList<File> files, string attributes, QueryListFlags flags, Cancellable cancellable) throws Error {
 		var file_attributes = Util.extract_file_attributes (attributes);
 		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);
 		var list = new GenericList<FileData>();
@@ -139,11 +139,16 @@ public class Gth.FileManager {
 				break;
 
 			case FileType.DIRECTORY:
-				yield FileManager.foreach_child (file, ForEachFlags.RECURSIVE, attributes, cancellable, (child, is_parent) => {
-					//stdout.printf ("   append: %s\n", child.file.get_uri ());
-					list.model.append (child);
-					return ForEachAction.CONTINUE;
-				});
+				if (QueryListFlags.NOT_RECURSIVE in flags) {
+					list.model.append (new Gth.FileData (file, info));
+				}
+				else {
+					yield FileManager.foreach_child (file, ForEachFlags.RECURSIVE, attributes, cancellable, (child, is_parent) => {
+						//stdout.printf ("   append: %s\n", child.file.get_uri ());
+						list.model.append (child);
+						return ForEachAction.CONTINUE;
+					});
+				}
 				break;
 
 			default:
@@ -342,7 +347,7 @@ class Gth.CopyOperation {
 		}
 		var attributes = REQUIRED_ATTRIBUTES + "," + FileAttribute.STANDARD_SIZE;
 		var moving = CopyFlags.MOVE in copy_flags;
-		var file_data_list = yield FileManager.query_list_info (files, attributes, job.cancellable);
+		var file_data_list = yield FileManager.query_list_info (files, attributes, QueryListFlags.DEFAULT, job.cancellable);
 		total_bytes = 0;
 		foreach (var file_data in file_data_list) {
 			total_bytes += (uint64) file_data.info.get_size ();
@@ -594,7 +599,7 @@ class Gth.DeleteOperation {
 	}
 
 	public async void delete_files_from_disk (GenericList<File> files, Job job) throws Error {
-		var file_data_list = yield FileManager.query_list_info (files, REQUIRED_ATTRIBUTES, job.cancellable);
+		var file_data_list = yield FileManager.query_list_info (files, REQUIRED_ATTRIBUTES, QueryListFlags.DEFAULT, job.cancellable);
 		var deleted_files = new GenericList<File>();
 		var deleted_directories = new GenericList<File>();
 		try {

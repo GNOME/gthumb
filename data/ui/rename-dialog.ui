@@ -3,6 +3,7 @@
   <template class="GthRenameDialog">
     <property name="title" translatable="yes">Rename</property>
     <property name="width-request">700</property>
+    <property name="default-widget">save_button</property>
     <child>
       <object class="AdwNavigationView" id="main_view">
         <child>
@@ -164,6 +165,7 @@
                         <child>
                           <object class="AdwEntryRow" id="name">
                             <property name="title" translatable="yes">Name</property>
+                            <property name="activates-default">true</property>
                             <child type="suffix">
                               <object class="GtkButton" id="reset_name">
                                 <property name="icon-name">edit-undo-symbolic</property>

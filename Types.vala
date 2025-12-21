@@ -284,3 +284,9 @@ public enum Gth.TextTransform {
 		"none", "lowercase", "uppercase"
 	};
 }
+
+[Flags]
+public enum Gth.QueryListFlags {
+	DEFAULT = 0,
+	NOT_RECURSIVE,
+}

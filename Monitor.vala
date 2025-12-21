@@ -26,8 +26,10 @@ public class Gth.Monitor : Object {
 
 	public signal void files_removed (File parent, GenericList<File> files) {
 		app.foreach_window ((win) => {
-			win.browser.files_removed (parent, files);
-			win.viewer.files_deleted (files);
+			if (!win.browser.folder_tree.current_folder.file.equal (parent)) {
+				win.browser.files_deleted (files);
+				win.viewer.files_deleted (files);
+			}
 		});
 	}
 
@@ -40,8 +42,7 @@ public class Gth.Monitor : Object {
 
 	public signal void files_renamed (GenericList<RenamedFile> files) {
 		app.foreach_window ((win) => {
-			// TODO win.browser.files_renamed (files);
-			// TODO win.viewer.files_renamed (files);
+			win.browser.files_renamed (files);
 		});
 	}
 

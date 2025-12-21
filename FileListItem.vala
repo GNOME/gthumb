@@ -90,23 +90,6 @@ public class Gth.FileListItem : Gtk.Box {
 		add_controller (drag_source);
 	}
 
-	public void bind (FileData _file_data) {
-		file_data = _file_data;
-		if (size != browser.thumbnail_size) {
-			set_size (browser.thumbnail_size);
-		}
-		if (attributes_v.length > 0) {
-			first_label.set_text (file_data.get_attribute_as_string (attributes_v[0]));
-		}
-		if (attributes_v.length > 1) {
-			second_label.set_text (file_data.get_attribute_as_string (attributes_v[1]));
-		}
-		if (attributes_v.length > 2) {
-			third_label.set_text (file_data.get_attribute_as_string (attributes_v[2]));
-		}
-		thumbnail.bind (file_data);
-	}
-
 	public void set_size (int _size) {
 		if (_size == size)
 			return;
@@ -117,11 +100,37 @@ public class Gth.FileListItem : Gtk.Box {
 		third_label.set_size_request (size, -1);
 	}
 
+	public void bind (FileData _file_data) {
+		file_data = _file_data;
+		if (size != browser.thumbnail_size) {
+			set_size (browser.thumbnail_size);
+		}
+
+		update_attributes ();
+		file_renamed_id = file_data.renamed.connect (() => {
+			update_attributes ();
+		});
+		thumbnail.bind (file_data);
+	}
+
 	public void unbind () {
 		thumbnail.unbind ();
+		file_data.disconnect (file_renamed_id);
 		first_label.set_text ("");
 		second_label.set_text ("");
 		third_label.set_text ("");
+	}
+
+	void update_attributes () {
+		if (attributes_v.length > 0) {
+			first_label.set_text (file_data.get_attribute_as_string (attributes_v[0]));
+		}
+		if (attributes_v.length > 1) {
+			second_label.set_text (file_data.get_attribute_as_string (attributes_v[1]));
+		}
+		if (attributes_v.length > 2) {
+			third_label.set_text (file_data.get_attribute_as_string (attributes_v[2]));
+		}
 	}
 
 	Gth.Thumbnail thumbnail;
@@ -129,6 +138,7 @@ public class Gth.FileListItem : Gtk.Box {
 	Gtk.Inscription second_label;
 	Gtk.Inscription third_label;
 	int size;
+	ulong file_renamed_id;
 
 	const int V_SPACING = 6;
 }

@@ -74,7 +74,7 @@ public class Gth.Script : Object {
 		var local_job = window.new_job (display_name, JobFlags.FOREGROUND, "gth-script-symbolic");
 		try {
 			var attributes = get_requested_attributes ();
-			var file_data_list = yield FileManager.query_list_info (files, attributes, local_job.cancellable);
+			var file_data_list = yield FileManager.query_list_info (files, attributes, QueryListFlags.NOT_RECURSIVE, local_job.cancellable);
 			if (for_each_file) {
 				var total = file_data_list.model.n_items;
 				var iter = file_data_list.iterator ();
