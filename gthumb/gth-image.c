@@ -481,6 +481,8 @@ gth_image_get_original_profile_name (GthImage *image)
 /* -- gth_image_apply_icc_profile -- */
 
 
+#if HAVE_LCMS2
+
 static gboolean
 gth_image_apply_tranform (GthImage *image,
 			  GthICCTransform *transform,
@@ -512,6 +514,8 @@ gth_image_apply_tranform (GthImage *image,
 
 	return applied;
 }
+
+#endif
 
 
 gboolean

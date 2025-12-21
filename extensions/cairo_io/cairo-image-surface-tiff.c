@@ -259,6 +259,7 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 				orientation = exif_orientation;
 			}
 
+#if HAVE_LCMS2
 			uint16_t colorspace;
 			if ((profile == NULL) && (TIFFGetField (tif, EXIFTAG_COLORSPACE, &colorspace) == 1)) {
 				//g_print ("> colorspace: %u\n", colorspace);
@@ -266,6 +267,7 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 					profile = gth_icc_profile_new_srgb ();
 				}
 			}
+#endif
 		}
 	}
 
