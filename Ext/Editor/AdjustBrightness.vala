@@ -11,7 +11,7 @@ public class Gth.AdjustBrightness : ImageTool {
 		window.editor.set_content (image_view);
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
-		amount_changed_id = amount_adjustment.value_changed.connect (() => {
+		amount_changed_id = amount_adjustment.value_changed.connect ((local_adj) => {
 			if (method == Method.CURVE) {
 				var operation = operations[method] as BrightnessCurve;
 				operation.amount = amount_adjustment.value;
@@ -21,6 +21,17 @@ public class Gth.AdjustBrightness : ImageTool {
 				var operation = operations[method] as Operation;
 				operation.amount = amount_adjustment.value;
 				queue_update_preview ();
+			}
+		});
+
+		amount_label = builder.get_object ("amount_label") as Gtk.Label;
+		amount_adjustment.value_changed.connect ((local_adj) => {
+			if (method == Method.CURVE) {
+				var int_value = (int) Math.round (local_adj.value);
+				amount_label.label = "%d".printf (int_value);
+			}
+			else {
+				amount_label.label = "%.2f".printf (local_adj.value);
 			}
 		});
 
@@ -140,30 +151,18 @@ public class Gth.AdjustBrightness : ImageTool {
 		method = _method;
 		if (method == Method.GAMMA) {
 			var operation = operations[method] as Operation;
-			var scale = builder.get_object ("amount_scale") as Gtk.Scale;
-			scale.digits = 2;
-			scale.clear_marks ();
-			// scale.add_mark (gamma_to_adj (0.005), Gtk.PositionType.BOTTOM, null);
-			// scale.add_mark (gamma_to_adj (0.015), Gtk.PositionType.BOTTOM, null);
-			// scale.add_mark (gamma_to_adj (0.025), Gtk.PositionType.BOTTOM, null);
 			SignalHandler.block (amount_adjustment, amount_changed_id);
 			amount_adjustment.configure (operation.amount, MIN_GAMMA, MAX_GAMMA, 0.1, 0.1, 0);
 			SignalHandler.unblock (amount_adjustment, amount_changed_id);
 		}
 		else if (method == Method.LINEAR) {
 			var operation = operations[method] as Operation;
-			var scale = builder.get_object ("amount_scale") as Gtk.Scale;
-			scale.digits = 2;
-			scale.clear_marks ();
 			SignalHandler.block (amount_adjustment, amount_changed_id);
 			amount_adjustment.configure (operation.amount, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
 			SignalHandler.unblock (amount_adjustment, amount_changed_id);
 		}
 		else if (method == Method.CURVE) {
 			var operation = operations[method] as BrightnessCurve;
-			var scale = builder.get_object ("amount_scale") as Gtk.Scale;
-			scale.digits = 0;
-			scale.clear_marks ();
 			SignalHandler.block (amount_adjustment, amount_changed_id);
 			amount_adjustment.configure (operation.amount, MIN_CURVE, MAX_CURVE, 1, 5, 0);
 			SignalHandler.unblock (amount_adjustment, amount_changed_id);
@@ -190,6 +189,7 @@ public class Gth.AdjustBrightness : ImageTool {
 	Method method;
 	SimpleActionGroup action_group;
 	unowned Gtk.Adjustment amount_adjustment;
+	unowned Gtk.Label amount_label;
 	ulong amount_changed_id = 0;
 
 	const double MIN_GAMMA = 0;

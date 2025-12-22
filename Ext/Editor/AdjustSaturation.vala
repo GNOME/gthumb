@@ -18,6 +18,12 @@ public class Gth.AdjustSaturation : ImageTool {
 			}
 		});
 
+		amount_label = builder.get_object ("amount_label") as Gtk.Label;
+		amount_adjustment.value_changed.connect ((local_adj) => {
+			var int_value = (int) Math.round (local_adj.value);
+			amount_label.label = (int_value == 0) ? "0" : "%+d".printf (int_value);
+		});
+
 		var reset_button = builder.get_object ("reset_button") as Gtk.Button;
 		reset_button.clicked.connect (() => {
 			if (operation != null) {
@@ -131,6 +137,7 @@ public class Gth.AdjustSaturation : ImageTool {
 	Operation operation;
 	SimpleActionGroup action_group;
 	unowned Gtk.Adjustment amount_adjustment;
+	unowned Gtk.Label amount_label;
 	ulong amount_changed_id = 0;
 	double amount;
 

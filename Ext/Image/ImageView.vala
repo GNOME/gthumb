@@ -455,7 +455,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	unowned Cairo.Pattern get_transparency_pattern () {
 		if (transparency_pattern == null) {
-			transparency_pattern = Util.build_transparency_pattern (TRANSP_PATTERN_SIZE);
+			transparency_pattern = Color.build_transparency_pattern (TRANSP_PATTERN_SIZE);
 		}
 		return transparency_pattern;
 	}

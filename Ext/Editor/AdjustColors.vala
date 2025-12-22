@@ -15,12 +15,18 @@ public class Gth.AdjustColors : ImageTool {
 			operation.update_points ();
 			queue_update_preview ();
 		});
+		red_adjustment.value_changed.connect ((local_adj) => {
+			update_label ("red_label", local_adj.value);
+		});
 
 		green_adjustment = builder.get_object ("green_adjustment") as Gtk.Adjustment;
 		green_changed_id = green_adjustment.value_changed.connect ((local_adj) => {
 			operation.green_amount = adj_to_amount (local_adj.value);
 			operation.update_points ();
 			queue_update_preview ();
+		});
+		green_adjustment.value_changed.connect ((local_adj) => {
+			update_label ("green_label", local_adj.value);
 		});
 
 		blue_adjustment = builder.get_object ("blue_adjustment") as Gtk.Adjustment;
@@ -29,12 +35,18 @@ public class Gth.AdjustColors : ImageTool {
 			operation.update_points ();
 			queue_update_preview ();
 		});
+		blue_adjustment.value_changed.connect ((local_adj) => {
+			update_label ("blue_label", local_adj.value);
+		});
 
 		value_adjustment = builder.get_object ("value_adjustment") as Gtk.Adjustment;
 		value_changed_id = value_adjustment.value_changed.connect ((local_adj) => {
 			operation.value_amount = adj_to_amount (local_adj.value);
 			operation.update_points ();
 			queue_update_preview ();
+		});
+		value_adjustment.value_changed.connect ((local_adj) => {
+			update_label ("value_label", local_adj.value);
 		});
 
 		unowned var reset_button = builder.get_object ("reset_button") as Gtk.Button;
@@ -81,6 +93,7 @@ public class Gth.AdjustColors : ImageTool {
 		operation.green_amount = 0;
 		operation.blue_amount = 0;
 		operation.value_amount = 0;
+		operation.update_points ();
 		update_preview ();
 	}
 
@@ -118,6 +131,12 @@ public class Gth.AdjustColors : ImageTool {
 
 	double amount_to_adj (double value) {
 		return value * 100.0;
+	}
+
+	void update_label (string name, double value) {
+		var label = builder.get_object (name) as Gtk.Label;
+		var int_value = (int) Math.round (value);
+		label.label = (int_value == 0) ? "" : "%+d".printf (int_value);
 	}
 
 	construct {

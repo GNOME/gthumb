@@ -66,30 +66,8 @@ public class Gth.ColorPreview : Gtk.Widget {
 
 	Cairo.Pattern get_transparency_pattern () {
 		if (transparency_pattern == null) {
-			transparency_pattern = build_transparency_pattern (TRANSP_PATTERN_SIZE);
+			transparency_pattern = Color.build_transparency_pattern (TRANSP_PATTERN_SIZE);
 		}
-		return transparency_pattern;
-	}
-
-	public static Cairo.Pattern build_transparency_pattern (int half_size) {
-		var size = half_size * 2;
-		var surface = new Cairo.ImageSurface (Cairo.Format.RGB24, size, size);
-		var ctx = new Cairo.Context (surface);
-
-		ctx.set_source_rgba (0.66, 0.66, 0.66, 1.0);
-		ctx.rectangle (0, 0, half_size, half_size);
-		ctx.fill ();
-		ctx.rectangle (half_size, half_size, half_size, half_size);
-		ctx.fill ();
-
-		ctx.set_source_rgba (0.33, 0.33, 0.33, 1.0);
-		ctx.rectangle (half_size, 0, half_size, half_size);
-		ctx.fill ();
-		ctx.rectangle (0, half_size, half_size, half_size);
-		ctx.fill ();
-
-		var transparency_pattern = new Cairo.Pattern.for_surface (surface);
-		transparency_pattern.set_extend (Cairo.Extend.REPEAT);
 		return transparency_pattern;
 	}
 
