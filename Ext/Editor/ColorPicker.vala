@@ -76,7 +76,7 @@ public class Gth.ColorPicker : ImageTool {
 			}
 		});
 		image_view.add_controller (click_events);
-		image_view.cursor = new Gdk.Cursor.from_name ("crosshair", null);
+		image_view.cursor = new Gdk.Cursor.from_name ("cell", null);
 
 		show_color_at (1, 1);
 	}
