@@ -3,7 +3,6 @@
   <object class="AdwPreferencesPage" id="options">
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="title" translatable="yes">Dimensions</property>
         <child>
           <object class="AdwSpinRow" id="width">
             <property name="title" translatable="yes">Width</property>
@@ -19,7 +18,6 @@
             <property name="title" translatable="yes">Unit</property>
             <child type="suffix">
               <object class="AdwToggleGroup" id="unit_group">
-                <property name="active-name">percent</property>
                 <property name="valign">center</property>
                 <child>
                   <object class="AdwToggle">
@@ -40,15 +38,49 @@
       </object>
     </child>
     <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Aspect Ratio</property>
+        <child>
+          <object class="AdwActionRow" id="aspect_ratio_button">
+            <property name="activatable">true</property>
+            <child type="suffix">
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+                <property name="margin-start">12</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
       <object class="AdwPreferencesGroup" id="special_size_group">
         <property name="separate-rows">true</property>
       </object>
     </child>
-    <child>
-      <object class="GthAspectRatioGroup" id="aspect_ratio_group">
-      </object>
-    </child>
   </object>
   <object class="GthImageView" id="image_view">
+  </object>
+  <object class="AdwNavigationPage" id="aspect_ratio_page">
+    <property name="title" translatable="yes">Aspect Ratio</property>
+    <style>
+      <class name="tool-options"/>
+    </style>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="GthAspectRatioGroup" id="aspect_ratio_group">
+                <property name="show-title">false</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
   </object>
 </interface>

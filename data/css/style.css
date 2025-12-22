@@ -295,3 +295,8 @@ toast {
 .button-label {
 	font-weight: bold;
 }
+
+.tool-options {
+	margin-left: 6px;
+	margin-right: 6px;
+}

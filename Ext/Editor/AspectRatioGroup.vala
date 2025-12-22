@@ -2,7 +2,15 @@
 public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 	public signal void changed (bool after_rotation);
 
-	public float ratio { get; set; default = 1; }
+	public float ratio { get; set; default = 0; }
+
+	public string description { get { return get_ratio_description (); } }
+
+	public bool show_title {
+		set {
+			title = value ? _("Aspect Ratio") : "";
+		}
+	}
 
 	public void activate (Gtk.Window window, Gth.Image original, bool activate_image_ratio = false) {
 		entry.icon_release.connect (() => {
@@ -19,9 +27,11 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		});
 
 		ratios = {};
+		descriptions = {};
 		uint pos = 0;
 
 		ratios += 0;
+		descriptions += _("Disabled");
 		ratio_list.insert (new_ratio_row (_("Disabled"), pos), (int) pos);
 		pos++;
 
@@ -31,19 +41,21 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		for (var i = 0; i < n_monitors; i++) {
 			var monitor = monitors.get_item (i) as Gdk.Monitor;
 			var geometry = monitor.geometry;
-			var ratio = (float) geometry.width / geometry.height;
-			ratios += ratio;
-			var description = "%u:%u".printf ((uint) geometry.width, (uint) geometry.height);
-			ratio_list.insert (new_ratio_row (_("Screen"), pos, description), (int) pos);
+			ratios += (float) geometry.width / geometry.height;
+			descriptions += _("Screen");
+			var _description = "%u:%u".printf ((uint) geometry.width, (uint) geometry.height);
+			ratio_list.insert (new_ratio_row (_("Screen"), pos, _description), (int) pos);
 			pos++;
 		}
 
 		ratios += (float) original.width / original.height;
+		descriptions += _("Image");
 		ratio_list.insert (new_ratio_row (_("Image"), pos, "%u:%u".printf (original.width, original.height)), (int) pos);
 		image_pos = pos;
 		pos++;
 
 		ratios += 1;
+		descriptions += _("Square");
 		ratio_list.insert (new_ratio_row (_("Square"), pos, "1:1"), (int) pos);
 		pos++;
 
@@ -51,8 +63,10 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 
 		var ratio_names = new Gtk.StringList (null);
 		foreach (var other in OTHER_RATIOS) {
-			ratio_names.append ("%d:%d".printf ((int) other.width, (int) other.height));
+			var name = "%d:%d".printf ((int) other.width, (int) other.height);
+			ratio_names.append (name);
 			ratios += (float) other.width / other.height;
+			descriptions += name;
 		}
 
 		ratio_names.append (_("Other…"));
@@ -83,25 +97,26 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 	}
 
 	public void disable_ratio () {
-		Util.set_state (action_group, "aspect-ratio", new Variant.string ("%d".printf (0)));
+		action_group.activate_action ("aspect-ratio", new Variant.string ("0"));
 	}
 
 	public void set_image_ratio () {
-		Util.set_state (action_group, "aspect-ratio", new Variant.string ("%u".printf (image_pos)));
+		rotated.active = false;
+		action_group.activate_action ("aspect-ratio", new Variant.string ("%u".printf (image_pos)));
 	}
 
 	uint entry_index () {
 		return ratios.length - 1;
 	}
 
-	Gtk.Widget new_ratio_row (string name, uint idx, string? description = null) {
+	Gtk.Widget new_ratio_row (string name, uint idx, string? _description = null) {
 		var row = new Adw.ActionRow ();
 		var check_button = new Gtk.CheckButton ();
-		check_button.action_name = "aspect_ratio_group.aspect-ratio";
+		check_button.action_name = "aspect-ratio-group.aspect-ratio";
 		check_button.action_target = "%u".printf (idx);
 		row.add_prefix (check_button);
-		if (description != null) {
-			var label = new Gtk.Label (description);
+		if (_description != null) {
+			var label = new Gtk.Label (_description);
 			label.add_css_class ("dimmed");
 			row.add_suffix (label);
 		}
@@ -111,19 +126,22 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		return row;
 	}
 
-	uint update_ratio (bool after_rotation = false) {
+	uint get_selected_ratio_index () {
 		var ratio_state = action_group.get_action_state ("aspect-ratio");
 		var value = ratio_state.get_string ();
-
-		uint idx = 0;
+		var idx = 0u;
 		if (value == "other") {
 			idx = other_list.selected + fixed_ratios;
 		}
 		else {
 			idx = uint.parse (value, 10);
 		}
+		return idx;
+	}
 
+	uint update_ratio (bool after_rotation = false) {
 		var new_ratio = 0f;
+		var idx = get_selected_ratio_index ();
 		if (idx == entry_index ()) {
 			if (Strings.empty (entry.text)) {
 				entry.text = "%.2f".printf (ratio);
@@ -138,12 +156,39 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		}
 		rotated.sensitive = (new_ratio != 0);
 		ratio = new_ratio;
+		_description = null;
 		changed (after_rotation);
 		return idx;
 	}
 
+	unowned string get_ratio_description () {
+		if (_description == null) {
+			var idx = get_selected_ratio_index ();
+			if (idx == entry_index ()) {
+				_description = "%.2f".printf (ratio);
+			}
+			else {
+				_description = descriptions[idx];
+				if (rotated.active) {
+					if (idx >= fixed_ratios) {
+						var other = OTHER_RATIOS[idx - fixed_ratios];
+						_description = "%d:%d".printf ((int) other.height, (int) other.width);
+					}
+					else {
+						_description = _("%s (Rotated)").printf (descriptions[idx]);
+					}
+				}
+				else {
+					_description = descriptions[idx];
+				}
+			}
+		}
+		return _description;
+	}
+
 	construct {
 		action_group = new SimpleActionGroup ();
+
 		var action = new SimpleAction.stateful ("aspect-ratio", VariantType.STRING, new Variant.string ("0"));
 		action.activate.connect ((_action, param) => {
 			_action.set_state (param.get_string ());
@@ -151,13 +196,15 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		});
 		action_group.add_action (action);
 
-		insert_action_group ("aspect_ratio_group", action_group);
+		insert_action_group ("aspect-ratio-group", action_group);
 	}
 
 	SimpleActionGroup action_group;
 	float[] ratios;
+	string[] descriptions;
 	uint fixed_ratios;
 	uint image_pos;
+	string _description = null;
 	[GtkChild] Gtk.ListBox ratio_list;
 	[GtkChild] Gtk.Entry entry;
 	[GtkChild] Adw.SwitchRow rotated;

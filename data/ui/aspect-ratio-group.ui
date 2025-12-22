@@ -15,7 +15,7 @@
             <property name="activatable_widget">other</property>
             <child type="prefix">
               <object class="GtkCheckButton" id="other">
-                <property name="action-name">aspect_ratio_group.aspect-ratio</property>
+                <property name="action-name">aspect-ratio-group.aspect-ratio</property>
                 <property name="action-target">'other'</property>
               </object>
             </child>
