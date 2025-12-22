@@ -28,7 +28,6 @@ public class Gth.AdjustSaturation : ImageTool {
 		reset_button.clicked.connect (() => {
 			if (operation != null) {
 				amount = 0.0;
-				Util.set_state (action_group, "aspect-ratio", new Variant.string ("brightness"));
 				queue_update_preview ();
 			}
 		});
