@@ -102,6 +102,9 @@
   </object>
   <object class="AdwNavigationPage" id="more_options_page">
     <property name="title">Options</property>
+    <style>
+      <class name="tool-options"/>
+    </style>
     <property name="child">
       <object class="AdwToolbarView">
         <child type="top">
