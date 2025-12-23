@@ -41,13 +41,12 @@
 #define PACK_RGBA(red, green, blue, alpha) \
 	((guint32) (((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue)))
 
-#define PIXEL_MULTIPLY_ALPHA(r, p, a) \
-	temp = ((a) * (p)) + 0x80; \
-	r = ((temp + (temp >> 8)) >> 8);
+#define PIXEL_MULTIPLY_ALPHA(result, pixel, alpha) \
+	temp = ((alpha) * (pixel)) + 0x80; \
+	result = ((temp + (temp >> 8)) >> 8);
 
-#define PIXEL_OVER(b, f, a) \
-	temp = ((a) * (b)) + 0x80; \
-	b = f + ((temp + (temp >> 8)) >> 8);
+#define PIXEL_OVER(result, bg, fg, alpha) \
+	result = PIXEL_CLAMP(bg * (1 - alpha) + fg * alpha);
 
 #define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
 	G_STMT_START { \

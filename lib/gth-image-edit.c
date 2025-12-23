@@ -1,6 +1,9 @@
 #include <config.h>
 #include <math.h>
+#include "lib/gth-curve.h"
+#include "lib/gth-histogram.h"
 #include "lib/gth-image.h"
+#include "lib/gth-point.h"
 #include "lib/types.h"
 #include "lib/util.h"
 
@@ -57,6 +60,11 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	}
 }
 
+// f is aleady alpha multiplied
+#define RENDER_BLEND(b, f, a) \
+	temp = ((a) * (b)) + 0x80; \
+	b = f + ((temp + (temp >> 8)) >> 8);
+
 void gth_image_render_frame (GthImage *canvas, GthImage *background,
 	guint32 background_color, GthImage *foreground, guint foreground_x,
 	guint foreground_y, gboolean blend)
@@ -107,7 +115,14 @@ void gth_image_render_frame (GthImage *canvas, GthImage *background,
 				&& (j < foreground_x + foreground_width))
 			{
 				if (blend) {
-					pixel_over ((uint8_t*) pixel_p, (uint8_t*) foreground_pixel_p);
+					guint temp;
+					uint8_t *background = (uint8_t*) pixel_p;
+					uint8_t *foreground = (uint8_t*) foreground_pixel_p;
+					uint8_t alpha_comp = 0xFF - foreground[PIXEL_ALPHA];
+					RENDER_BLEND(background[PIXEL_RED], foreground[PIXEL_RED], alpha_comp);
+					RENDER_BLEND(background[PIXEL_GREEN], foreground[PIXEL_GREEN], alpha_comp);
+					RENDER_BLEND(background[PIXEL_BLUE], foreground[PIXEL_BLUE], alpha_comp);
+					RENDER_BLEND(background[PIXEL_ALPHA], foreground[PIXEL_ALPHA], alpha_comp);
 				}
 				else {
 					*pixel_p = *foreground_pixel_p;
@@ -125,6 +140,8 @@ void gth_image_render_frame (GthImage *canvas, GthImage *background,
 		}
 	}
 }
+
+#undef RENDER_BLEND
 
 void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount) {
 	if (amount < 0) {
@@ -318,4 +335,219 @@ void gth_image_adjust_contrast (GthImage *self, double amount) {
 		}
 		row += row_stride;
 	}
+}
+
+void calc_radial_mask (guint width, guint height, double amount, GthPoint *f1, GthPoint *f2, double *min_d, double *max_d) {
+	// Do not apply the effect inside the ellipse with a,b diameters
+	// at the center of the image.
+	// https://en.wikipedia.org/wiki/Ellipse
+
+	double center_x = width / 2.0;
+	double center_y = height / 2.0;
+	double a = MAX (width, height) / 5.0;
+	double b = MIN (height, width) / 5.0;
+
+	double eccentricity = sqrt (1.0 - SQR (b) / SQR (a));
+	// c = distance from the center to a focus
+	double c = a * eccentricity;
+
+	// Do not apply the effect for points with a distance less
+	// than min_d
+	*min_d = 2 * sqrt (SQR (b) + SQR (c));
+
+	// Focus points.
+	if (width > height) {
+		f1->x = center_x - c;
+		f1->y = center_y;
+		f2->x = center_x + c;
+		f2->y = center_y;
+	}
+	else {
+		f1->x = center_x;
+		f1->y = center_y - c;
+		f2->x = center_x;
+		f2->y = center_y + c;
+	}
+
+	// Apply the effect without transparency for points with a
+	// distance greater than max_d.
+	GthPoint p = { .x = 0, .y = 0 };
+	// p.x = 0;
+	// p.y = 0;
+	*max_d = gth_point_distance (&p, f1) + gth_point_distance (&p, f2);
+
+	// The greater the `amount` the larger the image area where the
+	// effect is applied.
+	// Reduce the min and max distance by 10% when `amount` is 1.
+	// amount: 0 -> distance: 100%
+	// amount: 1 -> distance: 95%
+	*min_d *= (1.0 - (amount * (1 - 0.95)));
+	*max_d *= (1.0 - (amount * (1 - 0.95)));
+}
+
+gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable) {
+	// The greater `amount` the darker the edges of the image.
+	GthPoint lighter_point = { 127, 127 };
+	//GthPoint darker_point = { 167, 82 };
+	GthPoint darker_point = { 200, 70 };
+	GthPoint middle_point;
+	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, amount);
+	GthPoint points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+
+	GthCurve *curve[4];
+	curve[0] = (GthCurve *) gth_bezier_new (points, 3);
+	curve[1] = (GthCurve *) gth_bezier_new (NULL, 0);
+	curve[2] = (GthCurve *) gth_bezier_new (NULL, 0);
+	curve[3] = (GthCurve *) gth_bezier_new (NULL, 0);
+
+	guchar *value_map[4];
+	for (int channel = 0; channel <= 3; channel++) {
+		value_map[channel] = g_new (guchar, 256);
+		for (int value = 0; value < 256; value++) {
+			double u = gth_curve_eval (curve[channel], value);
+			if (channel != GTH_CHANNEL_VALUE) {
+				u = value_map[GTH_CHANNEL_VALUE][(int) u];
+			}
+			value_map[channel][value] = (guchar) u;
+		}
+	}
+
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar new_red, new_green, new_blue;
+	double new_alpha;
+	double temp; // used in PIXEL_OVER
+	GthPoint f1, f2;
+	double min_d;
+	double max_d;
+	calc_radial_mask (width, height, amount, &f1, &f2, &min_d, &max_d);
+
+	gboolean cancelled = FALSE;
+	for (guint y = 0; y < height; y++) {
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			cancelled = TRUE;
+			break;
+		}
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			GthPoint p;
+			p.x = x;
+			p.y = y;
+			double d = gth_point_distance (&p, &f1) + gth_point_distance (&p, &f2);
+			if (d >= min_d) {
+				PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+				new_red = value_map[GTH_CHANNEL_RED][red];
+				new_green = value_map[GTH_CHANNEL_GREEN][green];
+				new_blue = value_map[GTH_CHANNEL_BLUE][blue];
+
+				// d <= min_d -> alpha = 0 -> show original image
+				// d >= max_d -> alpha = 1 -> show new image
+				if (d >= max_d) {
+					new_alpha = 1.0;
+				}
+				else {
+					new_alpha = (d - min_d) / (max_d - min_d);
+				}
+
+				PIXEL_OVER(pixel[PIXEL_RED], red, new_red, new_alpha);
+				PIXEL_OVER(pixel[PIXEL_GREEN], green, new_green, new_alpha);
+				PIXEL_OVER(pixel[PIXEL_BLUE], blue, new_blue, new_alpha);
+			}
+			// if (d >= max_d) {
+			// 	pixel[PIXEL_RED] = 255;
+			// 	pixel[PIXEL_GREEN] = 0;
+			// 	pixel[PIXEL_BLUE] = 0;
+			// }
+			// else if (d <= min_d) {
+			// 	pixel[PIXEL_RED] = 0;
+			// 	pixel[PIXEL_GREEN] = 255;
+			// 	pixel[PIXEL_BLUE] = 0;
+			// }
+			pixel += 4;
+		}
+		row += row_stride;
+	}
+
+	for (int channel = 0; channel <= 3; channel++) {
+		g_free (value_map[channel]);
+		g_object_unref (curve[channel]);
+	}
+
+	return !cancelled;
+}
+
+gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable) {
+	int b_row_stride;
+	guint b_width;
+	guint b_height;
+	guchar *b_row = gth_image_prepare_edit (background, &b_row_stride, &b_width, &b_height);
+	guchar *b_pixel;
+
+	int f_row_stride;
+	guint f_width;
+	guint f_height;
+	guchar *f_row = gth_image_prepare_edit (foreground, &f_row_stride, &f_width, &f_height);
+	guchar *f_pixel;
+
+	g_return_val_if_fail ((b_width == f_width) && (b_height == f_height), FALSE);
+
+	guchar b_red, b_green, b_blue, b_alpha;
+	guchar f_red, f_green, f_blue, f_alpha;
+	double temp; // used in PIXEL_OVER
+	GthPoint f1, f2;
+	double min_d, max_d, alpha;
+	calc_radial_mask (b_width, b_height, amount, &f1, &f2, &min_d, &max_d);
+
+	gboolean cancelled = FALSE;
+	for (guint y = 0; y < b_height; y++) {
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			cancelled = TRUE;
+			break;
+		}
+		b_pixel = b_row;
+		f_pixel = f_row;
+		for (guint x = 0; x < b_width; x++) {
+			GthPoint p;
+			p.x = x;
+			p.y = y;
+			double d = gth_point_distance (&p, &f1) + gth_point_distance (&p, &f2);
+			if (d >= min_d) {
+				PIXEL_TO_RGBA (b_pixel, b_red, b_green, b_blue, b_alpha);
+				PIXEL_TO_RGBA (f_pixel, f_red, f_green, f_blue, f_alpha);
+
+				// d <= min_d -> alpha = 0 -> show background
+				// d >= max_d -> alpha = 1 -> show foreground
+				if (d >= max_d) {
+					alpha = 1.0;
+				}
+				else {
+					alpha = (d - min_d) / (max_d - min_d);
+				}
+
+				PIXEL_OVER(b_pixel[PIXEL_RED], b_red, f_red, alpha);
+				PIXEL_OVER(b_pixel[PIXEL_GREEN], b_green, f_green, alpha);
+				PIXEL_OVER(b_pixel[PIXEL_BLUE], b_blue, f_blue, alpha);
+			}
+			// if (d >= max_d) {
+			// 	b_pixel[PIXEL_RED] = 255;
+			// 	b_pixel[PIXEL_GREEN] = 0;
+			// 	b_pixel[PIXEL_BLUE] = 0;
+			// }
+			// else if (d <= min_d) {
+			// 	b_pixel[PIXEL_RED] = 0;
+			// 	b_pixel[PIXEL_GREEN] = 255;
+			// 	b_pixel[PIXEL_BLUE] = 0;
+			// }
+			b_pixel += 4;
+			f_pixel += 4;
+		}
+		b_row += b_row_stride;
+		f_row += f_row_stride;
+	}
+
+	return !cancelled;
 }

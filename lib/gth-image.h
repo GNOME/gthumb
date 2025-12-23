@@ -140,8 +140,9 @@ void gth_image_adjust_contrast (GthImage *self, double amount);
 void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount);
 void gth_image_grayscale_saturation (GthImage *self, double amount);
 gboolean gth_image_blur (GthImage *self, int radius, GCancellable *cancellable);
-gboolean gth_image_sharpen (GthImage *self, double amount, double radius, double threshold, GCancellable *cancellable);
-// void gth_image_apply_vignette (GthImage *self, uchar alpha, long *value_map, int rows, int columns);
+gboolean gth_image_sharpen (GthImage *self, double amount, int radius, double threshold, GCancellable *cancellable);
+gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable);
+gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable);
 
 G_END_DECLS
 

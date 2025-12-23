@@ -74,7 +74,7 @@ public class Gth.SharpenImage : ImageTool {
 				return null;
 			}
 			var output = input.dup ();
-			output.sharpen (amount, radius, threshold, cancellable);
+			output.sharpen (amount, (int) radius, threshold, cancellable);
 			return output;
 		}
 	}

@@ -72,6 +72,9 @@ namespace Gth {
 		public void adjust_contrast (double amount);
 		public void grayscale (double red_weight, double green_weight, double blue_weight, double amount);
 		public void grayscale_saturation (double amount);
-		public bool sharpen (double amount, double radius, double threshold, Cancellable cancellable);
+		public bool blur (int radius, Cancellable cancellable);
+		public bool sharpen (double amount, int radius, double threshold, Cancellable cancellable);
+		public bool apply_vignette (double amount, Cancellable cancellable);
+		public bool apply_radial_mask (Image foreground, double amount, Cancellable cancellable);
 	}
 }

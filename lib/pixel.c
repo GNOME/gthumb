@@ -66,13 +66,4 @@ void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
 	}
 }
 
-void pixel_over (uint8_t* background, uint8_t* foreground) {
-	guint temp;
-	uint8_t alpha_comp = 0xFF - foreground[PIXEL_ALPHA];
-	PIXEL_OVER(background[PIXEL_RED], foreground[PIXEL_RED], alpha_comp);
-	PIXEL_OVER(background[PIXEL_GREEN], foreground[PIXEL_GREEN], alpha_comp);
-	PIXEL_OVER(background[PIXEL_BLUE], foreground[PIXEL_BLUE], alpha_comp);
-	PIXEL_OVER(background[PIXEL_ALPHA], foreground[PIXEL_ALPHA], alpha_comp);
-}
-
 #undef PIXEL_TO_RGB

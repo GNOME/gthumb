@@ -139,7 +139,6 @@ public class Gth.AdjustBrightness : ImageTool {
 			case Method.LINEAR:
 				output.adjust_brightness (amount);
 				break;
-				break;
 			default:
 				break;
 			}

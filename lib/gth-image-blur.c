@@ -187,7 +187,7 @@ gboolean gth_image_blur (GthImage *self, int radius, GCancellable *cancellable) 
 	}
 }
 
-gboolean gth_image_sharpen (GthImage *source, double amount, double radius, double threshold, GCancellable *cancellable) {
+gboolean gth_image_sharpen (GthImage *source, double amount, int radius, double threshold, GCancellable *cancellable) {
 	//return gth_image_blur (source, radius, cancellable);
 
 	amount = -amount;
