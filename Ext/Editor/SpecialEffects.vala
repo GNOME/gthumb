@@ -5,17 +5,20 @@ public class Gth.SpecialEffects : ImageTool {
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 
-		/* Translators: this is the name of a filter that produces warmer colors. */
+		// Translators: this is the name of a filter that produces warmer colors.
 		filter_grid.add (Effect.WARMER, new WarmerColors (), _("Warmer"));
 
-		/* Translators: this is the name of a filter that produces cooler colors. */
+		// Translators: this is the name of a filter that produces cooler colors.
 		filter_grid.add (Effect.COOLER, new CoolerColors (), _("Cooler"));
 
-		/* Translators: this is the name of an image filter that produces darker edges. */
+		// Translators: this is the name of an image filter that produces darker edges.
 		filter_grid.add (Effect.VIGNETTE, new Vignette (), _("Darker Edges"));
 
-		/* Translators: this is the name of an image filter that produces blurred edges. */
+		// Translators: this is the name of an image filter that produces blurred edges.
 		filter_grid.add (Effect.BLURRED_EDGES, new BlurredEdges (), _("Blurred Edges"));
+
+		// Translators: this is the name of an image filter.
+		filter_grid.add (Effect.VINTAGE, new Vintage (), _("Vintage"));
 
 		filter_grid.activated.connect ((id) => {
 			var operation = filter_grid.get_operation (id) as ParametricOperation;
@@ -105,11 +108,8 @@ public class Gth.SpecialEffects : ImageTool {
 		WARMER,
 		COOLER,
 		VIGNETTE,
-		BLURRED_EDGES;
-
-		public bool has_parameter () {
-			return (this != NONE) && (this <= BLURRED_EDGES);
-		}
+		BLURRED_EDGES,
+		VINTAGE,
 	}
 
 	construct {

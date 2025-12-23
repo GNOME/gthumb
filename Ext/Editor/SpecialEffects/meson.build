@@ -4,5 +4,6 @@ special_effects_files = files(
   'ParametricCurveOperation.vala',
   'ParametricOperation.vala',
   'Vignette.vala',
+  'Vintage.vala',
   'WarmerColors.vala',
 )
