@@ -178,20 +178,21 @@ public class Gth.AdjustContrast : ImageTool {
 				return null;
 			}
 			var output = input.dup ();
+			var completed = false;
 			switch (method) {
 			case Method.STRETCH:
-				output.stretch_histogram (amount);
+				completed = output.stretch_histogram (amount, cancellable);
 				break;
 			case Method.EQUALIZE:
-				output.equalize_histogram (equalize_linear);
+				completed = output.equalize_histogram (equalize_linear, cancellable);
 				break;
 			case Method.LINEAR:
-				output.adjust_contrast (amount);
+				completed = output.adjust_contrast (amount, cancellable);
 				break;
 			default:
 				break;
 			}
-			return output;
+			return completed ? output : null;
 		}
 	}
 

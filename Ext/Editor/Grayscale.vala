@@ -69,20 +69,21 @@ public class Gth.Grayscale : ImageTool {
 				return null;
 			}
 			var output = input.dup ();
+			var completed = false;
 			switch (method) {
 			case Method.BRIGHTNESS:
-				output.grayscale (0.2125, 0.7154, 0.072, 1.0);
+				completed = output.grayscale (0.2125, 0.7154, 0.072, 1.0, cancellable);
 				break;
 			case Method.AVERAGE:
-				output.grayscale (0.3333, 0.3333, 0.3333, 1.0);
+				completed = output.grayscale (0.3333, 0.3333, 0.3333, 1.0, cancellable);
 				break;
 			case Method.SATURATION:
-				output.grayscale_saturation (1.0);
+				completed = output.grayscale_saturation (1.0, cancellable);
 				break;
 			default:
 				break;
 			}
-			return output;
+			return completed ? output : null;
 		}
 
 		Method method;

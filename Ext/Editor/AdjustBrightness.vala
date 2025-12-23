@@ -132,17 +132,18 @@ public class Gth.AdjustBrightness : ImageTool {
 				return null;
 			}
 			var output = input.dup ();
+			var completed = false;
 			switch (method) {
 			case Method.GAMMA:
-				output.gamma_correction (amount);
+				completed = output.gamma_correction (amount, cancellable);
 				break;
 			case Method.LINEAR:
-				output.adjust_brightness (amount);
+				completed = output.adjust_brightness (amount, cancellable);
 				break;
 			default:
 				break;
 			}
-			return output;
+			return completed ? output : null;
 		}
 	}
 

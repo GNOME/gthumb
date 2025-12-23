@@ -143,7 +143,7 @@ void gth_image_render_frame (GthImage *canvas, GthImage *background,
 
 #undef RENDER_BLEND
 
-void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount) {
+gboolean gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount, GCancellable *cancellable) {
 	if (amount < 0) {
 		amount = tan (amount) * G_PI;
 	}
@@ -176,10 +176,14 @@ void gth_image_grayscale (GthImage *self, double red_weight, double green_weight
 			pixel += 4;
 		}
 		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			return FALSE;
+		}
 	}
+	return TRUE;
 }
 
-void gth_image_grayscale_saturation (GthImage *self, double amount) {
+gboolean gth_image_grayscale_saturation (GthImage *self, double amount, GCancellable *cancellable) {
 	if (amount < 0) {
 		amount = tan (amount) * G_PI;
 	}
@@ -214,12 +218,16 @@ void gth_image_grayscale_saturation (GthImage *self, double amount) {
 			pixel += 4;
 		}
 		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			return FALSE;
+		}
 	}
+	return TRUE;
 }
 
-void gth_image_gamma_correction (GthImage *self, double gamma) {
+gboolean gth_image_gamma_correction (GthImage *self, double gamma, GCancellable *cancellable) {
 	if (gamma == 1.0) {
-		return;
+		return TRUE;
 	}
 	// g_print ("> gamma: %f\n", gamma);
 	int row_stride;
@@ -249,12 +257,16 @@ void gth_image_gamma_correction (GthImage *self, double gamma) {
 			pixel += 4;
 		}
 		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			return FALSE;
+		}
 	}
+	return TRUE;
 }
 
-void gth_image_adjust_brightness (GthImage *self, double amount) {
+gboolean gth_image_adjust_brightness (GthImage *self, double amount, GCancellable *cancellable) {
 	if (amount == 0) {
-		return;
+		return TRUE;
 	}
 	// g_print ("> amount: %f\n", amount);
 	int row_stride;
@@ -296,12 +308,16 @@ void gth_image_adjust_brightness (GthImage *self, double amount) {
 			pixel += 4;
 		}
 		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			return FALSE;
+		}
 	}
+	return TRUE;
 }
 
-void gth_image_adjust_contrast (GthImage *self, double amount) {
+gboolean gth_image_adjust_contrast (GthImage *self, double amount, GCancellable *cancellable) {
 	if (amount == 0) {
-		return;
+		return TRUE;
 	}
 	if (amount < 0) {
 		amount = tan (amount * G_PI_2);
@@ -334,7 +350,11 @@ void gth_image_adjust_contrast (GthImage *self, double amount) {
 			pixel += 4;
 		}
 		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			return FALSE;
+		}
 	}
+	return TRUE;
 }
 
 void calc_radial_mask (guint width, guint height, double amount, GthPoint *f1, GthPoint *f2, double *min_d, double *max_d) {
@@ -394,23 +414,14 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, amount);
 	GthPoint points[] = { { 0, 0 }, middle_point, { 255, 255 } };
 
-	GthCurve *curve[4];
-	curve[0] = (GthCurve *) gth_bezier_new (points, 3);
-	curve[1] = (GthCurve *) gth_bezier_new (NULL, 0);
-	curve[2] = (GthCurve *) gth_bezier_new (NULL, 0);
-	curve[3] = (GthCurve *) gth_bezier_new (NULL, 0);
-
-	guchar *value_map[4];
-	for (int channel = 0; channel <= 3; channel++) {
-		value_map[channel] = g_new (guchar, 256);
-		for (int value = 0; value < 256; value++) {
-			double u = gth_curve_eval (curve[channel], value);
-			if (channel != GTH_CHANNEL_VALUE) {
-				u = value_map[GTH_CHANNEL_VALUE][(int) u];
-			}
-			value_map[channel][value] = (guchar) u;
-		}
+	if (amount < 0) {
+		amount = -amount;
 	}
+
+	guchar *value_map = gth_curves_get_value_map (points, 3, NULL, 0, NULL, 0, NULL, 0);
+	const guchar *red_map = value_map + (GTH_CHANNEL_RED * 256);
+	const guchar *green_map = value_map + (GTH_CHANNEL_GREEN * 256);
+	const guchar *blue_map = value_map + (GTH_CHANNEL_BLUE * 256);
 
 	int row_stride;
 	guint width;
@@ -428,10 +439,6 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 
 	gboolean cancelled = FALSE;
 	for (guint y = 0; y < height; y++) {
-		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-			cancelled = TRUE;
-			break;
-		}
 		pixel = row;
 		for (guint x = 0; x < width; x++) {
 			GthPoint p;
@@ -440,9 +447,9 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 			double d = gth_point_distance (&p, &f1) + gth_point_distance (&p, &f2);
 			if (d >= min_d) {
 				PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
-				new_red = value_map[GTH_CHANNEL_RED][red];
-				new_green = value_map[GTH_CHANNEL_GREEN][green];
-				new_blue = value_map[GTH_CHANNEL_BLUE][blue];
+				new_red = red_map[red];
+				new_green = green_map[green];
+				new_blue = blue_map[blue];
 
 				// d <= min_d -> alpha = 0 -> show original image
 				// d >= max_d -> alpha = 1 -> show new image
@@ -470,12 +477,13 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 			pixel += 4;
 		}
 		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			cancelled = TRUE;
+			break;
+		}
 	}
 
-	for (int channel = 0; channel <= 3; channel++) {
-		g_free (value_map[channel]);
-		g_object_unref (curve[channel]);
-	}
+	g_free (value_map);
 
 	return !cancelled;
 }
@@ -504,10 +512,6 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 
 	gboolean cancelled = FALSE;
 	for (guint y = 0; y < b_height; y++) {
-		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-			cancelled = TRUE;
-			break;
-		}
 		b_pixel = b_row;
 		f_pixel = f_row;
 		for (guint x = 0; x < b_width; x++) {
@@ -547,7 +551,80 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 		}
 		b_row += b_row_stride;
 		f_row += f_row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			cancelled = TRUE;
+			break;
+		}
 	}
 
 	return !cancelled;
+}
+
+gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancellable *cancellable) {
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	guchar *red_map = value_map + (GTH_CHANNEL_RED * VALUE_MAP_COLUMNS);
+	guchar *green_map = value_map + (GTH_CHANNEL_GREEN * VALUE_MAP_COLUMNS);
+	guchar *blue_map = value_map + (GTH_CHANNEL_BLUE * VALUE_MAP_COLUMNS);
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+			red = red_map[red];
+			green = green_map[green];
+			blue = blue_map[blue];
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
+		if ((cancellable != NULL) && (g_cancellable_is_cancelled (cancellable))) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+gboolean gth_image_apply_curve (GthImage *self,
+	GthPoint *value_points, int value_size,
+	GthPoint *red_points, int red_size,
+	GthPoint *green_points, int green_size,
+	GthPoint *blue_points, int blue_size,
+	GCancellable *cancellable)
+{
+	guchar *value_map = gth_curves_get_value_map (
+		value_points, value_size,
+		red_points, red_size,
+		green_points, green_size,
+		blue_points, blue_size);
+	gboolean completed = gth_image_apply_value_map (self, value_map, cancellable);
+	g_free (value_map);
+	return completed;
+}
+
+gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amount, double blue_amount, GCancellable *cancellable) {
+	GthPoint lighter_point = { 127, 127 };
+	GthPoint darker_point = { 82, 187 };
+	GthPoint middle_point;
+
+	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, red_amount);
+	GthPoint red_points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+
+	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, green_amount);
+	GthPoint green_points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+
+	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, blue_amount);
+	GthPoint blue_points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+
+	return gth_image_apply_curve (self,
+		NULL, 0,
+		red_points, (red_amount > 0) ? 3 : 0,
+		green_points, (green_amount > 0) ? 3 : 0,
+		blue_points, (blue_amount > 0) ? 3 : 0,
+		cancellable);
 }

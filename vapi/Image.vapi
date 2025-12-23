@@ -60,21 +60,22 @@ namespace Gth {
 
 		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
 		public Image? resize_to (uint width, uint height, ScaleFilter quality, Cancellable? cancellable = null);
-		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable cancellable) throws Error;
-		public Image? apply_transform (Gth.Transform transform, Cancellable cancellable);
-		public Image? cut (uint x, uint y, uint width, uint height, Cancellable cancellable);
+		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null) throws Error;
+		public Image? apply_transform (Gth.Transform transform, Cancellable? cancellable = null);
+		public Image? cut (uint x, uint y, uint width, uint height, Cancellable? cancellable = null);
 
-		public void apply_value_map (long[,] map);
-		public void stretch_histogram (double crop_size);
-		public void equalize_histogram (bool linear);
-		public void gamma_correction (double gamma);
-		public void adjust_brightness (double amount);
-		public void adjust_contrast (double amount);
-		public void grayscale (double red_weight, double green_weight, double blue_weight, double amount);
-		public void grayscale_saturation (double amount);
-		public bool blur (int radius, Cancellable cancellable);
-		public bool sharpen (double amount, int radius, double threshold, Cancellable cancellable);
-		public bool apply_vignette (double amount, Cancellable cancellable);
-		public bool apply_radial_mask (Image foreground, double amount, Cancellable cancellable);
+		public bool stretch_histogram (double crop_size, Cancellable? cancellable = null);
+		public bool equalize_histogram (bool linear, Cancellable? cancellable = null);
+		public bool gamma_correction (double gamma, Cancellable? cancellable = null);
+		public bool adjust_brightness (double amount, Cancellable? cancellable = null);
+		public bool adjust_contrast (double amount, Cancellable? cancellable = null);
+		public bool grayscale (double red_weight, double green_weight, double blue_weight, double amount, Cancellable? cancellable = null);
+		public bool grayscale_saturation (double amount, Cancellable? cancellable = null);
+		public bool blur (int radius, Cancellable? cancellable = null);
+		public bool sharpen (double amount, int radius, double threshold, Cancellable? cancellable = null);
+		public bool apply_vignette (double amount, Cancellable? cancellable = null);
+		public bool apply_radial_mask (Image foreground, double amount, Cancellable? cancellable = null);
+		public bool apply_curve (Point[] value_points, Point[] red_points, Point[] green_points, Point[] blue_points, Cancellable? cancellable = null);
+		public bool colorize (double red_amount, double green_amount, double blue_amount, Cancellable? cancellable = null);
 	}
 }

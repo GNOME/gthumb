@@ -19,11 +19,11 @@ GthImage * gth_image_cut (GthImage *source, guint x, guint y, guint width, guint
 		memcpy (destination_line, source_column, destination_stride);
 		source_line += source_stride;
 		destination_line += destination_stride;
-		//if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-		//	g_object_unref (destination);
-		//	destination = NULL;
-		//	break;
-		//}
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			g_object_unref (destination);
+			destination = NULL;
+			break;
+		}
 		height--;
 	}
 	return destination;

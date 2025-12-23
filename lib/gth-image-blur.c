@@ -218,12 +218,6 @@ gboolean gth_image_sharpen (GthImage *source, double amount, int radius, double 
 	for (y = 0; y < height; y++) {
 		p_src_row = p_src;
 		p_blurred_row = p_blurred;
-
-		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-			g_object_unref (blurred);
-			return FALSE;
-		}
-
 		for (x = 0; x < width; x++) {
 			r1 = p_src_row[PIXEL_RED];
 			g1 = p_src_row[PIXEL_GREEN];
@@ -247,6 +241,11 @@ gboolean gth_image_sharpen (GthImage *source, double amount, int radius, double 
 
 		p_src += src_rowstride;
 		p_blurred += blurred_rowstride;
+
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			g_object_unref (blurred);
+			return FALSE;
+		}
 	}
 
 #undef ASSIGN_INTERPOLATED_VALUE

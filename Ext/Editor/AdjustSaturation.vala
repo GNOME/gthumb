@@ -91,21 +91,23 @@ public class Gth.AdjustSaturation : ImageTool {
 			if (input == null) {
 				return null;
 			}
+
 			var output = input.dup ();
+			var completed = false;
 			switch (method) {
 			case Method.BRIGHTNESS:
-				output.grayscale (0.2125, 0.7154, 0.072, amount);
+				completed = output.grayscale (0.2125, 0.7154, 0.072, amount, cancellable);
 				break;
 			case Method.AVERAGE:
-				output.grayscale (0.3333, 0.3333, 0.3333, amount);
+				completed = output.grayscale (0.3333, 0.3333, 0.3333, amount, cancellable);
 				break;
 			case Method.SATURATION:
-				output.grayscale_saturation (amount);
+				completed = output.grayscale_saturation (amount, cancellable);
 				break;
 			default:
 				break;
 			}
-			return output;
+			return completed ? output : null;
 		}
 	}
 

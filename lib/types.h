@@ -69,6 +69,9 @@ typedef enum {
 	GTH_FILL_END,
 } GthFill;
 
+#define VALUE_MAP_ROWS 4
+#define VALUE_MAP_COLUMNS 256
+
 G_END_DECLS
 
 #endif /* LIB_TYPES_H */

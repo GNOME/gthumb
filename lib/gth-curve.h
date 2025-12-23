@@ -32,6 +32,11 @@ GType gth_curve_get_type (void);
 void gth_curve_setup (GthCurve *self);
 double gth_curve_eval (GthCurve *curve, double x);
 void gth_curve_set_points (GthCurve *curve, GthPoint *points, int size);
+guchar * gth_curves_get_value_map (
+	GthPoint *value_points, int value_size,
+	GthPoint *red_points, int red_size,
+	GthPoint *green_points, int green_size,
+	GthPoint *blue_points, int blue_size);
 
 // GthSpline
 

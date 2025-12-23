@@ -16,14 +16,13 @@ class Gth.Vignette : ImageOperation, ParametricOperation {
 	}
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
-		if (input == null) {
-			return null;
+		if (input != null) {
+			var output = input.dup ();
+			if (output.apply_vignette (amount, cancellable)) {
+				return output;
+			}
 		}
-		var output = input.dup ();
-		if (!output.apply_vignette (amount, cancellable)) {
-			return null;
-		}
-		return output;
+		return null;
 	}
 
 	double amount = 0.5;

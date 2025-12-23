@@ -1,29 +1,13 @@
 public class Gth.CurveOperation : ImageOperation {
-	public Points points {
-		set {
-			_points = value;
-			value_map = _points.to_value_map ();
-		}
-		get {
-			return _points;
-		}
-	}
+	public Points points;
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
-		if (input == null) {
-			return null;
+		if (input != null) {
+			var output = input.dup ();
+			if (output.apply_curve (points.value, points.red, points.green, points.blue, cancellable)) {
+				return output;
+			}
 		}
-		var output = input.dup ();
-		if (value_map != null) {
-			output.apply_value_map (value_map);
-		}
-		return output;
+		return null;
 	}
-
-	construct {
-		value_map = null;
-	}
-
-	long [,] value_map;
-	Points _points;
 }

@@ -6,6 +6,7 @@
 #include <gio/gio.h>
 #include "lib/gth-color-manager.h"
 #include "lib/gth-icc-profile.h"
+#include "lib/gth-point.h"
 #include "lib/lib.h"
 
 G_BEGIN_DECLS
@@ -131,18 +132,20 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
 void gth_image_render_frame (GthImage *canvas, GthImage *background,
 	guint32 background_color, GthImage *foreground, guint foreground_x,
 	guint foreground_y, gboolean blend);
-void gth_image_apply_value_map (GthImage *self, long *value_map, int rows, int columns);
-void gth_image_stretch_histogram (GthImage *self, double crop_size);
-void gth_image_equalize_histogram (GthImage *self, gboolean linear);
-void gth_image_gamma_correction (GthImage *self, double gamma);
-void gth_image_adjust_brightness (GthImage *self, double amount);
-void gth_image_adjust_contrast (GthImage *self, double amount);
-void gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount);
-void gth_image_grayscale_saturation (GthImage *self, double amount);
+gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancellable *cancellable);
+gboolean gth_image_stretch_histogram (GthImage *self, double crop_size, GCancellable *cancellable);
+gboolean gth_image_equalize_histogram (GthImage *self, gboolean linear, GCancellable *cancellable);
+gboolean gth_image_gamma_correction (GthImage *self, double gamma, GCancellable *cancellable);
+gboolean gth_image_adjust_brightness (GthImage *self, double amount, GCancellable *cancellable);
+gboolean gth_image_adjust_contrast (GthImage *self, double amount, GCancellable *cancellable);
+gboolean gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount, GCancellable *cancellable);
+gboolean gth_image_grayscale_saturation (GthImage *self, double amount, GCancellable *cancellable);
 gboolean gth_image_blur (GthImage *self, int radius, GCancellable *cancellable);
 gboolean gth_image_sharpen (GthImage *self, double amount, int radius, double threshold, GCancellable *cancellable);
 gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable);
 gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable);
+gboolean gth_image_apply_curve (GthImage *self, GthPoint *value_points, int value_size, GthPoint *red_points, int red_size, GthPoint *green_points, int green_size, GthPoint *blue_points, int blue_size, GCancellable *cancellable);
+gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amount, double blue_amount, GCancellable *cancellable);
 
 G_END_DECLS
 
