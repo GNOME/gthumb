@@ -4,14 +4,19 @@ public class Gth.SpecialEffects : ImageTool {
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
+
 		/* Translators: this is the name of a filter that produces warmer colors. */
-		filter_grid.add (Effect.WARMER, new ParametricCurveOperation (Effect.WARMER, 0.158730159), _("Warmer"));
+		filter_grid.add (Effect.WARMER, new WarmerColors (), _("Warmer"));
+
 		/* Translators: this is the name of a filter that produces cooler colors. */
-		filter_grid.add (Effect.COOLER, new ParametricCurveOperation (Effect.COOLER, 0.158730159), _("Cooler"));
+		filter_grid.add (Effect.COOLER, new CoolerColors (), _("Cooler"));
+
 		/* Translators: this is the name of an image filter that produces darker edges. */
-		filter_grid.add (Effect.VIGNETTE, new VignetteOperation (), _("Darker Edges"));
+		filter_grid.add (Effect.VIGNETTE, new Vignette (), _("Darker Edges"));
+
 		/* Translators: this is the name of an image filter that produces blurred edges. */
-		filter_grid.add (Effect.BLURRED_EDGES, new BlurredEdgesOperation (), _("Blurred Edges"));
+		filter_grid.add (Effect.BLURRED_EDGES, new BlurredEdges (), _("Blurred Edges"));
+
 		filter_grid.activated.connect ((id) => {
 			var operation = filter_grid.get_operation (id) as ParametricOperation;
 			if ((operation != null) && operation.has_parameter ()) {
@@ -105,150 +110,6 @@ public class Gth.SpecialEffects : ImageTool {
 		public bool has_parameter () {
 			return (this != NONE) && (this <= BLURRED_EDGES);
 		}
-	}
-
-	interface ParametricOperation : Object {
-		public virtual bool has_parameter () {
-			return false;
-		}
-
-		public virtual void set_amount (double _amount) {
-			// void
-		}
-
-		public virtual double get_amount () {
-			return 0.0;
-		}
-
-		public virtual void reset_amount () {
-			// void
-		}
-	}
-
-	class ParametricCurveOperation : CurveOperation, ParametricOperation {
-		public double default_amount;
-		public Effect effect;
-
-		public ParametricCurveOperation (Effect _effect, double _amount = 0.0) {
-			default_amount = _amount;
-			set_effect (_effect, _amount);
-		}
-
-		public override bool has_parameter () {
-			return effect.has_parameter ();
-		}
-
-		public override void set_amount (double _amount) {
-			set_effect (effect, _amount);
-		}
-
-		public override double get_amount () {
-			return amount;
-		}
-
-		public override void reset_amount () {
-			set_amount (default_amount);
-		}
-
-		void set_effect (Effect _effect, double _amount) {
-			effect = _effect;
-			amount = _amount;
-			switch (effect) {
-			case Effect.WARMER:
-				var red_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
-				var blue_point = Point.interpolate (Point (127, 127), Point (183, 74), amount);
-				points = Points () {
-					value = null,
-					red   = { Point (0, 0), red_point /* Point (117, 136) */, Point (255, 255) },
-					green = null,
-					blue  = { Point (0, 0), blue_point /* Point (136, 119) */, Point (255, 255) },
-				};
-				break;
-
-			case Effect.COOLER:
-				var red_point = Point.interpolate (Point (127, 127), Point (183, 74), amount);
-				var blue_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
-				points = Points () {
-					value = null,
-					red   = { Point (0, 0), red_point /*Point (136, 119)*/, Point (255, 255) },
-					green = null,
-					blue  = { Point (0, 0), blue_point /*Point (117, 136)*/, Point (255, 255) },
-				};
-				break;
-
-			default:
-				points = Points ();
-				break;
-			}
-		}
-
-		double amount;
-	}
-
-	class VignetteOperation : ImageOperation, ParametricOperation {
-		public override bool has_parameter () {
-			return true;
-		}
-
-		public override void set_amount (double _amount) {
-			amount = _amount;
-		}
-
-		public override double get_amount () {
-			return amount;
-		}
-
-		public override void reset_amount () {
-			set_amount (0.5);
-		}
-
-		public override Gth.Image? execute (Image input, Cancellable cancellable) {
-			if (input == null) {
-				return null;
-			}
-			var output = input.dup ();
-			if (!output.apply_vignette (amount, cancellable)) {
-				return null;
-			}
-			return output;
-		}
-
-		double amount = 0.5;
-	}
-
-	class BlurredEdgesOperation : ImageOperation, ParametricOperation {
-		public override bool has_parameter () {
-			return true;
-		}
-
-		public override void set_amount (double _amount) {
-			amount = _amount;
-		}
-
-		public override double get_amount () {
-			return amount;
-		}
-
-		public override void reset_amount () {
-			set_amount (0.5);
-		}
-
-		public override Gth.Image? execute (Image input, Cancellable cancellable) {
-			if (input == null) {
-				return null;
-			}
-			var blurred = input.dup ();
-			if (!blurred.blur ((int) Math.round (amount * 10), cancellable)) {
-				return null;
-			}
-			var output = input.dup ();
-			if (!output.apply_radial_mask (blurred, amount, cancellable)) {
-				return null;
-			}
-			return output;
-		}
-
-		double amount = 0.5;
 	}
 
 	construct {

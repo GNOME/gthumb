@@ -1,4 +1,6 @@
-editor_files = files(
+subdir('SpecialEffects')
+
+editor_files = special_effects_files + files(
   'AdjustBrightness.vala',
   'AdjustColors.vala',
   'AdjustContrast.vala',
