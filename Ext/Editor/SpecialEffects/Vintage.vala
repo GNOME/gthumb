@@ -1,20 +1,4 @@
 class Gth.Vintage : ImageOperation, ParametricOperation {
-	public override bool has_parameter () {
-		return false;
-	}
-
-	public override void set_amount (double _amount) {
-		amount = _amount;
-	}
-
-	public override double get_amount () {
-		return amount;
-	}
-
-	public override void reset_amount () {
-		set_amount (0.5);
-	}
-
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
 		if (input == null) {
 			return null;
@@ -30,6 +14,4 @@ class Gth.Vintage : ImageOperation, ParametricOperation {
 		}
 		return null;
 	}
-
-	double amount = 0.5;
 }
