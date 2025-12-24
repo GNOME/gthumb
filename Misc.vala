@@ -440,4 +440,8 @@ namespace Gth.Util {
 			entry.select_region (0, entry.text.char_count (ext_start));
 		}
 	}
+
+	public static double interpolate (double min, double max, double x) {
+		return (min * (1 - x) + max * x);
+	}
 }
