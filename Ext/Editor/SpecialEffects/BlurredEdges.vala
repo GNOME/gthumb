@@ -12,7 +12,7 @@ class Gth.BlurredEdges : ImageOperation, ParametricOperation {
 	}
 
 	public override void reset_amount () {
-		set_amount (0.5);
+		set_amount (DEFAULT_AMOUNT);
 	}
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
@@ -28,5 +28,7 @@ class Gth.BlurredEdges : ImageOperation, ParametricOperation {
 		return null;
 	}
 
-	double amount = 0.5;
+	double amount = DEFAULT_AMOUNT;
+
+	const double DEFAULT_AMOUNT = 0.5;
 }
