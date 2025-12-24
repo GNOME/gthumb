@@ -364,8 +364,8 @@ void calc_radial_mask (guint width, guint height, double amount, GthPoint *f1, G
 
 	double center_x = width / 2.0;
 	double center_y = height / 2.0;
-	double a = MAX (width, height) / 5.0;
-	double b = MIN (height, width) / 5.0;
+	double b = MIN (height, width) / 6.0;
+	double a = b; //MAX (width, height) / 6.0;
 
 	double eccentricity = sqrt (1.0 - SQR (b) / SQR (a));
 	// c = distance from the center to a focus
