@@ -1,4 +1,4 @@
-class Gth.CoolerColors : ParametricCurveOperation {
+public class Gth.CoolerColors : ParametricCurveOperation {
 	public CoolerColors () {
 		base (0.158730159);
 	}

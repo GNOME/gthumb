@@ -1,4 +1,4 @@
-class Gth.Vintage : ImageOperation, ParametricOperation {
+public class Gth.Vintage : ImageOperation, ParametricOperation {
 	public override bool has_parameter () {
 		return true;
 	}

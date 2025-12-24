@@ -1,4 +1,4 @@
-class Gth.Vignette : ImageOperation, ParametricOperation {
+public class Gth.Vignette : ImageOperation, ParametricOperation {
 	public override bool has_parameter () {
 		return true;
 	}

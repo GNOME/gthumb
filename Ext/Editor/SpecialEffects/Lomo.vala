@@ -1,4 +1,4 @@
-class Gth.Lomo : ImageOperation, ParametricOperation {
+public class Gth.Lomo : ImageOperation, ParametricOperation {
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
 		if (input != null) {
 			var output = input.dup ();

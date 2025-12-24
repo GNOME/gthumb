@@ -1,4 +1,4 @@
-class Gth.ParametricCurveOperation : CurveOperation, ParametricOperation {
+public class Gth.ParametricCurveOperation : CurveOperation, ParametricOperation {
 	public double default_amount;
 	public double amount;
 
