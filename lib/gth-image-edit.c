@@ -408,20 +408,22 @@ void calc_radial_mask (guint width, guint height, double amount, GthPoint *f1, G
 gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable) {
 	// The greater `amount` the darker the edges of the image.
 	GthPoint lighter_point = { 127, 127 };
-	//GthPoint darker_point = { 167, 82 };
 	GthPoint darker_point = { 200, 70 };
 	GthPoint middle_point;
 	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, amount);
-	GthPoint points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+	GthPoint value_points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+
+	GthPoints points;
+	gth_points_init (&points, value_points, 3, NULL, 0, NULL, 0, NULL, 0);
+	guchar *value_map = gth_points_get_value_map (&points, NULL);
+
+	const guchar *red_map = value_map + (GTH_CHANNEL_RED * 256);
+	const guchar *green_map = value_map + (GTH_CHANNEL_GREEN * 256);
+	const guchar *blue_map = value_map + (GTH_CHANNEL_BLUE * 256);
 
 	if (amount < 0) {
 		amount = -amount;
 	}
-
-	guchar *value_map = gth_curves_get_value_map (points, 3, NULL, 0, NULL, 0, NULL, 0);
-	const guchar *red_map = value_map + (GTH_CHANNEL_RED * 256);
-	const guchar *green_map = value_map + (GTH_CHANNEL_GREEN * 256);
-	const guchar *blue_map = value_map + (GTH_CHANNEL_BLUE * 256);
 
 	int row_stride;
 	guint width;
@@ -590,18 +592,9 @@ gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancella
 	return TRUE;
 }
 
-gboolean gth_image_apply_curve (GthImage *self,
-	GthPoint *value_points, int value_size,
-	GthPoint *red_points, int red_size,
-	GthPoint *green_points, int green_size,
-	GthPoint *blue_points, int blue_size,
-	GCancellable *cancellable)
+gboolean gth_image_apply_curve (GthImage *self, GthPoints *points, GCancellable *cancellable)
 {
-	guchar *value_map = gth_curves_get_value_map (
-		value_points, value_size,
-		red_points, red_size,
-		green_points, green_size,
-		blue_points, blue_size);
+	guchar *value_map = gth_points_get_value_map (points, NULL);
 	gboolean completed = gth_image_apply_value_map (self, value_map, cancellable);
 	g_free (value_map);
 	return completed;
@@ -621,10 +614,11 @@ gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amo
 	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, blue_amount);
 	GthPoint blue_points[] = { { 0, 0 }, middle_point, { 255, 255 } };
 
-	return gth_image_apply_curve (self,
-		NULL, 0,
+	GthPoints points;
+	gth_points_init (&points, NULL, 0,
 		red_points, (red_amount > 0) ? 3 : 0,
 		green_points, (green_amount > 0) ? 3 : 0,
-		blue_points, (blue_amount > 0) ? 3 : 0,
-		cancellable);
+		blue_points, (blue_amount > 0) ? 3 : 0);
+	return gth_image_apply_curve (self, &points, cancellable);
+}
 }

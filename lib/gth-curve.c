@@ -56,36 +56,6 @@ void gth_curve_set_points (GthCurve *curve, GthPoint *points, int size) {
 	gth_curve_setup (curve);
 }
 
-
-guchar * gth_curves_get_value_map (
-	GthPoint *value_points, int value_size,
-	GthPoint *red_points, int red_size,
-	GthPoint *green_points, int green_size,
-	GthPoint *blue_points, int blue_size)
-{
-	GthCurve *curve[4];
-	curve[0] = (GthCurve *) gth_bezier_new (value_points, value_size);
-	curve[1] = (GthCurve *) gth_bezier_new (red_points, red_size);
-	curve[2] = (GthCurve *) gth_bezier_new (green_points, green_size);
-	curve[3] = (GthCurve *) gth_bezier_new (blue_points, blue_size);
-
-	guchar *value_map = g_new (guchar, 256 * 4);
-	int idx = 0;
-	for (int channel = 0; channel < 4; channel++) {
-		for (int value = 0; value < 256; value++) {
-			double u = gth_curve_eval (curve[channel], value);
-			if (channel != 0) {
-				u = value_map[(int) u];
-			}
-			value_map[idx] = (guchar) u;
-			idx++;
-		}
-		g_object_unref (curve[channel]);
-	}
-	return value_map;
-}
-
-
 // Gauss-Jordan linear equation solver (for splines)
 
 typedef struct {

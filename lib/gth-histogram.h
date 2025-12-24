@@ -3,6 +3,7 @@
 
 #include <glib-object.h>
 #include "lib/gth-image.h"
+#include "lib/types.h"
 
 G_BEGIN_DECLS
 
@@ -16,15 +17,6 @@ G_BEGIN_DECLS
 typedef struct _GthHistogram GthHistogram;
 typedef struct _GthHistogramPrivate GthHistogramPrivate;
 typedef struct _GthHistogramClass GthHistogramClass;
-
-typedef enum {
-	GTH_CHANNEL_VALUE = 0,
-	GTH_CHANNEL_RED,
-	GTH_CHANNEL_GREEN,
-	GTH_CHANNEL_BLUE,
-	GTH_CHANNEL_ALPHA,
-	GTH_HISTOGRAM_N_CHANNELS
-} GthChannel;
 
 struct _GthHistogram {
 	GObject __parent;

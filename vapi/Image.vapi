@@ -75,7 +75,7 @@ namespace Gth {
 		public bool sharpen (double amount, int radius, double threshold, Cancellable? cancellable = null);
 		public bool apply_vignette (double amount, Cancellable? cancellable = null);
 		public bool apply_radial_mask (Image foreground, double amount, Cancellable? cancellable = null);
-		public bool apply_curve (Point[] value_points, Point[] red_points, Point[] green_points, Point[] blue_points, Cancellable? cancellable = null);
+		public bool apply_curve (Points points, Cancellable? cancellable = null);
 		public bool colorize (double red_amount, double green_amount, double blue_amount, Cancellable? cancellable = null);
 	}
 }

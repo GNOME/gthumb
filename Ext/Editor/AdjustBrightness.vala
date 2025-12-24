@@ -105,12 +105,12 @@ public class Gth.AdjustBrightness : ImageTool {
 
 		void update_points () {
 			var value_point = Point.interpolate (Point (127, 127), Point (77, 169), _amount);
-			points = Points () {
-				value = { Point (0, 0), value_point, Point (255, 255) },
-				red   = null,
-				green = null,
-				blue  = null,
-			};
+			points = new Points (
+				{ Point (0, 0), value_point, Point (255, 255) },
+				null,
+				null,
+				null
+			);
 		}
 
 		double _amount;

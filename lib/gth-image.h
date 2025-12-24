@@ -7,6 +7,7 @@
 #include "lib/gth-color-manager.h"
 #include "lib/gth-icc-profile.h"
 #include "lib/gth-point.h"
+#include "lib/gth-points.h"
 #include "lib/lib.h"
 
 G_BEGIN_DECLS
@@ -144,7 +145,7 @@ gboolean gth_image_blur (GthImage *self, int radius, GCancellable *cancellable);
 gboolean gth_image_sharpen (GthImage *self, double amount, int radius, double threshold, GCancellable *cancellable);
 gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable);
 gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable);
-gboolean gth_image_apply_curve (GthImage *self, GthPoint *value_points, int value_size, GthPoint *red_points, int red_size, GthPoint *green_points, int green_size, GthPoint *blue_points, int blue_size, GCancellable *cancellable);
+gboolean gth_image_apply_curve (GthImage *self, GthPoints *points, GCancellable *cancellable);
 gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amount, double blue_amount, GCancellable *cancellable);
 
 G_END_DECLS

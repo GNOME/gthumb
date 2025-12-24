@@ -20,7 +20,6 @@ editor_files = special_effects_files + files(
   'GridGroup.vala',
   'ImageSelector.vala',
   'ImageTool.vala',
-  'Points.vala',
   'ResizeImage.vala',
   'SharpenImage.vala',
   'SpecialEffects.vala',

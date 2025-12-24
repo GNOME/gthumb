@@ -116,12 +116,12 @@ public class Gth.AdjustColors : ImageTool {
 			var red_point = Point.interpolate (Point (127, 127), Point (77, 169), red_amount);
 			var green_point = Point.interpolate (Point (127, 127), Point (77, 169), green_amount);
 			var blue_point = Point.interpolate (Point (127, 127), Point (77, 169), blue_amount);
-			points = Points () {
-				value = { Point (0, 0), value_point, Point (255, 255) },
-				red   = { Point (0, 0), red_point, Point (255, 255) },
-				green = { Point (0, 0), green_point, Point (255, 255) },
-				blue  = { Point (0, 0), blue_point, Point (255, 255) },
-			};
+			points = new Points (
+				{ Point (0, 0), value_point, Point (255, 255) },
+				{ Point (0, 0), red_point, Point (255, 255) },
+				{ Point (0, 0), green_point, Point (255, 255) },
+				{ Point (0, 0), blue_point, Point (255, 255) }
+			);
 		}
 	}
 
