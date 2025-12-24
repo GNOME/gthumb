@@ -20,6 +20,9 @@ public class Gth.SpecialEffects : ImageTool {
 		// Translators: this is the name of an image filter.
 		filter_grid.add (Effect.VINTAGE, new Vintage (), _("Vintage"));
 
+		// Translators: this is the name of an image filter.
+		filter_grid.add (Effect.LOMO, new Lomo (), _("Lomography"));
+
 		filter_grid.activated.connect ((id) => {
 			var operation = filter_grid.get_operation (id) as ParametricOperation;
 			if ((operation != null) && operation.has_parameter ()) {
@@ -110,6 +113,7 @@ public class Gth.SpecialEffects : ImageTool {
 		VIGNETTE,
 		BLURRED_EDGES,
 		VINTAGE,
+		LOMO,
 	}
 
 	construct {

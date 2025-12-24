@@ -625,4 +625,42 @@ gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amo
 		blue_points, (blue_amount > 0) ? 3 : 0);
 	return gth_image_apply_curve (self, &points, cancellable);
 }
+
+gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable *cancellable) {
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+
+	double center_x = width / 2.0;
+	double center_y = height / 2.0;
+	double radius = MAX (width, height) / 2.0;
+
+	gboolean cancelled = FALSE;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		for (guint x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+
+			double distance = sqrt (SQR (x - center_x) + SQR (y - center_y));
+			guchar gradient_value = PIXEL_CLAMP ((distance >= radius) ? 0 : 255 - (255.0 * (distance / radius)));
+
+			red = PIXEL_SOFT_LIGHT (red, gradient_value);
+			green = PIXEL_SOFT_LIGHT (green, gradient_value);
+			blue = PIXEL_SOFT_LIGHT (blue, gradient_value);
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+
+			pixel += 4;
+		}
+		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			cancelled = TRUE;
+			break;
+		}
+	}
+	return !cancelled;
 }

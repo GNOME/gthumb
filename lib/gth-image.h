@@ -147,6 +147,7 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable);
 gboolean gth_image_apply_curve (GthImage *self, GthPoints *points, GCancellable *cancellable);
 gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amount, double blue_amount, GCancellable *cancellable);
+gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable *cancellable);
 
 G_END_DECLS
 

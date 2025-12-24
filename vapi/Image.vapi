@@ -77,5 +77,6 @@ namespace Gth {
 		public bool apply_radial_mask (Image foreground, double amount, Cancellable? cancellable = null);
 		public bool apply_curve (Points points, Cancellable? cancellable = null);
 		public bool colorize (double red_amount, double green_amount, double blue_amount, Cancellable? cancellable = null);
+		public bool soft_light_with_radial_gradient (Cancellable? cancellable = null);
 	}
 }

@@ -1,6 +1,7 @@
 special_effects_files = files(
   'BlurredEdges.vala',
   'CoolerColors.vala',
+  'Lomo.vala',
   'ParametricCurveOperation.vala',
   'ParametricOperation.vala',
   'Vignette.vala',

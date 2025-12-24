@@ -48,6 +48,9 @@
 #define PIXEL_OVER(bg, fg, alpha) \
 	PIXEL_CLAMP (bg * (1 - alpha) + fg * alpha);
 
+// Pegtop's formula https://en.wikipedia.org/wiki/Blend_modes#Soft_Light
+#define PIXEL_SOFT_LIGHT(a, b) \
+	PIXEL_CLAMP ((((double) a * a) / 255) + (2 * (b * (((double) a * (255 - a)) / 255) / 255)))
 
 #define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
