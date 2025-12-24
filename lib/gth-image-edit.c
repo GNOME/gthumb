@@ -432,8 +432,9 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 	guchar *pixel;
 	guchar red, green, blue, alpha;
 	guchar new_red, new_green, new_blue;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
 	double new_alpha;
-	double temp; // used in PIXEL_OVER
+	guint temp; // used in RGBA_TO_PIXEL
 	GthPoint f1, f2;
 	double min_d;
 	double max_d;
@@ -462,9 +463,10 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 					new_alpha = (d - min_d) / (max_d - min_d);
 				}
 
-				PIXEL_OVER(pixel[PIXEL_RED], red, new_red, new_alpha);
-				PIXEL_OVER(pixel[PIXEL_GREEN], green, new_green, new_alpha);
-				PIXEL_OVER(pixel[PIXEL_BLUE], blue, new_blue, new_alpha);
+				red = PIXEL_OVER (red, new_red, new_alpha);
+				green = PIXEL_OVER (green, new_green, new_alpha);
+				blue = PIXEL_OVER (blue, new_blue, new_alpha);
+				RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
 			}
 			// if (d >= max_d) {
 			// 	pixel[PIXEL_RED] = 255;
@@ -507,7 +509,8 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 
 	guchar b_red, b_green, b_blue, b_alpha;
 	guchar f_red, f_green, f_blue, f_alpha;
-	double temp; // used in PIXEL_OVER
+	guint temp; // used in RGBA_TO_PIXEL
+	guchar r, g, b; // used in RGBA_TO_PIXEL
 	GthPoint f1, f2;
 	double min_d, max_d, alpha;
 	calc_radial_mask (b_width, b_height, amount, &f1, &f2, &min_d, &max_d);
@@ -534,9 +537,10 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 					alpha = (d - min_d) / (max_d - min_d);
 				}
 
-				PIXEL_OVER(b_pixel[PIXEL_RED], b_red, f_red, alpha);
-				PIXEL_OVER(b_pixel[PIXEL_GREEN], b_green, f_green, alpha);
-				PIXEL_OVER(b_pixel[PIXEL_BLUE], b_blue, f_blue, alpha);
+				b_red = PIXEL_OVER (b_red, f_red, alpha);
+				b_green = PIXEL_OVER (b_green, f_green, alpha);
+				b_blue = PIXEL_OVER (b_blue, f_blue, alpha);
+				RGBA_TO_PIXEL (b_pixel, b_red, b_green, b_blue, b_alpha);
 			}
 			// if (d >= max_d) {
 			// 	b_pixel[PIXEL_RED] = 255;

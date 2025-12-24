@@ -45,8 +45,9 @@
 	temp = ((alpha) * (pixel)) + 0x80; \
 	result = ((temp + (temp >> 8)) >> 8);
 
-#define PIXEL_OVER(result, bg, fg, alpha) \
-	result = PIXEL_CLAMP(bg * (1 - alpha) + fg * alpha);
+#define PIXEL_OVER(bg, fg, alpha) \
+	PIXEL_CLAMP (bg * (1 - alpha) + fg * alpha);
+
 
 #define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
