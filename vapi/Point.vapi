@@ -8,5 +8,6 @@ namespace Gth {
 		public Point (double x, double y);
 		public Point.interpolate (Point p1, Point p2, double alpha);
 		public double distance (Point other);
+		public string to_string ();
 	}
 }

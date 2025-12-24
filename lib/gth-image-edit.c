@@ -598,6 +598,9 @@ gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancella
 
 gboolean gth_image_apply_curve (GthImage *self, GthPoints *points, GCancellable *cancellable)
 {
+	if (points == NULL) {
+		return TRUE;
+	}
 	guchar *value_map = gth_points_get_value_map (points, NULL);
 	gboolean completed = gth_image_apply_value_map (self, value_map, cancellable);
 	g_free (value_map);

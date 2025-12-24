@@ -14,3 +14,7 @@ void gth_point_init_interpolate (GthPoint *p, GthPoint *start, GthPoint *end, do
 double gth_point_distance (GthPoint *p1, GthPoint *p2) {
 	return sqrt (SQR (p1->x - p2->x) + SQR (p1->y - p2->y));
 }
+
+char * gth_point_to_string (GthPoint *p) {
+	return g_strdup_printf ("(%f, %f)", p->x, p->y);
+}
