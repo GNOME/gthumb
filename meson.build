@@ -316,6 +316,7 @@ lib_files = files(
   'lib/gth-histogram.c',
   'lib/gth-icc-profile.c',
   'lib/gth-image-blur.c',
+  'lib/gth-image-dither.c',
   'lib/gth-image.c',
   'lib/gth-image-cut.c',
   'lib/gth-image-edit.c',

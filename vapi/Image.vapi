@@ -78,5 +78,7 @@ namespace Gth {
 		public bool apply_curve (Points points, Cancellable? cancellable = null);
 		public bool colorize (double red_amount, double green_amount, double blue_amount, Cancellable? cancellable = null);
 		public bool soft_light_with_radial_gradient (Cancellable? cancellable = null);
+		public bool dither_ordered (Cancellable? cancellable = null);
+		public bool dither_error_diffusion (Cancellable? cancellable = null);
 	}
 }

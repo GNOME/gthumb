@@ -2,6 +2,7 @@ public class Gth.SpecialEffects : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/special-effects.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
+		window.editor.sidebar.insert_action_group ("special-effects", action_group);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 
@@ -23,10 +24,17 @@ public class Gth.SpecialEffects : ImageTool {
 		// Translators: this is the name of an image filter.
 		filter_grid.add (Effect.LOMO, new Lomo (), _("Lomography"));
 
+		// Translators: this is the name of an image filter.
+		filter_grid.add (Effect.DITHER, new Dither (), _("Reduce Colors"));
+
 		filter_grid.activated.connect ((id) => {
-			var operation = filter_grid.get_operation (id) as ParametricOperation;
+			var method = (Effect) id;
+			var operation = filter_grid.get_operation (method) as ParametricOperation;
 			if ((operation != null) && operation.has_parameter ()) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
+			}
+			else if (method == Effect.DITHER) {
+				window.editor.set_action_bar (builder.get_object ("dither_action_bar") as Gtk.Widget);
 			}
 			else {
 				window.editor.set_action_bar (null);
@@ -58,6 +66,7 @@ public class Gth.SpecialEffects : ImageTool {
 	}
 
 	public override void before_deactivate () {
+		window.editor.sidebar.insert_action_group ("special-effects", null);
 		if (thumbnails_job != null) {
 			thumbnails_job.cancel ();
 		}
@@ -113,12 +122,26 @@ public class Gth.SpecialEffects : ImageTool {
 		VIGNETTE,
 		BLURRED_EDGES,
 		VINTAGE,
+		DITHER,
 		LOMO,
 	}
 
 	construct {
 		title = _("Special Effects");
 		icon_name = "gth-special-effects-symbolic";
+
+		action_group = new SimpleActionGroup ();
+		var action = new SimpleAction.stateful ("dither-method", VariantType.STRING, new Variant.string (Dither.Method.ORDERED.to_state ()));
+		action.activate.connect ((_action, param) => {
+			var method = param.get_string ();
+			action.set_state (method);
+			var dither_operation = filter_grid.get_operation (Effect.DITHER) as Dither;
+			if (dither_operation != null) {
+				dither_operation.method = Dither.Method.from_state (method);
+				queue_update_preview ();
+			}
+		});
+		action_group.add_action (action);
 	}
 
 	Gtk.Builder builder;
@@ -126,6 +149,7 @@ public class Gth.SpecialEffects : ImageTool {
 	Job thumbnails_job = null;
 	unowned Gtk.Adjustment amount_adjustment;
 	ulong amount_changed_id = 0;
+	SimpleActionGroup action_group;
 
 	const uint THUMBNAIL_SIZE = 140;
 }
