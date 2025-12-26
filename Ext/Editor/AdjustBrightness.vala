@@ -2,7 +2,50 @@ public class Gth.AdjustBrightness : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-brightness.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
-		window.editor.sidebar.insert_action_group ("brightness", action_group);
+
+		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
+
+		// Translators: filter that executes a gamma correction.
+		filter_grid.add (Method.GAMMA, new GammaCorrection (), _("Gamma"));
+
+		// Translators: filter that adjust the color curves.
+		filter_grid.add (Method.CURVE, new BrightnessCurve (), _("Curves"));
+
+		// Translators: filter that makes a linear tranformation of the colors.
+		filter_grid.add (Method.LINEAR, new BrightnessLinear (), _("Linear"));
+
+		filter_grid.activated.connect ((id) => {
+			var method = (Method) id;
+			var operation = filter_grid.get_operation (method) as ParametricOperation;
+			if (operation == null) {
+				window.editor.set_action_bar (null);
+			}
+			else if (method == Method.GAMMA) {
+				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
+				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
+				scale.digits = 2;
+				SignalHandler.block (amount_adjustment, amount_changed_id);
+				amount_adjustment.configure (operation.get_amount (), 0, 2, 0.1, 0.1, 0);
+				SignalHandler.unblock (amount_adjustment, amount_changed_id);
+			}
+			else if (method == Method.LINEAR) {
+				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
+				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
+				scale.digits = 0;
+				SignalHandler.block (amount_adjustment, amount_changed_id);
+				amount_adjustment.configure (operation.get_amount (), -50, 50, 1, 5, 0);
+				SignalHandler.unblock (amount_adjustment, amount_changed_id);
+			}
+			else if (method == Method.CURVE) {
+				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
+				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
+				scale.digits = 0;
+				SignalHandler.block (amount_adjustment, amount_changed_id);
+				amount_adjustment.configure (operation.get_amount (), -100, 100, 1, 5, 0);
+				SignalHandler.unblock (amount_adjustment, amount_changed_id);
+			}
+			queue_update_preview ();
+		});
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.resized.connect (() => update_preview_on_resize ());
@@ -12,190 +55,185 @@ public class Gth.AdjustBrightness : ImageTool {
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect ((local_adj) => {
-			if (method == Method.CURVE) {
-				var operation = operations[method] as BrightnessCurve;
-				operation.amount = amount_adjustment.value;
+			var method = (Method) filter_grid.get_activated ();
+			var operation = filter_grid.get_operation (method) as ParametricOperation;
+			if ((operation != null) && operation.has_parameter ()) {
+				operation.set_amount (amount_adjustment.value);
 				queue_update_preview ();
-			}
-			else {
-				var operation = operations[method] as Operation;
-				operation.amount = amount_adjustment.value;
-				queue_update_preview ();
-			}
-		});
-
-		amount_label = builder.get_object ("amount_label") as Gtk.Label;
-		amount_adjustment.value_changed.connect ((local_adj) => {
-			if (method == Method.CURVE) {
-				var int_value = (int) Math.round (local_adj.value);
-				amount_label.label = "%d".printf (int_value);
-			}
-			else {
-				amount_label.label = "%.2f".printf (local_adj.value);
 			}
 		});
 
 		unowned var reset_button = builder.get_object ("reset_button") as Gtk.Button;
 		reset_button.clicked.connect (() => reset_amount ());
 
-		var preview_switch = builder.get_object ("preview") as Adw.SwitchRow;
-		preview_switch.notify["active"].connect ((obj, param) => {
-			var local_switch = obj as Adw.SwitchRow;
-			show_preview (local_switch.active);
-		});
-
-		operations = new ImageOperation[3];
-		operations[Method.GAMMA] = new Operation (Method.GAMMA, 1.0);
-		operations[Method.LINEAR] = new Operation (Method.LINEAR, 0.0);
-		operations[Method.CURVE] = new BrightnessCurve ();
-		set_method (Method.GAMMA);
+		update_thumbnails ();
+		filter_grid.activate (Method.GAMMA);
 	}
 
 	public override void before_deactivate () {
-		window.editor.sidebar.insert_action_group ("brightness", null);
+		if (thumbnails_job != null) {
+			thumbnails_job.cancel ();
+		}
 		builder = null;
 	}
 
 	public override ImageOperation? get_operation () {
-		return operations[method];
+		return filter_grid.get_active_operation ();
 	}
 
 	public override void update_options_from_operation (ImageOperation image_operation) {
-		if (image_operation is BrightnessCurve) {
-			var operation = image_operation as BrightnessCurve;
+		var operation = image_operation as ParametricOperation;
+		if (operation.has_parameter ()) {
 			SignalHandler.block (amount_adjustment, amount_changed_id);
-			amount_adjustment.set_value (operation.amount);
-			SignalHandler.unblock (amount_adjustment, amount_changed_id);
-		}
-		else {
-			var operation = image_operation as Operation;
-			SignalHandler.block (amount_adjustment, amount_changed_id);
-			amount_adjustment.set_value (operation.amount);
+			amount_adjustment.set_value (operation.get_amount ());
 			SignalHandler.unblock (amount_adjustment, amount_changed_id);
 		}
 	}
 
 	void reset_amount () {
-		if (method == Method.CURVE) {
-			var operation = operations[method] as BrightnessCurve;
-			operation.amount = 0.0;
+		var id = filter_grid.get_activated ();
+		var operation = filter_grid.get_operation (id) as ParametricOperation;
+		if (operation != null) {
+			operation.reset_amount ();
 			update_preview ();
 		}
-		else {
-			var operation = operations[method] as Operation;
-			operation.amount = operation.default_amount;
-			update_preview ();
+	}
+
+	void update_thumbnails () {
+		if (thumbnails_job != null) {
+			thumbnails_job.cancel ();
+		}
+		var job = window.new_job ("Update Thumbnails");
+		thumbnails_job = job;
+		try {
+			var sample = viewer.image_view.image.resize (THUMBNAIL_SIZE,
+				ResizeFlags.SQUARED, ScaleFilter.BOX, job.cancellable);
+			filter_grid.update_previews (sample, job.cancellable);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			job.done ();
+			if (job == thumbnails_job) {
+				thumbnails_job = null;
+			}
 		}
 	}
 
 	enum Method {
-		GAMMA = 0,
+		NONE = 0,
+		GAMMA,
 		LINEAR,
 		CURVE;
-	}
-
-	class BrightnessCurve : CurveOperation {
-		public double amount {
-			get { return - _amount * 100.0; }
-			set {
-				_amount = - value / 100.0;
-				update_points ();
-			}
-		}
-
-		void update_points () {
-			var value_point = Point.interpolate (Point (127, 127), Point (77, 169), _amount);
-			points = new Points (
-				{ Point (0, 0), value_point, Point (255, 255) },
-				null,
-				null,
-				null
-			);
-		}
-
-		double _amount;
-	}
-
-	class Operation : ImageOperation {
-		public Method method;
-		public double amount;
-		public double default_amount;
-
-		public Operation (Method _method, double _amount = 0.0) {
-			method = _method;
-			amount = _amount;
-			default_amount = _amount;
-		}
-
-		public override Gth.Image? execute (Image input, Cancellable cancellable) {
-			if (input == null) {
-				return null;
-			}
-			var output = input.dup ();
-			var completed = false;
-			switch (method) {
-			case Method.GAMMA:
-				completed = output.gamma_correction (amount, cancellable);
-				break;
-			case Method.LINEAR:
-				completed = output.adjust_brightness (amount, cancellable);
-				break;
-			default:
-				break;
-			}
-			return completed ? output : null;
-		}
-	}
-
-	void set_method (Method _method) {
-		method = _method;
-		if (method == Method.GAMMA) {
-			var operation = operations[method] as Operation;
-			SignalHandler.block (amount_adjustment, amount_changed_id);
-			amount_adjustment.configure (operation.amount, MIN_GAMMA, MAX_GAMMA, 0.1, 0.1, 0);
-			SignalHandler.unblock (amount_adjustment, amount_changed_id);
-		}
-		else if (method == Method.LINEAR) {
-			var operation = operations[method] as Operation;
-			SignalHandler.block (amount_adjustment, amount_changed_id);
-			amount_adjustment.configure (operation.amount, MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
-			SignalHandler.unblock (amount_adjustment, amount_changed_id);
-		}
-		else if (method == Method.CURVE) {
-			var operation = operations[method] as BrightnessCurve;
-			SignalHandler.block (amount_adjustment, amount_changed_id);
-			amount_adjustment.configure (operation.amount, MIN_CURVE, MAX_CURVE, 1, 5, 0);
-			SignalHandler.unblock (amount_adjustment, amount_changed_id);
-		}
-		queue_update_preview ();
 	}
 
 	construct {
 		title = _("Brightness");
 		icon_name = "gth-adjust-brightness-symbolic";
-
-		action_group = new SimpleActionGroup ();
-		var action = new SimpleAction.stateful ("method", VariantType.STRING, new Variant.string ("gamma"));
-		action.activate.connect ((_action, param) => {
-			var method = param.get_string ();
-			action.set_state (method);
-			set_method ((method == "gamma") ? Method.GAMMA : (method == "curve") ? Method.CURVE : Method.LINEAR);
-		});
-		action_group.add_action (action);
 	}
 
 	Gtk.Builder builder;
-	ImageOperation[] operations;
-	Method method;
-	SimpleActionGroup action_group;
+	Gth.FilterGrid filter_grid;
+	Job thumbnails_job = null;
 	unowned Gtk.Adjustment amount_adjustment;
-	unowned Gtk.Label amount_label;
 	ulong amount_changed_id = 0;
 
-	const double MIN_GAMMA = 0;
-	const double MAX_GAMMA = 2;
-	const double MIN_LINEAR = -1.0;
-	const double MAX_LINEAR = 1.0;
-	const double MIN_CURVE = -100;
-	const double MAX_CURVE = 100;
+	const uint THUMBNAIL_SIZE = 140;
+}
+
+
+public class Gth.BrightnessCurve : ParametricCurveOperation, ParametricOperation {
+	public BrightnessCurve () {
+		base (20);
+	}
+
+	public override void set_amount (double _amount) {
+		amount = - _amount / 100.0;
+		update_points ();
+	}
+
+	public override double get_amount () {
+		return - amount * 100;
+	}
+
+	public override void update_points () {
+		var value_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
+		points = new Points (
+			{ Point (0, 0), value_point, Point (255, 255) },
+			null,
+			null,
+			null
+		);
+	}
+}
+
+
+public class Gth.GammaCorrection : ImageOperation, ParametricOperation {
+	public GammaCorrection () {
+		reset_amount ();
+	}
+
+	public override bool has_parameter () {
+		return true;
+	}
+
+	public override void set_amount (double _amount) {
+		amount = _amount;
+	}
+
+	public override double get_amount () {
+		return amount;
+	}
+
+	public override void reset_amount () {
+		amount = 1.2;
+	}
+
+	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+		if (input != null) {
+			var output = input.dup ();
+			if (output.gamma_correction (amount, cancellable)) {
+				return output;
+			}
+		}
+		return null;
+	}
+
+	double amount;
+}
+
+
+public class Gth.BrightnessLinear : ImageOperation, ParametricOperation {
+	public BrightnessLinear () {
+		reset_amount ();
+	}
+
+	public override bool has_parameter () {
+		return true;
+	}
+
+	public override void set_amount (double _amount) {
+		amount = _amount / 100.0;
+	}
+
+	public override double get_amount () {
+		return amount * 100.0;
+	}
+
+	public override void reset_amount () {
+		amount = 0.2;
+	}
+
+	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+		if (input != null) {
+			var output = input.dup ();
+			if (output.adjust_brightness (amount, cancellable)) {
+				return output;
+			}
+		}
+		return null;
+	}
+
+	double amount;
 }
