@@ -4,14 +4,19 @@ public class Gth.AdjustContrast : ImageTool {
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
+
 		// Translators: filter that adjust the contrast balancing the white component.
 		filter_grid.add (Method.STRETCH, new ContrastStretch (), _("Balanced"));
+
+		// Translators: filter that adjust the color curves.
+		filter_grid.add (Method.CURVE, new ContrastCurve (), _("Curves"));
+
 		// Translators: filter that makes a linear tranformation of the colors.
 		filter_grid.add (Method.LINEAR, new ContrastLinear (), _("Linear"));
-		// Translators: filter that adjust the contrast changing the color curves.
-		filter_grid.add (Method.CURVE, new ContrastCurve (), _("Curves"));
+
 		// Translators: filter that equalizes the histogram.
 		filter_grid.add (Method.EQUALIZE, new ContrastEqualize (), _("Equalize"));
+
 		filter_grid.activated.connect ((id) => {
 			var method = (Method) id;
 			var operation = filter_grid.get_operation (method) as ParametricOperation;
@@ -28,18 +33,18 @@ public class Gth.AdjustContrast : ImageTool {
 				scale.add_mark (ContrastStretch.amount_to_adj (0.025), Gtk.PositionType.BOTTOM, null);
 				SignalHandler.block (amount_adjustment, amount_changed_id);
 				amount_adjustment.configure (operation.get_amount (),
-					ContrastStretch.amount_to_adj (MIN_STRETCH),
-					ContrastStretch.amount_to_adj (MAX_STRETCH),
+					ContrastStretch.amount_to_adj (0),
+					ContrastStretch.amount_to_adj (0.030),
 					1, 1, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
 			else if (method == Method.LINEAR) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 				var scale = builder.get_object ("amount_scale") as Gtk.Scale;
-				scale.digits = 2;
+				scale.digits = 0;
 				scale.clear_marks ();
 				SignalHandler.block (amount_adjustment, amount_changed_id);
-				amount_adjustment.configure (operation.get_amount (), MIN_LINEAR, MAX_LINEAR, 0.1, 0.1, 0);
+				amount_adjustment.configure (operation.get_amount (), -50, 50, 1, 5, 0);
 				SignalHandler.unblock (amount_adjustment, amount_changed_id);
 			}
 			else if (method == Method.EQUALIZE) {
@@ -114,6 +119,15 @@ public class Gth.AdjustContrast : ImageTool {
 		}
 	}
 
+	void reset_amount () {
+		var id = filter_grid.get_activated ();
+		var operation = filter_grid.get_operation (id) as ParametricOperation;
+		if (operation != null) {
+			operation.reset_amount ();
+			update_preview ();
+		}
+	}
+
 	void update_thumbnails () {
 		if (thumbnails_job != null) {
 			thumbnails_job.cancel ();
@@ -136,23 +150,6 @@ public class Gth.AdjustContrast : ImageTool {
 		}
 	}
 
-	void reset_amount () {
-		var id = filter_grid.get_activated ();
-		var operation = filter_grid.get_operation (id) as ParametricOperation;
-		if (operation != null) {
-			operation.reset_amount ();
-			update_preview ();
-		}
-	}
-
-	public static double adj_to_crop_size (double x) {
-		return x / 1000;
-	}
-
-	public static double crop_size_to_adj (double x) {
-		return 1000.0 * x;
-	}
-
 	enum Method {
 		NONE = 0,
 		STRETCH,
@@ -173,10 +170,6 @@ public class Gth.AdjustContrast : ImageTool {
 	ulong amount_changed_id = 0;
 
 	const uint THUMBNAIL_SIZE = 140;
-	const double MIN_STRETCH = 0;
-	const double MAX_STRETCH = 0.030;
-	const double MIN_LINEAR = -0.5;
-	const double MAX_LINEAR = 0.5;
 }
 
 
@@ -253,11 +246,11 @@ public class Gth.ContrastLinear : ImageOperation, ParametricOperation {
 	}
 
 	public virtual void set_amount (double _amount) {
-		amount = -_amount;
+		amount = - _amount / 100.0;
 	}
 
 	public virtual double get_amount () {
-		return -amount;
+		return - amount * 100.0;
 	}
 
 	public virtual void reset_amount () {
