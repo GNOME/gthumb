@@ -142,5 +142,5 @@ public class Gth.AdjustSaturation : ImageTool {
 	ulong amount_changed_id = 0;
 	double amount;
 
-	const double DEFAULT_VALUE = 0.0;
+	const double DEFAULT_VALUE = -0.1;
 }
