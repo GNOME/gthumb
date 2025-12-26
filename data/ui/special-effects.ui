@@ -48,34 +48,22 @@
   <object class="GtkBox" id="dither_action_bar">
     <property name="orientation">vertical</property>
     <property name="spacing">12</property>
+    <property name="margin-top">6</property>
+    <property name="margin-bottom">6</property>
+    <property name="margin-start">6</property>
+    <property name="margin-end">6</property>
     <child>
-      <object class="AdwPreferencesGroup">
-        <child>
-          <object class="AdwActionRow">
-            <property name="title" translatable="yes">Patterns</property>
-            <property name="activatable">true</property>
-            <property name="activatable_widget">ordered_button</property>
-            <child type="prefix">
-              <object class="GtkCheckButton" id="ordered_button">
-                <property name="action-name">special-effects.dither-method</property>
-                <property name="action-target">'ordered'</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwActionRow">
-            <property name="title" translatable="yes">Dots</property>
-            <property name="activatable">true</property>
-            <property name="activatable_widget">dots_button</property>
-            <child type="prefix">
-              <object class="GtkCheckButton" id="dots_button">
-                <property name="action-name">special-effects.dither-method</property>
-                <property name="action-target">'dots'</property>
-              </object>
-            </child>
-          </object>
-        </child>
+      <object class="GtkCheckButton" id="ordered_button">
+        <property name="action-name">special-effects.dither-method</property>
+        <property name="action-target">'ordered'</property>
+        <property name="label" translatable="yes">Patterns</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="dots_button">
+        <property name="action-name">special-effects.dither-method</property>
+        <property name="action-target">'dots'</property>
+        <property name="label" translatable="yes">Dots</property>
       </object>
     </child>
   </object>
