@@ -114,14 +114,15 @@ public class Gth.ImageTool : Object {
 		preview_job = job;
 		preview_filter_async.begin (job.cancellable, (_obj, res) => {
 			try {
-				stdout.printf ("> update_preview [3][%u]\n", preview_count);
+				// stdout.printf ("> update_preview [3][%u]\n", preview_count);
 				preview = preview_filter_async.end (res);
-				if (with_preview && (preview != null)) {
-					stdout.printf ("> update_preview [4][%u] image: %p\n", preview_count, preview);
+				if (with_preview) {
+					// stdout.printf ("> update_preview [4][%u] image: %p\n", preview_count, preview);
 					image_view.image = preview;
 				}
 			}
 			catch (Error error) {
+				// stdout.printf ("> update_preview [6][%u] error: %s\n", preview_count, error.message);
 				window.show_error (error);
 			}
 			finally {
@@ -140,13 +141,13 @@ public class Gth.ImageTool : Object {
 	}
 
 	async Image? preview_filter_async (Cancellable cancellable) throws Error {
-		stdout.printf ("> preview_filter_async [1][%u]\n", preview_count);
+		// stdout.printf ("> preview_filter_async [1][%u]\n", preview_count);
 		if (resized == null) {
 			var new_size = get_preview_size ();
 			if (new_size == 0) {
 				throw new IOError.CANCELLED ("Cancelled");
 			}
-			stdout.printf ("> new_size: %u\n", new_size);
+			// stdout.printf ("> new_size: %u\n", new_size);
 			resized = yield original.resize_async (new_size, ResizeFlags.DEFAULT, ScaleFilter.BOX, cancellable);
 			image_view.image = resized;
 		}
