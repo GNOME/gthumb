@@ -116,7 +116,7 @@ public class Gth.Editor : Gtk.Box {
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Gtk.Button apply_button;
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
-	[GtkChild] public unowned Gtk.Overlay sidebar_content;
+	[GtkChild] public unowned Gtk.ScrolledWindow sidebar_content;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Adw.HeaderBar sidebar_header;
 	[GtkChild] unowned Gtk.Box action_bar;

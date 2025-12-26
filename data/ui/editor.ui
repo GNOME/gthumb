@@ -166,7 +166,7 @@
                     <property name="content">
                       <object class="GthSidebarResizer" id="sidebar_resizer">
                         <child>
-                          <object class="GtkOverlay" id="sidebar_content">
+                          <object class="GtkScrolledWindow" id="sidebar_content">
                             <property name="hexpand">true</property>
                             <property name="vexpand">true</property>
                             <property name="margin-start">0</property>

@@ -79,6 +79,8 @@ public class Gth.FilterGrid : Gtk.Box {
 
 	construct {
 		orientation = Gtk.Orientation.VERTICAL;
+		margin_bottom = 24;
+
 		grid = new Gtk.Grid ();
 		grid.row_spacing = 20;
 		grid.column_spacing = 20;
