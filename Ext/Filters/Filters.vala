@@ -51,6 +51,7 @@ public class Gth.Filters {
 			return false;
 		}
 		var loaded = false;
+		var loaded_tests = new GenericSet<string> (str_hash, str_equal);
 		try {
 			var doc = new Dom.Document ();
 			doc.load_file (file);
@@ -71,12 +72,22 @@ public class Gth.Filters {
 								test.load_from_element (node);
 								entries.model.append (test);
 								app.shortcuts.add (registered_test.create_shortcut ());
+								loaded_tests.add (test.id);
 							}
 						}
 					}
 				}
 			}
 			loaded = true;
+			// Add the remaining registered tests as not visible.
+			foreach (unowned var registered_test in app.ordered_tests) {
+				if (!loaded_tests.contains (registered_test.id)) {
+					var test = registered_test.duplicate ();
+					test.visible = false;
+					entries.model.append (test);
+					app.shortcuts.add (registered_test.create_shortcut ());
+				}
+			}
 			changed (null);
 		}
 		catch (Error error) {
