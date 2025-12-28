@@ -71,7 +71,8 @@ namespace Gth {
 		public bool adjust_contrast (double amount, Cancellable? cancellable = null);
 		public bool grayscale (double red_weight, double green_weight, double blue_weight, double amount, Cancellable? cancellable = null);
 		public bool grayscale_saturation (double amount, Cancellable? cancellable = null);
-		public bool blur (int radius, Cancellable? cancellable = null);
+		public Image? blur (int radius, Cancellable? cancellable = null);
+		public bool progressive_blur (int radius, Cancellable? cancellable = null);
 		public bool sharpen (double amount, int radius, double threshold, Cancellable? cancellable = null);
 		public bool apply_vignette (double amount, Cancellable? cancellable = null);
 		public bool apply_radial_mask (Image foreground, double amount, Cancellable? cancellable = null);

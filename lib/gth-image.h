@@ -141,7 +141,9 @@ gboolean gth_image_adjust_brightness (GthImage *self, double amount, GCancellabl
 gboolean gth_image_adjust_contrast (GthImage *self, double amount, GCancellable *cancellable);
 gboolean gth_image_grayscale (GthImage *self, double red_weight, double green_weight, double blue_weight, double amount, GCancellable *cancellable);
 gboolean gth_image_grayscale_saturation (GthImage *self, double amount, GCancellable *cancellable);
-gboolean gth_image_blur (GthImage *self, int radius, GCancellable *cancellable);
+GthImage * gth_image_blur (GthImage *self, int radius, GCancellable *cancellable);
+GthImage * gth_image_gaussian_blur (GthImage *self, int radius, GCancellable *cancellable);
+gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancellable *cancellable);
 gboolean gth_image_sharpen (GthImage *self, double amount, int radius, double threshold, GCancellable *cancellable);
 gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable);
 gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable);

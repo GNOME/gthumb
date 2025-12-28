@@ -9,12 +9,9 @@ public class Gth.Lomo : ImageOperation, ParametricOperation {
 				{ Point (0, 0), Point (68, 79), Point (210, 174), Point (255, 255) }
 			);
 			if (output.apply_curve (points, cancellable)) {
-				var blurred = input.dup ();
-				if (blurred.blur (1, cancellable)) {
-					if (output.apply_radial_mask (blurred, 1.0, cancellable)) {
-						if (output.soft_light_with_radial_gradient (cancellable)) {
-							return output;
-						}
+				if (output.progressive_blur (3, cancellable)) {
+					if (output.soft_light_with_radial_gradient (cancellable)) {
+						return output;
 					}
 				}
 			}

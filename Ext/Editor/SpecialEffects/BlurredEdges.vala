@@ -17,12 +17,9 @@ public class Gth.BlurredEdges : ImageOperation, ParametricOperation {
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
 		if (input != null) {
-			var blurred = input.dup ();
-			if (blurred.blur ((int) Math.round (amount * 10), cancellable)) {
-				var output = input.dup ();
-				if (output.apply_radial_mask (blurred, amount, cancellable)) {
-					return output;
-				}
+			var output = input.dup ();
+			if (output.progressive_blur ((int) Math.round (amount * 20), cancellable)) {
+				return output;
 			}
 		}
 		return null;
