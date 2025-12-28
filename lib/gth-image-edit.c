@@ -407,14 +407,19 @@ void calc_radial_mask (guint width, guint height, double amount, GthPoint *f1, G
 
 gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *cancellable) {
 	// The greater `amount` the darker the edges of the image.
-	GthPoint lighter_point = { 127, 127 };
-	GthPoint darker_point = { 200, 70 };
-	GthPoint middle_point;
-	gth_point_init_interpolate (&middle_point, &lighter_point, &darker_point, amount);
-	GthPoint value_points[] = { { 0, 0 }, middle_point, { 255, 255 } };
+	GthPoint start_point_ligher = { 0, 0 };
+	GthPoint start_point_darker = { 190, 0 };
+	GthPoint start_point;
+	gth_point_init_interpolate (&start_point, &start_point_ligher, &start_point_darker, amount);
+
+	GthPoint end_point_ligher = { 255, 255 };
+	GthPoint end_point_darker = { 255, 65 };
+	GthPoint end_point;
+	gth_point_init_interpolate (&end_point, &end_point_ligher, &end_point_darker, amount);
+	GthPoint value_points[] = { start_point, end_point };
 
 	GthPoints points;
-	gth_points_init (&points, value_points, 3, NULL, 0, NULL, 0, NULL, 0);
+	gth_points_init (&points, value_points, 2, NULL, 0, NULL, 0, NULL, 0);
 	guchar *value_map = gth_points_get_value_map (&points, NULL);
 
 	const guchar *red_map = value_map + (GTH_CHANNEL_RED * 256);
