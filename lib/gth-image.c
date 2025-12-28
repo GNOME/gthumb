@@ -354,7 +354,9 @@ GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, g
 	//g_print ("> Image: [%u,%u] (stride: %d)\n", priv->width, priv->height, priv->row_stride);
 	//g_print ("  Rect: (%u,%u)[%u,%u]\n", x, y, width, height);
 	//g_print ("  Bytes: [%ld -> %ld] (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (priv->bytes));
-	return gdk_memory_texture_new ((int) width, (int) height, GTH_IMAGE_MEMORY_FORMAT, bytes, (gsize) priv->row_stride);
+	GdkTexture *texture = gdk_memory_texture_new ((int) width, (int) height, GTH_IMAGE_MEMORY_FORMAT, bytes, (gsize) priv->row_stride);
+	g_bytes_unref (bytes);
+	return texture;
 }
 
 GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height) {
