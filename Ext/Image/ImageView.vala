@@ -383,7 +383,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		else if (scaled_texture != null) {
 			// stdout.printf ("> TEXTURE BOX: %f,%f\n", texture_box.size.width, texture_box.size.height);
 			// stdout.printf ("  SCALED TEXTURE: %d,%d\n", scaled_texture.width, scaled_texture.height);
-			snapshot.append_scaled_texture (scaled_texture, Gsk.ScalingFilter.NEAREST, texture_box);
+			snapshot.append_scaled_texture (scaled_texture,
+				Gsk.ScalingFilter.NEAREST,
+				texture_box);
 		}
 		else {
 			var texture = _image.get_texture_for_rect (
@@ -393,7 +395,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				(uint) image_box.size.height,
 				current_frame);
 			if (texture != null) {
-				snapshot.append_scaled_texture (texture, _zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR, texture_box);
+				snapshot.append_scaled_texture (texture,
+					_zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR,
+					texture_box);
 			}
 		}
 
