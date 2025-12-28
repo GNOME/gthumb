@@ -672,3 +672,47 @@ gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable
 	}
 	return !cancelled;
 }
+
+gboolean gth_image_pixelize (GthImage *self, guint tile_size, GCancellable *cancellable) {
+	if (tile_size <= 1) {
+		return TRUE;
+	}
+	int row_stride;
+	guint width;
+	guint height;
+	guchar *source_row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	int tile_row, tile_column, last_row = -1, last_column = -1;
+	guchar *row = source_row;
+	guint max_x = width - 1;
+	guint max_y = height - 1;
+
+	gboolean cancelled = FALSE;
+	for (guint y = 0; y < height; y++) {
+		pixel = row;
+		tile_column = y / tile_size;
+		for (guint x = 0; x < width; x++) {
+			tile_row = x / tile_size;
+			if ((tile_row != last_row) || (tile_column != last_column)) {
+				last_row = tile_row;
+				last_column = tile_column;
+				guint sample_x = (x / tile_size + 0.5) * tile_size;
+				guint sample_y = (y / tile_size + 0.5) * tile_size;
+				guchar *sample_p = source_row + (CLAMP (sample_y, 0, max_y) * row_stride) + ((CLAMP (sample_x, 0, max_x)) * 4);
+				PIXEL_TO_RGBA (sample_p, red, green, blue, alpha);
+			}
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += 4;
+		}
+		row += row_stride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			cancelled = TRUE;
+			break;
+		}
+	}
+	return !cancelled;
+}

@@ -27,6 +27,12 @@ public class Gth.SpecialEffects : ImageTool {
 		// Translators: this is the name of an image filter.
 		filter_grid.add (Effect.DITHER, new Dither (), _("Reduce Colors"));
 
+		// Translators: this is the name of an image filter.
+		filter_grid.add (Effect.BLUR, new Blur (), _("Blur"));
+
+		// Translators: this is the name of an image filter.
+		filter_grid.add (Effect.PIXELIZE, new Pixelize (), _("Mosaic"));
+
 		filter_grid.activated.connect ((id) => {
 			var method = (Effect) id;
 			var operation = filter_grid.get_operation (method) as ParametricOperation;
@@ -123,6 +129,8 @@ public class Gth.SpecialEffects : ImageTool {
 		VIGNETTE,
 		VINTAGE,
 		WARMER,
+		BLUR,
+		PIXELIZE,
 	}
 
 	construct {

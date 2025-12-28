@@ -81,5 +81,6 @@ namespace Gth {
 		public bool soft_light_with_radial_gradient (Cancellable? cancellable = null);
 		public bool dither_ordered (Cancellable? cancellable = null);
 		public bool dither_error_diffusion (Cancellable? cancellable = null);
+		public bool pixelize (uint size, Cancellable? cancellable = null);
 	}
 }

@@ -152,6 +152,7 @@ gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amo
 gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable *cancellable);
 gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable);
 gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancellable);
+gboolean gth_image_pixelize (GthImage *self, guint size, GCancellable *cancellable);
 
 G_END_DECLS
 
