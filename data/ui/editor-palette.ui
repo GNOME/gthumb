@@ -145,9 +145,9 @@
                         </child>
                         <child>
                           <object class="GthToolButton">
-                            <property name="label" translatable="yes">Special Effects</property>
-                            <property name="icon-name">gth-special-effects-symbolic</property>
-                            <property name="action-name">viewer.special-effects</property>
+                            <property name="label" translatable="yes">Focus</property>
+                            <property name="icon-name">gth-sharpen-symbolic</property>
+                            <property name="action-name">viewer.sharpen-image</property>
                             <layout>
                               <property name="column">1</property>
                               <property name="row">2</property>
@@ -156,9 +156,9 @@
                         </child>
                         <child>
                           <object class="GthToolButton">
-                            <property name="label" translatable="yes">Focus</property>
-                            <property name="icon-name">gth-sharpen-symbolic</property>
-                            <property name="action-name">viewer.sharpen-image</property>
+                            <property name="label" translatable="yes">Special Effects</property>
+                            <property name="icon-name">gth-special-effects-symbolic</property>
+                            <property name="action-name">viewer.special-effects</property>
                             <layout>
                               <property name="column">0</property>
                               <property name="row">3</property>
@@ -279,7 +279,7 @@
                         </child>
                         <child>
                           <object class="GthToolButton">
-                            <property name="action-name">image.rotate</property>
+                            <property name="action-name">viewer.rotate</property>
                             <property name="icon-name">gth-rotate-symbolic</property>
                             <property name="label" translatable="yes">Rotate</property>
                             <layout>
