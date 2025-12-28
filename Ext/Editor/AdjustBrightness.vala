@@ -149,18 +149,26 @@ public class Gth.BrightnessCurve : ParametricCurveOperation, ParametricOperation
 	}
 
 	public override void set_amount (double _amount) {
-		amount = - _amount / 100.0;
+		amount = _amount / 100.0;
 		update_points ();
 	}
 
 	public override double get_amount () {
-		return - amount * 100;
+		return amount * 100;
 	}
 
 	public override void update_points () {
-		var value_point = Point.interpolate (Point (127, 127), Point (77, 169), amount);
+		Point start_point, end_point;
+		if (amount >= 0) {
+			start_point = Point.interpolate (Point (0, 0), Point (95, 0), amount);
+			end_point = Point.interpolate (Point (255, 255), Point (255, 160), amount);
+		}
+		else {
+			start_point = Point.interpolate (Point (0, 0), Point (0, 65), - amount);
+			end_point = Point.interpolate (Point (255, 255), Point (190, 255), - amount);
+		}
 		points = new Points (
-			{ Point (0, 0), value_point, Point (255, 255) },
+			{ start_point, end_point },
 			null,
 			null,
 			null
