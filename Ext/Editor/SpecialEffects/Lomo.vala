@@ -9,7 +9,7 @@ public class Gth.Lomo : ImageOperation, ParametricOperation {
 				{ Point (0, 0), Point (68, 79), Point (210, 174), Point (255, 255) }
 			);
 			if (output.apply_curve (points, cancellable)) {
-				if (output.progressive_blur (3, cancellable)) {
+				if (output.progressive_blur (6, cancellable)) {
 					if (output.soft_light_with_radial_gradient (cancellable)) {
 						return output;
 					}
