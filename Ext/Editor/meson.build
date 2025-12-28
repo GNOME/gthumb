@@ -21,6 +21,7 @@ editor_files = special_effects_files + files(
   'ImageSelector.vala',
   'ImageTool.vala',
   'ResizeImage.vala',
+  'RotateImage.vala',
   'SharpenImage.vala',
   'SpecialEffects.vala',
   'ToolButton.vala',
