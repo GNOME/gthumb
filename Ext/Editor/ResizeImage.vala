@@ -2,7 +2,6 @@ public class Gth.ResizeImage : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/resize-image.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
-		window.editor.sidebar.insert_action_group ("resize", action_group);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.image = original;
@@ -114,7 +113,6 @@ public class Gth.ResizeImage : ImageTool {
 	}
 
 	public override void before_deactivate () {
-		window.editor.sidebar.insert_action_group ("resize", null);
 		builder = null;
 		if (preview_job != null) {
 			preview_job.cancel ();
@@ -272,7 +270,6 @@ public class Gth.ResizeImage : ImageTool {
 	}
 
 	Gtk.Builder builder;
-	SimpleActionGroup action_group;
 	ulong width_changed_id = 0;
 	ulong height_changed_id = 0;
 	uint width;
