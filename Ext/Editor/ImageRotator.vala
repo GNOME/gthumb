@@ -184,8 +184,6 @@ public class Gth.ImageRotator : Object, ImageController {
 
 		// Rotated image
 
-		//snapshot.push_blend (Gsk.BlendMode.DIFFERENCE);
-
 		snapshot.save ();
 		var x = _view.texture_box.origin.x;
 		var y = _view.texture_box.origin.y;
@@ -205,43 +203,6 @@ public class Gth.ImageRotator : Object, ImageController {
 		var transformed_crop_region = transform.transform_bounds (_crop_region);
 		var path = new Gsk.PathBuilder ();
 		_view.snapshot_selection (snapshot, transformed_crop_region, 0.5f);
-
-		//snapshot.pop ();
-
-		// TODO: grid
-
-		//snapshot.pop ();
-
-		/*var x = _view.texture_box.origin.x;
-		var y = _view.texture_box.origin.y;
-		var w = _view.texture_box.size.width;
-		var h = _view.texture_box.size.height;
-
-		var path = new Gsk.PathBuilder ();
-		path.move_to (x, y);
-		path.rel_line_to (w, 0);
-		path.rel_line_to (0, h);
-		path.rel_line_to (-w, 0);
-		path.close ();
-		snapshot.append_stroke (path.to_path (), new Gsk.Stroke (2), { 1.0f, 1f, 1.0f, 1.0f });
-
-		var transform = new Gsk.Transform ()
-			.translate ({ x + w / 2, y + h / 2 })
-			.rotate (_angle)
-			.translate ({ -(x + w / 2), -(y + h / 2) });
-		snapshot.transform (transform);
-
-		path = new Gsk.PathBuilder ();
-		path.move_to (x, y);
-		path.rel_line_to (w, 0);
-		path.rel_line_to (0, h);
-		path.rel_line_to (-w, 0);
-		path.close ();
-		snapshot.append_stroke (path.to_path (), new Gsk.Stroke (1), { 1.0f, 0f, 1.0f, 1.0f });*/
-
-		// _view.snapshot_image (snapshot);
-
-		//snapshot.restore ();
 
 		snapshot.pop ();
 	}
