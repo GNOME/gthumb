@@ -182,7 +182,7 @@ class Gth.ColorRange : Gtk.Widget {
 
 	const int NATURAL_WIDTH = 70; // pixels
 	// TODO: use the font height?
-	const int NATURAL_HEIGHT = 30; // pixels
+	const int NATURAL_HEIGHT = 40; // pixels
 
 	public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
 		if (orientation == Gtk.Orientation.HORIZONTAL) {

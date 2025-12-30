@@ -2,13 +2,13 @@ public class Gth.ImageRotator : Object, ImageController {
 	public signal void changed ();
 	public signal void changed_position_parameters ();
 
-	public Graphene.Point center {
-		get { return _center; }
-		set {
-			_center = value;
-			// TODO
-		}
-	}
+	// public Graphene.Point center {
+	// 	get { return _center; }
+	// 	set {
+	// 		_center = value;
+	// 		// TODO
+	// 	}
+	// }
 
 	public float radiants {
 		set {
@@ -35,22 +35,22 @@ public class Gth.ImageRotator : Object, ImageController {
 		set {
 			_rotated_size = value;
 			update_clip_area ();
-			_view.queue_draw ();
+			if (_view != null) {
+				_view.queue_draw ();
+			}
 		}
 	}
 
 	public Graphene.Rect crop_region {
 		get { return _crop_region; }
-		set {
-			_crop_region = value;
-			// TODO
-		}
 	}
 
 	public double crop_point1 {
 		set {
 			move_crop_region (value);
-			_view.queue_draw ();
+			if (_view != null) {
+				_view.queue_draw ();
+			}
 		}
 		get {
 			return crop_p1;
@@ -67,6 +67,18 @@ public class Gth.ImageRotator : Object, ImageController {
 		get {
 			var max = crop_p1_plus_p2 - crop_p_min;
 			return (max - crop_p_min < 0.001) ? crop_p_min : max;
+		}
+	}
+
+	public Gdk.RGBA background {
+		set {
+			_background = value;
+			if (_view != null) {
+				_view.queue_draw ();
+			}
+		}
+		get {
+			return _background;
 		}
 	}
 
@@ -119,8 +131,7 @@ public class Gth.ImageRotator : Object, ImageController {
 
 	public Gth.Image? rotate_image (Gth.Image image, Cancellable cancellable) {
 		try {
-			Gdk.RGBA background = { 0, 0, 0, 1 }; // TODO: allow the user to choose the color
-			var rotated = image.rotate (_angle, background, cancellable);
+			var rotated = image.rotate (_angle, _background, cancellable);
 			Gth.Image cropped = null;
 			switch (_rotated_size) {
 			case RotatedSize.ORIGINAL:
@@ -434,6 +445,7 @@ public class Gth.ImageRotator : Object, ImageController {
 		_crop_region = { { 0, 0 }, { 0, 0 } };
 		dragging = false;
 		clicked = false;
+		background = { 0, 0, 0, 1 };
 	}
 
 	Graphene.Rect image_box;
@@ -448,4 +460,5 @@ public class Gth.ImageRotator : Object, ImageController {
 	Graphene.Point click_position;
 	Graphene.Point drag_start;
 	float angle_before_dragging;
+	Gdk.RGBA _background;
 }

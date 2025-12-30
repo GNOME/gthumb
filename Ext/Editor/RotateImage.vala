@@ -23,6 +23,28 @@ public class Gth.RotateImage : ImageTool {
 			rotator.degrees = 0;
 		});
 
+		var background_row = builder.get_object ("background_row") as Adw.ActionRow;
+		background_row.activated.connect (() => {
+			var local_job = window.new_job (_("Color"));
+			var selector = new Gth.ColorSelector ();
+			color_job = local_job;
+			selector.select_color.begin (window, rotator.background, local_job.cancellable, (_obj, res) => {
+				try {
+					var color = selector.select_color.end (res);
+					var background_preview = builder.get_object ("background_preview") as Gth.ColorPreview;
+					background_preview.color = color;
+					rotator.background = color;
+				}
+				catch (Error e) {
+					// Ignore.
+				}
+				local_job.done ();
+				if (local_job == color_job) {
+					color_job = null;
+				}
+			});
+		});
+
 		rotator = new ImageRotator (image_view);
 		rotator.changed_position_parameters.connect (() => {
 			var local_adj = builder.get_object ("point1_adjustment") as Gtk.Adjustment;
@@ -46,6 +68,9 @@ public class Gth.RotateImage : ImageTool {
 	}
 
 	public override void before_deactivate () {
+		if (color_job != null) {
+			color_job.cancel ();
+		}
 		window.editor.sidebar.insert_action_group ("rotate", null);
 		builder = null;
 	}
@@ -68,6 +93,8 @@ public class Gth.RotateImage : ImageTool {
 			point1_row.sensitive = (rotator.rotated_size == RotatedSize.CROP_BORDERS);
 		});
 		action_group.add_action (action);
+
+		color_job = null;
 	}
 
 	Gtk.Builder builder;
@@ -75,6 +102,7 @@ public class Gth.RotateImage : ImageTool {
 	ImageRotator rotator;
 	ulong angle_adjustment_id;
 	ulong point1_adjustment_id;
+	Gth.Job color_job;
 }
 
 public class Gth.RotateOperation : ImageOperation {
