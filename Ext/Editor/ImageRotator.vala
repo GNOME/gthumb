@@ -177,6 +177,11 @@ public class Gth.ImageRotator : Object, ImageController {
 	public void on_snapshot (Gtk.Snapshot snapshot) {
 		snapshot.push_clip (_view.viewport);
 
+		// Background
+
+		Graphene.Rect view_box = { { 0, 0 }, _view.viewport.size };
+		snapshot.append_color (_background, view_box);
+
 		// Rotated image
 
 		//snapshot.push_blend (Gsk.BlendMode.DIFFERENCE);
