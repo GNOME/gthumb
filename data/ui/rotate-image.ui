@@ -98,16 +98,6 @@
     </child>
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="visible">false</property>
-        <child>
-          <object class="AdwSwitchRow" id="keep_aspect_ratio">
-            <property name="title" translatable="yes">Keep Aspect Ratio</property>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="AdwPreferencesGroup">
         <child>
           <object class="AdwActionRow" id="point1_row">
             <property name="title" translatable="yes">Position</property>
@@ -120,30 +110,6 @@
                 <property name="digits">0</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment" id="point1_adjustment">
-                    <property name="lower">0</property>
-                    <property name="upper">100</property>
-                    <property name="step_increment">1</property>
-                    <property name="page_increment">10</property>
-                    <property name="value">0</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwActionRow">
-            <property name="title" translatable="yes">Point 2</property>
-            <property name="activatable">false</property>
-            <property name="visible">false</property>
-            <child type="suffix">
-              <object class="GtkScale">
-                <property name="hexpand">true</property>
-                <property name="draw-value">false</property>
-                <property name="value-pos">left</property>
-                <property name="digits">0</property>
-                <property name="adjustment">
-                  <object class="GtkAdjustment" id="point2_adjustment">
                     <property name="lower">0</property>
                     <property name="upper">100</property>
                     <property name="step_increment">1</property>
