@@ -133,6 +133,11 @@ public enum Gth.ZoomType {
 	}
 }
 
+public enum Gth.ZoomLimit {
+	NONE,
+	ALMOST_MAXIMIZE,
+}
+
 public enum Gth.ZoomQuality {
 	HIGH,
 	LOW;
@@ -166,28 +171,6 @@ public enum Gth.TransparencyStyle {
 		"gray",
 		"black",
 	};
-}
-
-public struct Gth.ClickPoint {
-	float x;
-	float y;
-
-	public ClickPoint (double _x = -1, double _y = -1) {
-		x = (float) _x;
-		y = (float) _y;
-	}
-
-	public bool is_valid () {
-		return (x >= 0) && (y >= 0);
-	}
-
-	public bool drag_threshold (double px, double py) {
-		var dx = (x - px).abs ();
-		var dy = (y - py).abs ();
-		return (dx >= DRAG_THRESHOLD) || (dy >= DRAG_THRESHOLD);
-	}
-
-	const double DRAG_THRESHOLD = 1;
 }
 
 [Flags]
@@ -289,4 +272,21 @@ public enum Gth.TextTransform {
 public enum Gth.QueryListFlags {
 	DEFAULT = 0,
 	NOT_RECURSIVE,
+}
+
+public enum Gth.RotatedSize {
+	ORIGINAL,
+	BOUNDING_BOX,
+	CROP_BORDERS;
+
+	public unowned string to_state () {
+		return STATE[this];
+	}
+
+	public static RotatedSize from_state (string? state) {
+		var idx = Util.enum_index (STATE, state);
+		return (RotatedSize) idx;
+	}
+
+	const string[] STATE = { "original", "bounding-box", "crop-borders" };
 }

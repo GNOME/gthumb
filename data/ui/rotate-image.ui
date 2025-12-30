@@ -17,20 +17,16 @@
                 <property name="margin-end">12</property>
                 <property name="spacing">6</property>
                 <child>
+                  <object class="GtkSpinButton">
+                    <property name="adjustment">angle_adjustment</property>
+                    <property name="digits">1</property>
+                  </object>
+                </child>
+                <child>
                   <object class="GtkScale">
                     <property name="hexpand">true</property>
-                    <property name="draw-value">true</property>
-                    <property name="value-pos">top</property>
                     <property name="digits">1</property>
-                    <property name="adjustment">
-                      <object class="GtkAdjustment" id="angle_adjustment">
-                        <property name="lower">-180</property>
-                        <property name="upper">180</property>
-                        <property name="step_increment">0.1</property>
-                        <property name="page_increment">0.1</property>
-                        <property name="value">0</property>
-                      </object>
-                    </property>
+                    <property name="adjustment">angle_adjustment</property>
                   </object>
                 </child>
                 <child>
@@ -51,6 +47,7 @@
         <child>
           <object class="AdwButtonRow">
             <property name="title" translatable="yes">Align</property>
+            <property name="visible">false</property>
           </object>
         </child>
       </object>
@@ -65,7 +62,7 @@
             <property name="activatable_widget">original_size_button</property>
             <child type="prefix">
               <object class="GtkCheckButton" id="original_size_button">
-                <property name="action-name">rotate.size-type</property>
+                <property name="action-name">rotate.rotated-size</property>
                 <property name="action-target">'original'</property>
               </object>
             </child>
@@ -78,7 +75,7 @@
             <property name="activatable_widget">bounding_box_button</property>
             <child type="prefix">
               <object class="GtkCheckButton" id="bounding_box_button">
-                <property name="action-name">rotate.size-type</property>
+                <property name="action-name">rotate.rotated-size</property>
                 <property name="action-target">'bounding-box'</property>
               </object>
             </child>
@@ -91,7 +88,7 @@
             <property name="activatable_widget">crop_borders_button</property>
             <child type="prefix">
               <object class="GtkCheckButton" id="crop_borders_button">
-                <property name="action-name">rotate.size-type</property>
+                <property name="action-name">rotate.rotated-size</property>
                 <property name="action-target">'crop-borders'</property>
               </object>
             </child>
@@ -101,10 +98,10 @@
     </child>
     <child>
       <object class="AdwPreferencesGroup">
+        <property name="visible">false</property>
         <child>
           <object class="AdwSwitchRow" id="keep_aspect_ratio">
             <property name="title" translatable="yes">Keep Aspect Ratio</property>
-            <!--signal name="notify::active" handler="on_keep_aspect_ratio_activated"/-->
           </object>
         </child>
       </object>
@@ -112,8 +109,8 @@
     <child>
       <object class="AdwPreferencesGroup">
         <child>
-          <object class="AdwActionRow">
-            <property name="title" translatable="yes">Point 1</property>
+          <object class="AdwActionRow" id="point1_row">
+            <property name="title" translatable="yes">Position</property>
             <property name="activatable">false</property>
             <child type="suffix">
               <object class="GtkScale">
@@ -138,6 +135,7 @@
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Point 2</property>
             <property name="activatable">false</property>
+            <property name="visible">false</property>
             <child type="suffix">
               <object class="GtkScale">
                 <property name="hexpand">true</property>
@@ -159,5 +157,14 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAdjustment" id="angle_adjustment">
+    <property name="lower">-180</property>
+    <property name="upper">180</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+    <property name="value">0</property>
+  </object>
+  <object class="GthImageView" id="image_view">
   </object>
 </interface>

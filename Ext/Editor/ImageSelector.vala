@@ -2,6 +2,7 @@ public class Gth.ImageSelector : Object, ImageController {
 	public signal void changed ();
 
 	public Graphene.Rect selection;
+
 	public GridType grid_type {
 		get { return _grid_type; }
 		set {
@@ -11,11 +12,11 @@ public class Gth.ImageSelector : Object, ImageController {
 			}
 		}
 	}
+
 	public float ratio { get { return _ratio; } }
+
 	public int step {
-		get {
-			return _step;
-		}
+		get { return _step;	}
 		set {
 			if (value < 1) {
 				return;
@@ -63,7 +64,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		click_events.pressed.connect ((n_press, x, y) => {
 			clicked = true;
 			dragging = false;
-			click_position = ClickPoint (x, y);
+			click_position = PointUtil.point_from_click (x, y);
 			prev_cursor = view.cursor;
 			on_button_press ((float) x, (float) y);
 		});
@@ -78,7 +79,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
 			if (!dragging && clicked) {
-				if (click_position.drag_threshold (x, y) && (current_area != null)) {
+				if (PointUtil.drag_threshold (click_position, x, y) && (current_area != null)) {
 					dragging = true;
 					drag_start = click_position;
 					selection_at_drag_start = selection;
@@ -650,6 +651,14 @@ public class Gth.ImageSelector : Object, ImageController {
 	}
 
 	public void on_snapshot (Gtk.Snapshot snapshot) {
+		view.snapshot_image (snapshot);
+
+		snapshot.push_clip (view.texture_box);
+		snapshot_selection (snapshot);
+		snapshot.pop ();
+	}
+
+	void snapshot_selection (Gtk.Snapshot snapshot) {
 		// stdout.printf ("> selection_box: (%f, %f) [%f, %f]\n",
 		// 	selection_box.origin.x,
 		// 	selection_box.origin.y,
@@ -897,6 +906,8 @@ public class Gth.ImageSelector : Object, ImageController {
 		_step = 1;
 		_grid_type = GridType.RULE_OF_THIRDS;
 		active = false;
+		dragging = false;
+		clicked = false;
 	}
 
 	Graphene.Rect selection_box;
@@ -910,8 +921,8 @@ public class Gth.ImageSelector : Object, ImageController {
 	bool clicked;
 	bool dragging;
 	Gdk.Cursor prev_cursor;
-	ClickPoint click_position;
-	ClickPoint drag_start;
+	Graphene.Point click_position;
+	Graphene.Point drag_start;
 	Graphene.Rect selection_at_drag_start;
 	GridType _grid_type;
 

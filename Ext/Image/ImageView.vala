@@ -72,6 +72,20 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	public ZoomLimit zoom_limit {
+		get { return _zoom_limit; }
+		set {
+			_zoom_limit = value;
+			if (_zoom_limit == ZoomLimit.NONE) {
+				max_zoom = MAX_ZOOM;
+				min_zoom = MIN_ZOOM;
+			}
+			else {
+				min_zoom = 0.1f;
+			}
+		}
+	}
+
 	public TransparencyStyle transparency {
 		get { return _transparency; }
 		set {
@@ -131,6 +145,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	public float max_zoom;
+
+	public float min_zoom;
+
 	public Gtk.ScrollablePolicy hscroll_policy { get; set; }
 
 	public Gtk.ScrollablePolicy vscroll_policy { get; set; }
@@ -142,7 +160,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
 		var step = (dy < 0) ? 0.1f : -0.1f;
 		var new_zoom = zoom + (zoom * step);
-		if (last_position.is_valid ()) {
+		if ((last_position.x >= 0) && (last_position.y >= 0)) {
 			set_zoom_and_center_at (new_zoom, last_position.x, last_position.y);
 		}
 		else {
@@ -166,7 +184,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			//stdout.printf ("> PRESSED %f,%f\n", x, y);
 			clicking = true;
 			dragging = false;
-			drag_start = ClickPoint (x, y);
+			drag_start = PointUtil.point_from_click (x, y);
 			prev_cursor = cursor;
 		});
 		click_events.released.connect ((n_press, x, y) => {
@@ -180,7 +198,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
 			if (!dragging && clicking) {
-				if (drag_start.drag_threshold (x, y)) {
+				if (PointUtil.drag_threshold (drag_start, x, y)) {
 					dragging = true;
 					cursor = new Gdk.Cursor.from_name ("grabbing", null);
 				}
@@ -190,9 +208,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				var dy = (float) (drag_start.y - y);
 				// stdout.printf ("scroll_by: %f,%f\n", dx, dy);
 				scroll_by (dx, dy);
-				drag_start = ClickPoint (x, y);
+				drag_start = PointUtil.point_from_click (x, y);
 			}
-			last_position = ClickPoint (x, y);
+			last_position = PointUtil.point_from_click (x, y);
 		});
 		add_controller (motion_events);
 	}
@@ -281,8 +299,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 		var offset_updated = false;
 		if (_image != null) {
+			if (_zoom_limit == ZoomLimit.ALMOST_MAXIMIZE) {
+				max_zoom = (float) (get_zoom_for_allocation (ZoomType.MAXIMIZE, width, height) / Math.SQRT2);
+			}
 			if (_zoom_type.fit_to_allocation ()) {
 				set_valid_zoom (get_zoom_for_allocation (_zoom_type, width, height));
+				recenter_image ();
+			}
+			else if (_zoom > max_zoom) {
+				set_valid_zoom (_zoom);
 				recenter_image ();
 			}
 			else {
@@ -335,7 +360,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		return inside;
 	}
 
-	public override void snapshot (Gtk.Snapshot snapshot) {
+	public void snapshot_image (Gtk.Snapshot snapshot) {
 		if (_image == null) {
 			return;
 		}
@@ -400,58 +425,59 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 					texture_box);
 			}
 		}
-
-		if (controller != null) {
-			snapshot.push_clip (texture_box);
-			controller.on_snapshot (snapshot);
-			snapshot.pop ();
-		}
-
-		if (selection_box.size.width > 0) {
-			// var ctx = snapshot.append_cairo (selection_box);
-			// ctx.rectangle (selection_box.origin.x, selection_box.origin.y,
-			// 	selection_box.size.width, selection_box.size.height);
-			// ctx.set_source_rgba (1, 0, 0, 0.75);
-			// ctx.set_line_width (4);
-			// ctx.stroke ();
-
-			var box = selection_box;
-			box.origin.x += texture_box.origin.x;
-			box.origin.y += texture_box.origin.y;
-
-			Gdk.RGBA background_color = { 0, 0, 0, 0.25f };
-			var round_x =  Math.roundf (box.origin.x);
-			snapshot.append_color (background_color, {
-				{ 0, 0 },
-				{ round_x, viewport.size.height }
-			});
-			var round_width = Math.roundf (box.size.width);
-			snapshot.append_color (background_color, {
-				{ round_x + round_width, 0 },
-				{ viewport.size.width - (round_x + round_width) - 0.5f, viewport.size.height }
-			});
-			var round_y = Math.roundf (box.origin.y);
-			snapshot.append_color (background_color, {
-				{ round_x, 0 },
-				{ round_width, round_y }
-			});
-			var round_height = Math.roundf (box.size.height);
-			snapshot.append_color (background_color, {
-				{ round_x, round_y + round_height },
-				{ round_width, viewport.size.height - (round_y + round_height) }
-			});
-
-			var rect = new Gsk.RoundedRect ();
-			rect.init_from_rect (box, 0);
-			Gdk.RGBA border_color = { 1, 1, 1, 1 };
-			var border_width = 2f;
-			snapshot.append_border (rect,
-				{ border_width, border_width, border_width, border_width },
-				{ border_color, border_color, border_color, border_color }
-			);
-		}
-
 		snapshot.restore ();
+	}
+
+	public void snapshot_selection (Gtk.Snapshot snapshot, Graphene.Rect box, float alpha = 0.25f) {
+		Gdk.RGBA background_color = { 0, 0, 0, alpha };
+		var round_x =  Math.roundf (box.origin.x);
+		snapshot.append_color (background_color, {
+			{ 0, 0 },
+			{ round_x, viewport.size.height }
+		});
+		var round_width = Math.roundf (box.size.width);
+		snapshot.append_color (background_color, {
+			{ round_x + round_width, 0 },
+			{ viewport.size.width - (round_x + round_width) - 0.5f, viewport.size.height }
+		});
+		var round_y = Math.roundf (box.origin.y);
+		snapshot.append_color (background_color, {
+			{ round_x, 0 },
+			{ round_width, round_y }
+		});
+		var round_height = Math.roundf (box.size.height);
+		snapshot.append_color (background_color, {
+			{ round_x, round_y + round_height },
+			{ round_width, viewport.size.height - (round_y + round_height) }
+		});
+
+		var rect = new Gsk.RoundedRect ();
+		rect.init_from_rect (box, 0);
+		Gdk.RGBA border_color = { 1, 1, 1, 1 };
+		var border_width = 2f;
+		snapshot.append_border (rect,
+			{ border_width, border_width, border_width, border_width },
+			{ border_color, border_color, border_color, border_color }
+		);
+	}
+
+	public override void snapshot (Gtk.Snapshot snapshot) {
+		if (controller != null) {
+			controller.on_snapshot (snapshot);
+		}
+		else {
+			snapshot_image (snapshot);
+			if ((selection_box.size.width > 0) && (selection_box.size.height > 0)) {
+				Graphene.Rect box = {
+					{
+						selection_box.origin.x + texture_box.origin.x,
+						selection_box.origin.y + texture_box.origin.y
+					},
+					selection_box.size
+				};
+				snapshot_selection (snapshot, box);
+			}
+		}
 	}
 
 	const int TRANSP_PATTERN_SIZE = 14; // pixels
@@ -543,7 +569,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	float set_valid_zoom (float new_zoom) {
-		_zoom = new_zoom.clamp (MIN_ZOOM, MAX_ZOOM);
+		_zoom = new_zoom.clamp (min_zoom, max_zoom);
 		return _zoom;
 	}
 
@@ -1107,6 +1133,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		hadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
 		vadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
 		controller = null;
+		min_zoom = MIN_ZOOM;
+		max_zoom = MAX_ZOOM;
+		_zoom_limit = ZoomLimit.NONE;
 	}
 
 	Gth.Image _image;
@@ -1134,11 +1163,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	bool _paused;
 	Gdk.Texture scaled_texture;
 	Cancellable filter_cancellable;
+	ZoomLimit _zoom_limit;
 
 	bool dragging;
 	bool clicking;
-	ClickPoint drag_start;
-	ClickPoint last_position;
+	Graphene.Point drag_start;
+	Graphene.Point last_position;
 	Gdk.Cursor prev_cursor = null;
 
 	const float MIN_ZOOM = 0.05f;

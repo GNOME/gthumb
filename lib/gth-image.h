@@ -123,6 +123,15 @@ void gth_image_resize_async (GthImage *self,
 GthImage * gth_image_resize_finish (GthImage *self, GAsyncResult *result,
 	GError **error);
 
+// Rotate
+GthImage * gth_image_rotate (GthImage *self, float degrees,
+	GdkRGBA *background_color, GCancellable *cancellable);
+void gth_image_rotate_async (GthImage *self, float degrees,
+	GdkRGBA *background_color, GCancellable *cancellable,
+	GAsyncReadyCallback callback, gpointer user_data);
+GthImage * gth_image_rotate_finish (GthImage *self, GAsyncResult *result,
+	GError **error);
+
 // Transform
 GthImage * gth_image_apply_transform (GthImage *self, GthTransform transform, GCancellable *cancellable);
 GthImage * gth_image_cut (GthImage *self, guint x, guint y, guint width, guint height, GCancellable *cancellable);

@@ -61,6 +61,10 @@ namespace Gth {
 		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
 		public Image? resize_to (uint width, uint height, ScaleFilter quality, Cancellable? cancellable = null);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null) throws Error;
+
+		public Image? rotate (float degrees, Gdk.RGBA background, Cancellable? cancellable = null);
+		public async Image? rotate_async (float degrees, Gdk.RGBA background, Cancellable? cancellable = null) throws Error;
+
 		public Image? apply_transform (Gth.Transform transform, Cancellable? cancellable = null);
 		public Image? cut (uint x, uint y, uint width, uint height, Cancellable? cancellable = null);
 

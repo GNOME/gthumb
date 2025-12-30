@@ -31,7 +31,9 @@ public class Gth.ImageOverview : Gtk.Box {
 		preview.set_selection (viewport);
 
 		SignalHandler.block (zoom_scale.adjustment, zoom_changed_id);
-		zoom_scale.adjustment.value = ZoomScale.get_adj_value (_main_view.zoom);
+		zoom_scale.adjustment.lower = ZoomScale.get_adj_value (_main_view.min_zoom, _main_view.min_zoom, _main_view.max_zoom);
+		zoom_scale.adjustment.upper = ZoomScale.get_adj_value (_main_view.max_zoom, _main_view.min_zoom, _main_view.max_zoom);
+		zoom_scale.adjustment.value = ZoomScale.get_adj_value (_main_view.zoom, _main_view.min_zoom, _main_view.max_zoom);
 		SignalHandler.unblock (zoom_scale.adjustment, zoom_changed_id);
 	}
 
@@ -44,7 +46,7 @@ public class Gth.ImageOverview : Gtk.Box {
 		zoom_scale.adjustment.value = ZoomScale.get_adj_value (1.0f);
 		zoom_changed_id = zoom_scale.adjustment.value_changed.connect ((adj) => {
 			if (_main_view != null) {
-				var new_zoom = ZoomScale.get_zoom (adj.value);
+				var new_zoom = ZoomScale.get_zoom (adj.value, _main_view.min_zoom, _main_view.max_zoom);
 				_main_view.zoom = new_zoom;
 			}
 		});

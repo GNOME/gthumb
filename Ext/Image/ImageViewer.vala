@@ -41,7 +41,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		zoom_adjustment = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
 		zoom_adj_changed_id = zoom_adjustment.value_changed.connect ((local_adj) => {
-			image_view.zoom = ZoomScale.get_zoom (local_adj.get_value ());
+			image_view.zoom = ZoomScale.get_zoom (local_adj.get_value (), image_view.min_zoom, image_view.max_zoom);
 		});
 
 		image_view.resized.connect (() => update_zoom_info ());
@@ -606,7 +606,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		// Update the zoom adjustment.
 		unowned var adj = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
 		SignalHandler.block (adj, zoom_adj_changed_id);
-		adj.set_value (ZoomScale.get_adj_value (image_view.zoom));
+		adj.set_value (ZoomScale.get_adj_value (image_view.zoom, image_view.min_zoom, image_view.max_zoom));
 		SignalHandler.unblock (adj, zoom_adj_changed_id);
 	}
 
