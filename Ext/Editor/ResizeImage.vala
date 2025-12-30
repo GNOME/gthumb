@@ -12,7 +12,7 @@ public class Gth.ResizeImage : ImageTool {
 		width_changed_id = spin_row.adjustment.value_changed.connect ((obj) => {
 			var local_adj = obj as Gtk.Adjustment;
 			uint new_width, new_height;
-			if (unit == Unit.PERCENT) {
+			if (unit == ResizeUnit.PERCENT) {
 				new_width = (uint) (local_adj.value * original.width / 100.0);
 				new_height = (ratio == 0) ? height : (uint) (local_adj.value * original.height / 100.0);
 			}
@@ -27,7 +27,7 @@ public class Gth.ResizeImage : ImageTool {
 		height_changed_id = spin_row.adjustment.value_changed.connect ((obj) => {
 			var local_adj = obj as Gtk.Adjustment;
 			uint new_width, new_height;
-			if (unit == Unit.PERCENT) {
+			if (unit == ResizeUnit.PERCENT) {
 				new_height = (uint) (local_adj.value * original.height / 100.0);
 				new_width = (ratio == 0) ? width : (uint) (local_adj.value * original.width / 100.0);
 			}
@@ -101,10 +101,10 @@ public class Gth.ResizeImage : ImageTool {
 		update_ratio_state ();
 
 		var unit_group = builder.get_object ("unit_group") as Adw.ToggleGroup;
-		unit_group.active_name = (unit == Unit.PIXEL) ? "pixels" : "percent";
+		unit_group.active_name = (unit == ResizeUnit.PIXEL) ? "pixels" : "percent";
 		unit_group.notify["active-name"].connect ((obj, param) => {
 			var local_group = obj as Adw.ToggleGroup;
-			unit = (local_group.active_name == "pixels") ? Unit.PIXEL : Unit.PERCENT;
+			unit = (local_group.active_name == "pixels") ? ResizeUnit.PIXEL : ResizeUnit.PERCENT;
 			set_size (width, height);
 		});
 
@@ -173,7 +173,7 @@ public class Gth.ResizeImage : ImageTool {
 		title = _("Resize");
 		icon_name = "gth-resize-symbolic";
 		preview_job = null;
-		unit = Unit.PIXEL;
+		unit = ResizeUnit.PIXEL;
 	}
 
 	void set_size (uint _width, uint _height) {
@@ -183,7 +183,7 @@ public class Gth.ResizeImage : ImageTool {
 		var spin_row = builder.get_object ("width") as Adw.SpinRow;
 		SignalHandler.block (spin_row.adjustment, width_changed_id);
 		spin_row.adjustment.freeze_notify ();
-		if (unit == Unit.PERCENT) {
+		if (unit == ResizeUnit.PERCENT) {
 			spin_row.adjustment.lower = 1;
 			spin_row.adjustment.upper = MAX_PERCENT;
 			spin_row.adjustment.step_increment = 1;
@@ -201,7 +201,7 @@ public class Gth.ResizeImage : ImageTool {
 		spin_row = builder.get_object ("height") as Adw.SpinRow;
 		SignalHandler.block (spin_row.adjustment, height_changed_id);
 		spin_row.adjustment.freeze_notify ();
-		if (unit == Unit.PERCENT) {
+		if (unit == ResizeUnit.PERCENT) {
 			spin_row.adjustment.lower = 1;
 			spin_row.adjustment.upper = MAX_PERCENT;
 			spin_row.adjustment.step_increment = 1;
@@ -275,13 +275,8 @@ public class Gth.ResizeImage : ImageTool {
 	uint width;
 	uint height;
 	float ratio;
-	Unit unit;
+	ResizeUnit unit;
 	Job preview_job;
-
-	enum Unit {
-		PIXEL,
-		PERCENT
-	}
 
 	const double MAX_SIZE = 10000;
 	const double MAX_PERCENT = 1000;

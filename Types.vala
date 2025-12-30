@@ -274,6 +274,22 @@ public enum Gth.QueryListFlags {
 	NOT_RECURSIVE,
 }
 
+public enum Gth.ResizeUnit {
+	PIXEL,
+	PERCENT;
+
+	public unowned string to_state () {
+		return STATE[this];
+	}
+
+	public static ResizeUnit from_state (string? state) {
+		var idx = Util.enum_index (STATE, state);
+		return (ResizeUnit) idx;
+	}
+
+	const string[] STATE = { "pixel", "percent" };
+}
+
 public enum Gth.RotatedSize {
 	ORIGINAL,
 	BOUNDING_BOX,
