@@ -77,6 +77,7 @@
       <default>''</default>
     </key>
   </schema>
+
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
     <key name="command" type="s">
       <default>'kgx --working-directory=%f'</default>
@@ -104,6 +105,21 @@
     </key>
     <key name="text-transform" enum="app.gthumb.gthumb.GthTextTransform">
       <default>'none'</default>
+    </key>
+  </schema>
+
+  <enum id="app.gthumb.gthumb.GthRotatedSize">
+    <value nick="original" value="0"/>
+    <value nick="bounding-box" value="1"/>
+    <value nick="crop-borders" value="2"/>
+  </enum>
+
+  <schema id="app.gthumb.gthumb.rotate" path="/app/gthumb/gthumb/rotate/" gettext-domain="gthumb">
+    <key name="background" type="s">
+      <default>'#000'</default>
+    </key>
+    <key name="size" enum="app.gthumb.gthumb.GthRotatedSize">
+      <default>'bounding-box'</default>
     </key>
   </schema>
 </schemalist>

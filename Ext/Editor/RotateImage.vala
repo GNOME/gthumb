@@ -30,10 +30,7 @@ public class Gth.RotateImage : ImageTool {
 			color_job = local_job;
 			selector.select_color.begin (window, rotator.background, local_job.cancellable, (_obj, res) => {
 				try {
-					var color = selector.select_color.end (res);
-					var background_preview = builder.get_object ("background_preview") as Gth.ColorPreview;
-					background_preview.color = color;
-					rotator.background = color;
+					set_background_color (selector.select_color.end (res));
 				}
 				catch (Error e) {
 					// Ignore.
@@ -64,6 +61,13 @@ public class Gth.RotateImage : ImageTool {
 			local_adj.value = rotator.degrees;
 			SignalHandler.unblock (local_adj, angle_adjustment_id);
 		});
+
+		var rotated_size = settings.get_string (PREF_ROTATE_SIZE);
+		action_group.activate_action ("rotated-size", new Variant.string (rotated_size));
+
+		var background_color = Color.get_rgba_from_hexcode (settings.get_string (PREF_ROTATE_BACKGROUND));
+		set_background_color (background_color);
+
 		image_view.controller = rotator;
 	}
 
@@ -73,10 +77,21 @@ public class Gth.RotateImage : ImageTool {
 		}
 		window.editor.sidebar.insert_action_group ("rotate", null);
 		builder = null;
+		settings.set_string (PREF_ROTATE_BACKGROUND, Color.rgba_to_hexcode (rotator.background));
+		settings.set_string (PREF_ROTATE_SIZE, rotator.rotated_size.to_state ());
 	}
 
 	public override ImageOperation? get_operation () {
 		return new RotateOperation (rotator);
+	}
+
+	void set_background_color (Gdk.RGBA? color) {
+		if (color == null) {
+			return;
+		}
+		var background_preview = builder.get_object ("background_preview") as Gth.ColorPreview;
+		background_preview.color = color;
+		rotator.background = color;
 	}
 
 	construct {
@@ -95,6 +110,7 @@ public class Gth.RotateImage : ImageTool {
 		action_group.add_action (action);
 
 		color_job = null;
+		settings = new GLib.Settings (GTHUMB_ROTATE_SCHEMA);
 	}
 
 	Gtk.Builder builder;
@@ -103,6 +119,7 @@ public class Gth.RotateImage : ImageTool {
 	ulong angle_adjustment_id;
 	ulong point1_adjustment_id;
 	Gth.Job color_job;
+	GLib.Settings settings;
 }
 
 public class Gth.RotateOperation : ImageOperation {
