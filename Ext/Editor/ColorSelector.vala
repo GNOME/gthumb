@@ -45,7 +45,7 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 	public Gdk.RGBA selected_color;
 
 	public ColorSelectorDialog (Gtk.Window? _parent = null, Gdk.RGBA? _selected_color = null) {
-		title = "Color";
+		title = _("Color");
 		default_width = 700;
 		resizable = true;
 		if (_parent != null)
@@ -61,12 +61,12 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 
 		var button_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
 
-		var button = new Gtk.Button.with_mnemonic ("_Cancel");
+		var button = new Gtk.Button.with_mnemonic (_("_Cancel"));
 		button_group.add_widget (button);
 		button.clicked.connect (() => close ());
 		headerbar.pack_start (button);
 
-		button = new Gtk.Button.with_mnemonic ("_Select");
+		button = new Gtk.Button.with_mnemonic (_("_Select"));
 		button_group.add_widget (button);
 		button.add_css_class ("suggested-action");
 		set_default_widget (button);
@@ -123,14 +123,14 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 		// Color Row
 
 		color_preview = new Gth.ColorRange (Gth.ColorRangeType.PREVIEW, selected_color);
-		color_preview.tooltip_text = "Selected Color";
+		color_preview.tooltip_text = _("Selected Color");
 
 		var preview_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 		preview_box.append (color_preview);
 		if (_selected_color != null) {
 			var original_color = new Gth.ColorRange (Gth.ColorRangeType.COLOR, selected_color);
 			original_color.changed.connect ((obj) => changed_color_range (obj));
-			original_color.tooltip_text = "Reset Original Color";
+			original_color.tooltip_text = _("Reset Original Color");
 			preview_box.append (original_color);
 		}
 
@@ -142,7 +142,7 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 				set_color (color);
 			}
 		});
-		add_row ("_Color:", hex_input, preview_box);
+		add_row (_("_Color:"), hex_input, preview_box);
 
 		// Red, Green, Blue, Alpha
 
@@ -151,16 +151,16 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 		grid.attach (separator, 0, row++, 3, 1);
 
 		red_range = new Gth.ColorRange (Gth.ColorRangeType.RED, selected_color);
-		add_range_row ("_Red:", red_range);
+		add_range_row (_("_Red:"), red_range);
 
 		green_range = new Gth.ColorRange (Gth.ColorRangeType.GREEN, selected_color);
-		add_range_row ("_Green:", green_range);
+		add_range_row (_("_Green:"), green_range);
 
 		blue_range = new Gth.ColorRange (Gth.ColorRangeType.BLUE, selected_color);
-		add_range_row ("_Blue:", blue_range);
+		add_range_row (_("_Blue:"), blue_range);
 
 		alpha_range = new Gth.ColorRange (Gth.ColorRangeType.ALPHA, selected_color);
-		add_range_row ("_Transparency:", alpha_range);
+		add_range_row (_("_Transparency:"), alpha_range);
 
 		// Hue, Saturation, Brightness
 
@@ -169,13 +169,13 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 		grid.attach (separator, 0, row++, 3, 1);
 
 		hue_range = new Gth.ColorRange (Gth.ColorRangeType.HUE, selected_color);
-		add_range_row ("_Hue:", hue_range);
+		add_range_row (_("_Hue:"), hue_range);
 
 		saturation_range = new Gth.ColorRange (Gth.ColorRangeType.SATURATION, selected_color);
-		add_range_row ("_Saturation:", saturation_range);
+		add_range_row (_("_Saturation:"), saturation_range);
 
 		brightness_range = new Gth.ColorRange (Gth.ColorRangeType.BRIGHTNESS, selected_color);
-		add_range_row ("_Brightness:", brightness_range);
+		add_range_row (_("_Brightness:"), brightness_range);
 
 		add_binding_signal (Gdk.Key.Escape, 0, "cancel", null, null);
 	}
