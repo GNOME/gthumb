@@ -67,19 +67,32 @@ gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable) {
 	return !cancelled;
 }
 
-#define UPDATE_ERRORS(component, error_row_0, error_row_1) \
+// Jarvis, Judice, and Ninke weights
+#define UPDATE_ERRORS(component, error_row_0, error_row_1, error_row_2) \
 	value = component; \
 	value += error_row_0[x]; \
 	new_value = (value < 127) ? 0 : 255; \
 	error = value - new_value; \
-	if (x < width - 1) { \
-		error_row_0[x + 1] += error / 16 * 7; \
-		error_row_1[x + 1] += error / 16; \
+	if (x > 1) { \
+		error_row_1[x - 2] += error / 48 * 3; \
+		error_row_2[x - 2] += error / 48 * 1; \
 	} \
 	if (x > 0) { \
-		error_row_1[x - 1] += error / 16 * 3; \
+		error_row_1[x - 1] += error / 48 * 5; \
+		error_row_2[x - 1] += error / 48 * 3; \
 	} \
-	error_row_1[x] += error / 16 * 5;
+	error_row_1[x] += error / 48 * 7; \
+	error_row_2[x] += error / 48 * 5; \
+	if (x < width - 1) { \
+		error_row_0[x + 1] += error / 48 * 7; \
+		error_row_1[x + 1] += error / 48 * 5; \
+		error_row_2[x + 1] += error / 48 * 3; \
+	} \
+	if (x < width - 2) { \
+		error_row_0[x + 2] += error / 48 * 5; \
+		error_row_1[x + 2] += error / 48 * 3; \
+		error_row_2[x + 2] += error / 48 * 1; \
+	}
 
 gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancellable) {
 	int row_stride;
@@ -95,19 +108,25 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 
 	double *red_error_row_0 = g_new (double, width);
 	double *red_error_row_1 = g_new (double, width);
+	double *red_error_row_2 = g_new (double, width);
 	double *green_error_row_0 = g_new (double, width);
 	double *green_error_row_1 = g_new (double, width);
+	double *green_error_row_2 = g_new (double, width);
 	double *blue_error_row_0 = g_new (double, width);
 	double *blue_error_row_1 = g_new (double, width);
+	double *blue_error_row_2 = g_new (double, width);
 	double error;
 
 	for (guint e = 0; e < width; e++) {
 		red_error_row_0[e] = 0;
 		red_error_row_1[e] = 0;
+		red_error_row_2[e] = 0;
 		green_error_row_0[e] = 0;
 		green_error_row_1[e] = 0;
+		green_error_row_2[e] = 0;
 		blue_error_row_0[e] = 0;
 		blue_error_row_1[e] = 0;
+		blue_error_row_2[e] = 0;
 	}
 
 	gboolean cancelled = FALSE;
@@ -116,13 +135,13 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 		for (guint x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
-			UPDATE_ERRORS (red, red_error_row_0, red_error_row_1)
+			UPDATE_ERRORS (red, red_error_row_0, red_error_row_1, red_error_row_2);
 			red = new_value;
 
-			UPDATE_ERRORS (green, green_error_row_0, green_error_row_1)
+			UPDATE_ERRORS (green, green_error_row_0, green_error_row_1, green_error_row_2);
 			green = new_value;
 
-			UPDATE_ERRORS (blue, blue_error_row_0, blue_error_row_1)
+			UPDATE_ERRORS (blue, blue_error_row_0, blue_error_row_1, blue_error_row_2);
 			blue = new_value;
 
 			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
@@ -131,11 +150,14 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 		row += row_stride;
 		for (guint e = 0; e < width; e++) {
 			red_error_row_0[e] = red_error_row_1[e];
-			red_error_row_1[e] = 0;
+			red_error_row_1[e] = red_error_row_2[e];
+			red_error_row_2[e] = 0;
 			green_error_row_0[e] = green_error_row_1[e];
-			green_error_row_1[e] = 0;
+			green_error_row_1[e] = green_error_row_2[e];
+			green_error_row_2[e] = 0;
 			blue_error_row_0[e] = blue_error_row_1[e];
-			blue_error_row_1[e] = 0;
+			blue_error_row_1[e] = blue_error_row_2[e];
+			blue_error_row_2[e] = 0;
 		}
 		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
 			cancelled = TRUE;
@@ -145,10 +167,13 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 
 	g_free (red_error_row_0);
 	g_free (red_error_row_1);
+	g_free (red_error_row_2);
 	g_free (green_error_row_0);
 	g_free (green_error_row_1);
+	g_free (green_error_row_2);
 	g_free (blue_error_row_0);
 	g_free (blue_error_row_1);
+	g_free (blue_error_row_2);
 
 
 	return !cancelled;
