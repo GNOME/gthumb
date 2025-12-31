@@ -35,7 +35,6 @@ gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable) {
 	guchar red, green, blue, alpha;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
-	guchar value;
 	int map_row;
 
 	int map_size = 8;
