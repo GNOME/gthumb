@@ -209,7 +209,7 @@ class Gth.ColorRange : Gtk.Widget {
 		};
 	}
 
-	const float TRIANGLE_SIZE = 10; // pixels
+	const float TRIANGLE_SIZE = 13; // pixels
 	const int BORDER_RADIUS = 4;
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
@@ -234,6 +234,7 @@ class Gth.ColorRange : Gtk.Widget {
 		};
 
 		// Trasparency pattern
+
 		if (((_range_type == ColorRangeType.COLOR) || (_range_type == ColorRangeType.PREVIEW)) && (selected_color.alpha < 1f)
 			|| (_range_type == ColorRangeType.ALPHA))
 		{
@@ -253,6 +254,7 @@ class Gth.ColorRange : Gtk.Widget {
 		}
 
 		// Background
+
 		switch (_range_type) {
 		case ColorRangeType.COLOR, ColorRangeType.PREVIEW:
 			snapshot.append_color (selected_color, viewport);
@@ -270,40 +272,42 @@ class Gth.ColorRange : Gtk.Widget {
 			snapshot.append_linear_gradient (viewport, start, end, colors);
 			break;
 		}
-		snapshot.pop ();
-
-		// Border
-		snapshot.append_border (background,
-			{ border_width, border_width, border_width, border_width } ,
-			{ border_color, border_color, border_color, border_color }
-		);
-
-		if ((_range_type == ColorRangeType.COLOR) || (_range_type == ColorRangeType.PREVIEW))
-			return;
 
 		// Value
 
-		float triangle_height = Math.sqrtf (3.0f / 4.0f * TRIANGLE_SIZE * TRIANGLE_SIZE);
+		if ((_range_type != ColorRangeType.COLOR) && (_range_type != ColorRangeType.PREVIEW)) {
+			float triangle_height = Math.sqrtf (3.0f / 4.0f * TRIANGLE_SIZE * TRIANGLE_SIZE);
 
-		// Black downward-pointing triangle at the top
-		var path = new Gsk.PathBuilder ();
-		var base_x = viewport.origin.x + border_width;
-		var base_y = viewport.origin.y + border_width;
-		var inner_width = viewport.size.width - (border_width * 2);
-		path.move_to (base_x + (inner_width * range_value), base_y + triangle_height);
-		path.line_to (base_x + (inner_width * range_value) + (TRIANGLE_SIZE / 2.0f), base_y);
-		path.line_to (base_x + (inner_width * range_value) - (TRIANGLE_SIZE / 2.0f), base_y);
-		path.close ();
-		snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 0.0f, 0.0f, 0.0f, 1.0f });
+			// Black downward-pointing triangle at the top
+			var path = new Gsk.PathBuilder ();
+			var base_x = viewport.origin.x + border_width;
+			var base_y = viewport.origin.y + border_width;
+			var inner_width = viewport.size.width - (border_width * 2);
+			path.move_to (base_x + (inner_width * range_value), base_y + triangle_height);
+			path.line_to (base_x + (inner_width * range_value) + (TRIANGLE_SIZE / 2.0f), base_y);
+			path.line_to (base_x + (inner_width * range_value) - (TRIANGLE_SIZE / 2.0f), base_y);
+			path.close ();
+			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 0.0f, 0.0f, 0.0f, 1.0f });
 
-		// White upward-pointing triangle at the bottom
-		path = new Gsk.PathBuilder ();
-		base_y = viewport.origin.y + viewport.size.height - border_width;
-		path.move_to (base_x + (inner_width * range_value), base_y - triangle_height);
-		path.line_to (base_x + (inner_width * range_value) + (TRIANGLE_SIZE / 2.0f), base_y);
-		path.line_to (base_x + (inner_width * range_value) - (TRIANGLE_SIZE / 2.0f), base_y);
-		path.close ();
-		snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 1.0f, 1.0f, 1.0f, 1.0f });
+			// White upward-pointing triangle at the bottom
+			path = new Gsk.PathBuilder ();
+			base_y = viewport.origin.y + viewport.size.height - border_width;
+			path.move_to (base_x + (inner_width * range_value), base_y - triangle_height);
+			path.line_to (base_x + (inner_width * range_value) + (TRIANGLE_SIZE / 2.0f), base_y);
+			path.line_to (base_x + (inner_width * range_value) - (TRIANGLE_SIZE / 2.0f), base_y);
+			path.close ();
+			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 1.0f, 1.0f, 1.0f, 1.0f });
+
+		}
+
+		snapshot.pop ();
+
+		// Border
+
+		snapshot.append_border (background,
+			{ border_width, border_width, border_width, border_width },
+			{ border_color, border_color, border_color, border_color }
+		);
 	}
 
 	const int TRANSP_PATTERN_SIZE = 14; // pixels
