@@ -256,7 +256,7 @@ public class Gth.Shortcuts {
 		register ("viewer.rotate-right", N_("Rotate Right"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "r");
 		register ("viewer.rotate-left", N_("Rotate Left"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Shift>r");
 		register ("viewer.resize", N_("Resize"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>s");
-		//register ("viewer.rotate", N_("Rotate"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>r");
+		register ("viewer.rotate", N_("Rotate"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Alt>r");
 
 		register ("editor.apply", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "<Primary>Return");
 
