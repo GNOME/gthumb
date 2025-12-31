@@ -312,7 +312,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			else {
 				if (_first_allocation) {
-					recenter_image ();
+					if (first_allocation_state != null) {
+						set_state (first_allocation_state);
+					}
+					else {
+						recenter_image ();
+					}
 				}
 				else {
 					update_scroll_offset ();
@@ -559,6 +564,23 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		queue_resize ();
 	}
 
+	public void set_first_state (ImageViewState state) {
+		zoom_type = ZoomType.KEEP_PREVIOUS;
+		first_allocation_state = state;
+	}
+
+	public void set_first_state_from_view (ImageView other_view) {
+		var state = ImageViewState (other_view.zoom,
+			(float) other_view.hadjustment.value,
+			(float) other_view.vadjustment.value);
+		set_first_state (state);
+	}
+
+	void set_state (ImageViewState state) {
+		set_valid_zoom (state.zoom);
+		set_scroll_offset (state.offset_x, state.offset_y);
+	}
+
 	void recenter_image () {
 		float zoomed_width, zoomed_height;
 		get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
@@ -704,7 +726,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	void set_origin (float x, float y, float zoomed_width, float zoomed_height) {
 		var max_x = float.max (zoomed_width - viewport.size.width, 0);
 		var max_y = float.max (zoomed_height - viewport.size.height, 0);
-		//stdout.printf ("> set_scroll_offset x: %f (max: %f), y: %f (max: %f) (zoom_level: %f)\n", x, max_x, y, max_y, zoom_level);
+		// stdout.printf ("> set_scroll_offset x: %f (max: %f), y: %f (max: %f) (zoom_level: %f)\n", x, max_x, y, max_y, _zoom);
 		x = x.clamp (0, max_x);
 		y = y.clamp (0, max_y);
 		viewport.origin = { x, y };
@@ -1136,6 +1158,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		min_zoom = MIN_ZOOM;
 		max_zoom = MAX_ZOOM;
 		_zoom_limit = ZoomLimit.NONE;
+		first_allocation_state = null;
 	}
 
 	Gth.Image _image;
@@ -1170,6 +1193,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Graphene.Point drag_start;
 	Graphene.Point last_position;
 	Gdk.Cursor prev_cursor = null;
+	ImageViewState? first_allocation_state;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
@@ -1197,5 +1221,17 @@ class Gth.TextureScaler : Gth.ImageOperation {
 		// stdout.printf ("  SCALED: %u, %u\n", scaled_width, scaled_height);
 		return visible.resize_to (scaled_width, scaled_height,
 			filter, cancellable);
+	}
+}
+
+public struct Gth.ImageViewState {
+	float zoom;
+	float offset_x;
+	float offset_y;
+
+	public ImageViewState (float _zoom, float _offset_x, float _offset_y) {
+		zoom = _zoom;
+		offset_x = _offset_x;
+		offset_y = _offset_y;
 	}
 }

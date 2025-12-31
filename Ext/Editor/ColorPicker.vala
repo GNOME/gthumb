@@ -7,10 +7,8 @@ public class Gth.ColorPicker : ImageTool {
 		window.editor.hide_apply ();
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.zoom = viewer.image_view.zoom;
 		image_view.image = original;
-		image_view.hadjustment.value = viewer.image_view.hadjustment.value;
-		image_view.vadjustment.value = viewer.image_view.vadjustment.value;
+		image_view.set_first_state_from_view (viewer.image_view);
 		add_default_controllers (image_view);
 
 		window.editor.set_content (image_view);
@@ -35,7 +33,6 @@ public class Gth.ColorPicker : ImageTool {
 			return false;
 		});
 		image_view.add_controller (scroll_events);
-		// TODO image_view.scroll_to (viewer.image_view.hadjustment.value, viewer.image_view.vadjustment.value);
 
 		position_x = builder.get_object ("position_x") as Adw.SpinRow;
 		position_x.adjustment.configure (0, 1, image_view.image.get_width (), 10, 1, 0);
