@@ -334,7 +334,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public bool get_pixel_at_position (double pointer_x, double pointer_y, out uint pixel_x, out uint pixel_y) {
 		var inside = true;
-		var px = (pointer_x - texture_box.origin.x + viewport.origin.x) / _zoom;
+		var px = (int) image_box.origin.x + (pointer_x - texture_box.origin.x) / _zoom;
 		if (px < 0) {
 			px = 0;
 			inside = false;
@@ -346,7 +346,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			inside = false;
 		}
 
-		var py = (pointer_y - texture_box.origin.y + viewport.origin.y) / _zoom;
+		var py = (int) image_box.origin.y + (pointer_y - texture_box.origin.y) / _zoom;
 		if (py < 0) {
 			py = 0;
 			inside = false;
