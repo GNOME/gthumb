@@ -79,6 +79,21 @@ inline static ScaleReal sinc_fast (ScaleReal x) {
 }
 
 
+inline static ScaleReal catmull_rom (ScaleReal x) {
+	if (x >= 2.0) {
+		return 0.0;
+	}
+	ScaleReal xx = x * x;
+	if ((x >= 0.0) && (x < 1.0)) {
+		x  = (3 * xx * x) - (5 * xx) + 2;
+	}
+	else /* (x >= 1.0) && (x < 2.0) */ {
+		x  = - (xx * x) + (5 * xx) - (8 * x) + 4;
+	}
+	return x / 2;
+}
+
+
 inline static ScaleReal mitchell_netravali (ScaleReal x) {
 	if (x >= 2.0) {
 		return 0.0;
@@ -105,6 +120,7 @@ const FilterInfo[N_SCALE_FILTERS] = {
 	{ cubic, 2.0 },
 	{ sinc_fast, 2.0 },
 	{ sinc_fast, 3.0 },
+	{ catmull_rom, 2.0 },
 	{ mitchell_netravali, 2.0 },
 };
 
