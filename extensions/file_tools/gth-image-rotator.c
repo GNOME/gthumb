@@ -465,7 +465,6 @@ gth_image_rotator_draw (GthImageViewerTool *base,
 		cairo_save (cr);
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_DEFAULT);
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-		cairo_restore (cr);
 
 		center.x = self->priv->center.x * self->priv->preview_zoom + self->priv->preview_image_area.x;
 		center.y = self->priv->center.y * self->priv->preview_zoom + self->priv->preview_image_area.y;
@@ -475,6 +474,7 @@ gth_image_rotator_draw (GthImageViewerTool *base,
 		paint_point (self, cr, &self->priv->drag_p1);
 		paint_point (self, cr, &self->priv->drag_p2);
 		*/
+		cairo_restore (cr);
 	}
 }
 
