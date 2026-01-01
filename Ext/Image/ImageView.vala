@@ -443,7 +443,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		var round_width = Math.roundf (box.size.width);
 		snapshot.append_color (background_color, {
 			{ round_x + round_width, 0 },
-			{ viewport.size.width - (round_x + round_width) - 0.5f, viewport.size.height }
+			{ viewport.size.width - (round_x + round_width), viewport.size.height }
 		});
 		var round_y = Math.roundf (box.origin.y);
 		snapshot.append_color (background_color, {
@@ -456,10 +456,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ round_width, viewport.size.height - (round_y + round_height) }
 		});
 
+		var border_width = 2f;
+		box = {
+			{ box.origin.x - border_width, box.origin.y - border_width },
+			{ box.size.width + border_width * 2, box.size.height + border_width * 2 },
+		};
 		var rect = new Gsk.RoundedRect ();
 		rect.init_from_rect (box, 0);
 		Gdk.RGBA border_color = { 1, 1, 1, 1 };
-		var border_width = 2f;
 		snapshot.append_border (rect,
 			{ border_width, border_width, border_width, border_width },
 			{ border_color, border_color, border_color, border_color }
