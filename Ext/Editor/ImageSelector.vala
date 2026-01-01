@@ -203,8 +203,8 @@ public class Gth.ImageSelector : Object, ImageController {
 			return;
 		}
 
-		x = Math.roundf ((x - view.texture_box.origin.x) / view.zoom);
-		y = Math.roundf ((y - view.texture_box.origin.y) / view.zoom);
+		x = Math.roundf ((x + view.viewport.origin.x - view.texture_box.origin.x) / view.zoom);
+		y = Math.roundf ((y + view.viewport.origin.y - view.texture_box.origin.y) / view.zoom);
 		point = { x, y };
 		if (selection.contains_point (point)) {
 			return;
