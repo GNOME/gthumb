@@ -188,7 +188,7 @@ rotate (cairo_surface_t *image,
 	double           x2, y2;
 	int              x2min, y2min;
 	int              x2max, y2max;
-	double           fx, fy;
+	double           fx, fy, gx, gy;
 	guchar          *p_src, *p_new;
 	guchar          *p_src2, *p_new2;
 	guchar           r00, r01, r10, r11;
@@ -264,12 +264,10 @@ rotate (cairo_surface_t *image,
  *    |               |
  *    v10------------v11
  */
-#define INTERPOLATE(v, v00, v01, v10, v11, fx, fy) \
-	tmp = (1.0 - (fy)) * \
-	      ((1.0 - (fx)) * (v00) + (fx) * (v01)) \
-              + \
-              (fy) * \
-              ((1.0 - (fx)) * (v10) + (fx) * (v11)); \
+#define INTERPOLATE(v, v00, v01, v10, v11) \
+	tmp = gy * (gx * v00 + fx * v01) \
+	      + \
+	      fy * (gx * v10 + fx * v11); \
 	v = CLAMP (tmp, 0, 255);
 
 #define GET_VALUES(r, g, b, a, x, y) \
@@ -318,8 +316,8 @@ rotate (cairo_surface_t *image,
 			if (high_quality) {
 				/* Bilinear interpolation. */
 
-				x2min = (int) x2;
-				y2min = (int) y2;
+				x2min = (int) floor (x2);
+				y2min = (int) floor (y2);
 				x2max = x2min + 1;
 				y2max = y2min + 1;
 
@@ -330,11 +328,13 @@ rotate (cairo_surface_t *image,
 
 				fx = x2 - x2min;
 				fy = y2 - y2min;
+				gx = 1.0 - fx;
+				gy = 1.0 - fy;
 
-				INTERPOLATE (r, r00, r01, r10, r11, fx, fy);
-				INTERPOLATE (g, g00, g01, g10, g11, fx, fy);
-				INTERPOLATE (b, b00, b01, b10, b11, fx, fy);
-				INTERPOLATE (a, a00, a01, a10, a11, fx, fy);
+				INTERPOLATE (r, r00, r01, r10, r11);
+				INTERPOLATE (g, g00, g01, g10, g11);
+				INTERPOLATE (b, b00, b01, b10, b11);
+				INTERPOLATE (a, a00, a01, a10, a11);
 
 				pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
 				memcpy (p_new2, &pixel, sizeof (guint32));
