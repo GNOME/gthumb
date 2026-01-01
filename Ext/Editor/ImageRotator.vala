@@ -131,7 +131,7 @@ public class Gth.ImageRotator : Object, ImageController {
 
 	public Gth.Image? rotate_image (Gth.Image image, Cancellable cancellable) {
 		try {
-			var rotated = image.rotate (_angle, _background, cancellable);
+			var rotated = image.rotate (_angle, _background, RotateFilter.BICUBIC, cancellable);
 			Gth.Image cropped = null;
 			switch (_rotated_size) {
 			case RotatedSize.ORIGINAL:

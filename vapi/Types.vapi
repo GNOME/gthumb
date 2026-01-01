@@ -74,3 +74,10 @@ public enum Gth.ChangeTime {
 	ADD,
 	SET
 }
+
+[CCode (cheader_filename = "lib/types.h", has_type_id = false)]
+public enum Gth.RotateFilter {
+	NONE,
+	BILINEAR,
+	BICUBIC
+}

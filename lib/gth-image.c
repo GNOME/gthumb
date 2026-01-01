@@ -440,6 +440,12 @@ gboolean gth_image_get_has_alpha (GthImage *self, gboolean *has_alpha) {
 	return TRUE;
 }
 
+gboolean gth_image_get_has_alpha_if_valid (GthImage *self) {
+	gboolean has_alpha = FALSE;
+	gth_image_get_has_alpha (self, &has_alpha);
+	return has_alpha;
+}
+
 void gth_image_get_natural_size (GthImage *self, guint *width, guint *height) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 	if (width != NULL) *width = self->priv->width;

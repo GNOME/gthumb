@@ -65,6 +65,7 @@ gsize gth_image_get_size (GthImage *self);
 gboolean gth_image_get_is_empty (GthImage *self);
 void gth_image_set_has_alpha (GthImage *self, gboolean has_alpha);
 gboolean gth_image_get_has_alpha (GthImage *self, gboolean *has_alpha);
+gboolean gth_image_get_has_alpha_if_valid (GthImage *self);
 void gth_image_get_natural_size (GthImage *self, guint *width, guint *height);
 void gth_image_set_original_size (GthImage *self, guint width, guint height);
 gboolean gth_image_get_original_size (GthImage *self, guint *width, guint *height);
@@ -125,10 +126,12 @@ GthImage * gth_image_resize_finish (GthImage *self, GAsyncResult *result,
 
 // Rotate
 GthImage * gth_image_rotate (GthImage *self, float degrees,
-	GdkRGBA *background_color, GCancellable *cancellable);
+	GdkRGBA *background_color, GthRotateFilter filter,
+	GCancellable *cancellable);
 void gth_image_rotate_async (GthImage *self, float degrees,
-	GdkRGBA *background_color, GCancellable *cancellable,
-	GAsyncReadyCallback callback, gpointer user_data);
+	GdkRGBA *background_color, GthRotateFilter filter,
+	GCancellable *cancellable, GAsyncReadyCallback callback,
+	gpointer user_data);
 GthImage * gth_image_rotate_finish (GthImage *self, GAsyncResult *result,
 	GError **error);
 

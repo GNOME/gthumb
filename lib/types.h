@@ -82,6 +82,12 @@ typedef enum {
 	GTH_HISTOGRAM_N_CHANNELS
 } GthChannel;
 
+typedef enum {
+	GTH_ROTATE_FILTER_NONE,
+	GTH_ROTATE_FILTER_BILINEAR,
+	GTH_ROTATE_FILTER_BICUBIC
+} GthRotateFilter;
+
 G_END_DECLS
 
 #endif /* LIB_TYPES_H */
