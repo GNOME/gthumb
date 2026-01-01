@@ -67,7 +67,7 @@ public class Gth.Filters {
 						unowned var id = node.get_attribute ("id");
 						if (id != null) {
 							var registered_test = app.get_test_by_id (id);
-							if (registered_test != null) {
+							if ((registered_test != null) && !loaded_tests.contains (registered_test.id)) {
 								var test = Object.new (registered_test.get_type ()) as Gth.Test;
 								test.load_from_element (node);
 								entries.model.append (test);
