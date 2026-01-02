@@ -132,6 +132,8 @@ public class Gth.ImageRotation : Gth.FileOperation {
 			var output_stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
 			output_stream.write_all (bytes.get_data (), null, cancellable);
 			output_stream.close (cancellable);
+
+			app.monitor.file_changed (file);
 		}
 	}
 

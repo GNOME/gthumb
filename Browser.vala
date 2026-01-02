@@ -1920,7 +1920,8 @@ public class Gth.Browser : Gtk.Box {
 			var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
 			file_data.update_info (info);
 			file_data.remove_thumbnail ();
-			file_filter.after_adding_files ();
+			file_filter.reset ();
+			file_sorter.changed (Gtk.SorterChange.DIFFERENT);
 			// stdout.printf ("> BROWSER: UPDATE FILE [1]\n");
 			if (file_filter.filter.match (file_data)) {
 				// stdout.printf ("> BROWSER: UPDATE FILE [2]\n");
