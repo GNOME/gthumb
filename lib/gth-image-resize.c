@@ -189,8 +189,9 @@ horizontal_scale_and_transpose (GthImage *image,
 				Filter *filter,
 				GCancellable *cancellable)
 {
-	if (filter->cancelled)
+	if (filter->cancelled) {
 		return;
+	}
 
 	ScaleReal scale = MAX ((ScaleReal) 1.0 / scale_factor, 1.0);
 	ScaleReal support = scale * filter_get_support (filter);
@@ -212,11 +213,6 @@ horizontal_scale_and_transpose (GthImage *image,
 
 	scale = 1.0 / scale;
 	for (y = 0; y < scaled_height; y++) {
-		// if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
-		// 	filter->cancelled = TRUE;
-		// 	goto out;
-		// }
-
 		ScaleReal bisect = ((ScaleReal) y + 0.5) / scale_factor;
 		int start = bisect - support + 0.5;
 		start = MAX (start, 0);
@@ -269,10 +265,13 @@ horizontal_scale_and_transpose (GthImage *image,
 		}
 
 		p_dest += dest_rowstride;
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			filter->cancelled = TRUE;
+			goto out;
+		}
 	}
 
 out:
-
 	g_free (weights);
 }
 
