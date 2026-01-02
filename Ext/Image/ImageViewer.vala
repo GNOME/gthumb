@@ -8,7 +8,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
+		image_view.default_zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
 		image_view.transparency = (TransparencyStyle) settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		animation_actions = builder.get_object ("animation_actions") as Gtk.Box;
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
