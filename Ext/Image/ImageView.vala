@@ -90,6 +90,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		get { return _transparency; }
 		set {
 			_transparency = value;
+			action_group.change_action_state ("set-transparency", new Variant.string (_transparency.get_state ()));
 			queue_draw ();
 		}
 	}
