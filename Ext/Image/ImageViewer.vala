@@ -618,6 +618,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	void set_image (Image image, bool is_modified) {
+		image_view.default_zoom_type = image_view.zoom_type; // do not change the zoom type
 		image_view.image = image;
 		window.viewer.current_file.set_is_modified (is_modified);
 		window.viewer.update_title ();
