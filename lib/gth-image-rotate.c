@@ -26,20 +26,19 @@ static GthImage *premultiply_background (GthImage *image, guchar r0, guchar g0, 
 	guint src_height = gth_image_get_height (image);
 	guchar r, g, b, a;
 	int temp;
+	double alpha;
 
 	for (guint yi = 0; yi < src_height; yi++) {
 		src_pixel = p_src_row;
 		new_pixel = p_new_row;
 		for (guint xi = 0; xi < src_width; xi++) {
-			a = 0xFF - src_pixel[PIXEL_ALPHA];
-			PIXEL_MULTIPLY_ALPHA (r, r0, a);
-			PIXEL_MULTIPLY_ALPHA (g, g0, a);
-			PIXEL_MULTIPLY_ALPHA (b, b0, a);
-
-			r += src_pixel[PIXEL_RED];
-			g += src_pixel[PIXEL_GREEN];
-			b += src_pixel[PIXEL_BLUE];
-			*(guint32*) new_pixel = PACK_RGBA (r, g, b, 0xFF);
+			PIXEL_TO_RGBA (src_pixel, r, g, b, a);
+			alpha = (double) a / 255;
+			r = PIXEL_OVER (r0, r, alpha);
+			g = PIXEL_OVER (g0, g, alpha);
+			b = PIXEL_OVER (b0, b, alpha);
+			a = PIXEL_OVER (a0, a, alpha);
+			RGBA_TO_PIXEL (new_pixel, r, g, b, a);
 
 			src_pixel += 4;
 			new_pixel += 4;
@@ -409,7 +408,7 @@ GthImage * gth_image_rotate (GthImage *image, float degrees,
 		PIXEL_MULTIPLY_ALPHA (bg_red, bg_red, bg_alpha);
 		PIXEL_MULTIPLY_ALPHA (bg_green, bg_green, bg_alpha);
 		PIXEL_MULTIPLY_ALPHA (bg_blue, bg_blue, bg_alpha);
-		if (background_color->alpha == 0xFF) {
+		if (gth_image_get_has_alpha_if_valid (image)) {
 			image_with_background = premultiply_background (image,
 				bg_red, bg_green, bg_blue, bg_alpha);
 		}
