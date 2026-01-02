@@ -3,7 +3,7 @@
 #include "lib/gth-image.h"
 #include "lib/types.h"
 
-#define GET_RGBA(x, y, r, g, b, a) \
+#define GET_RGBA_OR_BG(x, y, r, g, b, a) \
 	if ((x >= 0) && (x < src_width) && (y >= 0) && (y < src_height)) { \
 		src_pixel = p_src_row + (src_rowstride * y) + (4 * x); \
 		PIXEL_TO_RGBA (src_pixel, r, g, b, a); \
@@ -99,7 +99,7 @@ static GthImage* rotate_nearest (GthImage *source, double degrees,
 
 			x0 = (int) round (src_x);
 			y0 = (int) round (src_y);
-			GET_RGBA (x0, y0, r00, g00, b00, a00);
+			GET_RGBA_OR_BG (x0, y0, r00, g00, b00, a00);
 			RGBA_TO_PIXEL (new_pixel, r00, g00, b00, a00);
 
 			new_pixel += 4;
@@ -188,10 +188,10 @@ static GthImage* rotate_bilinear (GthImage *source, double degrees,
 			x1 = x0 + 1;
 			y1 = y0 + 1;
 
-			GET_RGBA (x0, y0, r00, g00, b00, a00);
-			GET_RGBA (x1, y0, r10, g10, b10, a10);
-			GET_RGBA (x0, y1, r01, g01, b01, a01);
-			GET_RGBA (x1, y1, r11, g11, b11, a11);
+			GET_RGBA_OR_BG (x0, y0, r00, g00, b00, a00);
+			GET_RGBA_OR_BG (x1, y0, r10, g10, b10, a10);
+			GET_RGBA_OR_BG (x0, y1, r01, g01, b01, a01);
+			GET_RGBA_OR_BG (x1, y1, r11, g11, b11, a11);
 
 			fx = src_x - x0;
 			fy = src_y - y0;
@@ -277,12 +277,6 @@ static GthImage* rotate_bicubic (GthImage *source, double degrees,
 
 	guint src_width = gth_image_get_width (source);
 	guint src_height = gth_image_get_height (source);
-	guchar r, g, b, a;
-	int temp;
-	float f_temp;
-
-	// Create the rotated image
-
 	double radiants = degrees / 180.0 * G_PI;
 	double cos_angle = cos (radiants);
 	double sin_angle = sin (radiants);
@@ -301,10 +295,15 @@ static GthImage* rotate_bicubic (GthImage *source, double degrees,
 	double half_new_height = (double) new_height / 2.0;
 	double half_src_width = (double) src_width / 2.0;
 	double half_src_height = (double) src_height / 2.0;
+	guchar r, g, b, a;
+	int temp;
 	double x, y, src_x, src_y, dx, dy;
 	int x0, y0, xi, yj;
 	double qr, qg, qb, qa, pr, pg, pb, pa;
 	double wx[4], wy[4], wi, wj;
+	int i, j;
+
+#define WEIGHT_FUNC(delta) catmull_rom (fabs (delta))
 
 	y = - half_new_height;
 	for (guint dest_y = 0; dest_y < new_height; dest_y++) {
@@ -314,30 +313,38 @@ static GthImage* rotate_bicubic (GthImage *source, double degrees,
 			src_x = (cos_angle * x) - (sin_angle * y) + half_src_width;
 			src_y = (sin_angle * x) + (cos_angle * y) + half_src_height;
 
+			// Bicubic interpolation of points from (x0 - 1, y0 - 1) to (x0 + 2, y0 + 2)
 			x0 = (int) floor (src_x);
 			y0 = (int) floor (src_y);
 
-			dx = fabs (src_x - x0);
-			// g_assert (dx >= 0 && dx <= 1);
-			wx[0] = catmull_rom (1.0 + dx);
-			wx[1] = catmull_rom (dx);
-			wx[2] = catmull_rom (1.0 - dx);
-			wx[3] = catmull_rom (2.0 - dx);
+			// dx -> distance from src_x to the first point (x0 - 1)
+			// (x0 - 1)----------(x0)----(src_x)--(x0 + 1)----------(x0 + 2)
+			dx = - 1.0 - fabs (src_x - x0);
 
-			dy = fabs (src_y - y0);
-			// g_assert (dy >= 0 && dy <= 1);
-			wy[0] = catmull_rom (1.0 + dy);
-			wy[1] = catmull_rom (dy);
-			wy[2] = catmull_rom (1.0 - dy);
-			wy[3] = catmull_rom (2.0 - dy);
+			// wx[i] -> weight for pixel x0 + i - 1
+			wx[0] = WEIGHT_FUNC (dx);
+			wx[1] = WEIGHT_FUNC (dx + 1);
+			wx[2] = WEIGHT_FUNC (dx + 2);
+			wx[3] = WEIGHT_FUNC (dx + 3);
 
+			// dy -> distance from src_y to the first point (y0 - 1)
+			// (y0 - 1)----------(y0)----(src_y)--(y0 + 1)----------(y0 + 2)
+			dy = - 1.0 - fabs (src_y - y0);
+
+			// wy[j] -> weight for pixel y0 + j - 1
+			wy[0] = WEIGHT_FUNC (dy);
+			wy[1] = WEIGHT_FUNC (dy + 1);
+			wy[2] = WEIGHT_FUNC (dy + 2);
+			wy[3] = WEIGHT_FUNC (dy + 3);
+
+			// Bicubic interpolation of the 4x4 pixels nearest to (src_x, src_y)
 			qr = qg = qb = qa = 0.0;
-			for (int j = 0; j <= 3; j++) {
+			for (j = 0; j <= 3; j++) {
 				yj = y0 + j - 1;
 				pr = pg = pb = pa = 0.0;
-				for (int i = 0; i <= 3; i++) {
+				for (i = 0; i <= 3; i++) {
 					xi = x0 + i - 1;
-					GET_RGBA (xi, yj, r, g, b, a);
+					GET_RGBA_OR_BG (xi, yj, r, g, b, a);
 					wi = wx[i];
 					pr += wi * r;
 					pg += wi * g;
@@ -372,7 +379,8 @@ static GthImage* rotate_bicubic (GthImage *source, double degrees,
 	return rotated;
 }
 
-#undef GET_RGBA
+#undef GET_RGBA_OR_BG
+#undef WEIGHT_FUNC
 
 GthImage * gth_image_rotate (GthImage *image, float degrees,
 	GdkRGBA *background_color, GthRotateFilter filter,
