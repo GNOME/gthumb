@@ -198,10 +198,14 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 			if (load_action.changes_current_folder ()) {
 				watched_files.add (current_folder.file);
+				var expand_tree = true;
 				if (load_action == LoadAction.OPEN_NEW_FOLDER) {
-					update_current_folder_parent ();
+					if (update_current_folder_parent ()) {
+						current_parents.clear ();
+						expand_tree = false;
+					}
 				}
-				else {
+				if (expand_tree) {
 					expand_tree_to_current_folder ();
 				}
 			}
@@ -362,20 +366,22 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 	}
 
-	void update_current_folder_parent () {
+	bool update_current_folder_parent () {
 		if (current_folder == null) {
-			return;
+			return false;
 		}
 		var row = get_file_row (current_folder.file.get_parent ());
-		if (row != null) {
-			if (row.expanded) {
-				var file_data = row.item as Gth.FileData;
-				list_subfolders (file_data);
-			}
-			else {
-				row.expanded = true;
-			}
+		if (row == null) {
+			return false;
 		}
+		if (row.expanded) {
+			var file_data = row.item as Gth.FileData;
+			list_subfolders (file_data);
+		}
+		else {
+			row.expanded = true;
+		}
+		return true;
 	}
 
 	void expand_tree_to_current_folder () {
