@@ -97,8 +97,13 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 	image->rsvg = g_object_ref (rsvg);
 	image->original_max_size = MAX (width, height);
 	image->scale_factor = (double) max_size / image->original_max_size;
-	image->x_offset = - ((double) image->original_max_size - width) / 2.0;
-	image->y_offset = - ((double) image->original_max_size - height) / 2.0;
+	// Center the image
+	image->x_offset = - ((double) image->original_max_size - width) / 2.0 * image->scale_factor;
+	image->y_offset = - ((double) image->original_max_size - height) / 2.0 * image->scale_factor;
+
+	// g_print ("> original_max_size: %u\n", image->original_max_size);
+	// g_print ("  size: %u x %u\n", width, height);
+	// g_print ("  offset: %f, %f\n", image->x_offset, image->y_offset);
 
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	cairo_t *cr = cairo_create (surface);
