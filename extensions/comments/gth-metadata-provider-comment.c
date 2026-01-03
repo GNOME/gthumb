@@ -161,14 +161,14 @@ gth_metadata_provider_comment_read (GthMetadataProvider *base,
 	else
 		g_file_info_remove_attribute (file_data->info, "comment::time");
 
-	// Update the general attributes if the comment file is not older
-	// than the image file or the attributes were not updated from the
-	// embedded data.
+	// Do not update the general attributes if the current attributes were
+	// updated from the embedded data and the comment file is older than
+	// the image file.
 	gboolean update_general_attributes = TRUE;
 	if (g_file_info_has_attribute (file_data->info, "embedded::updated-general-attributes")) {
 		if (g_file_info_get_attribute_boolean (file_data->info, "embedded::updated-general-attributes")) {
-			GDateTime *file_modification_time = g_file_info_get_modification_date_time (file_data->info);
-			if (gth_comment_file_is_older (comment, file_modification_time)) {
+			GDateTime *file_changed_time = _g_file_info_get_changed_time (file_data->info);
+			if (gth_comment_file_is_older (comment, file_changed_time)) {
 				update_general_attributes = FALSE;
 			}
 		}

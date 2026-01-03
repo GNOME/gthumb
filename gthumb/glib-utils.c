@@ -1773,6 +1773,22 @@ _g_file_info_update (GFileInfo  *dest_info,
 }
 
 
+GDateTime *
+_g_file_info_get_changed_time (GFileInfo *info)
+{
+	if (!g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_TIME_CHANGED)) {
+		return NULL;
+	}
+	GDateTime *date_time = g_date_time_new_from_unix_utc (g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED));
+	if (g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_TIME_CHANGED_USEC)) {
+		GDateTime *tmp_time = g_date_time_add (date_time, g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_TIME_CHANGED_USEC));
+		g_date_time_unref (date_time);
+		date_time = tmp_time;
+	}
+	return date_time;
+}
+
+
 const char *
 _g_content_type_guess_from_name (const char *filename)
 {

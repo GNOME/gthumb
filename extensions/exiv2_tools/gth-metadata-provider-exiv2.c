@@ -159,8 +159,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 	if (self->priv->general_settings == NULL)
 		self->priv->general_settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
 
-	if (! (flags & GTH_METADATA_WRITE_FORCE_EMBEDDED)
-	    && ! g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES))
+	if (! g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES))
 		return;
 
 	if (! exiv2_can_write (gth_file_data_get_mime_type (file_data)))
@@ -182,6 +181,25 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 			       size,
 			       cancellable,
 			       &error);
+
+		if (flags & GTH_METADATA_WRITE_NOT_MODIFIED) {
+			// Restore the modified time because the content was not modified.
+			GFileInfo *tmp_info = g_file_info_new ();
+			g_file_info_set_attribute_uint64 (
+				tmp_info,
+				G_FILE_ATTRIBUTE_TIME_MODIFIED,
+				g_file_info_get_attribute_uint64 (file_data->info, G_FILE_ATTRIBUTE_TIME_MODIFIED));
+			g_file_info_set_attribute_uint32 (tmp_info,
+				G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
+				g_file_info_get_attribute_uint32 (file_data->info, G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC));
+			g_file_set_attributes_from_info (file_data->file,
+				tmp_info,
+				G_FILE_QUERY_INFO_NONE,
+				NULL,
+				NULL);
+
+			g_object_unref (tmp_info);
+		}
 	}
 
 	if (buffer != NULL)

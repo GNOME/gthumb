@@ -30,8 +30,8 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	GTH_METADATA_WRITE_DEFAULT        = 0,
-	GTH_METADATA_WRITE_FORCE_EMBEDDED = (1 << 0)
+	GTH_METADATA_WRITE_DEFAULT      = 0,
+	GTH_METADATA_WRITE_NOT_MODIFIED = (1 << 0)
 } GthMetadataWriteFlags;
 
 #define GTH_TYPE_METADATA_PROVIDER (gth_metadata_provider_get_type ())

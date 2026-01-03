@@ -366,6 +366,7 @@ _g_write_metadata_async (GList                  *files, /* GthFileData * list */
 
 	wmd = g_new0 (WriteMetadataData, 1);
 	wmd->files = _g_object_list_ref (files);
+	wmd->flags = flags;
 	wmd->attributes = g_strdup (attributes);
 	wmd->attributes_v = gth_main_get_metadata_attributes (attributes);
 

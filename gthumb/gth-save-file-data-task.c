@@ -109,7 +109,7 @@ save_current_file (GthSaveFileDataTask *self)
 
 	files = g_list_prepend (NULL, file);
 	_g_write_metadata_async (files,
-				 GTH_METADATA_WRITE_DEFAULT,
+				 GTH_METADATA_WRITE_NOT_MODIFIED,
 				 self->priv->attributes,
 				 gth_task_get_cancellable (GTH_TASK (self)),
 				 write_metadata_ready_cb,

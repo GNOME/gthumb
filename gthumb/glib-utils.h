@@ -59,6 +59,8 @@ G_BEGIN_DECLS
 	"time::created-usec," \
 	"time::modified," \
 	"time::modified-usec," \
+	"time::changed," \
+	"time::changed-usec," \
 	"access::*" \
 	rest
 
@@ -288,6 +290,7 @@ gint32		_g_file_info_get_secondary_sort_order
 						(GFileInfo	 *info);
 void		_g_file_info_update		(GFileInfo	 *dest_info,
 						 GFileInfo	 *src_info);
+GDateTime *	_g_file_info_get_changed_time	(GFileInfo	 *info);
 
 /* MIME type utils */
 

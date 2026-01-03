@@ -73,8 +73,8 @@ void              gth_comment_set_time_from_exif_format  (GthComment    *comment
 							  const char    *value);
 void              gth_comment_set_time_from_time_t       (GthComment    *comment,
 							  time_t         value);
-void              gth_comment_set_last_modified          (GthComment    *comment,
-							  GDateTime     *last_modified);
+void              gth_comment_set_last_changed           (GthComment    *comment,
+							  GDateTime     *last_changed);
 gboolean          gth_comment_file_is_older          (GthComment    *comment,
 							  GDateTime     *timestamp);
 const char *      gth_comment_get_caption                (GthComment    *comment);

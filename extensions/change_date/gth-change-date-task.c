@@ -309,7 +309,7 @@ info_ready_cb (GList    *files,
 
 		attributes = _g_string_array_join (attribute_v, ",");
 		_g_write_metadata_async (self->priv->file_list,
-					 GTH_METADATA_WRITE_DEFAULT,
+					 GTH_METADATA_WRITE_NOT_MODIFIED,
 					 attributes,
 					 gth_task_get_cancellable (GTH_TASK (self)),
 					 write_metadata_ready_cb,

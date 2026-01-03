@@ -38,7 +38,7 @@ struct _GthCommentPrivate { /* All strings in utf8 format. */
 	GthTime    *time_of_day;
 	gboolean    changed;
 	gboolean    utf8;
-	GDateTime  *last_modified;
+	GDateTime  *last_changed;
 };
 
 
@@ -86,8 +86,8 @@ gth_comment_finalize (GObject *obj)
 	g_ptr_array_unref (self->priv->categories);
 	g_date_free (self->priv->date);
 	gth_time_free (self->priv->time_of_day);
-	if (self->priv->last_modified != NULL) {
-		g_date_time_unref (self->priv->last_modified);
+	if (self->priv->last_changed != NULL) {
+		g_date_time_unref (self->priv->last_changed);
 	}
 
 	G_OBJECT_CLASS (gth_comment_parent_class)->finalize (obj);
@@ -112,7 +112,7 @@ gth_comment_init (GthComment *self)
 	self->priv->categories = g_ptr_array_new ();
 	self->priv->date = g_date_new ();
 	self->priv->time_of_day = gth_time_new ();
-	self->priv->last_modified = NULL;
+	self->priv->last_changed = NULL;
 }
 
 
@@ -299,16 +299,16 @@ gth_comment_new_for_file (GFile         *file,
 		return NULL;
 	}
 	GFileInfo *info = g_file_query_info (comment_file,
-		G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
+		G_FILE_ATTRIBUTE_TIME_CHANGED "," G_FILE_ATTRIBUTE_TIME_CHANGED_USEC,
 		G_FILE_QUERY_INFO_NONE,
 		NULL,
 		NULL);
-	GDateTime *last_modified = g_file_info_get_modification_date_time (info);
+	GDateTime *last_changed = _g_file_info_get_changed_time (info);
 	g_object_unref (comment_file);
 
 	if ((zipped_buffer != NULL) && (((char *) zipped_buffer)[0] != '<')) {
 		if (! zlib_decompress_buffer (zipped_buffer, zipped_size, &buffer, &size)) {
-			g_date_time_unref (last_modified);
+			g_date_time_unref (last_changed);
 			return NULL;
 		}
 	}
@@ -323,7 +323,7 @@ gth_comment_new_for_file (GFile         *file,
 	doc = dom_document_new ();
 	if (dom_document_load (doc, buffer, size, error)) {
 		dom_domizable_load_from_element (DOM_DOMIZABLE (comment), DOM_ELEMENT (doc)->first_child);
-		gth_comment_set_last_modified (comment, last_modified);
+		gth_comment_set_last_changed (comment, last_changed);
 	}
 	else {
 		buffer = NULL;
@@ -334,7 +334,7 @@ gth_comment_new_for_file (GFile         *file,
 	g_object_unref (doc);
 	g_free (buffer);
 	g_free (zipped_buffer);
-	g_date_time_unref (last_modified);
+	g_date_time_unref (last_changed);
 
 	return comment;
 }
@@ -502,23 +502,23 @@ gth_comment_set_time_from_time_t (GthComment *comment,
 
 
 void
-gth_comment_set_last_modified (GthComment *comment,
-			       GDateTime *last_modified)
+gth_comment_set_last_changed (GthComment *comment,
+			      GDateTime *last_changed)
 {
 	g_return_if_fail (GTH_IS_COMMENT (comment));
-	comment->priv->last_modified = g_date_time_ref (last_modified);
+	comment->priv->last_changed = g_date_time_ref (last_changed);
 }
 
 
 gboolean
 gth_comment_file_is_older (GthComment *comment,
-			       GDateTime *timestamp)
+			   GDateTime  *timestamp)
 {
 	g_return_val_if_fail (GTH_IS_COMMENT (comment), FALSE);
-	if (comment->priv->last_modified == NULL) {
+	if ((timestamp == NULL) || (comment->priv->last_changed == NULL)) {
 		return FALSE;
 	}
-	gint64 diff = g_date_time_difference (timestamp, comment->priv->last_modified);
+	gint64 diff = g_date_time_difference (timestamp, comment->priv->last_changed);
 	return diff > 1000000;
 }
 
