@@ -22,4 +22,8 @@ public enum Gth.ColorRangeType {
 	public bool is_hsv () {
 		return (this == HUE) || (this == SATURATION) || (this == BRIGHTNESS);
 	}
+
+	public bool is_gradient () {
+		return this >= CYAN_RED;
+	}
 }

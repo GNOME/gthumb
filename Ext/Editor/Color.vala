@@ -10,7 +10,29 @@ public class Gth.Color {
 		return { red, green, blue, alpha };
 	}
 
-	public static Gdk.RGBA get_rgba_from_hsv (float hue, float saturation, float value) {
+	public static void get_hsv_from_rgba (Gdk.RGBA rgba, out float hue, out float saturation, out float value, out float alpha) {
+		var max = Color.get_max_value (rgba);
+		var min = Color.get_min_value (rgba);
+		float chroma = max - min;
+		float lightness = (float) (max + min) / 2;
+		value = max;
+		if (chroma == 0) {
+			hue = 0;
+		}
+		else if (value == rgba.red) {
+			hue = 60 * (((rgba.green - rgba.blue) / chroma) % 6);
+		}
+		else if (value == rgba.green) {
+			hue = 60 * (((rgba.blue - rgba.red) / chroma) + 2);
+		}
+		else if (value == rgba.blue) {
+			hue = 60 * (((rgba.red - rgba.green) / chroma) + 4);
+		}
+		saturation = (value != 0) ? chroma / value : 0;
+		alpha = rgba.alpha;
+	}
+
+	public static Gdk.RGBA get_rgba_from_hsv (float hue, float saturation, float value, float alpha = 1) {
 		hue = Color.normalize_hue (hue);
 		saturation = saturation.clamp (0, 1);
 		value = value.clamp (0, 360);
@@ -58,7 +80,7 @@ public class Gth.Color {
 			(r + m).clamp (0, 1),
 			(g + m).clamp (0, 1),
 			(b + m).clamp (0, 1),
-			1
+			alpha
 		};
 	}
 
@@ -153,6 +175,13 @@ public class Gth.Color {
 		return Color.get_max_value (color);
 	}
 
+	public static float get_lightness (Gdk.RGBA color) {
+		var max = Color.get_max_value (color);
+		var min = Color.get_min_value (color);
+		var chroma = max - min;
+		return max - ((max - min) / 2);
+	}
+
 	public static float get_component (Gdk.RGBA color, Component component) {
 		var value = 0.0f;
 		switch (component) {
@@ -239,6 +268,45 @@ public class Gth.Color {
 			color.blue * color.alpha + background.blue * beta,
 			1
 		};
+	}
+
+	public struct HSV {
+		float hue;
+		float saturation;
+		float value;
+		float alpha;
+
+		public HSV.from_rgba (Gdk.RGBA rgba) {
+			Color.get_hsv_from_rgba (rgba, out hue, out saturation, out value, out alpha);
+		}
+
+		public Gdk.RGBA to_rgba () {
+			return Color.get_rgba_from_hsv (hue, saturation, value, alpha);
+		}
+	}
+
+	public static Gdk.RGBA interpolate (Gdk.RGBA color0, Gdk.RGBA color1, float f) {
+		var g = 1 - f;
+		var result = Gdk.RGBA () {
+			red = color0.red * f + color1.red * g,
+			green = color0.green * f + color1.green * g,
+			blue = color0.blue * f + color1.blue * g,
+			alpha = color0.alpha * f + color1.alpha * g,
+		};
+		return result;
+	}
+
+	public static Gdk.RGBA interpolate_hue (Gdk.RGBA color0, Gdk.RGBA color1, float f) {
+		var hsv0 = HSV.from_rgba (color0);
+		var hsv1 = HSV.from_rgba (color1);
+		var g = 1 - f;
+		var result = HSV () {
+			hue = hsv0.hue * f + hsv1.hue * g,
+			saturation = hsv0.saturation * f + hsv1.saturation * g,
+			value = hsv0.value * f + hsv1.value * g,
+			alpha = hsv0.alpha * f + hsv1.alpha * g,
+		};
+		return result.to_rgba ();
 	}
 
 	public static Cairo.Pattern build_transparency_pattern (int half_size) {

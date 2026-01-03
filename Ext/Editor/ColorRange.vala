@@ -182,7 +182,7 @@ class Gth.ColorRange : Gtk.Widget {
 
 	const int NATURAL_WIDTH = 70; // pixels
 	// TODO: use the font height?
-	const int NATURAL_HEIGHT = 40; // pixels
+	const int NATURAL_HEIGHT = 36; // pixels
 
 	public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
 		if (orientation == Gtk.Orientation.HORIZONTAL) {
@@ -209,7 +209,8 @@ class Gth.ColorRange : Gtk.Widget {
 		};
 	}
 
-	const float TRIANGLE_SIZE = 13; // pixels
+	const float TRIANGLE_WIDTH = 17; // pixels
+	const float TRIANGLE_HEIGHT = 10; // pixels
 	const int BORDER_RADIUS = 4;
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
@@ -220,11 +221,11 @@ class Gth.ColorRange : Gtk.Widget {
 		Gdk.RGBA border_color;
 		float border_width;
 		if (theme_is_dark ()) {
-			border_color = { 1.0f, 1.0f, 1.0f, 0.8f };
+			border_color = { 1, 1, 1, 1 };
 			border_width = 2;
 		}
 		else {
-			border_color = { 0.0f, 0.0f, 0.0f, 0.2f };
+			border_color = { 0, 0, 0, 0.2f };
 			border_width = 2;
 		}
 
@@ -276,28 +277,27 @@ class Gth.ColorRange : Gtk.Widget {
 		// Value
 
 		if ((_range_type != ColorRangeType.COLOR) && (_range_type != ColorRangeType.PREVIEW)) {
-			float triangle_height = Math.sqrtf (3.0f / 4.0f * TRIANGLE_SIZE * TRIANGLE_SIZE);
+			var inner_width = viewport.size.width - (border_width * 2);
+			var value_x = viewport.origin.x + border_width + (inner_width * range_value);
 
 			// Black downward-pointing triangle at the top
 			var path = new Gsk.PathBuilder ();
-			var base_x = viewport.origin.x + border_width;
-			var base_y = viewport.origin.y + border_width;
-			var inner_width = viewport.size.width - (border_width * 2);
-			path.move_to (base_x + (inner_width * range_value), base_y + triangle_height);
-			path.line_to (base_x + (inner_width * range_value) + (TRIANGLE_SIZE / 2.0f), base_y);
-			path.line_to (base_x + (inner_width * range_value) - (TRIANGLE_SIZE / 2.0f), base_y);
+			var triangle_width = TRIANGLE_WIDTH + 1;
+			var triangle_height = TRIANGLE_HEIGHT + 1;
+			path.move_to (value_x, viewport.origin.y + border_width + triangle_height);
+			path.rel_line_to (-triangle_width / 2.0f, -triangle_height);
+			path.rel_line_to (triangle_width, 0);
 			path.close ();
-			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 0.0f, 0.0f, 0.0f, 1.0f });
+			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 0, 0, 0, 1 });
 
 			// White upward-pointing triangle at the bottom
-			path = new Gsk.PathBuilder ();
-			base_y = viewport.origin.y + viewport.size.height - border_width;
-			path.move_to (base_x + (inner_width * range_value), base_y - triangle_height);
-			path.line_to (base_x + (inner_width * range_value) + (TRIANGLE_SIZE / 2.0f), base_y);
-			path.line_to (base_x + (inner_width * range_value) - (TRIANGLE_SIZE / 2.0f), base_y);
+			triangle_width = TRIANGLE_WIDTH - 1;
+			triangle_height = TRIANGLE_HEIGHT - 1;
+			path.move_to (value_x, viewport.origin.y + viewport.size.height - border_width - triangle_height);
+			path.rel_line_to (-triangle_width / 2.0f, triangle_height);
+			path.rel_line_to (triangle_width, 0);
 			path.close ();
-			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 1.0f, 1.0f, 1.0f, 1.0f });
-
+			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 1, 1, 1, 1 });
 		}
 
 		snapshot.pop ();
