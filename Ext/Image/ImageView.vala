@@ -179,38 +179,27 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	public void add_drag_controller () {
-		var click_events = new Gtk.GestureClick ();
-		click_events.button = Gdk.BUTTON_PRIMARY;
-		click_events.pressed.connect ((n_press, x, y) => {
-			//stdout.printf ("> PRESSED %f,%f\n", x, y);
-			clicking = true;
-			dragging = false;
-			drag_start = PointUtil.point_from_click (x, y);
+		var drag_events = new Gtk.GestureDrag ();
+		drag_events.drag_begin.connect ((x, y) => {
 			prev_cursor = cursor;
+			cursor = new Gdk.Cursor.from_name ("grabbing", null);
+			drag_start = PointUtil.point_from_click (x, y);
 		});
-		click_events.released.connect ((n_press, x, y) => {
-			//stdout.printf ("> RELEASED\n");
-			clicking = false;
-			dragging = false;
+		drag_events.drag_end.connect ((x, y) => {
 			cursor = prev_cursor;
 		});
-		add_controller (click_events);
+		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
+			double start_x, start_y;
+			local_drag_events.get_start_point (out start_x, out start_y);
+			double x = start_x + ofs_x;
+			double y = start_y + ofs_y;
+			scroll_by (drag_start.x - x, drag_start.y - y);
+			drag_start = PointUtil.point_from_click (x, y);
+		});
+		add_controller (drag_events);
 
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
-			if (!dragging && clicking) {
-				if (PointUtil.drag_threshold (drag_start, x, y)) {
-					dragging = true;
-					cursor = new Gdk.Cursor.from_name ("grabbing", null);
-				}
-			}
-			if (dragging) {
-				var dx = (float) (drag_start.x - x);
-				var dy = (float) (drag_start.y - y);
-				// stdout.printf ("scroll_by: %f,%f\n", dx, dy);
-				scroll_by (dx, dy);
-				drag_start = PointUtil.point_from_click (x, y);
-			}
 			last_position = PointUtil.point_from_click (x, y);
 		});
 		add_controller (motion_events);
@@ -1152,9 +1141,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		scaled_texture = null;
 		filter_cancellable = null;
 		selection_box = { { 0, 0 }, { 0, 0 } };
-		dragging = false;
-		clicking = false;
-		drag_start = { -1, -1 };
 		last_position = { -1, -1 };
 		init_actions ();
 		hadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
@@ -1193,8 +1179,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Cancellable filter_cancellable;
 	ZoomLimit _zoom_limit;
 
-	bool dragging;
-	bool clicking;
 	Graphene.Point drag_start;
 	Graphene.Point last_position;
 	Gdk.Cursor prev_cursor = null;

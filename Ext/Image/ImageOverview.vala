@@ -41,7 +41,6 @@ public class Gth.ImageOverview : Gtk.Box {
 		_main_view = null;
 		hadj_changed = 0;
 		vadj_changed = 0;
-		dragging = false;
 
 		zoom_scale.adjustment.value = ZoomScale.get_adj_value (1.0f);
 		zoom_changed_id = zoom_scale.adjustment.value_changed.connect ((adj) => {
@@ -53,25 +52,20 @@ public class Gth.ImageOverview : Gtk.Box {
 
 		preview.resized.connect (() => update_selection ());
 
-		var click_events = new Gtk.GestureClick ();
-		click_events.pressed.connect ((n_press, x, y) => {
-			dragging = true;
+		var drag_events = new Gtk.GestureDrag ();
+		drag_events.drag_begin.connect ((x, y) => {
 			preview.cursor = new Gdk.Cursor.from_name ("grabbing", null);
 			move_to (x, y);
 		});
-		click_events.released.connect ((n_press, x, y) => {
-			dragging = false;
+		drag_events.drag_end.connect ((x, y) => {
 			preview.cursor = null;
 		});
-		preview.add_controller (click_events);
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
-			if (dragging) {
-				move_to (x, y);
-			}
+		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
+			double start_x, start_y;
+			local_drag_events.get_start_point (out start_x, out start_y);
+			move_to (start_x + ofs_x, start_y + ofs_y);
 		});
-		preview.add_controller (motion_events);
+		preview.add_controller (drag_events);
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		scroll_events.scroll.connect ((controller, dx, dy) => {
@@ -110,6 +104,5 @@ public class Gth.ImageOverview : Gtk.Box {
 	ulong hadj_changed;
 	ulong vadj_changed;
 	ulong zoom_changed_id;
-	bool dragging;
 	SimpleActionGroup action_group;
 }

@@ -93,40 +93,22 @@ public class Gth.ImageRotator : Object, ImageController {
 		_view.notify["image"].connect (() => update_image_box ());
 		update_image_box ();
 
-		var click_events = new Gtk.GestureClick ();
-		click_events.button = Gdk.BUTTON_PRIMARY;
-		click_events.exclusive = true;
-		click_events.pressed.connect ((n_press, x, y) => {
-			clicked = true;
-			dragging = false;
-			click_position = PointUtil.point_from_click (x, y);
+		var drag_events = new Gtk.GestureDrag ();
+		drag_events.drag_begin.connect ((x, y) => {
+			drag_start = PointUtil.point_from_click (x, y);
+			angle_before_dragging = deg_to_rad (_angle);
 			prev_cursor = _view.cursor;
+			_view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
 		});
-		click_events.released.connect ((n_press, x, y) => {
-			clicked = false;
-			dragging = false;
+		drag_events.drag_end.connect ((x, y) => {
 			_view.cursor = prev_cursor;
 		});
-		_view.add_controller (click_events);
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
-			if (!dragging && clicked) {
-				if (PointUtil.drag_threshold (click_position, x, y)) {
-					dragging = true;
-					drag_start = click_position;
-					angle_before_dragging = deg_to_rad (_angle);
-					_view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
-				}
-			}
-			if (dragging) {
-				on_dragging ((float) x, (float) y);
-			}
-			// else if (!clicked) {
-			// 	on_motion ((float) x, (float) y);
-			// }
+		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
+			double start_x, start_y;
+			local_drag_events.get_start_point (out start_x, out start_y);
+			on_dragging ((float) (start_x + ofs_x), (float) (start_y + ofs_y));
 		});
-		_view.add_controller (motion_events);
+		_view.add_controller (drag_events);
 	}
 
 	public Gth.Image? rotate_image (Gth.Image image, Cancellable cancellable) {
@@ -409,8 +391,6 @@ public class Gth.ImageRotator : Object, ImageController {
 	construct {
 		_angle = 0f;
 		_crop_region = { { 0, 0 }, { 0, 0 } };
-		dragging = false;
-		clicked = false;
 		background = { 0, 0, 0, 1 };
 	}
 
@@ -420,10 +400,7 @@ public class Gth.ImageRotator : Object, ImageController {
 	RotatedSize _rotated_size;
 	Graphene.Rect _crop_region;
 	ImageView _view;
-	bool clicked;
-	bool dragging;
 	Gdk.Cursor prev_cursor;
-	Graphene.Point click_position;
 	Graphene.Point drag_start;
 	float angle_before_dragging;
 	Gdk.RGBA _background;
