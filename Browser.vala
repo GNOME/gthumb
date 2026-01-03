@@ -743,9 +743,7 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 		if (total_files == 1) {
-			if ((property_sidebar.current_file == null)
-				|| !property_sidebar.current_file.file.equal (selected_file.file))
-			{
+			if (!property_sidebar.has_file (selected_file.file)) {
 				var local_job = window.new_job ("Metadata for %s".printf (selected_file.get_display_name ()),
 					JobFlags.DEFAULT,
 					"gth-note-symbolic");
@@ -1927,6 +1925,9 @@ public class Gth.Browser : Gtk.Box {
 				// stdout.printf ("> BROWSER: UPDATE FILE [2]\n");
 				thumbnailer.queue_load_next ();
 				thumbnailer.add (file_data);
+			}
+			if (property_sidebar.has_file (file_data.file)) {
+				yield property_sidebar.load (file_data, local_job.cancellable);
 			}
 		}
 		catch (Error error) {

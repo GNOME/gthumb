@@ -33,6 +33,10 @@ public class Gth.PropertySidebar : Gtk.Box {
 		current_file = null;
 	}
 
+	public bool has_file (File file) {
+		return (current_file != null) && current_file.file.equal (file);
+	}
+
 	public void update_view () {
 		string first_visible_page = null;
 		var active_page_is_empty = false;
