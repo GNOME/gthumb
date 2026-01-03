@@ -218,6 +218,7 @@ public class Gth.Application : Adw.Application {
 		tools.register (ToolCategory.METADATA, "win.clear-metadata", _("Clear Metadata"));
 		tools.register (ToolCategory.METADATA, "win.apply-orientation", _("Rotate Physically"));
 		tools.register (ToolCategory.METADATA, "win.reset-orientation", _("Reset EXIF Orientation"));
+		tools.register (ToolCategory.METADATA, "win.update-thumbnail", _("Update Thumbnail"));
 
 		shortcuts = new Shortcuts ();
 		shortcuts.register_all ();

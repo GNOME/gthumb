@@ -901,6 +901,18 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("update-thumbnail", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			var operation = new UpdateThumbnail (this);
+			exec_file_operation.begin (_("Update Thumbnail"), operation, files);
+		});
+		action_group.add_action (action);
+
 		action = new SimpleAction ("open-with-gimp", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();

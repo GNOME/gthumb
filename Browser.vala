@@ -1938,6 +1938,18 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	public void update_thumbnail_for_file (File file) {
+		var iter = folder_tree.current_children.iterator ();
+		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
+		if (file_data != null) {
+			file_data.remove_thumbnail ();
+			if (file_filter.filter.match (file_data)) {
+				thumbnailer.queue_load_next ();
+				thumbnailer.add (file_data);
+			}
+		}
+	}
+
 	public void file_changed (File file) {
 		// stdout.printf ("> BROWSER: FILE CHANGED: %s\n", file.get_uri ());
 		var iter = folder_tree.current_children.iterator ();
@@ -2685,7 +2697,7 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] public unowned Gtk.ToggleButton view_properties;
 
 	Gth.Test general_filter;
-	Gth.Thumbnailer thumbnailer;
+	public Gth.Thumbnailer thumbnailer;
 	Gth.History history;
 	weak Window _window;
 	Queue<File> current_parents;

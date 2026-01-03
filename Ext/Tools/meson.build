@@ -5,4 +5,5 @@ tools_files = files(
   'FileActions.vala',
   'FileOperation.vala',
   'ImageRotation.vala',
+  'UpdateThumbnail.vala',
 )

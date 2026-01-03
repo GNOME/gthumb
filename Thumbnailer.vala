@@ -339,7 +339,7 @@ public class Gth.Thumbnailer {
 		image.set_attribute ("Software", Config.APP_NAME + " " + Config.APP_VERSION);
 	}
 
-	static File get_thumbnail_file (File file, Size size, FileIntent intent, Cancellable cancellable) throws Error {
+	public static File get_thumbnail_file (File file, Size size, FileIntent intent, Cancellable cancellable) throws Error {
 		var dir = Files.build_directory (intent,
 			File.new_for_path (Environment.get_user_cache_dir ()),
 			"thumbnails",
@@ -347,7 +347,7 @@ public class Gth.Thumbnailer {
 		return dir.get_child (Thumbnailer.get_thumbnail_basename (file));
 	}
 
-	static File get_failed_thumbnail_file (File file, FileIntent intent) {
+	public static File get_failed_thumbnail_file (File file, FileIntent intent) {
 		var dir = Files.build_directory (intent,
 			File.new_for_path (Environment.get_user_cache_dir ()),
 			"thumbnails", "fail", "gnome-thumbnail-factory");
@@ -378,7 +378,7 @@ public class Gth.Thumbnailer {
 	}
 
 	uint _requested_size;
-	Size cache_size;
+	public Size cache_size;
 	weak Gth.Browser browser;
 	weak Gth.Window window;
 	Queue<FileData> file_queue;
