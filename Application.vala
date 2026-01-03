@@ -69,8 +69,9 @@ public class Gth.Application : Adw.Application {
 		ordered_tests = new GenericList<Gth.Test>();
 		register_test (typeof (Gth.TestFileName));
 		register_test (typeof (Gth.TestFileSize));
-		register_test (typeof (Gth.TestFileModifiedTime));
+		register_test (typeof (Gth.TestContentModifiedTime));
 		register_test (typeof (Gth.TestFileCreatedTime));
+		register_test (typeof (Gth.TestFileChangedTime));
 		register_test (typeof (Gth.TestFileTypeRegular));
 		register_test (typeof (Gth.TestFileTypeMedia));
 		register_test (typeof (Gth.TestFileTypeImage));
@@ -92,7 +93,8 @@ public class Gth.Application : Adw.Application {
 		ordered_sorters = new GenericArray<string>();
 		register_sorter ({ "File::Name", _("Name"), "standard::display-name", Sorters.cmp_basename });
 		register_sorter ({ "Time::Modified", _("Modified"), "time::modified,time::modified-usec", Sorters.cmp_modified_time });
-		register_sorter ({ "Time::Created", _("Created"), "time::created,time::created-usec", Sorters.cmp_created_time });
+		register_sorter ({ "Time::Changed", _("File Changed"), "time::changed,time::changed-usec", Sorters.cmp_changed_time });
+		register_sorter ({ "Time::Created", _("File Created"), "time::created,time::created-usec", Sorters.cmp_created_time });
 		register_sorter ({ "File::Size", _("Bytes"), "standard::size", Sorters.cmp_size });
 		register_sorter ({ "File::Path", _("File Path"), "standard::display-name", Sorters.cmp_uri });
 		register_sorter ({ "Frame::Pixels", _("Width and Height"), "Frame::Width,Frame::Height", Sorters.cmp_frame_dimensions });
@@ -115,10 +117,12 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("standard::display-name", N_("Name"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Private::File::ContentType", N_("Type"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Private::File::DisplaySize", N_("Bytes"), "File", METADATA_ALLOW_EVERYWHERE);
-		// Translators: the file creation time.
-		MetadataInfo.register ("Private::File::DisplayCreated", N_("Created"), "File", METADATA_ALLOW_EVERYWHERE);
 		// Translators: the file modification time.
 		MetadataInfo.register ("Private::File::DisplayModified", N_("Modified"), "File", METADATA_ALLOW_EVERYWHERE);
+		// Translators: the file creation time.
+		MetadataInfo.register ("Private::File::DisplayCreated", N_("File Created"), "File", MetadataFlags.ALLOW_IN_PRINT);
+		// Translators: the file change time.
+		MetadataInfo.register ("Private::File::DisplayChanged", N_("File Changed"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Private::File::Location", N_("Folder"), "File", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 		MetadataInfo.register (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, null, "File", MetadataFlags.HIDDEN);
 

@@ -165,10 +165,36 @@ public class Gth.Files {
 		stream.close (cancellable);
 	}
 
-	public static void save_file (File file, Bytes bytes, Cancellable? cancellable = null) throws Error {
-		var stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
+	public static void save_file (File file, Bytes bytes, SaveFileFlags flags, Cancellable? cancellable = null) throws Error {
+		FileInfo info = null;
+		if (!(SaveFileFlags.REPLACE_CONTENT in flags)) {
+			try {
+				info = file.query_info (
+					(FileAttribute.TIME_MODIFIED + "," +
+					 FileAttribute.TIME_MODIFIED_USEC),
+					FileQueryInfoFlags.NONE,
+					cancellable);
+			}
+			catch (Error error) {
+			}
+		}
+
+		var create_flags = FileCreateFlags.NONE;
+		if (SaveFileFlags.REPLACE_CONTENT in flags) {
+			create_flags |= FileCreateFlags.REPLACE_DESTINATION;
+		}
+		var stream = file.replace (null, false, create_flags, cancellable);
 		stream.write_bytes (bytes, cancellable);
 		stream.close (cancellable);
+
+		// Restore the original modified time.
+		if ((info != null) && !(SaveFileFlags.REPLACE_CONTENT in flags)) {
+			try {
+				file.set_attributes_from_info (info, FileQueryInfoFlags.NONE, cancellable);
+			}
+			catch (Error error) {
+			}
+		}
 	}
 
 	public static async void save_file_async (File file, Bytes bytes, Cancellable? cancellable = null) throws Error {
@@ -226,9 +252,25 @@ public class Gth.Files {
 		catch (Error error) {
 		}
 	}
+
+	public static GLib.DateTime? get_changed_date_time (FileInfo info) {
+		if (!info.has_attribute (FileAttribute.TIME_CHANGED)) {
+			return null;
+		}
+		var datetime = new GLib.DateTime.from_unix_utc ((int64) info.get_attribute_uint64 (FileAttribute.TIME_CHANGED));
+		if (info.has_attribute (FileAttribute.TIME_CHANGED_USEC)) {
+			datetime = datetime.add ((TimeSpan) info.get_attribute_uint32 (FileAttribute.TIME_CHANGED_USEC));
+		}
+		return datetime;
+	}
 }
 
 public enum Gth.FileIntent {
 	READ,
 	WRITE,
+}
+
+public enum Gth.SaveFileFlags {
+	DEFAULT,
+	REPLACE_CONTENT, // Do not preserve modified time and file permissions.
 }

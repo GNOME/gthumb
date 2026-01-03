@@ -4,6 +4,7 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 		"Private::File::Size",
 		"Private::File::DisplaySize",
 		"Private::File::DisplayModified",
+		"Private::File::DisplayChanged",
 		"Private::File::DisplayCreated",
 		"Private::File::ContentType",
 		"Private::File::Location",
@@ -29,9 +30,16 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 
 		time = info.get_creation_date_time ();
 		if (time != null) {
+			var btime = new Gth.DateTime ();
+			btime.set_from_gdatetime (time);
+			info.set_attribute_string ("Private::File::DisplayCreated", btime.to_display_string ());
+		}
+
+		time = Files.get_changed_date_time (info);
+		if (time != null) {
 			var ctime = new Gth.DateTime ();
 			ctime.set_from_gdatetime (time);
-			info.set_attribute_string ("Private::File::DisplayCreated", ctime.to_display_string ());
+			info.set_attribute_string ("Private::File::DisplayChanged", ctime.to_display_string ());
 		}
 
 		if (file != null) {

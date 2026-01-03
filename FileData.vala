@@ -91,8 +91,9 @@ public class Gth.FileData : Object {
 	public void info_changed () {
 		// Invalidate cached data.
 		mtime = null;
-		ctime = null;
+		btime = null;
 		dtime = null;
+		ctime = null;
 		embedded_otime = null;
 		embedded_title = null;
 		embedded_description = null;
@@ -100,6 +101,22 @@ public class Gth.FileData : Object {
 		embedded_rating = -1;
 		icon_name = null;
 		info.set_attribute_string ("Private::File::ContentType", Util.format_content_type (get_content_type ()));
+	}
+
+	Gth.DateTime ctime = null;
+
+	public unowned Gth.DateTime get_file_changed_time () {
+		if (ctime == null) {
+			ctime = new Gth.DateTime ();
+			var time = Files.get_changed_date_time (info);
+			if (time != null) {
+				ctime.set_from_gdatetime (time);
+			}
+			else {
+				ctime.clear ();
+			}
+		}
+		return ctime;
 	}
 
 	Gth.DateTime mtime = null;
@@ -116,18 +133,18 @@ public class Gth.FileData : Object {
 		return mtime;
 	}
 
-	Gth.DateTime ctime = null;
+	Gth.DateTime btime = null;
 
 	public unowned Gth.DateTime get_creation_time () {
-		if (ctime == null) {
-			ctime = new Gth.DateTime ();
+		if (btime == null) {
+			btime = new Gth.DateTime ();
 			var time = info.get_creation_date_time ();
 			if (time != null)
-				ctime.set_from_gdatetime (time);
+				btime.set_from_gdatetime (time);
 			else
-				ctime.clear ();
+				btime.clear ();
 		}
-		return ctime;
+		return btime;
 	}
 
 	const string[] DIGITALIZATION_TIME_TAGS = {

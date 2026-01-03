@@ -128,11 +128,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 			}
 
 			// Save the buffer to file
-
-			var output_stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
-			output_stream.write_all (bytes.get_data (), null, cancellable);
-			output_stream.close (cancellable);
-
+			Files.save_file (file, bytes, SaveFileFlags.DEFAULT, cancellable);
 			app.monitor.file_changed (file);
 		}
 	}

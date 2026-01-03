@@ -27,12 +27,14 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 			if (file_info.has_attribute ("Embedded::UpdatedGeneralAttributes")
 				&& file_info.get_attribute_boolean ("Embedded::UpdatedGeneralAttributes"))
 			{
-				var comment_info = stream.query_info (FileAttribute.TIME_MODIFIED + "," + FileAttribute.TIME_MODIFIED_USEC, cancellable);
-				var comment_modification_time = comment_info.get_modification_date_time ();
-				var file_modification_time = file_info.get_modification_date_time ();
-				var diff = file_modification_time.difference (comment_modification_time);
-				if (diff > 1000000) { // 1 second
-					return;
+				var comment_info = stream.query_info (FileAttribute.TIME_CHANGED + "," + FileAttribute.TIME_CHANGED_USEC, cancellable);
+				var comment_changed_time = Files.get_changed_date_time (comment_info);
+				var file_changed_time = Files.get_changed_date_time (file_info);
+				if ((file_changed_time != null) && (comment_changed_time != null)) {
+					var diff = file_changed_time.difference (comment_changed_time);
+					if (diff > 1000000) { // 1 second
+						return;
+					}
 				}
 			}
 			// Update the metadata from the comment file.

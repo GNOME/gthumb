@@ -18,6 +18,7 @@ public class Gth.MetadataWriter {
 		if (job.error != null) {
 			throw job.error;
 		}
+		app.monitor.metadata_changed (job.file_data);
 	}
 
 	class Job : Work.Job {
@@ -31,7 +32,7 @@ public class Gth.MetadataWriter {
 				if (Exiv2.can_write_metadata (file_data.get_content_type ())) {
 					var bytes = Files.load_file (file_data.file, cancellable);
 					bytes = Exiv2.write_metadata_to_buffer (bytes, file_data.info);
-					Files.save_file (file_data.file, bytes, cancellable);
+					Files.save_file (file_data.file, bytes, SaveFileFlags.DEFAULT, cancellable);
 					saved = true;
 				}
 			}
@@ -42,7 +43,6 @@ public class Gth.MetadataWriter {
 				Files.ensure_directory_exists (comment_dir);
 				Files.save_content (comment_file, comment.to_xml (), cancellable);
 			}
-			app.monitor.metadata_changed (file_data);
 		}
 	}
 

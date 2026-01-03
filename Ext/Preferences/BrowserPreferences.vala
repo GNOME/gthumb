@@ -107,6 +107,7 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 		"standard::display-name",
 		"Private::File::DisplaySize",
 		"Private::File::DisplayCreated",
+		"Private::File::DisplayChanged",
 		"Private::File::DisplayModified",
 		"Frame::Pixels",
 		"Metadata::Title",

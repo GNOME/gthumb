@@ -29,6 +29,8 @@ const string STANDARD_ATTRIBUTES =
 	FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
 	FileAttribute.TIME_CREATED + "," +
 	FileAttribute.TIME_CREATED_USEC + "," +
+	FileAttribute.TIME_CHANGED + "," +
+	FileAttribute.TIME_CHANGED_USEC + "," +
 	FileAttribute.TIME_MODIFIED + "," +
 	FileAttribute.TIME_MODIFIED_USEC + "," +
 	ACCESS_ATTRIBUTES;

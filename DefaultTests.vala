@@ -143,7 +143,7 @@ public class Gth.TestFileSize : Gth.TestSize {
 public class Gth.TestFileCreatedTime : Gth.TestDate {
 	construct {
 		id = "Time::Created";
-		display_name = _("Created");
+		display_name = _("File Created");
 		attributes = "time::created,time::created-usec";
 	}
 
@@ -152,7 +152,19 @@ public class Gth.TestFileCreatedTime : Gth.TestDate {
 	}
 }
 
-public class Gth.TestFileModifiedTime : Gth.TestDate {
+public class Gth.TestFileChangedTime : Gth.TestDate {
+	construct {
+		id = "Time::Changed";
+		display_name = _("File Changed");
+		attributes = "time::changed,time::changed-usec";
+	}
+
+	public override Gth.DateTime? get_file_value (FileData file) {
+		return file.get_file_changed_time ();
+	}
+}
+
+public class Gth.TestContentModifiedTime : Gth.TestDate {
 	construct {
 		id = "Time::Modified";
 		display_name = _("Modified");
