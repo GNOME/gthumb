@@ -41,10 +41,16 @@ public class Gth.ImageRotation : Gth.FileOperation {
 			var bytes = Files.read_all_with_buffer (input_stream, cancellable, tmp_buffer);
 			input_stream.close (cancellable);
 
+			var change_orientation_tag = !(TransformFlags.CHANGE_IMAGE in flags) &&
+				((content_type == "image/jpeg")
+				 || (content_type == "image/tiff")
+				 || (content_type == "image/webp"));
+			var update_general_attributes = !change_orientation_tag;
+
 			// Read the exif orientation
 
 			var info = new FileInfo ();
-			Exiv2.read_metadata_from_buffer (bytes, info, false);
+			Exiv2.read_metadata_from_buffer (bytes, info, update_general_attributes);
 
 			// Change orientation
 
@@ -75,14 +81,9 @@ public class Gth.ImageRotation : Gth.FileOperation {
 				orientation_tag.set ("raw", raw_orientation);
 			}
 
-			var change_orientation_tag = !(TransformFlags.CHANGE_IMAGE in flags) &&
-				((content_type == "image/jpeg")
-				 || (content_type == "image/tiff")
-				 || (content_type == "image/webp"));
-
 			if (change_orientation_tag) {
 				Exiv2.update_dimensions (info, transform);
-				bytes = Exiv2.write_metadata_to_buffer (bytes, info);
+				bytes = Exiv2.write_metadata_to_buffer (bytes, info, null, update_general_attributes);
 			}
 			else if ((transform != Transform.NONE) || (TransformFlags.ALWAYS_SAVE in flags)) {
 				// Load the image
@@ -123,7 +124,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 				// Save the metadata to buffer
 
 				if (Exiv2.can_write_metadata (content_type)) {
-					bytes = Exiv2.write_metadata_to_buffer (bytes, info, image);
+					bytes = Exiv2.write_metadata_to_buffer (bytes, info, image, update_general_attributes);
 				}
 			}
 

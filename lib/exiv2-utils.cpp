@@ -1414,9 +1414,11 @@ void update_exif_tags_from_general_attributes (GFileInfo *info) {
 
 
 extern "C"
-GBytes * exiv2_write_metadata_to_buffer (GBytes *bytes, GFileInfo *info, GthImage *image_data, GError **error) {
+GBytes * exiv2_write_metadata_to_buffer (GBytes *bytes, GFileInfo *info, GthImage *image_data, gboolean update_from_general_attributes, GError **error) {
 	try {
-		update_exif_tags_from_general_attributes (info);
+		if (update_from_general_attributes) {
+			update_exif_tags_from_general_attributes (info);
+		}
 
 		gsize buffer_size;
 		gconstpointer buffer = g_bytes_get_data (bytes, &buffer_size);

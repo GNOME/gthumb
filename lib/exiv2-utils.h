@@ -20,7 +20,7 @@ gboolean exiv2_read_metadata_from_buffer (GBytes *buffer, GFileInfo *info, gbool
 int exiv2_get_coordinates (GFileInfo *info, double *out_latitude, double *out_longitude);
 char * exiv2_decimal_coordinates_to_string (double latitude, double longitude);
 gboolean exiv2_can_write_metadata (const char *mime_type);
-GBytes * exiv2_write_metadata_to_buffer (GBytes *buffer, GFileInfo *info, GthImage *image_data, GError **error);
+GBytes * exiv2_write_metadata_to_buffer (GBytes *buffer, GFileInfo *info, GthImage *image_data, gboolean update_from_general_attributes, GError **error);
 GBytes * exiv2_clear_metadata (GBytes *buffer, GError **error);
 void exiv2_update_dimensions (GFileInfo *info, GthTransform transform);
 
