@@ -209,19 +209,25 @@ class Gth.ColorRange : Gtk.Widget {
 		};
 	}
 
-	const float TRIANGLE_WIDTH = 17; // pixels
-	const float TRIANGLE_HEIGHT = 10; // pixels
+	const float TRIANGLE_WIDTH = 14; // pixels
+	const float TRIANGLE_HEIGHT = 6; // pixels
 	const int BORDER_RADIUS = 4;
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
+		var draw_value = (_range_type != ColorRangeType.COLOR) && (_range_type != ColorRangeType.PREVIEW);
+		float h_padding = draw_value ? TRIANGLE_WIDTH / 2 : 0;
+		Graphene.Rect background_rect = {
+			{ viewport.origin.x + (h_padding / 2), viewport.origin.y },
+			{ viewport.size.width - h_padding, viewport.size.height }
+		};
 		var background = new Gsk.RoundedRect ();
-		background.init_from_rect (viewport, BORDER_RADIUS);
+		background.init_from_rect (background_rect, BORDER_RADIUS);
 		snapshot.push_rounded_clip (background);
 
 		Gdk.RGBA border_color;
 		float border_width;
 		if (theme_is_dark ()) {
-			border_color = { 1, 1, 1, 1 };
+			border_color = { 1, 1, 1, 0.5f };
 			border_width = 2;
 		}
 		else {
@@ -230,8 +236,14 @@ class Gth.ColorRange : Gtk.Widget {
 		}
 
 		var inner_rect = Graphene.Rect () {
-			origin = { viewport.origin.x + border_width, viewport.origin.y + border_width },
-			size = { viewport.size.width - (border_width * 2), viewport.size.height - (border_width * 2) },
+			origin = {
+				background_rect.origin.x + border_width,
+				background_rect.origin.y + border_width
+			},
+			size = {
+				background_rect.size.width - (border_width * 2),
+				background_rect.size.height - (border_width * 2)
+			},
 		};
 
 		// Trasparency pattern
@@ -240,10 +252,10 @@ class Gth.ColorRange : Gtk.Widget {
 			|| (_range_type == ColorRangeType.ALPHA))
 		{
 			if (background_color != null) {
-				snapshot.append_color (background_color, viewport);
+				snapshot.append_color (background_color, background_rect);
 			}
 			else {
-				var ctx = snapshot.append_cairo (viewport);
+				var ctx = snapshot.append_cairo (background_rect);
 				ctx.rectangle (inner_rect.origin.x, inner_rect.origin.y, inner_rect.size.width, inner_rect.size.height);
 				var pattern = get_transparency_pattern ();
 				var matrix = Cairo.Matrix.identity ();
@@ -258,7 +270,7 @@ class Gth.ColorRange : Gtk.Widget {
 
 		switch (_range_type) {
 		case ColorRangeType.COLOR, ColorRangeType.PREVIEW:
-			snapshot.append_color (selected_color, viewport);
+			snapshot.append_color (selected_color, background_rect);
 			break;
 
 		default:
@@ -267,37 +279,11 @@ class Gth.ColorRange : Gtk.Widget {
 				y = 0
 			};
 			var end = Graphene.Point () {
-				x = viewport.size.width,
+				x = background_rect.size.width,
 				y = 0
 			};
-			snapshot.append_linear_gradient (viewport, start, end, colors);
+			snapshot.append_linear_gradient (background_rect, start, end, colors);
 			break;
-		}
-
-		// Value
-
-		if ((_range_type != ColorRangeType.COLOR) && (_range_type != ColorRangeType.PREVIEW)) {
-			var inner_width = viewport.size.width - (border_width * 2);
-			var value_x = viewport.origin.x + border_width + (inner_width * range_value);
-
-			// Black downward-pointing triangle at the top
-			var path = new Gsk.PathBuilder ();
-			var triangle_width = TRIANGLE_WIDTH + 1;
-			var triangle_height = TRIANGLE_HEIGHT + 1;
-			path.move_to (value_x, viewport.origin.y + border_width + triangle_height);
-			path.rel_line_to (-triangle_width / 2.0f, -triangle_height);
-			path.rel_line_to (triangle_width, 0);
-			path.close ();
-			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 0, 0, 0, 1 });
-
-			// White upward-pointing triangle at the bottom
-			triangle_width = TRIANGLE_WIDTH - 1;
-			triangle_height = TRIANGLE_HEIGHT - 1;
-			path.move_to (value_x, viewport.origin.y + viewport.size.height - border_width - triangle_height);
-			path.rel_line_to (-triangle_width / 2.0f, triangle_height);
-			path.rel_line_to (triangle_width, 0);
-			path.close ();
-			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 1, 1, 1, 1 });
 		}
 
 		snapshot.pop ();
@@ -308,6 +294,33 @@ class Gth.ColorRange : Gtk.Widget {
 			{ border_width, border_width, border_width, border_width },
 			{ border_color, border_color, border_color, border_color }
 		);
+
+		// Value
+
+		if (draw_value) {
+			//border_width = 0;
+			var inner_width = background_rect.size.width - (border_width * 2);
+			var value_x = background_rect.origin.x + border_width + (inner_width * range_value);
+
+			// Black downward-pointing triangle at the top
+			var path = new Gsk.PathBuilder ();
+			var triangle_width = TRIANGLE_WIDTH;
+			var triangle_height = TRIANGLE_HEIGHT;
+			path.move_to (value_x, background_rect.origin.y + border_width + triangle_height);
+			path.rel_line_to (-triangle_width / 2.0f, -triangle_height - border_width - 2);
+			path.rel_line_to (triangle_width, 0);
+			path.close ();
+			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 0, 0, 0, 1 });
+
+			// White upward-pointing triangle at the bottom
+			triangle_width = TRIANGLE_WIDTH;
+			triangle_height = TRIANGLE_HEIGHT;
+			path.move_to (value_x, background_rect.origin.y + background_rect.size.height - border_width - triangle_height);
+			path.rel_line_to (-triangle_width / 2.0f, triangle_height + border_width + 2);
+			path.rel_line_to (triangle_width, 0);
+			path.close ();
+			snapshot.append_fill (path.to_path (), Gsk.FillRule.EVEN_ODD, { 1, 1, 1, 1 });
+		}
 	}
 
 	const int TRANSP_PATTERN_SIZE = 14; // pixels
@@ -355,15 +368,17 @@ class Gth.ColorRange : Gtk.Widget {
 	}
 
 	void build_hue_range () {
+		// Less bright for a better contrast with the value notch.
+		var v = 0.8f;
 		var step = 1f / 6;
 		colors = {
-			{ step * 0, Color.get_rgba (1, 0, 0) }, // RED
-			{ step * 1, Color.get_rgba (1, 1, 0) }, // YELLOW
-			{ step * 2, Color.get_rgba (0, 1, 0) }, // GREEN
-			{ step * 3, Color.get_rgba (0, 1, 1) }, // CYAN
-			{ step * 4, Color.get_rgba (0, 0, 1) }, // BLUE
-			{ step * 5, Color.get_rgba (1, 0, 1) }, // MAGENTA
-			{ step * 6, Color.get_rgba (1, 0, 0) }, // RED
+			{ step * 0, Color.get_rgba (v, 0, 0) }, // RED
+			{ step * 1, Color.get_rgba (v, v, 0) }, // YELLOW
+			{ step * 2, Color.get_rgba (0, v, 0) }, // GREEN
+			{ step * 3, Color.get_rgba (0, v, v) }, // CYAN
+			{ step * 4, Color.get_rgba (0, 0, v) }, // BLUE
+			{ step * 5, Color.get_rgba (v, 0, v) }, // MAGENTA
+			{ step * 6, Color.get_rgba (v, 0, 0) }, // RED
 		};
 	}
 
