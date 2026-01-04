@@ -106,6 +106,16 @@
               <object class="GthAspectRatioGroup" id="aspect_ratio_group">
               </object>
             </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwSwitchRow" id="high_quality_switch">
+                    <property name="title" translatable="yes">High Quality</property>
+                    <property name="active">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>

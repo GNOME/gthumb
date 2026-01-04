@@ -9,6 +9,13 @@ public class Gth.ResizeImage : ImageTool {
 		add_default_controllers (image_view);
 		window.editor.set_content (image_view);
 
+		var high_quality_switch = builder.get_object ("high_quality_switch") as Adw.SwitchRow;
+		high_quality_switch.notify["active"].connect ((obj, _param) => {
+			var local_switch = obj as Adw.SwitchRow;
+			high_quality = local_switch.active;
+			queue_update_size ();
+		});
+
 		zoom_adjustment = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
 		zoom_adj_changed_id = zoom_adjustment.value_changed.connect ((local_adj) => {
 			var scale_factor = local_adj.get_value () / 100.0; //ZoomScale.get_zoom (local_adj.get_value (), MIN_ZOOM, MAX_ZOOM);
@@ -124,7 +131,7 @@ public class Gth.ResizeImage : ImageTool {
 	}
 
 	public override ImageOperation? get_operation () {
-		return new ResizeOperation (width, height);
+		return new ResizeOperation (width, height, high_quality);
 	}
 
 	Gtk.Widget new_ratio_row (string name, uint idx, string? description = null) {
@@ -294,6 +301,7 @@ public class Gth.ResizeImage : ImageTool {
 	Job preview_job;
 	unowned Gtk.Adjustment zoom_adjustment;
 	ulong zoom_adj_changed_id;
+	bool high_quality = true;
 
 	const double MAX_SIZE = 10000;
 	const double MAX_PERCENT = 1000;
@@ -304,18 +312,20 @@ public class Gth.ResizeImage : ImageTool {
 }
 
 public class Gth.ResizeOperation : ImageOperation {
-	public ResizeOperation (uint _width, uint _height) {
+	public ResizeOperation (uint _width, uint _height, bool _high_quality) {
 		width = _width;
 		height = _height;
+		high_quality = _high_quality;
 	}
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
 		if (input == null) {
 			return null;
 		}
-		return input.resize_to (width, height, ScaleFilter.BEST, cancellable);
+		return input.resize_to (width, height, high_quality ? ScaleFilter.BEST : ScaleFilter.POINT, cancellable);
 	}
 
 	uint width;
 	uint height;
+	bool high_quality;
 }
