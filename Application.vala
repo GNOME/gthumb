@@ -97,7 +97,7 @@ public class Gth.Application : Adw.Application {
 		register_sorter ({ "Time::Created", _("File Created"), "time::created,time::created-usec", Sorters.cmp_created_time });
 		register_sorter ({ "File::Size", _("Bytes"), "standard::size", Sorters.cmp_size });
 		register_sorter ({ "File::Path", _("File Path"), "standard::display-name", Sorters.cmp_uri });
-		register_sorter ({ "Frame::Pixels", _("Width and Height"), "Frame::Width,Frame::Height", Sorters.cmp_frame_dimensions });
+		register_sorter ({ "Frame::Pixels", _("Pixels"), "Frame::Width,Frame::Height", Sorters.cmp_frame_dimensions });
 		register_sorter ({ "Frame::AspectRatio", _("Aspect Ratio"), "Frame::Width,Frame::Height", Sorters.cmp_aspect_ratio });
 		register_sorter ({ "Private::Unsorted", _("Unsorted"), "", Sorters.cmp_position });
 
