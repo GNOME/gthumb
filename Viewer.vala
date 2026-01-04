@@ -171,7 +171,12 @@ public class Gth.Viewer : Gtk.Box {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
 		if (response == "discard") {
-			current_file.set_is_modified (false);
+			if (current_file.get_is_modified ()) {
+				Lib.restore_original_attribute (current_file.info, "Frame::Size");
+				Lib.restore_original_attribute (current_file.info, "Frame::Width");
+				Lib.restore_original_attribute (current_file.info, "Frame::Height");
+				current_file.set_is_modified (false);
+			}
 			return;
 		}
 		yield current_viewer.save ();
@@ -680,7 +685,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] public unowned Gtk.Overlay viewer_container;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Gtk.Box right_toolbar;
-	[GtkChild] unowned Gth.PropertySidebar property_sidebar;
+	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] public unowned Gth.EditorPalette editor_palette;
 	[GtkChild] public unowned Gth.ViewerStatus status;
 	[GtkChild] unowned Adw.ToolbarView toolbar_view;

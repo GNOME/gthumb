@@ -21,8 +21,6 @@ public class Gth.ImageMetadataProvider : Gth.MetadataProvider {
 				return;
 			}
 		}
-		info.set_attribute_int32 ("Frame::Width", width);
-		info.set_attribute_int32 ("Frame::Height", height);
-		info.set_attribute_string ("Frame::Pixels", "%d × %d".printf (width, height));
+		Lib.set_frame_size (info, width, height);
 	}
 }

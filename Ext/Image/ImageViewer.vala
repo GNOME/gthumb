@@ -621,7 +621,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.default_zoom_type = image_view.zoom_type; // do not change the zoom type
 		image_view.image = image;
 		window.viewer.current_file.set_is_modified (is_modified);
+		Lib.backup_attribute (window.viewer.current_file.info, "Frame::Size");
+		Lib.backup_attribute (window.viewer.current_file.info, "Frame::Width");
+		Lib.backup_attribute (window.viewer.current_file.info, "Frame::Height");
+		Lib.set_frame_size (window.viewer.current_file.info, (int) image.width, (int) image.height);
 		window.viewer.update_title ();
+		window.viewer.property_sidebar.update_view ();
 		update_sensitivity ();
 	}
 

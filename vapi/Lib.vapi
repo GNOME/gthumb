@@ -23,6 +23,15 @@ namespace Lib {
 	[CCode (cname = "_g_file_info_copy_attributes")]
 	public static void copy_file_attributes (FileInfo src, FileInfo dest);
 
+	[CCode (cname = "_g_file_info_backup_attribute")]
+	public static void backup_attribute (FileInfo src, string attr);
+
+	[CCode (cname = "_g_file_info_restore_original_attribute")]
+	public static void restore_original_attribute (FileInfo src, string attr);
+
 	[CCode (cname = "_g_date_time_to_exif_date")]
 	public static string date_time_to_exif_date (DateTime date_time);
+
+	[CCode (cname = "_g_file_info_set_frame_size")]
+	public static void set_frame_size (FileInfo info, int width, int height);
 }

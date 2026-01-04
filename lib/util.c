@@ -831,17 +831,40 @@ static void _g_file_info_set_value (GFileInfo *info, const char *attr, _GFileAtt
 
 
 void _g_file_info_swap_attributes (GFileInfo *info, const char *attr1, const char *attr2) {
-	_GFileAttributeValue *value1;
-	_GFileAttributeValue *value2;
-
-	value1 = _g_file_info_get_value (info, attr1);
-	value2 = _g_file_info_get_value (info, attr2);
+	_GFileAttributeValue *value1 = _g_file_info_get_value (info, attr1);
+	_GFileAttributeValue *value2 = _g_file_info_get_value (info, attr2);
 
 	_g_file_info_set_value (info, attr1, value2);
 	_g_file_info_set_value (info, attr2, value1);
 
 	_g_file_attribute_value_free (value1);
 	_g_file_attribute_value_free (value2);
+}
+
+
+static void _g_file_info_copy_attribute (GFileInfo *info, const char *dest, const char *source) {
+	_GFileAttributeValue *value = _g_file_info_get_value (info, source);
+	_g_file_info_set_value (info, dest, value);
+	_g_file_attribute_value_free (value);
+}
+
+
+static char * get_backup_attribute_name (char *attr) {
+	return g_strconcat ("Backup::", attr, NULL);
+}
+
+
+void _g_file_info_backup_attribute (GFileInfo *info, const char *attr) {
+	char *backup_attr = get_backup_attribute_name (attr);
+	_g_file_info_copy_attribute (info, backup_attr, attr);
+	g_free (backup_attr);
+}
+
+
+void _g_file_info_restore_original_attribute (GFileInfo *info, const char *attr) {
+	char *backup_attr = get_backup_attribute_name (attr);
+	_g_file_info_copy_attribute (info, attr, backup_attr);
+	g_free (backup_attr);
 }
 
 
@@ -907,4 +930,12 @@ void _g_file_info_copy_attributes (GFileInfo *src, GFileInfo *dest) {
 	}
 
 	g_strfreev (attributes);
+}
+
+void _g_file_info_set_frame_size (GFileInfo *info, int width, int height) {
+	g_file_info_set_attribute_int32 (info, "Frame::Width", width);
+	g_file_info_set_attribute_int32 (info, "Frame::Height", height);
+	char *pixels = g_strdup_printf ("%d × %d", width, height);
+	g_file_info_set_attribute_string (info, "Frame::Pixels", pixels);
+	g_free (pixels);
 }

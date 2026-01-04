@@ -77,7 +77,10 @@ char * _g_format_duration_for_display (gint64 msecs, int *hours, int *minutes);
 char * _g_format_duration_not_localized (gint64 msecs);
 char * _g_format_double (double value, int max_decimal_digits);
 void _g_file_info_swap_attributes (GFileInfo *info, const char *attr1, const char *attr2);
+void _g_file_info_backup_attribute (GFileInfo *info, const char *attr);
+void _g_file_info_restore_original_attribute (GFileInfo *info, const char *attr);
 void _g_file_info_copy_attributes (GFileInfo *src, GFileInfo *dest);
+void _g_file_info_set_frame_size (GFileInfo *info, int width, int height);
 
 G_END_DECLS
 

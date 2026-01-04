@@ -128,11 +128,7 @@ static void add_metadata (GFileInfo *info, const char *key, char *raw, char *for
 	if (raw == NULL)
 		return;
 
-	if (strcmp (key, "Frame::Pixels") == 0) {
-		g_file_info_set_attribute_string (info, key, raw);
-		return;
-	}
-	else if (strcmp (key, "Metadata::Duration") == 0) {
+	if (strcmp (key, "Metadata::Duration") == 0) {
 		int secs;
 
 		g_free (formatted);
@@ -331,67 +327,54 @@ static gint64 get_media_duration (MetadataExtractor *extractor) {
 
 static void extract_metadata (MetadataExtractor *extractor, GFileInfo *info) {
 	if (extractor->audio_channels >= 0) {
-		add_metadata (info,
-			"Media::Audio::Channels",
+		add_metadata (info, "Media::Audio::Channels",
 			g_strdup_printf ("%d", (guint) extractor->audio_channels),
 			g_strdup (extractor->audio_channels == 2 ? _("Stereo") : _("Mono")));
 	}
 
 	if (extractor->audio_samplerate >= 0) {
-		add_metadata (info,
-			"Media::Audio::SampleRate",
+		add_metadata (info, "Media::Audio::SampleRate",
 			g_strdup_printf ("%d", (guint) extractor->audio_samplerate),
 			g_strdup_printf ("%d Hz", (guint) extractor->audio_samplerate));
 	}
 
 	if (extractor->audio_bitrate >= 0) {
-		add_metadata (info,
-			"Media::Audio::Bitrate",
+		add_metadata (info, "Media::Audio::Bitrate",
 			g_strdup_printf ("%d", (guint) extractor->audio_bitrate),
 			g_strdup_printf ("%d bps", (guint) extractor->audio_bitrate));
 	}
 
 	if (extractor->video_height >= 0) {
-		add_metadata (info,
-			"Media::Video::Height",
-			g_strdup_printf ("%d", (guint) extractor->video_height),
+		add_metadata (info, "Media::Video::Height",
+			g_strdup_printf ("%d", extractor->video_height),
 			NULL);
-		g_file_info_set_attribute_int32 (info, "Frame::Height", extractor->video_height);
 	}
 
 	if (extractor->video_width >= 0) {
-		add_metadata (info,
-			"Media::Video::Width",
-			g_strdup_printf ("%d", (guint) extractor->video_width),
+		add_metadata (info, "Media::Video::Width",
+			g_strdup_printf ("%d", extractor->video_width),
 			NULL);
-		g_file_info_set_attribute_int32 (info, "Frame::Width", extractor->video_width);
 	}
 
 	if ((extractor->video_height >= 0) && (extractor->video_width >= 0)) {
-		add_metadata (info,
-			"Frame::Pixels",
-			g_strdup_printf (_("%d × %d"), (guint) extractor->video_width, (guint) extractor->video_height),
-			NULL);
+		_g_file_info_set_frame_size (info, extractor->video_width, extractor->video_height);
 	}
 
 	if ((extractor->video_fps_n >= 0) && (extractor->video_fps_d >= 0)) {
-		add_metadata (info,
-			"Media::Video::FrameRate",
+		add_metadata (info, "Media::Video::FrameRate",
 			g_strdup_printf ("%.7g", (gdouble) extractor->video_fps_n / (gdouble) extractor->video_fps_d),
 			g_strdup_printf ("%.7g fps", (gdouble) extractor->video_fps_n / (gdouble) extractor->video_fps_d));
 	}
 
 	if (extractor->video_bitrate >= 0) {
-		add_metadata (info,
-			"Media::Video::Bitrate",
+		add_metadata (info, "Media::Video::Bitrate",
 			g_strdup_printf ("%d", (guint) extractor->video_bitrate),
 			g_strdup_printf ("%d bps", (guint) extractor->video_bitrate));
 	}
 
 	gint64 duration = get_media_duration (extractor);
 	if (duration >= 0) {
-		add_metadata (info,
-			"Metadata::Duration",
+		add_metadata (info, "Metadata::Duration",
 			g_strdup_printf ("%" G_GINT64_FORMAT, duration),
 			g_strdup_printf ("%" G_GINT64_FORMAT " sec", duration));
 	}

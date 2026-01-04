@@ -381,11 +381,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.info.set_edit_name (basename);
 			unsaved_file.set_content_type ("image/jpeg");
 			unsaved_file.set_is_modified (true);
-			var width = (int) image.get_width ();
-			var height = (int) image.get_height ();
-			unsaved_file.info.set_attribute_int32 ("Frame::Width", width);
-			unsaved_file.info.set_attribute_int32 ("Frame::Height", height);
-			unsaved_file.info.set_attribute_string ("Frame::Pixels", "%d × %d".printf (width, height));
+			Lib.set_frame_size (unsaved_file.info, (int) image.width, (int) image.height);
 			unsaved_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD, true);
 
 			// Use this window if in browser mode or in viewer mode and the image was not modified
