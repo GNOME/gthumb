@@ -1,12 +1,24 @@
 public class Gth.ResizeImage : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/resize-image.ui");
+		window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.image = original;
 		add_default_controllers (image_view);
 		window.editor.set_content (image_view);
+
+		zoom_adjustment = builder.get_object ("zoom_adjustment") as Gtk.Adjustment;
+		zoom_adj_changed_id = zoom_adjustment.value_changed.connect ((local_adj) => {
+			var scale_factor = local_adj.get_value () / 100.0; //ZoomScale.get_zoom (local_adj.get_value (), MIN_ZOOM, MAX_ZOOM);
+			var new_width = (uint) (scale_factor * original.width);
+			var new_height = (uint) (scale_factor * original.height);
+			set_size (new_width, new_height);
+		});
+
+		var reset_button = builder.get_object ("reset_button") as Gtk.Button;
+		reset_button.clicked.connect (() => reset_size ());
 
 		var spin_row = builder.get_object ("width") as Adw.SpinRow;
 		width_changed_id = spin_row.adjustment.value_changed.connect ((obj) => {
@@ -39,34 +51,13 @@ public class Gth.ResizeImage : ImageTool {
 		});
 
 		var special_size_group = builder.get_object ("special_size_group") as Adw.PreferencesGroup;
-
-		var button = new Adw.ButtonRow ();
-		button.child = new_size_button_content (_("Reset"), original.width, original.height, "edit-undo-symbolic");
-		button.activated.connect (() => reset_size ());
-		special_size_group.add (button);
-
-		/*var button = new Adw.ButtonRow ();
-		button.child = new_size_button_content (_("100%"), original.width, original.height);
-		button.activated.connect (() => reset_size ());
-		special_size_group.add (button);
-
-		button = new Adw.ButtonRow ();
-		button.child = new_size_button_content (_("50%"), (uint) Math.round (original.width * 0.5), (uint) Math.round (original.height * 0.5));
-		button.activated.connect (() => reset_size (0.5));
-		special_size_group.add (button);
-
-		button = new Adw.ButtonRow ();
-		button.child = new_size_button_content (_("25%"), (uint) Math.round (original.width * 0.25), (uint) Math.round (original.height * 0.25));
-		button.activated.connect (() => reset_size (0.25));
-		special_size_group.add (button);*/
-
 		var display = window.root.get_display ();
 		var monitors = display.get_monitors ();
 		var n_monitors = monitors.get_n_items ();
 		for (var i = 0; i < n_monitors; i++) {
 			var monitor = monitors.get_item (i) as Gdk.Monitor;
 			var geometry = monitor.geometry;
-			button = new Adw.ButtonRow ();
+			var button = new Adw.ButtonRow ();
 			button.child = new_size_button_content (_("Screen"), (uint) geometry.width, (uint) geometry.height);
 			button.activated.connect (() => {
 				if (ratio == 0) {
@@ -86,9 +77,20 @@ public class Gth.ResizeImage : ImageTool {
 			special_size_group.add (button);
 		}
 
-		var aspect_ratio_button = builder.get_object ("aspect_ratio_button") as Adw.ActionRow;
-		aspect_ratio_button.activated.connect (() => {
-			var page = builder.get_object ("aspect_ratio_page") as Adw.NavigationPage;
+		void add_special_size (string display_name, uint width, uint height) {
+			var button = new Adw.ButtonRow ();
+			button.child = new_size_button_content (display_name, width, height);
+			button.activated.connect (() => set_size_with_ratio (width, height));
+			special_size_group.add (button);
+		}
+
+		add_special_size (_("4K"), 3840, 2160);
+		add_special_size (_("1080p"), 1920, 1080);
+		add_special_size (_("720p"), 1280, 720);
+
+		var more_options = builder.get_object ("more_options") as Gtk.Button;
+		more_options.clicked.connect (() => {
+			var page = builder.get_object ("more_options_page") as Adw.NavigationPage;
 			window.editor.sidebar.push (page);
 		});
 
@@ -96,9 +98,7 @@ public class Gth.ResizeImage : ImageTool {
 		aspect_ratio_group.activate (window, original, true);
 		aspect_ratio_group.changed.connect ((local_group, after_rotation) => {
 			update_ratio (after_rotation);
-			update_ratio_state ();
 		});
-		update_ratio_state ();
 
 		var unit_group = builder.get_object ("unit_group") as Adw.ToggleGroup;
 		unit_group.active_name = (unit == ResizeUnit.PIXEL) ? "pixels" : "percent";
@@ -180,6 +180,13 @@ public class Gth.ResizeImage : ImageTool {
 		width = _width;
 		height = _height;
 
+		SignalHandler.block (zoom_adjustment, zoom_adj_changed_id);
+		// zoom_adjustment.value = ZoomScale.get_adj_value ((float) width / original.width, MIN_ZOOM, MAX_ZOOM);
+		var percent = (double) width / original.width * 100;
+		zoom_adjustment.upper = (percent > DEFAULT_MAX_SCALE_VALUE) ? percent : DEFAULT_MAX_SCALE_VALUE;
+		zoom_adjustment.value = percent;
+		SignalHandler.unblock (zoom_adjustment, zoom_adj_changed_id);
+
 		var spin_row = builder.get_object ("width") as Adw.SpinRow;
 		SignalHandler.block (spin_row.adjustment, width_changed_id);
 		spin_row.adjustment.freeze_notify ();
@@ -187,7 +194,7 @@ public class Gth.ResizeImage : ImageTool {
 			spin_row.adjustment.lower = 1;
 			spin_row.adjustment.upper = MAX_PERCENT;
 			spin_row.adjustment.step_increment = 1;
-			spin_row.adjustment.value = (double) width / original.width * 100;
+			spin_row.adjustment.value = (double) width / original.width * 100;;
 		}
 		else {
 			spin_row.adjustment.lower = 1;
@@ -217,6 +224,20 @@ public class Gth.ResizeImage : ImageTool {
 		SignalHandler.unblock (spin_row.adjustment, height_changed_id);
 
 		queue_update_size ();
+	}
+
+	void set_size_with_ratio (uint width, uint height) {
+		if (ratio != 0) {
+			var new_height = height;
+			var new_width = (uint) (ratio * height);
+			if (new_width > width) {
+				new_width = width;
+				new_height = (uint) ((float) new_width / ratio);
+			}
+			width = new_width;
+			height = new_height;
+		}
+		set_size (width, height);
 	}
 
 	void update_ratio (bool swap_size) {
@@ -263,12 +284,6 @@ public class Gth.ResizeImage : ImageTool {
 		});
 	}
 
-	void update_ratio_state () {
-		var aspect_ratio_group = builder.get_object ("aspect_ratio_group") as Gth.AspectRatioGroup;
-		var aspect_ratio_button = builder.get_object ("aspect_ratio_button") as Adw.ActionRow;
-		aspect_ratio_button.title = aspect_ratio_group.description;
-	}
-
 	Gtk.Builder builder;
 	ulong width_changed_id = 0;
 	ulong height_changed_id = 0;
@@ -277,10 +292,15 @@ public class Gth.ResizeImage : ImageTool {
 	float ratio;
 	ResizeUnit unit;
 	Job preview_job;
+	unowned Gtk.Adjustment zoom_adjustment;
+	ulong zoom_adj_changed_id;
 
 	const double MAX_SIZE = 10000;
 	const double MAX_PERCENT = 1000;
 	const uint UPDATE_DELAY = 100;
+	const float MIN_ZOOM = 0.05f;
+	const float MAX_ZOOM = 3f;
+	const float DEFAULT_MAX_SCALE_VALUE = 300;
 }
 
 public class Gth.ResizeOperation : ImageOperation {

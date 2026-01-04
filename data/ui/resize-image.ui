@@ -3,6 +3,50 @@
   <object class="AdwPreferencesPage" id="options">
     <child>
       <object class="AdwPreferencesGroup">
+        <property name="separate-rows">true</property>
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="activatable">false</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkSpinButton">
+                    <property name="adjustment">zoom_adjustment</property>
+                    <property name="digits">1</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkScale">
+                    <property name="hexpand">true</property>
+                    <property name="draw-value">false</property>
+                    <property name="adjustment">zoom_adjustment</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="reset_button">
+                    <property name="label" translatable="yes">_Reset</property>
+                    <property name="halign">end</property>
+                    <property name="use-underline">true</property>
+                    <property name="margin-top">12</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
         <child>
           <object class="AdwSpinRow" id="width">
             <property name="title" translatable="yes">Width</property>
@@ -16,6 +60,7 @@
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Unit</property>
+            <property name="visible">false</property>
             <child type="suffix">
               <object class="AdwToggleGroup" id="unit_group">
                 <property name="valign">center</property>
@@ -38,22 +83,6 @@
       </object>
     </child>
     <child>
-      <object class="AdwPreferencesGroup">
-        <property name="title" translatable="yes">Aspect Ratio</property>
-        <child>
-          <object class="AdwActionRow" id="aspect_ratio_button">
-            <property name="activatable">true</property>
-            <child type="suffix">
-              <object class="GtkImage">
-                <property name="icon-name">go-next-symbolic</property>
-                <property name="margin-start">12</property>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
       <object class="AdwPreferencesGroup" id="special_size_group">
         <property name="separate-rows">true</property>
       </object>
@@ -61,8 +90,8 @@
   </object>
   <object class="GthImageView" id="image_view">
   </object>
-  <object class="AdwNavigationPage" id="aspect_ratio_page">
-    <property name="title" translatable="yes">Aspect Ratio</property>
+  <object class="AdwNavigationPage" id="more_options_page">
+    <property name="title" translatable="yes">Options</property>
     <style>
       <class name="tool-options"/>
     </style>
@@ -75,12 +104,49 @@
           <object class="AdwPreferencesPage">
             <child>
               <object class="GthAspectRatioGroup" id="aspect_ratio_group">
-                <property name="show-title">false</property>
               </object>
             </child>
           </object>
         </property>
       </object>
     </property>
+  </object>
+  <object class="GtkBox" id="action_bar">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">6</property>
+    <property name="halign">end</property>
+    <style>
+      <class name="smaller-text"/>
+    </style>
+    <child>
+      <object class="GtkButton" id="more_options">
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Options</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="zoom_adjustment">
+    <property name="lower">5</property>
+    <property name="upper">300</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="value">100</property>
   </object>
 </interface>
