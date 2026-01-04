@@ -22,7 +22,7 @@ public class Gth.TimeRow : Adw.EntryRow {
 
 	construct {
 		var now_button = new Gtk.Button.from_icon_name ("gth-clock-symbolic");
-		now_button.tooltip_text = _("Set to current time");
+		now_button.tooltip_text = _("Now");
 		now_button.valign = Gtk.Align.CENTER;
 		now_button.add_css_class ("flat");
 		now_button.clicked.connect (() => {
