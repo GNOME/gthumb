@@ -49,6 +49,7 @@ void       exiv2_update_general_attributes  (GFileInfo         *info);
 gboolean   exiv2_write_metadata_to_buffer   (void              **buffer,
 					     gsize              *buffer_size,
 					     GFileInfo          *info,
+					     gboolean            update_from_general_attributes,
 					     GthImage           *image_data, /* optional */
 					     GError           **error);
 gboolean   exiv2_clear_metadata             (void             **buffer,

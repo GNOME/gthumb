@@ -245,6 +245,7 @@ exiv2_write_metadata (GthImageSaveData *data)
 		&data->buffer,
 		&data->buffer_size,
 		data->file_data->info,
+		TRUE,
 		data->image,
 		data->error);
 }

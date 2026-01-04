@@ -29,9 +29,8 @@
 typedef enum {
 	GTH_TRANSFORM_FLAG_DEFAULT = 0,
 	GTH_TRANSFORM_FLAG_CHANGE_IMAGE = 1 << 0,
-	GTH_TRANSFORM_FLAG_SKIP_METADATA = 1 << 1,
-	GTH_TRANSFORM_FLAG_RESET = 1 << 2,
-	GTH_TRANSFORM_FLAG_ALWAYS_SAVE = 1 << 3,
+	GTH_TRANSFORM_FLAG_RESET = 1 << 1,
+	GTH_TRANSFORM_FLAG_ALWAYS_SAVE = 1 << 2,
 } GthTransformFlags;
 
 GthTransform	get_next_transformation		(GthTransform  original,

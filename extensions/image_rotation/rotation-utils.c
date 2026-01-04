@@ -132,13 +132,20 @@ _apply_transformation_async_thread (GTask        *task,
 		return;
 	}
 
+	const char *mime_type = gth_file_data_get_mime_type (tdata->file_data);
+	gboolean change_orientation_tag = !(tdata->flags & GTH_TRANSFORM_FLAG_CHANGE_IMAGE) &&
+		(g_content_type_equals (mime_type, "image/jpeg")
+			|| g_content_type_equals (mime_type, "image/tiff")
+			|| g_content_type_equals (mime_type, "image/webp"));
+	// Do not update the general attributes when exiv2_write_metadata_to_buffer is used
+	// to change the orientation.
+	gboolean update_general_attributes = !change_orientation_tag;
+
 	// Read the exif orientation
-	if (!(tdata->flags & GTH_TRANSFORM_FLAG_SKIP_METADATA)) {
-		if (!exiv2_read_metadata_from_buffer (buffer, size, tdata->file_data->info, FALSE, &error)) {
-			g_free (buffer);
-			g_task_return_error (task, error);
-			return;
-		}
+	if (!exiv2_read_metadata_from_buffer (buffer, size, tdata->file_data->info, update_general_attributes, &error)) {
+		g_free (buffer);
+		g_task_return_error (task, error);
+		return;
 	}
 
 	// Change orientation
@@ -172,16 +179,10 @@ _apply_transformation_async_thread (GTask        *task,
 	}
 	g_free (raw_orientation);
 
-	const char *mime_type = gth_file_data_get_mime_type (tdata->file_data);
-	gboolean change_orientation_tag = !(tdata->flags & GTH_TRANSFORM_FLAG_CHANGE_IMAGE) &&
-		(g_content_type_equals (mime_type, "image/jpeg")
-			|| g_content_type_equals (mime_type, "image/tiff")
-			|| g_content_type_equals (mime_type, "image/webp"));
-
 	if (change_orientation_tag) {
 		// Change the exif orientation.
 		update_exif_dimensions (tdata->file_data->info, tdata->transform);
-		if (!exiv2_write_metadata_to_buffer ((void **) &buffer, &size, tdata->file_data->info, NULL, &error)) {
+		if (!exiv2_write_metadata_to_buffer ((void **) &buffer, &size, tdata->file_data->info, update_general_attributes, NULL, &error)) {
 			g_free (buffer);
 			g_task_return_error (task, error);
 			return;

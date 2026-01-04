@@ -171,6 +171,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 	if (exiv2_write_metadata_to_buffer (&buffer,
 					    &size,
 					    file_data->info,
+					    TRUE,
 					    NULL,
 					    &error))
 	{

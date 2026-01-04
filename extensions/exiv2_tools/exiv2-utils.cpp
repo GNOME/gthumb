@@ -1556,11 +1556,14 @@ gboolean
 exiv2_write_metadata_to_buffer (void      **buffer,
 				gsize      *buffer_size,
 				GFileInfo  *info,
+				gboolean    update_from_general_attributes,
 				GthImage   *image_data,
 				GError    **error)
 {
 	try {
-		update_exif_tags_from_general_attributes (info);
+		if (update_from_general_attributes) {
+			update_exif_tags_from_general_attributes (info);
+		}
 
 #if EXIV2_TEST_VERSION(0,28,0)
 		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) *buffer, *buffer_size);
