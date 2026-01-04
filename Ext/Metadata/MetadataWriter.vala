@@ -18,13 +18,19 @@ public class Gth.MetadataWriter {
 		if (job.error != null) {
 			throw job.error;
 		}
-		app.monitor.metadata_changed (job.file_data);
+		if (job.changed_file) {
+			app.monitor.file_changed (job.file_data.file);
+		}
+		else {
+			app.monitor.metadata_changed (job.file_data);
+		}
 	}
 
 	class Job : Work.Job {
 		public FileData file_data;
 		public Flags flags;
 		public Cancellable cancellable;
+		public bool changed_file = false;
 
 		public override void run (uint8[] tmp_buffer) throws Error {
 			var saved = false;
@@ -34,6 +40,7 @@ public class Gth.MetadataWriter {
 					bytes = Exiv2.write_metadata_to_buffer (bytes, file_data.info);
 					Files.save_file (file_data.file, bytes, SaveFileFlags.DEFAULT, cancellable);
 					saved = true;
+					changed_file = true;
 				}
 			}
 			if (!saved) {
