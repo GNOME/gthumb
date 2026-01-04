@@ -101,7 +101,7 @@
     <property name="value">1</property>
   </object>
   <object class="AdwNavigationPage" id="more_options_page">
-    <property name="title">Options</property>
+    <property name="title" translatable="yes">Options</property>
     <style>
       <class name="tool-options"/>
     </style>
