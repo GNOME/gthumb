@@ -8,7 +8,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/image-viewer.ui");
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.default_zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
+		image_view.zoom_type = (ZoomType) settings.get_enum (PREF_IMAGE_ZOOM_TYPE);
 		image_view.transparency = (TransparencyStyle) settings.get_enum (PREF_IMAGE_TRANSPARENCY);
 		animation_actions = builder.get_object ("animation_actions") as Gtk.Box;
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
@@ -75,6 +75,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		catch (Error error) {
 			window.show_error (error);
 		}
+		// Keep the previous zoom type.
+		image_view.default_zoom_type = image_view.zoom_type;
 		image_view.image = image;
 	}
 
@@ -255,7 +257,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public void revert_to_saved () {
-		set_image (history.revert (), false);
+		set_other_version (history.revert (), false);
 	}
 
 	public void focus () {
@@ -394,7 +396,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			bool is_modified;
 			var image = history.undo (out is_modified);
 			if (image != null) {
-				set_image (image, is_modified);
+				set_other_version (image, is_modified);
 			}
 		});
 		action_group.add_action (action);
@@ -404,7 +406,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			bool is_modified;
 			var image = history.redo (out is_modified);
 			if (image != null) {
-				set_image (image, is_modified);
+				set_other_version (image, is_modified);
 			}
 		});
 		action_group.add_action (action);
@@ -490,7 +492,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				operation,
 				local_job.cancellable);
 			history.add (image, true);
-			set_image (image, true);
+			set_other_version (image, true);
 			edited = true;
 		}
 		catch (Error error) {
@@ -617,9 +619,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		Util.enable_action (action_group, "save", has_image && is_modified);
 	}
 
-	void set_image (Image image, bool is_modified) {
-		image_view.default_zoom_type = image_view.zoom_type; // do not change the zoom type
+	void set_other_version (Image image, bool is_modified) {
+		// Set a new version without changing the zoom type.
+		var default_zoom_type = image_view.default_zoom_type;
+		image_view.default_zoom_type = ZoomType.KEEP_PREVIOUS;
 		image_view.image = image;
+		image_view.default_zoom_type = default_zoom_type;
+
 		window.viewer.current_file.set_is_modified (is_modified);
 		Lib.backup_attribute (window.viewer.current_file.info, "Frame::Size");
 		Lib.backup_attribute (window.viewer.current_file.info, "Frame::Width");
