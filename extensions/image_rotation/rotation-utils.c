@@ -234,7 +234,7 @@ _apply_transformation_async_thread (GTask        *task,
 	// Save buffer to file.
 	gboolean file_saved = _g_file_write (tdata->file_data->file,
 		FALSE,
-		G_FILE_CREATE_REPLACE_DESTINATION,
+		G_FILE_CREATE_NONE,
 		buffer,
 		size,
 		cancellable,
