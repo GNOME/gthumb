@@ -167,7 +167,7 @@ public class Gth.Files {
 
 	public static void save_file (File file, Bytes bytes, SaveFileFlags flags, Cancellable? cancellable = null) throws Error {
 		FileInfo info = null;
-		if (!(SaveFileFlags.REPLACE_CONTENT in flags)) {
+		if (SaveFileFlags.CONTENT_NOT_CHANGED in flags) {
 			try {
 				info = file.query_info (
 					(FileAttribute.TIME_MODIFIED + "," +
@@ -179,16 +179,12 @@ public class Gth.Files {
 			}
 		}
 
-		var create_flags = FileCreateFlags.NONE;
-		if (SaveFileFlags.REPLACE_CONTENT in flags) {
-			create_flags |= FileCreateFlags.REPLACE_DESTINATION;
-		}
-		var stream = file.replace (null, false, create_flags, cancellable);
+		var stream = file.replace (null, false, FileCreateFlags.NONE, cancellable);
 		stream.write_bytes (bytes, cancellable);
 		stream.close (cancellable);
 
 		// Restore the original modified time.
-		if ((info != null) && !(SaveFileFlags.REPLACE_CONTENT in flags)) {
+		if ((info != null) && (SaveFileFlags.CONTENT_NOT_CHANGED in flags)) {
 			try {
 				file.set_attributes_from_info (info, FileQueryInfoFlags.NONE, cancellable);
 			}
@@ -272,5 +268,5 @@ public enum Gth.FileIntent {
 
 public enum Gth.SaveFileFlags {
 	DEFAULT,
-	REPLACE_CONTENT, // Do not preserve modified time and file permissions.
+	CONTENT_NOT_CHANGED, // Preserve the modified time
 }

@@ -82,7 +82,7 @@ public static int main (string[] args) {
 		if (output_file == null) {
 			throw new IOError.FAILED ("Invalid thumbnail filename");
 		}
-		Gth.Files.save_file (output_file, bytes, Gth.SaveFileFlags.REPLACE_CONTENT);
+		Gth.Files.save_file (output_file, bytes, Gth.SaveFileFlags.DEFAULT);
 	}
 	catch (Error e) {
 		stderr.printf ("VideoThumbnailer: Error: %s (input_path: %s)\n\n", e.message, input_path);

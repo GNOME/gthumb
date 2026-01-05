@@ -38,7 +38,7 @@ public class Gth.MetadataWriter {
 				if (Exiv2.can_write_metadata (file_data.get_content_type ())) {
 					var bytes = Files.load_file (file_data.file, cancellable);
 					bytes = Exiv2.write_metadata_to_buffer (bytes, file_data.info);
-					Files.save_file (file_data.file, bytes, SaveFileFlags.DEFAULT, cancellable);
+					Files.save_file (file_data.file, bytes, SaveFileFlags.CONTENT_NOT_CHANGED, cancellable);
 					saved = true;
 					changed_file = true;
 				}
