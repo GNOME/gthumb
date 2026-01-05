@@ -317,7 +317,7 @@ public class Gth.Thumbnailer {
 				//stdout.printf ("  valid_thumbnail_for_file[3]\n");
 				return false;
 			}
-			var datetime = Files.get_changed_date_time (file_data.info);
+			var datetime = file_data.info.get_modification_date_time ();
 			if (datetime == null) {
 				//stdout.printf ("  valid_thumbnail_for_file[4]\n");
 				return false;
@@ -332,7 +332,7 @@ public class Gth.Thumbnailer {
 
 	static void set_file_attributes_to_image (Gth.Image image, FileData file_data) {
 		image.set_attribute ("Thumb::URI", file_data.file.get_uri ());
-		var datetime = Files.get_changed_date_time (file_data.info);
+		var datetime = file_data.info.get_modification_date_time ();
 		if (datetime != null) {
 			image.set_attribute ("Thumb::MTime", ("%" + int64.FORMAT).printf (datetime.to_unix ()));
 		}
