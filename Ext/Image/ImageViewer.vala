@@ -634,6 +634,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		window.viewer.update_title ();
 		window.viewer.property_sidebar.update_view ();
 		update_sensitivity ();
+		focus ();
 	}
 
 	construct {

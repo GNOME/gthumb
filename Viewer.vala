@@ -305,6 +305,11 @@ public class Gth.Viewer : Gtk.Box {
 		});
 		widget.add_controller (click_events);
 		viewer_signals.add (click_events, click_id);
+
+		click_events = new Gtk.GestureClick ();
+		click_id = click_events.pressed.connect (() => focus_viewer ());
+		widget.add_controller (click_events);
+		viewer_signals.add (click_events, click_id);
 	}
 
 	public void add_viewer_overlay (Gtk.Revealer revealer) {
