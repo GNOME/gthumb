@@ -91,8 +91,8 @@ public class Gth.ImageOverview : Gtk.Box {
 
 	void move_to (double x, double y) {
 		var z = _main_view.zoom / preview.zoom;
-		x = (x - (viewport.size.width / 2)) * z;
-		y = (y - (viewport.size.height / 2)) * z;
+		x = (x - preview.texture_box.origin.x - (viewport.size.width / 2)) * z;
+		y = (y - preview.texture_box.origin.y - (viewport.size.height / 2)) * z;
 		//stdout.printf ("> DRAG: %f,%f\n", x, y);
 		_main_view.scroll_to (x, y);
 	}
