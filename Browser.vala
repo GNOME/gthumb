@@ -1929,6 +1929,9 @@ public class Gth.Browser : Gtk.Box {
 			if (property_sidebar.has_file (file_data.file)) {
 				yield property_sidebar.load (file_data, local_job.cancellable);
 			}
+			if (window.current_page == Window.Page.VIEWER) {
+				window.viewer.file_changed (file_data, local_job);
+			}
 		}
 		catch (Error error) {
 			window.show_error (error);

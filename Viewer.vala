@@ -190,6 +190,15 @@ public class Gth.Viewer : Gtk.Box {
 		app.monitor.file_created (file_data.file);
 	}
 
+	public void file_changed (FileData file_data, Job job) {
+		if ((current_file != null)
+			&& current_file.file.equal (file_data.file)
+			&& !current_file.get_is_modified ())
+		{
+			view_file_async (file_data, ViewFlags.DEFAULT, job);
+		}
+	}
+
 	public void metadata_changed (FileData file_data) {
 		if ((current_file != null) && current_file.file.equal (file_data.file)) {
 			if (current_file != file_data) {
