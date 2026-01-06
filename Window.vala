@@ -498,7 +498,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				action = new ActionInfo ("win.exec-script",
 					new Variant.string (script.id),
 					script.display_name,
-					new ThemedIcon ("gth-script-symbolic"));
+					null /*new ThemedIcon ("gth-script-symbolic")*/);
 				action.category = app.tools.scripts;
 				menu.append_action (action);
 			}
