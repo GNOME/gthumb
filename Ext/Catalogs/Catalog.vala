@@ -188,7 +188,7 @@ public class Gth.Catalog : Object {
 		}
 		if (changed) {
 			yield catalog.save_async (job.cancellable);
-			app.monitor.files_removed (catalog.file, files);
+			app.monitor.files_removed_from_catalog (catalog.file, files);
 		}
 	}
 

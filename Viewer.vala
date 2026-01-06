@@ -476,7 +476,7 @@ public class Gth.Viewer : Gtk.Box {
 		return selected_files;
 	}
 
-	public void files_deleted (GenericList<File> files) {
+	public void files_deleted_from_disk (GenericList<File> files) {
 		if (current_file == null) {
 			return;
 		}

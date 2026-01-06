@@ -55,7 +55,7 @@ public class Gth.Selection {
 			remove_file (file);
 		}
 		var location = File.new_for_uri ("selection:///%u".printf (number));
-		app.monitor.files_removed (location, files);
+		app.monitor.files_removed_from_catalog (location, files);
 		app.monitor.selection_changed (number);
 	}
 

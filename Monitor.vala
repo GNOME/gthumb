@@ -24,19 +24,14 @@ public class Gth.Monitor : Object {
 		app.foreach_window ((win) => win.browser.files_added (parent, files));
 	}
 
-	public signal void files_removed (File parent, GenericList<File> files) {
-		app.foreach_window ((win) => {
-			if (!win.browser.folder_tree.current_folder.file.equal (parent)) {
-				win.browser.files_deleted (files);
-				win.viewer.files_deleted (files);
-			}
-		});
+	public signal void files_removed_from_catalog (File parent, GenericList<File> files) {
+		app.foreach_window ((win) => win.browser.files_removed_from_catalog (parent, files));
 	}
 
-	public signal void files_deleted (GenericList<File> files) {
+	public signal void files_deleted_from_disk (GenericList<File> files) {
 		app.foreach_window ((win) => {
-			win.browser.files_deleted (files);
-			win.viewer.files_deleted (files);
+			win.browser.files_deleted_from_disk (files);
+			win.viewer.files_deleted_from_disk (files);
 		});
 	}
 
@@ -56,10 +51,10 @@ public class Gth.Monitor : Object {
 		files_added (parent, files);
 	}
 
-	public void file_deleted (File file) {
+	public void file_deleted_from_disk (File file) {
 		var files = new GenericList<File>();
 		files.model.append (file);
-		files_deleted (files);
+		files_deleted_from_disk (files);
 	}
 
 	public void scripts_changed () {
@@ -172,7 +167,7 @@ public class Gth.Monitor : Object {
 			file_events.events.remove_index (idx);
 		}
 
-		files_deleted (local_deleted);
+		files_deleted_from_disk (local_deleted);
 
 		// Group created files by parent.
 		for (var i = 0; i < local_created.length; i++) {

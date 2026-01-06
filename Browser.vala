@@ -1964,7 +1964,35 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void files_deleted (GenericList<File> files) {
+	public void files_removed_from_catalog (File catalog, GenericList<File> files) {
+		if (!folder_tree.current_folder.file.equal (catalog)) {
+			return;
+		}
+		var removed_files = 0;
+		foreach (unowned var file in files) {
+			// Remove files inside the current folder.
+			var iter = folder_tree.current_children.iterator ();
+			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
+			if (pos >= 0) {
+				folder_tree.current_children.model.remove ((uint) pos);
+				removed_files++;
+			}
+
+			// Update the property sidebar.
+			if (property_sidebar.current_file != null) {
+				if (file.equal (property_sidebar.current_file.file)) {
+					property_sidebar.current_file = null;
+				}
+			}
+		}
+		if (removed_files > 0) {
+			file_filter.after_removing_files ();
+			update_total_files ();
+			update_selection_info ();
+		}
+	}
+
+	public void files_deleted_from_disk (GenericList<File> files) {
 		var removed_files = 0;
 		foreach (unowned var file in files) {
 			// stdout.printf ("> BROWSER: FILE DELETED: %s\n", file.get_uri ());
@@ -2335,7 +2363,7 @@ public class Gth.Browser : Gtk.Box {
 			}
 			var gio_file = Catalog.to_gio_file (folder_tree.context_file.file);
 			yield gio_file.delete_async (Priority.DEFAULT, local_job.cancellable);
-			app.monitor.file_deleted (folder_tree.context_file.file);
+			app.monitor.file_deleted_from_disk (folder_tree.context_file.file);
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -2365,7 +2393,7 @@ public class Gth.Browser : Gtk.Box {
 				FileCopyFlags.ALL_METADATA, Priority.DEFAULT,
 				local_job.cancellable, null);
 			app.monitor.file_created (new_catalog);
-			app.monitor.file_deleted (catalog);
+			app.monitor.file_deleted_from_disk (catalog);
 		}
 		catch (Error error) {
 			window.show_error (error);

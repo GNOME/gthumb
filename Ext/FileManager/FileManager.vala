@@ -55,7 +55,7 @@ public class Gth.FileManager {
 			}
 		}
 		finally {
-			app.monitor.files_deleted (deleted_files);
+			app.monitor.files_deleted_from_disk (deleted_files);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class Gth.FileManager {
 			yield operation.move_files (files, destination, job);
 		}
 		finally {
-			app.monitor.files_deleted (operation.deleted_files);
+			app.monitor.files_deleted_from_disk (operation.deleted_files);
 			app.monitor.files_added (destination, operation.created_files);
 		}
 	}
@@ -647,7 +647,7 @@ class Gth.DeleteOperation {
 					//stdout.printf ("> ERROR: %s\n", error.message);
 				}
 			}
-			app.monitor.files_deleted (deleted_files);
+			app.monitor.files_deleted_from_disk (deleted_files);
 		}
 	}
 
