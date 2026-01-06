@@ -1936,17 +1936,32 @@ public class Gth.Browser : Gtk.Box {
 		var local_job = window.new_job (_("Updating Files"),
 			JobFlags.FOREGROUND,
 			"folder-symbolic");
+		FileData new_sidebar_file = null;
 		foreach (var file_data in changed_files) {
 			try {
 				var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
 				file_data.update_info (info);
 				file_data.remove_thumbnail ();
+
+				// Check whether to update the sidebar as well.
+				if ((new_sidebar_file == null) && (property_sidebar.current_file != null)) {
+					if (file_data.file.equal (property_sidebar.current_file.file)) {
+						new_sidebar_file = file_data;
+					}
+				}
 			}
 			catch (Error error) {
 			}
 		}
 		file_filter.reset ();
 		file_sorter.changed (Gtk.SorterChange.DIFFERENT);
+
+		// Update the property sidebar.
+		if (new_sidebar_file != null) {
+			yield property_sidebar.load (new_sidebar_file, local_job.cancellable);
+		}
+
+		// Update the thumbnails
 		foreach (var file_data in changed_files) {
 			if (file_filter.filter.match (file_data)) {
 				thumbnailer.queue_load_next ();
