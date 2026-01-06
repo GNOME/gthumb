@@ -17,6 +17,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 		if (job.error != null) {
 			throw job.error;
 		}
+		app.monitor.file_changed (job.file);
 	}
 
 	class Job : Work.Job {
@@ -64,12 +65,13 @@ public class Gth.ImageRotation : Gth.FileOperation {
 				orientation = transform;
 			}
 			else {
+				orientation = Transform.NONE;
 				if ((orientation_tag != null) && (orientation_tag.raw != null)) {
 					if (!int.try_parse (orientation_tag.raw, out orientation, null, 10)) {
 						throw new IOError.FAILED ("Invalid embedded orientation: %s".printf (orientation_tag.raw));
 					}
-					orientation = orientation.apply_transformation (transform);
 				}
+				orientation = orientation.apply_transformation (transform);
 			}
 
 			var raw_orientation = "%d".printf (orientation);
@@ -130,7 +132,6 @@ public class Gth.ImageRotation : Gth.FileOperation {
 
 			// Save the buffer to file
 			Files.save_file (file, bytes, SaveFileFlags.DEFAULT, cancellable);
-			app.monitor.file_changed (file);
 		}
 	}
 
