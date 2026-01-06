@@ -1876,70 +1876,91 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void files_added (File parent, GenericList<File> files) {
+	public void files_added (File parent, GenericList<File> files, bool changed_if_present = false) {
 		if (!folder_tree.current_folder.file.equal (parent)) {
 			return;
 		}
 		var new_files = new GenericList<File>();
+		var changed_files = new GenericList<FileData>();
 		foreach (unowned var file in files) {
 			// stdout.printf ("> BROWSER: FILE ADDED: %s\n", file.get_uri ());
 			var iter = folder_tree.current_children.iterator ();
-			var pos = iter.find_first ((file_data) => file_data.file.equal (file));
-			if (pos < 0) {
+			var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
+			if (file_data == null) {
 				// stdout.printf ("> BROWSER: APPEND\n");
 				new_files.model.append (file);
 			}
-		}
-		if (new_files.is_empty ()) {
-			return;
-		}
-		var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
-			JobFlags.FOREGROUND,
-			"folder-symbolic");
-		add_files.begin (new_files, local_job, (_obj, res) => {
-			try {
-				add_files.end (res);
-				file_filter.after_adding_files ();
-				update_total_files ();
+			else if (changed_if_present) {
+				changed_files.model.append (file_data);
 			}
-			catch (Error error) {
-				window.show_error (error);
+		}
+		if (!new_files.is_empty ()) {
+			var local_job = window.new_job (_("Updating %s").printf (folder_tree.current_folder.get_display_name ()),
+				JobFlags.FOREGROUND,
+				"folder-symbolic");
+			add_files.begin (new_files, local_job, (_obj, res) => {
+				try {
+					add_files.end (res);
+					file_filter.after_adding_files ();
+					update_total_files ();
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				local_job.done ();
+			});
+		}
+		if (!changed_files.is_empty ()) {
+			update_changed_files (changed_files);
+		}
+	}
+
+	// Note: changed_files are in folder_tree.current_children as well.
+	void update_changed_files (GenericList<FileData> changed_files) {
+		update_children.begin (changed_files, (_obj, res) => {
+			update_children.end (res);
+			// Update the viewer checking the etag to decide whether to
+			// reload the content.
+			if (window.current_page == Window.Page.VIEWER) {
+				foreach (var file_data in changed_files) {
+					window.viewer.file_changed (file_data);
+				}
 			}
-			local_job.done ();
 		});
 	}
 
-	async void update_file (FileData file_data) {
-		var attributes = get_list_attributes ();
-		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
+	// Note: changed_files are in folder_tree.current_children as well.
+	async void update_children (GenericList<FileData> changed_files) {
+		// Get the etag as well to avoid to reload an image saved by the editor.
+		var attributes = get_list_attributes () + "," + FileAttribute.ETAG_VALUE;
+		var local_job = window.new_job (_("Updating Files"),
 			JobFlags.FOREGROUND,
 			"folder-symbolic");
-		try {
-			var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
-			file_data.update_info (info);
-			file_data.remove_thumbnail ();
-			file_filter.reset ();
-			file_sorter.changed (Gtk.SorterChange.DIFFERENT);
-			// stdout.printf ("> BROWSER: UPDATE FILE [1]\n");
+		foreach (var file_data in changed_files) {
+			try {
+				var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
+				file_data.update_info (info);
+				file_data.remove_thumbnail ();
+			}
+			catch (Error error) {
+			}
+		}
+		file_filter.reset ();
+		file_sorter.changed (Gtk.SorterChange.DIFFERENT);
+		foreach (var file_data in changed_files) {
 			if (file_filter.filter.match (file_data)) {
-				// stdout.printf ("> BROWSER: UPDATE FILE [2]\n");
 				thumbnailer.queue_load_next ();
 				thumbnailer.add (file_data);
 			}
-			if (property_sidebar.has_file (file_data.file)) {
-				yield property_sidebar.load (file_data, local_job.cancellable);
-			}
-			if (window.current_page == Window.Page.VIEWER) {
-				window.viewer.file_changed (file_data, local_job);
-			}
 		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
-			update_total_files ();
-		}
+		update_total_files ();
+		local_job.done ();
+	}
+
+	async void update_file (FileData file_data) {
+		var changed_files = new GenericList<FileData> ();
+		changed_files.model.append (file_data);
+		yield update_children (changed_files);
 	}
 
 	public void update_thumbnail_for_file (File file) {
@@ -1954,13 +1975,14 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void file_changed (File file) {
-		// stdout.printf ("> BROWSER: FILE CHANGED: %s\n", file.get_uri ());
+	public void file_changed (File changed_file) {
+		// stdout.printf ("> BROWSER: FILE CHANGED: %s\n", changed_file.get_uri ());
 		var iter = folder_tree.current_children.iterator ();
-		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
+		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (changed_file));
 		if (file_data != null) {
-			// stdout.printf ("> BROWSER: UPDATE FILE\n");
-			update_file.begin (file_data);
+			var changed_files = new GenericList<FileData>();
+			changed_files.model.append (file_data);
+			update_changed_files (changed_files);
 		}
 	}
 
@@ -2201,20 +2223,20 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void metadata_changed (FileData file_data) {
-		if ((property_sidebar.current_file != null)
-			&& property_sidebar.current_file.file.equal (file_data.file))
-		{
-			property_sidebar.current_file = file_data;
-		}
+	public void metadata_changed (File changed_file) {
+		// stdout.printf ("> BROWSER: METADATA CHANGED: %s\n", changed_file.get_uri ());
 		var iter = folder_tree.current_children.iterator ();
-		while (iter.next ()) {
-			var _file_data = iter.get ();
-			if (_file_data.file.equal (file_data.file)) {
-				_file_data.update_info (file_data.info);
-				break;
-			}
+		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (changed_file));
+		if (file_data == null) {
+			return;
 		}
+		// stdout.printf ("> BROWSER: UPDATE FILE METADATA\n");
+		update_file.begin (file_data, (_obj, res) => {
+			update_file.end (res);
+			if (window.current_page == Window.Page.VIEWER) {
+				window.viewer.metadata_changed (file_data.file);
+			}
+		});
 	}
 
 	async void new_folder () {

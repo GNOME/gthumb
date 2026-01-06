@@ -201,8 +201,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			JobFlags.FOREGROUND,
 			"document-save-symbolic");
 		try {
-			// TODO: load the original image if a lower quality version was loaded.
-
 			// Save LOADED_IMAGE_IS_MODIFIED into LOADED_IMAGE_WAS_MODIFIED
 			// to allow the exiv2 metadata writer to not change some fields if the
 			// content wasn't modified.
@@ -253,7 +251,15 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public override async void save () throws Error {
-		window.viewer.current_file = yield save_to (window.viewer.current_file.file);
+		var file_data = yield save_to (window.viewer.current_file.file);
+		window.viewer.file_saved (file_data);
+	}
+
+	public override bool same_etag (FileInfo info) {
+		return (image_view != null)
+			&& (image_view.image != null)
+			&& (image_view.image.info != null)
+			&& Files.same_etag (image_view.image.info, info);
 	}
 
 	public void revert_to_saved () {

@@ -428,11 +428,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 	}
 
-	public void metadata_changed (FileData file_data) {
-		viewer.metadata_changed (file_data);
-		browser.metadata_changed (file_data);
-	}
-
 	async void edit_metadata (FileData file_data) {
 		var local_job = new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
 		try {

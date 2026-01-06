@@ -259,6 +259,18 @@ public class Gth.Files {
 		}
 		return datetime;
 	}
+
+	public static bool same_etag (FileInfo info1, FileInfo info2) {
+		if (!info1.has_attribute (FileAttribute.ETAG_VALUE)) {
+			return false;
+		}
+		if (!info2.has_attribute (FileAttribute.ETAG_VALUE)) {
+			return false;
+		}
+		unowned var etag1 = info1.get_attribute_string (FileAttribute.ETAG_VALUE);
+		unowned var etag2 = info2.get_attribute_string (FileAttribute.ETAG_VALUE);
+		return etag1 == etag2;
+	}
 }
 
 public enum Gth.FileIntent {

@@ -10,4 +10,7 @@ public interface Gth.FileViewer : Object {
 	public virtual async void save () throws Error {}
 	public virtual void update_sensitivity () {}
 	public abstract void focus ();
+	public virtual bool same_etag (FileInfo info) {
+		return false;
+	}
 }

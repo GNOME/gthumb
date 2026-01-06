@@ -12,8 +12,8 @@ public class Gth.Monitor : Object {
 		app.foreach_window ((win) => win.browser.catalog_saved (catalog, old_file));
 	}
 
-	public void metadata_changed (Gth.FileData file_data) {
-		app.foreach_window ((win) => win.metadata_changed (file_data));
+	public void metadata_changed (File file) {
+		app.foreach_window ((win) => win.browser.metadata_changed (file));
 	}
 
 	public signal void file_changed (File file) {
@@ -22,6 +22,10 @@ public class Gth.Monitor : Object {
 
 	public signal void files_added (File parent, GenericList<File> files) {
 		app.foreach_window ((win) => win.browser.files_added (parent, files));
+	}
+
+	public signal void files_added_or_changed (File parent, GenericList<File> files) {
+		app.foreach_window ((win) => win.browser.files_added (parent, files, true));
 	}
 
 	public signal void files_removed_from_catalog (File parent, GenericList<File> files) {

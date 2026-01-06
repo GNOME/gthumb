@@ -183,28 +183,35 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void file_saved (FileData file_data) {
+		var name_changed = (current_file == null) || !current_file.file.equal (file_data.file);
 		current_file = file_data;
 		property_sidebar.current_file = current_file;
-		update_title ();
 		update_sidebar ();
-		app.monitor.file_created (file_data.file);
-	}
-
-	public void file_changed (FileData file_data, Job job) {
-		if ((current_file != null)
-			&& current_file.file.equal (file_data.file)
-			&& !current_file.get_is_modified ())
-		{
-			view_file_async (file_data, ViewFlags.DEFAULT, job);
+		update_title ();
+		if (name_changed) {
+			app.monitor.file_created (file_data.file);
+		}
+		else {
+			app.monitor.file_changed (file_data.file);
 		}
 	}
 
-	public void metadata_changed (FileData file_data) {
-		if ((current_file != null) && current_file.file.equal (file_data.file)) {
-			if (current_file != file_data) {
-				current_file.update_info (file_data.info);
-			}
-			property_sidebar.current_file = current_file;
+	public void file_changed (FileData file_data) {
+		// stdout.printf ("> VIEWER: FILE CHANGED %s\n", file_data.file.get_uri ());
+		if ((current_file != null)
+			&& current_file.file.equal (file_data.file)
+			&& !current_file.get_is_modified ()
+			&& !current_viewer.same_etag (file_data.info))
+		{
+			// stdout.printf ("> VIEWER: RELOAD FILE %s\n", file_data.file.get_uri ());
+			view_file_async (file_data, ViewFlags.DEFAULT);
+		}
+	}
+
+	public void metadata_changed (File file) {
+		if ((current_file != null) && current_file.file.equal (file)) {
+			// stdout.printf ("> VIEWER: RELOAD METADATA %s\n", file.get_uri ());
+			update_sidebar ();
 		}
 	}
 
