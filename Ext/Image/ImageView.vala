@@ -926,6 +926,10 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			}
 			catch (Error error) {
 				// stdout.printf ("! SCALED TEXTURE CANCELLED\n");
+				if (!local_cancellable.is_cancelled ()) {
+					scaled_texture = null;
+					queue_draw ();
+				}
 			}
 			if (filter_cancellable == local_cancellable) {
 				filter_cancellable = null;
@@ -1253,7 +1257,7 @@ class Gth.TextureScaler : Gth.ImageOperation {
 		if ((scale_factor >= 4)
 			|| ((visible_width == scaled_width) && (visible_height == scaled_height)))
 		{
-			output = visible;
+			output = (other_operation != null) ? visible : null;
 		}
 		else {
 			// stdout.printf ("> VISIBLE: %u, %u\n", visible.get_width (), visible.get_height ());
