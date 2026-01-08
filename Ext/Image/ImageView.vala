@@ -438,7 +438,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 				current_frame);
 			if (texture != null) {
 				snapshot.append_scaled_texture (texture,
-					_zoom > 4 ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR,
+					(_zoom > MAX_FILTERED_ZOOM) ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.LINEAR,
 					texture_box);
 			}
 		}
@@ -1228,6 +1228,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
 	const uint ANIMATION_DELAY = 10;
+	public const float MAX_FILTERED_ZOOM = 2.5f;
 }
 
 class Gth.TextureScaler : Gth.ImageOperation {
@@ -1260,7 +1261,7 @@ class Gth.TextureScaler : Gth.ImageOperation {
 		var scaled_width = (uint) texture_box.size.width;
 		var scaled_height = (uint) texture_box.size.height;
 		var scale_factor = texture_box.size.width / image_box.size.width;
-		if ((scale_factor >= 4)
+		if ((scale_factor > ImageView.MAX_FILTERED_ZOOM)
 			|| ((visible_width == scaled_width) && (visible_height == scaled_height)))
 		{
 			output = (other_operation != null) ? visible : null;
