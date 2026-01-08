@@ -136,6 +136,9 @@ public class Gth.Browser : Gtk.Box {
 			folder_tree.list_attributes = get_list_attributes (true);
 			yield folder_tree.load_folder (location, load_action, job);
 		}
+		catch (Error error) {
+			throw error;
+		}
 		finally {
 			thaw_thumbnail_list ();
 		}
