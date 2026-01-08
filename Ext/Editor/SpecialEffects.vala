@@ -49,10 +49,10 @@ public class Gth.SpecialEffects : ImageTool {
 		});
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.zoom_limit = ZoomLimit.ALMOST_MAXIMIZE;
-		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-		image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		add_default_controllers (image_view);
+		image_view.zoom_limit = ZoomLimit.MAXIMIZE;
+		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
+		image_view.image = viewer.image_view.image;
 
 		window.editor.set_content (image_view);
 

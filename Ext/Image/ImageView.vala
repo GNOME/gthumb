@@ -311,6 +311,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			if (_zoom_limit == ZoomLimit.ALMOST_MAXIMIZE) {
 				max_zoom = (float) (get_zoom_for_allocation (ZoomType.MAXIMIZE, width, height) / Math.SQRT2);
 			}
+			else if (_zoom_limit == ZoomLimit.MAXIMIZE) {
+				max_zoom = (float) get_zoom_for_allocation (ZoomType.MAXIMIZE, width, height);
+			}
 			if (_zoom_type.fit_to_allocation ()) {
 				set_valid_zoom (get_zoom_for_allocation (_zoom_type, width, height));
 				recenter_image ();

@@ -6,6 +6,8 @@ public class Gth.SharpenImage : ImageTool {
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		add_default_controllers (image_view);
+		image_view.default_zoom_type = ZoomType.NATURAL_SIZE;
+		image_view.image = viewer.image_view.image;
 
 		operation = new Operation ();
 

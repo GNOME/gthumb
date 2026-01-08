@@ -57,9 +57,6 @@ public class Gth.ImageTool : Object {
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (window.on_key_pressed);
 		image_view.add_controller (key_events);
-
-		image_view.image = original;
-		image_view.set_first_state_from_view (viewer.image_view);
 	}
 
 	public void show_preview (bool show) {

@@ -138,6 +138,7 @@ public enum Gth.ZoomType {
 public enum Gth.ZoomLimit {
 	NONE,
 	ALMOST_MAXIMIZE,
+	MAXIMIZE,
 }
 
 public enum Gth.ZoomQuality {

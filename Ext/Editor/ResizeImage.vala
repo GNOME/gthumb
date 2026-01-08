@@ -7,6 +7,9 @@ public class Gth.ResizeImage : ImageTool {
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.image = original;
 		add_default_controllers (image_view);
+		image_view.image = viewer.image_view.image;
+		image_view.set_first_state_from_view (viewer.image_view);
+
 		window.editor.set_content (image_view);
 
 		var high_quality_switch = builder.get_object ("high_quality_switch") as Adw.SwitchRow;
