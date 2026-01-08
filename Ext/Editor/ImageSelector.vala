@@ -653,7 +653,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		box.origin.x += view.texture_box.origin.x;
 		box.origin.y += view.texture_box.origin.y;
 
-		Gdk.RGBA background_color = { 0, 0, 0, 0.33f };
+		Gdk.RGBA background_color = { 0, 0, 0, 0.5f };
 		var round_x =  Math.roundf (box.origin.x);
 		snapshot.append_color (background_color, {
 			{ 0, 0 },

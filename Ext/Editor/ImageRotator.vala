@@ -166,7 +166,7 @@ public class Gth.ImageRotator : Object, ImageController {
 
 		transform = to_screen_transformation ();
 		var transformed_crop_region = transform.transform_bounds (_crop_region);
-		_view.snapshot_selection (snapshot, transformed_crop_region, 0.5f);
+		_view.snapshot_selection (snapshot, transformed_crop_region);
 
 		snapshot.pop ();
 	}

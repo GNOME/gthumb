@@ -445,33 +445,39 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		snapshot.restore ();
 	}
 
-	public void snapshot_selection (Gtk.Snapshot snapshot, Graphene.Rect box, float alpha = 0.25f) {
+	public void snapshot_selection (Gtk.Snapshot snapshot, Graphene.Rect box, float alpha = 0.5f) {
+		Graphene.Rect rounded = {
+			{
+				Math.floorf (box.origin.x),
+				Math.floorf (box.origin.y)
+			},
+			{
+				Math.floorf (box.size.width),
+				Math.floorf (box.size.height),
+			}
+		};
 		Gdk.RGBA background_color = { 0, 0, 0, alpha };
-		var x =  Math.floorf (box.origin.x);
 		snapshot.append_color (background_color, {
 			{ 0, 0 },
-			{ x, viewport.size.height }
+			{ rounded.origin.x, viewport.size.height }
 		});
-		var width = Math.floorf (box.size.width);
 		snapshot.append_color (background_color, {
-			{ x + width, 0 },
-			{ viewport.size.width - (x + width), viewport.size.height }
+			{ rounded.origin.x + rounded.size.width, 0 },
+			{ viewport.size.width - (rounded.origin.x + rounded.size.width), viewport.size.height }
 		});
-		var y = Math.floorf (box.origin.y);
 		snapshot.append_color (background_color, {
-			{ x, 0 },
-			{ width, y }
+			{ rounded.origin.x, 0 },
+			{ rounded.size.width, Math.roundf (rounded.origin.y) }
 		});
-		var height = Math.floorf (box.size.height);
 		snapshot.append_color (background_color, {
-			{ x, y + height },
-			{ width, viewport.size.height - (y + height) }
+			{ rounded.origin.x, rounded.origin.y + rounded.size.height },
+			{ rounded.size.width, viewport.size.height - (rounded.origin.y + rounded.size.height) }
 		});
 
 		var border_width = 2f;
 		box = {
-			{ box.origin.x - border_width, box.origin.y - border_width },
-			{ box.size.width + border_width * 2, box.size.height + border_width * 2 },
+			{ rounded.origin.x - border_width, rounded.origin.y - border_width },
+			{ rounded.size.width + border_width * 2, rounded.size.height + border_width * 2 },
 		};
 		var rect = new Gsk.RoundedRect ();
 		rect.init_from_rect (box, 0);
