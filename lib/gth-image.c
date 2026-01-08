@@ -375,7 +375,9 @@ GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint wid
 	image->priv->height = height;
 	gsize start_offset = (y * source->priv->row_stride) + (x * PIXEL_BYTES);
 	gsize end_offset = ((y + height - 1) * source->priv->row_stride) + ((x + width) * PIXEL_BYTES);
+	// g_printf ("> subimage: start_offset: %ld, end_offset: %ld, (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (source->priv->bytes));
 	image->priv->bytes = g_bytes_new_from_bytes (source->priv->bytes, start_offset,	end_offset - start_offset);
+	// g_printf ("  bytes: %p <=> %p\n", source->priv->bytes, image->priv->bytes);
 	if (image->priv->bytes == NULL) {
 		g_object_unref (image);
 		return NULL;

@@ -447,25 +447,25 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public void snapshot_selection (Gtk.Snapshot snapshot, Graphene.Rect box, float alpha = 0.25f) {
 		Gdk.RGBA background_color = { 0, 0, 0, alpha };
-		var round_x =  Math.roundf (box.origin.x);
+		var x =  Math.floorf (box.origin.x);
 		snapshot.append_color (background_color, {
 			{ 0, 0 },
-			{ round_x, viewport.size.height }
+			{ x, viewport.size.height }
 		});
-		var round_width = Math.roundf (box.size.width);
+		var width = Math.floorf (box.size.width);
 		snapshot.append_color (background_color, {
-			{ round_x + round_width, 0 },
-			{ viewport.size.width - (round_x + round_width), viewport.size.height }
+			{ x + width, 0 },
+			{ viewport.size.width - (x + width), viewport.size.height }
 		});
-		var round_y = Math.roundf (box.origin.y);
+		var y = Math.floorf (box.origin.y);
 		snapshot.append_color (background_color, {
-			{ round_x, 0 },
-			{ round_width, round_y }
+			{ x, 0 },
+			{ width, y }
 		});
-		var round_height = Math.roundf (box.size.height);
+		var height = Math.floorf (box.size.height);
 		snapshot.append_color (background_color, {
-			{ round_x, round_y + round_height },
-			{ round_width, viewport.size.height - (round_y + round_height) }
+			{ x, y + height },
+			{ width, viewport.size.height - (y + height) }
 		});
 
 		var border_width = 2f;
@@ -665,7 +665,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			texture_width = viewport.size.width;
 		}
 		else {
-			texture_width = Math.roundf (zoomed_width);
+			texture_width = Math.floorf (zoomed_width);
 			texture_x = Util.center_content (viewport.size.width, zoomed_width);
 		}
 
@@ -675,12 +675,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			texture_height = viewport.size.height;
 		}
 		else {
-			texture_height = Math.roundf (zoomed_height);
+			texture_height = Math.floorf (zoomed_height);
 			texture_y = Util.center_content (viewport.size.height, zoomed_height);
 		}
 		texture_box = {
-			{ texture_x, texture_y },
-			{ texture_width, texture_height }
+			{ Math.floorf (texture_x), Math.floorf (texture_y) },
+			{ Math.floorf (texture_width), Math.floorf (texture_height) }
 		};
 		// Util.print_rectangle ("> update_texture_box:", texture_box);
 	}
@@ -704,8 +704,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			image_width = natural_width;
 		}
 		else {
-			image_x = viewport.origin.x / _zoom;
-			image_width = (float) viewport.size.width / _zoom;
+			image_x = Math.floorf (viewport.origin.x / _zoom);
+			image_width = Math.floorf ((float) viewport.size.width / _zoom);
+			if (image_x + image_width > natural_width) {
+				image_width = natural_width - image_x;
+			}
 		}
 
 		float image_y, image_height;
@@ -714,8 +717,11 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			image_height = natural_height;
 		}
 		else {
-			image_y = viewport.origin.y / _zoom;
-			image_height = (float) viewport.size.height / _zoom;
+			image_y = Math.floorf (viewport.origin.y / _zoom);
+			image_height = Math.floorf ((float) viewport.size.height / _zoom);
+			if (image_y + image_height > natural_height) {
+				image_height = natural_height - image_y;
+			}
 		}
 
 		image_box = {
@@ -1231,10 +1237,11 @@ class Gth.TextureScaler : Gth.ImageOperation {
 		var visible_width = (uint) image_box.size.width;
 		var visible_height = (uint) image_box.size.height;
 		var visible = input.get_subimage (
-				(uint) image_box.origin.x,
-				(uint) image_box.origin.y,
-				visible_width,
-				visible_height);
+			(uint) image_box.origin.x,
+			(uint) image_box.origin.y,
+			visible_width,
+			visible_height);
+
 		if (visible == null) {
 			return null;
 		}
