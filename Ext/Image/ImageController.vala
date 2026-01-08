@@ -1,6 +1,7 @@
 public interface Gth.ImageController : Object {
-	public abstract void on_realize ();
-	public abstract void on_unrealize ();
-	public abstract void on_size_allocated ();
+	public virtual void on_realize () {}
+	public virtual void on_unrealize () {}
+	public virtual void on_size_allocated () {}
+	public abstract void set_view (ImageView? view);
 	public abstract void on_snapshot (Gtk.Snapshot snapshot);
 }

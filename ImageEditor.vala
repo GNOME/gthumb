@@ -11,7 +11,7 @@ public class Gth.ImageEditor {
 		job.cancellable = cancellable;
 		factory.add_job (job);
 		yield;
-		if (job.output == null) {
+		if (cancellable.is_cancelled () || (job.output == null)) {
 			throw new IOError.CANCELLED ("Cancelled");
 		}
 		return job.output;
@@ -25,9 +25,6 @@ public class Gth.ImageEditor {
 
 		public override void run (uint8[] tmp_buffer) {
 			output = operation.execute (input, cancellable);
-			if (cancellable.is_cancelled ()) {
-				output = null;
-			}
 		}
 	}
 

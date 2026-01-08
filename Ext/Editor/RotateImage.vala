@@ -42,7 +42,7 @@ public class Gth.RotateImage : ImageTool {
 			});
 		});
 
-		rotator = new ImageRotator (image_view);
+		rotator = new ImageRotator ();
 		rotator.changed_position_parameters.connect (() => {
 			var local_adj = builder.get_object ("point1_adjustment") as Gtk.Adjustment;
 			SignalHandler.block (local_adj, point1_adjustment_id);
@@ -76,6 +76,7 @@ public class Gth.RotateImage : ImageTool {
 			color_job.cancel ();
 		}
 		window.editor.sidebar.insert_action_group ("rotate", null);
+		image_view.controller = null;
 		builder = null;
 		settings.set_string (PREF_ROTATE_BACKGROUND, Color.rgba_to_hexcode (rotator.background));
 		settings.set_string (PREF_ROTATE_SIZE, rotator.rotated_size.to_state ());

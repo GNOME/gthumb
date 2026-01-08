@@ -4,10 +4,7 @@ public class Gth.ImageTool : Object {
 	public weak Window window;
 	public weak ImageViewer viewer;
 	public Image original;
-	public Image resized;
-	public Image preview;
 	public unowned ImageView image_view;
-	public bool resize_preview;
 	public bool with_preview;
 	public Gth.ShortcutContext shortcut_context;
 
@@ -33,9 +30,6 @@ public class Gth.ImageTool : Object {
 		window = _window;
 		viewer = window.viewer.current_viewer as ImageViewer;
 		original = viewer.image_view.image;
-		if (!resize_preview) {
-			resized = original;
-		}
 		after_activate ();
 		if (image_view != null) {
 			window.insert_action_group ("image", image_view.action_group);
@@ -45,9 +39,6 @@ public class Gth.ImageTool : Object {
 	public void deactivate () {
 		window.insert_action_group ("image", null);
 		before_deactivate ();
-		if (preview_job != null) {
-			preview_job.cancel ();
-		}
 		cancel_update_preview ();
 	}
 
@@ -68,11 +59,12 @@ public class Gth.ImageTool : Object {
 		image_view.add_controller (key_events);
 
 		image_view.image = original;
+		image_view.set_first_state_from_view (viewer.image_view);
 	}
 
 	public void show_preview (bool show) {
 		with_preview = show;
-		image_view.image = with_preview ? preview : resized;
+		queue_update_preview ();
 	}
 
 	uint update_event = 0;
@@ -94,80 +86,18 @@ public class Gth.ImageTool : Object {
 		});
 	}
 
-	public void update_preview_on_resize () {
-		if (resized == null) {
-			queue_update_preview ();
-		}
-	}
-
-	uint preview_count = 0;
-
 	public void update_preview () {
 		if (image_view == null) {
 			return;
 		}
-		if (preview_job != null) {
-			preview_job.cancel ();
-		}
-		preview_count++;
-		var job = window.new_job ("Update Preview");
-		preview_job = job;
-		preview_filter_async.begin (job.cancellable, (_obj, res) => {
-			try {
-				// stdout.printf ("> update_preview [3][%u]\n", preview_count);
-				preview = preview_filter_async.end (res);
-				if (with_preview) {
-					// stdout.printf ("> update_preview [4][%u] image: %p\n", preview_count, preview);
-					image_view.image = preview;
-				}
-			}
-			catch (Error error) {
-				// stdout.printf ("> update_preview [6][%u] error: %s\n", preview_count, error.message);
-				window.show_error (error);
-			}
-			finally {
-				job.done ();
-				if (job == preview_job) {
-					preview_job = null;
-				}
-			}
-		});
-	}
-
-	uint get_preview_size () {
-		int width = image_view.get_width ();
-		int height = image_view.get_height ();
-		return (uint) (((original.width > original.height) ? width : height));
-	}
-
-	async Image? preview_filter_async (Cancellable cancellable) throws Error {
-		// stdout.printf ("> preview_filter_async [1][%u]\n", preview_count);
-		if (resized == null) {
-			var new_size = get_preview_size ();
-			if (new_size == 0) {
-				throw new IOError.CANCELLED ("Cancelled");
-			}
-			// stdout.printf ("> new_size: %u\n", new_size);
-			resized = yield original.resize_async (new_size, ResizeFlags.DEFAULT, ScaleFilter.BOX, cancellable);
-			image_view.image = resized;
-		}
-		var operation = get_operation ();
-		if (operation == null) {
-			return resized;
-		}
-		update_options_from_operation (operation);
-		return yield app.image_editor.exec_operation (resized, operation, cancellable);
+		image_view.filter_operation = with_preview ? get_operation () : null;
 	}
 
 	construct {
-		resized = null;
 		image_view = null;
-		preview_job = null;
-		resize_preview = true;
 		with_preview = true;
 		shortcut_context = Gth.ShortcutContext.IMAGE_EDITOR;
 	}
 
-	Job preview_job;
 	const uint UPDATE_DELAY = 50;
 }

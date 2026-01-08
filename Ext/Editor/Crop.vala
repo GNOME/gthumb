@@ -14,43 +14,59 @@ public class Gth.Crop : ImageTool {
 		image_view.image = original;
 		window.editor.set_content (image_view);
 
-		selector = new ImageSelector (image_view);
+		selector = new ImageSelector ();
 		selector.changed.connect (() => {
 			var spin_row = builder.get_object ("selection_x") as Adw.SpinRow;
-			SignalHandler.block (spin_row.adjustment, selection_x_changed_id);
+			if (selection_x_changed_id != 0) {
+				SignalHandler.block (spin_row.adjustment, selection_x_changed_id);
+			}
 			spin_row.adjustment.freeze_notify ();
 			spin_row.adjustment.upper = original.width - selector.selection.size.width;
 			spin_row.adjustment.value = selector.selection.origin.x;
 			spin_row.adjustment.step_increment = 1;
 			spin_row.adjustment.thaw_notify ();
-			SignalHandler.unblock (spin_row.adjustment, selection_x_changed_id);
+			if (selection_x_changed_id != 0) {
+				SignalHandler.unblock (spin_row.adjustment, selection_x_changed_id);
+			}
 
 			spin_row = builder.get_object ("selection_y") as Adw.SpinRow;
-			SignalHandler.block (spin_row.adjustment, selection_y_changed_id);
+			if (selection_y_changed_id != 0) {
+				SignalHandler.block (spin_row.adjustment, selection_y_changed_id);
+			}
 			spin_row.adjustment.freeze_notify ();
 			spin_row.adjustment.upper = original.height - selector.selection.size.height;
 			spin_row.adjustment.value = selector.selection.origin.y;
 			spin_row.adjustment.step_increment = 1;
 			spin_row.adjustment.thaw_notify ();
-			SignalHandler.unblock (spin_row.adjustment, selection_y_changed_id);
+			if (selection_y_changed_id != 0) {
+				SignalHandler.unblock (spin_row.adjustment, selection_y_changed_id);
+			}
 
 			spin_row = builder.get_object ("selection_width") as Adw.SpinRow;
-			SignalHandler.block (spin_row.adjustment, selection_width_changed_id);
+			if (selection_width_changed_id != 0) {
+				SignalHandler.block (spin_row.adjustment, selection_width_changed_id);
+			}
 			spin_row.adjustment.freeze_notify ();
 			spin_row.adjustment.upper = original.width - selector.selection.origin.x;
 			spin_row.adjustment.value = selector.selection.size.width;
 			spin_row.adjustment.step_increment = 1;
 			spin_row.adjustment.thaw_notify ();
-			SignalHandler.unblock (spin_row.adjustment, selection_width_changed_id);
+			if (selection_width_changed_id != 0) {
+				SignalHandler.unblock (spin_row.adjustment, selection_width_changed_id);
+			}
 
 			spin_row = builder.get_object ("selection_height") as Adw.SpinRow;
-			SignalHandler.block (spin_row.adjustment, selection_height_changed_id);
+			if (selection_height_changed_id != 0) {
+				SignalHandler.block (spin_row.adjustment, selection_height_changed_id);
+			}
 			spin_row.adjustment.freeze_notify ();
 			spin_row.adjustment.upper = original.height - selector.selection.origin.y;
 			spin_row.adjustment.value = selector.selection.size.height;
 			spin_row.adjustment.step_increment = 1;
 			spin_row.adjustment.thaw_notify ();
-			SignalHandler.unblock (spin_row.adjustment, selection_height_changed_id);
+			if (selection_height_changed_id != 0) {
+				SignalHandler.unblock (spin_row.adjustment, selection_height_changed_id);
+			}
 		});
 		image_view.controller = selector;
 
@@ -108,6 +124,7 @@ public class Gth.Crop : ImageTool {
 
 	public override void before_deactivate () {
 		window.editor.sidebar.insert_action_group ("crop", null);
+		image_view.controller = null;
 		builder = null;
 	}
 

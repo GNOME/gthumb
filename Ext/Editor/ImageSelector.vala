@@ -29,22 +29,37 @@ public class Gth.ImageSelector : Object, ImageController {
 		}
 	}
 
-	public ImageSelector (ImageView _view) {
+	public override void set_view (ImageView? _view) {
+		if (view != null) {
+			view.disconnect (view_resized_id);
+			view.disconnect (view_scrolled_id);
+			view_resized_id = 0;
+			view_scrolled_id = 0;
+			view.remove_controller (click_events);
+			view.remove_controller (motion_events);
+		}
+
 		view = _view;
-		view.resized.connect (() => {
+		if (view == null) {
+			return;
+		}
+
+		view_resized_id = view.resized.connect (() => {
 			selection_box = to_selection_box (selection);
 			update_event_areas ();
 		});
-		view.scrolled.connect (() => {
+
+		view_scrolled_id = view.scrolled.connect (() => {
 			selection_box = to_selection_box (selection);
 			update_event_areas ();
 		});
+
 		if (view.get_realized ()) {
 			on_realize ();
 		}
-		image_box = { { 0, 0 }, { view.image.width, view.image.height } };
 
 		if (view.image != null) {
+			image_box = { { 0, 0 }, { view.image.width, view.image.height } };
 			var width = (float) view.image.width;
 			var height = (float) view.image.height;
 			var sel_width = width / 2;
@@ -57,44 +72,11 @@ public class Gth.ImageSelector : Object, ImageController {
 			};
 			set_selection (rect);
 		}
+		else {
+			image_box = { { 0, 0 }, { 0, 0 } };
+		}
 
-		var click_events = new Gtk.GestureClick ();
-		click_events.button = Gdk.BUTTON_PRIMARY;
-		click_events.exclusive = true;
-		click_events.pressed.connect ((n_press, x, y) => {
-			clicked = true;
-			dragging = false;
-			click_position = PointUtil.point_from_click (x, y);
-			prev_cursor = view.cursor;
-			on_button_press ((float) x, (float) y);
-		});
-		click_events.released.connect ((n_press, x, y) => {
-			clicked = false;
-			dragging = false;
-			view.cursor = prev_cursor;
-			on_button_release ((float) x, (float) y);
-		});
 		view.add_controller (click_events);
-
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
-			if (!dragging && clicked) {
-				if (PointUtil.drag_threshold (click_position, x, y) && (current_area != null)) {
-					dragging = true;
-					drag_start = click_position;
-					selection_at_drag_start = selection;
-					if (current_area.type == AreaType.INNER) {
-						view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
-					}
-				}
-			}
-			if (dragging) {
-				on_dragging ((float) x, (float) y);
-			}
-			else if (!clicked) {
-				on_motion ((float) x, (float) y);
-			}
-		});
 		view.add_controller (motion_events);
 	}
 
@@ -905,9 +887,49 @@ public class Gth.ImageSelector : Object, ImageController {
 		_ratio = 0;
 		_step = 1;
 		_grid_type = GridType.RULE_OF_THIRDS;
+		view = null;
 		active = false;
 		dragging = false;
 		clicked = false;
+		view_resized_id = 0;
+		view_scrolled_id = 0;
+
+		click_events = new Gtk.GestureClick ();
+		click_events.button = Gdk.BUTTON_PRIMARY;
+		click_events.exclusive = true;
+		click_events.pressed.connect ((n_press, x, y) => {
+			clicked = true;
+			dragging = false;
+			click_position = PointUtil.point_from_click (x, y);
+			prev_cursor = view.cursor;
+			on_button_press ((float) x, (float) y);
+		});
+		click_events.released.connect ((n_press, x, y) => {
+			clicked = false;
+			dragging = false;
+			view.cursor = prev_cursor;
+			on_button_release ((float) x, (float) y);
+		});
+
+		motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect ((x, y) => {
+			if (!dragging && clicked) {
+				if (PointUtil.drag_threshold (click_position, x, y) && (current_area != null)) {
+					dragging = true;
+					drag_start = click_position;
+					selection_at_drag_start = selection;
+					if (current_area.type == AreaType.INNER) {
+						view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
+					}
+				}
+			}
+			if (dragging) {
+				on_dragging ((float) x, (float) y);
+			}
+			else if (!clicked) {
+				on_motion ((float) x, (float) y);
+			}
+		});
 	}
 
 	Graphene.Rect selection_box;
@@ -925,6 +947,10 @@ public class Gth.ImageSelector : Object, ImageController {
 	Graphene.Point drag_start;
 	Graphene.Rect selection_at_drag_start;
 	GridType _grid_type;
+	Gtk.GestureClick click_events;
+	Gtk.EventControllerMotion motion_events;
+	ulong view_resized_id;
+	ulong view_scrolled_id;
 
 	const float GOLDEN_RATIO = 1.6180339887f;
 	const float GOLDER_RATIO_FACTOR = (GOLDEN_RATIO / (1.0f + 2.0f * GOLDEN_RATIO));

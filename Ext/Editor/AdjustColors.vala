@@ -4,7 +4,6 @@ public class Gth.AdjustColors : ImageTool {
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.resized.connect (() => update_preview_on_resize ());
 		add_default_controllers (image_view);
 
 		window.editor.set_content (image_view);

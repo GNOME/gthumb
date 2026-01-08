@@ -82,32 +82,24 @@ public class Gth.ImageRotator : Object, ImageController {
 		}
 	}
 
-	public ImageRotator (ImageView view) {
+	public override void set_view (ImageView? view) {
+		if (_view != null) {
+			_view.disconnect (view_notify_image_id);
+			view_notify_image_id = 0;
+			_view.remove_controller (drag_events);
+		}
+
 		_view = view;
 		if (_view == null) {
 			return;
 		}
+
 		_view.zoom_limit = ZoomLimit.ALMOST_MAXIMIZE;
 		_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-		_view.notify["image"].connect (() => update_image_box ());
+		view_notify_image_id = _view.notify["image"].connect (() => update_image_box ());
 		update_image_box ();
 
-		var drag_events = new Gtk.GestureDrag ();
-		drag_events.drag_begin.connect ((x, y) => {
-			drag_start = PointUtil.point_from_click (x, y);
-			angle_before_dragging = deg_to_rad (_angle);
-			prev_cursor = _view.cursor;
-			_view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
-		});
-		drag_events.drag_end.connect ((x, y) => {
-			_view.cursor = prev_cursor;
-		});
-		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
-			double start_x, start_y;
-			local_drag_events.get_start_point (out start_x, out start_y);
-			on_dragging ((float) (start_x + ofs_x), (float) (start_y + ofs_y));
-		});
 		_view.add_controller (drag_events);
 	}
 
@@ -147,15 +139,6 @@ public class Gth.ImageRotator : Object, ImageController {
 		}
 	}
 
-	public void on_realize () {
-	}
-
-	public void on_unrealize () {
-	}
-
-	public void on_size_allocated () {
-	}
-
 	public void on_snapshot (Gtk.Snapshot snapshot) {
 		snapshot.push_clip (_view.viewport);
 
@@ -183,14 +166,13 @@ public class Gth.ImageRotator : Object, ImageController {
 
 		transform = to_screen_transformation ();
 		var transformed_crop_region = transform.transform_bounds (_crop_region);
-		var path = new Gsk.PathBuilder ();
 		_view.snapshot_selection (snapshot, transformed_crop_region, 0.5f);
 
 		snapshot.pop ();
 	}
 
 	void update_clip_area () {
-		if (_view.image == null) {
+		if ((_view == null) || (_view.image == null)) {
 			_crop_region = { { 0, 0 }, { 0, 0 } };
 			return;
 		}
@@ -389,9 +371,27 @@ public class Gth.ImageRotator : Object, ImageController {
 	}
 
 	construct {
+		_view = null;
 		_angle = 0f;
 		_crop_region = { { 0, 0 }, { 0, 0 } };
 		background = { 0, 0, 0, 1 };
+		view_notify_image_id = 0;
+
+		drag_events = new Gtk.GestureDrag ();
+		drag_events.drag_begin.connect ((x, y) => {
+			drag_start = PointUtil.point_from_click (x, y);
+			angle_before_dragging = deg_to_rad (_angle);
+			prev_cursor = _view.cursor;
+			_view.cursor = new Gdk.Cursor.from_name ("grabbing", null);
+		});
+		drag_events.drag_end.connect ((x, y) => {
+			_view.cursor = prev_cursor;
+		});
+		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
+			double start_x, start_y;
+			local_drag_events.get_start_point (out start_x, out start_y);
+			on_dragging ((float) (start_x + ofs_x), (float) (start_y + ofs_y));
+		});
 	}
 
 	Graphene.Rect image_box;
@@ -404,4 +404,6 @@ public class Gth.ImageRotator : Object, ImageController {
 	Graphene.Point drag_start;
 	float angle_before_dragging;
 	Gdk.RGBA _background;
+	ulong view_notify_image_id;
+	Gtk.GestureDrag drag_events;
 }

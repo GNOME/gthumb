@@ -146,6 +146,14 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		}
 	}
 
+	public ImageOperation filter_operation {
+		get { return _filter_operation; }
+		set {
+			_filter_operation = value;
+			update_scaled_texture ();
+		}
+	}
+
 	public float max_zoom;
 
 	public float min_zoom;
@@ -156,7 +164,18 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public SimpleActionGroup action_group;
 
-	public ImageController controller;
+	public ImageController controller {
+		get { return _controller; }
+		set {
+			if (_controller != null) {
+				_controller.set_view (null);
+			}
+			_controller = value;
+			if (_controller != null) {
+				_controller.set_view (this);
+			}
+		}
+	}
 
 	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {
 		var step = (dy < 0) ? 0.1f : -0.1f;
@@ -172,8 +191,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public void add_scroll_controller () {
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
-		scroll_events.scroll.connect ((controller, dx, dy) => {
-			return on_scroll (dx, dy, controller.get_current_event_state ());
+		scroll_events.scroll.connect ((events, dx, dy) => {
+			return on_scroll (dx, dy, events.get_current_event_state ());
 		});
 		add_controller (scroll_events);
 	}
@@ -267,15 +286,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public override void realize () {
 		base.realize ();
-		if (controller != null) {
-			controller.on_realize ();
+		if (_controller != null) {
+			_controller.on_realize ();
 		}
 	}
 
 	public override void unrealize () {
 		base.unrealize ();
-		if (controller != null) {
-			controller.on_unrealize ();
+		if (_controller != null) {
+			_controller.on_unrealize ();
 		}
 	}
 
@@ -321,8 +340,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (!offset_updated) {
 			update_scroll_offset ();
 		}
-		if (controller != null) {
-			controller.on_size_allocated ();
+		if (_controller != null) {
+			_controller.on_size_allocated ();
 		}
 		resized ();
 	}
@@ -461,8 +480,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
-		if (controller != null) {
-			controller.on_snapshot (snapshot);
+		if (_controller != null) {
+			_controller.on_snapshot (snapshot);
 		}
 		else {
 			snapshot_image (snapshot);
@@ -862,12 +881,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	void update_scaled_texture () {
+		if (filter_cancellable != null) {
+			filter_cancellable.cancel ();
+		}
 		if ((_image == null) || _image.get_is_scalable () || _image.get_is_animated ()) {
 			return;
 		}
-		if (_zoom >= 1f) {
-			return;
-		}
+		// if (_zoom >= 1f) {
+		// 	return;
+		// }
 		if ((texture_box.size.width == 0) || (texture_box.size.height == 0)) {
 			return;
 		}
@@ -875,10 +897,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			return;
 		}
 
-		var scaler = new TextureScaler ();
-		scaler.image_box = image_box;
-		scaler.texture_box = texture_box;
-		scaler.filter = (image_box.size.width * image_box.size.height >= BIG_IMAGE) ? ScaleFilter.BOX : ScaleFilter.TRIANGLE;
+		var scaler = new TextureScaler (image_box, texture_box);
+		scaler.other_operation = _filter_operation;
 
 		// filter_count++;
 		// stdout.printf ("> UPDATE SCALED TEXTURE %u\n", filter_count);
@@ -1145,11 +1165,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		init_actions ();
 		hadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
 		vadjustment = new Gtk.Adjustment (0, 0, 0, 0, 0, 0);
-		controller = null;
+		_controller = null;
 		min_zoom = MIN_ZOOM;
 		max_zoom = MAX_ZOOM;
 		_zoom_limit = ZoomLimit.NONE;
 		first_allocation_state = null;
+		_filter_operation = null;
 	}
 
 	Gth.Image _image;
@@ -1178,39 +1199,65 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Gdk.Texture scaled_texture;
 	Cancellable filter_cancellable;
 	ZoomLimit _zoom_limit;
-
+	weak ImageController _controller;
 	Graphene.Point drag_start;
 	Graphene.Point last_position;
 	Gdk.Cursor prev_cursor = null;
 	ImageViewState? first_allocation_state;
+	ImageOperation _filter_operation;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
 	const uint ANIMATION_DELAY = 10;
-	const uint BIG_IMAGE = 3000 * 3000;
 }
-
 
 class Gth.TextureScaler : Gth.ImageOperation {
 	public Graphene.Rect image_box;
 	public Graphene.Rect texture_box;
 	public ScaleFilter filter;
+	public ImageOperation other_operation;
+
+	public TextureScaler (Graphene.Rect _image_box, Graphene.Rect _texture_box) {
+		image_box = _image_box;
+		texture_box = _texture_box;
+		filter = (image_box.size.width * image_box.size.height >= BIG_IMAGE) ? ScaleFilter.BOX : ScaleFilter.TRIANGLE;
+		other_operation = null;
+	}
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable) {
-		var visible = input.get_subimage ((uint) image_box.origin.x,
-			(uint) image_box.origin.y,
-			(uint) image_box.size.width,
-			(uint) image_box.size.height);
+		var visible_width = (uint) image_box.size.width;
+		var visible_height = (uint) image_box.size.height;
+		var visible = input.get_subimage (
+				(uint) image_box.origin.x,
+				(uint) image_box.origin.y,
+				visible_width,
+				visible_height);
 		if (visible == null) {
 			return null;
 		}
+
+		Gth.Image output = null;
 		var scaled_width = (uint) texture_box.size.width;
 		var scaled_height = (uint) texture_box.size.height;
-		// stdout.printf ("> VISIBLE: %u, %u\n", visible.get_width (), visible.get_height ());
-		// stdout.printf ("  SCALED: %u, %u\n", scaled_width, scaled_height);
-		return visible.resize_to (scaled_width, scaled_height,
-			filter, cancellable);
+		var scale_factor = texture_box.size.width / image_box.size.width;
+		if ((scale_factor >= 4)
+			|| ((visible_width == scaled_width) && (visible_height == scaled_height)))
+		{
+			output = visible;
+		}
+		else {
+			// stdout.printf ("> VISIBLE: %u, %u\n", visible.get_width (), visible.get_height ());
+			// stdout.printf ("  SCALED: %u, %u\n", scaled_width, scaled_height);
+			output = visible.resize_to (scaled_width, scaled_height, filter,
+				cancellable);
+		}
+		if ((output != null) && (other_operation != null)) {
+			output = other_operation.execute (output, cancellable);
+		}
+		return output;
 	}
+
+	const uint BIG_IMAGE = 3000 * 3000;
 }
 
 public struct Gth.ImageViewState {

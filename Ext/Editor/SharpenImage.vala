@@ -5,7 +5,6 @@ public class Gth.SharpenImage : ImageTool {
 		window.editor.set_content (builder.get_object ("content") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.resized.connect (() => update_preview_on_resize ());
 		add_default_controllers (image_view);
 
 		operation = new Operation ();

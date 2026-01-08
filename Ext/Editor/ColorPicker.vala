@@ -7,8 +7,6 @@ public class Gth.ColorPicker : ImageTool {
 		window.editor.hide_apply ();
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.image = original;
-		image_view.set_first_state_from_view (viewer.image_view);
 		add_default_controllers (image_view);
 
 		window.editor.set_content (image_view);

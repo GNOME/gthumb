@@ -10,7 +10,6 @@ public class Gth.Grayscale : ImageTool {
 		filter_grid.activated.connect ((id) => queue_update_preview ());
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		image_view.resized.connect (() => update_preview_on_resize ());
 		add_default_controllers (image_view);
 
 		window.editor.set_content (image_view);
