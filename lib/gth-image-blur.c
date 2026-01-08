@@ -383,8 +383,8 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 
 	// Vertical blur
 
-	p_src = gth_image_prepare_edit (destination, &dest_rowstride, NULL, NULL);
-	p_dest = gth_image_prepare_edit (source, &src_rowstride, NULL, NULL);
+	p_src = gth_image_prepare_edit (destination, &src_rowstride, NULL, NULL);
+	p_dest = gth_image_prepare_edit (source, &dest_rowstride, NULL, NULL);
 
 	int height_minus_1 = height - 1;
 	guchar *p_dest_col;
