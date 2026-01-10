@@ -101,6 +101,7 @@ public class Gth.ImageRotator : Object, ImageController {
 		update_image_box ();
 
 		_view.add_controller (drag_events);
+		update_clip_area ();
 	}
 
 	public Gth.Image? rotate_image (Gth.Image image, Cancellable cancellable) {

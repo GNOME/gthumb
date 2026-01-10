@@ -30,14 +30,20 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="reset_button">
-                    <property name="label" translatable="yes">_Reset</property>
-                    <property name="halign">end</property>
-                    <property name="use-underline">true</property>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
                     <property name="margin-top">12</property>
-                    <style>
-                      <class name="flat"/>
-                    </style>
+                    <property name="halign">end</property>
+                    <child>
+                      <object class="GtkButton" id="reset_button">
+                        <property name="label" translatable="yes">_Reset</property>
+                        <property name="use-underline">true</property>
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -45,9 +51,9 @@
           </object>
         </child>
         <child>
-          <object class="AdwButtonRow">
+          <object class="AdwButtonRow" id="align_button">
             <property name="title" translatable="yes">Align</property>
-            <property name="visible">false</property>
+            <property name="end-icon-name">go-next-symbolic</property>
           </object>
         </child>
       </object>
@@ -148,5 +154,69 @@
     <property name="value">0</property>
   </object>
   <object class="GthImageView" id="image_view">
+  </object>
+  <object class="AdwNavigationPage" id="alignment_page">
+    <property name="title" translatable="yes">Align</property>
+    <style>
+      <class name="tool-options"/>
+    </style>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="AdwPreferencesPage">
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="description" translatable="yes">Draw a line on the image to set the alignment.</property>
+                    <property name="separate-rows">true</property>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Vertical</property>
+                        <property name="activatable">true</property>
+                        <property name="activatable_widget">vertical_line</property>
+                        <child type="prefix">
+                          <object class="GtkCheckButton" id="vertical_line">
+                            <property name="active">true</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Horizontal</property>
+                        <property name="activatable">true</property>
+                        <property name="activatable_widget">horizontal_line</property>
+                        <child type="prefix">
+                          <object class="GtkCheckButton" id="horizontal_line">
+                            <property name="active">false</property>
+                            <property name="group">vertical_line</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="apply_alignment">
+                <property name="label" translatable="yes">Align</property>
+                <property name="halign">center</property>
+                <style>
+                  <class name="suggested-action"/>
+                  <class name="pill"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
   </object>
 </interface>

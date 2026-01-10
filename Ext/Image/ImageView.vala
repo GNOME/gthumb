@@ -174,6 +174,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			if (_controller != null) {
 				_controller.set_view (this);
 			}
+			queue_draw ();
 		}
 	}
 

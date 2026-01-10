@@ -23,6 +23,12 @@ public class Gth.RotateImage : ImageTool {
 			rotator.degrees = 0;
 		});
 
+		var align_button = builder.get_object ("align_button") as Adw.ButtonRow;
+		align_button.activated.connect (() => {
+			var page = builder.get_object ("alignment_page") as Adw.NavigationPage;
+			window.editor.sidebar.push (page);
+		});
+
 		var background_row = builder.get_object ("background_row") as Adw.ActionRow;
 		background_row.activated.connect (() => {
 			var local_job = window.new_job (_("Color"));
@@ -40,6 +46,22 @@ public class Gth.RotateImage : ImageTool {
 					color_job = null;
 				}
 			});
+		});
+
+		var alignment_page = builder.get_object ("alignment_page") as Adw.NavigationPage;
+		alignment_page.showing.connect (() => {
+			image_view.controller = image_alignment;
+		});
+		alignment_page.hiding.connect (() => {
+			image_view.controller = rotator;
+		});
+
+		var apply_alignment = builder.get_object ("apply_alignment") as Gtk.Button;
+		apply_alignment.clicked.connect (() => {
+			var vertical_line = builder.get_object ("vertical_line") as Gtk.CheckButton;
+			var orientation = vertical_line.active ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL;
+			rotator.radiants = image_alignment.get_radiants (orientation);
+			window.editor.sidebar.pop ();
 		});
 
 		rotator = new ImageRotator ();
@@ -61,6 +83,8 @@ public class Gth.RotateImage : ImageTool {
 			local_adj.value = rotator.degrees;
 			SignalHandler.unblock (local_adj, angle_adjustment_id);
 		});
+
+		image_alignment = new ImageAlignment ();
 
 		var rotated_size = settings.get_string (PREF_ROTATE_SIZE);
 		action_group.activate_action ("rotated-size", new Variant.string (rotated_size));
@@ -117,6 +141,7 @@ public class Gth.RotateImage : ImageTool {
 	Gtk.Builder builder;
 	SimpleActionGroup action_group;
 	ImageRotator rotator;
+	ImageAlignment image_alignment;
 	ulong angle_adjustment_id;
 	ulong point1_adjustment_id;
 	Gth.Job color_job;

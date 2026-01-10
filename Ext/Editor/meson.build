@@ -19,6 +19,7 @@ editor_files = special_effects_files + files(
   'FilterGrid.vala',
   'Grayscale.vala',
   'GridGroup.vala',
+  'ImageAlignment.vala',
   'ImageRotator.vala',
   'ImageSelector.vala',
   'ImageTool.vala',
