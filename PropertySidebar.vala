@@ -22,8 +22,7 @@ public class Gth.PropertySidebar : Gtk.Box {
 	}
 
 	public async void load (Gth.FileData file_data, Cancellable cancellable) throws Error {
-		var source = new FileSourceVfs ();
-		var result = yield source.read_metadata (file_data.file, "*", cancellable);
+		var result = yield FileManager.read_metadata (file_data.file, "*", cancellable);
 		file_data.update_info (result.info);
 		current_file = file_data;
 	}
