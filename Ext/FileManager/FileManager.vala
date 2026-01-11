@@ -122,6 +122,21 @@ public class Gth.FileManager {
 		}
 	}
 
+	public static async FileData read_metadata (File file, string attributes, Cancellable cancellable) throws Error {
+		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, attributes);
+		var file_attributes = Util.extract_file_attributes (all_attributes);
+		var info = yield Files.query_info (file, file_attributes, cancellable);
+		Files.update_special_location_info (file, info);
+		var file_data = new Gth.FileData (file, info);
+		if (info.get_file_type () == FileType.REGULAR) {
+			var metadata_attributes_v = Util.extract_metadata_attributes (all_attributes);
+			if (metadata_attributes_v.length > 0) {
+				yield app.metadata_reader.update (file_data, metadata_attributes_v, cancellable);
+			}
+		}
+		return file_data;
+	}
+
 	public static async GenericList<FileData> query_list_info (GenericList<File> files, string attributes, QueryListFlags flags, Cancellable cancellable) throws Error {
 		var file_attributes = Util.extract_file_attributes (attributes);
 		var metadata_attributes_v = Util.extract_metadata_attributes (attributes);

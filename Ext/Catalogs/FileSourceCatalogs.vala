@@ -126,7 +126,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					uint position = 0;
 					foreach (var file in catalog.files) {
 						try {
-							var file_data = yield FileData.read_metadata (file, all_attributes, cancellable);
+							var file_data = yield FileManager.read_metadata (file, all_attributes, cancellable);
 							file_data.set_position (position);
 							action = child_func (file_data, false);
 						}

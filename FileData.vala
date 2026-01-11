@@ -482,21 +482,4 @@ public class Gth.FileData : Object {
 			return file.get_uri ();
 		}
 	}
-
-	public static async FileData read_metadata (File file, string requested_attributes, Cancellable cancellable) throws Error	{
-		var all_attributes = Util.concat_attributes (REQUIRED_ATTRIBUTES, requested_attributes);
-
-		var file_attributes = Util.extract_file_attributes (all_attributes);
-		var info = yield file.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
-		Files.update_special_location_info (file, info);
-
-		var file_data = new Gth.FileData (file, info);
-
-		var metadata_attributes_v = Util.extract_metadata_attributes (all_attributes);
-		if (metadata_attributes_v.length > 0) {
-			yield app.metadata_reader.update (file_data, metadata_attributes_v, cancellable);
-		}
-
-		return file_data;
-	}
 }

@@ -118,7 +118,7 @@ public class Gth.FileSourceVfs : FileSource {
 	}
 
 	public override async Gth.FileData read_metadata (File file, string requested_attributes, Cancellable cancellable) throws Error	{
-		return yield FileData.read_metadata (file, requested_attributes, cancellable);
+		return yield FileManager.read_metadata (file, requested_attributes, cancellable);
 	}
 
 	public override void monitor_directory (File file, bool activate) {

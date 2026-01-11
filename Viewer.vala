@@ -91,10 +91,9 @@ public class Gth.Viewer : Gtk.Box {
 		return loaded;
 	}
 
-	public async bool open_file_async (File file, ViewFlags flags, Job job) {
+	public async bool open_file_async (File file, ViewFlags flags, Job job) throws Error {
 		var attributes = window.browser.get_list_attributes ();
-		var info = yield Files.query_info (file, attributes, job.cancellable);
-		var file_data = new FileData (file, info);
+		var file_data = yield FileManager.read_metadata (file, attributes, job.cancellable);
 		return yield view_file_async (file_data, flags, job);
 	}
 

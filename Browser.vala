@@ -1942,8 +1942,8 @@ public class Gth.Browser : Gtk.Box {
 		FileData new_sidebar_file = null;
 		foreach (var file_data in changed_files) {
 			try {
-				var info = yield Files.query_info (file_data.file, attributes, local_job.cancellable);
-				file_data.update_info (info);
+				var new_file_data = yield FileManager.read_metadata (file_data.file, attributes, local_job.cancellable);
+				file_data.update_info (new_file_data.info);
 				file_data.remove_thumbnail ();
 
 				// Check whether to update the sidebar as well.
@@ -2127,7 +2127,7 @@ public class Gth.Browser : Gtk.Box {
 		try {
 			// Update the file list.
 			var attributes = get_list_attributes ();
-			var file_data_list = yield window.file_manager.query_list_info (new_files, attributes, QueryListFlags.NOT_RECURSIVE, local_job.cancellable);
+			var file_data_list = yield FileManager.query_list_info (new_files, attributes, QueryListFlags.NOT_RECURSIVE, local_job.cancellable);
 
 			FileData new_sidebar_file = null;
 			var file_data_iter = file_data_list.iterator ();

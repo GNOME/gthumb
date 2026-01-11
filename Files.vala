@@ -200,11 +200,8 @@ public class Gth.Files {
 	}
 
 	public static async FileInfo query_info (File file, string attributes, Cancellable? cancellable = null) throws Error {
-		return yield file.query_info_async (
-				attributes,
-				FileQueryInfoFlags.NONE,
-				Priority.DEFAULT,
-				cancellable);
+		return yield file.query_info_async (attributes,	FileQueryInfoFlags.NONE,
+			Priority.DEFAULT, cancellable);
 	}
 
 	public static async void make_directory_async (File dir, Cancellable cancellable) throws Error {
