@@ -480,7 +480,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			{ rounded.origin.x - border_width, rounded.origin.y - border_width },
 			{ rounded.size.width + border_width * 2, rounded.size.height + border_width * 2 },
 		};
-		var rect = new Gsk.RoundedRect ();
+		var rect = Gsk.RoundedRect ();
 		rect.init_from_rect (box, 0);
 		Gdk.RGBA border_color = { 1, 1, 1, 1 };
 		snapshot.append_border (rect,

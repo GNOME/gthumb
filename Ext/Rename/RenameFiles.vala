@@ -49,7 +49,7 @@ public class Gth.RenameDialog : Adw.Window {
 		if (single_file) {
 			var file = files.first ();
 			var info = file.query_info (FileAttribute.STANDARD_EDIT_NAME, FileQueryInfoFlags.NONE, null);
-			name.text = info.get_edit_name ();
+			name_entry.text = info.get_edit_name ();
 			strategy_group.active_name = "simple";
 		}
 		name_group.visible = single_file;
@@ -85,7 +85,7 @@ public class Gth.RenameDialog : Adw.Window {
 
 		// Signals
 		template_page.save.connect (() => {
-			set_template (template_page.get_template ());
+			set_name_template (template_page.get_template ());
 			main_view.pop ();
 		});
 		enumerator_start.notify["value"].connect (() => update_file_list ());
@@ -101,7 +101,7 @@ public class Gth.RenameDialog : Adw.Window {
 			update_file_list ();
 		});
 		if (single_file) {
-			name_changed_id = name.changed.connect (() => update_file_list ());
+			name_changed_id = name_entry.changed.connect (() => update_file_list ());
 			strategy_group.notify["active-name"].connect (() => {
 				if (strategy_group.active_name == "simple") {
 					template_group.visible = false;
@@ -116,7 +116,7 @@ public class Gth.RenameDialog : Adw.Window {
 			});
 		}
 
-		set_template (settings.get_string (PREF_RENAME_TEMPLATE));
+		set_name_template (settings.get_string (PREF_RENAME_TEMPLATE));
 
 		if (single_file) {
 			focus_name ();
@@ -129,7 +129,7 @@ public class Gth.RenameDialog : Adw.Window {
 			var file_data = file_data_list.first ();
 			var old_file = file_data.file;
 			var old_parent = old_file.get_parent ();
-			var new_file = old_parent.get_child_for_display_name (name.text);
+			var new_file = old_parent.get_child_for_display_name (name_entry.text);
 			result.model.append (new RenamedFile (old_file, new_file));
 			return result;
 		}
@@ -158,7 +158,7 @@ public class Gth.RenameDialog : Adw.Window {
 		settings.set_string (PREF_RENAME_TEXT_TRANSFORM, ((TextTransform) case_transform.selected).to_state ());
 	}
 
-	void set_template (string value) {
+	void set_name_template (string value) {
 		template_text = value;
 		var new_template_attributes = get_template_attributes ();
 		if (new_template_attributes != template_attributes) {
@@ -183,9 +183,13 @@ public class Gth.RenameDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_undo_clicked (Gtk.Button button) {
-		var file = files.first ();
-		var info = file.query_info (FileAttribute.STANDARD_EDIT_NAME, FileQueryInfoFlags.NONE, null);
-		update_name (info.get_edit_name ());
+		try {
+			var file = files.first ();
+			var info = file.query_info (FileAttribute.STANDARD_EDIT_NAME, FileQueryInfoFlags.NONE, null);
+			update_name (info.get_edit_name ());
+		}
+		catch (Error error) {
+		}
 	}
 
 	string get_template_attributes () {
@@ -285,23 +289,22 @@ public class Gth.RenameDialog : Adw.Window {
 		}
 		var local_job = window.new_job ("Query Info");
 		info_job = local_job;
-		try {
-			yield update_file_data_list (local_job);
-		}
-		catch (Error error) {
-		}
-		finally {
-			local_job.done ();
-			if (info_job == local_job) {
-				info_job = null;
-			}
+		yield update_file_data_list (local_job);
+		local_job.done ();
+		if (info_job == local_job) {
+			info_job = null;
 		}
 	}
 
 	async void update_file_data_list (Job job) {
-		file_data_list = yield FileManager.query_list_info (files, template_attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
-		attributes_changed = false;
-		update_entry_list ();
+		try {
+			file_data_list = yield FileManager.query_list_info (files, template_attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
+			attributes_changed = false;
+			update_entry_list ();
+		}
+		catch (Error error) {
+			// TODO: show error
+		}
 	}
 
 	void update_entry_list () {
@@ -309,7 +312,7 @@ public class Gth.RenameDialog : Adw.Window {
 
 		if (strategy_group.active_name == "simple") {
 			var file_data = file_data_list.first ();
-			var new_name = name.text;
+			var new_name = name_entry.text;
 			name_list.model.append (new RenameEntry (file_data, new_name));
 			return;
 		}
@@ -346,14 +349,14 @@ public class Gth.RenameDialog : Adw.Window {
 	}
 
 	void update_name (string value) {
-		SignalHandler.block (name, name_changed_id);
-		name.text = value;
-		SignalHandler.unblock (name, name_changed_id);
+		SignalHandler.block (name_entry, name_changed_id);
+		name_entry.text = value;
+		SignalHandler.unblock (name_entry, name_changed_id);
 	}
 
 	void focus_name () {
-		name.grab_focus ();
-		Util.select_filename_without_ext (name);
+		name_entry.grab_focus ();
+		Util.select_filename_without_ext (name_entry);
 	}
 
 	Gth.Window window;
@@ -369,9 +372,9 @@ public class Gth.RenameDialog : Adw.Window {
 	ulong name_changed_id;
 
 	[GtkChild] unowned Adw.PreferencesGroup name_group;
-	[GtkChild] unowned Adw.EntryRow name;
+	[GtkChild] unowned Adw.EntryRow name_entry;
 	[GtkChild] unowned Adw.PreferencesGroup template_group;
-	[GtkChild] unowned Adw.ActionRow template;
+	// [GtkChild] unowned Adw.ActionRow template;
 	[GtkChild] unowned Adw.SpinRow enumerator_start;
 	[GtkChild] unowned Adw.ComboRow case_transform;
 	[GtkChild] unowned Adw.PreferencesGroup sort_group;

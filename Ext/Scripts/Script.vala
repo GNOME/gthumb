@@ -240,12 +240,22 @@ class Gth.ScriptProcess {
 		}
 	}
 
-	public Bytes read_output () {
+	public Bytes? read_output () {
 		read_channel (output);
 		read_channel (error);
-		output_stream.close ();
-		output_memory.close ();
-		return output_memory.steal_as_bytes ();
+		try {
+			output_stream.close ();
+		}
+		catch (Error error) {
+			// ignored.
+		}
+		try {
+			output_memory.close ();
+			return output_memory.steal_as_bytes ();
+		}
+		catch (Error error) {
+			return null;
+		}
 	}
 
 	void read_channel (IOChannel channel) {

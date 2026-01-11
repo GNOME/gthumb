@@ -778,6 +778,11 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.GridGroup).ensure ();
 		typeof (Gth.RenameTemplatePage).ensure ();
 		typeof (Gth.ColorRange).ensure ();
+		typeof (Gth.GeneralPreferences).ensure ();
+		typeof (Gth.BrowserPreferences).ensure ();
+		typeof (Gth.SaversPreferences).ensure ();
+		typeof (Gth.ViewerPreferences).ensure ();
+		typeof (Gth.ShortcutsPreferences).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

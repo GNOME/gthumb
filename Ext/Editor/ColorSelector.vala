@@ -11,7 +11,7 @@ public class Gth.ColorSelector : Object {
 		});
 		dialog.close_request.connect (() => {
 			if (callback != null) {
-				Idle.add (callback);
+				Idle.add ((owned) callback);
 				callback = null;
 			}
 			return false;
@@ -72,9 +72,6 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 		set_default_widget (button);
 		button.clicked.connect (() => selected ());
 		headerbar.pack_end (button);
-
-		const int BIG_MARGIN = 30;
-		const int SMALL_MARGIN = 10;
 
 		var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 		main_box.add_css_class ("dialog-content");
@@ -137,7 +134,7 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 		hex_input = new Gtk.Entry ();
 		hex_input.set_text (Gth.Color.rgba_to_hexcode (selected_color));
 		hex_input.activate.connect (() => {
-			var color = new Gdk.RGBA ();
+			var color = Gdk.RGBA ();
 			if (color.parse (hex_input.get_text ())) {
 				set_color (color);
 			}
@@ -217,7 +214,7 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 		changed_color ();
 	}
 
-	public Gdk.RGBA get_color () {
+	public new Gdk.RGBA get_color () {
 		return selected_color;
 	}
 
@@ -247,19 +244,6 @@ class Gth.ColorSelectorDialog : Gtk.Window {
 	public override void unmap () {
 		base.unmap ();
 		css_provider = null;
-	}
-
-	bool on_key_pressed (uint keyval, uint keycode, Gdk.ModifierType state) {
-		var handled = false;
-		switch (keyval) {
-		case Gdk.Key.Escape:
-			close ();
-			handled = true;
-			break;
-		default:
-			break;
-		}
-		return handled;
 	}
 
 	Gth.ColorRange color_preview;

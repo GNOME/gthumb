@@ -169,7 +169,6 @@ public class Gth.RenameTemplate {
 
 	Script script;
 	TemplateFlags flags;
-	int last_parameter = 0;
 	GenericArray<ScriptParameter> parameters;
 
 	delegate string ValueFunc (FileData file_data);

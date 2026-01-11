@@ -163,7 +163,7 @@
                     <child>
                       <object class="AdwPreferencesGroup" id="name_group">
                         <child>
-                          <object class="AdwEntryRow" id="name">
+                          <object class="AdwEntryRow" id="name_entry">
                             <property name="title" translatable="yes">Name</property>
                             <property name="activates-default">true</property>
                             <child type="suffix">

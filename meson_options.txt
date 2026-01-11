@@ -1,10 +1,10 @@
 option('developer-mode',
   type : 'boolean',
   value : false,
-  description : 'Activates debug code, tests and loads some resources from the source tree'
+  description : 'Activates debug code, compiles tests and loads some resources from the source tree'
 )
 
-option('flatpak',
+option('flatpak-build',
   type : 'boolean',
   value : false,
   description : 'True for the flatpak build'

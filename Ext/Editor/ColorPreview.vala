@@ -36,7 +36,7 @@ public class Gth.ColorPreview : Gtk.Widget {
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
-		var background = new Gsk.RoundedRect ();
+		var background = Gsk.RoundedRect ();
 		background.init_from_rect (viewport, BORDER_RADIUS);
 		snapshot.push_rounded_clip (background);
 

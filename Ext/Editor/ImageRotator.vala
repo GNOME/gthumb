@@ -82,7 +82,7 @@ public class Gth.ImageRotator : Object, ImageController {
 		}
 	}
 
-	public override void set_view (ImageView? view) {
+	public void set_view (ImageView? view) {
 		if (_view != null) {
 			_view.disconnect (view_notify_image_id);
 			view_notify_image_id = 0;
@@ -105,39 +105,34 @@ public class Gth.ImageRotator : Object, ImageController {
 	}
 
 	public Gth.Image? rotate_image (Gth.Image image, Cancellable cancellable) {
-		try {
-			var rotated = image.rotate (_angle, _background, RotateFilter.BICUBIC, cancellable);
-			Gth.Image cropped = null;
-			switch (_rotated_size) {
-			case RotatedSize.ORIGINAL:
-				Graphene.Rect crop = {
-					{
-						float.max (((float) rotated.get_width () - image_box.size.width) / 2, 0),
-						float.max (((float) rotated.get_height () - image_box.size.height) / 2, 0),
-					},
-					image_box.size
-				};
-				cropped = rotated.get_subimage (
-					(uint) crop.origin.x, (uint) crop.origin.y,
-					(uint) crop.size.width, (uint) crop.size.height);
-				break;
+		var rotated = image.rotate (_angle, _background, RotateFilter.BICUBIC, cancellable);
+		Gth.Image cropped = null;
+		switch (_rotated_size) {
+		case RotatedSize.ORIGINAL:
+			Graphene.Rect crop = {
+				{
+					float.max (((float) rotated.get_width () - image_box.size.width) / 2, 0),
+					float.max (((float) rotated.get_height () - image_box.size.height) / 2, 0),
+				},
+				image_box.size
+			};
+			cropped = rotated.get_subimage (
+				(uint) crop.origin.x, (uint) crop.origin.y,
+				(uint) crop.size.width, (uint) crop.size.height);
+			break;
 
-			case RotatedSize.BOUNDING_BOX:
-				cropped = rotated;
-				break;
+		case RotatedSize.BOUNDING_BOX:
+			cropped = rotated;
+			break;
 
-			case RotatedSize.CROP_BORDERS:
-				var crop = get_cropping_region (_angle, crop_p1);
-				cropped = rotated.get_subimage (
-					(uint) crop.origin.x, (uint) crop.origin.y,
-					(uint) crop.size.width, (uint) crop.size.height);
-				break;
-			}
-			return cropped;
+		case RotatedSize.CROP_BORDERS:
+			var crop = get_cropping_region (_angle, crop_p1);
+			cropped = rotated.get_subimage (
+				(uint) crop.origin.x, (uint) crop.origin.y,
+				(uint) crop.size.width, (uint) crop.size.height);
+			break;
 		}
-		catch (Error error) {
-			return null;
-		}
+		return cropped;
 	}
 
 	public void on_snapshot (Gtk.Snapshot snapshot) {

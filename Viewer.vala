@@ -69,7 +69,12 @@ public class Gth.Viewer : Gtk.Box {
 			&& ((window.browser.folder_tree.current_folder == null)
 				|| !window.browser.folder_tree.current_folder.file.equal (parent)))
 		{
-			yield window.browser.load_folder (parent, LoadAction.OPEN);
+			try {
+				yield window.browser.load_folder (parent, LoadAction.OPEN);
+			}
+			catch (Error error) {
+				window.show_error (error);
+			}
 		}
 		if (!cancelled) {
 			if (ViewFlags.WITH_NEW_POSITION in flags) {
@@ -203,7 +208,7 @@ public class Gth.Viewer : Gtk.Box {
 			&& !current_viewer.same_etag (file_data.info))
 		{
 			// stdout.printf ("> VIEWER: RELOAD FILE %s\n", file_data.file.get_uri ());
-			view_file_async (file_data, ViewFlags.DEFAULT);
+			view_file_async.begin (file_data, ViewFlags.DEFAULT);
 		}
 	}
 

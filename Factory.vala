@@ -10,8 +10,9 @@ public class Work.Factory {
 				var buffer = new uint8[BUFFER_SIZE];
 				while (true) {
 					var job = jobs.pop ();
-					if (job.operation == Job.Operation.EXIT)
+					if (job.action == Job.Action.EXIT) {
 						break;
+					}
 					job.try_run (buffer);
 				}
 			};
@@ -42,22 +43,22 @@ public class Work.Factory {
 
 
 public class Work.Job {
-	public enum Operation {
+	public enum Action {
 		RUN,
 		EXIT
 	}
 
-	public Operation operation;
+	public Action action;
 	public SourceFunc callback;
 	public Error error;
 
 	public Job () {
-		operation = Operation.RUN;
+		action = Action.RUN;
 		error = null;
 	}
 
 	public Job.exit () {
-		operation = Operation.EXIT;
+		action = Action.EXIT;
 		callback = null;
 		error = null;
 	}

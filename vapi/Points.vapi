@@ -19,7 +19,7 @@ namespace Gth {
 		[CCode (array_length_cname = "blue_size")]
 		public Point[] blue;
 
-		public Points (owned Point[] value, owned Point[] red, owned Point[] green, owned Point[] blue);
+		public Points (owned Point[]? value, owned Point[]? red, owned Point[]? green, owned Point[]? blue);
 		public Point[] get_channel (Gth.Channel channel);
 		public uint8[] get_value_map ();
 	}

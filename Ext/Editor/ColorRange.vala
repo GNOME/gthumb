@@ -15,7 +15,7 @@ class Gth.ColorRange : Gtk.Widget {
 		set_color (_selected_color);
 	}
 
-	public Gdk.RGBA get_color () {
+	public new Gdk.RGBA get_color () {
 		return selected_color;
 	}
 
@@ -220,7 +220,7 @@ class Gth.ColorRange : Gtk.Widget {
 			{ viewport.origin.x + (h_padding / 2), viewport.origin.y },
 			{ viewport.size.width - h_padding, viewport.size.height }
 		};
-		var background = new Gsk.RoundedRect ();
+		var background = Gsk.RoundedRect ();
 		background.init_from_rect (background_rect, BORDER_RADIUS);
 		snapshot.push_rounded_clip (background);
 

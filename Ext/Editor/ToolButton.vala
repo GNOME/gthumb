@@ -1,12 +1,12 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/tool-button.ui")]
 public class Gth.ToolButton : Gtk.Button {
-	public string icon_name {
+	public new string icon_name {
 		set {
 			icon.icon_name = value;
 		}
 	}
 
-	public string label {
+	public new string label {
 		set {
 			text.label = value;
 		}

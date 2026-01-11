@@ -31,10 +31,9 @@ public class Gth.FilterGrid : Gtk.Box {
 			row++;
 		}
 
-		var cell = new Cell () {
+		var cell = Cell () {
 			operation = operation,
 			preview = preview,
-			label = label,
 		};
 		cells.set (id, cell);
 	}
@@ -51,7 +50,7 @@ public class Gth.FilterGrid : Gtk.Box {
 		}
 	}
 
-	public void activate (uint id) {
+	public void activate_filter (uint id) {
 		Util.set_state (action_group, "set-filter", new Variant.uint32 (id));
 		activated (id);
 	}
@@ -110,7 +109,6 @@ public class Gth.FilterGrid : Gtk.Box {
 	struct Cell {
 		Gth.ImageOperation operation;
 		unowned Gtk.Picture preview;
-		unowned Gtk.Label label;
 	}
 
 	Gtk.Grid grid;

@@ -137,23 +137,6 @@ public class Gth.ResizeImage : ImageTool {
 		return new ResizeOperation (width, height, high_quality);
 	}
 
-	Gtk.Widget new_ratio_row (string name, uint idx, string? description = null) {
-		var row = new Adw.ActionRow ();
-		var check_button = new Gtk.CheckButton ();
-		check_button.action_name = "resize.aspect-ratio";
-		check_button.action_target = "%u".printf (idx);
-		row.add_prefix (check_button);
-		if (description != null) {
-			var label = new Gtk.Label (description);
-			label.add_css_class ("dimmed");
-			row.add_suffix (label);
-		}
-		row.set_title (name);
-		row.activatable = true;
-		row.activatable_widget = check_button;
-		return row;
-	}
-
 	Gtk.Widget new_size_button_content (string title, uint width, uint height, string? icon = null) {
 		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
 		if (icon == null) {

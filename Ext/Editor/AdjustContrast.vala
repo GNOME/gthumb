@@ -97,7 +97,7 @@ public class Gth.AdjustContrast : ImageTool {
 		reset_button.clicked.connect (() => reset_amount ());
 
 		update_thumbnails ();
-		filter_grid.activate (Method.STRETCH);
+		filter_grid.activate_filter (Method.STRETCH);
 	}
 
 	public override void before_deactivate () {

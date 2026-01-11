@@ -64,7 +64,7 @@ public class Gth.ColorPicker : ImageTool {
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_PRIMARY);
-		var click_id = click_events.pressed.connect ((n_press, x, y) => {
+		click_events.pressed.connect ((n_press, x, y) => {
 			uint pixel_x, pixel_y;
 			if (image_view.get_pixel_at_position (x, y, out pixel_x, out pixel_y)) {
 				position_x.adjustment.value = pixel_x + 1;
@@ -155,7 +155,7 @@ public class Gth.ColorPicker : ImageTool {
 		else if (max == green) {
 			hue = 85.0 + 43.0 * (double) (blue - red) / (max - min);
 		}
-		else if (max == blue) {
+		else /*if (max == blue)*/ {
 			hue = 171.0 + 43.0 * (double) (red - green) / (max - min);
 		}
 	}

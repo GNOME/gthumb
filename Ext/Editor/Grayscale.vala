@@ -17,7 +17,7 @@ public class Gth.Grayscale : ImageTool {
 		window.editor.set_content (image_view);
 
 		update_thumbnails ();
-		filter_grid.activate (Method.BRIGHTNESS);
+		filter_grid.activate_filter (Method.BRIGHTNESS);
 	}
 
 	public override void before_deactivate () {

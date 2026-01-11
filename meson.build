@@ -205,6 +205,7 @@ privexecdir = join_paths(prefix, get_option('libexecdir'), meson.project_name())
 
 add_project_arguments([
   '--disable-warnings',
+  '--enable-experimental',
   '--vapidir', join_paths(meson.current_source_dir(), 'vapi'),
 ], language: 'vala')
 
@@ -239,8 +240,8 @@ else
   config.set_quoted('APP_ID', 'app.gthumb.gthumb')
   exec_name = 'gthumb'
 endif
-config.set('FLATPAK', get_option('flatpak') ? 'true' : 'false')
-config.set_quoted('BUILD_TAG', get_option('flatpak') ? '-flatpak' : '')
+config.set('FLATPAK', get_option('flatpak-build') ? 'true' : 'false')
+config.set_quoted('BUILD_TAG', get_option('flatpak-build') ? '-flatpak' : '')
 if have_progressive_jpeg
   config.set('HAVE_PROGRESSIVE_JPEG', 1)
 endif

@@ -33,6 +33,4 @@ public class Gth.ClearMetadata : Gth.FileOperation {
 	}
 
 	weak Work.Factory factory;
-	Transform transform;
-	TransformFlags flags;
 }

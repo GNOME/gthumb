@@ -12,23 +12,6 @@ public class Gth.GridGroup : Adw.PreferencesGroup {
 		}
 	}
 
-	Gtk.Widget new_ratio_row (string name, uint idx, string? description = null) {
-		var row = new Adw.ActionRow ();
-		var check_button = new Gtk.CheckButton ();
-		check_button.action_name = "group.aspect-ratio";
-		check_button.action_target = "%u".printf (idx);
-		row.add_prefix (check_button);
-		if (description != null) {
-			var label = new Gtk.Label (description);
-			label.add_css_class ("dimmed");
-			row.add_suffix (label);
-		}
-		row.set_title (name);
-		row.activatable = true;
-		row.activatable_widget = check_button;
-		return row;
-	}
-
 	construct {
 		action_group = new SimpleActionGroup ();
 		var action = new SimpleAction.stateful ("grid-type", VariantType.STRING, new Variant.string (GridType.NONE.to_state ()));
@@ -60,5 +43,5 @@ public class Gth.GridGroup : Adw.PreferencesGroup {
 	}
 
 	SimpleActionGroup action_group;
-	[GtkChild] Gtk.ListBox grid_list;
+	[GtkChild] unowned Gtk.ListBox grid_list;
 }

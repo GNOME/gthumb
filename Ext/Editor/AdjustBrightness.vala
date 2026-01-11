@@ -68,7 +68,7 @@ public class Gth.AdjustBrightness : ImageTool {
 		reset_button.clicked.connect (() => reset_amount ());
 
 		update_thumbnails ();
-		filter_grid.activate (Method.GAMMA);
+		filter_grid.activate_filter (Method.GAMMA);
 	}
 
 	public override void before_deactivate () {

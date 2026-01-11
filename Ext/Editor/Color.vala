@@ -14,7 +14,6 @@ public class Gth.Color {
 		var max = Color.get_max_value (rgba);
 		var min = Color.get_min_value (rgba);
 		float chroma = max - min;
-		float lightness = (float) (max + min) / 2;
 		value = max;
 		if (chroma == 0) {
 			hue = 0;
@@ -25,7 +24,7 @@ public class Gth.Color {
 		else if (value == rgba.green) {
 			hue = 60 * (((rgba.blue - rgba.red) / chroma) + 2);
 		}
-		else if (value == rgba.blue) {
+		else /*if (value == rgba.blue)*/ {
 			hue = 60 * (((rgba.red - rgba.green) / chroma) + 4);
 		}
 		saturation = (value != 0) ? chroma / value : 0;
@@ -85,7 +84,7 @@ public class Gth.Color {
 	}
 
 	public static Gdk.RGBA? get_rgba_from_hexcode (string value) {
-		var color = new Gdk.RGBA ();
+		var color = Gdk.RGBA ();
 		if (!color.parse (value))
 			return null;
 		return color;
@@ -178,7 +177,6 @@ public class Gth.Color {
 	public static float get_lightness (Gdk.RGBA color) {
 		var max = Color.get_max_value (color);
 		var min = Color.get_min_value (color);
-		var chroma = max - min;
 		return max - ((max - min) / 2);
 	}
 

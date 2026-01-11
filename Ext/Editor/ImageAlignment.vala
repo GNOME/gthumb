@@ -1,7 +1,7 @@
 public class Gth.ImageAlignment : Object, ImageController {
 	public signal void changed ();
 
-	public override void set_view (ImageView? view) {
+	public void set_view (ImageView? view) {
 		if (_view != null) {
 			_view.remove_controller (drag_events);
 		}
@@ -12,7 +12,7 @@ public class Gth.ImageAlignment : Object, ImageController {
 		_view.add_controller (drag_events);
 	}
 
-	public override void on_snapshot (Gtk.Snapshot snapshot) {
+	public void on_snapshot (Gtk.Snapshot snapshot) {
 		snapshot.push_blend (Gsk.BlendMode.DIFFERENCE);
 
 		_view.snapshot_image (snapshot);

@@ -29,7 +29,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		}
 	}
 
-	public override void set_view (ImageView? _view) {
+	public void set_view (ImageView? _view) {
 		if (view != null) {
 			view.disconnect (view_resized_id);
 			view.disconnect (view_scrolled_id);
@@ -288,6 +288,9 @@ public class Gth.ImageSelector : Object, ImageController {
 				dy = new_dy;
 			}
 			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -500,12 +503,12 @@ public class Gth.ImageSelector : Object, ImageController {
 		};
 	}
 
-	Graphene.Rect to_real_area (Graphene.Rect selection_box) {
-		return {
-			{ selector_to_real (selection_box.origin.x + view.viewport.origin.x) , selector_to_real (selection_box.origin.y + view.viewport.origin.y) },
-			{ selector_to_real (selection_box.size.width) , selector_to_real (selection_box.size.height) },
-		};
-	}
+	// Graphene.Rect to_real_area (Graphene.Rect selection_box) {
+	// 	return {
+	// 		{ selector_to_real (selection_box.origin.x + view.viewport.origin.x) , selector_to_real (selection_box.origin.y + view.viewport.origin.y) },
+	// 		{ selector_to_real (selection_box.size.width) , selector_to_real (selection_box.size.height) },
+	// 	};
+	// }
 
 	EventArea? get_area_at_point (Graphene.Point point) {
 		foreach (var area in areas) {
@@ -681,7 +684,7 @@ public class Gth.ImageSelector : Object, ImageController {
 			return;
 		}
 
-		var rect = new Gsk.RoundedRect ();
+		var rect = Gsk.RoundedRect ();
 		rect.init_from_rect (box, 0);
 		Gdk.RGBA border_color = { 1, 1, 1, 1 };
 		var border_width = 2f;
@@ -691,7 +694,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		);
 
 		if ((current_area != null) && (current_area.type != AreaType.INNER)) {
-			rect = new Gsk.RoundedRect ();
+			rect = Gsk.RoundedRect ();
 			rect.init_from_rect (current_area.rect, 0);
 			border_color = { 1, 1, 1, 1 };
 

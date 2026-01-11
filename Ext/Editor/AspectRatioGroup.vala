@@ -4,7 +4,7 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 
 	public float ratio { get; set; default = 0; }
 
-	public string description { get { return get_ratio_description (); } }
+	public new string description { get { return get_ratio_description (); } }
 
 	public bool show_title {
 		set {
@@ -12,7 +12,7 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		}
 	}
 
-	public void activate (Gtk.Window window, Gth.Image original, bool activate_image_ratio = false) {
+	public new void activate (Gtk.Window window, Gth.Image original, bool activate_image_ratio = false) {
 		entry.icon_release.connect (() => {
 			entry.visible = false;
 			other_list.visible = true;
@@ -205,11 +205,10 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 	uint fixed_ratios;
 	uint image_pos;
 	string _description = null;
-	[GtkChild] Gtk.ListBox ratio_list;
-	[GtkChild] Gtk.Entry entry;
-	[GtkChild] Adw.SwitchRow rotated;
-	[GtkChild] Gtk.DropDown other_list;
-	[GtkChild] Gtk.CheckButton other;
+	[GtkChild] unowned Gtk.ListBox ratio_list;
+	[GtkChild] unowned Gtk.Entry entry;
+	[GtkChild] unowned Adw.SwitchRow rotated;
+	[GtkChild] unowned Gtk.DropDown other_list;
 
 	Graphene.Size[] OTHER_RATIOS = {
 		{ 16, 9 },

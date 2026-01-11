@@ -1473,7 +1473,6 @@ public class Gth.Browser : Gtk.Box {
 
 		var reorder_on_drop = new Gtk.DropTarget (typeof (FileListItem), Gdk.DragAction.MOVE);
 		reorder_on_drop.drop.connect ((value, x, y) => {
-			var item = value;
 			var source = value.get_object () as FileListItem;
 			if (source.browser != this) {
 				return false;
@@ -1961,7 +1960,11 @@ public class Gth.Browser : Gtk.Box {
 
 		// Update the property sidebar.
 		if (new_sidebar_file != null) {
-			yield property_sidebar.load (new_sidebar_file, local_job.cancellable);
+			try {
+				yield property_sidebar.load (new_sidebar_file, local_job.cancellable);
+			}
+			catch (Error error) {
+			}
 		}
 
 		// Update the thumbnails
