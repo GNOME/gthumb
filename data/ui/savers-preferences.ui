@@ -28,7 +28,8 @@
             </child>
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">Format Options</property>
+                <!-- Translators: File Formats -->
+                <property name="title" translatable="yes">Formats</property>
                 <child>
                   <object class="GtkListBox" id="type_list">
                     <property name="selection-mode">none</property>
