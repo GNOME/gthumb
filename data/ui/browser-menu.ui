@@ -24,8 +24,6 @@
         <attribute name="label" translatable="yes">_Sort Folders</attribute>
         <attribute name="action">win.sort-folders</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">_Hidden Files</attribute>
         <attribute name="action">win.hidden-files</attribute>
