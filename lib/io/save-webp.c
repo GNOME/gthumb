@@ -64,7 +64,7 @@ GBytes* save_webp (GthImage *image, GthOption **options, GCancellable *cancellab
 
 			case GTH_WEBP_OPTION_METHOD:
 				gth_option_get_int (option, &method);
-				if ((quality < 0) || (quality > 6)) {
+				if ((method < 0) || (method > 6)) {
 					g_set_error (error,
 						G_IO_ERROR,
 						G_IO_ERROR_INVALID_DATA,
