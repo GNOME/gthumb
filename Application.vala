@@ -211,14 +211,15 @@ public class Gth.Application : Adw.Application {
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);
 		saver_extensions = new HashTable<string, string>(str_hash, str_equal);
-		register_image_saver ("image/avif", save_jpeg, typeof (AvifPreferences));
+		register_image_saver ("image/avif", save_avif, typeof (AvifPreferences));
 		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
-		register_image_saver ("image/tiff", save_jpeg, typeof (TiffPreferences));
-		register_image_saver ("image/webp", save_jpeg, typeof (WebpPreferences));
+		register_image_saver ("image/tiff", save_tiff, typeof (TiffPreferences));
+		register_image_saver ("image/webp", save_webp, typeof (WebpPreferences));
 
 		tools.register (ToolCategory.IMAGES, "win.rotate-right", _("Rotate Right"), "gth-rotate-right-symbolic", "bracketright");
 		tools.register (ToolCategory.IMAGES, "win.rotate-left", _("Rotate Left"), "gth-rotate-left-symbolic", "bracketleft");
+		tools.register (ToolCategory.IMAGES, "win.resize-images", _("Resize Images"));
 		tools.register (ToolCategory.METADATA, "win.clear-metadata", _("Clear Metadata"));
 		tools.register (ToolCategory.METADATA, "win.apply-orientation", _("Rotate Physically"));
 		tools.register (ToolCategory.METADATA, "win.reset-orientation", _("Reset EXIF Orientation"));
