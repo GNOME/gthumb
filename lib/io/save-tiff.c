@@ -10,21 +10,32 @@ static tsize_t tiff_read (thandle_t handle, tdata_t buffer, tsize_t size) {
 }
 
 static tsize_t tiff_write (thandle_t handle, tdata_t buffer, tsize_t size) {
-	GByteArray *byte_array = (GByteArray *) handle;
-	g_byte_array_append (byte_array, buffer, (guint) size);
-	return size;
+	GOutputStream *output = (GOutputStream *) handle;
+	gsize bytes_written;
+	g_output_stream_write_all (output, buffer, (gsize) size, &bytes_written, NULL, NULL);
+	return (tsize_t) bytes_written;
 }
 
 static toff_t tiff_seek (thandle_t handle, toff_t offset, int whence) {
-	return -1;
+	GOutputStream *output = (GOutputStream *) handle;
+	GSeekType seek_type = G_SEEK_SET;
+	if (whence == SEEK_CUR) {
+		seek_type = G_SEEK_CUR;
+	}
+	else if (whence == SEEK_END) {
+		seek_type = G_SEEK_END;
+	}
+	g_seekable_seek (G_SEEKABLE (output), offset, seek_type, NULL, NULL);
+	return (toff_t) g_seekable_tell (G_SEEKABLE (output));
 }
 
-static int tiff_close (thandle_t context) {
+static int tiff_close (thandle_t handle) {
 	return 0;
 }
 
 static toff_t tiff_size (thandle_t handle) {
-	return -1;
+	GOutputStream *output = (GOutputStream *) handle;
+	return (toff_t) g_memory_output_stream_get_size (G_MEMORY_OUTPUT_STREAM (output));
 }
 
 GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellable, GError **error) {
@@ -74,14 +85,14 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 
 	gushort TIFF_COMPRESSION[] = {
 		COMPRESSION_NONE,
-		COMPRESSION_DEFLATE,
+		COMPRESSION_ADOBE_DEFLATE,
 		COMPRESSION_JPEG,
 	};
 	gushort compression = TIFF_COMPRESSION[tiff_compression];
 
-	GByteArray *byte_array = g_byte_array_new  ();
+	GOutputStream *output = g_memory_output_stream_new_resizable  ();
 	TIFF *tif = TIFFClientOpen ("gth-tiff-writer", "w",
-		byte_array,
+		output,
 		tiff_read,
 		tiff_write,
 		tiff_seek,
@@ -91,7 +102,7 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 		NULL);
 
 	if (tif == NULL) {
-		g_byte_array_free (byte_array, TRUE);
+		g_object_unref (output);
 		g_set_error_literal (error,
 			GDK_PIXBUF_ERROR,
 			GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
@@ -146,7 +157,7 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 
 	guchar *line_buffer = g_try_malloc (cols * samplesperpixel * sizeof (guchar));
 	if (!line_buffer) {
-		g_byte_array_free (byte_array, TRUE);
+		g_object_unref (output);
 		TIFFClose (tif);
 		g_set_error_literal (error,
 				     GDK_PIXBUF_ERROR,
@@ -166,7 +177,7 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 		}
 		if (TIFFWriteScanline (tif, line_buffer, row, 0) < 0) {
 			g_free (line_buffer);
-			g_byte_array_free (byte_array, TRUE);
+			g_object_unref (output);
 			TIFFClose (tif);
 			g_set_error (error,
 				     GDK_PIXBUF_ERROR,
@@ -183,5 +194,8 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 	TIFFFlushData (tif);
 	TIFFClose (tif);
 
-	return g_byte_array_free_to_bytes (byte_array);
+	g_output_stream_close (output, NULL, NULL);
+	GBytes *bytes = g_memory_output_stream_steal_as_bytes (G_MEMORY_OUTPUT_STREAM (output));
+	g_object_unref (output);
+	return bytes;
 }
