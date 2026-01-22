@@ -117,13 +117,13 @@ public class Gth.ImageSaver {
 			// Update the sidecar
 
 			if (update_metadata) {
+				var comment_file = Comment.get_comment_file (file_data.file);
 				if (!metadata_saved) {
 					var comment = new Comment.from_info (file_data.info);
-					Files.save_content (file_data.file, comment.to_xml (), cancellable);
+					Files.save_content (comment_file, comment.to_xml (), cancellable);
 				}
 				else {
 					// The embedded metadata was updated, delete the sidecar.
-					var comment_file = Comment.get_comment_file (file_data.file);
 					Files.delete_file (comment_file, cancellable);
 				}
 			}
