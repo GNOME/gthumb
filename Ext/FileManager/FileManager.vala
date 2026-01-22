@@ -229,25 +229,37 @@ public class Gth.FileManager {
 					var child = enumerator.get_child (info);
 					var child_data = new Gth.FileData (child, info);
 
-					if (read_metadata
-						&& !has_symbolic_icon
-						&& (info.get_file_type () == FileType.DIRECTORY))
-					{
-						// Always set the symbolic icon for directories.
-						try {
-							var more_info = yield child.query_info_async (
-								FileAttribute.STANDARD_SYMBOLIC_ICON,
-								FileQueryInfoFlags.NONE,
-								Priority.DEFAULT,
-								cancellable);
-							if (more_info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
-								info.set_symbolic_icon (more_info.get_symbolic_icon ());
+					if (read_metadata) {
+						if (info.get_file_type () == FileType.DIRECTORY) {
+							if (!has_symbolic_icon) {
+								// Always set the symbolic icon for directories.
+								try {
+									var more_info = yield child.query_info_async (
+										FileAttribute.STANDARD_SYMBOLIC_ICON,
+										FileQueryInfoFlags.NONE,
+										Priority.DEFAULT,
+										cancellable);
+									if (more_info.has_attribute (FileAttribute.STANDARD_SYMBOLIC_ICON)) {
+										info.set_symbolic_icon (more_info.get_symbolic_icon ());
+									}
+								}
+								catch (Error _error) {
+									error = _error;
+									action = ForEachAction.STOP;
+									break;
+								}
 							}
 						}
-						catch (Error _error) {
-							error = _error;
-							action = ForEachAction.STOP;
-							break;
+						else if ((info.get_file_type () == FileType.REGULAR)
+							&& (metadata_attributes_v.length > 0))
+						{
+							try {
+								yield app.metadata_reader.update (child_data, metadata_attributes_v, cancellable);
+							}
+							catch (Error _error) {
+								error = _error;
+								action = ForEachAction.STOP;
+							}
 						}
 					}
 
@@ -256,26 +268,16 @@ public class Gth.FileManager {
 						action = ForEachAction.STOP;
 						break;
 					}
-					if (child_action == ForEachAction.SKIP) {
+					else if (child_action == ForEachAction.SKIP) {
 						continue;
 					}
+
 					if ((info.get_file_type () == FileType.DIRECTORY)
 						&& (ForEachFlags.RECURSIVE in flags))
 					{
 						queue.push_tail (child_data);
 					}
-					else if (read_metadata
-						&& (info.get_file_type () == FileType.REGULAR)
-						&& (metadata_attributes_v.length > 0))
-					{
-						try {
-							yield app.metadata_reader.update (child_data, metadata_attributes_v, cancellable);
-						}
-						catch (Error _error) {
-							error = _error;
-							action = ForEachAction.STOP;
-						}
-					}
+
 					if ((error == null) && cancellable.is_cancelled ()) {
 						error = new IOError.CANCELLED ("Cancelled");
 						action = ForEachAction.STOP;
