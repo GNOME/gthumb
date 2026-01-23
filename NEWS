@@ -1,3 +1,14 @@
+Version 3.12.9
+~~~~~~~~~~~~~~
+Released: 2026-01-23
+
+Bugfixes:
+ * Fixed compilation when lcms2 is disabled
+ * Lossless rotation: make sure to modify the orientation tags only
+ * Do not change the file modification time if the content did not change
+ * Sharpen: allow to view the image at natural size
+ * Rotation: fixed bilinear filter
+
 Version 3.12.8.2
 ~~~~~~~~~~~~~~~~
 Released: 2025-11-30
