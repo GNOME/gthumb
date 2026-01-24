@@ -1016,9 +1016,13 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files) {
 		var local_job = new_job (name, JobFlags.FOREGROUND);
+		var overwrite_response = OverwriteResponse.NONE;
 		foreach (var file in files) {
 			try {
+				operation.overwrite_response = overwrite_response;
+				operation.single_file = (files.length () == 1);
 				yield operation.execute (this, file, local_job);
+				overwrite_response = operation.overwrite_response;
 			}
 			catch (Error error) {
 				local_job.error = error;

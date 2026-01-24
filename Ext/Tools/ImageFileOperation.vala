@@ -56,15 +56,21 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 	}
 
 	async void ask_to_overwrite (Gth.Window window, Image image, FileData file_data, Job job) throws Error {
+		if (overwrite_response == OverwriteResponse.SKIP_ALL) {
+			return;
+		}
 		var overwrite = new OverwriteDialog (window);
 		overwrite.check_extension = true;
-		var result = yield overwrite.ask_image (image, file_data.file, OverwriteRequest.FILE_EXISTS, job);
-		switch (result) {
+		overwrite.single_file = single_file;
+		if (overwrite_response != OverwriteResponse.OVERWRITE_ALL) {
+			overwrite_response = yield overwrite.ask_image (image, file_data.file, OverwriteRequest.FILE_EXISTS, job);
+		}
+		switch (overwrite_response) {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");
 			break;
 
-		case OverwriteResponse.OVERWRITE:
+		case OverwriteResponse.OVERWRITE, OverwriteResponse.OVERWRITE_ALL:
 			file_data.set_etag (null);
 			yield app.image_saver.replace_file (image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			break;
