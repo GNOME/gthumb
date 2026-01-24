@@ -341,6 +341,20 @@ public class Gth.Window : Adw.ApplicationWindow {
 		return null;
 	}
 
+	public File get_current_vfs_folder_or_default () {
+		var folder = get_current_vfs_folder ();
+		if (folder == null) {
+			var path = Environment.get_user_special_dir (UserDirectory.PICTURES);
+			if (path != null) {
+				folder = File.new_for_path (path);
+			}
+			else {
+				folder = File.new_for_path (Environment.get_home_dir ());
+			}
+		}
+		return folder;
+	}
+
 	async void open_selected_files () {
 		var local_job = new_job ("Choosing Application");
 		try {
@@ -456,6 +470,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 			var dialog = new Gth.RenameFiles ();
 			var renamed_files = yield dialog.rename (this, files, local_job);
 			yield file_manager.rename_files (renamed_files, local_job);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void resize_images (GenericList<File> files) {
+		var local_job = new_job (_("Resize"), JobFlags.FOREGROUND);
+		try {
+			var dialog = new Gth.ResizeImages ();
+			var operation = yield dialog.resize (this, local_job);
+			yield exec_file_operation (_("Resize"), operation, files);
 		}
 		catch (Error error) {
 			show_error (error);
@@ -969,6 +998,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return;
 			}
 			rename_files.begin (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("resize-images", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			resize_images.begin (files);
 		});
 		action_group.add_action (action);
 	}

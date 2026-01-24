@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthResizeDialog">
+    <property name="title" translatable="yes">Resize</property>
+    <property name="content-width">600</property>
+    <child>
+      <object class="AdwToolbarView" id="main_view">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-start-title-buttons">false</property>
+            <property name="show-end-title-buttons">false</property>
+            <child type="start">
+              <object class="GtkButton">
+                <property name="label" translatable="yes">_Cancel</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_cancel" />
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="label" translatable="yes">E_xecute</property>
+                <property name="use_underline">true</property>
+                <signal name="clicked" handler="on_save" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwSpinRow" id="width">
+                    <property name="title" translatable="yes">Width</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">10000</property>
+                        <property name="page-increment">10</property>
+                        <property name="step-increment">1</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwSpinRow" id="height">
+                    <property name="title" translatable="yes">Height</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">10000</property>
+                        <property name="page-increment">10</property>
+                        <property name="step-increment">1</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Unit</property>
+                    <child type="suffix">
+                      <object class="AdwToggleGroup" id="unit_group">
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="AdwToggle">
+                            <property name="label" translatable="yes">pixel</property>
+                            <property name="name">pixel</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwToggle">
+                            <property name="label" translatable="yes">%</property>
+                            <property name="name">percent</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwSwitchRow" id="keep_aspect_ratio">
+                    <property name="title" translatable="yes">Preserve Aspect Ratio</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="GthFolderRow" id="destination">
+                    <property name="title" translatable="yes">Destination</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Format</property>
+                    <child type="suffix">
+                      <object class="GtkDropDown" id="format">
+                        <property name="valign">center</property>
+                        <property name="model">
+                          <object class="GtkStringList">
+                            <items>
+                              <item translatable="yes">Original</item>
+                              <item>JPEG</item>
+                              <item>PNG</item>
+                            </items>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>
