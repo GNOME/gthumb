@@ -2,7 +2,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 	public string content_type;
 	public File folder;
 
-	public ImageFileOperation (ImageOperation _operation) {
+	public ImageFileOperation (ImageOperation? _operation) {
 		operation = _operation;
 		content_type = null;
 		folder = null;
@@ -13,9 +13,15 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		var image = yield app.image_loader.load_file (source, LoadFlags.DEFAULT, job.cancellable);
 
 		// Modify the image
-		var new_image = operation.execute (image, job.cancellable);
-		if (new_image == null) {
-			throw new IOError.CANCELLED ("Cancelled");
+		Image new_image = null;
+		if (operation != null) {
+			new_image = yield app.image_editor.exec_operation (image, operation, job.cancellable);
+			if (new_image == null) {
+				throw new IOError.CANCELLED ("Cancelled");
+			}
+		}
+		else {
+			new_image = image;
 		}
 
 		// Save the image

@@ -83,6 +83,7 @@
     <child name="rename" schema="app.gthumb.gthumb.rename" />
     <child name="rotate" schema="app.gthumb.gthumb.rotate" />
     <child name="resize" schema="app.gthumb.gthumb.resize" />
+    <child name="convert" schema="app.gthumb.gthumb.convert" />
   </schema>
 
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
@@ -148,6 +149,12 @@
     <key name="keep-aspect-ratio" type="b">
       <default>true</default>
     </key>
+    <key name="format" type="s">
+      <default>''</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.convert" path="/app/gthumb/gthumb/convert/" gettext-domain="gthumb">
     <key name="format" type="s">
       <default>''</default>
     </key>

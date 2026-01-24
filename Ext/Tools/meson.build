@@ -1,5 +1,6 @@
 tools_files = files(
   'ClearMetadata.vala',
+  'ConvertFormat.vala',
   'FileActionRow.vala',
   'FileActions.vala',
   'FileAction.vala',

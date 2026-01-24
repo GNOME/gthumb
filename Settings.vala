@@ -13,6 +13,7 @@ const string GTHUMB_TERMINAL_SCHEMA = GTHUMB_SCHEMA + ".terminal";
 const string GTHUMB_RENAME_SCHEMA = GTHUMB_SCHEMA + ".rename";
 const string GTHUMB_ROTATE_SCHEMA = GTHUMB_SCHEMA + ".rotate";
 const string GTHUMB_RESIZE_SCHEMA = GTHUMB_SCHEMA + ".resize";
+const string GTHUMB_CONVERT_SCHEMA = GTHUMB_SCHEMA + ".convert";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 const string PREF_GENERAL_SHOW_FORMAT_OPTIONS = "show-format-options";
@@ -92,6 +93,8 @@ const string PREF_RESIZE_HEIGHT = "height";
 const string PREF_RESIZE_UNIT = "unit";
 const string PREF_RESIZE_KEEP_ASPECT_RATIO = "keep-aspect-ratio";
 const string PREF_RESIZE_FORMAT = "format";
+
+const string PREF_CONVERT_FORMAT = "format";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {

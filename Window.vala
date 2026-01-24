@@ -480,11 +480,26 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	async void resize_images (GenericList<File> files) {
-		var local_job = new_job (_("Resize"), JobFlags.FOREGROUND);
+		var local_job = new_job (_("Resize Images"), JobFlags.FOREGROUND);
 		try {
 			var dialog = new Gth.ResizeImages ();
 			var operation = yield dialog.resize (this, local_job);
-			yield exec_file_operation (_("Resize"), operation, files);
+			yield exec_file_operation (local_job.title, operation, files, local_job);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void convert_format (GenericList<File> files) {
+		var local_job = new_job (_("Convert Format"), JobFlags.FOREGROUND);
+		try {
+			var dialog = new Gth.ConvertFormat ();
+			var operation = yield dialog.convert (this, local_job);
+			yield exec_file_operation (local_job.title, operation, files, local_job);
 		}
 		catch (Error error) {
 			show_error (error);
@@ -1012,10 +1027,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 			resize_images.begin (files);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("convert-format", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			convert_format.begin (files);
+		});
+		action_group.add_action (action);
 	}
 
-	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files) {
-		var local_job = new_job (name, JobFlags.FOREGROUND);
+	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files, Gth.Job? external_job = null) {
+		var local_job = (external_job != null) ? external_job : new_job (name, JobFlags.FOREGROUND);
 		var overwrite_response = OverwriteResponse.NONE;
 		foreach (var file in files) {
 			try {
@@ -1029,9 +1055,16 @@ public class Gth.Window : Adw.ApplicationWindow {
 				break;
 			}
 		}
-		local_job.done ();
-		if (local_job.error != null) {
-			show_error (local_job.error);
+		if (external_job != null) {
+			if (external_job.error != null) {
+				throw external_job.error;
+			}
+		}
+		else {
+			local_job.done ();
+			if (local_job.error != null) {
+				show_error (local_job.error);
+			}
 		}
 	}
 

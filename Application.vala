@@ -219,6 +219,7 @@ public class Gth.Application : Adw.Application {
 
 		tools.register (ToolCategory.IMAGES, "win.rotate-right", _("Rotate Right"), "gth-rotate-right-symbolic", "bracketright");
 		tools.register (ToolCategory.IMAGES, "win.rotate-left", _("Rotate Left"), "gth-rotate-left-symbolic", "bracketleft");
+		tools.register (ToolCategory.IMAGES, "win.convert-format", _("Convert Format"));
 		tools.register (ToolCategory.IMAGES, "win.resize-images", _("Resize Images"));
 		tools.register (ToolCategory.METADATA, "win.clear-metadata", _("Clear Metadata"));
 		tools.register (ToolCategory.METADATA, "win.apply-orientation", _("Rotate Physically"));
