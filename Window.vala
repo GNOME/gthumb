@@ -903,7 +903,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (_("No file selected"));
 				return;
 			}
-			var operation = new UpdateThumbnail (this);
+			var operation = new UpdateThumbnail ();
 			exec_file_operation.begin (_("Update Thumbnail"), operation, files);
 		});
 		action_group.add_action (action);
@@ -972,7 +972,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var local_job = new_job (name, JobFlags.FOREGROUND);
 		foreach (var file in files) {
 			try {
-				yield operation.exec (file, local_job.cancellable);
+				yield operation.execute (this, file, local_job);
 			}
 			catch (Error error) {
 				local_job.error = error;
