@@ -39,6 +39,7 @@ const string PREF_BROWSER_FOLDER_TREE_SORT_TYPE = "folder-tree-sort-type";
 const string PREF_BROWSER_FOLDER_TREE_SORT_INVERSE = "folder-tree-sort-inverse";
 const string PREF_BROWSER_OPEN_IN_FULLSCREEN = "open-files-in-fullscreen";
 const string PREF_BROWSER_LAST_CATALOG = "last-catalog";
+const string PREF_BROWSER_CLIPBOARD_TYPE = "clipboard-type";
 
 const string PREF_VIEWER_SIDEBAR_VISIBLE = "sidebar-visible";
 

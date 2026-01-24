@@ -218,9 +218,17 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				// Ask the filename
 				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
 				read_filename.default_value = file_data.info.get_edit_name ();
+				read_filename.check_extension = true;
 				var basename = yield read_filename.read_value (window, local_job);
 				file_data.rename_from_display_name (basename);
 				new_filename = true;
+
+				// Save the file type as the default clipboard type.
+				var saver = app.get_saver_preferences (file_data.get_content_type ());
+				if (saver == null) {
+					throw new IOError.FAILED (_("File type not supported"));
+				}
+				app.settings.set_string (PREF_BROWSER_CLIPBOARD_TYPE, saver.get_content_type ());
 			}
 
 			// Allow to change the format options before saving

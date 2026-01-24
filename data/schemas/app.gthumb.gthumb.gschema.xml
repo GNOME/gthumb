@@ -76,6 +76,9 @@
     <key name="last-catalog" type="s">
       <default>''</default>
     </key>
+    <key name="clipboard-type" type="s">
+      <default>'image/jpeg'</default>
+    </key>
   </schema>
 
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
