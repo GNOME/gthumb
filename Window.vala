@@ -995,6 +995,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect (() => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
 				return;
 			}
 			rename_files.begin (files);
