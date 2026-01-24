@@ -488,6 +488,18 @@ public class Gth.Application : Adw.Application {
 		return saver_extensions.get (extension);
 	}
 
+	public GenericArray<SaverPreferences> get_ordered_savers () {
+		var savers = new GenericArray<SaverPreferences>();
+		foreach (unowned var type in saver_preferences.get_values ()) {
+			var preferences = Object.new (type) as Gth.SaverPreferences;
+			if (preferences != null) {
+				savers.add (preferences);
+			}
+		}
+		savers.sort ((a, b) => a.get_display_name ().collate (b.get_display_name ()));
+		return savers;
+	}
+
 	public SaverPreferences? get_saver_preferences (string content_type) {
 		var options_type = saver_preferences.get (content_type);
 		if (options_type == 0)

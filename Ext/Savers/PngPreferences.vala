@@ -1,4 +1,8 @@
 public class Gth.PngPreferences : Gth.SaverPreferences {
+	public override unowned string get_content_type () {
+		return "image/png";
+	}
+
 	public override unowned string get_display_name () {
 		// Translators: file type
 		return _("PNG");

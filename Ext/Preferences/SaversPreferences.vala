@@ -7,15 +7,7 @@ public class Gth.SaversPreferences : Adw.NavigationPage {
 		store_metadata_in_files.active = settings.get_boolean (PREF_GENERAL_STORE_METADATA_IN_FILES);
 		constructing = false;
 
-		saver_preferences = new GenericArray<SaverPreferences> ();
-		foreach (unowned var type in app.saver_preferences.get_values ()) {
-			var preferences = Object.new (type) as Gth.SaverPreferences;
-			if (preferences != null) {
-				saver_preferences.add (preferences);
-			}
-		}
-
-		saver_preferences.sort ((a, b) => strcmp (a.get_display_name (), b.get_display_name ()));
+		saver_preferences = app.get_ordered_savers ();
 		foreach (unowned var preferences in saver_preferences) {
 			var row = new Adw.ActionRow ();
 			row.title = preferences.get_display_name ();

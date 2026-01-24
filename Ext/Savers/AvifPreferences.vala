@@ -1,4 +1,8 @@
 public class Gth.AvifPreferences : Gth.SaverPreferences {
+	public override unowned string get_content_type () {
+		return "image/avif";
+	}
+
 	public override unowned string get_display_name () {
 		// Translators: file type
 		return _("AVIF");
