@@ -716,7 +716,8 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 
 		// Extension
-		var preferences = app.get_saver_preferences (SCREENSHOT_TYPE);
+		var screenshot_type = settings.get_string (PREF_VIDEO_SCREENSHOT_TYPE);
+		var preferences = app.get_saver_preferences (screenshot_type);
 		if (preferences == null) {
 			throw new IOError.FAILED (_("Invalid filename"));
 		}
@@ -751,7 +752,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			throw new IOError.FAILED (_("Invalid filename"));
 		}
 
-		var file_data = new FileData.for_file (file, SCREENSHOT_TYPE);
+		var file_data = new FileData.for_file (file, screenshot_type);
 		yield app.image_saver.replace_file (screenshot, file_data, SaveFlags.DEFAULT, cancellable);
 
 		if (was_playing) {
@@ -888,7 +889,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	};
 	const int NORMAL_RATE_IDX = 4;
 	const int MAX_ATTEMPTS = 1000;
-	const string SCREENSHOT_TYPE = "image/jpeg";
 	const string[] VOLUME_ICONS = {
 		"audio-volume-muted-symbolic",
 		"audio-volume-low-symbolic",

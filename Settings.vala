@@ -49,6 +49,7 @@ const string PREF_IMAGE_TRANSPARENCY = "transparency";
 const string PREF_IMAGE_APPLY_ICC_PROFILE = "apply-icc-profile";
 
 const string PREF_VIDEO_SCREENSHOT_LOCATION = "screenshot-location";
+const string PREF_VIDEO_SCREENSHOT_TYPE = "screenshot-type";
 const string PREF_VIDEO_SCROLL_ACTION = "scroll-action";
 const string PREF_VIDEO_VOLUME = "volume";
 const string PREF_VIDEO_MUTE = "mute";

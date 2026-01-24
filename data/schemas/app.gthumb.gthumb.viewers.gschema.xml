@@ -56,6 +56,9 @@
     <key name="screenshot-location" type="s">
       <default>''</default>
     </key>
+    <key name="screenshot-type" type="s">
+      <default>'image/jpeg'</default>
+    </key>
     <key name="scroll-action" enum="app.gthumb.gthumb.ScrollAction">
       <default>'change-current-time'</default>
     </key>

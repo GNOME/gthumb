@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthFolderRow">
+    <property name="activatable-widget">folder_chooser</property>
+    <child type="suffix">
+      <object class="GtkButton" id="folder_chooser">
+        <property name="valign">center</property>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkImage" id="folder_icon">
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="folder_name">
+              </object>
+            </child>
+          </object>
+        </child>
+        <style>
+          <class name="flat"/>
+        </style>
+        <signal name="clicked" handler="on_select_folder" />
+      </object>
+    </child>
+  </template>
+</interface>

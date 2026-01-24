@@ -796,6 +796,7 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.SaversPreferences).ensure ();
 		typeof (Gth.ViewerPreferences).ensure ();
 		typeof (Gth.ShortcutsPreferences).ensure ();
+		typeof (Gth.FolderRow).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

@@ -31,16 +31,17 @@
             </child>
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="title" translatable="true">Screenshots Folder</property>
-                <property name="description" translatable="true">Folder where to save the screenshots.</property>
+                <property name="title" translatable="true">Screenshots</property>
                 <child>
-                  <object class="AdwActionRow" id="screenshot_folder">
-                    <property name="activatable">true</property>
-                    <child type="prefix">
-                      <object class="GtkImage" id="folder_icon">
-                      </object>
-                    </child>
-                    <signal name="activated" handler="on_select_folder"/>
+                  <object class="GthFolderRow" id="screenshot_folder">
+                    <property name="title" translatable="yes">Destination</property>
+                    <signal name="notify::folder" handler="on_screenshot_folder_changed"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwComboRow" id="screenshot_format">
+                    <property name="title" translatable="yes">Format</property>
+                    <signal name="notify::selected" handler="on_screenshot_format_selected"/>
                   </object>
                 </child>
               </object>

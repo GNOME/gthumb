@@ -1,32 +1,23 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/video-preferences.ui")]
 public class Gth.VideoPreferences : Adw.NavigationPage {
 	[GtkCallback]
-	void on_select_folder (Adw.ActionRow row) {
-		var initial_folder = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);
-		var dialog = new Gtk.FileDialog ();
-		dialog.initial_folder = initial_folder;
-		dialog.select_folder.begin (app.active_window, null, (obj, res) => {
-			try {
-				var folder = dialog.select_folder.end (res);
-				settings.set_string (PREF_VIDEO_SCREENSHOT_LOCATION, folder.get_uri ());
-				update_screenshot_folder_name (folder);
-			}
-			catch (Error error) {
-			}
-		});
+	void on_screenshot_folder_changed (Object obj, ParamSpec param) {
+		if (constructing) {
+			return;
+		}
+		if (screenshot_folder.folder != null) {
+			settings.set_string (PREF_VIDEO_SCREENSHOT_LOCATION, screenshot_folder.folder.get_uri ());
+		}
 	}
 
-	void update_screenshot_folder_name (File? folder) {
-		if (folder != null) {
-			var vfs = new FileSourceVfs ();
-			var info = vfs.get_display_info (folder);
-			screenshot_folder.title = info.get_display_name ();
-			folder_icon.set_from_gicon (info.get_symbolic_icon ());
-			folder_icon.visible = true;
+	[GtkCallback]
+	void on_screenshot_format_selected (Object obj, ParamSpec param) {
+		if (constructing) {
+			return;
 		}
-		else {
-			screenshot_folder.title = "";
-			folder_icon.visible = false;
+		var saver = saver_preferences[screenshot_format.selected];
+		if (saver != null) {
+			settings.set_string (PREF_VIDEO_SCREENSHOT_TYPE, saver.get_content_type ());
 		}
 	}
 
@@ -53,20 +44,41 @@ public class Gth.VideoPreferences : Adw.NavigationPage {
 	construct {
 		settings = new GLib.Settings (GTHUMB_VIDEOS_SCHEMA);
 		constructing = true;
-		var initial_folder = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);
-		if (initial_folder == null) {
-			initial_folder = Files.get_special_dir (UserDirectory.PICTURES);
-		}
-		update_screenshot_folder_name (initial_folder);
+
 		scroll_action.selected = get_action_index (settings.get_enum (PREF_VIDEO_SCROLL_ACTION));
+
+		// Screenshot folder
+		var folder = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);
+		if (folder == null) {
+			folder = Files.get_special_dir (UserDirectory.PICTURES);
+		}
+		screenshot_folder.folder = folder;
+
+		// Screenshot format
+		var selected_format = settings.get_string (PREF_VIDEO_SCREENSHOT_TYPE);
+		var selected_idx = 0;
+		var format_names = new Gtk.StringList (null);
+		var idx = 0;
+		saver_preferences = app.get_ordered_savers ();
+		foreach (unowned var preferences in saver_preferences) {
+			format_names.append (preferences.get_display_name ());
+			if (preferences.get_content_type () == selected_format) {
+				selected_idx = idx;
+			}
+			idx++;
+		}
+		screenshot_format.model = format_names;
+		screenshot_format.selected = selected_idx;
+
 		constructing = false;
 	}
 
-	[GtkChild] unowned Adw.ActionRow screenshot_folder;
-	[GtkChild] unowned Gtk.Image folder_icon;
+	[GtkChild] unowned Gth.FolderRow screenshot_folder;
+	[GtkChild] unowned Adw.ComboRow screenshot_format;
 	[GtkChild] unowned Adw.ComboRow scroll_action;
 	GLib.Settings settings;
 	bool constructing;
+	GenericArray<SaverPreferences> saver_preferences;
 
 	const ScrollAction[] ACTION = {
 		ScrollAction.CHANGE_CURRENT_TIME,
