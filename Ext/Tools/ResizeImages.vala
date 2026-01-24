@@ -49,11 +49,9 @@ public class Gth.ResizeDialog : Adw.Dialog {
 		var default_format = settings.get_string (PREF_RESIZE_FORMAT);
 		var selected_idx = 0;
 		var idx = 0;
-		formats = new GenericArray<string>();
 		saver_preferences = app.get_ordered_savers ();
 		foreach (unowned var preferences in saver_preferences) {
 			format_names.append (preferences.get_display_name ());
-			formats.add (preferences.get_content_type ());
 			idx++;
 			if (default_format == preferences.get_content_type ()) {
 				selected_idx = idx;
@@ -111,7 +109,6 @@ public class Gth.ResizeDialog : Adw.Dialog {
 	}
 
 	GLib.Settings settings;
-	GenericArray<string> formats;
 	GenericArray<SaverPreferences> saver_preferences;
 
 	[GtkChild] unowned Gtk.DropDown format;

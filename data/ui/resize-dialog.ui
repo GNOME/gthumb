@@ -100,15 +100,6 @@
                     <child type="suffix">
                       <object class="GtkDropDown" id="format">
                         <property name="valign">center</property>
-                        <property name="model">
-                          <object class="GtkStringList">
-                            <items>
-                              <item translatable="yes">Original</item>
-                              <item>JPEG</item>
-                              <item>PNG</item>
-                            </items>
-                          </object>
-                        </property>
                       </object>
                     </child>
                   </object>
