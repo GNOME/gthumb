@@ -214,6 +214,16 @@ GthImage * gth_image_dup (GthImage *self) {
 	return image;
 }
 
+GthImage * gth_image_new_as_frame (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
+	image->priv->bytes = g_bytes_ref (self->priv->bytes);
+	image->priv->row_stride = self->priv->row_stride;
+	image->priv->width = self->priv->width;
+	image->priv->height = self->priv->height;
+	return image;
+}
+
 static GBytes * _g_bytes_new_slice (GBytes *bytes, gsize offset, gsize new_size) {
 	gsize old_size;
 	const guchar *old_buffer = g_bytes_get_data (bytes, &old_size);

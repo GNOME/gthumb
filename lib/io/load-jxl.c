@@ -145,7 +145,7 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			else {
 				if (gth_image_get_frames (image) == 0) {
 					// Use the static image as first frame.
-					GthImage *first_frame = gth_image_dup (image);
+					GthImage *first_frame = gth_image_new_as_frame (image);
 					gth_image_add_frame (image, first_frame, 0);
 					g_object_unref (first_frame);
 				}

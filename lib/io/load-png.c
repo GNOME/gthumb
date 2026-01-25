@@ -352,12 +352,12 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 		if (frame->data_chunks->len == 0) {
 			if (i == 0) {
 				// Use the static image as first frame.
-				GthImage *first_image = gth_image_dup (loader_data->image);
-				gth_image_add_frame (loader_data->image, first_image, frame->delay);
+				GthImage *first_frame = gth_image_new_as_frame (loader_data->image);
+				gth_image_add_frame (loader_data->image, first_frame, frame->delay);
 				if (frame->dispose_op == APNG_DISPOSE_OP_NONE) {
-					background = g_object_ref (first_image);
+					background = g_object_ref (first_frame);
 				}
-				g_object_unref (first_image);
+				g_object_unref (first_frame);
 				continue;
 			}
 
