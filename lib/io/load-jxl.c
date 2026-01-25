@@ -8,7 +8,7 @@
 #include "image-info.h"
 #include "load-jxl.h"
 
-static void convert_pixels (int width, int height, guchar *buffer) {
+static void premultiply_alpha (int width, int height, guchar *buffer) {
 	guchar *p = buffer;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
@@ -43,21 +43,25 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 		return NULL;
 	}
 
-	if (JxlDecoderSetParallelRunner (dec, JxlThreadParallelRunner, runner) > 0) {
+	if (JxlDecoderSetParallelRunner (dec, JxlThreadParallelRunner, runner) != JXL_DEC_SUCCESS) {
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not set parallel runner.");
 		JxlThreadParallelRunnerDestroy (runner);
 		JxlDecoderDestroy (dec);
 		return NULL;
 	}
 
-	if (JxlDecoderSubscribeEvents (dec, JXL_DEC_BASIC_INFO | JXL_DEC_COLOR_ENCODING | JXL_DEC_FULL_IMAGE) > 0) {
+	if (JxlDecoderSubscribeEvents (dec, JXL_DEC_BASIC_INFO
+		| JXL_DEC_COLOR_ENCODING
+		| JXL_DEC_FRAME
+		| JXL_DEC_FULL_IMAGE) != JXL_DEC_SUCCESS)
+	{
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not subscribe to decoder events.");
 		JxlThreadParallelRunnerDestroy (runner);
 		JxlDecoderDestroy (dec);
 		return NULL;
 	}
 
-	if (JxlDecoderSetInput (dec, buffer, buffer_size) > 0) {
+	if (JxlDecoderSetInput (dec, buffer, buffer_size) != JXL_DEC_SUCCESS) {
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not set decoder input.");
 		JxlThreadParallelRunnerDestroy (runner);
 		JxlDecoderDestroy (dec);
@@ -68,58 +72,53 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 	int width = 0;
 	int height = 0;
 	unsigned char *surface_data = NULL;
+	gsize surface_size = 0;
+
+	JxlBasicInfo info;
+	JxlFrameHeader frame_header;
+
 	JxlPixelFormat pixel_format;
-	JxlDecoderStatus status = JXL_DEC_NEED_MORE_INPUT;
-	while (status != JXL_DEC_SUCCESS) {
+	pixel_format.num_channels = 4;
+	pixel_format.data_type = JXL_TYPE_UINT8;
+	pixel_format.endianness = JXL_NATIVE_ENDIAN;
+	pixel_format.align = 0;
+
+	JxlDecoderStatus status;
+	do {
 		status = JxlDecoderProcessInput (dec);
 
 		switch (status) {
 		case JXL_DEC_ERROR:
 			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "jxl: decoder error.");
-			JxlThreadParallelRunnerDestroy (runner);
-			JxlDecoderDestroy (dec);
-			return NULL;
+			break;
 
 		case JXL_DEC_NEED_MORE_INPUT:
-			g_message ("Reached end of file but decoder still wants more.\n");
-			status = JXL_DEC_SUCCESS;
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "jxl: reached end of file but decoder still wants more.\n");
+			status = JXL_DEC_ERROR;
 			break;
 
 		case JXL_DEC_BASIC_INFO:
-			JxlBasicInfo info;
-			if (JxlDecoderGetBasicInfo (dec, &info) > 0) {
-				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not get basic info from decoder.");
-				JxlThreadParallelRunnerDestroy (runner);
-				JxlDecoderDestroy (dec);
-				return NULL;
+			if (JxlDecoderGetBasicInfo (dec, &info) != JXL_DEC_SUCCESS) {
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "jxl: could not get basic info from decoder.");
+				status = JXL_DEC_ERROR;
+				break;
 			}
-
-			pixel_format.num_channels = 4;
-			pixel_format.data_type = JXL_TYPE_UINT8;
-			pixel_format.endianness = JXL_NATIVE_ENDIAN;
-			pixel_format.align = 0;
-
 			width = info.xsize;
 			height = info.ysize;
-			image = gth_image_new ((guint) width, (guint) height);
-			gth_image_set_has_alpha (image, info.num_extra_channels > 0);
-			surface_data = gth_image_get_pixels (image, NULL);
+			// TODO: read info.orientation
 			break;
 
 #if HAVE_LCMS2
 		case JXL_DEC_COLOR_ENCODING:
-			if (JxlDecoderGetColorAsEncodedProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, NULL) == JXL_DEC_SUCCESS)
-				break;
-
 			gsize profile_size;
-			if (JxlDecoderGetICCProfileSize (dec, JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) > 0) {
-				g_message ("Could not get ICC profile size.\n");
+			if (JxlDecoderGetICCProfileSize (dec, JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) != JXL_DEC_SUCCESS) {
+				// g_message ("jxl: could not get ICC profile size.\n");
 				break;
 			}
 
 			guchar *profile_data = g_new (guchar, profile_size);
-			if (JxlDecoderGetColorAsICCProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) > 0) {
-				g_message ("Could not get ICC profile.\n");
+			if (JxlDecoderGetColorAsICCProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) != JXL_DEC_SUCCESS) {
+				// g_message ("jxl: could not get ICC profile.\n");
 				g_free (profile_data);
 				break;
 			}
@@ -137,33 +136,60 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 #endif
 
 		case JXL_DEC_NEED_IMAGE_OUT_BUFFER:
-			if (JxlDecoderSetImageOutBuffer (dec, &pixel_format, surface_data, width * height * 4) > 0) {
-				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not set image-out buffer.");
-				JxlThreadParallelRunnerDestroy (runner);
-				JxlDecoderDestroy (dec);
-				return NULL;
+			// g_print ("> JXL_DEC_NEED_IMAGE_OUT_BUFFER\n");
+			if (image == NULL) {
+				image = gth_image_new ((guint) width, (guint) height);
+				gth_image_set_has_alpha (image, info.num_extra_channels > 0);
+				surface_data = gth_image_get_pixels (image, &surface_size);
 			}
-
+			else {
+				if (gth_image_get_frames (image) == 0) {
+					// Use the static image as first frame.
+					GthImage *first_frame = gth_image_dup (image);
+					gth_image_add_frame (image, first_frame, 0);
+					g_object_unref (first_frame);
+				}
+				GthImage *frame = gth_image_new ((guint) width, (guint) height);
+				gth_image_set_has_alpha (frame, info.num_extra_channels > 0);
+				guint delay = (guint) ((double) frame_header.duration * info.animation.tps_numerator / info.animation.tps_denominator / 10);
+				gth_image_add_frame (image, frame, delay);
+				surface_data = gth_image_get_pixels (frame, &surface_size);
+				g_object_unref (frame);
+			}
+			if (JxlDecoderSetImageOutBuffer (dec, &pixel_format, surface_data, surface_size) != JXL_DEC_SUCCESS) {
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "jxl: could not set image out-buffer.");
+				status = JXL_DEC_ERROR;
+			}
 			break;
 
-		case JXL_DEC_SUCCESS:
-			continue;
+		case JXL_DEC_FRAME:
+			if (JxlDecoderGetFrameHeader (dec, &frame_header) != JXL_DEC_SUCCESS) {
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "jxl: could not get the frame header.");
+				status = JXL_DEC_ERROR;
+			}
+			break;
 
 		case JXL_DEC_FULL_IMAGE:
-			continue;
+			// g_print ("> JXL_DEC_FULL_IMAGE\n");
+			if (surface_data != NULL) {
+				premultiply_alpha (width, height, surface_data);
+			}
+			break;
 
 		default:
 			break;
 		}
 	}
+	while ((status != JXL_DEC_ERROR) && (status != JXL_DEC_SUCCESS));
 
+	if (status == JXL_DEC_ERROR) {
+		if (image != NULL) {
+			g_object_unref (image);
+			image = NULL;
+		}
+	}
 	JxlThreadParallelRunnerDestroy (runner);
 	JxlDecoderDestroy (dec);
-
-	if (surface_data != NULL) {
-		convert_pixels (width, height, surface_data);
-	}
-
 	return image;
 }
 
