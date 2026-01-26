@@ -74,14 +74,10 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 	unsigned char *surface_data = NULL;
 	gsize surface_size = 0;
 
+	GthIccProfile *icc_profile = NULL;
+
 	JxlBasicInfo info;
 	JxlFrameHeader frame_header;
-
-	JxlPixelFormat pixel_format;
-	pixel_format.num_channels = 4;
-	pixel_format.data_type = JXL_TYPE_UINT8;
-	pixel_format.endianness = JXL_NATIVE_ENDIAN;
-	pixel_format.align = 0;
 
 	JxlDecoderStatus status;
 	do {
@@ -110,6 +106,14 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 
 #if HAVE_LCMS2
 		case JXL_DEC_COLOR_ENCODING:
+			JxlColorEncoding color_encoding;
+			if (JxlDecoderGetColorAsEncodedProfile (dec, JXL_COLOR_PROFILE_TARGET_ORIGINAL, &color_encoding) == JXL_DEC_SUCCESS) {
+				if (color_encoding.color_space == JXL_COLOR_SPACE_RGB) {
+					icc_profile = gth_icc_profile_new_srgb ();
+					break;
+				}
+			}
+
 			gsize profile_size;
 			if (JxlDecoderGetICCProfileSize (dec, JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) != JXL_DEC_SUCCESS) {
 				// g_message ("jxl: could not get ICC profile size.\n");
@@ -124,13 +128,7 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			}
 
 			GBytes *bytes = g_bytes_new_take (profile_data, profile_size);
-			GthIccProfile *profile = gth_icc_profile_new_from_bytes (bytes, NULL);
-			if (profile != NULL) {
-				if (image != NULL) {
-					gth_image_set_icc_profile (image, profile);
-				}
-				g_object_unref (profile);
-			}
+			icc_profile = gth_icc_profile_new_from_bytes (bytes, NULL);
 			g_bytes_unref (bytes);
 			break;
 #endif
@@ -140,6 +138,9 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			if (image == NULL) {
 				image = gth_image_new ((guint) width, (guint) height);
 				gth_image_set_has_alpha (image, info.num_extra_channels > 0);
+				if (icc_profile != NULL) {
+					gth_image_set_icc_profile (image, icc_profile);
+				}
 				surface_data = gth_image_get_pixels (image, &surface_size);
 			}
 			else {
@@ -156,6 +157,14 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 				surface_data = gth_image_get_pixels (frame, &surface_size);
 				g_object_unref (frame);
 			}
+
+			JxlPixelFormat pixel_format = {
+				.num_channels = 4,
+				.data_type = JXL_TYPE_UINT8,
+				.endianness = JXL_NATIVE_ENDIAN,
+				.align = gth_image_get_row_stride (image),
+			};
+
 			if (JxlDecoderSetImageOutBuffer (dec, &pixel_format, surface_data, surface_size) != JXL_DEC_SUCCESS) {
 				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "jxl: could not set image out-buffer.");
 				status = JXL_DEC_ERROR;
@@ -182,6 +191,9 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 	}
 	while ((status != JXL_DEC_ERROR) && (status != JXL_DEC_SUCCESS));
 
+	if (icc_profile != NULL) {
+		g_object_unref (icc_profile);
+	}
 	if (status == JXL_DEC_ERROR) {
 		if (image != NULL) {
 			g_object_unref (image);
