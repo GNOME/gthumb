@@ -303,19 +303,37 @@ guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, in
 
 void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int data_stride) {
 	unsigned char *surface_data = gth_image_get_pixels (self, NULL);
-	int row_stride = self->priv->row_stride;
 	if (with_alpha) {
 		for (int row = 0; row < self->priv->height; row++) {
 			rgba_big_endian_line_to_pixel (surface_data, data, self->priv->width);
-			surface_data += row_stride;
+			surface_data += self->priv->row_stride;
 			data += data_stride;
 		}
 	}
 	else {
 		for (int row = 0; row < self->priv->height; row++) {
 			rgb_big_endian_line_to_pixel (surface_data, data, self->priv->width);
-			surface_data += row_stride;
+			surface_data += self->priv->row_stride;
 			data += data_stride;
+		}
+	}
+}
+
+void gth_image_copy_to_rgba_big_endian (GthImage *source, GthImage *dest) {
+	unsigned char *source_row = gth_image_get_pixels (source, NULL);
+	unsigned char *dest_row = gth_image_get_pixels (dest, NULL);
+	if (gth_image_get_has_alpha_if_valid (source)) {
+		for (int row = 0; row < source->priv->height; row++) {
+			pixel_line_to_rgba_big_endian (dest_row, source_row, source->priv->width);
+			source_row += source->priv->row_stride;
+			dest_row += dest->priv->row_stride;
+		}
+	}
+	else {
+		for (int row = 0; row < source->priv->height; row++) {
+			pixel_line_to_rgb_big_endian (dest_row, source_row, source->priv->width);
+			source_row += source->priv->row_stride;
+			dest_row += dest->priv->row_stride;
 		}
 	}
 }

@@ -70,3 +70,16 @@ public Bytes save_tiff (
 	Gth.Image image,
 	[CCode (array_length = false, array_null_terminated = true)] Gth.Option[]? options,
 	Cancellable cancellable) throws Error;
+
+[CCode (cheader_filename = "lib/io/save-jxl.h")]
+public enum Gth.JxlOption {
+	EFFORT,
+	DISTANCE,
+	LOSSLESS,
+}
+
+[CCode (cheader_filename = "lib/io/save-jxl.h")]
+public Bytes save_jxl (
+	Gth.Image image,
+	[CCode (array_length = false, array_null_terminated = true)] Gth.Option[]? options,
+	Cancellable cancellable) throws Error;

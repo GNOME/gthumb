@@ -9,6 +9,7 @@ const string GTHUMB_JPEG_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.jpeg";
 const string GTHUMB_WEBP_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.webp";
 const string GTHUMB_AVIF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.avif";
 const string GTHUMB_TIFF_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.tiff";
+const string GTHUMB_JXL_SAVER_SCHEMA = GTHUMB_SCHEMA + ".savers.jxl";
 const string GTHUMB_TERMINAL_SCHEMA = GTHUMB_SCHEMA + ".terminal";
 const string GTHUMB_RENAME_SCHEMA = GTHUMB_SCHEMA + ".rename";
 const string GTHUMB_ROTATE_SCHEMA = GTHUMB_SCHEMA + ".rotate";
@@ -76,6 +77,10 @@ const string PREF_TIFF_DEFAULT_EXT = "default-ext";
 const string PREF_TIFF_COMPRESSION = "compression";
 const string PREF_TIFF_HRESOLUTION = "horizontal-resolution";
 const string PREF_TIFF_VRESOLUTION = "vertical-resolution";
+
+const string PREF_JXL_EFFORT = "effort";
+const string PREF_JXL_DISTANCE = "distance";
+const string PREF_JXL_LOSSLESS = "lossless";
 
 const string PREF_TERMINAL_COMMAND = "command";
 

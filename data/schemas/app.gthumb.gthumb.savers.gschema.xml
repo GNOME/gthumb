@@ -7,6 +7,7 @@
     <child name="png" schema="app.gthumb.gthumb.savers.png" />
     <child name="tiff" schema="app.gthumb.gthumb.savers.tiff" />
     <child name="webp" schema="app.gthumb.gthumb.savers.webp" />
+    <child name="jxl" schema="app.gthumb.gthumb.savers.jxl" />
   </schema>
 
   <schema id="app.gthumb.gthumb.savers.avif" path="/app/gthumb/gthumb/savers/avif/" gettext-domain="gthumb">
@@ -71,6 +72,18 @@
     </key>
     <key name="method" type="i">
       <default>4</default>
+    </key>
+    <key name="lossless" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.savers.jxl" path="/app/gthumb/gthumb/savers/jxl/" gettext-domain="gthumb">
+    <key name="effort" type="i">
+      <default>7</default>
+    </key>
+    <key name="distance" type="d">
+      <default>1.0</default>
     </key>
     <key name="lossless" type="b">
       <default>false</default>

@@ -216,6 +216,9 @@ public class Gth.Application : Adw.Application {
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
 		register_image_saver ("image/tiff", save_tiff, typeof (TiffPreferences));
 		register_image_saver ("image/webp", save_webp, typeof (WebpPreferences));
+#if HAVE_LIBJXL
+		register_image_saver ("image/jxl", save_jxl, typeof (JxlPreferences));
+#endif
 
 		tools.register (ToolCategory.IMAGES, "win.rotate-right", _("Rotate Right"), "gth-rotate-right-symbolic", "bracketright");
 		tools.register (ToolCategory.IMAGES, "win.rotate-left", _("Rotate Left"), "gth-rotate-left-symbolic", "bracketleft");

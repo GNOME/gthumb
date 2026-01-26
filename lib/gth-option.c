@@ -8,6 +8,7 @@ enum GthOptionType {
 	TYPE_BOOL,
 	TYPE_INT,
 	TYPE_UINT,
+	TYPE_DOUBLE,
 	TYPE_ENUM,
 	TYPE_FLAGS,
 	TYPE_INTV,
@@ -23,6 +24,7 @@ struct _GthOption {
 		gboolean bool_v;
 		int int_v;
 		unsigned int uint_v;
+		double double_v;
 		int enum_v;
 		int flags_v;
 		int *intv_v;
@@ -68,6 +70,16 @@ GthOption * gth_option_new_uint (int id, unsigned int value) {
 	opt->id = id;
 	opt->type = TYPE_UINT;
 	opt->data.uint_v = value;
+	opt->array_len = 0;
+	return opt;
+}
+
+GthOption * gth_option_new_double (int id, double value) {
+	GthOption *opt = g_new (GthOption, 1);
+	opt->ref = 1;
+	opt->id = id;
+	opt->type = TYPE_DOUBLE;
+	opt->data.double_v = value;
 	opt->array_len = 0;
 	return opt;
 }
@@ -180,6 +192,14 @@ gboolean gth_option_get_uint (GthOption *opt, unsigned int *value) {
 	return TRUE;
 }
 
+gboolean gth_option_get_double (GthOption *opt, double *value) {
+	g_return_val_if_fail (opt != NULL, FALSE);
+	if (opt->type != TYPE_DOUBLE)
+		return FALSE;
+	*value = opt->data.double_v;
+	return TRUE;
+}
+
 gboolean gth_option_get_enum (GthOption *opt, int *value) {
 	g_return_val_if_fail (opt != NULL, FALSE);
 	if (opt->type != TYPE_ENUM)
@@ -241,6 +261,8 @@ gboolean gth_option_equal (GthOption *opt, GthOption *other) {
 		return opt->data.int_v == other->data.int_v;
 	case TYPE_UINT:
 		return opt->data.uint_v == other->data.uint_v;
+	case TYPE_DOUBLE:
+		return opt->data.double_v == other->data.double_v;
 	case TYPE_ENUM:
 		return opt->data.enum_v == other->data.enum_v;
 	case TYPE_FLAGS:

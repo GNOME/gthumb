@@ -11,6 +11,7 @@ public class Gth.Option {
 	public Option.bool (int id, bool value);
 	public Option.int (int id, int value);
 	public Option.uint (int id, uint value);
+	public Option.double (int id, double value);
 	public Option.enum (int id, int value);
 	public Option.flags (int id, int value);
 	public Option.intv ([CCode (array_length_cname = "len", array_length_pos = 2.1)] int id, int[] value);
@@ -21,6 +22,7 @@ public class Gth.Option {
 	public bool get_bool (ref bool value);
 	public bool get_int (ref int value);
 	public bool get_uint (ref uint value);
+	public bool get_double (ref double value);
 	public bool get_enum (ref int value);
 	public bool get_flags (ref int value);
 	public bool get_intv ([CCode (array_length_cname = "len", array_length_pos = 2.1)] ref int[] value);

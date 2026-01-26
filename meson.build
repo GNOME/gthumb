@@ -353,7 +353,7 @@ if use_librsvg
   lib_files += ('lib/io/load-svg.c')
 endif
 if use_libjxl
-  lib_files += ('lib/io/load-jxl.c')
+  lib_files += files('lib/io/load-jxl.c', 'lib/io/save-jxl.c')
 endif
 if use_libtiff
   lib_files += ('lib/io/load-tiff.c')

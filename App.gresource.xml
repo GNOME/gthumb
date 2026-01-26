@@ -174,5 +174,6 @@
     <file preprocess="xml-stripblanks">resize-dialog.ui</file>
     <file preprocess="xml-stripblanks">folder-row.ui</file>
     <file preprocess="xml-stripblanks">convert-dialog.ui</file>
+    <file preprocess="xml-stripblanks">jxl-preferences.ui</file>
   </gresource>
 </gresources>

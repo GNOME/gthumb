@@ -58,6 +58,7 @@ GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint wid
 gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guchar *green, guchar *blue, guchar *alpha);
 guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, int *height);
 void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int row_stride);
+void gth_image_copy_to_rgba_big_endian (GthImage *source, GthImage *dest);
 
 // Properties
 guint gth_image_get_width (GthImage *self);
