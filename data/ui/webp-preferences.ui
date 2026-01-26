@@ -29,7 +29,7 @@
                 <property name="adjustment">method_adjustment</property>
                 <property name="digits">0</property>
                 <property name="draw-value">true</property>
-                <property name="round-digits">1</property>
+                <property name="round-digits">0</property>
                 <property name="value-pos">left</property>
                 <property name="width-request">250</property>
                 <marks>
