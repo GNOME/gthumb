@@ -50,10 +50,10 @@ public class Gth.ConvertDialog : Adw.Dialog {
 		saver_preferences = app.get_ordered_savers ();
 		foreach (unowned var preferences in saver_preferences) {
 			format_names.append (preferences.get_display_name ());
-			idx++;
 			if (default_format == preferences.get_content_type ()) {
 				selected_idx = idx;
 			}
+			idx++;
 		}
 		format.model = format_names;
 		format.selected = selected_idx;
