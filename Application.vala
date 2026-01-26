@@ -211,13 +211,19 @@ public class Gth.Application : Adw.Application {
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);
 		saver_extensions = new HashTable<string, string>(str_hash, str_equal);
-		register_image_saver ("image/avif", save_avif, typeof (AvifPreferences));
 		register_image_saver ("image/jpeg", save_jpeg, typeof (JpegPreferences));
 		register_image_saver ("image/png", save_png, typeof (PngPreferences));
-		register_image_saver ("image/tiff", save_tiff, typeof (TiffPreferences));
+#if HAVE_LIBWEBP
 		register_image_saver ("image/webp", save_webp, typeof (WebpPreferences));
+#endif
 #if HAVE_LIBJXL
 		register_image_saver ("image/jxl", save_jxl, typeof (JxlPreferences));
+#endif
+#if HAVE_LIBHEIF
+		register_image_saver ("image/avif", save_avif, typeof (AvifPreferences));
+#endif
+#if HAVE_LIBTIFF
+		register_image_saver ("image/tiff", save_tiff, typeof (TiffPreferences));
 #endif
 
 		tools.register (ToolCategory.IMAGES, "win.rotate-right", _("Rotate Right"), "gth-rotate-right-symbolic", "bracketright");

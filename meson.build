@@ -333,11 +333,8 @@ lib_files = files(
   'lib/io/image-info.c',
   'lib/io/load-jpeg.c',
   'lib/io/load-png.c',
-  'lib/io/save-avif.c',
   'lib/io/save-jpeg.c',
   'lib/io/save-png.c',
-  'lib/io/save-tiff.c',
-  'lib/io/save-webp.c',
   'lib/io/svg-info.c',
   'lib/jpeg/jmemorydest.c',
   'lib/jpeg/jmemorysrc.c',
@@ -347,22 +344,22 @@ lib_files = files(
   'lib/zlib-utils.c',
 )
 if use_libwebp
-  lib_files += ('lib/io/load-webp.c')
+  lib_files += files('lib/io/load-webp.c', 'lib/io/save-webp.c')
 endif
 if use_librsvg
-  lib_files += ('lib/io/load-svg.c')
+  lib_files += files('lib/io/load-svg.c')
 endif
 if use_libjxl
   lib_files += files('lib/io/load-jxl.c', 'lib/io/save-jxl.c')
 endif
 if use_libtiff
-  lib_files += ('lib/io/load-tiff.c')
+  lib_files += files('lib/io/load-tiff.c', 'lib/io/save-tiff.c')
 endif
 if use_libheif
-  lib_files += ('lib/io/load-heif.c')
+  lib_files += files('lib/io/load-heif.c', 'lib/io/save-avif.c')
 endif
 if use_libgif
-  lib_files += ('lib/io/load-gif.c')
+  lib_files += files('lib/io/load-gif.c')
 endif
 
 vapi_files = files(
