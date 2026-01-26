@@ -484,7 +484,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		try {
 			var dialog = new Gth.ResizeImages ();
 			var operation = yield dialog.resize (this, local_job);
-			yield exec_file_operation (local_job.title, operation, files, local_job);
+			yield exec_file_operation_with_job (operation, files, local_job);
 		}
 		catch (Error error) {
 			show_error (error);
@@ -499,7 +499,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		try {
 			var dialog = new Gth.ConvertFormat ();
 			var operation = yield dialog.convert (this, local_job);
-			yield exec_file_operation (local_job.title, operation, files, local_job);
+			yield exec_file_operation_with_job (operation, files, local_job);
 		}
 		catch (Error error) {
 			show_error (error);
@@ -1041,30 +1041,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 	}
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files, Gth.Job? external_job = null) {
-		var local_job = (external_job != null) ? external_job : new_job (name, JobFlags.FOREGROUND);
+		var local_job = new_job (name, JobFlags.FOREGROUND);
+		try {
+			exec_file_operation_with_job (operation, files, local_job);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		local_job.done ();
+	}
+
+	async void exec_file_operation_with_job (FileOperation operation, GenericList<File> files, Gth.Job? external_job = null) throws Error {
 		var overwrite_response = OverwriteResponse.NONE;
 		foreach (var file in files) {
-			try {
-				operation.overwrite_response = overwrite_response;
-				operation.single_file = (files.length () == 1);
-				yield operation.execute (this, file, local_job);
-				overwrite_response = operation.overwrite_response;
-			}
-			catch (Error error) {
-				local_job.error = error;
-				break;
-			}
-		}
-		if (external_job != null) {
-			if (external_job.error != null) {
-				throw external_job.error;
-			}
-		}
-		else {
-			local_job.done ();
-			if (local_job.error != null) {
-				show_error (local_job.error);
-			}
+			operation.overwrite_response = overwrite_response;
+			operation.single_file = (files.length () == 1);
+			yield operation.execute (this, file, external_job);
+			overwrite_response = operation.overwrite_response;
 		}
 	}
 
