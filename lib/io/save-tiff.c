@@ -90,7 +90,7 @@ GBytes* save_tiff (GthImage *image, GthOption **options, GCancellable *cancellab
 	};
 	gushort compression = TIFF_COMPRESSION[tiff_compression];
 
-	GOutputStream *output = g_memory_output_stream_new_resizable  ();
+	GOutputStream *output = g_memory_output_stream_new_resizable ();
 	TIFF *tif = TIFFClientOpen ("gth-tiff-writer", "w",
 		output,
 		tiff_read,
