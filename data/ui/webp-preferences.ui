@@ -4,18 +4,25 @@
     <child>
       <object class="AdwPreferencesGroup">
         <child>
+          <object class="AdwSwitchRow" id="lossless">
+            <property name="title" translatable="yes">Lossless</property>
+          </object>
+        </child>
+        <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Quality</property>
             <child type="suffix">
               <object class="GtkScale">
                 <property name="adjustment">quality_adjustment</property>
                 <property name="digits">0</property>
-                <property name="draw-value">true</property>
+                <property name="draw-value">false</property>
                 <property name="round-digits">1</property>
-                <property name="value-pos">left</property>
-                <property name="width-request">250</property>
+                <property name="value-pos">top</property>
+                <property name="width-request">300</property>
                 <marks>
+                  <mark value="0" position="bottom" translatable="yes" context="Quality">Low</mark>
                   <mark value="75" position="bottom" />
+                  <mark value="100" position="bottom" translatable="yes" context="Quality">High</mark>
                 </marks>
               </object>
             </child>
@@ -28,20 +35,17 @@
               <object class="GtkScale">
                 <property name="adjustment">method_adjustment</property>
                 <property name="digits">0</property>
-                <property name="draw-value">true</property>
+                <property name="draw-value">false</property>
                 <property name="round-digits">0</property>
-                <property name="value-pos">left</property>
-                <property name="width-request">250</property>
+                <property name="value-pos">top</property>
+                <property name="width-request">300</property>
                 <marks>
+                  <mark value="0" position="bottom" translatable="yes" context="Method">Fast</mark>
                   <mark value="4" position="bottom" />
+                  <mark value="6" position="bottom" translatable="yes" context="Method">Slow</mark>
                 </marks>
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwSwitchRow" id="lossless">
-            <property name="title" translatable="yes">Lossless</property>
           </object>
         </child>
       </object>

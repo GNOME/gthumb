@@ -38,6 +38,13 @@ public class Gth.JxlPreferences : Gth.SaverPreferences {
 		});
 
 		unowned var switch_row = builder.get_object ("lossless") as Adw.SwitchRow;
+
+		switch_row.notify["active"].connect ((obj, param) => {
+			unowned var local_switch_row = obj as Adw.SwitchRow;
+			unowned var local_distance_row = builder.get_object ("distance_row") as Adw.ActionRow;
+			local_distance_row.sensitive = !local_switch_row.active;
+		});
+
 		switch_row.active = settings.get_boolean (PREF_JXL_LOSSLESS);
 		switch_row.notify["active"].connect ((obj, param) => {
 			unowned var row = obj as Adw.SwitchRow;

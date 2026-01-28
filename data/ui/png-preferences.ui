@@ -10,12 +10,14 @@
               <object class="GtkScale">
                 <property name="adjustment">compression_adjustment</property>
                 <property name="digits">0</property>
-                <property name="draw-value">true</property>
+                <property name="draw-value">false</property>
                 <property name="round-digits">1</property>
                 <property name="value-pos">left</property>
-                <property name="width-request">250</property>
+                <property name="width-request">300</property>
                 <marks>
+                  <mark value="0" position="bottom" translatable="yes" context="Compression">Low</mark>
                   <mark value="6" position="bottom" />
+                  <mark value="9" position="bottom" translatable="yes" context="Compression">High</mark>
                 </marks>
               </object>
             </child>
