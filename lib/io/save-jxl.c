@@ -4,6 +4,45 @@
 #include "save-jxl.h"
 
 GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellable, GError **error) {
+	int effort = 7;
+	double distance = 1.0;
+	gboolean lossless = TRUE;
+
+	if (options != NULL) {
+		for (int i = 0; options[i] != NULL; i++) {
+			GthOption *option = options[i];
+			switch (gth_option_get_id (option)) {
+			case GTH_JXL_OPTION_EFFORT:
+				gth_option_get_int (option, &effort);
+				if ((effort < 3) || (effort > 9)) {
+					g_set_error (error,
+						G_IO_ERROR,
+						G_IO_ERROR_INVALID_DATA,
+						"Effort must be between 3 and 9, '%d' is not allowed.",
+						effort);
+					return NULL;
+				}
+				break;
+
+			case GTH_JXL_OPTION_DISTANCE:
+				gth_option_get_double (option, &distance);
+				if ((distance < 0.5) || (distance > 3)) {
+					g_set_error (error,
+						G_IO_ERROR,
+						G_IO_ERROR_INVALID_DATA,
+						"Distance must be between 0.5 and 3, '%f' is not allowed.",
+						distance);
+					return NULL;
+				}
+				break;
+
+			case GTH_JXL_OPTION_LOSSLESS:
+				gth_option_get_bool (option, &lossless);
+				break;
+			}
+		}
+	}
+
 	JxlEncoder *enc = JxlEncoderCreate (NULL);
 	if (enc == NULL) {
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Could not create JXL encoder.");
@@ -86,6 +125,12 @@ GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellabl
 		JxlResizableParallelRunnerDestroy (runner);
 		JxlEncoderDestroy (enc);
 		return NULL;
+	}
+
+	JxlEncoderFrameSettingsSetOption (frame_settings, JXL_ENC_FRAME_SETTING_EFFORT, effort);
+	JxlEncoderSetFrameLossless (frame_settings, lossless);
+	if (!lossless) {
+		JxlEncoderSetFrameDistance (frame_settings, distance);
 	}
 
 	// Convert to RGB(A) big endian.
