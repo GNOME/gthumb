@@ -9,17 +9,18 @@ public class Gth.ReadScriptParameters : Object {
 			run_script = true;
 			dialog.close ();
 		});
-		dialog.closed.connect (() => {
+		dialog.close_request.connect (() => {
 			if (callback != null) {
 				Idle.add ((owned) callback);
 				callback = null;
 			}
+			return false;
 		});
 		cancelled_event = job.cancellable.cancelled.connect (() => {
 			dialog.close ();
 		});
 		job.opens_dialog ();
-		dialog.present (parent);
+		dialog.present ();
 		yield;
 		job.dialog_closed ();
 		dialog.cancel_thumbnailer ();
@@ -43,11 +44,12 @@ public class Gth.ReadScriptParameters : Object {
 
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/script-parameters-dialog.ui")]
-class Gth.ScriptParametersDialog : Adw.Dialog {
+class Gth.ScriptParametersDialog : Adw.Window {
 	public signal void saved ();
 	public bool skipped;
 
 	public ScriptParametersDialog (Gth.Window parent, string title_text, GenericArray<ScriptParameter> _parameters, FileData? file) {
+		transient_for = parent;
 		custom_title.label = title_text;
 		file_info.visible = file != null;
 		if (file != null) {

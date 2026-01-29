@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="GthScriptParametersDialog">
-    <property name="content-width">500</property>
+    <property name="width-request">500</property>
+    <property name="resizable">false</property>
     <child>
       <object class="AdwToolbarView">
         <child type="top">
