@@ -44,6 +44,7 @@ public class Gth.RenameDialog : Adw.Window {
 
 	public RenameDialog (Gth.Window _window, GenericList<File> _files) throws Error {
 		window = _window;
+		transient_for = _window;
 		files = _files;
 		single_file = files.length () == 1;
 		if (single_file) {
