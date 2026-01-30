@@ -8,7 +8,7 @@ enum SvgState {
 };
 
 struct Tokenizer {
-	guchar *buffer;
+	const char *buffer;
 	int buffer_size;
 	int start;
 	int next;
@@ -78,7 +78,7 @@ enum SvgLengthState {
 };
 
 
-static gboolean _svg_parse_length (char *buffer, int buffer_size, int *start, int *x) {
+static gboolean _svg_parse_length (const char *buffer, int buffer_size, int *start, int *x) {
 	//g_print ("    range: %d, %d\n", *start, buffer_size);
 	enum SvgLengthState state = SVG_LENGTH_STATE_DECIMAL;
 	int digits = 0;
@@ -127,6 +127,9 @@ static gboolean _svg_parse_length (char *buffer, int buffer_size, int *start, in
 			}
 			state = SVG_LENGTH_STATE_END;
 			break;
+
+		case SVG_LENGTH_STATE_END:
+			break;
 		}
 		if (state == SVG_LENGTH_STATE_END) {
 			break;
@@ -141,12 +144,12 @@ static gboolean _svg_parse_length (char *buffer, int buffer_size, int *start, in
 }
 
 
-static gboolean _svg_parse_integer (char *buffer, int start, int end, int *x) {
+static gboolean _svg_parse_integer (const char *buffer, int start, int end, int *x) {
 	return _svg_parse_length (buffer, end, &start, x);
 }
 
 
-static gboolean _svg_parse_viewbox (char *buffer, int start, int end, int *x, int *y, int *width, int *height) {
+static gboolean _svg_parse_viewbox (const char *buffer, int start, int end, int *x, int *y, int *width, int *height) {
 	if (!_svg_parse_length (buffer, end, &start, x)) {
 		//g_print ("  _svg_parse_viewbox [1]\n");
 		return FALSE;
@@ -167,10 +170,10 @@ static gboolean _svg_parse_viewbox (char *buffer, int start, int end, int *x, in
 }
 
 
-static gboolean tokenizer_debug (const char *str) {
-	g_print ("  %s\n", str);
-	return TRUE;
-}
+// static gboolean tokenizer_debug (const char *str) {
+// 	g_print ("  %s\n", str);
+// 	return TRUE;
+// }
 
 
 gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image_info, GCancellable *cancellable) {

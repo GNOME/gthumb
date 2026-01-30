@@ -28,14 +28,14 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 	}
 	// g_print ("\n");
 
-	guchar *s_pixel, *d_pixel;
+	guchar *d_pixel;
 	guchar red, green, blue, alpha;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
-	double w_red, w_green, w_blue;
+	double w_red, w_green, w_blue, w_alpha;
 	int max_x = width - 1;
 	int max_y = height - 1;
-	guchar *p_row, *pixel;
+	guchar *pixel;
 
 	// Horizontal blur
 
@@ -43,7 +43,7 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 		d_pixel = p_dest_row;
 
 		for (int x = 0; x < width; x++) {
-			w_red = w_green = w_blue = 0.0;
+			w_red = w_green = w_blue = w_alpha = 0.0;
 			int w_idx = 0;
 			for (int i = x - radius; i <= x + radius; i++) {
 				pixel = p_src_row + (CLAMP (i, 0, max_x) * 4);
@@ -51,12 +51,14 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 				w_red += weights[w_idx] * red;
 				w_green += weights[w_idx] * green;
 				w_blue += weights[w_idx] * blue;
+				w_alpha += weights[w_idx] * alpha;
 				w_idx++;
 			}
 
 			red = PIXEL_CLAMP (w_red);
 			green = PIXEL_CLAMP (w_green);
 			blue = PIXEL_CLAMP (w_blue);
+			alpha = PIXEL_CLAMP (w_alpha);
 			RGBA_TO_PIXEL (d_pixel, red, green, blue, alpha);
 
 			d_pixel += 4;
@@ -86,7 +88,7 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
-			w_red = w_green = w_blue = 0.0;
+			w_red = w_green = w_blue = w_alpha = 0.0;
 			int w_idx = 0;
 			for (int j = y - radius; j <= y + radius; j++) {
 				pixel = p_src_row + (CLAMP (j, 0, max_y) * rowstride);
@@ -94,6 +96,7 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 				w_red += weights[w_idx] * red;
 				w_green += weights[w_idx] * green;
 				w_blue += weights[w_idx] * blue;
+				w_alpha += weights[w_idx] * alpha;
 				w_idx++;
 			}
 
@@ -101,6 +104,7 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 			red = PIXEL_CLAMP (w_red);
 			green = PIXEL_CLAMP (w_green);
 			blue = PIXEL_CLAMP (w_blue);
+			alpha = PIXEL_CLAMP (w_alpha);
 			RGBA_TO_PIXEL (d_pixel, red, green, blue, alpha);
 		}
 		p_src_row += 4;
@@ -137,14 +141,14 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 	double k1 = 1.0 / sqrt (2 * M_PI * sigma * sigma);
 	double k2 = -1.0 / (2 * sigma * sigma);
 
-	guchar *s_pixel, *d_pixel;
+	guchar *d_pixel;
 	guchar red, green, blue, alpha = 255;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	double w_red, w_green, w_blue;
 	int max_x = width - 1;
 	int max_y = height - 1;
-	guchar *p_row, *pixel;
+	guchar *pixel;
 
 	// TODO: allow to specify the center
 	int center_x = width / 2;

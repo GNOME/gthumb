@@ -186,7 +186,6 @@ static double gth_spline_eval (GthCurve *curve, double x) {
 	}
 	double *k = spline->k;
 	GthPoint *p = curve->p;
-	int n = curve->n;
 	int i = 1;
 	while (p[i].x < x) {
 		i++;
@@ -358,7 +357,6 @@ static double gth_cspline_eval (GthCurve *curve, double x) {
 	GthCSpline *spline = GTH_CSPLINE (curve);
 	double *t = spline->tangents;
 	GthPoint *p = curve->p;
-	int n = curve->n;
 	int k = 1;
 	while (p[k].x < x) {
 		k++;
@@ -468,7 +466,6 @@ static double gth_bezier_eval (GthCurve *curve, double x) {
 		return x;
 	}
 	GthPoint *p = curve->p;
-	int n = curve->n;
 	int i = 1;
 	while (p[i].x < x) {
 		i++;

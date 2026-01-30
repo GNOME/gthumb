@@ -57,9 +57,8 @@ static GthImage* rotate_nearest (GthImage *source, double degrees,
 
 	guint src_width = gth_image_get_width (source);
 	guint src_height = gth_image_get_height (source);
-	guchar r, g, b, a;
+	guchar r, g, b;
 	int temp;
-	float f_temp;
 
 	// Create the rotated image
 
@@ -81,12 +80,9 @@ static GthImage* rotate_nearest (GthImage *source, double degrees,
 	double half_new_height = (double) new_height / 2.0;
 	double half_src_width = (double) src_width / 2.0;
 	double half_src_height = (double) src_height / 2.0;
-	double x, y, src_x, src_y, fx, fy, gx, gy;
-	int x0, y0, x1, y1;
-	guchar r00, r01, r10, r11;
-	guchar g00, g01, g10, g11;
-	guchar b00, b01, b10, b11;
-	guchar a00, a01, a10, a11;
+	double x, y, src_x, src_y;
+	int x0, y0;
+	guchar r00, g00, b00, a00;
 
 	y = - half_new_height;
 	for (guint yi = 0; yi < new_height; yi++) {
@@ -223,20 +219,20 @@ static GthImage* rotate_bilinear (GthImage *source, double degrees,
 	return rotated;
 }
 
-static double bicubic (double x) {
-	// g_assert (x >= 0 && x <= 2);
-	if (x >= 2.0) {
-		return 0.0;
-	}
-	double xx = x * x;
-	if ((x >= 0.0) && (x < 1.0)) {
-		x  = (xx * x) - (2.0 * xx) + 1.0;
-	}
-	else /* (x >= 1.0) && (x < 2.0) */ {
-		x  = - (xx * x) + (5.0 * xx) - (8.0 * x) + 4.0;
-	}
-	return x;
-}
+// static double bicubic (double x) {
+// 	// g_assert (x >= 0 && x <= 2);
+// 	if (x >= 2.0) {
+// 		return 0.0;
+// 	}
+// 	double xx = x * x;
+// 	if ((x >= 0.0) && (x < 1.0)) {
+// 		x  = (xx * x) - (2.0 * xx) + 1.0;
+// 	}
+// 	else /* (x >= 1.0) && (x < 2.0) */ {
+// 		x  = - (xx * x) + (5.0 * xx) - (8.0 * x) + 4.0;
+// 	}
+// 	return x;
+// }
 
 static double catmull_rom (double x) {
 	// g_assert (x >= 0 && x <= 2);
@@ -253,20 +249,20 @@ static double catmull_rom (double x) {
 	return x / 2.0;
 }
 
-static double bspline_approx (double x) {
-	// g_assert (x >= 0 && x <= 2);
-	if (x >= 2.0) {
-		return 0.0;
-	}
-	double xx = x * x;
-	if ((x >= 0.0) && (x < 1.0)) {
-		x  = (3.0 * xx * x) - (6.0 * xx) + 4.0;
-	}
-	else /* (x >= 1.0) && (x < 2.0) */ {
-		x  = - (xx * x) + (6.0 * xx) - (12.0 * x) + 8.0;
-	}
-	return x / 6.0;
-}
+// static double bspline_approx (double x) {
+// 	// g_assert (x >= 0 && x <= 2);
+// 	if (x >= 2.0) {
+// 		return 0.0;
+// 	}
+// 	double xx = x * x;
+// 	if ((x >= 0.0) && (x < 1.0)) {
+// 		x  = (3.0 * xx * x) - (6.0 * xx) + 4.0;
+// 	}
+// 	else /* (x >= 1.0) && (x < 2.0) */ {
+// 		x  = - (xx * x) + (6.0 * xx) - (12.0 * x) + 8.0;
+// 	}
+// 	return x / 6.0;
+// }
 
 static GthImage* rotate_bicubic (GthImage *source, double degrees,
 	guchar r0, guchar g0, guchar b0, guchar a0,

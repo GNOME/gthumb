@@ -34,7 +34,7 @@ struct _GthColorManagerClass {
 GType			gth_color_manager_get_type		(void) G_GNUC_CONST;
 GthColorManager *	gth_color_manager_new			(void);
 void			gth_color_manager_get_profile_async	(GthColorManager	 *color_manager,
-								 char 			 *monitor_name,
+								 const char 		 *monitor_name,
 								 GCancellable		 *cancellable,
 								 GAsyncReadyCallback	  callback,
 								 gpointer		  user_data);

@@ -28,8 +28,8 @@ static uint8_t THRESHOLD_MAP_8[64] = {
 
 gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable) {
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
@@ -43,10 +43,10 @@ gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable) {
 	int color_reduction = 256 / map_patterns;
 
 	gboolean cancelled = FALSE;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
 		map_row = (y % map_size) * map_size;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
 			uint8_t threshold = threshold_map[map_row + (x % map_size)];
@@ -95,8 +95,8 @@ gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable) {
 
 gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancellable) {
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
@@ -116,7 +116,7 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 	double *blue_error_row_2 = g_new (double, width);
 	double error;
 
-	for (guint e = 0; e < width; e++) {
+	for (int e = 0; e < width; e++) {
 		red_error_row_0[e] = 0;
 		red_error_row_1[e] = 0;
 		red_error_row_2[e] = 0;
@@ -129,9 +129,9 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 	}
 
 	gboolean cancelled = FALSE;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
 			UPDATE_ERRORS (red, red_error_row_0, red_error_row_1, red_error_row_2);
@@ -147,7 +147,7 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 			pixel += 4;
 		}
 		row += row_stride;
-		for (guint e = 0; e < width; e++) {
+		for (int e = 0; e < width; e++) {
 			red_error_row_0[e] = red_error_row_1[e];
 			red_error_row_1[e] = red_error_row_2[e];
 			red_error_row_2[e] = 0;
@@ -173,7 +173,6 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 	g_free (blue_error_row_0);
 	g_free (blue_error_row_1);
 	g_free (blue_error_row_2);
-
 
 	return !cancelled;
 }

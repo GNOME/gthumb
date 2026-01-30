@@ -9,13 +9,13 @@
 
 void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *pixels = gth_image_prepare_edit (self, &row_stride, &width, &height);
 
 	int pattern_stride;
-	guint pattern_width;
-	guint pattern_height;
+	int pattern_width;
+	int pattern_height;
 	guchar *pattern_pixels = gth_image_prepare_edit (pattern, &pattern_stride, &pattern_width, &pattern_height);
 
 	if (width <= pattern_width * 2)
@@ -149,8 +149,8 @@ gboolean gth_image_grayscale (GthImage *self, double red_weight, double green_we
 	}
 	// g_print ("> amount: %f\n", amount);
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
@@ -189,17 +189,17 @@ gboolean gth_image_grayscale_saturation (GthImage *self, double amount, GCancell
 	}
 	// g_print ("> amount: %f\n", amount);
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha, min, max;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	int value, itemp;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 			max = MAX (MAX (red, green), blue);
 			min = MIN (MIN (red, green), blue);
@@ -231,17 +231,17 @@ gboolean gth_image_gamma_correction (GthImage *self, double gamma, GCancellable 
 	}
 	// g_print ("> gamma: %f\n", gamma);
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	double value;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
 			value = 255.0 * pow (((double) red / 255.0), gamma);
@@ -270,17 +270,17 @@ gboolean gth_image_adjust_brightness (GthImage *self, double amount, GCancellabl
 	}
 	// g_print ("> amount: %f\n", amount);
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	double dtemp;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
 			if (amount > 0) {
@@ -324,17 +324,17 @@ gboolean gth_image_adjust_contrast (GthImage *self, double amount, GCancellable 
 	}
 	// g_print ("> amount: %f\n", amount);
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	double dtemp;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
 			dtemp = INTERPOLATE (red, 127.0, amount);
@@ -431,8 +431,8 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 	}
 
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
@@ -446,9 +446,9 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 	calc_radial_mask (width, height, amount, &f1, &f2, &min_d, &max_d);
 
 	gboolean cancelled = FALSE;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			GthPoint p;
 			p.x = x;
 			p.y = y;
@@ -499,14 +499,14 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 
 gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground, double amount, GCancellable *cancellable) {
 	int b_row_stride;
-	guint b_width;
-	guint b_height;
+	int b_width;
+	int b_height;
 	guchar *b_row = gth_image_prepare_edit (background, &b_row_stride, &b_width, &b_height);
 	guchar *b_pixel;
 
 	int f_row_stride;
-	guint f_width;
-	guint f_height;
+	int f_width;
+	int f_height;
 	guchar *f_row = gth_image_prepare_edit (foreground, &f_row_stride, &f_width, &f_height);
 	guchar *f_pixel;
 
@@ -521,10 +521,10 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 	calc_radial_mask (b_width, b_height, amount, &f1, &f2, &min_d, &max_d);
 
 	gboolean cancelled = FALSE;
-	for (guint y = 0; y < b_height; y++) {
+	for (int y = 0; y < b_height; y++) {
 		b_pixel = b_row;
 		f_pixel = f_row;
-		for (guint x = 0; x < b_width; x++) {
+		for (int x = 0; x < b_width; x++) {
 			GthPoint p;
 			p.x = x;
 			p.y = y;
@@ -573,8 +573,8 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 
 gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancellable *cancellable) {
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
@@ -583,9 +583,9 @@ gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancella
 	guchar *red_map = value_map + (GTH_CHANNEL_RED * VALUE_MAP_COLUMNS);
 	guchar *green_map = value_map + (GTH_CHANNEL_GREEN * VALUE_MAP_COLUMNS);
 	guchar *blue_map = value_map + (GTH_CHANNEL_BLUE * VALUE_MAP_COLUMNS);
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 			red = red_map[red];
 			green = green_map[green];
@@ -636,8 +636,8 @@ gboolean gth_image_colorize (GthImage *self, double red_amount, double green_amo
 
 gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable *cancellable) {
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
@@ -649,9 +649,9 @@ gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable
 	double radius = MAX (width, height) / 2.0;
 
 	gboolean cancelled = FALSE;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
 
 			double distance = sqrt (SQR (x - center_x) + SQR (y - center_y));
@@ -678,11 +678,11 @@ gboolean gth_image_pixelize (GthImage *self, guint tile_size, GCancellable *canc
 		return TRUE;
 	}
 	int row_stride;
-	guint width;
-	guint height;
+	int width;
+	int height;
 	guchar *source_row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
-	guchar red, green, blue, alpha;
+	guchar red = 0, green = 0, blue = 0, alpha = 0xFF;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	int tile_row, tile_column, last_row = -1, last_column = -1;
@@ -691,16 +691,16 @@ gboolean gth_image_pixelize (GthImage *self, guint tile_size, GCancellable *canc
 	guint max_y = height - 1;
 
 	gboolean cancelled = FALSE;
-	for (guint y = 0; y < height; y++) {
+	for (int y = 0; y < height; y++) {
 		pixel = row;
 		tile_column = y / tile_size;
-		for (guint x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++) {
 			tile_row = x / tile_size;
 			if ((tile_row != last_row) || (tile_column != last_column)) {
 				last_row = tile_row;
 				last_column = tile_column;
-				guint sample_x = (x / tile_size + 0.5) * tile_size;
-				guint sample_y = (y / tile_size + 0.5) * tile_size;
+				int sample_x = (x / tile_size + 0.5) * tile_size;
+				int sample_y = (y / tile_size + 0.5) * tile_size;
 				guchar *sample_p = source_row + (CLAMP (sample_y, 0, max_y) * row_stride) + ((CLAMP (sample_x, 0, max_x)) * 4);
 				PIXEL_TO_RGBA (sample_p, red, green, blue, alpha);
 			}

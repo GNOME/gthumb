@@ -90,11 +90,11 @@ gth_metadata_set_property (GObject      *object,
 		self->priv->data_type = GTH_METADATA_TYPE_STRING;
 		break;
 	case GTH_METADATA_STRING_LIST:
-		GObject *string_list = g_value_get_object (value);
+		GthStringList *string_list = GTH_STRING_LIST (g_value_get_object (value));
 		if (string_list != self->priv->list) {
 			_g_object_unref (self->priv->list);
 			if (string_list != NULL) {
-				self->priv->list = gth_string_list_new (gth_string_list_get_list (GTH_STRING_LIST (string_list)));
+				self->priv->list = gth_string_list_new (gth_string_list_get_list (string_list));
 				self->priv->data_type = GTH_METADATA_TYPE_STRING_LIST;
 			}
 			else {

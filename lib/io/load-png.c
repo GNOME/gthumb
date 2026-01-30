@@ -143,14 +143,14 @@ static void read_buffer_func (png_structp png_ptr, png_bytep buffer, png_size_t 
 static int read_unknown_chunk (png_structp png_ptr, png_unknown_chunkp chunk) {
 	//g_print ("> UNKNOWN CHUNK: '%s'\n", chunk->name);
 	LoaderData *loader_data = png_get_user_chunk_ptr (png_ptr);
-	if (g_strcmp0 (chunk->name, APNG_ACTL) == 0) {
+	if (g_strcmp0 ((char*) chunk->name, APNG_ACTL) == 0) {
 		// Animation Control
 		loader_data->animation.n_frames = png_get_uint_31 (png_ptr, chunk->data);
 		loader_data->animation.n_loops = png_get_uint_31 (png_ptr, chunk->data + 4);
 		//g_print ("> FRAMES: %u\n", loader_data->animation.n_frames);
 		//g_print ("  LOOPS: %u\n", loader_data->animation.n_loops);
 	}
-	else if (g_strcmp0 (chunk->name, APNG_FCTL) == 0) {
+	else if (g_strcmp0 ((char*) chunk->name, APNG_FCTL) == 0) {
 		// Frame Control
 		Frame *frame = frame_new ();
 		frame->sequence_number = png_get_uint_31 (png_ptr, chunk->data);
@@ -182,7 +182,7 @@ static int read_unknown_chunk (png_structp png_ptr, png_unknown_chunkp chunk) {
 		//g_print ("  DISPOSE OP: %u\n", frame->dispose_op);
 		//g_print ("  BLEND OP: %u\n", frame->blend_op);
 	}
-	else if (g_strcmp0 (chunk->name, APNG_FDAT) == 0) {
+	else if (g_strcmp0 ((char*) chunk->name, APNG_FDAT) == 0) {
 		// Frame Image Data
 		guint sequence_number = png_get_uint_31 (png_ptr, chunk->data);
 		Frame *frame = loader_data->animation.last_frame;
@@ -270,7 +270,7 @@ unsigned long crc(unsigned char *buf, int len) {
 static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellable, GError **error) {
 	Animation *animation = &loader_data->animation;
 
-	//g_printf (">> ANI FRAMES: %u <=> %d\n",
+	//g_print (">> ANI FRAMES: %u <=> %d\n",
 	//	animation->n_frames,
 	//	animation->frames->len);
 
@@ -299,7 +299,7 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 		memcpy (chunk_type, chunk_data + 4, 4);
 
 		//g_print ("> NEXT CHUNK: '%s' (offset: %ld)\n", chunk_type, offset);
-		if (g_strcmp0 (chunk_type, PNG_IDAT) == 0) {
+		if (g_strcmp0 ((char*) chunk_type, PNG_IDAT) == 0) {
 			break;
 		}
 
@@ -375,8 +375,8 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 		g_byte_array_append (frame_data, animation_data, metadata_len);
 
 		// Update width and height
-		const uint8_t *IHDR_chunk = frame_data->data + 8;
-		const uint8_t *IHDR_data = IHDR_chunk + 4 + 4;
+		uint8_t *IHDR_chunk = frame_data->data + 8;
+		uint8_t *IHDR_data = IHDR_chunk + 4 + 4;
 		png_save_uint_32 (IHDR_data, frame->width);
 		png_save_uint_32 (IHDR_data + 4, frame->height);
 		// Update the IHDR chunk CRC
@@ -395,7 +395,7 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 			const uint8_t *chunk_data = g_bytes_get_data (chunk->bytes, &chunk_size);
 			png_save_uint_32 (chunk_field, chunk_size);
 			g_byte_array_append (frame_data, chunk_field, 4);
-			g_byte_array_append (frame_data, PNG_IDAT, 4);
+			g_byte_array_append (frame_data, (const uint8_t *) PNG_IDAT, 4);
 			g_byte_array_append (frame_data, chunk_data, chunk_size);
 			// CRC of type and data (not length)
 			chunk_crc = crc (frame_data->data + chunk_offset + 4, 4 + chunk_size);
@@ -407,7 +407,7 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 		chunk_offset = frame_data->len;
 		png_save_uint_32 (chunk_field, 0); // length
 		g_byte_array_append (frame_data, chunk_field, 4);
-		g_byte_array_append (frame_data, PNG_IEND, 4);
+		g_byte_array_append (frame_data, (const uint8_t *) PNG_IEND, 4);
 		chunk_crc = crc (frame_data->data + chunk_offset + 4, 4);
 		png_save_uint_32 (chunk_field, chunk_crc);
 		g_byte_array_append (frame_data, chunk_field, 4);
@@ -493,7 +493,7 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 		// Ignore all unknown chunks
 		png_set_keep_unknown_chunks (loader_data.png_ptr, PNG_HANDLE_CHUNK_NEVER, NULL, 0);
 		// Save animation related chunks
-		png_set_keep_unknown_chunks (loader_data.png_ptr, PNG_HANDLE_CHUNK_IF_SAFE, APNG_CHUNKS, 3);
+		png_set_keep_unknown_chunks (loader_data.png_ptr, PNG_HANDLE_CHUNK_IF_SAFE, (png_const_bytep) APNG_CHUNKS, 3);
 	}
 #ifndef HAVE_LCMS2
 	png_set_gamma (loader_data.png_ptr, PNG_DEFAULT_sRGB, PNG_DEFAULT_sRGB);

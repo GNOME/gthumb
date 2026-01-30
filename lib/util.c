@@ -540,8 +540,8 @@ char * _g_date_time_to_xmp_date (GDateTime *date_time) {
 		g_date_time_get_hour (date_time),
 		g_date_time_get_minute (date_time),
 		g_date_time_get_second (date_time),
-		utf_offset / 3600,
-		utf_offset % 3600);
+		(int) (utf_offset / 3600),
+		(int) (utf_offset % 3600));
 }
 
 const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
@@ -849,7 +849,7 @@ static void _g_file_info_copy_attribute (GFileInfo *info, const char *dest, cons
 }
 
 
-static char * get_backup_attribute_name (char *attr) {
+static char * get_backup_attribute_name (const char *attr) {
 	return g_strconcat ("Backup::", attr, NULL);
 }
 

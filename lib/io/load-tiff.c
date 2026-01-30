@@ -103,7 +103,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 	gboolean first_directory = TRUE;
 	int best_directory = -1;
 	int max_width = -1;
-	int max_height = -1;
 	int min_diff = 0;
 	char emsg[1024];
 	do {
@@ -122,7 +121,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 		if (width > max_width) {
 			max_width = width;
-			max_height = height;
 			if (requested_size == 0) {
 				best_directory = TIFFCurrentDirectory (tif);
 			}
@@ -157,12 +155,12 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 	// Read the image.
 
-	uint32 image_width = 0;
-	uint32 image_height = 0;
-	uint32 spp;
-	uint16 extrasamples;
-	uint16 *sampleinfo;
-	uint16 orientation = ORIENTATION_TOPLEFT;
+	uint32_t image_width = 0;
+	uint32_t image_height = 0;
+	uint32_t spp;
+	uint16_t extrasamples;
+	uint16_t *sampleinfo;
+	uint16_t orientation = ORIENTATION_TOPLEFT;
 
 	TIFFSetDirectory (tif, best_directory);
 	TIFFGetField (tif, TIFFTAG_IMAGEWIDTH, &image_width);
@@ -184,7 +182,7 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 #if HAVE_LCMS2
 	GthIccProfile *profile = NULL;
 
-	uint32 icc_profile_size;
+	uint32_t icc_profile_size;
 	void *icc_profile_data;
 	if (TIFFGetField (tif, TIFFTAG_ICCPROFILE, &icc_profile_size, &icc_profile_data) == 1) {
 		GBytes *bytes = g_bytes_new (icc_profile_data, icc_profile_size);
@@ -229,7 +227,7 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 	gth_image_set_has_alpha (image, (extrasamples == 1) || (spp == 4));
 
-	uint32 *raster = (uint32*) _TIFFmalloc (image_width * image_height * sizeof (uint32));
+	uint32_t *raster = (uint32_t*) _TIFFmalloc (image_width * image_height * sizeof (uint32_t));
 	if (raster == NULL) {
 		g_object_unref (image);
 		TIFFClose (tif);
@@ -312,7 +310,7 @@ static bool _read_byte (Reader *reader, guchar *value) {
 }
 
 
-static bool _read_uint16 (Reader *reader, guint16 *value) {
+static bool _read_uint16_t (Reader *reader, guint16 *value) {
 	guchar byte1, byte2;
 	if (!_read_byte (reader, &byte1)) {
 		return FALSE;
@@ -405,7 +403,7 @@ gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancel
 	// Type signature
 
 	guint16 word;
-	if (!_read_uint16 (&reader, &word)) {
+	if (!_read_uint16_t (&reader, &word)) {
 		return FALSE;
 	}
 	if (word != 42) {
@@ -433,7 +431,7 @@ gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancel
 		// Number of entries
 
 		guint16 entries;
-		if (!_read_uint16 (&reader, &entries)) {
+		if (!_read_uint16_t (&reader, &entries)) {
 			return FALSE;
 		}
 		if (entries == 0) {
@@ -442,7 +440,7 @@ gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancel
 
 		for (int i = 0; (remaining_tags > 0) && (i < entries); i++) {
 			guint16 entry_tag;
-			if (!_read_uint16 (&reader, &entry_tag)) {
+			if (!_read_uint16_t (&reader, &entry_tag)) {
 				return FALSE;
 			}
 
@@ -451,7 +449,7 @@ gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancel
 				|| (entry_tag == TIFFTAG_ORIENTATION))
 			{
 				guint16 entry_type;
-				if (!_read_uint16 (&reader, &entry_type)) {
+				if (!_read_uint16_t (&reader, &entry_type)) {
 					return FALSE;
 				}
 
@@ -474,7 +472,7 @@ gboolean load_tiff_info (GInputStream *stream, GthImageInfo *image_info, GCancel
 				guint32 value;
 				if ((entry_type == 1) || (entry_type == 6)) { // BYTE or SIGNED BYTE
 					if (reader.big_endian) {
-						value = (offset >> 32);
+						value = (offset >> 24);
 					}
 					else {
 						value = offset;

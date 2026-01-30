@@ -4,11 +4,18 @@
 #if HAVE_LIBWEBP
 #include <webp/decode.h>
 #endif
+#include <lib/io/load-jpeg.h>
 #if HAVE_LIBJXL
 #include <lib/io/load-jxl.h>
 #endif
 #if HAVE_LIBHEIF
 #include <lib/io/load-heif.h>
+#endif
+#if HAVE_LIBTIFF
+#include <lib/io/load-tiff.h>
+#endif
+#if HAVE_LIBGIF
+#include <lib/io/load-gif.h>
 #endif
 
 #define BUFFER_SIZE 4096
@@ -105,7 +112,7 @@ static gboolean load_image_info_from_stream (GInputStream *stream, int *width, i
 
 #if HAVE_LIBGIF
 	if (!format_recognized && (g_strcmp0 (mime_type, "image/gif") == 0)) {
-		if (load_gif_info ((const char *) buffer, buffer_size, &image_info, cancellable)) {
+		if (load_gif_info (buffer, buffer_size, &image_info, cancellable)) {
 			format_recognized = TRUE;
 		}
 	}

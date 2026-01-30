@@ -5,7 +5,7 @@
 
 G_BEGIN_DECLS
 
-gboolean zlib_decompress_buffer (void *zipped_buffer, gsize zipped_size, void **buffer, gsize *size);
+gboolean zlib_decompress (void *zipped_buffer, gsize zipped_size, guint8 **buffer, gsize *size);
 
 G_END_DECLS
 

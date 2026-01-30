@@ -5,7 +5,7 @@
 
 #define BUFFER_SIZE (16 * 1024)
 
-gboolean zlib_decompress (void *zipped_buffer, gsize zipped_size, void **buffer, gsize *size) {
+gboolean zlib_decompress (void *zipped_buffer, gsize zipped_size, guint8 **buffer, gsize *size) {
 	z_stream strm;
 	strm.zalloc = Z_NULL;
 	strm.zfree = Z_NULL;
@@ -48,7 +48,7 @@ gboolean zlib_decompress (void *zipped_buffer, gsize zipped_size, void **buffer,
 
 	inflateEnd (&strm);
 
-	*buffer = local_buffer;
+	*buffer = (guint8*) local_buffer;
 	*size = count;
 
 	return ret == Z_STREAM_END;

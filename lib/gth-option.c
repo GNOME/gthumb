@@ -231,7 +231,7 @@ gboolean gth_option_get_uintv (GthOption *opt, unsigned int **value, int *len) {
 	g_return_val_if_fail (opt != NULL, FALSE);
 	if (opt->type != TYPE_UINTV)
 		return FALSE;
-	*value = g_new (int, opt->array_len);
+	*value = g_new (unsigned int, opt->array_len);
 	for (int i = 0; i < opt->array_len; i++)
 		(*value)[i] = opt->data.uintv_v[i];
 	*len = opt->array_len;

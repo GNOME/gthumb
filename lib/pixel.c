@@ -10,7 +10,7 @@ guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) 
 }
 
 
-void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
+void pixel_line_to_rgba_big_endian (guchar *dest, const guchar *src, guint width) {
 	int temp;
 	for (guint x = 0; x < width; x++) {
 		PIXEL_TO_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
@@ -28,7 +28,7 @@ void pixel_line_to_rgba_big_endian (guchar *dest, guchar *src, guint width) {
 	} G_STMT_END
 
 
-void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
+void pixel_line_to_rgb_big_endian (guchar *dest, const guchar *src, guint width) {
 	for (guint x = 0; x < width; x++) {
 		PIXEL_TO_RGB (src, dest[0], dest[1], dest[2]);
 		src += 4;
@@ -36,7 +36,7 @@ void pixel_line_to_rgb_big_endian (guchar *dest, guchar *src, guint width) {
 	}
 }
 
-static void non_premultiplied_line_to_pixel_line (int r_idx, int g_idx, int b_idx, int a_idx, guchar *dest, guchar *src, guint width) {
+static void non_premultiplied_line_to_pixel_line (int r_idx, int g_idx, int b_idx, int a_idx, guchar *dest, const guchar *src, guint width) {
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
 	for (guint x = 0; x < width; x++) {
@@ -46,19 +46,19 @@ static void non_premultiplied_line_to_pixel_line (int r_idx, int g_idx, int b_id
 	}
 }
 
-void rgba_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
+void rgba_big_endian_line_to_pixel (guchar *dest, const guchar *src, guint width) {
 	non_premultiplied_line_to_pixel_line (
 		0, 1, 2, 3,
 		dest, src, width);
 }
 
-void abgr_line_to_pixel (guchar *dest, guchar *src, guint width) {
+void abgr_line_to_pixel (guchar *dest, const guchar *src, guint width) {
 	non_premultiplied_line_to_pixel_line (
 		ABGR_RED, ABGR_GREEN, ABGR_BLUE, ABGR_ALPHA,
 		dest, src, width);
 }
 
-void rgb_big_endian_line_to_pixel (guchar *dest, guchar *src, guint width) {
+void rgb_big_endian_line_to_pixel (guchar *dest, const guchar *src, guint width) {
 	for (guint x = 0; x < width; x++) {
 		*(guint32*) dest = PACK_RGBA (src[0], src[1], src[2], 0xFF);
 		src += 3;

@@ -65,11 +65,11 @@ static GthFrame * gth_frame_new (GthImage *image, guint delay) {
 	return frame;
 }
 
-static GthFrame * gth_frame_ref (GthFrame *frame) {
-	g_return_val_if_fail (frame != NULL, NULL);
-	frame->ref++;
-	return frame;
-}
+// static GthFrame * gth_frame_ref (GthFrame *frame) {
+// 	g_return_val_if_fail (frame != NULL, NULL);
+// 	frame->ref++;
+// 	return frame;
+// }
 
 static void gth_frame_unref (GthFrame *frame) {
 	g_return_if_fail (frame != NULL);
@@ -175,7 +175,7 @@ GthImage * gth_image_new_from_texture (GdkTexture* texture) {
 	GthImage *image = gth_image_new (
 		(guint) gdk_texture_get_width (texture),
 		(guint) gdk_texture_get_height (texture));
-	const guchar *buffer = g_bytes_get_data (image->priv->bytes, NULL);
+	guchar *buffer = (guchar *) g_bytes_get_data (image->priv->bytes, NULL);
 	gdk_texture_download (texture, buffer, image->priv->row_stride);
 	return image;
 }
@@ -301,7 +301,7 @@ guchar * gth_image_prepare_edit (GthImage *self, int *row_stride, int *width, in
 	return gth_image_get_pixels (self, NULL);
 }
 
-void gth_image_copy_from_rgba_big_endian (GthImage *self, guchar *data, gboolean with_alpha, int data_stride) {
+void gth_image_copy_from_rgba_big_endian (GthImage *self, const guchar *data, gboolean with_alpha, int data_stride) {
 	unsigned char *surface_data = gth_image_get_pixels (self, NULL);
 	if (with_alpha) {
 		for (int row = 0; row < self->priv->height; row++) {
@@ -390,11 +390,11 @@ GdkTexture * gth_image_get_texture_for_rect (GthImage *self, guint x, guint y, g
 GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint width, guint height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (source), NULL);
 	if (x + width > source->priv->width) {
-		g_printf ("> subimage: x: %u, width: %u, max_width: %u\n", x, width, source->priv->width);
+		g_print ("> subimage: x: %u, width: %u, max_width: %u\n", x, width, source->priv->width);
 	}
 	g_return_val_if_fail (x + width <= source->priv->width, NULL);
 	if (y + height > source->priv->height) {
-		g_printf ("> subimage: y: %u, height: %u, max_height: %u\n", y, height, source->priv->height);
+		g_print ("> subimage: y: %u, height: %u, max_height: %u\n", y, height, source->priv->height);
 	}
 	g_return_val_if_fail (y + height <= source->priv->height, NULL);
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
@@ -403,9 +403,9 @@ GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint wid
 	image->priv->height = height;
 	gsize start_offset = (y * source->priv->row_stride) + (x * PIXEL_BYTES);
 	gsize end_offset = ((y + height - 1) * source->priv->row_stride) + ((x + width) * PIXEL_BYTES);
-	// g_printf ("> subimage: start_offset: %ld, end_offset: %ld, (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (source->priv->bytes));
+	// g_print ("> subimage: start_offset: %ld, end_offset: %ld, (size: %ld)\n", start_offset, end_offset, g_bytes_get_size (source->priv->bytes));
 	image->priv->bytes = g_bytes_new_from_bytes (source->priv->bytes, start_offset,	end_offset - start_offset);
-	// g_printf ("  bytes: %p <=> %p\n", source->priv->bytes, image->priv->bytes);
+	// g_print ("  bytes: %p <=> %p\n", source->priv->bytes, image->priv->bytes);
 	if (image->priv->bytes == NULL) {
 		g_object_unref (image);
 		return NULL;
@@ -415,7 +415,7 @@ GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint wid
 }
 
 gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guchar *green, guchar *blue, guchar *alpha) {
-	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if ((x >= self->priv->width) || (y >= self->priv->height)) {
 		*red = 0;
 		*green = 0;
@@ -424,7 +424,7 @@ gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guch
 		return FALSE;
 	}
 	const guchar *buffer = g_bytes_get_data (self->priv->bytes, NULL);
-	guchar *pixel_p = buffer + (y * self->priv->row_stride) + (x * PIXEL_BYTES);
+	const guchar *pixel_p = buffer + (y * self->priv->row_stride) + (x * PIXEL_BYTES);
 	int temp;
 	PIXEL_TO_RGBA (pixel_p, *red, *green, *blue, *alpha);
 	return TRUE;
@@ -542,7 +542,7 @@ void gth_image_set_attribute (GthImage *self, const char *key, const char *value
 }
 
 gboolean gth_image_remove_attribute (GthImage *self, const char *key) {
-	g_return_if_fail (GTH_IS_IMAGE (self));
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if (self->priv->attributes == NULL) {
 		return false;
 	}
@@ -567,7 +567,7 @@ GFileInfo * gth_image_get_info (GthImage *self) {
 }
 
 void gth_image_set_info (GthImage *self, GFileInfo *info) {
-	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	g_return_if_fail (GTH_IS_IMAGE (self));
 	_g_object_ref (info);
 	_g_object_unref (self->priv->info);
 	self->priv->info = info;
@@ -635,7 +635,6 @@ gboolean gth_image_get_frame_at (GthImage *self, gulong *time, guint *frame_inde
 }
 
 gboolean gth_image_next_frame (GthImage *self, guint *frame_index) {
-	g_return_if_fail (GTH_IS_IMAGE (self));
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	GthImagePrivate *priv = self->priv;
 	if (priv->frames->len <= 1) {
@@ -711,7 +710,7 @@ void gth_image_apply_icc_profile (GthImage *self,
 	}
 
 	cmsHTRANSFORM hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
-	const unsigned char *row_pointer = gth_image_get_pixels (self, NULL);
+	guchar *row_pointer = gth_image_get_pixels (self, NULL);
 	for (guint row = 0; row < self->priv->height; row++) {
 		if (g_cancellable_is_cancelled (cancellable)) {
 			break;

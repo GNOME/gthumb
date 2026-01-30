@@ -15,8 +15,8 @@ typedef enum {
 } GthMetadataType;
 
 typedef struct {
-	const char *id;
-	const char *display_name;
+	char *id;
+	char *display_name;
 	int sort_order;
 } GthMetadataCategory;
 
@@ -30,11 +30,11 @@ typedef enum {
 #define GTH_METADATA_ALLOW_EVERYWHERE (GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT)
 
 typedef struct {
-	const char *id;
-	const char *display_name;
-	const char *category;
+	char *id;
+	char *display_name;
+	char *category;
 	GthMetadataFlags flags;
-	const char *type;
+	char *type;
 	int sort_order;
 } GthMetadataInfo;
 

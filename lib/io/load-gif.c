@@ -56,7 +56,7 @@ static GthImage * render_frame (GifFileType *file, RenderContext *render_ctx) {
 		prev_image_row = gth_image_prepare_edit (render_ctx->prev_image, &prev_image_row_stride, NULL, NULL);
 	}
 
-	uint8_t * screen_row;
+	const uint8_t *screen_row;
 	GifColorType *entry;
 	for (int i = 0; i < file->SHeight; i++) {
 		screen_row = render_ctx->screen_buffer + (render_ctx->screen_row_size * i);
@@ -156,7 +156,6 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 		.prev_image = NULL,
 		.last_disposal_mode = DISPOSAL_UNSPECIFIED
 	};
-	uint8_t *screen_row;
 
 	file->ExtensionBlocks = NULL;
 	file->ExtensionBlockCount = 0;
@@ -352,20 +351,19 @@ close:
 }
 
 // GIF format described here: https://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
-gboolean load_gif_info (const char *buffer, int buffer_size, GthImageInfo *image_info, GCancellable *cancellable) {
+gboolean load_gif_info (const guchar *buffer, int buffer_size, GthImageInfo *image_info, GCancellable *cancellable) {
 	if (buffer_size < 13) {
 		//g_print ("  [0]\n");
 		return FALSE;
 	}
-	const uint8_t *data = buffer;
 
-	image_info->width = ((int) data[7] << 8) + (int) data[6];
-	image_info->height = ((int) data[9] << 8) + (int) data[8];
+	image_info->width = ((int) buffer[7] << 8) + (int) buffer[6];
+	image_info->height = ((int) buffer[9] << 8) + (int) buffer[8];
 	//g_print ("> screen size: %d %d\n", image_info->width, image_info->height);
 	return TRUE;
 
-	uint8_t flags = data[10];
-	//g_print ("> buffer[%d]: %X\n", 10, (uint8_t) data[10]);
+	uint8_t flags = buffer[10];
+	//g_print ("> buffer[%d]: %X\n", 10, (uint8_t) buffer[10]);
 	gboolean has_color_table = (flags & 0b10000000) != 0;
 	//g_print ("  has_color_table: %d\n", has_color_table);
 	int offset = 13;
@@ -377,19 +375,19 @@ gboolean load_gif_info (const char *buffer, int buffer_size, GthImageInfo *image
 		// Skip the color table
 		offset += entries * 3;
 	}
-	//g_print ("  [1.1] data[offset]: %X (offset: %d)\n", (uint8_t) data[offset], offset);
+	//g_print ("  [1.1] buffer[offset]: %X (offset: %d)\n", (uint8_t) buffer[offset], offset);
 	if (offset > buffer_size) {
 		//g_print ("  [1.2]\n");
 		return FALSE;
 	}
 	// Skip extension blocks
-	while (data[offset] == 0x21) {
+	while (buffer[offset] == 0x21) {
 		if (offset + 3 > buffer_size) {
 			//g_print ("  [2]\n");
 			return FALSE;
 		}
 		offset += 2;
-		int block_size = data[offset];
+		int block_size = buffer[offset];
 		offset += 1;
 		while (block_size > 0) {
 			offset += block_size;
@@ -397,17 +395,17 @@ gboolean load_gif_info (const char *buffer, int buffer_size, GthImageInfo *image
 				//g_print ("  [3]\n");
 				return FALSE;
 			}
-			block_size = data[offset];
+			block_size = buffer[offset];
 			offset += 1;
 		}
 	}
 	// Image descriptor
-	if ((offset + 8 > buffer_size) || (data[offset] != 0x2C)) {
-		//g_print ("  [4] data[offset]: %X (offset: %d) (buffer_size: %d)\n", (uint8_t) data[offset], offset, buffer_size);
+	if ((offset + 8 > buffer_size) || (buffer[offset] != 0x2C)) {
+		//g_print ("  [4] buffer[offset]: %X (offset: %d) (buffer_size: %d)\n", (uint8_t) buffer[offset], offset, buffer_size);
 		return FALSE;
 	}
 	// First image size
-	image_info->width = ((int) data[offset + 6] << 8) + (int) data[offset + 5];
-	image_info->height = ((int) data[offset + 8] << 8) + (int) data[offset + 7];
+	image_info->width = ((int) buffer[offset + 6] << 8) + (int) buffer[offset + 5];
+	image_info->height = ((int) buffer[offset + 8] << 8) + (int) buffer[offset + 7];
 	return TRUE;
 }

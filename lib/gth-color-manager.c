@@ -372,7 +372,7 @@ _gth_color_manager_get_profile (GthColorManager	*self,
 
 void
 gth_color_manager_get_profile_async (GthColorManager		*self,
-				     char			*monitor_name,
+				     const char			*monitor_name,
 				     GCancellable		*cancellable,
 				     GAsyncReadyCallback	 callback,
 				     gpointer			 user_data)

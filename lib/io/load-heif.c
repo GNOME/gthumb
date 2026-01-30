@@ -23,6 +23,8 @@ static int cancel_decoding_func (void* progress_user_data) {
 }
 
 GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancellable, GError **error) {
+	GthImage *image = NULL;
+
 	ProgressData progress_data = {
 		.cancellable = cancellable,
 		.error = error,
@@ -43,7 +45,6 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 		goto stop_loading;
 	}
 
-	GthImage *image = NULL;
 	int tracks = heif_context_number_of_sequence_tracks (ctx);
 	//g_print ("=> TRACKS: %d\n", tracks);
 	if (tracks > 0) {
