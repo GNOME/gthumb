@@ -6,7 +6,7 @@ project('gthumb',
 )
 
 adwaita_version = '>= 1.8.0'
-glib_version = '>= 2.84.2'
+glib_version = '>= 2.84'
 gtk_version = '>= 4.18.5'
 lcms2_version = '>= 2.6'
 colord_version = '>= 1.3'
@@ -180,7 +180,7 @@ dependencies = [
   dependency('threads'),
   c_comp.find_library('m', required: false),
   vala_comp.find_library('posix'),
-  dependency('glib-2.0', version: glib_version),
+  dependency('glib-2.0', version: '>= @0@'.format(glib_version)),
   dependency('gobject-2.0'),
   dependency('gtk4', version: gtk_version),
   dependency('libadwaita-1', version: adwaita_version),
@@ -207,6 +207,7 @@ add_project_arguments([
   '--disable-warnings',
   '--enable-experimental',
   '--vapidir', join_paths(meson.current_source_dir(), 'vapi'),
+  '--target-glib=@0@'.format(glib_version),
 ], language: 'vala')
 
 add_project_arguments([
