@@ -84,6 +84,7 @@
     <child name="rotate" schema="app.gthumb.gthumb.rotate" />
     <child name="resize" schema="app.gthumb.gthumb.resize" />
     <child name="convert" schema="app.gthumb.gthumb.convert" />
+    <child name="print" schema="app.gthumb.gthumb.print" />
   </schema>
 
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
@@ -157,6 +158,23 @@
   <schema id="app.gthumb.gthumb.convert" path="/app/gthumb/gthumb/convert/" gettext-domain="gthumb">
     <key name="format" type="s">
       <default>''</default>
+    </key>
+  </schema>
+
+  <enum id="app.gthumb.gthumb.GthPrintUnit">
+    <value nick="mm" value="0"/>
+    <value nick="inch" value="1"/>
+  </enum>
+
+  <schema id="app.gthumb.gthumb.print" path="/app/gthumb/gthumb/print/" gettext-domain="gthumb">
+    <key name="rows" type="i">
+      <default>1</default>
+    </key>
+    <key name="columns" type="i">
+      <default>1</default>
+    </key>
+    <key name="unit" enum="app.gthumb.gthumb.GthPrintUnit">
+      <default>'mm'</default>
     </key>
   </schema>
 </schemalist>

@@ -338,6 +338,24 @@ void gth_image_copy_to_rgba_big_endian (GthImage *source, GthImage *dest) {
 	}
 }
 
+cairo_surface_t * gth_image_to_surface (GthImage *source) {
+	g_return_val_if_fail (GTH_IS_IMAGE (source), NULL);
+	gsize size;
+	unsigned char *data = g_bytes_unref_to_data (source->priv->bytes, &size);
+	cairo_surface_t *surface = cairo_image_surface_create_for_data (
+		data,
+		CAIRO_FORMAT_ARGB32,
+		(int) source->priv->width,
+		(int) source->priv->height,
+		(int) source->priv->row_stride
+	);
+	source->priv->bytes = NULL;
+	source->priv->width = 0;
+	source->priv->height = 0;
+	source->priv->row_stride = 0;
+	return surface;
+}
+
 GdkTexture * gth_image_get_texture (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	return gdk_memory_texture_new (

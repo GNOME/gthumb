@@ -309,3 +309,69 @@ public enum Gth.RotatedSize {
 
 	const string[] STATE = { "original", "bounding-box", "crop-borders" };
 }
+
+public enum Gth.Orientation {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT;
+
+	public bool changes_dimensions () {
+		return (this == RIGHT) || (this == LEFT);
+	}
+
+	public Transform to_transform () {
+		return TRANSFORM[this];
+	}
+
+	public unowned string to_state () {
+		return STATE[this];
+	}
+
+	public static Orientation from_state (string? state) {
+		var idx = Util.enum_index (STATE, state);
+		return (Orientation) idx;
+	}
+
+	const string[] STATE = {
+		"up",
+		"right",
+		"down",
+		"left",
+	};
+
+	const Transform[] TRANSFORM = {
+		Transform.NONE,
+		Transform.ROTATE_90,
+		Transform.ROTATE_180,
+		Transform.ROTATE_270,
+	};
+}
+
+public enum Gth.PrintUnit {
+	MM,
+	INCH;
+
+	public unowned string to_state () {
+		return STATE[this];
+	}
+
+	public Gtk.Unit to_gtk_unit () {
+		return UNIT[this];
+	}
+
+	public static PrintUnit from_state (string? state) {
+		var idx = Util.enum_index (STATE, state);
+		return (PrintUnit) idx;
+	}
+
+	const string[] STATE = {
+		"mm",
+		"in"
+	};
+
+	const Gtk.Unit[] UNIT = {
+		Gtk.Unit.MM,
+		Gtk.Unit.INCH,
+	};
+}

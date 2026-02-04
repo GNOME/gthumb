@@ -447,6 +447,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	public void update_sensitivity () {
 		var is_image = (current_file != null) && Util.content_type_is_image (current_file.get_content_type ());
+		Util.enable_action (window.action_group, "print", is_image);
 		Util.enable_action (window.action_group, "set-desktop-background", is_image);
 		Util.enable_action (window.action_group, "editor-tools", is_image);
 	}

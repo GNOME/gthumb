@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthPrintLayoutDialog">
+    <property name="title" translatable="yes">Print</property>
+    <property name="default-width">1250</property>
+    <property name="default-height">900</property>
+    <property name="default-widget">print_button</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <property name="content">
+      <object class="AdwNavigationSplitView" id="split_view">
+        <property name="sidebar">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Options</property>
+            <property name="width-request">400</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-title">false</property>
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <child>
+                          <object class="AdwButtonContent">
+                            <property name="icon-name">go-previous-symbolic</property>
+                            <property name="label" translatable="yes">Options</property>
+                          </object>
+                        </child>
+                        <signal name="clicked" handler="on_setup" />
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <property name="content">
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup" id="image_group">
+                        <property name="title" translatable="yes">Image</property>
+                        <property name="sensitive">false</property>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Orientation</property>
+                            <child type="suffix">
+                              <object class="AdwToggleGroup" id="image_orientation_group">
+                                <property name="valign">center</property>
+                                <signal name="notify::active-name" handler="on_image_orientation_changed"/>
+                                <child>
+                                  <object class="AdwToggle">
+                                    <property name="icon-name">gth-orientation-up-symbolic</property>
+                                    <property name="name">up</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="AdwToggle">
+                                    <property name="icon-name">gth-orientation-right-symbolic</property>
+                                    <property name="name">right</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="AdwToggle">
+                                    <property name="icon-name">gth-orientation-down-symbolic</property>
+                                    <property name="name">down</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="AdwToggle">
+                                    <property name="icon-name">gth-orientation-left-symbolic</property>
+                                    <property name="name">left</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Size</property>
+                            <child type="suffix">
+                              <object class="GtkScale">
+                                <property name="hexpand">true</property>
+                                <property name="draw-value">false</property>
+                                <property name="value-pos">left</property>
+                                <property name="digits">0</property>
+                                <property name="adjustment">
+                                  <object class="GtkAdjustment" id="scale_adjustment">
+                                    <property name="lower">1</property>
+                                    <property name="upper">100</property>
+                                    <property name="step_increment">1</property>
+                                    <property name="page_increment">10</property>
+                                    <property name="value">100</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwExpanderRow">
+                            <property name="title" translatable="yes">Position</property>
+                            <child>
+                              <object class="AdwSpinRow" id="selection_x">
+                                <property name="title" translatable="yes" context="Position">Left</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwSpinRow" id="selection_y">
+                                <property name="title" translatable="yes" context="Position">Top</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwSpinRow" id="selection_width">
+                                <property name="title" translatable="yes">Width</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwSpinRow" id="selection_height">
+                                <property name="title" translatable="yes">Height</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwActionRow">
+                                <property name="title" translatable="yes">Unit</property>
+                                <child type="suffix">
+                                  <object class="AdwToggleGroup" id="position_unit_group">
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="AdwToggle">
+                                        <!-- Translators: millimiters as length unit -->
+                                        <property name="label" translatable="yes" context="Length Unit">mm</property>
+                                        <property name="tooltip" translatable="yes" context="Length Unit">millimiters</property>
+                                        <property name="name">mm</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwToggle">
+                                        <!-- Translators: inches as length unit -->
+                                        <property name="label" translatable="yes" context="Length Unit">in</property>
+                                        <property name="tooltip" translatable="yes" context="Length Unit">inches</property>
+                                        <property name="name">in</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Page</property>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Orientation</property>
+                            <child type="suffix">
+                              <object class="AdwToggleGroup" id="page_orientation_group">
+                                <property name="valign">center</property>
+                                <signal name="notify::active-name" handler="on_page_orientation_changed"/>
+                                <child>
+                                  <object class="AdwToggle">
+                                    <property name="icon-name">gth-page-orientation-portrait-symbolic</property>
+                                    <property name="name">portrait</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="AdwToggle">
+                                    <property name="icon-name">gth-page-orientation-landscape-symbolic</property>
+                                    <property name="name">landscape</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwExpanderRow">
+                            <property name="title" translatable="yes">Margins</property>
+                            <child>
+                              <object class="AdwSpinRow" id="page_horizontal_margin">
+                                <property name="title" translatable="yes">Horizontal</property>
+                                <property name="adjustment">
+                                  <object class="GtkAdjustment">
+                                    <property name="lower">1</property>
+                                    <property name="upper">500</property>
+                                    <property name="step-increment">1</property>
+                                    <property name="page-increment">10</property>
+                                    <signal name="value_changed" handler="on_page_horizontal_margin_changed"/>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwSpinRow" id="page_vertical_margin">
+                                <property name="title" translatable="yes">Vertical</property>
+                                <property name="adjustment">
+                                  <object class="GtkAdjustment">
+                                    <property name="lower">1</property>
+                                    <property name="upper">500</property>
+                                    <property name="step-increment">1</property>
+                                    <property name="page-increment">10</property>
+                                    <signal name="value_changed" handler="on_page_vertical_margin_changed"/>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwActionRow">
+                                <property name="title" translatable="yes">Unit</property>
+                                <child type="suffix">
+                                  <object class="AdwToggleGroup" id="margin_unit_group">
+                                    <property name="valign">center</property>
+                                    <signal name="notify::active-name" handler="on_margin_unit_changed"/>
+                                    <child>
+                                      <object class="AdwToggle">
+                                        <!-- Translators: millimiters as length unit -->
+                                        <property name="label" translatable="yes" context="Length Unit">mm</property>
+                                        <property name="tooltip" translatable="yes" context="Length Unit">millimiters</property>
+                                        <property name="name">mm</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwToggle">
+                                        <!-- Translators: inches as length unit -->
+                                        <property name="label" translatable="yes" context="Length Unit">in</property>
+                                        <property name="tooltip" translatable="yes" context="Length Unit">inches</property>
+                                        <property name="name">in</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwEntryRow">
+                            <property name="title" translatable="yes">Header</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow">
+                            <property name="title" translatable="yes">Footer</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Caption</property>
+                            <property name="activatable">true</property>
+                            <child type="suffix">
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwSpinRow" id="layout_rows">
+                            <property name="title" translatable="yes">Rows</property>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment">
+                                <property name="lower">1</property>
+                                <property name="upper">10</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <property name="value">1</property>
+                                <signal name="value_changed" handler="on_layout_changed"/>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSpinRow" id="layout_columns">
+                            <property name="title" translatable="yes">Columns</property>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment">
+                                <property name="lower">1</property>
+                                <property name="upper">10</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <property name="value">1</property>
+                                  <signal name="value_changed" handler="on_layout_changed"/>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="content">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Print</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">false</property>
+                    <property name="show-start-title-buttons">false</property>
+                    <property name="title-widget">
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">12</property>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">go-previous-symbolic</property>
+                            <signal name="clicked" handler="on_previous_page" />
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">horizontal</property>
+                            <property name="spacing">0</property>
+                            <child>
+                              <object class="GtkLabel" id="current_page">
+                                <style>
+                                  <class name="numeric"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="total_pages">
+                                <style>
+                                  <class name="dimmed"/>
+                                  <class name="numeric"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="icon-name">go-next-symbolic</property>
+                            <signal name="clicked" handler="on_next_page" />
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">Cancel</property>
+                        <signal name="clicked" handler="on_cancel" />
+                      </object>
+                    </child>
+                    <child type="end">
+                      <object class="GtkButton" id="print_button">
+                        <property name="label" translatable="yes">Print</property>
+                        <signal name="clicked" handler="on_print" />
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <property name="content">
+                  <object class="GthPrintPreview" id="preview">
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

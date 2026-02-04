@@ -453,6 +453,10 @@
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
+        <attribute name="label" translatable="yes">Print</attribute>
+        <attribute name="action">win.print</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">Set as Desktop Background</attribute>
         <attribute name="action">win.set-desktop-background</attribute>
       </item>

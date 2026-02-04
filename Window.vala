@@ -509,6 +509,20 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
+	async void print_images (GenericList<File> files) {
+		var local_job = new_job (_("Print"), JobFlags.FOREGROUND);
+		try {
+			var dialog = new Gth.PrintImages ();
+			yield dialog.print (this, files, local_job);
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
 	public void update_scripts_actions () {
 		ActionList[] menus = {
 			browser.tools_popover.actions,
@@ -1036,6 +1050,17 @@ public class Gth.Window : Adw.ApplicationWindow {
 				return;
 			}
 			convert_format.begin (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("print", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_files ();
+			if ((files == null) || files.is_empty ()) {
+				show_message (_("No file selected"));
+				return;
+			}
+			print_images.begin (files);
 		});
 		action_group.add_action (action);
 	}

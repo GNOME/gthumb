@@ -10,6 +10,10 @@
 	background-color: #000;
 }
 
+.print-view {
+	background-color: #111;
+}
+
 popover.deeper > arrow,
 popover.deeper > contents {
 	border: 1px solid #111;

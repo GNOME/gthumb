@@ -5,6 +5,7 @@ namespace Gth {
 	public class Image : Object {
 		public Image (uint width, uint height);
 		public Image.from_texture (Gdk.Texture texture);
+		public Image.from_cairo_surface (Cairo.Surface surface);
 		public Image dup ();
 		public void copy_metadata (Image destination);
 		public void copy_pixels (Image destination);
@@ -36,6 +37,7 @@ namespace Gth {
 
 		public void copy_from_rgba_big_endian (uint8* data, bool with_alpha, int row_stride);
 		//public const Gdk.MemoryFormat MEMORY_FORMAT;
+		public Cairo.Surface to_surface ();
 
 		public Gdk.Texture get_texture ();
 		public Gdk.Texture? get_texture_for_rect (uint x, uint y, uint width, uint height, uint frame_index = 0);

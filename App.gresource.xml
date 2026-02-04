@@ -77,6 +77,10 @@
     <file preprocess="xml-stripblanks">gth-view-zoom-original-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-out-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-zoom-menu-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-up-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-right-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-down-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-left-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -134,6 +138,7 @@
     <file preprocess="xml-stripblanks">metadata-dialog.ui</file>
     <file preprocess="xml-stripblanks">png-preferences.ui</file>
     <file preprocess="xml-stripblanks">preferences-dialog.ui</file>
+    <file preprocess="xml-stripblanks">print-layout-dialog.ui</file>
     <file preprocess="xml-stripblanks">progress-dialog.ui</file>
     <file preprocess="xml-stripblanks">property-sidebar.ui</file>
     <file preprocess="xml-stripblanks">rename-dialog.ui</file>

@@ -194,8 +194,6 @@
         <attribute name="label" translatable="yes">Open _With…</attribute>
         <attribute name="action">win.open-with</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Save</attribute>
         <attribute name="action">viewer.save</attribute>
@@ -206,10 +204,12 @@
         <attribute name="action">viewer.save-as</attribute>
         <attribute name="hidden-when">action-missing</attribute>
       </item>
+    </section>
+    <section>
       <item>
         <attribute name="label" translatable="yes">Print</attribute>
-        <attribute name="action">viewer.print</attribute>
-        <attribute name="hidden-when">action-missing</attribute>
+        <attribute name="action">win.print</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Set as Desktop Background</attribute>
