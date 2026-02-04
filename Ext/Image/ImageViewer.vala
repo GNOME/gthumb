@@ -685,13 +685,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 }
 
 class Gth.ImageTransform : Gth.ImageOperation {
-	public Transform tranform;
+	public Transform transform;
 
-	public ImageTransform (Transform _tranform) {
-		tranform = _tranform;
+	public ImageTransform (Transform _transform) {
+		transform = _transform;
 	}
 
 	public override Gth.Image? execute (Image image, Cancellable cancellable) {
-		return image.apply_transform (tranform, cancellable);
+		return image.apply_transform (transform, cancellable);
 	}
 }

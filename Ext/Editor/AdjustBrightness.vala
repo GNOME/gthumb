@@ -11,7 +11,7 @@ public class Gth.AdjustBrightness : ImageTool {
 		// Translators: filter that adjust the color curves.
 		filter_grid.add (Method.CURVE, new BrightnessCurve (), _("Curves"));
 
-		// Translators: filter that makes a linear tranformation of the colors.
+		// Translators: filter that makes a linear transformation of the colors.
 		filter_grid.add (Method.LINEAR, new BrightnessLinear (), _("Linear"));
 
 		filter_grid.activated.connect ((id) => {
