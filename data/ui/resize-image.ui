@@ -66,13 +66,17 @@
                 <property name="valign">center</property>
                 <child>
                   <object class="AdwToggle">
-                    <property name="label" translatable="yes">pixel</property>
+                    <!-- Translators: pixels as length unit -->
+                    <property name="label" translatable="yes" context="Length Unit">px</property>
+                    <property name="tooltip" translatable="yes" context="Length Unit">pixels</property>
                     <property name="name">pixels</property>
                   </object>
                 </child>
                 <child>
                   <object class="AdwToggle">
-                    <property name="label" translatable="yes">%</property>
+                    <!-- Translators: percentage as length unit -->
+                    <property name="label" translatable="yes" context="Length Unit">%</property>
+                    <property name="tooltip" translatable="yes" context="Length Unit">percentage</property>
                     <property name="name">percent</property>
                   </object>
                 </child>

@@ -22,12 +22,12 @@
             <property name="title" translatable="yes">Selection</property>
             <child>
               <object class="AdwSpinRow" id="selection_x">
-                <property name="title" translatable="yes">X</property>
+                <property name="title" translatable="yes" context="Position">Left</property>
               </object>
             </child>
             <child>
               <object class="AdwSpinRow" id="selection_y">
-                <property name="title" translatable="yes">Y</property>
+                <property name="title" translatable="yes" context="Position">Top</property>
               </object>
             </child>
             <child>
