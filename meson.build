@@ -6,7 +6,7 @@ project('gthumb',
 )
 
 adwaita_version = '>= 1.8.0'
-glib_version = '>= 2.84'
+glib_version = '2.84'
 gtk_version = '>= 4.18.5'
 lcms2_version = '>= 2.6'
 colord_version = '>= 1.3'
@@ -16,8 +16,8 @@ librsvg_version = '>= 2.34.0'
 gstreamer_version = '>= 1.26.0'
 exiv2_version = '>= 0.28'
 libheif_version = '>= 1.11'
-libjxl_version = '>=0.3.0'
-libgif_version = '>=5.2.0'
+libjxl_version = '>= 0.3.0'
+libgif_version = '>= 5.2.0'
 
 c_comp = meson.get_compiler('c')
 cpp_comp = meson.get_compiler('cpp')
