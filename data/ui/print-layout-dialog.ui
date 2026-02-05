@@ -191,23 +191,6 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup">
-                        <property name="separate-rows">true</property>
-                        <child>
-                          <object class="AdwActionRow">
-                            <property name="title" translatable="yes">Caption</property>
-                            <property name="activatable">true</property>
-                            <child type="suffix">
-                              <object class="GtkImage">
-                                <property name="icon-name">go-next-symbolic</property>
-                                <property name="valign">center</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Page</property>
                         <child>
                           <object class="AdwActionRow">
@@ -296,6 +279,7 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Layout</property>
                         <child>
                           <object class="AdwSpinRow" id="layout_rows">
                             <property name="title" translatable="yes">Rows</property>
@@ -328,6 +312,22 @@
                         </child>
                       </object>
                     </child>
+                    <!--child>
+                      <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Caption</property>
+                            <property name="activatable">true</property>
+                            <child type="suffix">
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child-->
                   </object>
                 </property>
               </object>
