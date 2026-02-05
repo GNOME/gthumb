@@ -299,13 +299,13 @@ namespace Gth.Util {
 		);
 	}
 
-	public static float get_zoom_to_fit_surface (uint natural_width, uint natural_height, int max_width, int max_height) {
+	public static float get_zoom_to_fit_surface (float natural_width, float natural_height, float max_width, float max_height) {
 		if (natural_width == 0)
 			return 1f;
 		if (natural_height == 0)
 			return 1f;
-		var x_ratio = (float) max_width / natural_width;
-		var y_ratio = (float) max_height / natural_height;
+		var x_ratio = max_width / natural_width;
+		var y_ratio = max_height / natural_height;
 		return (x_ratio < y_ratio) ? x_ratio : y_ratio;
 	}
 

@@ -365,6 +365,10 @@ public enum Gth.PrintUnit {
 		return (PrintUnit) idx;
 	}
 
+	public static double convertion_factor (PrintUnit from, PrintUnit to) {
+		return CONVERTION_FACTOR[from, to];
+	}
+
 	const string[] STATE = {
 		"mm",
 		"in"
@@ -373,5 +377,10 @@ public enum Gth.PrintUnit {
 	const Gtk.Unit[] UNIT = {
 		Gtk.Unit.MM,
 		Gtk.Unit.INCH,
+	};
+
+	const double[,] CONVERTION_FACTOR = {
+		{ 1, 1 / 25.4 },
+		{ 25.4, 1 },
 	};
 }

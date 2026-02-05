@@ -77,9 +77,6 @@ public class Gth.PrintPreview : Gtk.Widget {
 		if (selected_image == null) {
 			return;
 		}
-		// selected_image.transform.x += (float) (dx / _zoom);
-		// selected_image.transform.y += (float) (dy / _zoom);
-		// print_layout.update_image_layout (selected_image);
 		print_layout.move_image_by (selected_image, (float) (dx / _zoom), (float) (dy / _zoom));
 		queue_draw ();
 	}
@@ -159,14 +156,15 @@ public class Gth.PrintPreview : Gtk.Widget {
 	}
 
 	public override void size_allocate (int width, int height, int baseline) {
-		var natural_width = (uint) ((print_layout != null) ? print_layout.page_setup.get_paper_width (Gtk.Unit.MM) : MINIMUM_SIZE);
-		var natural_height = (uint) ((print_layout != null) ? print_layout.page_setup.get_paper_height (Gtk.Unit.MM) : MINIMUM_SIZE);
+		var unit = print_layout.default_unit.to_gtk_unit ();
+		var natural_width = (float) ((print_layout != null) ? print_layout.page_setup.get_paper_width (unit) : MINIMUM_SIZE);
+		var natural_height = (float) ((print_layout != null) ? print_layout.page_setup.get_paper_height (unit) : MINIMUM_SIZE);
 		_zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width - PAPER_MARGIN, height - PAPER_MARGIN);
 		var zoomed_width = _zoom * natural_width;
 		var zoomed_height = _zoom * natural_height;
-		// stdout.printf ("> natural: %u,%u\n", natural_width, natural_height);
-		// stdout.printf ("  max: %d,%d\n", width, height);
-		// stdout.printf ("  zoomed: %f,%f\n", zoomed_width, zoomed_height);
+		// stdout.printf ("> natural: %f, %f\n", natural_width, natural_height);
+		// stdout.printf ("  max: %d, %d\n", width, height);
+		// stdout.printf ("  zoomed: %f, %f\n", zoomed_width, zoomed_height);
 		// stdout.printf ("  zoom: %f\n", _zoom);
 		paper_box = { {
 				Util.center_content (width, zoomed_width),

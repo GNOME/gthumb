@@ -261,13 +261,13 @@ public class Gth.PrintLayout : Object {
 			return;
 		}
 		if ((page_width <= 0) || (page_height <= 0)) {
-			page_width = (float) page_setup.get_page_width (Gtk.Unit.MM);
-			page_height = (float) page_setup.get_page_height (Gtk.Unit.MM);
+			page_width = (float) page_setup.get_page_width (default_unit.to_gtk_unit ());
+			page_height = (float) page_setup.get_page_height (default_unit.to_gtk_unit ());
 		}
 
 		if (!printing) {
 			foreach (unowned var image in images) {
-				image.changed_layout ();
+				image.changed_layout (Recenter.NONE);
 			}
 		}
 
@@ -307,8 +307,8 @@ public class Gth.PrintLayout : Object {
 	}
 
 	void update_page_margins () {
-		left_margin = (float) page_setup.get_left_margin (Gtk.Unit.MM);
-		top_margin = (float) page_setup.get_top_margin (Gtk.Unit.MM);
+		left_margin = (float) page_setup.get_left_margin (default_unit.to_gtk_unit ());
+		top_margin = (float) page_setup.get_top_margin (default_unit.to_gtk_unit ());
 		if (get_page_is_rotated ()) {
 			var tmp = left_margin;
 			left_margin = top_margin;
@@ -490,7 +490,7 @@ public class Gth.PrintImageLayout {
 	public Orientation orientation {
 		set {
 			_orientation = value;
-			changed_layout ();
+			changed_layout (Recenter.NONE);
 		}
 		get {
 			return _orientation;
@@ -512,7 +512,7 @@ public class Gth.PrintImageLayout {
 	Image scaled_preview;
 	Image rotated_preview;
 
-	public void changed_layout (Recenter _recenter = Recenter.KEEP_OLD_CENTER) {
+	public void changed_layout (Recenter _recenter) {
 		recenter_at_next_update (_recenter);
 		rotated_preview = null;
 	}

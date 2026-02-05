@@ -164,6 +164,7 @@
                                 <child type="suffix">
                                   <object class="AdwToggleGroup" id="position_unit_group">
                                     <property name="valign">center</property>
+                                    <signal name="notify::active-name" handler="on_unit_changed"/>
                                     <child>
                                       <object class="AdwToggle">
                                         <!-- Translators: millimiters as length unit -->
@@ -268,7 +269,7 @@
                                 <child type="suffix">
                                   <object class="AdwToggleGroup" id="margin_unit_group">
                                     <property name="valign">center</property>
-                                    <signal name="notify::active-name" handler="on_margin_unit_changed"/>
+                                    <signal name="notify::active-name" handler="on_unit_changed"/>
                                     <child>
                                       <object class="AdwToggle">
                                         <!-- Translators: millimiters as length unit -->

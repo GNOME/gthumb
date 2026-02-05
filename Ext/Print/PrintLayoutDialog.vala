@@ -13,24 +13,21 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 		print_layout.image_changed.connect (() => update_selected_image_layout ());
 
 		scale_adjustment.value_changed.connect ((local_adj) => {
-			if ((preview.selected_image != null) && !initializing) {
+			if ((preview.selected_image != null) && (initializing == 0)) {
 				preview.selected_image.zoom = (float) (local_adj.value / 100);
 				update_selected_image_layout ();
 			}
 		});
 
-		initializing = true;
+		initializing++;
 		preview.set_print_layout (print_layout);
 		preview.notify["selected-image"].connect (() => update_image_options ());
-		var unit = print_layout.default_unit;
-		position_unit_group.active_name = unit.to_state ();
-		margin_unit_group.active_name = unit.to_state ();
 		update_page_options ();
 		update_total_pages ();
 		update_current_page ();
 		layout_rows.value = print_layout.rows;
 		layout_columns.value = print_layout.columns;
-		initializing = false;
+		initializing--;
 	}
 
 	void update_selected_image_layout () {
@@ -80,7 +77,7 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_layout_changed (Gtk.Adjustment adj) {
-		if (initializing) {
+		if (initializing > 0) {
 			return;
 		}
 		print_layout.rows = (int) layout_rows.value;
@@ -118,21 +115,32 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 		else {
 			page_orientation_group.active_name = "portrait";
 		}
-		margin_unit_group.active_name = print_layout.default_unit.to_state ();
-		var unit = print_layout.default_unit.to_gtk_unit ();
-		update_adjustments_for_unit (page_horizontal_margin, print_layout.page_setup.get_left_margin (unit));
-		update_adjustments_for_unit (page_vertical_margin, print_layout.page_setup.get_top_margin (unit));
+		update_length_adjustments ();
 	}
 
 	[GtkCallback]
-	void on_margin_unit_changed (Object obj, ParamSpec param) {
+	void on_unit_changed (Object obj, ParamSpec param) {
+		if (initializing > 0) {
+			return;
+		}
+		var old_unit = print_layout.default_unit;
 		var toggle_group = obj as Adw.ToggleGroup;
 		print_layout.default_unit = PrintUnit.from_state (toggle_group.active_name);
-		initializing = true;
-		var unit = print_layout.default_unit.to_gtk_unit ();
-		update_adjustments_for_unit (page_horizontal_margin, print_layout.page_setup.get_left_margin (unit));
-		update_adjustments_for_unit (page_vertical_margin, print_layout.page_setup.get_top_margin (unit));
-		initializing = false;
+		initializing++;
+		update_length_adjustments ();
+		initializing--;
+		print_layout.changed_layout ();
+		preview.queue_resize ();
+	}
+
+	void update_length_adjustments () {
+		var unit_state = print_layout.default_unit.to_state ();
+		margin_unit_group.active_name = unit_state;
+		position_unit_group.active_name = unit_state;
+
+		var gtk_unit = print_layout.default_unit.to_gtk_unit ();
+		update_adjustments_for_unit (page_horizontal_margin, print_layout.page_setup.get_left_margin (gtk_unit));
+		update_adjustments_for_unit (page_vertical_margin, print_layout.page_setup.get_top_margin (gtk_unit));
 	}
 
 	void update_adjustments_for_unit (Adw.SpinRow spin_row, double new_value) {
@@ -141,39 +149,38 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 			spin_row.digits = 0;
 		}
 		else if (print_layout.default_unit == PrintUnit.INCH) {
-			spin_row.adjustment.configure (new_value, 0, 5, 0.01, 0.1, 0);
+			spin_row.adjustment.configure (new_value, 0, 5, 0.05, 0.1, 0);
 			spin_row.digits = 2;
 		}
 	}
 
 	[GtkCallback]
 	void on_page_orientation_changed (Object obj, ParamSpec param) {
-		if (initializing) {
+		if (initializing > 0) {
 			return;
 		}
+		initializing++;
 		var toggle_group = obj as Adw.ToggleGroup;
 		if (toggle_group.active_name == "landscape") {
-			initializing = true;
 			var tmp = page_horizontal_margin.value;
 			page_horizontal_margin.value = page_vertical_margin.value;
 			page_vertical_margin.value = tmp;
-			initializing = false;
 			print_layout.set_page_orientation (Gtk.PageOrientation.LANDSCAPE);
 		}
 		else {
-			initializing = true;
 			var tmp = page_horizontal_margin.value;
 			page_horizontal_margin.value = page_vertical_margin.value;
 			page_vertical_margin.value = tmp;
-			initializing = false;
 			print_layout.set_page_orientation (Gtk.PageOrientation.PORTRAIT);
 		}
+		initializing--;
+		print_layout.changed_layout ();
 		preview.queue_resize ();
 	}
 
 	[GtkCallback]
 	void on_page_horizontal_margin_changed (Gtk.Adjustment adj) {
-		if (initializing) {
+		if (initializing > 0) {
 			return;
 		}
 		if (!print_layout.get_page_is_rotated ()) {
@@ -187,7 +194,7 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_page_vertical_margin_changed (Gtk.Adjustment adj) {
-		if (initializing) {
+		if (initializing > 0) {
 			return;
 		}
 		if (!print_layout.get_page_is_rotated ()) {
@@ -204,39 +211,60 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 			return;
 		}
 
-		initializing = true;
+		double step_length, page_length;
+		int digits;
+		if (print_layout.default_unit == PrintUnit.MM) {
+			step_length = 1;
+			page_length = 10;
+			digits = 0;
+		}
+		else {
+			step_length = 0.05;
+			page_length = 0.1;
+			digits = 2;
+		}
+
+		initializing++;
 		var image = preview.selected_image;
 		image_x.adjustment.configure (
 			image.image_box.origin.x,
-			print_layout.left_margin,
-			print_layout.left_margin + (image.bounding_box.size.width - image.image_box.size.width),
-			1, 10, 0
+			image.bounding_box.origin.x,
+			image.bounding_box.origin.x + (image.bounding_box.size.width - image.image_box.size.width),
+			step_length, page_length,
+			0
 		);
 		image_y.adjustment.configure (
 			image.image_box.origin.y,
-			print_layout.top_margin,
-			print_layout.top_margin + (image.bounding_box.size.height - image.image_box.size.height),
-			1, 10, 0
+			image.bounding_box.origin.y,
+			image.bounding_box.origin.y + (image.bounding_box.size.height - image.image_box.size.height),
+			step_length, page_length,
+			0
 		);
 		image_width.adjustment.configure (
 			image.image_box.size.width,
 			0,
 			image.maximized_box.size.width,
-			1, 10, 0
+			step_length, page_length,
+			0
 		);
 		image_height.adjustment.configure (
 			image.image_box.size.height,
 			0,
 			image.maximized_box.size.height,
-			1, 10, 0
+			step_length, page_length,
+			0
 		);
+		image_x.digits = digits;
+		image_y.digits = digits;
+		image_width.digits = digits;
+		image_height.digits = digits;
+		initializing--;
 		scale_adjustment.value = image.zoom * 100;
-		initializing = false;
 	}
 
 	[GtkCallback]
 	void on_image_x_changed (Object obj, ParamSpec param) {
-		if (initializing || (preview.selected_image == null)) {
+		if ((initializing > 0) || (preview.selected_image == null)) {
 			return;
 		}
 		var spin_row = obj as Adw.SpinRow;
@@ -247,7 +275,7 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_image_y_changed (Object obj, ParamSpec param) {
-		if (initializing || (preview.selected_image == null)) {
+		if ((initializing > 0) || (preview.selected_image == null)) {
 			return;
 		}
 		var spin_row = obj as Adw.SpinRow;
@@ -258,7 +286,7 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_image_size_changed (Object obj, ParamSpec param) {
-		if (initializing || (preview.selected_image == null)) {
+		if ((initializing > 0) || (preview.selected_image == null)) {
 			return;
 		}
 		var spin_row = obj as Adw.SpinRow;
@@ -304,7 +332,7 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 
 	Gth.Window window;
 	Gth.PrintLayout print_layout;
-	bool initializing;
+	int initializing = 0;
 }
 
 public enum Gth.PrintDialogResult {
