@@ -1,5 +1,6 @@
 public class Gth.PrintLayout : Object {
 	public signal void changed ();
+	public signal void image_changed ();
 
 	public GenericArray<PrintImageLayout> images;
 	public Gtk.PageSetup page_setup;
@@ -19,6 +20,8 @@ public class Gth.PrintLayout : Object {
 		}
 	}
 	public int total_pages { get; set; }
+	public float left_margin;
+	public float top_margin;
 
 	bool printing;
 	Pango.Layout pango_layout;
@@ -118,6 +121,7 @@ public class Gth.PrintLayout : Object {
 	}
 
 	OutputStream stream = null;
+	Error print_error = null;
 
 	Cairo.Status write_to_stream (uchar[] data) {
 		if (stream == null) {
@@ -127,8 +131,7 @@ public class Gth.PrintLayout : Object {
 			stream.write (data);
 		}
 		catch (Error error) {
-			// TODO write_error = error;
-			stdout.printf ("> ERROR: %s\n", error.message);
+			print_error = error;
 			return Cairo.Status.WRITE_ERROR;
 		}
 		return Cairo.Status.SUCCESS;
@@ -137,20 +140,25 @@ public class Gth.PrintLayout : Object {
 	public void print_to_stream (OutputStream _stream, Cancellable cancellable) throws Error {
 		stream = _stream;
 		printing = true;
+		print_error = null;
 
 		var dpi = print_settings.get_resolution ();
-		var page_width = page_setup.get_page_width (Gtk.Unit.INCH) * dpi;
-		var page_height = page_setup.get_page_height (Gtk.Unit.INCH) * dpi;
+		var page_width = (float) page_setup.get_page_width (Gtk.Unit.INCH) * dpi;
+		var page_height = (float) page_setup.get_page_height (Gtk.Unit.INCH) * dpi;
 		update_layout (page_width, page_height);
 
-		var paper_width = page_setup.get_paper_width (Gtk.Unit.INCH) * dpi;
+		var paper_width = (int) (page_setup.get_paper_width (Gtk.Unit.INCH) * dpi);
 		var paper_height = page_setup.get_paper_height (Gtk.Unit.INCH) * dpi;
 		var surface = new Cairo.PdfSurface.for_stream (write_to_stream, paper_width, paper_height);
 		var cairo_context = new Cairo.Context (surface);
 
-		var left_margin = page_setup.get_left_margin (Gtk.Unit.INCH) * dpi;
-		var top_margin = page_setup.get_top_margin (Gtk.Unit.INCH) * dpi;
-		cairo_context.translate (left_margin, top_margin);
+		left_margin = (float) page_setup.get_left_margin (Gtk.Unit.INCH) * dpi;
+		top_margin = (float) page_setup.get_top_margin (Gtk.Unit.INCH) * dpi;
+		if (get_page_is_rotated ()) {
+			var tmp = left_margin;
+			left_margin = top_margin;
+			top_margin = tmp;
+		}
 
 		for (var page = 1; page <= total_pages; page++) {
 			print_page (cairo_context, page, cancellable);
@@ -162,12 +170,14 @@ public class Gth.PrintLayout : Object {
 		surface.finish ();
 		printing = false;
 		stream = null;
+
+		if (print_error != null) {
+			throw print_error;
+		}
 	}
 
 	void print_page (Cairo.Context cairo_context, int page_n, Cancellable cancellable) throws Error {
-		// TODO: update header and footer texts
-		stdout.printf ("> page: %d\n", page_n);
-		update_current_page_layout (page_n);
+		update_current_page_layout (page_n, false);
 		foreach (var image in images) {
 			if (image.page != page_n) {
 				continue;
@@ -183,10 +193,10 @@ public class Gth.PrintLayout : Object {
 				print_width = print_height;
 				print_height = tmp;
 			}
-			var scale_factor = (double) print_width / image.image.width;
 
 			Cairo.Surface surface;
 			if (image.image.get_is_scalable ()) {
+				var scale_factor = (double) print_width / image.image.width;
 				surface = image.image.get_scaled_texture (scale_factor, 0, 0, print_width, print_height);
 				if (image.orientation != Orientation.UP) {
 					var scaled = new Image.from_cairo_surface (surface);
@@ -233,9 +243,9 @@ public class Gth.PrintLayout : Object {
 		}
 	}
 
-	public void changed_layout () {
+	public void changed_layout (Recenter recenter = Recenter.NONE) {
 		foreach (unowned var image in images) {
-			image.changed_layout ();
+			image.changed_layout (recenter);
 		}
 		update ();
 	}
@@ -246,30 +256,26 @@ public class Gth.PrintLayout : Object {
 		changed ();
 	}
 
-	public void update_layout (double page_width = 0, double page_height = 0) {
+	public void update_layout (float page_width = 0, float page_height = 0) {
 		if (page_setup == null) {
 			return;
 		}
 		if ((page_width <= 0) || (page_height <= 0)) {
-			page_width = page_setup.get_page_width (Gtk.Unit.MM);
-			page_height = page_setup.get_page_height (Gtk.Unit.MM);
+			page_width = (float) page_setup.get_page_width (Gtk.Unit.MM);
+			page_height = (float) page_setup.get_page_height (Gtk.Unit.MM);
 		}
 
-		var height_changed = false;
-
-		// TODO: update header and footer box
-
-		if (!printing && height_changed) {
+		if (!printing) {
 			foreach (unowned var image in images) {
 				image.changed_layout ();
 			}
 		}
 
-		x_padding = (float) (page_width / 40);
-		y_padding = (float) (page_height / 40);
+		x_padding = page_width / 40;
+		y_padding = page_height / 40;
 
-		max_image_width = (float) ((page_width - ((columns - 1) * x_padding)) / columns);
-		max_image_height = (float) ((page_height - ((rows - 1) * y_padding)) / rows);
+		max_image_width = (page_width - ((columns - 1) * x_padding)) / columns;
+		max_image_height = (page_height - ((rows - 1) * y_padding)) / rows;
 
 		total_pages = int.max ((int) Math.ceilf ((float) images.length / (rows * columns)), 1);
 		if (current_page > total_pages) {
@@ -300,9 +306,22 @@ public class Gth.PrintLayout : Object {
 		}
 	}
 
-	public void update_current_page_layout (int page = 0, int margin_left = 0, int margin_top = 0) {
+	void update_page_margins () {
+		left_margin = (float) page_setup.get_left_margin (Gtk.Unit.MM);
+		top_margin = (float) page_setup.get_top_margin (Gtk.Unit.MM);
+		if (get_page_is_rotated ()) {
+			var tmp = left_margin;
+			left_margin = top_margin;
+			top_margin = tmp;
+		}
+	}
+
+	public void update_current_page_layout (int page = 0, bool update_margins = true) {
 		if (page == 0) {
 			page = _current_page;
+		}
+		if (update_margins) {
+			update_page_margins ();
 		}
 		foreach (var image in images) {
 			if (image.page != page) {
@@ -312,12 +331,11 @@ public class Gth.PrintLayout : Object {
 		}
 	}
 
-	public void update_image_layout (PrintImageLayout image, int margin_left = 0, int margin_top = 0) {
-		var top_margin = (header_box.size.height > 0) ? header_box.size.height + y_padding : 0;
+	public void update_image_layout (PrintImageLayout image) {
 		image.bounding_box = {
 			{
-				(image.column - 1) * (max_image_width + x_padding),
-				(image.row - 1) * (max_image_height + y_padding) + top_margin
+				left_margin + (image.column - 1) * (max_image_width + x_padding),
+				top_margin + (image.row - 1) * (max_image_height + y_padding)
 			},
 			{
 				max_image_width,
@@ -355,24 +373,49 @@ public class Gth.PrintLayout : Object {
 		var max_x = image.bounding_box.size.width - image.image_box.size.width;
 		var max_y = image.bounding_box.size.height - image.image_box.size.height;
 
+		switch (image.recenter) {
+		case Recenter.RECENTER:
+			image.transform.x = 0.5f;
+			image.transform.y = 0.5f;
+			break;
+
+		case Recenter.RECENTER_X:
+			image.transform.x = 0.5f;
+			break;
+
+		case Recenter.RECENTER_Y:
+			image.transform.y = 0.5f;
+			break;
+
+		case Recenter.KEEP_OLD_CENTER:
+			if (max_x > 0) {
+				var center_x = (image.old_image_box.origin.x - image.bounding_box.origin.x) + (image.old_image_box.size.width - image.image_box.size.width) / 2;
+				image.transform.x = (float) (center_x / max_x);
+			}
+			else {
+				image.transform.x = 0;
+			}
+			if (max_y > 0) {
+				var center_y = (image.old_image_box.origin.y - image.bounding_box.origin.y) + (image.old_image_box.size.height - image.image_box.size.height) / 2;
+				image.transform.y = (float) (center_y / max_y);
+			}
+			else {
+				image.transform.y = 0;
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		image.recenter = Recenter.NONE;
+		image.transform.x = image.transform.x.clamp (0, 1);
+		image.transform.y = image.transform.y.clamp (0, 1);
+
 		image.image_box.origin = {
-			image.bounding_box.origin.x + (max_x * image.transform.x),
-			image.bounding_box.origin.y + (max_y * image.transform.y),
+			image.bounding_box.origin.x + (image.transform.x * max_x),
+			image.bounding_box.origin.y + (image.transform.y * max_y),
 		};
-
-		// Check the limits
-
-		if (image.image_box.origin.x - image.bounding_box.origin.x + image.image_box.size.width > image.bounding_box.size.width) {
-			image.image_box.origin.x = image.bounding_box.origin.x + image.bounding_box.size.width - image.image_box.size.width;
-			image.transform.x = (image.image_box.origin.x - image.bounding_box.origin.x) / max_image_width;
-		}
-
-		if (image.image_box.origin.y - image.bounding_box.origin.y + image.image_box.size.height > image.bounding_box.size.height) {
-			image.image_box.origin.y = image.bounding_box.origin.y + image.bounding_box.size.height - image.image_box.size.height;
-			image.transform.y = (image.image_box.origin.y - image.bounding_box.origin.y) / max_image_height;
-		}
-
-		// TODO: Comment_box
 	}
 
 	public void set_page_orientation (Gtk.PageOrientation orientation) {
@@ -387,17 +430,42 @@ public class Gth.PrintLayout : Object {
 		page_setup.set_right_margin (left_margin, unit);
 		page_setup.set_top_margin (top_margin, unit);
 		page_setup.set_bottom_margin (top_margin, unit);
-		changed_layout ();
+		changed_layout (Recenter.RECENTER);
 	}
 
-	Graphene.Rect header_box;
-	Graphene.Rect footer_box;
+	public void move_image_by (PrintImageLayout image, float dx, float dy) {
+		var max_x = image.bounding_box.size.width - image.image_box.size.width;
+		if (max_x > 0) {
+			image.transform.x += dx / max_x;
+		}
+		else {
+			image.transform.x = 0;
+		}
+		var max_y = image.bounding_box.size.height - image.image_box.size.height;
+		if (max_y > 0) {
+			image.transform.y += dy / max_y;
+		}
+		else {
+			image.transform.y = 0;
+		}
+		update_image_layout (image);
+		image_changed ();
+	}
+
 	float x_padding;
 	float y_padding;
 	float max_image_width;
 	float max_image_height;
 	int _current_page;
 	GLib.Settings settings;
+}
+
+public enum Gth.Recenter {
+	NONE,
+	KEEP_OLD_CENTER,
+	RECENTER_X,
+	RECENTER_Y,
+	RECENTER;
 }
 
 public class Gth.PrintImageLayout {
@@ -412,7 +480,7 @@ public class Gth.PrintImageLayout {
 	public float zoom {
 		set {
 			_zoom = value;
-			recenter ();
+			recenter_at_next_update (Recenter.KEEP_OLD_CENTER);
 		}
 		get {
 			return _zoom;
@@ -428,25 +496,35 @@ public class Gth.PrintImageLayout {
 			return _orientation;
 		}
 	}
+	public Recenter recenter;
 
 	public PrintImageLayout (File _file, Image _image) {
 		file = _file;
 		image = _image;
 		scaled_preview = null;
 		zoom = 1;
+		recenter = Recenter.RECENTER;
+		recenter_at_next_update ();
 		orientation = Orientation.UP;
 	}
 
+	public Graphene.Rect old_image_box;
 	Image scaled_preview;
 	Image rotated_preview;
 
-	public void changed_layout () {
-		recenter ();
+	public void changed_layout (Recenter _recenter = Recenter.KEEP_OLD_CENTER) {
+		recenter_at_next_update (_recenter);
 		rotated_preview = null;
 	}
 
-	void recenter () {
-		transform = { 0.5f, 0.5f };
+	public void recenter_at_next_update (Recenter _recenter = Recenter.RECENTER) {
+		if (_recenter < recenter) {
+			return;
+		}
+		recenter = _recenter;
+		if (recenter == Recenter.KEEP_OLD_CENTER) {
+			old_image_box = image_box;
+		}
 	}
 
 	public void snapshot (Gtk.Snapshot snapshot, Graphene.Size paper_size, Graphene.Rect image_box) {

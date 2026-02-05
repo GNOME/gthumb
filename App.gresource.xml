@@ -81,6 +81,8 @@
     <file preprocess="xml-stripblanks">gth-orientation-right-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-orientation-down-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-orientation-left-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-halign-center-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-valign-center-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>

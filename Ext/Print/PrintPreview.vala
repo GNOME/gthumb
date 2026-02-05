@@ -9,12 +9,18 @@ public class Gth.PrintPreview : Gtk.Widget {
 
 		var motion_events = new Gtk.EventControllerMotion ();
 		motion_events.motion.connect ((x, y) => {
+			if (dragging) {
+				return;
+			}
 			Graphene.Point point = { (float) x, (float) y };
 			image_under_pointer = get_image_at_point (point);
 			cursor = (image_under_pointer != null) ? pointer_cursor : null;
 			queue_draw ();
 		});
 		motion_events.leave.connect (() => {
+			if (dragging) {
+				return;
+			}
 			image_under_pointer = null;
 			cursor = null;
 			queue_draw ();
@@ -33,23 +39,62 @@ public class Gth.PrintPreview : Gtk.Widget {
 			queue_draw ();
 		});
 		add_controller (click_events);
+
+		var drag_events = new Gtk.GestureDrag ();
+		drag_events.drag_begin.connect ((x, y) => {
+			if (selected_image == null) {
+				return;
+			}
+			var bounding_box = get_scaled_box (selected_image.image_box);
+			Graphene.Point point = { (float) x, (float) y };
+			if (!bounding_box.contains_point (point)) {
+				return;
+			}
+			prev_cursor = cursor;
+			cursor = new Gdk.Cursor.from_name ("grabbing", null);
+			drag_start = PointUtil.point_from_click (x, y);
+			dragging = true;
+		});
+		drag_events.drag_end.connect ((x, y) => {
+			cursor = prev_cursor;
+			dragging = false;
+		});
+		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
+			if (!dragging) {
+				return;
+			}
+			double start_x, start_y;
+			local_drag_events.get_start_point (out start_x, out start_y);
+			double x = start_x + ofs_x;
+			double y = start_y + ofs_y;
+			move_selected_image_by (x - drag_start.x, y - drag_start.y);
+			drag_start = PointUtil.point_from_click (x, y);
+		});
+		add_controller (drag_events);
 	}
 
+	void move_selected_image_by (double dx, double dy) {
+		if (selected_image == null) {
+			return;
+		}
+		// selected_image.transform.x += (float) (dx / _zoom);
+		// selected_image.transform.y += (float) (dy / _zoom);
+		// print_layout.update_image_layout (selected_image);
+		print_layout.move_image_by (selected_image, (float) (dx / _zoom), (float) (dy / _zoom));
+		queue_draw ();
+	}
+
+	bool dragging = false;
+	Graphene.Point drag_start;
 	Gdk.Cursor pointer_cursor;
+	Gdk.Cursor prev_cursor;
 	PrintImageLayout image_under_pointer = null;
 
 	Graphene.Rect get_scaled_box (Graphene.Rect image_box, int padding = 0) {
-		var left_margin = (float) print_layout.page_setup.get_left_margin (Gtk.Unit.MM);
-		var top_margin = (float) print_layout.page_setup.get_top_margin (Gtk.Unit.MM);
-		if (print_layout.get_page_is_rotated ()) {
-			var tmp = left_margin;
-			left_margin = top_margin;
-			top_margin = tmp;
-		}
 		Graphene.Rect scaled_box = {
 			{
-				paper_box.origin.x + ((left_margin + image_box.origin.x) * _zoom) - padding,
-				paper_box.origin.y + ((top_margin + image_box.origin.y) * _zoom) - padding,
+				paper_box.origin.x + (image_box.origin.x * _zoom) - padding,
+				paper_box.origin.y + (image_box.origin.y * _zoom) - padding,
 			},
 			{
 				(image_box.size.width * _zoom) + (padding * 2),
@@ -61,6 +106,9 @@ public class Gth.PrintPreview : Gtk.Widget {
 
 	PrintImageLayout? get_image_at_point (Graphene.Point point) {
 		foreach (unowned var image in print_layout.images) {
+			if (image.page != print_layout.current_page) {
+				continue;
+			}
 			var bounding_box = get_scaled_box (image.bounding_box);
 			if (bounding_box.contains_point (point)) {
 				return image;
