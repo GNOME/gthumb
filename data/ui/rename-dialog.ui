@@ -5,6 +5,17 @@
     <property name="width-request">700</property>
     <property name="default-widget">save_button</property>
     <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
       <object class="AdwNavigationView" id="main_view">
         <child>
           <object class="AdwNavigationPage" id="main_page">
