@@ -18,6 +18,12 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 
 		// Filter list
 		filter_list.bind_model (app.filters.entries.model, new_filter_row);
+
+		var empty_row = new Adw.ActionRow ();
+		empty_row.title = _("Empty");
+		empty_row.sensitive = false;
+		empty_row.halign = Gtk.Align.CENTER;
+		filter_list.set_placeholder (empty_row);
 	}
 
 	[GtkCallback]

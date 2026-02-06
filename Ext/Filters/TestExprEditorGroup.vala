@@ -22,7 +22,7 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 		action_group.add_action (action);
 
 		var empty_row = new Adw.ActionRow ();
-		empty_row.title = _("No Rule");
+		empty_row.title = _("Empty");
 		empty_row.sensitive = false;
 		empty_row.halign = Gtk.Align.CENTER;
 		test_list.set_placeholder (empty_row);

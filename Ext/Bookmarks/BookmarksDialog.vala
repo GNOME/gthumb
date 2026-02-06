@@ -2,7 +2,7 @@
 public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 	public BookmarksDialog () {
 		var empty_row = new Adw.ActionRow ();
-		empty_row.title = _("No Bookmark");
+		empty_row.title = _("Empty");
 		empty_row.sensitive = false;
 		empty_row.halign = Gtk.Align.CENTER;
 		bookmark_list.set_placeholder (empty_row);

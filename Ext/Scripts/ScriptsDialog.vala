@@ -3,6 +3,12 @@ public class Gth.ScriptsDialog : Adw.PreferencesDialog {
 	public ScriptsDialog () {
 		tool_list.bind_model (app.tools.entries.model, new_tool_row);
 		script_list.bind_model (app.scripts.entries.model, new_script_row);
+
+		var empty_row = new Adw.ActionRow ();
+		empty_row.title = _("Empty");
+		empty_row.sensitive = false;
+		empty_row.halign = Gtk.Align.CENTER;
+		script_list.set_placeholder (empty_row);
 	}
 
 	Gtk.Widget new_tool_row (Object item) {
