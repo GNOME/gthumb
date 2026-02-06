@@ -44,7 +44,9 @@ public class Gth.PrintImages : Object {
 		if (print_layout.print_settings != null) {
 			print_dialog.print_settings = print_layout.print_settings;
 		}
-		print_layout.set_default_output_file (print_dialog.print_settings);
+		if (print_dialog.print_settings != null) {
+			print_layout.set_default_output_file (print_dialog.print_settings);
+		}
 		print_dialog.accept_label = _("_Continue…");
 		print_dialog.title = _("Print");
 		try {

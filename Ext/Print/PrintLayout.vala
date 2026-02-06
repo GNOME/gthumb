@@ -34,7 +34,7 @@ public class Gth.PrintLayout : Object {
 			print_settings = new Gtk.PrintSettings.from_file (file.get_path ());
 		}
 		catch (Error error) {
-			print_settings = null;
+			print_settings = new Gtk.PrintSettings ();
 		}
 
 		try {
@@ -42,7 +42,7 @@ public class Gth.PrintLayout : Object {
 			page_setup = new Gtk.PageSetup.from_file (file.get_path ());
 		}
 		catch (Error error) {
-			page_setup = null;
+			page_setup = new Gtk.PageSetup ();
 		}
 
 		settings = new GLib.Settings (GTHUMB_PRINT_SCHEMA);
