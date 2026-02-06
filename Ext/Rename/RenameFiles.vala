@@ -18,7 +18,6 @@ public class Gth.RenameFiles : Object {
 			dialog.close ();
 		});
 		job.opens_dialog ();
-		dialog.transient_for = window;
 		dialog.present ();
 		yield;
 		job.dialog_closed ();
