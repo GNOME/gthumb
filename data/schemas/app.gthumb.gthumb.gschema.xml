@@ -176,5 +176,8 @@
     <key name="unit" enum="app.gthumb.gthumb.GthPrintUnit">
       <default>'mm'</default>
     </key>
+    <key name="output-dir" type="s">
+      <default>''</default>
+    </key>
   </schema>
 </schemalist>

@@ -69,29 +69,31 @@ public class Gth.PrintLayout : Object {
 		page_setup.set_bottom_margin (value, default_unit.to_gtk_unit ());
 	}
 
-	public void set_default_output_file (Gtk.PrintSettings settings) {
-		var ext = settings.get (Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT);
+	public void set_default_output_file (Gtk.PrintSettings print_settings) {
+		var ext = print_settings.get (Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT);
 		if (ext == null) {
 			ext = "pdf";
-			settings.set (Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT, ext);
+			print_settings.set (Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT, ext);
 		}
+		var path = settings.get_string (PREF_PRINT_OUTPUT_DIR);
+		if (Strings.empty (path)) {
+			path = Environment.get_user_special_dir (UserDirectory.DOCUMENTS);
+		}
+		if (Strings.empty (path)) {
+			path = Environment.get_home_dir ();
+		}
+		string basename = null;
 		if (images.length == 1) {
 			var first_image = images[0];
-			if ((first_image.file != null) && first_image.file.has_uri_scheme ("file")) {
-				var uri = first_image.file.get_uri () + "." + ext;
-				settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI, uri);
+			if (first_image.file != null) {
+				basename = first_image.file.get_basename ();
 			}
 		}
-		else {
-			var path = Environment.get_user_special_dir (UserDirectory.DOCUMENTS);
-			if (path == null) {
-				path = Environment.get_home_dir ();
-			}
-			if (path != null) {
-				var uri = Filename.to_uri (path) + "/" + _("Images") + "." + ext;
-				settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI, uri);
-			}
+		if (basename == null) {
+			basename = _("Images");
 		}
+		var uri = Filename.to_uri (path) + "/" + basename + "." + ext;
+		print_settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI, uri);
 	}
 
 	public void set_setup (Gtk.PrintSetup _print_setup) {
@@ -115,6 +117,18 @@ public class Gth.PrintLayout : Object {
 		catch (Error error) {
 		}
 
+		var uri = print_settings.get (Gtk.PRINT_SETTINGS_OUTPUT_URI);
+		if (uri != null) {
+			try {
+				var filename = Filename.from_uri (uri, null);
+				var dirname = Path.get_dirname (filename);
+				if (dirname != null) {
+					settings.set_string (PREF_PRINT_OUTPUT_DIR, dirname);
+				}
+			}
+			catch (Error error) {
+			}
+		}
 		settings.set_int (PREF_PRINT_LAYOUT_ROWS, rows);
 		settings.set_int (PREF_PRINT_LAYOUT_COLUMNS, columns);
 		settings.set_enum (PREF_PRINT_UNIT, default_unit);

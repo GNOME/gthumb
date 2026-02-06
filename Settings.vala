@@ -105,6 +105,7 @@ const string PREF_CONVERT_FORMAT = "format";
 const string PREF_PRINT_LAYOUT_ROWS = "rows";
 const string PREF_PRINT_LAYOUT_COLUMNS = "columns";
 const string PREF_PRINT_UNIT = "unit";
+const string PREF_PRINT_OUTPUT_DIR = "output-dir";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {
