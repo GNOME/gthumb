@@ -77,8 +77,6 @@ public class Gth.Application : Adw.Application {
 		register_test (typeof (Gth.TestFileTypeImage));
 		register_test (typeof (Gth.TestFileTypeVideo));
 		register_test (typeof (Gth.TestFileTypeAudio));
-		register_test (typeof (Gth.TestFileTypeJpeg));
-		register_test (typeof (Gth.TestFileTypeRaw));
 		//register_test (typeof (Gth.TestFileTypeText));
 		register_test (typeof (Gth.TestTimeOriginal));
 		register_test (typeof (Gth.TestTitle));

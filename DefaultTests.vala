@@ -41,30 +41,6 @@ public class Gth.TestFileTypeImage : Gth.TestFileType {
 	}
 }
 
-public class Gth.TestFileTypeJpeg : Gth.TestFileType {
-	construct {
-		id = "Type::Jpeg";
-		display_name = _("JPEG Images");
-		attributes = null;
-	}
-
-	public override bool match (FileData file) {
-		return ContentType.equals (file.get_content_type (), "image/jpeg");
-	}
-}
-
-public class Gth.TestFileTypeRaw : Gth.TestFileType {
-	construct {
-		id = "Type::Raw";
-		display_name = _("Raw Photos");
-		attributes = null;
-	}
-
-	public override bool match (FileData file) {
-		return Util.content_type_is_raw (file.get_content_type ());
-	}
-}
-
 public class Gth.TestFileTypeVideo : Gth.TestFileType {
 	construct {
 		id = "Type::Video";
