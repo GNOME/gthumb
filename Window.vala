@@ -360,7 +360,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		try {
 			var files = get_selected_file_data_list ();
 			if (files.length () == 0) {
-				throw new IOError.FAILED (_("No file selected"));
+				throw new IOError.FAILED (_("No files selected"));
 			}
 			var app_selector = new Gth.AppSelector ();
 			var app_info = yield app_selector.select_app (this, files, local_job);
@@ -429,7 +429,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void set_desktop_background () {
 		var file_data = get_current_file_data ();
 		if (file_data == null) {
-			show_error (new IOError.FAILED (_("No file selected")));
+			show_error (new IOError.FAILED (_("No files selected")));
 			return;
 		}
 		desktop_background = new DesktopBackground (this);
@@ -782,7 +782,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect (() => {
 			var file_data = get_current_file_data ();
 			if (file_data == null) {
-				show_error (new IOError.FAILED (_("No file selected")));
+				show_error (new IOError.FAILED (_("No files selected")));
 				return;
 			}
 			var new_window = new Gth.Window ();
@@ -795,7 +795,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect (() => {
 			var file_data = get_current_file_data ();
 			if (file_data == null) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			edit_metadata.begin (file_data);
@@ -903,7 +903,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			var operation = new ImageRotation (Transform.ROTATE_270);
@@ -915,7 +915,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			var operation = new ImageRotation (Transform.ROTATE_90);
@@ -927,7 +927,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			var operation = new ImageRotation (Transform.NONE, TransformFlags.CHANGE_IMAGE | TransformFlags.ALWAYS_SAVE);
@@ -939,7 +939,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			var operation = new ImageRotation (Transform.NONE, TransformFlags.RESET);
@@ -951,7 +951,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			var operation = new ClearMetadata ();
@@ -963,7 +963,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			var operation = new UpdateThumbnail ();
@@ -975,7 +975,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			open_with_command ({ "gimp", "org.gimp.GIMP" }, "Gimp", files);
@@ -986,7 +986,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			open_with_command ({ "inkscape", "org.inkscape.Inkscape" }, "Inkscape", files);
@@ -1024,7 +1024,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect (() => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			rename_files.begin (files);
@@ -1035,7 +1035,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			resize_images.begin (files);
@@ -1046,7 +1046,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			convert_format.begin (files);
@@ -1057,7 +1057,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
 			if ((files == null) || files.is_empty ()) {
-				show_message (_("No file selected"));
+				show_message (_("No files selected"));
 				return;
 			}
 			print_images.begin (files);

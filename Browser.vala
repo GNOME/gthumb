@@ -1744,11 +1744,11 @@ public class Gth.Browser : Gtk.Box {
 		try {
 			var position = get_selected_position ();
 			if (position == uint.MAX) {
-				throw new IOError.FAILED (_("No file selected"));
+				throw new IOError.FAILED (_("No files selected"));
 			}
 			var file = file_grid.model.get_item (position) as FileData;
 			if (file == null) {
-				throw new IOError.FAILED (_("No file selected"));
+				throw new IOError.FAILED (_("No files selected"));
 			}
 			view_position_async.begin (position, ViewFlags.DEFAULT, (_obj, res) => {
 				if (view_position_async.end (res)) {
@@ -2673,7 +2673,7 @@ public class Gth.Browser : Gtk.Box {
 	void add_to_selection (uint number) {
 		var files = get_selected_files ();
 		if (files.is_empty ()) {
-			window.show_error (new IOError.FAILED (_("No file selected")));
+			window.show_error (new IOError.FAILED (_("No files selected")));
 			return;
 		}
 		var selection = app.selections.get_selection (number);
@@ -2683,7 +2683,7 @@ public class Gth.Browser : Gtk.Box {
 	void remove_from_selection (uint number) {
 		var files = get_selected_files ();
 		if (files.is_empty ()) {
-			window.show_error (new IOError.FAILED (_("No file selected")));
+			window.show_error (new IOError.FAILED (_("No files selected")));
 			return;
 		}
 		var selection = app.selections.get_selection (number);
