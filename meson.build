@@ -57,17 +57,6 @@ libjpeg_dep = [
   c_comp.find_library('jpeg')
 ]
 
-code = '''#include <stdio.h>
-#include <jpeglib.h>
-#if JPEG_LIB_VERSION < 80
-#error "wrong version"
-#endif
-int main(int c, char**v) { return 0; }'''
-have_libjpeg_80 = c_comp.compiles(
-  code,
-  name: 'libjpeg version is 8 or greater',
-  dependencies: libjpeg_dep
-)
 have_progressive_jpeg = c_comp.has_function(
   'jpeg_simple_progression',
   prefix: '#include <stdio.h>\n#include<jpeglib.h>',
@@ -555,7 +544,6 @@ subdir('data')
 summary(
   {
     'prefix': prefix,
-    'libjpeg 8': have_libjpeg_80,
     'prog jpeg': have_progressive_jpeg,
     'lcms2': use_lcms2,
     'colord': use_colord,
