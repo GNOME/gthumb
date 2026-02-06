@@ -2071,7 +2071,7 @@ _gth_browser_deactivate_viewer_page (GthBrowser *browser)
 		gth_browser_set_viewer_widget (browser, NULL);
 		g_object_unref (browser->priv->viewer_page);
 		browser->priv->viewer_page = NULL;
-		gth_image_preloader_clear_cache (browser->priv->image_preloader);
+		gth_image_preloader_stop (browser->priv->image_preloader);
 	}
 }
 

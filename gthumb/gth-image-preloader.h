@@ -73,5 +73,6 @@ void                gth_image_preloader_set_modified_image	 (GthImagePreloader		
 								  GthImage			 *image);
 cairo_surface_t *   gth_image_preloader_get_modified_image	 (GthImagePreloader		 *self);
 void		    gth_image_preloader_clear_cache		 (GthImagePreloader		 *self);
+void		    gth_image_preloader_stop			 (GthImagePreloader		 *self);
 
 #endif /* GTH_IMAGE_PRELOADER_H */
