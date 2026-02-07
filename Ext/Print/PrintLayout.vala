@@ -543,12 +543,12 @@ public class Gth.PrintImageLayout {
 
 	public void snapshot (Gtk.Snapshot snapshot, Graphene.Size paper_size, Graphene.Rect image_box) {
 		if (scaled_preview == null) {
+			var size = uint.max ((uint) paper_size.width, (uint) paper_size.height);
 			if (image.get_is_scalable ()) {
 				var scaled_width = (uint) image_box.size.width;
 				var scaled_height = (uint) image_box.size.height;
-				Lib.scale_keeping_ratio (ref scaled_width, ref scaled_height, (uint) paper_size.width, (uint) paper_size.height, true);
-				var image_width = orientation.changes_dimensions () ? image.height : image.width;
-				var scale_factor = (double) scaled_width / image_width;
+				Lib.scale_keeping_ratio (ref scaled_width, ref scaled_height, size, size, true);
+				var scale_factor = (double) scaled_width / image.width;
 				var texture = image.get_scaled_texture (
 					scale_factor,
 					0, 0,
@@ -557,7 +557,7 @@ public class Gth.PrintImageLayout {
 				scaled_preview = new Image.from_cairo_surface (texture);
 			}
 			else {
-				scaled_preview = image.resize_to ((uint) paper_size.width, (uint) paper_size.height, ScaleFilter.GOOD);
+				scaled_preview = image.resize (size, ResizeFlags.DEFAULT, ScaleFilter.GOOD);
 			}
 		}
 
