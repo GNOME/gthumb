@@ -21,7 +21,7 @@ public class Gth.FileActions {
 		loaded = false;
 	}
 
-	public void register (ToolCategory category, string action_name, string display_name, string? icon_name = null, string? default_shortcut = null) {
+	public FileAction register (ToolCategory category, string action_name, string display_name, string? icon_name = null, string? default_shortcut = null) {
 		var action = new FileAction ();
 		action.category = category;
 		action.action_name = action_name;
@@ -29,6 +29,7 @@ public class Gth.FileActions {
 		action.icon_name = icon_name;
 		action.default_shortcut = default_shortcut;
 		entries.model.append (action);
+		return action;
 	}
 
 	public bool load_from_file () {
