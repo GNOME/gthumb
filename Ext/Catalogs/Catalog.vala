@@ -24,6 +24,10 @@ public class Gth.Catalog : Object {
 		return new FileData (file, info);
 	}
 
+	public static bool is_base_dir (File file) {
+		return file.get_uri () == "catalog:///";
+	}
+
 	public static Catalog? new_from_data (File file, string data) throws Error {
 		Catalog catalog = null;
 		if (data.has_prefix ("<?xml")) {
@@ -98,6 +102,10 @@ public class Gth.Catalog : Object {
 
 	public static File get_base_dir () {
 		return UserDir.get_directory (FileIntent.READ, DirType.DATA, APP_DIR, "catalogs");
+	}
+
+	public static File? make_base_dir () {
+		return UserDir.get_directory (FileIntent.WRITE, DirType.DATA, APP_DIR, "catalogs");
 	}
 
 	public static void update_file_info_for_library (File file, FileInfo info) {

@@ -164,7 +164,23 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		var gio_file = Catalog.to_gio_file (file);
 		var all_attributes = Util.concat_attributes (FileAttribute.STANDARD_TYPE, requested_attributes);
 		var file_attributes = Util.extract_file_attributes (all_attributes);
-		var info = yield gio_file.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+		FileInfo info = null;
+		try {
+				info = yield gio_file.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+		}
+		catch (Error error) {
+			if ((error is IOError.NOT_FOUND) && Catalog.is_base_dir (file)) {
+				// Create the catalog root if it does not exist.
+				if (Catalog.make_base_dir () == null) {
+					throw error;
+				}
+				// Try again
+				info = yield gio_file.query_info_async (file_attributes, FileQueryInfoFlags.NONE, Priority.DEFAULT, cancellable);
+			}
+			else {
+				throw error;
+			}
+		}
 		if (info.get_file_type () == FileType.DIRECTORY) {
 			Catalog.update_file_info_for_library (file, info);
 		}
