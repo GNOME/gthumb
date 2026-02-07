@@ -1,7 +1,5 @@
 public class Gth.PrintImages : Object {
-	public async void print (Gth.Window _window, GenericList<File> files, Job job) throws Error {
-		window = _window;
-
+	public async void print_files (GenericList<File> files, Gth.Window _window, Job job) throws Error {
 		// Load the images
 		var images = new GenericArray<PrintImageLayout> ();
 		foreach (var file in files) {
@@ -9,7 +7,18 @@ public class Gth.PrintImages : Object {
 			images.add (new PrintImageLayout (file, image));
 		}
 		print_layout = new PrintLayout (images);
+		yield print (print_layout, _window, job);
+	}
 
+	public async void print_image (Image image, File? file, Gth.Window _window, Job job) throws Error {
+		var images = new GenericArray<PrintImageLayout> ();
+		images.add (new PrintImageLayout (file, image));
+		print_layout = new PrintLayout (images);
+		yield print (print_layout, _window, job);
+	}
+
+	async void print (PrintLayout print_layout, Gth.Window _window, Job job) throws Error {
+		window = _window;
 		try {
 			while (true) {
 				// Print Setup

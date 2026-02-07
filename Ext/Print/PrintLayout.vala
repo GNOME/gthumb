@@ -90,7 +90,7 @@ public class Gth.PrintLayout : Object {
 			}
 		}
 		if (basename == null) {
-			basename = _("Images");
+			basename = (images.length == 1) ? _("Image") : _("Images");
 		}
 		var uri = Filename.to_uri (path) + "/" + basename + "." + ext;
 		print_settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI, uri);
@@ -512,7 +512,7 @@ public class Gth.PrintImageLayout {
 	}
 	public Recenter recenter;
 
-	public PrintImageLayout (File _file, Image _image) {
+	public PrintImageLayout (File? _file, Image _image) {
 		file = _file;
 		image = _image;
 		scaled_preview = null;

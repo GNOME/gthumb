@@ -509,11 +509,21 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
-	async void print_images (GenericList<File> files) {
+	async void print_files (GenericList<File> files) {
 		var local_job = new_job (_("Print"), JobFlags.FOREGROUND);
 		try {
 			var dialog = new Gth.PrintImages ();
-			yield dialog.print (this, files, local_job);
+			if ((current_page == Page.VIEWER) && (viewer.current_viewer is ImageViewer)) {
+				File file = null;
+				if (viewer.current_file != null) {
+					file = viewer.current_file.file;
+				}
+				var image_viewer = viewer.current_viewer as ImageViewer;
+				yield dialog.print_image (image_viewer.image_view.image, file, this, local_job);
+			}
+			else {
+				yield dialog.print_files (files, this, local_job);
+			}
 		}
 		catch (Error error) {
 			show_error (error);
@@ -1060,7 +1070,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				show_message (_("No files selected"));
 				return;
 			}
-			print_images.begin (files);
+			print_files.begin (files);
 		});
 		action_group.add_action (action);
 	}
