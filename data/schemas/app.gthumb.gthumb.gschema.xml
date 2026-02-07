@@ -38,10 +38,10 @@
       <default>''</default>
     </key>
     <key name="sort-type" type="s">
-      <default>'File::Name'</default>
+      <default>'Time::Modified'</default>
     </key>
     <key name="sort-inverse" type="b">
-      <default>false</default>
+      <default>true</default>
     </key>
     <key name="window-width" type="i">
       <default>1600</default>
@@ -56,13 +56,13 @@
       <default>true</default>
     </key>
     <key name="sidebar-width" type="i">
-      <default>300</default>
+      <default>350</default>
     </key>
     <key name="properties-visible" type="b">
       <default>false</default>
     </key>
     <key name="properties-width" type="i">
-      <default>300</default>
+      <default>350</default>
     </key>
     <key name="folder-tree-sort-type" type="s">
       <default>'name'</default>
