@@ -36,7 +36,9 @@ public class Gth.SearchSourceEditorGroup : Adw.PreferencesGroup {
 			}
 		});
 		row.delete_row.connect ((source_row) => {
-			sources.model.remove (source_row.get_index ());
+			if (sources.length () > 1) {
+				sources.model.remove (source_row.get_index ());
+			}
 		});
 
 		return row;
