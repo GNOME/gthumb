@@ -61,7 +61,7 @@ public class Gth.SearchSourceRow : Adw.ActionRow {
 	[GtkCallback]
 	void on_activated (Adw.ActionRow row) {
 		var selector = new Gth.FolderSelector ();
-		selector.select_folder.begin (get_root () as Gtk.Window, search_source.folder, null, (obj, _res) => {
+		selector.select_folder.begin (get_root () as Gth.Window, search_source.folder, null, (obj, _res) => {
 			try {
 				var folder = selector.select_folder.end (_res);
 				set_folder (folder);

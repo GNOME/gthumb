@@ -76,6 +76,9 @@
     <key name="last-catalog" type="s">
       <default>''</default>
     </key>
+    <key name="add-to-catalog-show-destination" type="b">
+      <default>true</default>
+    </key>
     <key name="clipboard-type" type="s">
       <default>'image/jpeg'</default>
     </key>

@@ -45,7 +45,7 @@ public class Gth.SearchSourceEditorGroup : Adw.PreferencesGroup {
 	[GtkCallback]
 	private void on_add_source (Gtk.Button source) {
 		var selector = new Gth.FolderSelector ();
-		selector.select_folder.begin (get_root () as Gtk.Window, default_folder, null, (obj, _res) => {
+		selector.select_folder.begin (get_root () as Gth.Window, default_folder, null, (obj, _res) => {
 			try {
 				var folder = selector.select_folder.end (_res);
 				sources.model.append (new SearchSource (folder, true));

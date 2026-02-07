@@ -35,7 +35,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public LoadState load_state = LoadState.NONE;
 
 	[Signal (action=true)]
-	public signal void load (File location, LoadAction action);
+	public signal void load (FileData location, LoadAction action);
 
 	public signal void before_context_menu_popup (FileData file_data);
 
@@ -231,7 +231,7 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 	}
 
-	void load_subfolder (File location) {
+	void load_subfolder (FileData location) {
 		load (location, LoadAction.OPEN_SUBFOLDER);
 	}
 
@@ -341,6 +341,14 @@ public class Gth.FolderTree : Gtk.Box {
 		return file_data.file;
 	}
 
+	public FileData? get_selected_file_data () {
+		var row = tree_selection_model.selected_item as Gtk.TreeListRow;
+		if (row == null) {
+			return null;
+		}
+		return row.item as Gth.FileData;
+	}
+
 	public void watch_directory (FileData file_data, bool watch) {
 		if (watch) {
 			watched_files.add (file_data.file);
@@ -403,19 +411,20 @@ public class Gth.FolderTree : Gtk.Box {
 		current_parents.pop_head ();
 		var next_parent = current_parents.peek_head ();
 		if (next_parent == null) {
-			//stdout.printf ("  next_parent: (null)\n");
+			// stdout.printf ("  next_parent: (null)\n");
 			queue_select_current_folder ();
 		}
 		else if ((current_folder != null) && (current_folder.file.equal (next_parent))) {
-			//stdout.printf ("  next_parent == current_folder\n");
+			// stdout.printf ("  next_parent == current_folder\n");
 			current_parents.pop_head ();
 			queue_select_current_folder ();
 		}
 		else {
-			//stdout.printf ("  next_parent: '%s'\n", next_parent.get_uri ());
+			// stdout.printf ("  next_parent: '%s'\n", next_parent.get_uri ());
 			var next_parent_row = get_file_row (next_parent);
 			if (next_parent_row != null) {
 				if (next_parent_row.expanded) {
+					// stdout.printf ("  next_parent_row.expanded\n");
 					expand_next_parent_for_current_folder ();
 				}
 				else {
@@ -458,22 +467,29 @@ public class Gth.FolderTree : Gtk.Box {
 		file_data.children_loaded = true;
 
 		// Continue building the folder tree.
-		//stdout.printf ("set_file_data_children: '%s'\n", file_data.file.get_uri ());
-		//stdout.printf ("  current_parents: %p\n", current_parents);
+		// stdout.printf ("set_file_data_children: '%s'\n", file_data.file.get_uri ());
+		// stdout.printf ("  current_parents: %p\n", current_parents);
 		var top_parent = current_parents.peek_head ();
-		//stdout.printf ("  top_parent: %s\n", (top_parent != null) ? top_parent.get_uri () : "(null)");
+		// stdout.printf ("  top_parent: %s\n", (top_parent != null) ? top_parent.get_uri () : "(null)");
 		if ((top_parent != null) && top_parent.equal (file_data.file)) {
+			// stdout.printf ("  top_parent.equal (file_data.file)\n");
 			expand_next_parent_for_current_folder ();
+		}
+		else {
+			queue_select_current_folder ();
 		}
 	}
 
 	uint select_id = 0;
+	bool scroll_to_selected = false;
 
-	void queue_select_current_folder () {
+	void queue_select_current_folder (bool _scroll_to_selected = true) {
+		scroll_to_selected = _scroll_to_selected;
 		if (select_id != 0) {
 			Source.remove (select_id);
 		}
 		select_id = Util.after_next_rearrange (() => {
+			// stdout.printf ("> select_current_folder !!!\n");
 			select_id = 0;
 			select_current_folder ();
 		});
@@ -494,7 +510,7 @@ public class Gth.FolderTree : Gtk.Box {
 		if (get_file_row (current_folder.file, out position) == null) {
 			return;
 		}
-		//stdout.printf ("CURRENT FOLDER POS: %d\n", position);
+		// stdout.printf ("CURRENT FOLDER POS: %d\n", position);
 		if (position >= 0) {
 			view.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
 		}
@@ -583,7 +599,7 @@ public class Gth.FolderTree : Gtk.Box {
 			if (row != null) {
 				var file_data = row.item as Gth.FileData;
 				if (!FileData.equal (file_data, current_folder)) {
-					load_subfolder (file_data.file);
+					load_subfolder (file_data);
 					row.expanded = true;
 				}
 				else {
@@ -629,6 +645,12 @@ public class Gth.FolderTree : Gtk.Box {
 			scrolled_window.add_css_class ("frame");
 		}
 		scrolled_window.vexpand = true;
+		scrolled_window.vadjustment.changed.connect (() => {
+			// stdout.printf ("> scrolled_window.vadjustment.upper: %f\n", scrolled_window.vadjustment.upper);
+			if (scroll_to_selected) {
+				queue_select_current_folder (false);
+			}
+		});
 		append (scrolled_window);
 
 		view = new Gtk.ListView (tree_selection_model, factory);
@@ -641,7 +663,7 @@ public class Gth.FolderTree : Gtk.Box {
 			if (row != null) {
 				var file_data = row.item as Gth.FileData;
 				if (file_data != null) {
-					load (file_data.file, LoadAction.OPEN_AS_ROOT);
+					load (file_data, LoadAction.OPEN_AS_ROOT);
 				}
 			}
 		});

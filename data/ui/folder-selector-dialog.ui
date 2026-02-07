@@ -3,61 +3,88 @@
   <template class="GthFolderSelectorDialog">
     <property name="title" translatable="yes">Location</property>
     <property name="content-width">550</property>
-    <property name="content-height">650</property>
+    <property name="content-height">750</property>
     <child>
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar">
-            <property name="show-start-title-buttons">false</property>
-            <property name="show-end-title-buttons">false</property>
-            <child type="start">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">_Cancel</property>
-                <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_cancel" />
-              </object>
-            </child>
-            <child type="end">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">_Select</property>
-                <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_select" />
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-              </object>
-            </child>
-          </object>
-        </child>
-        <property name="content">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
-            <property name="margin-top">6</property>
-            <child>
-              <object class="GthFolderTree" id="folder_tree">
-                <property name="show-hidden" bind-source="show-hidden-button" bind-property="active" bind-flags="sync-create" />
-                <property name="single-root">false</property>
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkListBox">
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="background"/>
-                </style>
-                <child>
-                  <object class="AdwSwitchRow" id="show-hidden-button">
-                    <property name="title" translatable="yes">Show _Hidden Files</property>
-                    <property name="use-underline">true</property>
+      <object class="AdwToastOverlay" id="toast_overlay">
+        <child>
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="show-start-title-buttons">false</property>
+                <property name="show-end-title-buttons">false</property>
+                <child type="start">
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <property name="use_underline">true</property>
+                    <signal name="clicked" handler="on_cancel" />
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkButton" id="select_button">
+                    <property name="label" translatable="yes">_Select</property>
+                    <property name="use_underline">true</property>
+                    <signal name="clicked" handler="on_select" />
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
                   </object>
                 </child>
               </object>
             </child>
+            <property name="content">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-top">6</property>
+                <child>
+                  <object class="GthFolderTree" id="folder_tree">
+                    <property name="show-hidden" bind-source="show_hidden_button" bind-property="active" bind-flags="sync-create" />
+                    <property name="single-root">false</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-end">12</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="separate-rows">true</property>
+                        <child>
+                          <object class="AdwSwitchRow" id="show_hidden_button">
+                            <property name="title" translatable="yes">Show _Hidden Files</property>
+                            <property name="use-underline">true</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSwitchRow" id="show_destination_switch">
+                            <property name="title" translatable="yes">Show Destination</property>
+                            <property name="use-underline">true</property>
+                            <property name="visible">false</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwButtonRow" id="new_catalog_button">
+                            <property name="title" translatable="yes">New Catalog</property>
+                            <property name="visible">false</property>
+                            <property name="start-icon-name">gth-catalog-symbolic</property>
+                            <signal name="activated" handler="on_new_catalog"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwButtonRow" id="new_library_button">
+                            <property name="title" translatable="yes">New Library</property>
+                            <property name="visible">false</property>
+                            <property name="start-icon-name">gth-library-symbolic</property>
+                            <signal name="activated" handler="on_new_library"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
           </object>
-        </property>
+        </child>
       </object>
     </child>
   </template>

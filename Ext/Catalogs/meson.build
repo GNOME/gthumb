@@ -1,5 +1,6 @@
 catalogs_files = files(
-  'Catalog.vala',
   'CatalogEditor.vala',
+  'Catalog.vala',
   'FileSourceCatalogs.vala',
+  'NewCatalogDialog.vala',
 )

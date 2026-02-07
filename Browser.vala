@@ -1369,7 +1369,7 @@ public class Gth.Browser : Gtk.Box {
 	void init_folder_tree () {
 		folder_tree.job_queue = window.jobs;
 		folder_tree.load.connect ((location, action) => {
-			load_folder.begin (location, action);
+			load_folder.begin (location.file, action);
 		});
 		folder_tree.before_context_menu_popup.connect ((file_data) => {
 			update_folder_context_menu_sensitivity (file_data);
@@ -2315,14 +2315,9 @@ public class Gth.Browser : Gtk.Box {
 	async void new_catalog () {
 		var local_job = window.new_job ("New Catalog");
 		try {
-			var read_filename = new ReadFilename (_("New Catalog"), _("_Create"));
-			var basename = yield read_filename.read_value (window, local_job);
-			var library = get_context_library ();
-			var catalog = new Catalog ();
-			catalog.name = basename;
-			catalog.file = library.get_child_for_display_name (basename + ".catalog");
-			yield catalog.save_async (local_job.cancellable);
-			yield open_location_async (catalog.file);
+			var dialog = new Gth.NewCatalogDialog ();
+			var catalog = yield dialog.new_catalog (get_context_library (), window, local_job);
+			yield open_location_async (catalog);
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -2335,13 +2330,9 @@ public class Gth.Browser : Gtk.Box {
 	async void new_library () {
 		var local_job = window.new_job ("New Library");
 		try {
-			var read_filename = new ReadFilename (_("New Library"), _("_Create"));
-			var basename = yield read_filename.read_value (window, local_job);
-			var library = get_context_library ();
-			var folder = library.get_child_for_display_name (basename);
-			var gio_folder = Catalog.to_gio_file (folder);
-			yield Files.make_directory_async (gio_folder, local_job.cancellable);
-			yield open_location_async (folder);
+			var dialog = new NewCatalogDialog ();
+			var library = yield dialog.new_library (get_context_library (), window, local_job);
+			yield open_location_async (library);
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -2419,9 +2410,7 @@ public class Gth.Browser : Gtk.Box {
 	async void move_catalog () {
 		var local_job = window.new_job ("Move Catalog");
 		try {
-			var selector = new Gth.FolderSelector ();
-			selector.root = Catalog.get_root ();
-			selector.for_moving = true;
+			var selector = new Gth.FolderSelector (FolderSelectorMode.CATALOGS_ONLY | FolderSelectorMode.FOR_MOVING);
 			var catalog = folder_tree.context_file.file;
 			var parent = catalog.get_parent ();
 			local_job.opens_dialog ();
@@ -2483,13 +2472,17 @@ public class Gth.Browser : Gtk.Box {
 		}
 		var local_job = window.new_job ("Add to Catalog");
 		try {
-			var selector = new Gth.FolderSelector ();
-			selector.root = Catalog.get_root ();
+			var selector = new Gth.FolderSelector (FolderSelectorMode.CATALOGS_ONLY | FolderSelectorMode.FOR_COPYING);
+			selector.show_destination = app.settings.get_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION);
 			var last_catalog = Settings.get_file (app.settings, PREF_BROWSER_LAST_CATALOG);
 			local_job.opens_dialog ();
 			var catalog_file = yield selector.select_folder (window, last_catalog, local_job.cancellable);
 			yield Catalog.add_files (catalog_file, files, local_job);
 			app.settings.set_string (PREF_BROWSER_LAST_CATALOG, catalog_file.get_uri ());
+			app.settings.set_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION, selector.show_destination);
+			if (selector.show_destination) {
+				yield open_location_async (catalog_file);
+			}
 		}
 		catch (Error error) {
 			window.show_error (error);
