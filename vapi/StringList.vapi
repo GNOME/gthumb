@@ -13,4 +13,5 @@ public class Gth.StringList : Object {
 	public bool equal_custom (StringList other, CompareFunc cmp_func);
 	public void append (StringList other);
 	public void concat (StringList other);
+	public bool is_empty ();
 }

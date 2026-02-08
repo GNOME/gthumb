@@ -359,7 +359,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		var local_job = new_job ("Choosing Application");
 		try {
 			var files = get_selected_file_data_list ();
-			if (files.length () == 0) {
+			if ((files == null) || files.is_empty ()) {
 				throw new IOError.FAILED (_("No files selected"));
 			}
 			var app_selector = new Gth.AppSelector ();
@@ -447,14 +447,31 @@ public class Gth.Window : Adw.ApplicationWindow {
 		});
 	}
 
-	async void edit_metadata (FileData file_data) {
+	async void edit_metadata (GenericList<FileData> files) {
 		var local_job = new_job (_("Edit Comment"), JobFlags.FOREGROUND, "gth-note-symbolic");
 		try {
-			var result = yield FileManager.read_metadata (file_data.file, "*", local_job.cancellable);
-			file_data.update_info (result.info);
+			var total_files = files.length ();
+			var current_file = 0;
+
+			// Read all the metadata attributes.
+			foreach (var file_data in files) {
+				local_job.subtitle = file_data.get_display_name ();
+				local_job.progress = Util.calc_progress (current_file++, total_files);
+				var result = yield FileManager.read_metadata (file_data.file, "*", local_job.cancellable);
+				file_data.update_info (result.info);
+			}
+
+			// Edit
 			var dialog = new EditMetadata ();
-			yield dialog.edit (this, file_data, local_job);
-			yield app.metadata_writer.save (file_data, local_job.cancellable);
+			yield dialog.edit (this, files, local_job);
+
+			// Save
+			current_file = 0;
+			foreach (var file_data in files) {
+				local_job.subtitle = file_data.get_display_name ();
+				local_job.progress = Util.calc_progress (current_file++, total_files);
+				yield app.metadata_writer.save (file_data, local_job.cancellable);
+			}
 		}
 		catch (Error error) {
 			show_error (error);
@@ -803,12 +820,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 		action = new SimpleAction ("edit-metadata", null);
 		action.activate.connect (() => {
-			var file_data = get_current_file_data ();
-			if (file_data == null) {
+			var files = get_selected_file_data_list ();
+			if ((files == null) || files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
-			edit_metadata.begin (file_data);
+			edit_metadata.begin (files);
 		});
 		action_group.add_action (action);
 

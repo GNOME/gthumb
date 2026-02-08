@@ -444,4 +444,66 @@ namespace Gth.Util {
 	public static double interpolate (double min, double max, double x) {
 		return (min * (1 - x) + max * x);
 	}
+
+	string? get_first_available_attribute (FileInfo info, string id_list) {
+		if (info.has_attribute (id_list)) {
+			return id_list;
+		}
+		if (id_list.index_of_char (',') < 0) {
+			return null;
+		}
+		var list = id_list.split (",");
+		foreach (unowned var id in list) {
+			if (info.has_attribute (id)) {
+				return id;
+			}
+		}
+		return null;
+	}
+
+	public static string? get_attribute_as_string (FileInfo info, string id_list) {
+		var id = Util.get_first_available_attribute (info, id_list);
+		if (id == null) {
+			return null;
+		}
+		string value = null;
+		if (info.get_attribute_type (id) == FileAttributeType.OBJECT) {
+			var obj = info.get_attribute_object (id);
+			if (obj is Metadata) {
+				var metadata = obj as Metadata;
+				switch (metadata.get_data_type ()) {
+				case MetadataType.STRING:
+					if (id == "Metadata::Rating") {
+						int n;
+						if (int.try_parse (metadata.get_raw (), out n, null, 10)) {
+							var str = new StringBuilder ();
+							while (n > 0) {
+								str.append ("⭐");
+								n--;
+							}
+							value = str.str;
+						}
+					}
+					if (value == null) {
+						value = metadata.get_formatted ();
+					}
+					break;
+				case MetadataType.STRING_LIST:
+					value = metadata.get_string_list ().join (" ");
+					break;
+
+				case MetadataType.POINT:
+					value = metadata.get_formatted ();
+					break;
+				}
+			}
+			else if (obj is StringList) {
+				value = ((StringList) obj).join (" ");
+			}
+		}
+		if (value == null) {
+			value = info.get_attribute_as_string (id);
+		}
+		return value;
+	}
 }

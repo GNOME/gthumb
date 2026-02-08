@@ -113,12 +113,11 @@ char *
 gth_string_list_join (GthStringList *list,
 		      const char    *separator)
 {
-	GString *str;
-	GList   *scan;
-
-	str = g_string_new ("");
-	for (scan = list->priv->list; scan; scan = scan->next) {
-		if (scan != list->priv->list) {
+	GString *str = g_string_new ("");
+	GList *sorted = g_list_copy (list->priv->list);
+	sorted = g_list_sort (sorted, (GCompareFunc) g_utf8_collate);
+	for (GList *scan = sorted; scan; scan = scan->next) {
+		if (scan != sorted) {
 			g_string_append (str, separator);
 		}
 		const char *value = (char *) scan->data;
@@ -126,7 +125,7 @@ gth_string_list_join (GthStringList *list,
 			g_string_append (str, value);
 		}
 	}
-
+	g_list_free (sorted);
 	return g_string_free (str, FALSE);
 }
 
@@ -205,4 +204,12 @@ _g_hash_table_from_string_list (GthStringList *list)
 		g_hash_table_insert (h, g_strdup (scan->data), GINT_TO_POINTER (1));
 
 	return h;
+}
+
+
+gboolean
+gth_string_list_is_empty (GthStringList  *list)
+{
+	g_return_if_fail (GTH_IS_STRING_LIST (list));
+	return list->priv->list == NULL;
 }

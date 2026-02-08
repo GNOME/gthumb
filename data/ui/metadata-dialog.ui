@@ -31,6 +31,17 @@
         <property name="content">
           <object class="AdwPreferencesPage">
             <child>
+              <object class="AdwPreferencesGroup" id="options_group">
+                <property name="visible">false</property>
+                <child>
+                  <object class="AdwSwitchRow" id="only_modified_attributes_switch">
+                    <property name="title" translatable="yes">Save only cha_nged fields</property>
+                    <property name="use-underline">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="AdwPreferencesGroup">
                 <property name="title" translatable="yes">Comment</property>
                 <child>

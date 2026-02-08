@@ -44,6 +44,7 @@ void              gth_string_list_append              (GthStringList  *list1,
 		       	       	       	       	       GthStringList  *list2);
 void              gth_string_list_concat              (GthStringList  *list1,
 		       	       	       	       	       GthStringList  *list2);
+gboolean          gth_string_list_is_empty            (GthStringList  *list);
 
 /* utilities */
 
