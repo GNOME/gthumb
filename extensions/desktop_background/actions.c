@@ -393,6 +393,7 @@ wallpaper_metadata_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), error);
 		wallpaper_data_free (wdata);
+		_g_object_list_unref (file_list);
 		return;
 	}
 
@@ -420,6 +421,7 @@ wallpaper_metadata_ready_cb (GObject      *source_object,
 		wdata->new_style.background_style = BACKGROUND_STYLE_ZOOM;
 
 	wallpaper_data_set__step2 (wdata);
+	_g_object_list_unref (file_list);
 }
 
 

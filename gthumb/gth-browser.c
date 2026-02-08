@@ -1637,10 +1637,12 @@ metadata_ready_cb (GObject      *source_object,
 	files = _g_query_metadata_finish (result, &error);
 	if (error != NULL) {
 		load_data_error (load_data, error);
+		_g_object_list_unref (files);
 		return;
 	}
 
 	load_data_continue (load_data, files);
+	_g_object_list_unref (files);
 }
 
 

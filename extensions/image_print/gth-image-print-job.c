@@ -1154,10 +1154,12 @@ metadata_ready_cb (GObject      *source_object,
                    gpointer      user_data)
 {
 	GthImagePrintJob *self = user_data;
+	GList            *files;
 	GError           *error;
 
-	_g_query_metadata_finish (result, &error);
+	files = _g_query_metadata_finish (result, &error);
 	gth_image_print_job_update_preview (self);
+	_g_object_list_unref (files);
 }
 
 

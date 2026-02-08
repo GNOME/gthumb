@@ -165,6 +165,7 @@ metadata_ready_cb (GObject      *source_object,
 	file_data_list = _g_query_metadata_finish (res, &error);
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
+		_g_object_list_unref (file_data_list);
 		return;
 	}
 
@@ -187,6 +188,7 @@ metadata_ready_cb (GObject      *source_object,
 	}
 
 	gth_task_completed (GTH_TASK (self), NULL);
+	_g_object_list_unref (file_data_list);
 }
 
 

@@ -282,7 +282,7 @@ _g_query_metadata_finish (GAsyncResult  *result,
 
 	qmd = g_task_get_task_data (G_TASK (result));
 
-	return qmd->files;
+	return _g_object_list_ref (qmd->files);
 }
 
 
@@ -424,6 +424,7 @@ qam_metadata_ready_cb (GObject      *source_object,
 		qam->ready_func (NULL, error, qam->user_data);
 
 	query_all_metadata_free (qam);
+	_g_object_list_unref (files);
 }
 
 

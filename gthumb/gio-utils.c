@@ -289,6 +289,7 @@ for_each_child_metadata_ready_func (GObject      *source_object,
 	}
 
 	for_each_child_read_next_child_metadata (fec);
+	_g_object_list_unref (files);
 }
 
 

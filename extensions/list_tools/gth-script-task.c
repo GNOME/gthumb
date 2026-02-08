@@ -251,15 +251,18 @@ file_info_ready_cb (GObject      *source_object,
                     gpointer      user_data)
 {
 	GthScriptTask *self = user_data;
+	GList         *files;
 	GError        *error = NULL;
 
-	_g_query_metadata_finish (result, &error);
+	files = _g_query_metadata_finish (result, &error);
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
+		_g_object_list_unref (files);
 		return;
 	}
 
 	_gth_script_task_exec (self);
+	_g_object_list_unref (files);
 }
 
 
