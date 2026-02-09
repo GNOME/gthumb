@@ -39,6 +39,7 @@
                     <property name="wrap">true</property>
                     <property name="justify">center</property>
                     <property name="visible">false</property>
+                    <property name="margin-top">12</property>
                     <style>
                       <class name="error"/>
                     </style>
