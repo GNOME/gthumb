@@ -4,9 +4,15 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		current_filter = null;
 
 		// General filter
+
+		var filters = new GenericList<Gth.Test>();
+		foreach (unowned var id in GENERAL_FILTERS) {
+			var filter = app.get_test_by_id (id);
+			filters.model.append (filter.duplicate ());
+		}
+
 		var saved_filter_id = app.settings.get_string (PREF_BROWSER_GENERAL_FILTER);
 		var general_filter_id = app.migration.test.get_new_key (saved_filter_id);
-		var filters = app.get_file_type_filters ();
 		var iter = filters.iterator ();
 		var general_filter_pos = iter.find_first ((test) => test.id == general_filter_id);
 
@@ -17,6 +23,7 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 		}
 
 		// Filter list
+
 		filter_list.bind_model (app.filters.entries.model, new_filter_row);
 
 		var empty_row = new Adw.ActionRow ();
@@ -122,4 +129,11 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 	[GtkChild] unowned Adw.ComboRow general_filter_row;
 	[GtkChild] unowned Gtk.ListBox filter_list;
 	[GtkChild] unowned Gth.FilterEditorPage filter_page;
+
+	const string[] GENERAL_FILTERS = {
+		"Type::File",
+		"Type::Media",
+		"Type::Image",
+		"Type::Video"
+	};
 }
