@@ -427,11 +427,12 @@ namespace Gth.Util {
 	public static uint get_workers (int max_workers = -1) {
 		var n_workers = GLib.get_num_processors () - 1;
 		if (max_workers > 0) {
-			return n_workers.clamp (1, max_workers);
+			n_workers = n_workers.clamp (1, max_workers);
 		}
 		else {
-			return uint.min (n_workers, 1);
+			n_workers = uint.max (n_workers, 1);
 		}
+		return n_workers;
 	}
 
 	public static void select_filename_without_ext (Gtk.Editable entry) {
