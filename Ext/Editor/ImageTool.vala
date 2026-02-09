@@ -88,7 +88,9 @@ public class Gth.ImageTool : Object {
 			return;
 		}
 		var operation = get_operation ();
-		update_options_from_operation (operation);
+		if (operation != null) {
+			update_options_from_operation (operation);
+		}
 		image_view.filter_operation = with_preview ? operation : null;
 	}
 
