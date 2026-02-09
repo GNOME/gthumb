@@ -2,11 +2,10 @@
 <interface>
   <template class="GthFilterBar">
     <property name="orientation">horizontal</property>
-    <property name="spacing">12</property>
+    <property name="spacing">6</property>
     <child>
       <object class="GtkMenuButton" id="filter_selector">
         <property name="always_show_arrow">true</property>
-        <property name="direction">up</property>
         <style>
           <class name="flat"/>
         </style>
