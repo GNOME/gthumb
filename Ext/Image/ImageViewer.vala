@@ -214,7 +214,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 			file_data.set_is_modified (false);
 
-			if (file_data.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)) {
+			if (file_data.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)
+				|| !app.savers.contains (file_data.get_content_type ()))
+			{
 				// Ask the filename
 				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
 				read_filename.default_value = file_data.info.get_edit_name ();
@@ -259,6 +261,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public override async void save () throws Error {
+		if (window.viewer.current_file == null) {
+			throw new IOError.FAILED ("No file");
+		}
 		var file_data = yield save_to (window.viewer.current_file.file);
 		window.viewer.file_saved (file_data);
 	}
@@ -630,7 +635,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var has_image = (window.viewer.current_file != null) && (image_view.image != null) && !image_view.image.get_is_empty ();
 		var is_modified = has_image && window.viewer.current_file.get_is_modified ();
 		Util.enable_action (action_group, "apply-icc-profile", has_image && image_view.image.has_icc_profile () && !is_modified);
-		Util.enable_action (action_group, "save", has_image && is_modified);
+		var can_save_format = has_image && app.savers.contains (window.viewer.current_file.get_content_type ());
+		Util.enable_action (action_group, "save", can_save_format && is_modified);
+		Util.enable_action (action_group, "save-as", has_image);
 	}
 
 	void set_other_version (Image image, bool is_modified) {
