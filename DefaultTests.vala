@@ -56,7 +56,8 @@ public class Gth.TestFileTypeVideo : Gth.TestFileType {
 public class Gth.TestFileTypeAudio : Gth.TestFileType {
 	construct {
 		id = "Type::Audio";
-		display_name = _("Audio Files");
+		// Translators: Audio Files
+		display_name = _("Audio");
 		attributes = null;
 	}
 
@@ -68,7 +69,8 @@ public class Gth.TestFileTypeAudio : Gth.TestFileType {
 public class Gth.TestFileTypeMedia : Gth.TestFileType {
 	construct {
 		id = "Type::Media";
-		display_name = _("Media Files");
+		// Translators: Media Files
+		display_name = _("Media");
 		attributes = null;
 	}
 
