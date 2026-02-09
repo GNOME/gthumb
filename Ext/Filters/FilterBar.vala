@@ -178,6 +178,7 @@ public class Gth.FilterBar : Gtk.Box {
 			options_container.append (filter_options);
 			filter.focus_options ();
 		}
+		options_container.visible = (filter_options != null);
 
 		action_group.change_action_state ("set-filter", new Variant.string (filter.id));
 		reset_filter_button.visible = (filter.id != "");
