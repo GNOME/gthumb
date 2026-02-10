@@ -1,3 +1,10 @@
+Version 3.12.10
+~~~~~~~~~~~~~~~
+Released: 2026-02-10
+
+Bugfixes:
+ * Fixed potential crash
+
 Version 3.12.9
 ~~~~~~~~~~~~~~
 Released: 2026-01-23
