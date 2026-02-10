@@ -12,17 +12,24 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		}
 	}
 
+	public float custom_ratio {
+		get {
+			return float.parse (entry.text);
+		}
+		set {
+			entry.text = RATIO_FORMAT.printf (value);
+		}
+	}
+
 	public new void activate (Gtk.Window window, Gth.Image original, bool activate_image_ratio = false) {
 		entry.icon_release.connect (() => {
 			entry.visible = false;
+			entry.text = "";
 			other_list.visible = true;
 			other_list.selected = 0;
 		});
 		entry.activate.connect ((obj) => {
-			var local_action = action_group.lookup_action ("aspect-ratio") as SimpleAction;
-			if (local_action != null) {
-				local_action.set_state ("other");
-			}
+			set_other_ratio ();
 			update_ratio ();
 		});
 
@@ -59,6 +66,11 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		ratio_list.insert (new_ratio_row (_("Square"), pos, "1:1"), (int) pos);
 		pos++;
 
+		// ratios += (float) (1.0 / Math.sqrt (2));
+		// descriptions += C_("Sheet", "A4");
+		// ratio_list.insert (new_ratio_row (C_("Sheet", "A4"), pos, "0.707"), (int) pos);
+		// pos++;
+
 		fixed_ratios = pos;
 
 		var ratio_names = new Gtk.StringList (null);
@@ -69,15 +81,23 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 			descriptions += name;
 		}
 
+		ratio_names.append (C_("Sheet", "A4"));
+		ratios += (float) (1.0 / Math.sqrt (2));
+		descriptions += C_("Sheet", "A4");
+
 		ratio_names.append (_("Other…"));
 		ratios += 0.0f;
 
 		other_list.model = ratio_names;
+		float entry_ratio = float.parse (entry.text);
+		if (entry_ratio != 0) {
+			// Select "Other"
+			other_list.selected = entry_index () - fixed_ratios;
+			other_list.visible = false;
+			entry.visible = true;
+		}
 		other_list.notify["selected"].connect ((obj, param) => {
-			var local_action = action_group.lookup_action ("aspect-ratio") as SimpleAction;
-			if (local_action != null) {
-				local_action.set_state ("other");
-			}
+			set_other_ratio ();
 			var idx = update_ratio ();
 			if (idx == entry_index ()) {
 				if (!entry.visible) {
@@ -143,12 +163,15 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		var new_ratio = 0f;
 		var idx = get_selected_ratio_index ();
 		if (idx == entry_index ()) {
+			stdout.printf ("> update_ratio [1]\n");
 			if (Strings.empty (entry.text)) {
-				entry.text = "%.2f".printf (ratio);
+				stdout.printf ("> update_ratio [2]\n");
+				entry.text = RATIO_FORMAT.printf (ratio);
 			}
 			new_ratio = float.parse (entry.text);
 		}
 		else {
+			stdout.printf ("> update_ratio [3]\n");
 			new_ratio = ratios[idx];
 		}
 		if ((new_ratio > 0) && rotated.active) {
@@ -165,7 +188,7 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		if (_description == null) {
 			var idx = get_selected_ratio_index ();
 			if (idx == entry_index ()) {
-				_description = "%.2f".printf (ratio);
+				_description = RATIO_FORMAT.printf (ratio);
 			}
 			else {
 				_description = descriptions[idx];
@@ -184,6 +207,13 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 			}
 		}
 		return _description;
+	}
+
+	void set_other_ratio () {
+		var local_action = action_group.lookup_action ("aspect-ratio") as SimpleAction;
+		if (local_action != null) {
+			local_action.set_state ("other");
+		}
 	}
 
 	construct {
@@ -217,6 +247,6 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		{ 5, 4 },
 		{ 4, 3 },
 		{ 3, 2 },
-		{ 2, 1 },
 	};
+	const string RATIO_FORMAT = "%.3f";
 }

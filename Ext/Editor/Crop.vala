@@ -95,6 +95,7 @@ public class Gth.Crop : ImageTool {
 		});
 
 		var aspect_ratio_group = builder.get_object ("aspect_ratio_group") as Gth.AspectRatioGroup;
+		aspect_ratio_group.custom_ratio = (float) settings.get_double (PREF_CROP_CUSTOM_RATIO);
 		aspect_ratio_group.activate (window, original);
 		aspect_ratio_group.changed.connect ((local_group, after_rotation) => {
 			update_ratio (after_rotation);
@@ -123,6 +124,8 @@ public class Gth.Crop : ImageTool {
 	}
 
 	public override void before_deactivate () {
+		var aspect_ratio_group = builder.get_object ("aspect_ratio_group") as Gth.AspectRatioGroup;
+		settings.set_double (PREF_CROP_CUSTOM_RATIO, aspect_ratio_group.custom_ratio);
 		window.editor.sidebar.insert_action_group ("crop", null);
 		image_view.controller = null;
 		builder = null;
@@ -142,8 +145,10 @@ public class Gth.Crop : ImageTool {
 	construct {
 		title = _("Crop");
 		icon_name = "gth-crop-symbolic";
+		settings = new GLib.Settings (GTHUMB_CROP_SCHEMA);
 	}
 
+	GLib.Settings settings;
 	Gtk.Builder builder;
 	ImageSelector selector;
 	ulong selection_x_changed_id = 0;

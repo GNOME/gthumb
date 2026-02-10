@@ -16,6 +16,7 @@ const string GTHUMB_ROTATE_SCHEMA = GTHUMB_SCHEMA + ".rotate";
 const string GTHUMB_RESIZE_SCHEMA = GTHUMB_SCHEMA + ".resize";
 const string GTHUMB_CONVERT_SCHEMA = GTHUMB_SCHEMA + ".convert";
 const string GTHUMB_PRINT_SCHEMA = GTHUMB_SCHEMA + ".print";
+const string GTHUMB_CROP_SCHEMA = GTHUMB_SCHEMA + ".crop";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 const string PREF_GENERAL_SHOW_FORMAT_OPTIONS = "show-format-options";
@@ -107,6 +108,8 @@ const string PREF_PRINT_LAYOUT_ROWS = "rows";
 const string PREF_PRINT_LAYOUT_COLUMNS = "columns";
 const string PREF_PRINT_UNIT = "unit";
 const string PREF_PRINT_OUTPUT_DIR = "output-dir";
+
+const string PREF_CROP_CUSTOM_RATIO = "custom-ratio";
 
 class Gth.Settings {
 	public static File? get_startup_location (GLib.Settings settings) {
