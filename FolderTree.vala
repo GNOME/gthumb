@@ -397,6 +397,7 @@ public class Gth.FolderTree : Gtk.Box {
 		if (root != null) {
 			var root_row = get_file_row (root);
 			if (root_row != null) {
+				tree_selection_model.set_selected (uint.MAX); // unselect
 				if (root_row.expanded) {
 					expand_next_parent_for_current_folder ();
 				}
@@ -416,7 +417,7 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 		else if ((current_folder != null) && (current_folder.file.equal (next_parent))) {
 			// stdout.printf ("  next_parent == current_folder\n");
-			current_parents.pop_head ();
+			current_parents.clear ();
 			queue_select_current_folder ();
 		}
 		else {
@@ -503,9 +504,14 @@ public class Gth.FolderTree : Gtk.Box {
 		return true;
 	}
 
+	bool building_the_tree () {
+		return !current_parents.is_empty ();
+	}
+
 	void select_current_folder () {
-		if (current_folder == null)
+		if ((current_folder == null) || building_the_tree ()) {
 			return;
+		}
 		int position;
 		if (get_file_row (current_folder.file, out position) == null) {
 			return;
@@ -586,11 +592,12 @@ public class Gth.FolderTree : Gtk.Box {
 
 		tree_selection_model = new Gtk.SingleSelection (tree_model);
 		tree_selection_model.autoselect = false;
+		tree_selection_model.can_unselect = true;
 		tree_selection_model.notify["selected"].connect ((obj, _param) => {
 			if (context_menu_visible) {
 				return;
 			}
-			if (!current_parents.is_empty ()) {
+			if (building_the_tree ()) {
 				// Ignore selection changes when still building the tree.
 				return;
 			}
@@ -600,7 +607,6 @@ public class Gth.FolderTree : Gtk.Box {
 				var file_data = row.item as Gth.FileData;
 				if (!FileData.equal (file_data, current_folder)) {
 					load_subfolder (file_data);
-					row.expanded = true;
 				}
 				else {
 					row.expanded = true;
