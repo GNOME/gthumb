@@ -328,7 +328,7 @@ add_string_list_to_metadata (GthMetadata            *metadata,
 	GthStringList *string_list;
 
 	list = NULL;
-	for (int i = 0; i < value.count(); i++)
+	for (size_t i = 0; i < value.count(); i++)
 		list = g_list_prepend (list, g_strdup (value.toString(i).c_str()));
 	string_list = gth_string_list_new (g_list_reverse (list));
 	g_object_set (metadata, "string-list", string_list, NULL);
