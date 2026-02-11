@@ -304,3 +304,18 @@ toast {
 	margin-left: 6px;
 	margin-right: 6px;
 }
+
+.test-options > entry,
+.test-options > dropdown,
+.test-options > spinbutton,
+label.test-options {
+	font-size: 90%;
+}
+
+.test-options > entry {
+	padding: 0 10px;
+}
+
+.test-options > dropdown {
+	padding: 0;
+}

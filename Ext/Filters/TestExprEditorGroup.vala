@@ -85,13 +85,40 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 		var test_options = test.create_options ();
 		if (test_options != null) {
 			test_options.valign = Gtk.Align.CENTER;
-			var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
-			vbox.hexpand = true;
+			test_options.add_css_class ("test-options");
+
 			var subtitle = new Gtk.Label (test.display_name);
 			subtitle.halign = Gtk.Align.START;
 			subtitle.add_css_class ("subtitle");
+
+			var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+			vbox.hexpand = true;
 			vbox.append (subtitle);
 			vbox.append (test_options);
+
+			var hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+			hbox.append (vbox);
+			hbox.append (delete_button);
+
+			var row_with_options = new Gtk.ListBoxRow ();
+			row_with_options.add_css_class ("test-list-row");
+			row_with_options.child = hbox;
+			row = row_with_options;
+		}
+		else if (test.title != null) {
+			var subtitle = new Gtk.Label (test.display_name);
+			subtitle.valign = Gtk.Align.CENTER;
+			subtitle.halign = Gtk.Align.START;
+			subtitle.add_css_class ("test-options");
+
+			var title = new Gtk.Label (test.title);
+			title.halign = Gtk.Align.START;
+			title.add_css_class ("subtitle");
+
+			var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+			vbox.hexpand = true;
+			vbox.append (title);
+			vbox.append (subtitle);
 
 			var hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 			hbox.append (vbox);
@@ -110,7 +137,7 @@ public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 				action_row.add_css_class ("property");
 			}
 			else {
-				action_row.title = test.display_name;
+				action_row.title = "[1]"; //test.display_name;
 			}
 			action_row.add_suffix (delete_button);
 			row = action_row;
