@@ -1358,7 +1358,7 @@ class Gth.TextureScaler : Gth.ImageOperation {
 		if ((scale_factor > ImageView.MAX_FILTERED_ZOOM)
 			|| ((visible_width == scaled_width) && (visible_height == scaled_height)))
 		{
-			return input;
+			output = visible;
 		}
 		else {
 			// stdout.printf ("> VISIBLE: %u, %u\n", visible.get_width (), visible.get_height ());
