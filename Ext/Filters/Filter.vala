@@ -102,15 +102,15 @@ public class Gth.Filter : Gth.Test {
 
 	public Gtk.Widget create_options_for_files () {
 		spin_button = new Gtk.SpinButton.with_range (0, int.MAX, 1.0);
-		spin_button.width_chars = 5;
+		spin_button.width_chars = 4;
 		spin_button.value = limit;
 
-		var label = new Gtk.Label.with_mnemonic (_("Files:"));
-		label.mnemonic_widget = spin_button;
+		var label = new Gtk.Label.with_mnemonic (_("files"));
 
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
-		control.append (label);
+		control.valign = Gtk.Align.CENTER;
 		control.append (spin_button);
+		control.append (label);
 
 		spin_button.value_changed.connect (() => options_changed ());
 
@@ -119,11 +119,8 @@ public class Gth.Filter : Gth.Test {
 
 	public Gtk.Widget create_options_for_size () {
 		spin_button = new Gtk.SpinButton.with_range (0, int.MAX, 1.0);
-		spin_button.width_chars = 5;
+		spin_button.width_chars = 4;
 		spin_button.value = limit;
-
-		var label = new Gtk.Label.with_mnemonic (_("Size:"));
-		label.mnemonic_widget = spin_button;
 
 		// Size selector
 		var names = new Gtk.StringList (null);
@@ -146,7 +143,7 @@ public class Gth.Filter : Gth.Test {
 		unit_selector.set_selected (selected_unit);
 
 		var control = new Gtk.Box (Gtk.Orientation.HORIZONTAL, HORIZONTAL_SPACING);
-		control.append (label);
+		control.valign = Gtk.Align.CENTER;
 		control.append (spin_button);
 		control.append (unit_selector);
 

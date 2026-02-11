@@ -106,7 +106,7 @@ public class Gth.TestString : Gth.Test {
 
 		// Entry
 		entry = new Gtk.Entry ();
-		entry.set_size_request (150, -1);
+		entry.width_chars = 15;
 		if (text != null) {
 			entry.set_text (text);
 		}

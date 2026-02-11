@@ -2,10 +2,9 @@
 <interface>
   <template class="GthFilterBar">
     <property name="orientation">horizontal</property>
-    <property name="spacing">6</property>
+    <property name="spacing">12</property>
     <child>
       <object class="GtkMenuButton" id="filter_selector">
-        <property name="always_show_arrow">true</property>
         <style>
           <class name="flat"/>
         </style>
@@ -21,7 +20,7 @@
     <child>
       <object class="GtkButton" id="reset_filter_button">
         <property name="action-name">filterbar.reset-filter</property>
-        <property name="icon-name">window-close-symbolic</property>
+        <property name="icon-name">gth-cross-small-square-filled-symbolic</property>
         <style>
           <class name="flat"/>
         </style>

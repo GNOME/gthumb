@@ -43,16 +43,16 @@ public class Gth.Filters {
 		changed (test.id);
 	}
 
-	public bool load_from_file () {
+	public void load_from_file () {
 		entries.model.remove_all ();
 		app.shortcuts.remove_action ("set-filter");
-		var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, FILTERS_FILE);
-		if (file == null) {
-			return false;
-		}
-		var loaded = false;
 		var loaded_tests = new GenericSet<string> (str_hash, str_equal);
+		var file_loaded = false;
 		try {
+			var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, FILTERS_FILE);
+			if (file == null) {
+				throw new IOError.NOT_FOUND ("Not Found");
+			}
 			var doc = new Dom.Document ();
 			doc.load_file (file);
 			if ((doc.first_child != null) && (doc.first_child.tag_name == "filters")) {
@@ -78,24 +78,46 @@ public class Gth.Filters {
 					}
 				}
 			}
-			loaded = true;
-			// Add the remaining registered tests as not visible.
-			foreach (unowned var registered_test in app.ordered_tests) {
-				if (!loaded_tests.contains (registered_test.id)) {
-					var test = registered_test.duplicate ();
-					test.visible = false;
-					entries.model.append (test);
-					app.shortcuts.add (registered_test.create_shortcut ());
-				}
-			}
-			changed (null);
+			file_loaded = true;
 		}
 		catch (Error error) {
 			//stdout.printf ("ERROR: %s\n", error.message);
 		}
 
-		return loaded;
+		// Add the remaining registered tests as not visible.
+		foreach (unowned var registered_test in app.ordered_tests) {
+			if (!loaded_tests.contains (registered_test.id)) {
+				var test = registered_test.duplicate ();
+				if (file_loaded) {
+					test.visible = false;
+				}
+				else {
+					test.visible = is_active_by_default (registered_test.id);
+				}
+				entries.model.append (test);
+				app.shortcuts.add (registered_test.create_shortcut ());
+			}
+		}
+		changed (null);
 	}
+
+	bool is_active_by_default (string test_id) {
+		foreach (unowned var id in DEFAULT_ACTIVE_TESTS) {
+			if (test_id == id) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	const string[] DEFAULT_ACTIVE_TESTS = {
+		"File::Name",
+		"File::Size",
+		"Time::Modified",
+		"Time::Created",
+		"Type::Video",
+		"Type::Audio"
+	};
 
 	public void save_to_file () {
 		try {

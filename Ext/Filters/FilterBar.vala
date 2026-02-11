@@ -175,13 +175,14 @@ public class Gth.FilterBar : Gtk.Box {
 
 		var filter_options = filter.create_options ();
 		if (filter_options != null) {
+			filter_options.add_css_class ("test-options");
 			options_container.append (filter_options);
 			filter.focus_options ();
 		}
 		options_container.visible = (filter_options != null);
 
 		action_group.change_action_state ("set-filter", new Variant.string (filter.id));
-		reset_filter_button.visible = (filter.id != "");
+		reset_filter_button.visible = (filter_options != null);
 
 		return true;
 	}

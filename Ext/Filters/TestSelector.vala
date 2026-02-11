@@ -37,6 +37,7 @@ public class Gth.TestSelector : Gtk.Box {
 		}
 		test_options = test.create_options ();
 		if (test_options != null) {
+			test_options.add_css_class ("test-options");
 			options_container.append (test_options);
 		}
 	}
