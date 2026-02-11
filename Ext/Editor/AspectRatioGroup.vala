@@ -38,8 +38,8 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		uint pos = 0;
 
 		ratios += 0;
-		descriptions += _("Disabled");
-		ratio_list.insert (new_ratio_row (_("Disabled"), pos), (int) pos);
+		descriptions += C_("Aspect Ratio", "Disabled");
+		ratio_list.insert (new_ratio_row (C_("Aspect Ratio", "Disabled"), pos), (int) pos);
 		pos++;
 
 		var display = window.root.get_display ();
@@ -49,27 +49,22 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 			var monitor = monitors.get_item (i) as Gdk.Monitor;
 			var geometry = monitor.geometry;
 			ratios += (float) geometry.width / geometry.height;
-			descriptions += _("Screen");
+			descriptions += C_("Aspect Ratio", "Screen");
 			var _description = "%u:%u".printf ((uint) geometry.width, (uint) geometry.height);
-			ratio_list.insert (new_ratio_row (_("Screen"), pos, _description), (int) pos);
+			ratio_list.insert (new_ratio_row (C_("Aspect Ratio", "Screen"), pos, _description), (int) pos);
 			pos++;
 		}
 
 		ratios += (float) original.width / original.height;
-		descriptions += _("Image");
-		ratio_list.insert (new_ratio_row (_("Image"), pos, "%u:%u".printf (original.width, original.height)), (int) pos);
+		descriptions += C_("Aspect Ratio", "Image");
+		ratio_list.insert (new_ratio_row (C_("Aspect Ratio", "Image"), pos, "%u:%u".printf (original.width, original.height)), (int) pos);
 		image_pos = pos;
 		pos++;
 
 		ratios += 1;
-		descriptions += _("Square");
-		ratio_list.insert (new_ratio_row (_("Square"), pos, "1:1"), (int) pos);
+		descriptions += C_("Aspect Ratio", "Square");
+		ratio_list.insert (new_ratio_row (C_("Aspect Ratio", "Square"), pos, "1:1"), (int) pos);
 		pos++;
-
-		// ratios += (float) (1.0 / Math.sqrt (2));
-		// descriptions += C_("Sheet", "A4");
-		// ratio_list.insert (new_ratio_row (C_("Sheet", "A4"), pos, "0.707"), (int) pos);
-		// pos++;
 
 		fixed_ratios = pos;
 
@@ -77,13 +72,13 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		foreach (var other in OTHER_RATIOS) {
 			var name = "%d:%d".printf ((int) other.width, (int) other.height);
 			ratio_names.append (name);
-			ratios += (float) other.width / other.height;
+			ratios += (float) (other.width / other.height);
 			descriptions += name;
 		}
 
-		ratio_names.append (C_("Sheet", "A4"));
+		ratio_names.append (C_("Aspect Ratio", "A4"));
 		ratios += (float) (1.0 / Math.sqrt (2));
-		descriptions += C_("Sheet", "A4");
+		descriptions += C_("Aspect Ratio", "A4");
 
 		ratio_names.append (_("Other…"));
 		ratios += 0.0f;
@@ -163,15 +158,12 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 		var new_ratio = 0f;
 		var idx = get_selected_ratio_index ();
 		if (idx == entry_index ()) {
-			stdout.printf ("> update_ratio [1]\n");
 			if (Strings.empty (entry.text)) {
-				stdout.printf ("> update_ratio [2]\n");
 				entry.text = RATIO_FORMAT.printf (ratio);
 			}
 			new_ratio = float.parse (entry.text);
 		}
 		else {
-			stdout.printf ("> update_ratio [3]\n");
 			new_ratio = ratios[idx];
 		}
 		if ((new_ratio > 0) && rotated.active) {
@@ -239,14 +231,5 @@ public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 	[GtkChild] unowned Gtk.Entry entry;
 	[GtkChild] unowned Adw.SwitchRow rotated;
 	[GtkChild] unowned Gtk.DropDown other_list;
-
-	Graphene.Size[] OTHER_RATIOS = {
-		{ 16, 9 },
-		{ 16, 10 },
-		{ 21, 9 },
-		{ 5, 4 },
-		{ 4, 3 },
-		{ 3, 2 },
-	};
 	const string RATIO_FORMAT = "%.3f";
 }

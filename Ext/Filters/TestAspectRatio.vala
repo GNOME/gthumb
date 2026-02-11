@@ -64,7 +64,7 @@ public class Gth.TestAspectRatio : Gth.Test {
 
 		// Value
 		spin_button = new Gtk.SpinButton.with_range (0, int.MAX, 1.0);
-		spin_button.digits = 2;
+		spin_button.digits = 3;
 		spin_button.width_chars = 5;
 		spin_button.visible = false;
 		spin_button.value = number;
@@ -77,11 +77,11 @@ public class Gth.TestAspectRatio : Gth.Test {
 		names = new Gtk.StringList (null);
 		var selected_size = -1;
 		idx = 0;
-		foreach (unowned var info in Size_List) {
+		foreach (unowned var info in size_list) {
 			names.append (_(info.display_name));
-			if (number == Size_List[idx].value) {
+			if (number == size_list[idx].value) {
 				selected_size = idx;
-				spin_button.value = Size_List[idx].value;
+				spin_button.value = size_list[idx].value;
 			}
 			idx++;
 		}
@@ -105,11 +105,11 @@ public class Gth.TestAspectRatio : Gth.Test {
 		operation_selector.notify["selected"].connect (() => options_changed ());
 		size_selector.notify["selected"].connect (() => {
 			var selected_idx = size_selector.get_selected ();
-			if (selected_idx >= Size_List.length) {
+			if (selected_idx >= size_list.length) {
 				show_custom_value (true);
 			}
 			else {
-				spin_button.value = Size_List[selected_idx].value;
+				spin_button.value = size_list[selected_idx].value;
 			}
 			options_changed ();
 		});
@@ -126,8 +126,8 @@ public class Gth.TestAspectRatio : Gth.Test {
 		op = op_info.op;
 		negative = op_info.negative;
 		var idx = size_selector.get_selected ();
-		if (idx < Size_List.length) {
-			number = Size_List[idx].value;
+		if (idx < size_list.length) {
+			number = size_list[idx].value;
 		}
 		else {
 			number = (float) spin_button.value;
@@ -145,13 +145,13 @@ public class Gth.TestAspectRatio : Gth.Test {
 		if (!visible) {
 			var value = (float) spin_button.value;
 			var idx = 0;
-			foreach (unowned var info in Size_List) {
-				if (value == Size_List[idx].value) {
+			foreach (unowned var info in size_list) {
+				if (value == size_list[idx].value) {
 					break;
 				}
 				idx++;
 			}
-			if (idx >= Size_List.length)
+			if (idx >= size_list.length)
 				idx = 0;
 			size_selector.set_selected (idx);
 		}
@@ -162,27 +162,26 @@ public class Gth.TestAspectRatio : Gth.Test {
 		float value;
 	}
 
-	const SizeInfo[] Size_List = {
-		// Translators: aspect ratio
-		{ N_("Square"), 1f },
-		// Translators: aspect ratio
-		{ N_("5∶4"), 5f / 4f },
-		// Translators: aspect ratio
-		{ N_("4∶3"), 4f / 3f },
-		// Translators: aspect ratio
-		{ N_("7∶5"), 7f / 5f },
-		// Translators: aspect ratio
-		{ N_("3∶2"), 3f / 2f },
-		// Translators: aspect ratio
-		{ N_("16∶10"), 16f / 10f },
-		// Translators: aspect ratio
-		{ N_("16∶9"), 16f / 9f },
-		// Translators: aspect ratio
-		{ N_("1.85∶1"), 1.85f },
-		// Translators: aspect ratio
-		{ N_("2.39∶1"), 2.39f },
-	};
+	construct {
+		size_list = {};
+		size_list += SizeInfo() {
+			display_name = C_("Aspect Ratio", "Square"),
+			value = 1f
+		};
+		foreach (var other in OTHER_RATIOS) {
+			var name = "%d:%d".printf ((int) other.width, (int) other.height);
+			size_list += SizeInfo() {
+				display_name = name,
+				value = (float) (other.width / other.height)
+			};
+		}
+		size_list += SizeInfo() {
+			display_name = C_("Aspect Ratio", "A4"),
+			value = (float) (1.0 / Math.sqrt (2))
+		};
+	}
 
+	SizeInfo[] size_list;
 	Gtk.DropDown operation_selector;
 	Gtk.DropDown size_selector;
 	Gtk.SpinButton spin_button;

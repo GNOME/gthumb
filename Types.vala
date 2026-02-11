@@ -44,6 +44,14 @@ const string STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE =
 const string EMBLEMS_ATTRIBUTE = "Private::File::Emblems";
 const string VOLUME_ATTRIBUTE = "Private::Volume";
 const string DEFAULT_STRFTIME_FORMAT = "%Y-%m-%d--%H.%M.%S";
+const Graphene.Size[] OTHER_RATIOS = {
+	{ 16, 9 },
+	{ 16, 10 },
+	{ 21, 9 },
+	{ 5, 4 },
+	{ 4, 3 },
+	{ 3, 2 },
+};
 
 // Video types not matching 'video/*'
 const string[] Other_Video_Types = {
