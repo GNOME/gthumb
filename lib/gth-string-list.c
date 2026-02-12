@@ -62,8 +62,11 @@ gth_string_list_new_from_strv (char **strv)
 
 	string_list = g_object_new (GTH_TYPE_STRING_LIST, NULL);
 	if (strv != NULL) {
-		for (i = 0; strv[i] != NULL; i++)
-			string_list->priv->list = g_list_prepend (string_list->priv->list, g_strdup (g_strstrip (strv[i])));
+		for (i = 0; strv[i] != NULL; i++) {
+			if (strv[i] != NULL) {
+				string_list->priv->list = g_list_prepend (string_list->priv->list, g_strdup (g_strstrip (strv[i])));
+			}
+		}
 		string_list->priv->list = g_list_reverse (string_list->priv->list);
 	}
 	else
@@ -81,8 +84,12 @@ gth_string_list_new_from_ptr_array (GPtrArray *array)
 
 	string_list = g_object_new (GTH_TYPE_STRING_LIST, NULL);
 	if (array != NULL) {
-		for (i = 0; i < array->len; i++)
-			string_list->priv->list = g_list_prepend (string_list->priv->list, g_strdup (g_ptr_array_index (array, i)));
+		for (i = 0; i < array->len; i++) {
+			char *str = (char *) g_ptr_array_index (array, i);
+			if (str != NULL) {
+				string_list->priv->list = g_list_prepend (string_list->priv->list, g_strdup (str));
+			}
+		}
 		string_list->priv->list = g_list_reverse (string_list->priv->list);
 	}
 	else
