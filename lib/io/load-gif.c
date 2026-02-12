@@ -36,6 +36,7 @@ typedef struct {
 	GraphicsControlBlock gcb;
 	GthImage *prev_image;
 	int last_disposal_mode;
+	guint32 background_color;
 } RenderContext;
 
 static GthImage * render_frame (GifFileType *file, RenderContext *render_ctx) {
@@ -63,15 +64,23 @@ static GthImage * render_frame (GifFileType *file, RenderContext *render_ctx) {
 		pixel_p = image_row;
 		prev_pixel_p = prev_image_row;
 		for (int j = 0; j < file->SWidth; j++) {
-			if ((screen_row[j] == render_ctx->gcb.TransparentColor)
-				// Outside the current image
-				|| (i < file->Image.Top)
+			if (screen_row[j] == render_ctx->gcb.TransparentColor) {
+				// Transparent pixel.
+				if (has_previous_image) {
+					*(guint32*) pixel_p = *(guint32*) prev_pixel_p;
+				}
+				else {
+					*(guint32*) pixel_p = (guint32) 0;
+				}
+			}
+			else if ((i < file->Image.Top)
 				|| (i >= file->Image.Top + file->Image.Height)
 				|| (j < file->Image.Left)
 				|| (j >= file->Image.Left + file->Image.Width))
 			{
+				// Outside the current image.
 				if (render_ctx->last_disposal_mode == DISPOSE_BACKGROUND) {
-					*(guint32*) pixel_p = (guint32) file->SBackGroundColor;
+					*(guint32*) pixel_p = render_ctx->background_color;
 				}
 				else if (has_previous_image) {
 					*(guint32*) pixel_p = *(guint32*) prev_pixel_p;
@@ -154,7 +163,8 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 		.screen_buffer = screen_buffer,
 		.screen_row_size = screen_row_size,
 		.prev_image = NULL,
-		.last_disposal_mode = DISPOSAL_UNSPECIFIED
+		.last_disposal_mode = DISPOSAL_UNSPECIFIED,
+		.background_color = 0,
 	};
 
 	file->ExtensionBlocks = NULL;
@@ -248,12 +258,14 @@ GthImage * load_gif (GBytes *bytes, guint requested_size, GCancellable *cancella
 			}
 
 			// Check that the background color is valid.
-			if ((file->SBackGroundColor < 0)
-				|| (file->SBackGroundColor >= render_ctx.color_map->ColorCount))
+			if ((file->SBackGroundColor >= 0)
+				|| (file->SBackGroundColor < render_ctx.color_map->ColorCount))
 			{
-				file->SBackGroundColor = 0;
-				//g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Background color out of range for colormap: %d (colors: %d)", file->SBackGroundColor, render_ctx.color_map->ColorCount);
-				//goto close;
+				GifColorType *entry = &(render_ctx.color_map->Colors[file->SBackGroundColor]);
+				render_ctx.background_color = PACK_RGBA (entry->Red, entry->Green, entry->Blue, 0xFF);
+			}
+			else {
+				render_ctx.background_color = 0;
 			}
 
 			GthImage *frame = render_frame (file, &render_ctx);
