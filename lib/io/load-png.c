@@ -623,7 +623,7 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 		{
 			JpegInfoData jpeg_info;
 			_jpeg_info_data_init (&jpeg_info);
-			if (_read_exif_data_tags (exif_data, exif_data_size, _JPEG_INFO_EXIF_COLOR_SPACE, &jpeg_info)) {
+			if (_read_exif_data_tags (exif_data, exif_data_size, _JPEG_INFO_EXIF_COLOR_SPACE | _JPEG_INFO_ICC_PROFILE, &jpeg_info)) {
 				if (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE) {
 					if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB) {
 						profile = gth_icc_profile_new_srgb ();
@@ -631,6 +631,11 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 					else if (jpeg_info.color_space == GTH_COLOR_SPACE_ADOBERGB) {
 						profile = gth_icc_profile_new_adobergb ();
 					}
+				}
+				else if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE) {
+					GBytes *bytes = g_bytes_new (jpeg_info.icc_data, jpeg_info.icc_data_size);
+					profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+					g_bytes_unref (bytes);
 				}
 			}
 		}

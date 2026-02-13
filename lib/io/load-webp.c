@@ -168,7 +168,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		JpegInfoData jpeg_info;
 		_jpeg_info_data_init (&jpeg_info);
 		if (_read_exif_data_tags ((guchar*) chunk_iter.chunk.bytes, chunk_iter.chunk.size,
-			_JPEG_INFO_EXIF_ORIENTATION | _JPEG_INFO_ICC_PROFILE,
+			_JPEG_INFO_EXIF_ORIENTATION | _JPEG_INFO_ICC_PROFILE | _JPEG_INFO_EXIF_COLOR_SPACE,
 			&jpeg_info))
 		{
 			if ((profile == NULL) && (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE)) {
@@ -178,6 +178,11 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 				else if (jpeg_info.color_space == GTH_COLOR_SPACE_ADOBERGB) {
 					profile = gth_icc_profile_new_adobergb ();
 				}
+			}
+			if ((profile == NULL) && (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE)) {
+				GBytes *bytes = g_bytes_new (jpeg_info.icc_data, jpeg_info.icc_data_size);
+				profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+				g_bytes_unref (bytes);
 			}
 			if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION) {
 				orientation = jpeg_info.orientation;

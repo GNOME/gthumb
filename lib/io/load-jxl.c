@@ -103,30 +103,36 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			break;
 
 		case JXL_DEC_COLOR_ENCODING:
-			JxlColorEncoding color_encoding;
-			if (JxlDecoderGetColorAsEncodedProfile (dec, JXL_COLOR_PROFILE_TARGET_ORIGINAL, &color_encoding) == JXL_DEC_SUCCESS) {
-				if (color_encoding.color_space == JXL_COLOR_SPACE_RGB) {
-					icc_profile = gth_icc_profile_new_srgb ();
+			if (info.uses_original_profile) {
+				JxlColorEncoding color_encoding;
+				if (JxlDecoderGetColorAsEncodedProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, &color_encoding) == JXL_DEC_SUCCESS) {
+					if (color_encoding.color_space == JXL_COLOR_SPACE_RGB) {
+						icc_profile = gth_icc_profile_new_srgb ();
+						break;
+					}
+				}
+
+				gsize profile_size;
+				if (JxlDecoderGetICCProfileSize (dec, JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) != JXL_DEC_SUCCESS) {
+					// g_message ("jxl: could not get ICC profile size.\n");
 					break;
 				}
-			}
 
-			gsize profile_size;
-			if (JxlDecoderGetICCProfileSize (dec, JXL_COLOR_PROFILE_TARGET_DATA, &profile_size) != JXL_DEC_SUCCESS) {
-				// g_message ("jxl: could not get ICC profile size.\n");
-				break;
-			}
+				guchar *profile_data = g_new (guchar, profile_size);
+				if (JxlDecoderGetColorAsICCProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) != JXL_DEC_SUCCESS) {
+					// g_message ("jxl: could not get ICC profile.\n");
+					g_free (profile_data);
+					break;
+				}
+				JxlDecoderSetOutputColorProfile (dec, NULL, profile_data, profile_size);
 
-			guchar *profile_data = g_new (guchar, profile_size);
-			if (JxlDecoderGetColorAsICCProfile (dec, JXL_COLOR_PROFILE_TARGET_DATA, profile_data, profile_size) != JXL_DEC_SUCCESS) {
-				// g_message ("jxl: could not get ICC profile.\n");
-				g_free (profile_data);
-				break;
+				GBytes *bytes = g_bytes_new_take (profile_data, profile_size);
+				icc_profile = gth_icc_profile_new_from_bytes (bytes, NULL);
+				g_bytes_unref (bytes);
 			}
-
-			GBytes *bytes = g_bytes_new_take (profile_data, profile_size);
-			icc_profile = gth_icc_profile_new_from_bytes (bytes, NULL);
-			g_bytes_unref (bytes);
+			else {
+				icc_profile = gth_icc_profile_new_srgb ();
+			}
 			break;
 
 		case JXL_DEC_NEED_IMAGE_OUT_BUFFER:
