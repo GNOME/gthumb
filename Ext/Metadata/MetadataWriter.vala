@@ -36,12 +36,18 @@ public class Gth.MetadataWriter {
 					saved = true;
 				}
 			}
+			var comment_file = Comment.get_comment_file (file_data.file);
 			if (!saved) {
-				var comment = new Comment.from_info (file_data.info);
-				var comment_file = Comment.get_comment_file (file_data.file);
+				// Cannot save the metadata inside the file, use the sidecar.
 				var comment_dir = comment_file.get_parent ();
 				Files.ensure_directory_exists (comment_dir);
+
+				var comment = new Comment.from_info (file_data.info);
 				Files.save_content (comment_file, comment.to_xml (), cancellable);
+			}
+			else {
+				// The embedded metadata was updated, delete the sidecar.
+				Files.delete_file (comment_file, cancellable);
 			}
 		}
 	}

@@ -128,6 +128,10 @@ public class Gth.ImageSaver {
 			if (update_metadata) {
 				var comment_file = Comment.get_comment_file (file_data.file);
 				if (!metadata_saved) {
+					// Cannot save the metadata inside the file, use the sidecar.
+					var comment_dir = comment_file.get_parent ();
+					Files.ensure_directory_exists (comment_dir);
+
 					var comment = new Comment.from_info (file_data.info);
 					Files.save_content (comment_file, comment.to_xml (), cancellable);
 				}
