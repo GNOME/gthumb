@@ -79,6 +79,7 @@ GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellabl
 	basic_info.bits_per_sample = 8;
 	basic_info.orientation = JXL_ORIENT_IDENTITY;
 	basic_info.num_color_channels = 3;
+	basic_info.uses_original_profile = lossless;
 	if (has_alpha) {
 		basic_info.num_extra_channels = 1;
 		basic_info.alpha_bits = 8;
