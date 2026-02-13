@@ -45,9 +45,6 @@ class Gth.FormatDialog : Adw.Dialog {
 		// Translators: %s is a file format, such as JPEG
 		title = _("%s Options").printf (preferences.get_display_name ());
 
-		//var show_options = new Adw.SwitchRow ();
-		//show_options.title = _("Show this dialog before saving");
-		//
 		var show_options = new Gtk.CheckButton.with_label (_("Show the options before saving"));
 		show_options.active = settings.get_boolean (PREF_GENERAL_SHOW_FORMAT_OPTIONS);
 		show_options.notify["active"].connect ((obj, _param) => {
