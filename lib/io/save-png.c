@@ -173,8 +173,6 @@ GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellabl
 		}
 	}
 
-#if HAVE_LCMS2
-
 	GthIccProfile *icc_profile = gth_image_get_icc_profile (image);
 	if (icc_profile != NULL) {
 		switch (gth_icc_profile_get_known_type (icc_profile)) {
@@ -215,8 +213,6 @@ GBytes* save_png (GthImage *image, GthOption **options, GCancellable *cancellabl
 			break;
 		}
 	}
-
-#endif /* HAVE_LCMS2 */
 
 	// Write the file header information.
 

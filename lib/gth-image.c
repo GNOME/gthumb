@@ -1,8 +1,6 @@
 #include <config.h>
 #include <glib.h>
-#ifdef HAVE_LCMS2
 #include <lcms2.h>
-#endif /* HAVE_LCMS2 */
 #include "lib/gth-color-manager.h"
 #include "lib/gth-image.h"
 #include "lib/pixel.h"
@@ -703,8 +701,6 @@ void gth_image_apply_icc_profile (GthImage *self,
 {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 
-#if HAVE_LCMS2
-
 	if (out_profile == NULL) {
 		return;
 	}
@@ -740,8 +736,6 @@ void gth_image_apply_icc_profile (GthImage *self,
 	g_object_unref (transform);
 
 	gth_image_set_icc_profile (self, out_profile);
-
-#endif
 }
 
 // -- gth_image_apply_icc_profile_async --

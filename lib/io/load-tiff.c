@@ -1,7 +1,5 @@
 #include <config.h>
-#if HAVE_LCMS2
 #include <lcms2.h>
-#endif
 #include <tiff.h>
 #include <tiffio.h>
 #include "load-tiff.h"
@@ -179,7 +177,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		return NULL;
 	}
 
-#if HAVE_LCMS2
 	GthIccProfile *profile = NULL;
 
 	uint32_t icc_profile_size;
@@ -189,8 +186,6 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		profile = gth_icc_profile_new_from_bytes (bytes, NULL);
 		g_bytes_unref (bytes);
 	}
-
-#endif
 
 	toff_t exif_offset;
 	if (TIFFGetField (tif, TIFFTAG_EXIFIFD, &exif_offset) == 1) {
@@ -277,12 +272,10 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 		return NULL;
 	}
 
-#if HAVE_LCMS2
 	if (profile != NULL) {
 		gth_image_set_icc_profile (image, profile);
 		g_object_unref (profile);
 	}
-#endif
 
 	if (orientation != GTH_TRANSFORM_NONE) {
 		GthImage *rotated = gth_image_apply_transform (image, orientation, cancellable);

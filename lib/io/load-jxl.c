@@ -1,9 +1,7 @@
 #include <config.h>
 #include <jxl/decode.h>
 #include <jxl/thread_parallel_runner.h>
-#if HAVE_LCMS2
 #include <lcms2.h>
-#endif
 #include "lib/gth-icc-profile.h"
 #include "image-info.h"
 #include "load-jxl.h"
@@ -104,7 +102,6 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			// TODO: read info.orientation
 			break;
 
-#if HAVE_LCMS2
 		case JXL_DEC_COLOR_ENCODING:
 			JxlColorEncoding color_encoding;
 			if (JxlDecoderGetColorAsEncodedProfile (dec, JXL_COLOR_PROFILE_TARGET_ORIGINAL, &color_encoding) == JXL_DEC_SUCCESS) {
@@ -131,7 +128,6 @@ GthImage* load_jxl (GBytes *bytes, guint requested_size, GCancellable *cancellab
 			icc_profile = gth_icc_profile_new_from_bytes (bytes, NULL);
 			g_bytes_unref (bytes);
 			break;
-#endif
 
 		case JXL_DEC_NEED_IMAGE_OUT_BUFFER:
 			// g_print ("> JXL_DEC_NEED_IMAGE_OUT_BUFFER\n");

@@ -4,9 +4,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include <jpeglib.h>
-#if HAVE_LCMS2
 #include <lcms2.h>
-#endif
 #include "lib/jpeg/jmemorysrc.h"
 #include "lib/jpeg/jpeg-info.h"
 #include "lib/gth-icc-profile.h"
@@ -124,9 +122,7 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 	_jpeg_info_data_init (&jpeg_info);
 
 	JpegInfoFlags info_flags = _JPEG_INFO_EXIF_ORIENTATION;
-#if HAVE_LCMS2
 	info_flags |= _JPEG_INFO_EXIF_COLOR_SPACE | _JPEG_INFO_ICC_PROFILE;
-#endif
 	_jpeg_info_get_from_buffer (in_buffer, in_buffer_size, info_flags, &jpeg_info);
 
 	GthTransform orientation = GTH_TRANSFORM_NONE;
@@ -136,7 +132,6 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 
 	GthIccProfile *profile = NULL;
 
-#if HAVE_LCMS2
 	if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE) {
 		GBytes *bytes = g_bytes_new_take (jpeg_info.icc_data, jpeg_info.icc_data_size);
 		profile = gth_icc_profile_new_from_bytes (bytes, NULL);
@@ -151,7 +146,6 @@ GthImage * load_jpeg (GBytes *bytes, guint requested_size, GCancellable *cancell
 			profile = gth_icc_profile_new_adobergb ();
 		}
 	}
-#endif
 
 	_jpeg_info_data_dispose (&jpeg_info);
 

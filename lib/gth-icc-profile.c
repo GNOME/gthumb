@@ -1,9 +1,7 @@
 #include <config.h>
 #include <glib.h>
 #include <glib-object.h>
-#ifdef HAVE_LCMS2
 #include <lcms2.h>
-#endif /* HAVE_LCMS2 */
 #include "lib/gth-icc-profile.h"
 
 
@@ -36,22 +34,18 @@ G_DEFINE_TYPE_WITH_CODE (GthIccTransform,
 void
 gth_cms_profile_free (GthCmsProfile profile)
 {
-#ifdef HAVE_LCMS2
 	if (profile != NULL) {
 		cmsCloseProfile ((cmsHPROFILE) profile);
 	}
-#endif
 }
 
 
 void
 gth_cms_transform_free (GthCmsTransform transform)
 {
-#ifdef HAVE_LCMS2
 	if (transform != NULL) {
 		cmsDeleteTransform ((cmsHTRANSFORM) transform);
 	}
-#endif
 }
 
 
@@ -108,38 +102,34 @@ _gth_cms_profile_create_id (GthCmsProfile cms_profile)
 
 	str = g_string_new ("");
 
-#ifdef HAVE_LCMS2
-	{
-		// Taken from colord:
-		// Copyright (C) 2013 Richard Hughes <richard@hughsie.com>
-		// Licensed under the GNU Lesser General Public License Version 2.1
-		//
-		cmsUInt8Number  icc_id[16];
-		gboolean        md5_precooked = FALSE;
-		gchar          *md5 = NULL;
-		guint           i;
+	// Taken from colord:
+	// Copyright (C) 2013 Richard Hughes <richard@hughsie.com>
+	// Licensed under the GNU Lesser General Public License Version 2.1
+	//
+	cmsUInt8Number  icc_id[16];
+	gboolean        md5_precooked = FALSE;
+	gchar          *md5 = NULL;
+	guint           i;
 
-		cmsGetHeaderProfileID ((cmsHPROFILE) cms_profile, icc_id);
-		for (i = 0; i < 16; i++) {
-			if (icc_id[i] != 0) {
-				md5_precooked = TRUE;
-				break;
-			}
-		}
-		if (md5_precooked) {
-			// Convert to a hex string.
-			md5 = g_new0 (gchar, 32 + 1);
-			for (i = 0; i < 16; i++)
-				g_snprintf (md5 + i * 2, 3, "%02x", icc_id[i]);
-		}
-
-		if (md5 != NULL) {
-			g_string_append (str, GTH_ICC_PROFILE_WITH_MD5);
-			g_string_append (str, md5);
-			id_set = TRUE;
+	cmsGetHeaderProfileID ((cmsHPROFILE) cms_profile, icc_id);
+	for (i = 0; i < 16; i++) {
+		if (icc_id[i] != 0) {
+			md5_precooked = TRUE;
+			break;
 		}
 	}
-#endif
+	if (md5_precooked) {
+		// Convert to a hex string.
+		md5 = g_new0 (gchar, 32 + 1);
+		for (i = 0; i < 16; i++)
+			g_snprintf (md5 + i * 2, 3, "%02x", icc_id[i]);
+	}
+
+	if (md5 != NULL) {
+		g_string_append (str, GTH_ICC_PROFILE_WITH_MD5);
+		g_string_append (str, md5);
+		id_set = TRUE;
+	}
 
 	if (!id_set) {
 		g_string_append (str, GTH_ICC_PROFILE_ID_UNKNOWN);
@@ -152,8 +142,6 @@ _gth_cms_profile_create_id (GthCmsProfile cms_profile)
 GthIccProfile *
 gth_icc_profile_new_srgb (void)
 {
-#ifdef HAVE_LCMS2
-
 	static GthIccProfile *icc_profile = NULL;
 
 	if (icc_profile == NULL) {
@@ -164,20 +152,12 @@ gth_icc_profile_new_srgb (void)
 		icc_profile->priv->cms_profile = (GthCmsProfile) cmsCreate_sRGBProfile ();
 	}
 	return g_object_ref (icc_profile);
-
-#else
-
-	return NULL;
-
-#endif
 }
 
 
 GthIccProfile *
 gth_icc_profile_new_adobergb (void)
 {
-#ifdef HAVE_LCMS2
-
 	static GthIccProfile *icc_profile = NULL;
 
 	if (icc_profile == NULL) {
@@ -207,20 +187,12 @@ gth_icc_profile_new_adobergb (void)
 	}
 
 	return g_object_ref (icc_profile);
-
-#else
-
-	return NULL;
-
-#endif
 }
 
 
 GthIccProfile *
 gth_icc_profile_new_srgb_with_gamma (double gamma)
 {
-#ifdef HAVE_LCMS2
-
 	cmsCIExyY WhitePoint;
 	if (!cmsWhitePointFromTemp (&WhitePoint, 6500))
 		return NULL;
@@ -250,12 +222,6 @@ gth_icc_profile_new_srgb_with_gamma (double gamma)
 	icc_profile->priv->description = g_strdup_printf ("sRGB Gamma=1/%.1f", gamma);
 	icc_profile->priv->cms_profile = cms_profile;
 	return icc_profile;
-
-#else
-
-	return NULL;
-
-#endif
 }
 
 
@@ -309,8 +275,6 @@ gth_icc_profile_get_description	(GthIccProfile *self)
 		return NULL;
 	}
 
-#ifdef HAVE_LCMS2
-
 	cmsHPROFILE hProfile = (cmsHPROFILE) self->priv->cms_profile;
 	const int buffer_size = 512;
 	wchar_t buffer[buffer_size];
@@ -336,12 +300,6 @@ gth_icc_profile_get_description	(GthIccProfile *self)
 		self->priv->description = g_strdup ("Unknown");
 	}
 	return self->priv->description;
-
-#else
-
-	return NULL;
-
-#endif
 }
 
 
@@ -473,12 +431,10 @@ gth_icc_transform_new (GthCmsTransform transform)
 }
 
 
-#if HAVE_LCMS2
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
 #define _LCMS2_PIXEL_FORMAT TYPE_BGRA_8
 #elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
 #define _LCMS2_PIXEL_FORMAT TYPE_ARGB_8
-#endif
 #endif
 
 
@@ -486,8 +442,6 @@ GthIccTransform *
 gth_icc_transform_new_from_profiles (GthIccProfile *from_profile,
 				     GthIccProfile *to_profile)
 {
-#if HAVE_LCMS2
-
 	GthCmsTransform cms_transform = (GthCmsTransform) cmsCreateTransform (
 		(cmsHPROFILE) gth_icc_profile_get_profile (from_profile),
 		_LCMS2_PIXEL_FORMAT,
@@ -499,12 +453,6 @@ gth_icc_transform_new_from_profiles (GthIccProfile *from_profile,
 	if (cms_transform == NULL)
 		return NULL;
 	return gth_icc_transform_new (cms_transform);
-
-#else
-
-	return NULL;
-
-#endif
 }
 
 

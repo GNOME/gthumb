@@ -2,9 +2,7 @@
 #include <glib.h>
 #include <webp/decode.h>
 #include <webp/demux.h>
-#if HAVE_LCMS2
 #include <lcms2.h>
-#endif
 #include "lib/jpeg/jpeg-info.h"
 #include "lib/gth-icc-profile.h"
 #include "load-webp.h"
@@ -153,8 +151,6 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 
 	uint32_t flags = WebPDemuxGetI (demux, WEBP_FF_FORMAT_FLAGS);
 	GthTransform orientation = GTH_TRANSFORM_NONE;
-
-#if HAVE_LCMS2
 	GthIccProfile *profile = NULL;
 
 	if (flags & ICCP_FLAG) {
@@ -165,7 +161,6 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		g_bytes_unref (bytes);
 		WebPDemuxReleaseChunkIterator (&chunk_iter);
 	}
-#endif
 
 	if (flags & EXIF_FLAG) {
 		WebPChunkIterator chunk_iter;
@@ -176,7 +171,6 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 			_JPEG_INFO_EXIF_ORIENTATION | _JPEG_INFO_ICC_PROFILE,
 			&jpeg_info))
 		{
-#if HAVE_LCMS2
 			if ((profile == NULL) && (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE)) {
 				if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB) {
 					profile = gth_icc_profile_new_srgb ();
@@ -185,7 +179,6 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 					profile = gth_icc_profile_new_adobergb ();
 				}
 			}
-#endif
 			if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION) {
 				orientation = jpeg_info.orientation;
 			}
@@ -193,12 +186,10 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		WebPDemuxReleaseChunkIterator (&chunk_iter);
 	}
 
-#if HAVE_LCMS2
 	if (profile != NULL) {
 		gth_image_set_icc_profile (image, profile);
 		g_object_unref (profile);
 	}
-#endif
 
 	WebPDemuxDelete (demux);
 

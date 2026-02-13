@@ -1,8 +1,6 @@
 #include <config.h>
 #include <glib.h>
-#ifdef HAVE_LCMS2
 #include <lcms2.h>
-#endif /* HAVE_LCMS2 */
 #ifdef HAVE_COLORD
 #include <colord.h>
 #endif /* HAVE_COLORD */
@@ -126,7 +124,7 @@ gth_color_manager_new (void)
 
 
 
-#if HAVE_LCMS2 && HAVE_COLORD
+#ifdef HAVE_COLORD
 
 
 static void
@@ -355,7 +353,7 @@ cd_client_connected_cb (GObject      *source_object,
 }
 
 
-#endif /* HAVE_LCMS2 && HAVE_COLORD */
+#endif /* HAVE_COLORD */
 
 
 static GthIccProfile *
@@ -379,53 +377,46 @@ gth_color_manager_get_profile_async (GthColorManager		*self,
 {
 	GTask *task = g_task_new (self, cancellable, callback, user_data);
 
-#if HAVE_LCMS2
-
-	{
-		char *id = g_strdup_printf ("monitor://%s", monitor_name);
-		GthIccProfile *profile = _gth_color_manager_get_profile (self, id);
-		if (profile != NULL) {
-			g_task_return_pointer (task, g_object_ref (profile), g_object_unref);
-			g_object_unref (task);
-			g_object_unref (profile);
-			g_free (id);
-			return;
-		}
+	char *id = g_strdup_printf ("monitor://%s", monitor_name);
+	GthIccProfile *profile = _gth_color_manager_get_profile (self, id);
+	if (profile != NULL) {
+		g_task_return_pointer (task, g_object_ref (profile), g_object_unref);
+		g_object_unref (task);
+		g_object_unref (profile);
+		g_free (id);
+		return;
+	}
 
 #if HAVE_COLORD
 
-		{
-			ProfilesData *data = g_slice_new (ProfilesData);
-			data->color_manager = g_object_ref (self);
-			data->monitor_name = g_strdup (monitor_name);
-			data->cache_id = g_strdup (id);
-			data->icc_file = NULL;
-			g_task_set_task_data (task, data, (GDestroyNotify) profiles_data_free);
+	{
+		ProfilesData *data = g_slice_new (ProfilesData);
+		data->color_manager = g_object_ref (self);
+		data->monitor_name = g_strdup (monitor_name);
+		data->cache_id = g_strdup (id);
+		data->icc_file = NULL;
+		g_task_set_task_data (task, data, (GDestroyNotify) profiles_data_free);
 
-			if (self->priv->cd_client == NULL)
-				self->priv->cd_client = cd_client_new ();
+		if (self->priv->cd_client == NULL)
+			self->priv->cd_client = cd_client_new ();
 
-			if (!cd_client_get_connected (self->priv->cd_client)) {
-				cd_client_connect (self->priv->cd_client,
-						   g_task_get_cancellable (task),
-						   cd_client_connected_cb,
-						   task);
-			}
-			else {
-				_cd_client_find_device_for_task (self->priv->cd_client, task);
-			}
-
-			g_free (id);
-			return;
+		if (!cd_client_get_connected (self->priv->cd_client)) {
+			cd_client_connect (self->priv->cd_client,
+					g_task_get_cancellable (task),
+					cd_client_connected_cb,
+					task);
 		}
+		else {
+			_cd_client_find_device_for_task (self->priv->cd_client, task);
+		}
+
+		g_free (id);
+		return;
+	}
 
 #endif /* HAVE_COLORD */
 
-		g_free (id);
-	}
-
-#endif /* HAVE_LCMS2 */
-
+	g_free (id);
 	g_task_return_pointer (task, NULL, NULL);
 	g_object_unref (task);
 }
@@ -462,8 +453,6 @@ gth_color_manager_get_transform (GthColorManager *self,
 				 GthIccProfile   *in_profile,
 				 GthIccProfile   *out_profile)
 {
-#if HAVE_LCMS2
-
 	GthIccTransform *transform = NULL;
 	static GMutex cache_mutex;
 
@@ -502,10 +491,4 @@ gth_color_manager_get_transform (GthColorManager *self,
 	g_mutex_unlock (&cache_mutex);
 
 	return transform;
-
-#else
-
-	return NULL;
-
-#endif
 }

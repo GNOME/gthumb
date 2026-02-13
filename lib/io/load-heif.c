@@ -1,9 +1,7 @@
 #include <config.h>
 #include <libheif/heif.h>
 #include <libheif/heif_sequences.h>
-#if HAVE_LCMS2
 #include <lcms2.h>
-#endif
 #include "lib/gth-icc-profile.h"
 #include "image-info.h"
 #include "load-heif.h"
@@ -134,7 +132,6 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 		gth_image_set_has_alpha (image, has_alpha);
 		gth_image_copy_from_rgba_big_endian (image, data, has_alpha, data_stride);
 
-#if HAVE_LCMS2
 		if (heif_image_get_color_profile_type (img) != heif_color_profile_type_not_present) {
 			size_t icc_data_size = heif_image_get_raw_color_profile_size (img);
 			gpointer icc_data = g_malloc (icc_data_size);
@@ -151,7 +148,6 @@ GthImage* load_heif (GBytes *bytes, guint requested_size, GCancellable *cancella
 			}
 			g_free (icc_data);
 		}
-#endif
 
 		heif_image_release (img);
 		heif_image_handle_release (handle);

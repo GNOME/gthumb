@@ -10,12 +10,6 @@ option('flatpak-build',
   description : 'True for the flatpak build'
 )
 
-option('lcms2',
-  type : 'boolean',
-  value : true,
-  description : 'Use lcms2 to get color management support'
-)
-
 option('colord',
   type : 'boolean',
   value : true,

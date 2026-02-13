@@ -95,8 +95,6 @@ GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellabl
 		return NULL;
 	}
 
-#if HAVE_LCMS2
-
 	GthIccProfile *icc_profile = gth_image_get_icc_profile (image);
 	if (icc_profile != NULL) {
 		if (gth_icc_profile_get_known_type (icc_profile) == GTH_ICC_TYPE_SRGB) {
@@ -116,8 +114,6 @@ GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellabl
 			}
 		}
 	}
-
-#endif /* HAVE_LCMS2 */
 
 	JxlEncoderFrameSettings *frame_settings = JxlEncoderFrameSettingsCreate (enc, NULL);
 	if (frame_settings == NULL) {

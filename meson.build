@@ -25,18 +25,6 @@ vala_comp = meson.get_compiler('vala')
 prefix = get_option('prefix')
 datadir = join_paths(prefix, get_option('datadir'))
 
-# lcms2
-
-if get_option('lcms2')
-  lcms2_dep = dependency('lcms2',
-    version: lcms2_version,
-    required: false
-  )
-  use_lcms2 = lcms2_dep.found()
-else
-  use_lcms2 = false
-endif
-
 # colord
 
 if get_option('colord')
@@ -174,8 +162,8 @@ dependencies = [
   dependency('gtk4', version: gtk_version),
   dependency('libadwaita-1', version: adwaita_version),
   dependency('libpng', version: png_version),
+  dependency('lcms2', version: lcms2_version),
   libjpeg_dep,
-  use_lcms2 ? lcms2_dep : [],
   use_colord ? colord_dep : [],
   use_libwebp ? libwebp_dep : [],
   use_librsvg ? librsvg_dep : [],
@@ -234,9 +222,6 @@ config.set('FLATPAK', get_option('flatpak-build') ? 'true' : 'false')
 config.set_quoted('BUILD_TAG', get_option('flatpak-build') ? '-flatpak' : '')
 if have_progressive_jpeg
   config.set('HAVE_PROGRESSIVE_JPEG', 1)
-endif
-if use_lcms2
-  config.set('HAVE_LCMS2', 1)
 endif
 if use_colord
   config.set('HAVE_COLORD', 1)
@@ -545,7 +530,6 @@ summary(
   {
     'prefix': prefix,
     'prog jpeg': have_progressive_jpeg,
-    'lcms2': use_lcms2,
     'colord': use_colord,
     'libwebp': use_libwebp,
     'librsvg': use_librsvg,

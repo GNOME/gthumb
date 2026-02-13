@@ -1,8 +1,6 @@
 #include <config.h>
 #include <png.h>
-#if HAVE_LCMS2
 #include <lcms2.h>
-#endif
 #include "lib/jpeg/jpeg-info.h" // For reading the color profile in EXIF data
 #include "lib/gth-icc-profile.h"
 #include "load-png.h"
@@ -495,9 +493,7 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 		// Save animation related chunks
 		png_set_keep_unknown_chunks (loader_data.png_ptr, PNG_HANDLE_CHUNK_IF_SAFE, (png_const_bytep) APNG_CHUNKS, 3);
 	}
-#ifndef HAVE_LCMS2
 	png_set_gamma (loader_data.png_ptr, PNG_DEFAULT_sRGB, PNG_DEFAULT_sRGB);
-#endif
 	png_read_info (loader_data.png_ptr, loader_data.png_info_ptr);
 
 	png_uint_32 width, height;
@@ -583,7 +579,6 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 
 	// Read the color profile.
 
-#if HAVE_LCMS2
 	{
 		GthIccProfile *profile = NULL;
 		int            intent;
@@ -645,7 +640,6 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 			g_object_unref (profile);
 		}
 	}
-#endif
 
 	// Compose the animation if any.
 	if (!animation_frame && (loader_data.animation.frames != NULL)) {
