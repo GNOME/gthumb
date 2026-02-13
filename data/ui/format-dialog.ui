@@ -2,6 +2,8 @@
 <interface>
   <template class="GthFormatDialog">
     <property name="content-width">700</property>
+    <property name="default-widget">save_button</property>
+    <property name="focus-widget">save_button</property>
     <child>
       <object class="AdwToolbarView" id="main_view">
         <child type="top">
@@ -16,7 +18,7 @@
               </object>
             </child>
             <child type="end">
-              <object class="GtkButton">
+              <object class="GtkButton" id="save_button">
                 <property name="label" translatable="yes" context="Verb">_Save</property>
                 <property name="use_underline">true</property>
                 <signal name="clicked" handler="on_save" />
