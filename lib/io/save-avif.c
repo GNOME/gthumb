@@ -93,6 +93,17 @@ GBytes* save_avif (GthImage *image, GthOption **options, GCancellable *cancellab
 		goto cleanup;
 	}
 
+	if (gth_image_has_icc_profile (image)) {
+		GthIccProfile *icc_profile = gth_image_get_icc_profile (image);
+		GBytes *bytes = gth_icc_profile_get_bytes (icc_profile);
+		if (bytes != NULL) {
+			gsize profile_size;
+			gconstpointer profile_data = g_bytes_get_data (bytes, &profile_size);
+			heif_image_set_raw_color_profile (heif_image, "prof", profile_data, profile_size);
+			g_bytes_unref (bytes);
+		}
+	}
+
 	int in_stride;
 	guchar *pixels = gth_image_prepare_edit (image, &in_stride, NULL, NULL);
 	int out_stride;
