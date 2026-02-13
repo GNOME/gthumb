@@ -3,7 +3,6 @@
   <schema id="app.gthumb.gthumb.savers" path="/app/gthumb/gthumb/savers/">
     <child name="avif" schema="app.gthumb.gthumb.savers.avif" />
     <child name="jpeg" schema="app.gthumb.gthumb.savers.jpeg" />
-    <!--child name="jxl" schema="app.gthumb.gthumb.savers.jxl" /-->
     <child name="png" schema="app.gthumb.gthumb.savers.png" />
     <child name="tiff" schema="app.gthumb.gthumb.savers.tiff" />
     <child name="webp" schema="app.gthumb.gthumb.savers.webp" />

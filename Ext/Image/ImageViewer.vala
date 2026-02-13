@@ -168,31 +168,42 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return true;
 	}
 
-	void add_image_filters (Gtk.FileDialog dialog) {
-		var filters = new ListStore (typeof (Gtk.FileFilter));
-		var images_filter = new Gtk.FileFilter ();
-		images_filter.name = _("Images");
-		foreach (unowned var content_type in app.savers.get_keys ()) {
-			images_filter.add_mime_type (content_type);
-			var type_filter = new Gtk.FileFilter ();
-			type_filter.add_mime_type (content_type);
-			var saver = app.get_saver_preferences (content_type);
-			type_filter.name = saver.get_display_name ();
-			filters.append (type_filter);
-		}
-		filters.insert (0, images_filter);
-		dialog.filters = filters;
-		dialog.default_filter = images_filter;
-	}
 
 	public async void ask_name_and_save () {
-		var dialog = new Gtk.FileDialog ();
-		dialog.initial_folder = window.viewer.current_file.file.get_parent ();
-		dialog.initial_name = window.viewer.current_file.get_display_name ();
-		add_image_filters (dialog);
+		File new_file = null;
+		var local_job = window.new_job ("Ask Name");
 		try {
-			var file = yield dialog.save (window, null);
-			var file_data = yield save_to (file);
+			var default_value = window.viewer.current_file.info.get_edit_name ();
+			var last_extension = app.settings.get_string (PREF_BROWSER_LAST_EXTENSION);
+			if (!Strings.empty (last_extension)) {
+				var default_value_no_ext = Util.remove_extension (default_value);
+				default_value = default_value_no_ext + "." + last_extension;
+			}
+
+			var read_filename = new ReadFilename (_("Save File"), _("_Save"));
+			read_filename.default_value = default_value;
+			read_filename.check_extension = true;
+			var basename = yield read_filename.read_value (window, local_job);
+
+			var ext = Util.get_extension (basename);
+			app.settings.set_string (PREF_BROWSER_LAST_EXTENSION, ext);
+
+			var folder = window.viewer.current_file.file.get_parent ();
+			new_file = folder.get_child_for_display_name (basename);
+		}
+		catch (Error error) {
+			window.show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+
+		if (new_file == null) {
+			return;
+		}
+
+		try {
+			var file_data = yield save_to (new_file);
 			window.viewer.file_saved (file_data);
 		}
 		catch (Error error) {

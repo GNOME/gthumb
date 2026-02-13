@@ -29,7 +29,7 @@ public class Gth.FileData : Object {
 	}
 
 	public FileData.for_rename (FileData other, File new_file) {
-		this (new_file, other.info);
+		this (new_file, other.info.dup ());
 		if (!new_file.equal (other.file)) {
 			var basename = Util.get_parse_basename (new_file);
 			rename_from_display_name (basename);
@@ -293,8 +293,12 @@ public class Gth.FileData : Object {
 			info.set_edit_name (basename);
 
 			var extension = Util.get_extension (basename);
-			unowned var content_type = app.get_content_type_from_extension (extension);
-			set_content_type (content_type);
+			if (extension != null) {
+				unowned var content_type = app.get_content_type_from_extension (extension);
+				if (content_type != null) {
+					set_content_type (content_type);
+				}
+			}
 		}
 		catch (Error error) {
 			// TODO
