@@ -59,16 +59,22 @@ public class Gth.ImageSaver {
 				throw new IOError.NOT_SUPPORTED (_("Cannot save this kind of files"));
 			}
 
-			if (image.has_icc_profile ()) {
+			var preferences = app.get_saver_preferences (file_data.get_content_type ());
+			if (preferences == null) {
+				throw new IOError.NOT_SUPPORTED (_("Cannot save this kind of files"));
+			}
+
+			if (image.has_icc_profile () && preferences.can_save_icc_profile ()) {
 				image = image.dup ();
 
 				// Transform to sRGB
 				var srgb = new Gth.IccProfile.sRGB ();
 				image.apply_icc_profile (app.color_manager, srgb, cancellable);
 
-				file_data.info.set_attribute_boolean ("Loaded::Image::WasModified", true);
-
 				if (Exiv2.can_write_metadata (file_data.get_content_type ())) {
+					// Exiv2.write_metadata will delete the old color profile.
+					file_data.info.set_attribute_boolean ("Loaded::Image::WasModified", true);
+
 					// Overwrite Exif.Photo.ColorSpace
 					var srgb_tag = new Gth.Metadata.sRGBColorSpace ();
 					file_data.info.set_attribute_object ("Exif::Photo::ColorSpace", srgb_tag);
@@ -84,15 +90,11 @@ public class Gth.ImageSaver {
 				/*var srgb_tag = new Gth.Metadata.sRGBColorSpace ();
 				file_data.set_attribute_object ("Exif::Photo::ColorSpace", srgb_tag);*/
 
+				// Exiv2.write_metadata will delete the old color profile.
 				file_data.info.set_attribute_boolean ("Loaded::Image::WasModified", true);
 			}
 
-			Gth.Option[] options = null;
-			var preferences = app.get_saver_preferences (file_data.get_content_type ());
-			if (preferences != null) {
-				options = preferences.get_options ();
-			}
-
+			Gth.Option[] options = preferences.get_options ();
 			var bytes = save_func (image, options, cancellable);
 			if (bytes == null) {
 				throw new IOError.FAILED ("Save failed");

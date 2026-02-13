@@ -17,7 +17,7 @@ public class Gth.TiffPreferences : Gth.SaverPreferences {
 	}
 
 	public override bool can_save_icc_profile () {
-		return false;
+		return true;
 	}
 
 	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
