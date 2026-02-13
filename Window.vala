@@ -152,6 +152,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 				if (browser.content_view.show_sidebar) {
 					viewer.main_view.max_sidebar_width = browser.content_view.max_sidebar_width;
 				}
+				viewer.status.set_list_info (browser.total_files);
 			}
 			else if (previuos_page == Page.EDITOR) {
 				viewer.main_view.max_sidebar_width = editor.main_view.max_sidebar_width;

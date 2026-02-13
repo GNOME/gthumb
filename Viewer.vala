@@ -83,9 +83,7 @@ public class Gth.Viewer : Gtk.Box {
 			else {
 				position = window.browser.get_file_position (file_data.file);
 			}
-			if (position != -1) {
-				status.set_file_position (position);
-			}
+			status.set_file_position (position);
 		}
 		if (local_job != job) {
 			local_job.done ();
@@ -109,16 +107,13 @@ public class Gth.Viewer : Gtk.Box {
 		view_file_async.begin (current_file);
 	}
 
-	public void renamed_file (FileData file_data) {
+	public void file_renamed (FileData file_data) {
 		current_file = file_data;
 		property_sidebar.current_file = current_file;
 		update_sidebar ();
 		update_title ();
 		update_sensitivity ();
-		position = window.browser.get_file_position (file_data.file);
-		if (position != -1) {
-			status.set_file_position (position);
-		}
+		update_current_file_position ();
 	}
 
 	public async void open_unsaved_image (FileData file_data, Gth.Image image) {
@@ -187,11 +182,9 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void file_saved (FileData file_data) {
-		var name_changed = (current_file == null) || !current_file.file.equal (file_data.file);
-		current_file = file_data;
-		property_sidebar.current_file = current_file;
-		update_sidebar ();
+		current_file.set_is_modified (false);
 		update_title ();
+		var name_changed = (current_file == null) || !current_file.file.equal (file_data.file);
 		if (name_changed) {
 			app.monitor.file_created (file_data.file);
 		}
@@ -202,13 +195,28 @@ public class Gth.Viewer : Gtk.Box {
 
 	public void file_changed (FileData file_data) {
 		// stdout.printf ("> VIEWER: FILE CHANGED %s\n", file_data.file.get_uri ());
-		if ((current_file != null)
-			&& current_file.file.equal (file_data.file)
-			&& !current_file.get_is_modified ()
-			&& !current_viewer.same_etag (file_data.info))
-		{
-			// stdout.printf ("> VIEWER: RELOAD FILE %s\n", file_data.file.get_uri ());
-			view_file_async.begin (file_data, ViewFlags.DEFAULT);
+		if ((current_file != null) && current_file.file.equal (file_data.file)) {
+			if (!current_file.get_is_modified ()
+				&& !current_viewer.same_etag (file_data.info))
+			{
+				// stdout.printf ("> VIEWER: RELOAD FILE %s\n", file_data.file.get_uri ());
+				view_file_async.begin (file_data, ViewFlags.DEFAULT);
+			}
+		}
+	}
+
+	public void list_changed () {
+		update_current_file_position ();
+	}
+
+	void update_current_file_position () {
+		if (current_file == null) {
+			return;
+		}
+		var new_position = window.browser.get_file_position (current_file.file);
+		status.set_file_position (new_position);
+		if (new_position >= 0) {
+			position = new_position;
 		}
 	}
 
@@ -468,8 +476,9 @@ public class Gth.Viewer : Gtk.Box {
 		set_header_state (state);
 	}
 
-	public void set_list_info (uint files) {
+	public void update_list_info (uint files) {
 		status.set_list_info (files);
+		update_current_file_position ();
 	}
 
 	public GenericList<File> get_selected_file () {
@@ -493,15 +502,16 @@ public class Gth.Viewer : Gtk.Box {
 			return;
 		}
 		var iter = files.iterator ();
-		var pos = iter.find_first ((file) => file.equal (current_file.file));
-		if (pos >= 0) {
-			if (window.current_page == Window.Page.BROWSER) {
-				current_file = null;
-			}
-			else if (!window.browser.view_position (position)) {
-				if (!window.browser.view_last_file ()) {
-					window.set_page.begin (Window.Page.BROWSER);
-				}
+		var deleted_pos = iter.find_first ((file) => file.equal (current_file.file));
+		if (deleted_pos < 0) {
+			return;
+		}
+		if (window.current_page == Window.Page.BROWSER) {
+			current_file = null;
+		}
+		else if (!window.browser.view_position (position)) {
+			if (!window.browser.view_last_file ()) {
+				window.set_page.begin (Window.Page.BROWSER);
 			}
 		}
 	}

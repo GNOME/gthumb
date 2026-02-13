@@ -126,6 +126,9 @@ public class Gth.Browser : Gtk.Box {
 		var file_data_list = yield FileManager.query_list_info (files, attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
 		foreach (var file_data in file_data_list) {
 			folder_tree.current_children.model.append (file_data);
+			if (window.current_page == Window.Page.VIEWER) {
+				window.viewer.file_changed (file_data);
+			}
 		}
 	}
 
@@ -451,7 +454,9 @@ public class Gth.Browser : Gtk.Box {
 			total_size += file.info.get_size ();
 		}
 		status.set_list_info (total_files, total_size);
-		window.viewer.set_list_info (total_files);
+		if (window.current_page == Window.Page.VIEWER) {
+			window.viewer.update_list_info (total_files);
+		}
 		update_folder_status ();
 	}
 
@@ -1838,7 +1843,9 @@ public class Gth.Browser : Gtk.Box {
 		total_size += file_data.info.get_size ();
 
 		status.set_list_info (total_files, total_size);
-		window.viewer.set_list_info (total_files);
+		if (window.current_page == Window.Page.VIEWER) {
+			window.viewer.update_list_info (total_files);
+		}
 		if (total_files == 1) {
 			folder_stack.set_visible_child (non_empty_folder);
 		}
@@ -2184,7 +2191,7 @@ public class Gth.Browser : Gtk.Box {
 			var iter = folder_tree.current_children.iterator ();
 			var viewer_file = iter.find_first_item ((file_data) => file_data.file.equal (window.viewer.current_file.file));
 			if (viewer_file != null) {
-				window.viewer.renamed_file (viewer_file);
+				window.viewer.file_renamed (viewer_file);
 			}
 		}
 	}
@@ -2776,7 +2783,7 @@ public class Gth.Browser : Gtk.Box {
 	ActionCategory actions_category;
 	ActionCategory bookmarks_category;
 	ActionCategory parents_category;
-	uint total_files = 0;
+	public uint total_files = 0;
 	uint64 total_size = 0;
 }
 

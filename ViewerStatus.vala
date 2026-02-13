@@ -5,8 +5,13 @@ public class Gth.ViewerStatus : Gtk.Box {
 		update_visibility ();
 	}
 
-	public void set_file_position (uint position) {
-		file_position.label = "%u".printf (position + 1);
+	public void set_file_position (int position) {
+		if (position < 0) {
+			file_position.label = "?";
+		}
+		else {
+			file_position.label = "%d".printf (position + 1);
+		}
 	}
 
 	public void set_list_info (uint files) {
