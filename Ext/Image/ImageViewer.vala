@@ -292,7 +292,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	async FileData? replace_file (FileData file_data, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
 		try {
-			yield app.image_saver.replace_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.replace_file (window, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 		}
 		catch (Error error) {
@@ -310,7 +310,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	async FileData? create_file (FileData file_data, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
 		try {
-			yield app.image_saver.create_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.create_file (window, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 		}
 		catch (Error error) {
@@ -338,7 +338,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		case OverwriteResponse.OVERWRITE:
 			file_data.set_etag (null);
-			yield app.image_saver.replace_file (image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.replace_file (window, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 
 		case OverwriteResponse.RENAME:

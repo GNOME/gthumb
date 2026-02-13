@@ -254,7 +254,7 @@ public class Gth.Thumbnailer {
 		try {
 			var thumbnail_file = Thumbnailer.get_thumbnail_file (original.file, cache_size, FileIntent.WRITE, cancellable);
 			var thumbnail_file_data = new FileData.for_file (thumbnail_file, "image/png");
-			yield app.image_saver.replace_file (thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
+			yield app.image_saver.replace_file (window, thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_thumbnail_to_cache %s: %s\n", original.file.get_uri (), error.message);
@@ -272,7 +272,7 @@ public class Gth.Thumbnailer {
 
 			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (original.file, FileIntent.WRITE);
 			var thumbnail_file_data = new FileData.for_file (thumbnail_file, "image/png");
-			yield app.image_saver.replace_file (thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
+			yield app.image_saver.replace_file (window, thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_failed_thumbnail_to_cache: %s\n", error.message);
