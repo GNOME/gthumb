@@ -2,7 +2,7 @@ id: app.gthumb.gthumb
 runtime: org.gnome.Platform
 runtime-version: '49'
 sdk: org.gnome.Sdk
-command: gthumb
+command: gthumb4
 tags:
   - nightly
   - upstream-maintained
