@@ -97,18 +97,6 @@ else
   use_gstreamer = false
 endif
 
-# exiv2
-
-if get_option('exiv2')
-  exiv2_dep = dependency('exiv2',
-    version: exiv2_version,
-    required: false
-  )
-  use_exiv2 = exiv2_dep.found()
-else
-  use_exiv2 = false
-endif
-
 # libheif
 
 if get_option('libheif')
@@ -163,12 +151,12 @@ dependencies = [
   dependency('libadwaita-1', version: adwaita_version),
   dependency('libpng', version: png_version),
   dependency('lcms2', version: lcms2_version),
+  dependency('exiv2', version: exiv2_version),
   libjpeg_dep,
   use_colord ? colord_dep : [],
   use_libwebp ? libwebp_dep : [],
   use_librsvg ? librsvg_dep : [],
   use_gstreamer ? gstreamer_dep_list : [],
-  use_exiv2 ? exiv2_dep : [],
   use_libheif ? libheif_dep : [],
   use_libjxl ? libjxl_deps : [],
   use_libtiff ? libtiff_deps : [],
@@ -216,7 +204,7 @@ if get_option('developer-mode')
 else
   config.set_quoted('PRIVEXECDIR', privexecdir)
   config.set_quoted('APP_ID', 'app.gthumb.gthumb')
-  exec_name = 'gthumb'
+  exec_name = 'gthumb4'
 endif
 config.set('FLATPAK', get_option('flatpak-build') ? 'true' : 'false')
 config.set_quoted('BUILD_TAG', get_option('flatpak-build') ? '-flatpak' : '')
@@ -237,10 +225,6 @@ endif
 if use_gstreamer
   config.set('HAVE_GSTREAMER', 1)
   add_project_arguments(['-D', 'HAVE_GSTREAMER'], language: 'vala')
-endif
-if use_exiv2
-  config.set('HAVE_EXIV2', 1)
-  add_project_arguments(['-D', 'HAVE_EXIV2'], language: 'vala')
 endif
 if use_libheif
   config.set('HAVE_LIBHEIF', 1)
@@ -531,10 +515,9 @@ summary(
     'prefix': prefix,
     'prog jpeg': have_progressive_jpeg,
     'colord': use_colord,
+    'gstreamer': use_gstreamer,
     'libwebp': use_libwebp,
     'librsvg': use_librsvg,
-    'gstreamer': use_gstreamer,
-    'exiv2': use_exiv2,
     'libheif': use_libheif,
     'libjxl': use_libjxl,
     'libtiff': use_libtiff,

@@ -16,6 +16,12 @@ option('colord',
   description : 'Use colord to read the monitor color profile'
 )
 
+option('gstreamer',
+  type : 'boolean',
+  value : true,
+  description : 'Use gstreamer to play multimedia files and to view the metadata'
+)
+
 option('libwebp',
   type : 'boolean',
   value : true,
@@ -26,18 +32,6 @@ option('librsvg',
   type : 'boolean',
   value : true,
   description : 'Use librsvg to load SVG images'
-)
-
-option('gstreamer',
-  type : 'boolean',
-  value : true,
-  description : 'Use gstreamer to play multimedia files and to view the metadata'
-)
-
-option('exiv2',
-  type : 'boolean',
-  value : true,
-  description : 'Use exiv2 to read and write metadata'
 )
 
 option('libheif',
