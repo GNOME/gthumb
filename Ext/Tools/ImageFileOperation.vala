@@ -10,7 +10,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 
 	public override async void execute (Gth.Window window, File source, Job job) throws Error {
 		// Load the image
-		var image = yield app.image_loader.load_file (source, LoadFlags.DEFAULT, job.cancellable);
+		var image = yield app.image_loader.load_file (window, source, LoadFlags.DEFAULT, job.cancellable);
 
 		// Modify the image
 		Image new_image = null;

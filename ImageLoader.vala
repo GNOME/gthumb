@@ -8,18 +8,23 @@ public class Gth.ImageLoader {
 	const string REQUIRED_ATTRIBUTES = STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE + "," +
 			 FileAttribute.ETAG_VALUE;
 
-	public async Image? load_file (File file, LoadFlags flags, Cancellable cancellable, uint requested_size = 0) throws Error {
-		var info = yield file.query_info_async (
-			REQUIRED_ATTRIBUTES,
-			FileQueryInfoFlags.NONE,
-			Priority.DEFAULT,
+	public async Image? load_file (Gth.Window? window, File file,
+		LoadFlags flags, Cancellable cancellable,
+		uint requested_size = 0) throws Error
+	{
+		var info = yield file.query_info_async (REQUIRED_ATTRIBUTES,
+			FileQueryInfoFlags.NONE, Priority.DEFAULT,
 			cancellable);
 		var stream = yield file.read_async (Priority.DEFAULT, cancellable);
-		var image = yield load_stream (stream, file, info, flags, cancellable, requested_size);
+		var image = yield load_stream (window, stream, file, info, flags,
+			cancellable, requested_size);
 		return image;
 	}
 
-	async Image? load_stream (InputStream stream, File? file, FileInfo info, LoadFlags flags, Cancellable cancellable, uint requested_size = 0) throws Error {
+	async Image? load_stream (Gth.Window? window, InputStream stream, File? file,
+		FileInfo info, LoadFlags flags, Cancellable cancellable,
+		uint requested_size = 0) throws Error
+	{
 		var job = new Job ();
 		job.callback = load_stream.callback;
 		job.stream = stream;
@@ -33,7 +38,33 @@ public class Gth.ImageLoader {
 		if (job.error != null) {
 			throw job.error;
 		}
-		return job.image;
+		if (window == null) {
+			return job.image;
+		}
+
+		// Apply the monitor profile
+		var image = job.image;
+		try {
+			var monitor_profile = yield window.get_monitor_profile (cancellable);
+			if ((monitor_profile != null) && (image.get_icc_profile () != monitor_profile)) {
+				var icc_profile = !(LoadFlags.IGNORE_ICC_PROFILE in flags) ? image.get_icc_profile () : null;
+				if (icc_profile != null) {
+					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
+					unowned var profile_name = image.get_attribute ("Private::ColorProfile");
+					if (profile_name != null) {
+						job.info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
+					}
+				}
+				else {
+					// This allows to convert the image to sRGB before saving.
+					image.set_icc_profile (monitor_profile);
+				}
+			}
+		}
+		catch (Error error) {
+			// stdout.printf ("> apply profile error: %s\n", error.message);
+		}
+		return image;
 	}
 
 	class Job : Work.Job {
@@ -107,4 +138,5 @@ public delegate Gth.Image? Gth.LoadFileFunc (File file, uint requested_size, Can
 public enum Gth.LoadFlags {
 	DEFAULT = 0,
 	NO_METADATA,
+	IGNORE_ICC_PROFILE,
 }

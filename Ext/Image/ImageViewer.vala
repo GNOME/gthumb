@@ -61,26 +61,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
-		try {
-			var monitor_profile = yield window.get_monitor_profile (cancellable);
-			if ((monitor_profile != null) && (image.get_icc_profile () != monitor_profile)) {
-				var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
-				if (icc_profile != null) {
-					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
-					unowned var profile_name = image.get_attribute ("Private::ColorProfile");
-					if (profile_name != null) {
-						file_data.info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
-					}
-				}
-				else {
-					// This allows to convert the image to sRGB before saving.
-					image.set_icc_profile (monitor_profile);
-				}
-			}
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
 		// Keep the previous zoom type.
 		image_view.default_zoom_type = image_view.zoom_type;
 		image_view.image = image;
@@ -89,7 +69,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public async bool load (FileData file_data, Job job) {
 		var success = false;
 		try {
-			var image = yield app.image_loader.load_file (file_data.file, LoadFlags.DEFAULT, job.cancellable);
+			var flags = LoadFlags.DEFAULT;
+			if (!apply_icc_profile) {
+				flags |= LoadFlags.IGNORE_ICC_PROFILE;
+			}
+			var image = yield app.image_loader.load_file (window, file_data.file, flags, job.cancellable);
 			file_data.update_info (image.info, false);
 			yield view_image (image, file_data, job.cancellable);
 			history.clear ();

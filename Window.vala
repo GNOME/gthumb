@@ -537,10 +537,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 					file = viewer.current_file.file;
 				}
 				var image_viewer = viewer.current_viewer as ImageViewer;
-				yield dialog.print_image (image_viewer.image_view.image, file, this, local_job);
+				yield dialog.print_image (this, image_viewer.image_view.image, file, local_job);
 			}
 			else {
-				yield dialog.print_files (files, this, local_job);
+				yield dialog.print_files (this, files, local_job);
 			}
 		}
 		catch (Error error) {
