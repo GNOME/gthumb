@@ -198,13 +198,11 @@ public class Gth.Application : Adw.Application {
 #endif
 
 		external_loaders = new HashTable<string, Gth.LoadFileFunc>(str_hash, str_equal);
-#if HAVE_GSTREAMER
 		register_external_loader ("video/*", load_video_thumbnail, typeof (VideoViewer));
 		register_external_loader ("audio/*", load_video_thumbnail, typeof (VideoViewer));
 		foreach (unowned var video_type in Other_Video_Types) {
 			register_external_loader (video_type, load_video_thumbnail, typeof (VideoViewer));
 		}
-#endif
 
 		savers = new HashTable<string, Gth.SaveFunc>(str_hash, str_equal);
 		saver_preferences = new HashTable<string, GLib.Type>(str_hash, str_equal);

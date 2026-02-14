@@ -16,12 +16,6 @@ option('colord',
   description : 'Use colord to read the monitor color profile'
 )
 
-option('gstreamer',
-  type : 'boolean',
-  value : true,
-  description : 'Use gstreamer to play multimedia files and to view the metadata'
-)
-
 option('libwebp',
   type : 'boolean',
   value : true,

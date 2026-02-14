@@ -74,28 +74,23 @@ endif
 
 # gstreamer
 
-if get_option('gstreamer')
-  gstreamer_dep = dependency('gstreamer-1.0',
-    version: gstreamer_version,
-    required: false
-  )
-  gstreamer_plugins_base_dep = dependency('gstreamer-plugins-base-1.0',
-    version: gstreamer_version,
-    required: false
-  )
-  gstreamer_video_dep = dependency('gstreamer-video-1.0',
-    version: gstreamer_version,
-    required: false
-  )
-  gstreamer_dep_list = [
-    gstreamer_dep,
-    gstreamer_plugins_base_dep,
-    gstreamer_video_dep
-  ]
-  use_gstreamer = gstreamer_dep.found() and gstreamer_plugins_base_dep.found() and gstreamer_video_dep.found()
-else
-  use_gstreamer = false
-endif
+gstreamer_dep = dependency('gstreamer-1.0',
+  version: gstreamer_version,
+  required: false
+)
+gstreamer_plugins_base_dep = dependency('gstreamer-plugins-base-1.0',
+  version: gstreamer_version,
+  required: false
+)
+gstreamer_video_dep = dependency('gstreamer-video-1.0',
+  version: gstreamer_version,
+  required: false
+)
+gstreamer_dep_list = [
+  gstreamer_dep,
+  gstreamer_plugins_base_dep,
+  gstreamer_video_dep
+]
 
 # libheif
 
@@ -153,10 +148,10 @@ dependencies = [
   dependency('lcms2', version: lcms2_version),
   dependency('exiv2', version: exiv2_version),
   libjpeg_dep,
+  gstreamer_dep_list,
   use_colord ? colord_dep : [],
   use_libwebp ? libwebp_dep : [],
   use_librsvg ? librsvg_dep : [],
-  use_gstreamer ? gstreamer_dep_list : [],
   use_libheif ? libheif_dep : [],
   use_libjxl ? libjxl_deps : [],
   use_libtiff ? libtiff_deps : [],
@@ -221,10 +216,6 @@ endif
 if use_librsvg
   config.set('HAVE_LIBRSVG', 1)
   add_project_arguments(['-D', 'HAVE_LIBRSVG'], language: 'vala')
-endif
-if use_gstreamer
-  config.set('HAVE_GSTREAMER', 1)
-  add_project_arguments(['-D', 'HAVE_GSTREAMER'], language: 'vala')
 endif
 if use_libheif
   config.set('HAVE_LIBHEIF', 1)
@@ -515,7 +506,6 @@ summary(
     'prefix': prefix,
     'prog jpeg': have_progressive_jpeg,
     'colord': use_colord,
-    'gstreamer': use_gstreamer,
     'libwebp': use_libwebp,
     'librsvg': use_librsvg,
     'libheif': use_libheif,

@@ -5,10 +5,8 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 		pages.model.append (new PageInfo ("general", _("General")));
 		pages.model.append (new PageInfo ("browser", _("Browser")));
 		pages.model.append (new PageInfo ("viewer", _("Images")));
-#if HAVE_GSTREAMER
 		pages.model.append (new PageInfo ("video", _("Videos")));
 		content_view.add (new Gth.VideoPreferences ());
-#endif
 		//pages.model.append (new PageInfo ("presentation", _("Presentation")));
 		// Translators: section for the file saving options in the preferences dialog.
 		pages.model.append (new PageInfo ("saving", _("Saving")));
