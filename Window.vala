@@ -261,7 +261,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
-	public async void apply_monitor_profile (Gth.Image image, FileInfo info, Cancellable cancellable, bool apply_icc_profile = true) {
+	public async void apply_monitor_profile (Gth.Image image, FileInfo info, Cancellable cancellable, bool apply_icc_profile = true) throws Error {
 		try {
 			if (monitor_profile == null) {
 				yield update_monitor_profile (cancellable);
@@ -269,22 +269,26 @@ public class Gth.Window : Adw.ApplicationWindow {
 			if (monitor_profile == null) {
 				throw new IOError.FAILED ("No monitor profile");
 			}
-			if (image.get_icc_profile () != monitor_profile) {
-				var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
-				if (icc_profile != null) {
-					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
-					unowned var profile_name = image.get_attribute ("Private::ColorProfile");
-					if (profile_name != null) {
-						info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
-					}
+			if (image.get_icc_profile () == monitor_profile) {
+				return;
+			}
+			var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
+			if (icc_profile != null) {
+				yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
+				unowned var profile_name = image.get_attribute ("Private::ColorProfile");
+				if (profile_name != null) {
+					info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
 				}
-				else {
-					// This allows to convert the image to sRGB before saving.
-					image.set_icc_profile (monitor_profile);
-				}
+			}
+			else {
+				// This allows to convert the image to sRGB before saving.
+				image.set_icc_profile (monitor_profile);
 			}
 		}
 		catch (Error error) {
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
 			// stdout.printf ("> apply profile error: %s\n", error.message);
 		}
 	}
