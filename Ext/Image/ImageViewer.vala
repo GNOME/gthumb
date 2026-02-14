@@ -88,8 +88,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			window.show_error (error);
 			image_view.image = null;
 		}
-		update_toolbar_actions ();
-		update_sensitivity ();
 		return success;
 	}
 
@@ -97,8 +95,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		yield view_image (image, file_data, cancellable);
 		history.clear ();
 		history.add (image, true);
-		update_toolbar_actions ();
-		update_sensitivity ();
 	}
 
 	public void deactivate () {
@@ -187,6 +183,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 
 		try {
+			window.viewer.current_file.info.set_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING, false);
 			var file_data = yield save_to (new_file);
 			window.viewer.file_saved (file_data);
 		}
@@ -215,7 +212,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 			file_data.set_is_modified (false);
 
-			if (file_data.get_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD)
+			if (file_data.get_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING)
 				|| !app.savers.contains (file_data.get_content_type ()))
 			{
 				// Ask the filename
@@ -224,6 +221,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				read_filename.check_extension = true;
 				var basename = yield read_filename.read_value (window, local_job);
 				file_data.rename_from_display_name (basename);
+				file_data.info.set_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING, false);
 				new_filename = true;
 
 				// Save the file type as the default clipboard type.
@@ -549,10 +547,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	void update_toolbar_actions () {
-		animation_actions.visible = (image_view.image != null) && image_view.image.get_is_animated ();
-	}
-
 	void update_zoom_info () {
 		if (image_view.image == null) {
 			return;
@@ -637,8 +631,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var is_modified = has_image && window.viewer.current_file.get_is_modified ();
 		Util.enable_action (action_group, "apply-icc-profile", has_image && image_view.image.has_icc_profile () && !is_modified);
 		var can_save_format = has_image && app.savers.contains (window.viewer.current_file.get_content_type ());
-		Util.enable_action (action_group, "save", can_save_format && is_modified);
+		Util.enable_action (action_group, "save", has_image && can_save_format && is_modified);
 		Util.enable_action (action_group, "save-as", has_image);
+
+		// Toolbar actions
+		animation_actions.visible = (image_view.image != null) && image_view.image.get_is_animated ();
 	}
 
 	void set_other_version (Image image, bool is_modified) {

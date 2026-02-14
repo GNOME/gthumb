@@ -423,6 +423,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 			var texture = yield clipboard.read_texture_async (local_job.cancellable);
 			var image = new Gth.Image.from_texture (texture);
+
 			var timestamp = new GLib.DateTime.now_local ();
 			var basename = _("Clipboard") + timestamp.format (" %Y-%m-%d %H-%M-%S.") + type_preferences.get_default_extension ();
 			var file = browser.folder_tree.current_folder.file.get_child (basename);
@@ -432,7 +433,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 			unsaved_file.set_content_type (type_preferences.get_content_type ());
 			unsaved_file.set_is_modified (true);
 			Lib.set_frame_size (unsaved_file.info, (int) image.width, (int) image.height);
-			unsaved_file.info.set_attribute_boolean (PrivateAttribute.LOADED_IMAGE_FROM_CLIPBOARD, true);
+			unsaved_file.info.set_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING, true);
+
+			yield apply_monitor_profile (image, unsaved_file.info, local_job.cancellable, false);
 
 			// Use this window if in browser mode or in viewer mode and the image was not modified
 			Window window = (current_page == Page.BROWSER) ? this : null;

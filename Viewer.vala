@@ -28,15 +28,15 @@ public class Gth.Viewer : Gtk.Box {
 		if (!(loaded && (current_viewer is ImageViewer))) {
 			update_sidebar ();
 		}
-		current_viewer.update_sensitivity ();
 		if (loaded && (ViewFlags.FULLSCREEN in flags)) {
 			window.fullscreened = true;
 		}
+		update_title ();
+		update_sensitivity ();
+		current_viewer.update_sensitivity ();
 		if (ViewFlags.FOCUS in flags) {
 			focus_viewer ();
 		}
-		update_title ();
-		update_sensitivity ();
 		return loaded;
 	}
 
@@ -135,6 +135,8 @@ public class Gth.Viewer : Gtk.Box {
 			current_file = file_data;
 			property_sidebar.current_file = file_data;
 			update_title ();
+			update_sensitivity ();
+			image_viewer.update_sensitivity ();
 		}
 		catch (Error error) {
 			window.show_error (error);
