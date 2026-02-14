@@ -198,10 +198,6 @@ public class Gth.Thumbnailer {
 		if (thumbnail == null) {
 			throw new IOError.FAILED ("Could not load or generate a thumbnail for %s".printf (file_data.file.get_uri ()));
 		}
-		var monitor_profile = yield window.get_monitor_profile (job.cancellable);
-		if (monitor_profile != null) {
-			yield thumbnail.apply_icc_profile_async (app.color_manager, monitor_profile, job.cancellable);
-		}
 		if (Util.content_type_is_video (file_data.get_content_type ())) {
 			if (filmholes == null) {
 				var bytes = GLib.resources_lookup_data ("/app/gthumb/gthumb/icons/filmholes.png", ResourceLookupFlags.NONE);
@@ -220,7 +216,7 @@ public class Gth.Thumbnailer {
 	async Gth.Image? load_thumbnail_from_cache (FileData file_data, Cancellable cancellable) throws Error {
 		try {
 			var thumbnail_file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.READ, cancellable);
-			var thumbnail = yield app.thumb_loader.load_if_valid (thumbnail_file, file_data, cancellable);
+			var thumbnail = yield app.thumb_loader.load_if_valid (window, thumbnail_file, file_data, cancellable);
 			return yield thumbnail.resize_async (_requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 		}
 		catch (Error error) {

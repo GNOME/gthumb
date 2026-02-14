@@ -402,9 +402,9 @@ gth_color_manager_get_profile_async (GthColorManager		*self,
 
 		if (!cd_client_get_connected (self->priv->cd_client)) {
 			cd_client_connect (self->priv->cd_client,
-					g_task_get_cancellable (task),
-					cd_client_connected_cb,
-					task);
+					   g_task_get_cancellable (task),
+					   cd_client_connected_cb,
+					   task);
 		}
 		else {
 			_cd_client_find_device_for_task (self->priv->cd_client, task);

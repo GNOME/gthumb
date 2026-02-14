@@ -38,33 +38,10 @@ public class Gth.ImageLoader {
 		if (job.error != null) {
 			throw job.error;
 		}
-		if (window == null) {
-			return job.image;
+		if (window != null) {
+			yield window.apply_monitor_profile (job.image, info, cancellable, !(LoadFlags.IGNORE_ICC_PROFILE in flags));
 		}
-
-		// Apply the monitor profile
-		var image = job.image;
-		try {
-			var monitor_profile = yield window.get_monitor_profile (cancellable);
-			if ((monitor_profile != null) && (image.get_icc_profile () != monitor_profile)) {
-				var icc_profile = !(LoadFlags.IGNORE_ICC_PROFILE in flags) ? image.get_icc_profile () : null;
-				if (icc_profile != null) {
-					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
-					unowned var profile_name = image.get_attribute ("Private::ColorProfile");
-					if (profile_name != null) {
-						job.info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
-					}
-				}
-				else {
-					// This allows to convert the image to sRGB before saving.
-					image.set_icc_profile (monitor_profile);
-				}
-			}
-		}
-		catch (Error error) {
-			// stdout.printf ("> apply profile error: %s\n", error.message);
-		}
-		return image;
+		return job.image;
 	}
 
 	class Job : Work.Job {

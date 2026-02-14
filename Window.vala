@@ -232,31 +232,61 @@ public class Gth.Window : Adw.ApplicationWindow {
 		height = monitor.geometry.height;
 	}
 
-	IccProfile monitor_profile = null;
-	bool no_monitor_profile = false;
+	public IccProfile monitor_profile = null;
 
-	public async IccProfile? get_monitor_profile (Cancellable cancellable) {
-		if (no_monitor_profile) {
-			return null;
+	public async IccProfile get_monitor_profile (Cancellable cancellable) throws Error {
+		if (monitor_profile == null) {
+			yield update_monitor_profile (cancellable);
 		}
-		if (monitor_profile != null) {
-			return monitor_profile;
-		}
-		unowned var display = get_display ();
-		unowned var monitor = display.get_monitor_at_surface (get_surface ());
-		if (monitor == null) {
-			no_monitor_profile = true;
-			return null;
-		}
+		return monitor_profile;
+	}
+
+	async void update_monitor_profile (Cancellable cancellable) throws Error {
 		try {
+			unowned var display = get_display ();
+			unowned var monitor = display.get_monitor_at_surface (get_surface ());
+			if (monitor == null) {
+				throw new IOError.FAILED ("No monitor");
+			}
 			monitor_profile = yield app.color_manager.get_profile_async (monitor.description, cancellable);
 		}
 		catch (Error error) {
-			if (!(error is IOError.CANCELLED)) {
-				no_monitor_profile = true;
+			if (error is IOError.CANCELLED) {
+				throw error;
 			}
 		}
-		return monitor_profile;
+		if (monitor_profile == null) {
+			// Use sRGB by default.
+			monitor_profile = new Gth.IccProfile.sRGB ();
+		}
+	}
+
+	public async void apply_monitor_profile (Gth.Image image, FileInfo info, Cancellable cancellable, bool apply_icc_profile = true) {
+		try {
+			if (monitor_profile == null) {
+				yield update_monitor_profile (cancellable);
+			}
+			if (monitor_profile == null) {
+				throw new IOError.FAILED ("No monitor profile");
+			}
+			if (image.get_icc_profile () != monitor_profile) {
+				var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
+				if (icc_profile != null) {
+					yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
+					unowned var profile_name = image.get_attribute ("Private::ColorProfile");
+					if (profile_name != null) {
+						info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
+					}
+				}
+				else {
+					// This allows to convert the image to sRGB before saving.
+					image.set_icc_profile (monitor_profile);
+				}
+			}
+		}
+		catch (Error error) {
+			// stdout.printf ("> apply profile error: %s\n", error.message);
+		}
 	}
 
 	void update_sensitivity () {

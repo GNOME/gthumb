@@ -5,7 +5,7 @@ public class Gth.ThumbLoader {
 		factory = _factory;
 	}
 
-	public async Image? load_if_valid (File thumb_file, FileData file_data, Cancellable cancellable) throws Error {
+	public async Image? load_if_valid (Gth.Window? window, File thumb_file, FileData file_data, Cancellable cancellable) throws Error {
 		var job = new Job ();
 		job.callback = load_if_valid.callback;
 		job.thumb_file = thumb_file;
@@ -15,6 +15,9 @@ public class Gth.ThumbLoader {
 		yield;
 		if (job.error != null) {
 			throw job.error;
+		}
+		if (window != null) {
+			yield window.apply_monitor_profile (job.image, file_data.info, cancellable);
 		}
 		return job.image;
 	}
