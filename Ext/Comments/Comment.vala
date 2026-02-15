@@ -15,17 +15,17 @@ public class Gth.Comment : Object {
 
 		var metadata = info.get_attribute_object ("Metadata::Title") as Gth.Metadata;
 		if (metadata != null) {
-			caption = metadata.raw;
+			caption = metadata.formatted;
 		}
 
 		metadata = info.get_attribute_object ("Metadata::Description") as Gth.Metadata;
 		if (metadata != null) {
-			note = metadata.raw;
+			note = metadata.formatted;
 		}
 
 		metadata = info.get_attribute_object ("Metadata::Place") as Gth.Metadata;
 		if (metadata != null) {
-			place = metadata.raw;
+			place = metadata.formatted;
 		}
 
 		metadata = info.get_attribute_object ("Metadata::DateTime") as Gth.Metadata;
