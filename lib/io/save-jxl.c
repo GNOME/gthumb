@@ -73,7 +73,6 @@ GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellabl
 
 	JxlBasicInfo basic_info;
 	JxlEncoderInitBasicInfo (&basic_info);
-	basic_info.have_container = JXL_TRUE;
 	basic_info.xsize = width;
 	basic_info.ysize = height;
 	basic_info.bits_per_sample = 8;
@@ -115,6 +114,14 @@ GBytes* save_jxl (GthImage *image, GthOption **options, GCancellable *cancellabl
 			}
 		}
 	}
+
+	// Saves as a BMFF container.
+	// if (JxlEncoderUseBoxes (enc) != JXL_ENC_SUCCESS) {
+	// 	g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "JxlEncoderUseBoxes failed");
+	// 	JxlResizableParallelRunnerDestroy (runner);
+	// 	JxlEncoderDestroy (enc);
+	// 	return NULL;
+	// }
 
 	JxlEncoderFrameSettings *frame_settings = JxlEncoderFrameSettingsCreate (enc, NULL);
 	if (frame_settings == NULL) {
