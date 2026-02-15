@@ -257,8 +257,6 @@ class Gth.MetadataDialog : Adw.Dialog {
 				save_rating = attribute_modified (id, value_as_string);
 			}
 		}
-		stdout.printf ("> rating '%s' -> '%s'\n", Util.get_attribute_as_string (common_info, id), value_as_string);
-		stdout.printf ("  save_rating %s\n", save_rating.to_string ());
 		if (save_rating) {
 			if (value > 0) {
 				var metadata = new Gth.Metadata.for_string (value_as_string);
