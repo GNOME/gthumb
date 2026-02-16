@@ -16,11 +16,11 @@
               <class name="preferences-page"/>
             </style>
             <child>
-              <object class="GthTestExprEditorGroup" id="rules_group">
+              <object class="GthSearchSourceEditorGroup" id="sources_group">
               </object>
             </child>
             <child>
-              <object class="GthSearchSourceEditorGroup" id="sources_group">
+              <object class="GthTestExprEditorGroup" id="rules_group">
               </object>
             </child>
             <child>
