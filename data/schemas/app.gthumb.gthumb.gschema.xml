@@ -6,18 +6,19 @@
     <key name="show-format-options" type="b">
       <default>true</default>
     </key>
-    <key name="go-to-last-location" type="b">
+    <key name="home-folder" type="s">
+      <default>''</default>
+    </key>
+    <key name="restore-session" type="b">
       <default>true</default>
     </key>
-    <key name="use-startup-location" type="b">
-      <default>false</default>
-    </key>
-    <key name="startup-location" type="s">
+    <key name="session-location" type="s">
       <default>''</default>
     </key>
-    <key name="startup-current-file" type="s">
+    <key name="session-current-file" type="s">
       <default>''</default>
     </key>
+
     <key name="reuse-active-window" type="b">
       <default>false</default>
       <description>Open files in the active window</description>
@@ -27,9 +28,6 @@
     </key>
     <key name="show-hidden-files" type="b">
       <default>false</default>
-    </key>
-    <key name="fast-file-type" type="b">
-      <default>true</default>
     </key>
     <key name="thumbnail-size" type="i">
       <default>250</default>

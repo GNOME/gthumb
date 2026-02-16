@@ -304,7 +304,10 @@ public class Gth.Application : Adw.Application {
 		if (remaining_args == null) {
 			// No location specified.
 			var location = Gth.Settings.get_startup_location (settings);
-			var file_to_select = Gth.Settings.get_file (settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
+			File file_to_select = null;
+			if (settings.get_boolean (PREF_BROWSER_RESTORE_SESSION)) {
+				file_to_select = Gth.Settings.get_file (settings, PREF_BROWSER_SESSION_CURRENT_FILE);
+			}
 			open_window (location, file_to_select);
 		}
 		else {

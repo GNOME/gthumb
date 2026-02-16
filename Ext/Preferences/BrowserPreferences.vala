@@ -1,43 +1,5 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/browser-preferences.ui")]
 public class Gth.BrowserPreferences : Adw.NavigationPage {
-	construct {
-		settings = new GLib.Settings (GTHUMB_SCHEMA);
-		constructing = true;
-		open_fullscreen_switch.active = settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
-		thumbnail_size_adjustment.set_value (settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
-
-		// Caption
-		caption_model.append (_("Hidden"));
-		foreach (unowned var attr_id in CAPTION_ATTRIBUTES) {
-			unowned var info = MetadataInfo.get (attr_id);
-			if (info != null) {
-				caption_model.append (info.display_name);
-			}
-		}
-		var caption_s = settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
-		var caption_v = app.migration.metadata.get_new_key_v (caption_s);
-		var row = 0;
-		foreach (unowned var caption in caption_v) {
-			var idx = get_caption_index (caption);
-			if (idx != uint.MAX) {
-				if (row == 0) {
-					caption_row_1.selected = idx + 1;
-				}
-				if (row == 1) {
-					caption_row_2.selected = idx + 1;
-				}
-				if (row == 2) {
-					caption_row_3.selected = idx + 1;
-				}
-				row++;
-				if (row == 3) {
-					break;
-				}
-			}
-		}
-		constructing = false;
-	}
-
 	uint get_caption_index (string id) {
 		uint idx = 0;
 		foreach (unowned var attr_id in CAPTION_ATTRIBUTES) {
@@ -100,6 +62,44 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 			return;
 		}
 		settings.set_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN, open_fullscreen_switch.active);
+	}
+
+	construct {
+		settings = new GLib.Settings (GTHUMB_SCHEMA);
+		constructing = true;
+		open_fullscreen_switch.active = settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
+		thumbnail_size_adjustment.set_value (settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
+
+		// Caption
+		caption_model.append (_("Hidden"));
+		foreach (unowned var attr_id in CAPTION_ATTRIBUTES) {
+			unowned var info = MetadataInfo.get (attr_id);
+			if (info != null) {
+				caption_model.append (info.display_name);
+			}
+		}
+		var caption_s = settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
+		var caption_v = app.migration.metadata.get_new_key_v (caption_s);
+		var row = 0;
+		foreach (unowned var caption in caption_v) {
+			var idx = get_caption_index (caption);
+			if (idx != uint.MAX) {
+				if (row == 0) {
+					caption_row_1.selected = idx + 1;
+				}
+				if (row == 1) {
+					caption_row_2.selected = idx + 1;
+				}
+				if (row == 2) {
+					caption_row_3.selected = idx + 1;
+				}
+				row++;
+				if (row == 3) {
+					break;
+				}
+			}
+		}
+		constructing = false;
 	}
 
 	[GtkChild] unowned Gtk.Adjustment thumbnail_size_adjustment;

@@ -404,10 +404,10 @@ public class Gth.Viewer : Gtk.Box {
 		app.viewer_settings.set_boolean (PREF_VIEWER_SIDEBAR_VISIBLE, main_view.show_sidebar && !main_view.collapsed);
 		if (page_visible) {
 			if (current_file != null) {
-				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, current_file.file.get_uri ());
+				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, current_file.file.get_uri ());
 			}
 			else {
-				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
+				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, "");
 			}
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) main_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}

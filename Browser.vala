@@ -20,7 +20,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public IterableList<FileData> visible_files;
-	public bool fast_file_type = false;
 	public bool show_hidden_files = false;
 	SidebarState sidebar_state = SidebarState.NONE;
 	public bool open_in_fullscreen = false;
@@ -97,7 +96,6 @@ public class Gth.Browser : Gtk.Box {
 		show_hidden_files = app.settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
 		file_filter.update_filter ();
 
-		fast_file_type = app.settings.get_boolean (PREF_BROWSER_FAST_FILE_TYPE);
 		thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 		folder_tree.sort = {
 			app.settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE),
@@ -193,13 +191,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void open_home () {
-		File home = null;
-		if (app.settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)) {
-			home = Gth.Settings.get_startup_location (app.settings);
-		}
-		if (home == null) {
-			home = Files.get_home ();
-		}
+		File home = Gth.Settings.get_home_folder (app.settings);
 		open_location (home);
 	}
 
@@ -359,12 +351,7 @@ public class Gth.Browser : Gtk.Box {
 		var attributes = new StringBuilder ();
 
 		// Standard attributes.
-		if (fast_file_type) {
-			attributes.append (STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
-		}
-		else {
-			attributes.append (STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
-		}
+		attributes.append (STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
 
 		// Attributes required by the filter.
 		if (file_filter.filter.has_attributes ()) {
@@ -1705,20 +1692,18 @@ public class Gth.Browser : Gtk.Box {
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) content_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}
 
-		if (app.settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION)
-			&& (folder_tree.current_folder != null))
-		{
+		if (folder_tree.current_folder != null) {
 			var uri = folder_tree.current_folder.file.get_uri ();
-			app.settings.set_string (PREF_BROWSER_STARTUP_LOCATION, uri);
+			app.settings.set_string (PREF_BROWSER_SESSION_LOCATION, uri);
 		}
 
 		if (page_visible) {
 			var selected_file = get_selected_file ();
 			if (selected_file != null) {
-				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, selected_file.get_uri ());
+				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, selected_file.get_uri ());
 			}
 			else {
-				app.settings.set_string (PREF_BROWSER_STARTUP_CURRENT_FILE, "");
+				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, "");
 			}
 		}
 

@@ -21,14 +21,13 @@ const string GTHUMB_CROP_SCHEMA = GTHUMB_SCHEMA + ".crop";
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 const string PREF_GENERAL_SHOW_FORMAT_OPTIONS = "show-format-options";
 
-const string PREF_BROWSER_GO_TO_LAST_LOCATION = "go-to-last-location";
-const string PREF_BROWSER_USE_STARTUP_LOCATION = "use-startup-location";
-const string PREF_BROWSER_STARTUP_LOCATION = "startup-location";
-const string PREF_BROWSER_STARTUP_CURRENT_FILE = "startup-current-file";
+const string PREF_BROWSER_HOME_FOLDER = "home-folder";
+const string PREF_BROWSER_RESTORE_SESSION = "restore-session";
+const string PREF_BROWSER_SESSION_LOCATION = "session-location";
+const string PREF_BROWSER_SESSION_CURRENT_FILE = "session-current-file";
 const string PREF_BROWSER_REUSE_ACTIVE_WINDOW = "reuse-active-window";
 const string PREF_BROWSER_GENERAL_FILTER = "general-filter";
 const string PREF_BROWSER_SHOW_HIDDEN_FILES = "show-hidden-files";
-const string PREF_BROWSER_FAST_FILE_TYPE = "fast-file-type";
 const string PREF_BROWSER_THUMBNAIL_SIZE = "thumbnail-size";
 const string PREF_BROWSER_THUMBNAIL_CAPTION = "thumbnail-caption";
 const string PREF_BROWSER_SORT_TYPE = "sort-type";
@@ -113,12 +112,18 @@ const string PREF_PRINT_OUTPUT_DIR = "output-dir";
 const string PREF_CROP_CUSTOM_RATIO = "custom-ratio";
 
 class Gth.Settings {
+	public static File get_home_folder (GLib.Settings settings) {
+		File location = Gth.Settings.get_file (settings, PREF_BROWSER_HOME_FOLDER);
+		if (location == null) {
+			location = File.new_for_path (Environment.get_home_dir ());
+		}
+		return location;
+	}
+
 	public static File? get_startup_location (GLib.Settings settings) {
 		File location = null;
-		if (settings.get_boolean (PREF_BROWSER_USE_STARTUP_LOCATION)
-			|| settings.get_boolean (PREF_BROWSER_GO_TO_LAST_LOCATION))
-		{
-			location = Gth.Settings.get_file (settings, PREF_BROWSER_STARTUP_LOCATION);
+		if (settings.get_boolean (PREF_BROWSER_RESTORE_SESSION)) {
+			location = Gth.Settings.get_file (settings, PREF_BROWSER_SESSION_LOCATION);
 			if (location == null) {
 				var path = Environment.get_user_special_dir (UserDirectory.PICTURES);
 				if (path != null) {
@@ -127,7 +132,7 @@ class Gth.Settings {
 			}
 		}
 		if (location == null) {
-			location = File.new_for_path (Environment.get_home_dir ());
+			location = get_home_folder (settings);
 		}
 		return location;
 	}

@@ -12,8 +12,37 @@
           <object class="AdwPreferencesPage">
             <child>
               <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">At Startup</property>
                 <child>
-                  <object class="AdwSwitchRow" id="single_window_switch">
+                  <object class="AdwActionRow" id="restore_session">
+                    <property name="title" translatable="yes">Open the last visited location</property>
+                    <property name="activatable">true</property>
+                    <property name="activatable_widget">restore_session_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="restore_session_check">
+                        <signal name="notify::active" handler="on_restore_session_changed"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Open the home folder</property>
+                    <property name="activatable">true</property>
+                    <property name="activatable_widget">ignore_session_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="ignore_session_check">
+                        <property name="group">restore_session_check</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwSwitchRow" id="single_window">
                     <property name="title" translatable="yes">Reuse the active window to open files</property>
                     <signal name="notify::active" handler="on_single_window_activated"/>
                   </object>
@@ -22,11 +51,20 @@
             </child>
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">Terminal</property>
-                <property name="description" translatable="yes">The code %f is replaced with the directory path.</property>
+                <property name="separate-rows">true</property>
+                <child>
+                  <object class="GthFolderRow" id="home_folder">
+                    <property name="title" translatable="yes">Home Folder</property>
+                    <signal name="notify::folder" handler="on_home_folder_changed"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
                 <child>
                   <object class="AdwEntryRow" id="terminal_command">
-                    <property name="title" translatable="yes">Command</property>
+                    <property name="title" translatable="yes">Terminal</property>
                     <property name="show-apply-button">true</property>
                     <signal name="apply" handler="on_terminal_command_apply"/>
                   </object>
