@@ -183,16 +183,10 @@ public class Gth.Viewer : Gtk.Box {
 		yield current_viewer.save ();
 	}
 
-	public void file_saved (FileData file_data) {
+	public void after_saving (FileData file_data) {
 		current_file.set_is_modified (false);
 		update_title ();
-		var name_changed = (current_file == null) || !current_file.file.equal (file_data.file);
-		if (name_changed) {
-			app.monitor.file_created (file_data.file);
-		}
-		else {
-			app.monitor.file_changed (file_data.file);
-		}
+		app.monitor.file_saved (file_data.file);
 	}
 
 	public void file_changed (FileData file_data) {

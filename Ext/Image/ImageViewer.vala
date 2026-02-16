@@ -185,7 +185,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		try {
 			window.viewer.current_file.info.set_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING, false);
 			var file_data = yield save_to (new_file);
-			window.viewer.file_saved (file_data);
+			window.viewer.after_saving (file_data);
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -264,7 +264,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			throw new IOError.FAILED ("No file");
 		}
 		var file_data = yield save_to (window.viewer.current_file.file);
-		window.viewer.file_saved (file_data);
+		window.viewer.after_saving (file_data);
 	}
 
 	public override bool same_etag (FileInfo info) {

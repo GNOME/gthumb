@@ -55,6 +55,16 @@ public class Gth.Monitor : Object {
 		files_added (parent, files);
 	}
 
+	public void file_saved (File file) {
+		var parent = file.get_parent ();
+		if (parent == null) {
+			return;
+		}
+		var files = new GenericList<File>();
+		files.model.append (file);
+		files_added_or_changed (parent, files);
+	}
+
 	public void file_deleted_from_disk (File file) {
 		var files = new GenericList<File>();
 		files.model.append (file);
