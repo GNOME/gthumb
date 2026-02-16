@@ -18,9 +18,8 @@
     <key name="session-current-file" type="s">
       <default>''</default>
     </key>
-
     <key name="reuse-active-window" type="b">
-      <default>false</default>
+      <default>true</default>
       <description>Open files in the active window</description>
     </key>
     <key name="general-filter" type="s">
