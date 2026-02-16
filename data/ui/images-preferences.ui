@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthViewerPreferences">
+  <template class="GthImagesPreferences">
     <property name="title" translatable="yes">Images</property>
-    <property name="tag">viewer</property>
+    <property name="tag">images</property>
     <property name="child">
       <object class="AdwToolbarView">
         <child type="top">

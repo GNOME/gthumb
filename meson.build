@@ -5,16 +5,16 @@ project('gthumb',
   meson_version: '>=1.0'
 )
 
-adwaita_version = '>= 1.8.0'
 glib_version = '2.84'
 gtk_version = '>= 4.18.5'
+libadwaita_version = '>= 1.8.0'
 lcms2_version = '>= 2.6'
 colord_version = '>= 1.3'
-png_version = '>= 1.6'
-libwebp_version = '>= 0.2.0'
-librsvg_version = '>= 2.34.0'
 gstreamer_version = '>= 1.26.0'
 exiv2_version = '>= 0.28'
+libpng_version = '>= 1.6'
+libwebp_version = '>= 0.2.0'
+librsvg_version = '>= 2.34.0'
 libheif_version = '>= 1.11'
 libjxl_version = '>= 0.3.0'
 libgif_version = '>= 5.2.0'
@@ -143,8 +143,8 @@ dependencies = [
   dependency('glib-2.0', version: '>= @0@'.format(glib_version)),
   dependency('gobject-2.0'),
   dependency('gtk4', version: gtk_version),
-  dependency('libadwaita-1', version: adwaita_version),
-  dependency('libpng', version: png_version),
+  dependency('libadwaita-1', version: libadwaita_version),
+  dependency('libpng', version: libpng_version),
   dependency('lcms2', version: lcms2_version),
   dependency('exiv2', version: exiv2_version),
   libjpeg_dep,

@@ -1,5 +1,5 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/video-preferences.ui")]
-public class Gth.VideoPreferences : Adw.NavigationPage {
+[GtkTemplate (ui = "/app/gthumb/gthumb/ui/videos-preferences.ui")]
+public class Gth.VideosPreferences : Adw.NavigationPage {
 	[GtkCallback]
 	void on_screenshot_folder_changed (Object obj, ParamSpec param) {
 		if (constructing) {

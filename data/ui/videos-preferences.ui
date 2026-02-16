@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="GthVideoPreferences">
+  <template class="GthVideosPreferences">
     <property name="title" translatable="yes">Videos</property>
-    <property name="tag">video</property>
+    <property name="tag">videos</property>
     <property name="child">
       <object class="AdwToolbarView">
         <child type="top">

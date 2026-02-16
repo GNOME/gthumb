@@ -3,6 +3,7 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 	construct {
 		settings = new GLib.Settings (GTHUMB_SCHEMA);
 		constructing = true;
+		open_fullscreen_switch.active = settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
 		thumbnail_size_adjustment.set_value (settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
 
 		// Caption
@@ -93,11 +94,20 @@ public class Gth.BrowserPreferences : Adw.NavigationPage {
 		settings.set_string (PREF_BROWSER_THUMBNAIL_CAPTION, caption_v.str);
 	}
 
+	[GtkCallback]
+	void on_fullscreen_activated (Object obj, ParamSpec param) {
+		if (constructing) {
+			return;
+		}
+		settings.set_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN, open_fullscreen_switch.active);
+	}
+
 	[GtkChild] unowned Gtk.Adjustment thumbnail_size_adjustment;
 	[GtkChild] unowned Adw.ComboRow caption_row_1;
 	[GtkChild] unowned Adw.ComboRow caption_row_2;
 	[GtkChild] unowned Adw.ComboRow caption_row_3;
 	[GtkChild] unowned Gtk.StringList caption_model;
+	[GtkChild] unowned Adw.SwitchRow open_fullscreen_switch;
 
 	GLib.Settings settings;
 	bool constructing;

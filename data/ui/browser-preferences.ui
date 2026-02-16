@@ -63,6 +63,17 @@
                 </child>
               </object>
             </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Behavior</property>
+                <child>
+                  <object class="AdwSwitchRow" id="open_fullscreen_switch">
+                    <property name="title" translatable="yes">Open files in fullscreen mode</property>
+                    <signal name="notify::active" handler="on_fullscreen_activated"/>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>

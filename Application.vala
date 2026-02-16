@@ -802,7 +802,8 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.GeneralPreferences).ensure ();
 		typeof (Gth.BrowserPreferences).ensure ();
 		typeof (Gth.SaversPreferences).ensure ();
-		typeof (Gth.ViewerPreferences).ensure ();
+		typeof (Gth.ImagesPreferences).ensure ();
+		typeof (Gth.VideosPreferences).ensure ();
 		typeof (Gth.ShortcutsPreferences).ensure ();
 		typeof (Gth.FolderRow).ensure ();
 	}

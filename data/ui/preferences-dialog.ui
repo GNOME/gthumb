@@ -44,23 +44,27 @@
                 <child>
                   <object class="AdwNavigationView" id="content_view">
                     <child>
-                      <object class="GthGeneralPreferences" id="general_page">
+                      <object class="GthGeneralPreferences">
                       </object>
                     </child>
                     <child>
-                      <object class="GthBrowserPreferences" id="browser_page">
+                      <object class="GthBrowserPreferences">
                       </object>
                     </child>
                     <child>
-                      <object class="GthSaversPreferences" id="saving_page">
+                      <object class="GthImagesPreferences">
                       </object>
                     </child>
                     <child>
-                      <object class="GthViewerPreferences" id="viewer_page">
+                      <object class="GthVideosPreferences">
                       </object>
                     </child>
                     <child>
-                      <object class="GthShortcutsPreferences" id="shortcuts_page">
+                      <object class="GthSaversPreferences">
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GthShortcutsPreferences">
                       </object>
                     </child>
                   </object>

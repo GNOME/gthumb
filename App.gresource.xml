@@ -35,6 +35,7 @@
     <file preprocess="xml-stripblanks">gth-fullscreen-alt-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-fullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-grayscale-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-halign-center-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-image-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-info-outline-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-left-symbolic.svg</file>
@@ -46,6 +47,10 @@
     <file preprocess="xml-stripblanks">gth-note-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-open-book-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-options-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-down-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-left-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-right-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-orientation-up-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-page-orientation-landscape-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-page-orientation-portrait-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-page-orientation-squared-symbolic.svg</file>
@@ -71,18 +76,13 @@
     <file preprocess="xml-stripblanks">gth-unfullscreen-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-user-home-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-valign-center-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-refresh-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-fit-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-in-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-original-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-out-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-zoom-menu-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-orientation-up-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-orientation-right-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-orientation-down-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-orientation-left-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-halign-center-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-valign-center-symbolic.svg</file>
   </gresource>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
     <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
@@ -133,6 +133,7 @@
     <file preprocess="xml-stripblanks">grid-group.ui</file>
     <file preprocess="xml-stripblanks">histogram-view.ui</file>
     <file preprocess="xml-stripblanks">image-overview.ui</file>
+    <file preprocess="xml-stripblanks">images-preferences.ui</file>
     <file preprocess="xml-stripblanks">image-viewer.ui</file>
     <file preprocess="xml-stripblanks">job-status.ui</file>
     <file preprocess="xml-stripblanks">jpeg-preferences.ui</file>
@@ -174,10 +175,9 @@
     <file preprocess="xml-stripblanks">tiff-preferences.ui</file>
     <file preprocess="xml-stripblanks">tool-button.ui</file>
     <file preprocess="xml-stripblanks">unknown-viewer.ui</file>
-    <file preprocess="xml-stripblanks">video-preferences.ui</file>
+    <file preprocess="xml-stripblanks">videos-preferences.ui</file>
     <file preprocess="xml-stripblanks">video-viewer.ui</file>
     <file preprocess="xml-stripblanks">viewer-menu.ui</file>
-    <file preprocess="xml-stripblanks">viewer-preferences.ui</file>
     <file preprocess="xml-stripblanks">viewer-status.ui</file>
     <file preprocess="xml-stripblanks">viewer.ui</file>
     <file preprocess="xml-stripblanks">webp-preferences.ui</file>
