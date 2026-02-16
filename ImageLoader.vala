@@ -116,4 +116,5 @@ public enum Gth.LoadFlags {
 	DEFAULT = 0,
 	NO_METADATA,
 	IGNORE_ICC_PROFILE,
+	SKIP_PRELOADER,
 }

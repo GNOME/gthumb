@@ -99,11 +99,15 @@ public class Gth.ProgressDialog : Adw.Dialog {
 
 	public void job_dialogs_changed () {
 		foreground_jobs = 0;
+		var visible_jobs = 0;
 		job_dialogs = 0;
 		foreach (unowned var job in jobs) {
 			job_dialogs += job.open_dialogs;
 			if (job.foreground) {
 				foreground_jobs += 1;
+			}
+			if (!job.hidden) {
+				visible_jobs += 1;
 			}
 		}
 		// stdout.printf ("> foreground_jobs: %u, job_dialogs: %u, shown_foreground_jobs: %u\n",
@@ -119,7 +123,7 @@ public class Gth.ProgressDialog : Adw.Dialog {
 		else if (foreground_jobs > shown_foreground_jobs) {
 			queue_show_dialog ();
 		}
-		window.set_busy ((job_dialogs == 0) && (jobs.length () > 0));
+		window.set_busy ((job_dialogs == 0) && (visible_jobs > 0));
 	}
 
 	~ProgressDialog() {

@@ -17,6 +17,7 @@ public class Gth.Job : Object {
 	public GLib.DateTime time_started;
 	public GLib.DateTime time_terminated;
 	public bool foreground;
+	public bool hidden;
 	public string? message;
 	public Error? error;
 	public Adw.Toast toast;
@@ -38,6 +39,7 @@ public class Gth.Job : Object {
 		});
 		time_started = new GLib.DateTime.now ();
 		foreground = false;
+		hidden = false;
 		message = null;
 		error = null;
 		toast = null;
@@ -138,6 +140,7 @@ public class Gth.JobQueue : Object {
 		var job = new Gth.Job ();
 		job.title = title;
 		job.foreground = JobFlags.FOREGROUND in flags;
+		job.hidden = JobFlags.HIDDEN in flags;
 		job.icon_name = icon_name;
 		//stdout.printf ("  NEW %sJOB [%p] [%s]: %s\n",
 		//	(job.foreground ? "FOREGROUND " : ""),
@@ -207,4 +210,5 @@ public class Gth.JobQueue : Object {
 public enum Gth.JobFlags {
 	DEFAULT,
 	FOREGROUND,
+	HIDDEN,
 }

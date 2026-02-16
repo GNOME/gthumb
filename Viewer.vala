@@ -84,6 +84,9 @@ public class Gth.Viewer : Gtk.Box {
 				position = window.browser.get_file_position (file_data.file);
 			}
 			status.set_file_position (position);
+			if (current_viewer != null) {
+				current_viewer.preload_some_files ();
+			}
 		}
 		if (local_job != job) {
 			local_job.done ();

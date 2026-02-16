@@ -68,27 +68,74 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	public async bool load (FileData file_data, Job job) {
 		var success = false;
+		preloader.cancel ();
+		if (window.viewer.current_file != null) {
+			preloader.cache.touch (window.viewer.current_file.file);
+		}
 		try {
 			var flags = LoadFlags.DEFAULT;
 			if (!apply_icc_profile) {
 				flags |= LoadFlags.IGNORE_ICC_PROFILE;
 			}
-			var image = yield app.image_loader.load_file (window, file_data.file, flags, job.cancellable);
+			var image = preloader.cache[file_data.file];
+			if (image == null) {
+				// stdout.printf ("> LOAD: %s\n", file_data.get_display_name ());
+				image = yield app.image_loader.load_file (window, file_data.file, flags, job.cancellable);
+			}
+			else {
+				// stdout.printf ("> FROM CACHE: %s\n", file_data.get_display_name ());
+			}
 			file_data.update_info (image.info, false);
 			yield view_image (image, file_data, job.cancellable);
 			history.clear ();
 			history.add (image, false);
+			if (apply_icc_profile) {
+				preloader.cache.add (file_data.file, image);
+			}
 			success = true;
 		}
 		catch (Error error) {
 			if (error is IOError.CANCELLED) {
 				return false;
 			}
-			stdout.printf ("> ERROR: %s\n", error.message);
 			window.show_error (error);
 			image_view.image = null;
 		}
 		return success;
+	}
+
+	public override void preload_some_files () {
+		preloader.cancel ();
+		var queue = new Queue<File>();
+
+		void add_to_queue (uint pos) {
+			var file_data = window.browser.file_grid.model.get_item (pos) as FileData;
+			if (file_data == null) {
+				return;
+			}
+			if (!app.viewer_can_view (this.get_class ().get_type (), file_data.get_content_type ())) {
+				return;
+			}
+			if (file_data.file in preloader.cache) {
+				return;
+			}
+			// stdout.printf ("> ADD TO QUEUE: %s\n", file_data.file.get_uri ());
+			queue.push_tail (file_data.file);
+		}
+
+		add_to_queue (window.viewer.position + 1);
+		if (window.viewer.position > 0) {
+			add_to_queue (window.viewer.position - 1);
+		}
+		if (queue.is_empty ()) {
+			return;
+		}
+		var local_job = window.new_job ("Preload", JobFlags.HIDDEN);
+		preloader.load.begin (window, queue, local_job, 0, (_obj, res) => {
+			preloader.load.end (res);
+			// preloader.cache.print ();
+			local_job.done ();
+		});
 	}
 
 	public async void view_unsaved_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
@@ -100,6 +147,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public void deactivate () {
 		if (edit_job != null) {
 			edit_job.cancel ();
+		}
+		if (preloader != null) {
+			preloader.cancel ();
 		}
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("viewer", null);
@@ -672,6 +722,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			Util.enable_action (action_group, "undo", history.can_undo);
 			Util.enable_action (action_group, "redo", history.can_redo);
 		});
+		preloader = new Preloader ();
 	}
 
 	weak Gth.Window window;
@@ -687,6 +738,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	bool apply_icc_profile;
 	ImageHistory history;
 	Job edit_job = null;
+	Preloader preloader;
 }
 
 class Gth.ImageTransform : Gth.ImageOperation {
