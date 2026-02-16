@@ -39,7 +39,7 @@ public class Gth.ImageLoader {
 			throw job.error;
 		}
 		if (window != null) {
-			yield window.apply_monitor_profile (job.image, info, cancellable, !(LoadFlags.IGNORE_ICC_PROFILE in flags));
+			yield window.apply_monitor_profile (job.image, info, cancellable, !(LoadFlags.NO_ICC_PROFILE in flags));
 		}
 		return job.image;
 	}
@@ -63,15 +63,25 @@ public class Gth.ImageLoader {
 				throw new IOError.FAILED (_("Unknown file type"));
 			}
 
+			var seekable = stream as Seekable;
+
+			if (LoadFlags.NO_BIG_IMAGES in flags) {
+				int width, height;
+				seekable.seek (0, SeekType.SET, cancellable);
+				if (!load_image_info_from_stream (stream, out width, out height, cancellable)) {
+					throw new IOError.FAILED (_("Unknown file type"));
+				}
+				if (width * height >= MAX_SIZE_FOR_PRELOADER) {
+					throw new IOError.FAILED ("Ignoring big image: %d x %d".printf (width, height));
+				}
+			}
+
 			var load_metadata = !(LoadFlags.NO_METADATA in flags);
 			Bytes bytes = null;
 
 			var load_func = app.get_load_func (content_type);
 			if (load_func != null) {
-				if (stream is Seekable) {
-					var seekable = stream as Seekable;
-					seekable.seek (0, SeekType.SET, cancellable);
-				}
+				seekable.seek (0, SeekType.SET, cancellable);
 				bytes = Files.read_all_with_buffer (stream, cancellable, tmp_buffer);
 				image = load_func (bytes, requested_size, cancellable);
 			}
@@ -115,6 +125,6 @@ public delegate Gth.Image? Gth.LoadFileFunc (File file, uint requested_size, Can
 public enum Gth.LoadFlags {
 	DEFAULT = 0,
 	NO_METADATA,
-	IGNORE_ICC_PROFILE,
-	SKIP_PRELOADER,
+	NO_ICC_PROFILE,
+	NO_BIG_IMAGES,
 }

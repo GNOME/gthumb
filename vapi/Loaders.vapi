@@ -6,6 +6,9 @@ public bool load_image_info (File file, out int width, out int height, Cancellab
 [CCode (cheader_filename = "lib/io/image-info.h")]
 public bool load_image_info_from_bytes (Bytes bytes, out int width, out int height, Cancellable cancellable);
 
+[CCode (cheader_filename = "lib/io/image-info.h")]
+public bool load_image_info_from_stream (InputStream stream, out int width, out int height, Cancellable cancellable);
+
 [CCode (cheader_filename = "lib/util.h", array_length_type = "size_t", array_length_pos = 1.1)]
 public unowned string guess_mime_type (uint8[] buffer);
 

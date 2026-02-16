@@ -21,7 +21,7 @@
 #define BUFFER_SIZE 4096
 
 
-static gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *height, GCancellable *cancellable) {
+gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *height, GCancellable *cancellable) {
 	int buffer_size = BUFFER_SIZE;
 	guchar *buffer = g_new (guchar, buffer_size);
 	gsize size;

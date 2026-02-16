@@ -15,8 +15,8 @@ public class Gth.Preloader {
 		try {
 			while (!queue.is_empty ()) {
 				var file = queue.pop_head ();
-				// TODO: ignore huge images.
-				var image = yield app.image_loader.load_file (window, file, LoadFlags.DEFAULT, job.cancellable, requested_size);
+				var image = yield app.image_loader.load_file (window, file,
+					LoadFlags.NO_BIG_IMAGES, job.cancellable, requested_size);
 				cache.add (file, image);
 			}
 		}

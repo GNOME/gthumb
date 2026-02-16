@@ -75,7 +75,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		try {
 			var flags = LoadFlags.DEFAULT;
 			if (!apply_icc_profile) {
-				flags |= LoadFlags.IGNORE_ICC_PROFILE;
+				flags |= LoadFlags.NO_ICC_PROFILE;
 			}
 			var image = preloader.cache[file_data.file];
 			if (image == null) {

@@ -12,6 +12,7 @@ typedef struct {
 
 gboolean load_image_info (GFile *file, int *width, int *height, GCancellable *cancellable);
 gboolean load_image_info_from_bytes (GBytes *bytes, int *width, int *height, GCancellable *cancellable);
+gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *height, GCancellable *cancellable);
 
 G_END_DECLS
 
