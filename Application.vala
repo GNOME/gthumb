@@ -274,7 +274,7 @@ public class Gth.Application : Adw.Application {
 		}
 
 		if (arg_version) {
-			stdout.printf ("Thumb 0, Copyright © 2001-2025 The Thumb Authors.\n");
+			stdout.printf (Config.APP_NAME + " " + Config.APP_VERSION + "\n");
 			handled_locally = true;
 		}
 
@@ -769,6 +769,10 @@ public class Gth.Application : Adw.Application {
 	}
 
 	public void open_window (File location, File? file_to_select = null, bool force_new_window = false) {
+		if (arg_new_window) {
+			force_new_window = true;
+			arg_new_window = false;
+		}
 		Gth.Window window = null;
 		if (!force_new_window && settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW)) {
 			window = active_window as Gth.Window;
