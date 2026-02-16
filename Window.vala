@@ -1218,7 +1218,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		cursor = busy ? new Gdk.Cursor.from_name ("progress", null) : null;
 	}
 
-	public async void open (File file) {
+	public async void open (File file, ViewFlags flags = ViewFlags.DEFAULT) {
 		var local_job = new_job ("Open");
 		try {
 			var source = app.get_source_for_file (file);
@@ -1228,6 +1228,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 				yield browser.open_location_async (file, LoadAction.OPEN, local_job);
 				break;
 			case FileType.REGULAR:
+				if (ViewFlags.FULLSCREEN in flags) {
+					yield set_page (Page.VIEWER);
+					fullscreened = true;
+				}
 				yield viewer.open_file_async (file, ViewFlags.FOCUS | ViewFlags.LOAD_PARENT_DIRECTORY, local_job);
 				break;
 			default:

@@ -602,8 +602,8 @@ public class Gth.Application : Adw.Application {
 	bool arg_version = false;
 	bool arg_new_window = false;
 	bool arg_fullscreen = false;
-	bool arg_slideshow = false;
-	bool arg_import_photos = false;
+	bool arg_slideshow = false; // TODO
+	bool arg_import_photos = false; // TODO
 	[CCode (array_length = false, array_null_terminated = true)]
 	string[]? remaining_args = null;
 
@@ -633,7 +633,7 @@ public class Gth.Application : Adw.Application {
 				OptionFlags.NONE,
 				OptionArg.NONE,
 				ref arg_fullscreen,
-				N_("Open a new window"),
+				N_("Open files in fullscreen mode"),
 				null
 			},
 			{
@@ -784,7 +784,12 @@ public class Gth.Application : Adw.Application {
 			window.browser.open_location (location, LoadAction.OPEN, file_to_select);
 		}
 		else {
-			window.open.begin (location);
+			var flags = ViewFlags.DEFAULT;
+			if (arg_fullscreen) {
+				flags |= ViewFlags.FULLSCREEN;
+				arg_fullscreen = false;
+			}
+			window.open.begin (location, flags);
 		}
 		if (!arg_slideshow) {
 			window.present ();
