@@ -4,7 +4,7 @@ public class Gth.PrintImages : Object {
 		// Load the images
 		var images = new GenericArray<PrintImageLayout> ();
 		foreach (var file in files) {
-			var image = yield app.image_loader.load_file (window, file, LoadFlags.DEFAULT, job.cancellable);
+			var image = yield app.image_loader.load_file (window.monitor_profile, file, LoadFlags.DEFAULT, job.cancellable);
 			images.add (new PrintImageLayout (file, image));
 		}
 		print_layout = new PrintLayout (images);

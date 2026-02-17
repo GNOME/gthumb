@@ -8,7 +8,7 @@ public class Gth.ImageLoader {
 	const string REQUIRED_ATTRIBUTES = STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE + "," +
 			 FileAttribute.ETAG_VALUE;
 
-	public async Image? load_file (Gth.Window? window, File file,
+	public async Image? load_file (Gth.MonitorProfile? monitor_profile, File file,
 		LoadFlags flags, Cancellable cancellable,
 		uint requested_size = 0) throws Error
 	{
@@ -16,12 +16,12 @@ public class Gth.ImageLoader {
 			FileQueryInfoFlags.NONE, Priority.DEFAULT,
 			cancellable);
 		var stream = yield file.read_async (Priority.DEFAULT, cancellable);
-		var image = yield load_stream (window, stream, file, info, flags,
+		var image = yield load_stream (monitor_profile, stream, file, info, flags,
 			cancellable, requested_size);
 		return image;
 	}
 
-	async Image? load_stream (Gth.Window? window, InputStream stream, File? file,
+	async Image? load_stream (Gth.MonitorProfile? monitor_profile, InputStream stream, File? file,
 		FileInfo info, LoadFlags flags, Cancellable cancellable,
 		uint requested_size = 0) throws Error
 	{
@@ -38,8 +38,8 @@ public class Gth.ImageLoader {
 		if (job.error != null) {
 			throw job.error;
 		}
-		if (window != null) {
-			yield window.apply_monitor_profile (job.image, info, cancellable, !(LoadFlags.NO_ICC_PROFILE in flags));
+		if (monitor_profile != null) {
+			yield monitor_profile.apply_color_profile (job.image, info, cancellable, !(LoadFlags.NO_ICC_PROFILE in flags));
 		}
 		return job.image;
 	}

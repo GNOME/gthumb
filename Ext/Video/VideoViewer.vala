@@ -753,7 +753,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 
 		var file_data = new FileData.for_file (file, screenshot_type);
-		yield app.image_saver.replace_file (window, screenshot, file_data, SaveFlags.DEFAULT, cancellable);
+		yield app.image_saver.replace_file (window.monitor_profile, screenshot, file_data, SaveFlags.DEFAULT, cancellable);
 
 		if (was_playing) {
 			playing = true;

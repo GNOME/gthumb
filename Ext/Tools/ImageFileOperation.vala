@@ -10,7 +10,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 
 	public override async void execute (Gth.Window window, File source, Job job) throws Error {
 		// Load the image
-		var image = yield app.image_loader.load_file (window, source, LoadFlags.DEFAULT, job.cancellable);
+		var image = yield app.image_loader.load_file (window.monitor_profile, source, LoadFlags.DEFAULT, job.cancellable);
 
 		// Modify the image
 		Image new_image = null;
@@ -49,7 +49,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 
 	async void create_file (Gth.Window window, Image image, FileData file_data, Job job) throws Error {
 		try {
-			yield app.image_saver.create_file (window, image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.create_file (window.monitor_profile, image, file_data, SaveFlags.DEFAULT, job.cancellable);
 		}
 		catch (Error error) {
 			if (error is IOError.EXISTS) {
@@ -78,7 +78,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 
 		case OverwriteResponse.OVERWRITE, OverwriteResponse.OVERWRITE_ALL:
 			file_data.set_etag (null);
-			yield app.image_saver.replace_file (window, image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.replace_file (window.monitor_profile, image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			break;
 
 		case OverwriteResponse.RENAME:

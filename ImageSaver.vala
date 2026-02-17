@@ -5,34 +5,34 @@ public class Gth.ImageSaver {
 		factory = _factory;
 	}
 
-	public async void replace_file (Gth.Window? window, Image image, FileData file_data, SaveFlags flags, Cancellable cancellable) throws Error {
+	public async void replace_file (Gth.MonitorProfile? monitor_profile, Image image, FileData file_data, SaveFlags flags, Cancellable cancellable) throws Error {
 		var stream = yield file_data.file.replace_async (file_data.get_etag (),
 			false,
 			FileCreateFlags.NONE,
 			Priority.DEFAULT,
 			cancellable);
-		yield save_to_stream (window, image, stream, file_data, flags, cancellable);
+		yield save_to_stream (monitor_profile, image, stream, file_data, flags, cancellable);
 		stream.close ();
 		image.info.set_attribute_string (FileAttribute.ETAG_VALUE, stream.get_etag ());
 		file_data.set_etag (stream.get_etag ());
 	}
 
-	public async void create_file (Gth.Window? window, Image image, FileData file_data, SaveFlags flags, Cancellable cancellable) throws Error {
+	public async void create_file (Gth.MonitorProfile? monitor_profile, Image image, FileData file_data, SaveFlags flags, Cancellable cancellable) throws Error {
 		var stream = yield file_data.file.create_async (FileCreateFlags.NONE,
 			Priority.DEFAULT,
 			cancellable);
-		yield save_to_stream (window, image, stream, file_data, flags, cancellable);
+		yield save_to_stream (monitor_profile, image, stream, file_data, flags, cancellable);
 		stream.close ();
 		image.info.set_attribute_string (FileAttribute.ETAG_VALUE, stream.get_etag ());
 		file_data.set_etag (stream.get_etag ());
 	}
 
-	async void save_to_stream (Gth.Window? window, Image image, OutputStream stream, FileData file_data, SaveFlags flags, Cancellable cancellable) throws Error {
-		if (!image.has_icc_profile () && (window != null)) {
+	async void save_to_stream (Gth.MonitorProfile? monitor_profile, Image image, OutputStream stream, FileData file_data, SaveFlags flags, Cancellable cancellable) throws Error {
+		if (!image.has_icc_profile () && (monitor_profile != null)) {
 			// Set the monitor profile to convert the image to sRGB before saving.
-			var monitor_profile = yield window.get_monitor_profile (cancellable);
-			if ((monitor_profile != null) && (image.get_icc_profile () != monitor_profile)) {
-				image.set_icc_profile (monitor_profile);
+			var color_profile = yield monitor_profile.get_color_profile (cancellable);
+			if ((color_profile != null) && (image.get_icc_profile () != color_profile)) {
+				image.set_icc_profile (color_profile);
 			}
 		}
 		var job = new Job ();

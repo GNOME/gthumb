@@ -48,8 +48,9 @@ public class Gth.Thumbnailer {
 	public bool load_from_cache;
 	public bool save_to_cache;
 
-	public Thumbnailer (Gth.Window _window) {
-		window = _window;
+	public Thumbnailer (Gth.MonitorProfile _monitor_profile, Gth.JobQueue? _app_jobs = null) {
+		app_jobs = _app_jobs ?? app.jobs;
+		monitor_profile = _monitor_profile;
 		browser = null;
 		requested_size = 256;
 		load_from_cache = true;
@@ -59,8 +60,12 @@ public class Gth.Thumbnailer {
 		active = true;
 	}
 
+	public Thumbnailer.for_window (Gth.Window window) {
+		this (window.monitor_profile, window.jobs);
+	}
+
 	public Thumbnailer.for_browser (Gth.Browser _browser) {
-		this (_browser.window);
+		this.for_window (_browser.window);
 		browser = _browser;
 	}
 
@@ -157,7 +162,7 @@ public class Gth.Thumbnailer {
 		if (file == null) {
 			return;
 		}
-		var thumbnail_job = new ThumbnailJob (window, file);
+		var thumbnail_job = new ThumbnailJob (app_jobs, file);
 		job_queue.add (thumbnail_job);
 		file.thumbnail_state = ThumbnailState.LOADING;
 		load_thumbnail.begin (thumbnail_job.file, thumbnail_job.job, (_obj, res) => {
@@ -216,7 +221,7 @@ public class Gth.Thumbnailer {
 	async Gth.Image? load_thumbnail_from_cache (FileData file_data, Cancellable cancellable) throws Error {
 		try {
 			var thumbnail_file = Thumbnailer.get_thumbnail_file (file_data.file, cache_size, FileIntent.READ, cancellable);
-			var thumbnail = yield app.thumb_loader.load_if_valid (window, thumbnail_file, file_data, cancellable);
+			var thumbnail = yield app.thumb_loader.load_if_valid (monitor_profile, thumbnail_file, file_data, cancellable);
 			return yield thumbnail.resize_async (_requested_size, ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 		}
 		catch (Error error) {
@@ -230,7 +235,7 @@ public class Gth.Thumbnailer {
 
 	async Gth.Image? generate_thumbnail (FileData file_data, Cancellable cancellable) throws Error {
 		try {
-			var image = yield app.image_loader.load_file (window, file_data.file, LoadFlags.NO_METADATA, cancellable, cache_size.to_pixels ());
+			var image = yield app.image_loader.load_file (monitor_profile, file_data.file, LoadFlags.NO_METADATA, cancellable, cache_size.to_pixels ());
 			var resized = yield image.resize_async (cache_size.to_pixels (), ResizeFlags.DEFAULT, ScaleFilter.GOOD, cancellable);
 			set_file_attributes_to_image (resized, file_data);
 			resized.set_attribute ("Thumb::Image::Width", "%u".printf (image.get_width ()));
@@ -250,7 +255,7 @@ public class Gth.Thumbnailer {
 		try {
 			var thumbnail_file = Thumbnailer.get_thumbnail_file (original.file, cache_size, FileIntent.WRITE, cancellable);
 			var thumbnail_file_data = new FileData.for_file (thumbnail_file, "image/png");
-			yield app.image_saver.replace_file (window, thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
+			yield app.image_saver.replace_file (monitor_profile, thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_thumbnail_to_cache %s: %s\n", original.file.get_uri (), error.message);
@@ -268,7 +273,7 @@ public class Gth.Thumbnailer {
 
 			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (original.file, FileIntent.WRITE);
 			var thumbnail_file_data = new FileData.for_file (thumbnail_file, "image/png");
-			yield app.image_saver.replace_file (window, thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
+			yield app.image_saver.replace_file (monitor_profile, thumbnail_image, thumbnail_file_data, SaveFlags.NO_METADATA, cancellable);
 		}
 		catch (Error error) {
 			//stdout.printf ("> save_failed_thumbnail_to_cache: %s\n", error.message);
@@ -361,9 +366,9 @@ public class Gth.Thumbnailer {
 		public FileData file;
 		public Gth.Job job;
 
-		public ThumbnailJob (Gth.Window window, FileData _file) {
+		public ThumbnailJob (Gth.JobQueue jobs, FileData _file) {
 			file = _file;
-			job = window.new_job ("Thumbnail for %s".printf (file.get_display_name ()),
+			job = jobs.new_job ("Thumbnail for %s".printf (file.get_display_name ()),
 				JobFlags.DEFAULT,
 				"gth-image-symbolic");
 		}
@@ -376,7 +381,8 @@ public class Gth.Thumbnailer {
 	uint _requested_size;
 	public Size cache_size;
 	weak Gth.Browser browser;
-	weak Gth.Window window;
+	weak Gth.JobQueue app_jobs;
+	weak Gth.MonitorProfile monitor_profile;
 	Queue<FileData> file_queue;
 	GenericArray<ThumbnailJob> job_queue;
 	bool active;

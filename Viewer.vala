@@ -680,7 +680,7 @@ public class Gth.Viewer : Gtk.Box {
 				//stdout.printf ("> WINDOW SIZE: %dx%d\n", window.get_width (), window.get_height ());
 
 				int monitor_width, monitor_height;
-				window.get_monitor_geometry (out monitor_width, out monitor_height);
+				window.monitor_profile.get_geometry (out monitor_width, out monitor_height);
 				//stdout.printf ("  MONITOR: %dx%d\n", monitor_width, monitor_height);
 
 				uint max_width = (uint) ((double) monitor_width * 0.8);

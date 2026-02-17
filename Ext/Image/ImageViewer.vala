@@ -80,7 +80,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			var image = preloader.cache[file_data.file];
 			if (image == null) {
 				// stdout.printf ("> LOAD: %s\n", file_data.get_display_name ());
-				image = yield app.image_loader.load_file (window, file_data.file, flags, job.cancellable);
+				image = yield app.image_loader.load_file (window.monitor_profile, file_data.file, flags, job.cancellable);
 			}
 			else {
 				// stdout.printf ("> FROM CACHE: %s\n", file_data.get_display_name ());
@@ -131,7 +131,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			return;
 		}
 		var local_job = window.new_job ("Preload", JobFlags.HIDDEN);
-		preloader.load.begin (window, queue, local_job, 0, (_obj, res) => {
+		preloader.load.begin (window.monitor_profile, queue, local_job, 0, (_obj, res) => {
 			preloader.load.end (res);
 			// preloader.cache.print ();
 			local_job.done ();
@@ -335,7 +335,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	async FileData? replace_file (FileData file_data, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
 		try {
-			yield app.image_saver.replace_file (window, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.replace_file (window.monitor_profile, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 		}
 		catch (Error error) {
@@ -353,7 +353,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	async FileData? create_file (FileData file_data, Job job) throws Error {
 		var overwrite_request = OverwriteRequest.NONE;
 		try {
-			yield app.image_saver.create_file (window, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.create_file (window.monitor_profile, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 		}
 		catch (Error error) {
@@ -381,7 +381,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 		case OverwriteResponse.OVERWRITE:
 			file_data.set_etag (null);
-			yield app.image_saver.replace_file (window, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
+			yield app.image_saver.replace_file (window.monitor_profile, image_view.image, file_data, SaveFlags.DEFAULT, job.cancellable);
 			return file_data;
 
 		case OverwriteResponse.RENAME:

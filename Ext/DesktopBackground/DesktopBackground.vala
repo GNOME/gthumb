@@ -30,7 +30,7 @@ public class Gth.DesktopBackground {
 
 			if ((image_width) > 0 && (image_height > 0)) {
 				int monitor_width, monitor_height;
-				window.get_monitor_geometry (out monitor_width, out monitor_height);
+				window.monitor_profile.get_geometry (out monitor_width, out monitor_height);
 
 				double scale_factor = double.max (
 					(double) monitor_width / image_width,

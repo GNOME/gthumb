@@ -10,6 +10,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	[GtkChild] public unowned Gth.Viewer viewer;
 	[GtkChild] public unowned Gth.Editor editor;
 	public unowned Gth.SidebarResizer active_resizer;
+	public MonitorProfile monitor_profile;
 
 	public enum Page {
 		NONE = 0,
@@ -216,83 +217,6 @@ public class Gth.Window : Adw.ApplicationWindow {
 		}
 	}
 
-	public string? get_monitor_name () {
-		unowned var display = get_display ();
-		unowned var monitor = display.get_monitor_at_surface (get_surface ());
-		if (monitor == null) {
-			return null;
-		}
-		return monitor.description;
-	}
-
-	public void get_monitor_geometry (out int width, out int height) {
-		unowned var display = get_display ();
-		unowned var monitor = display.get_monitor_at_surface (get_surface ());
-		width = monitor.geometry.width;
-		height = monitor.geometry.height;
-	}
-
-	public IccProfile monitor_profile = null;
-
-	public async IccProfile get_monitor_profile (Cancellable cancellable) throws Error {
-		if (monitor_profile == null) {
-			yield update_monitor_profile (cancellable);
-		}
-		return monitor_profile;
-	}
-
-	async void update_monitor_profile (Cancellable cancellable) throws Error {
-		try {
-			unowned var display = get_display ();
-			unowned var monitor = display.get_monitor_at_surface (get_surface ());
-			if (monitor == null) {
-				throw new IOError.FAILED ("No monitor");
-			}
-			monitor_profile = yield app.color_manager.get_profile_async (monitor.description, cancellable);
-		}
-		catch (Error error) {
-			if (error is IOError.CANCELLED) {
-				throw error;
-			}
-		}
-		if (monitor_profile == null) {
-			// Use sRGB by default.
-			monitor_profile = new Gth.IccProfile.sRGB ();
-		}
-	}
-
-	public async void apply_monitor_profile (Gth.Image image, FileInfo info, Cancellable cancellable, bool apply_icc_profile = true) throws Error {
-		try {
-			if (monitor_profile == null) {
-				yield update_monitor_profile (cancellable);
-			}
-			if (monitor_profile == null) {
-				throw new IOError.FAILED ("No monitor profile");
-			}
-			if (image.get_icc_profile () == monitor_profile) {
-				return;
-			}
-			var icc_profile = apply_icc_profile ? image.get_icc_profile () : null;
-			if (icc_profile != null) {
-				yield image.apply_icc_profile_async (app.color_manager, monitor_profile, cancellable);
-				unowned var profile_name = image.get_attribute ("Private::ColorProfile");
-				if (profile_name != null) {
-					info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
-				}
-			}
-			else {
-				// This allows to convert the image to sRGB before saving.
-				image.set_icc_profile (monitor_profile);
-			}
-		}
-		catch (Error error) {
-			if (error is IOError.CANCELLED) {
-				throw error;
-			}
-			// stdout.printf ("> apply profile error: %s\n", error.message);
-		}
-	}
-
 	void update_sensitivity () {
 		// TODO
 	}
@@ -439,7 +363,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 			Lib.set_frame_size (unsaved_file.info, (int) image.width, (int) image.height);
 			unsaved_file.info.set_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING, true);
 
-			yield apply_monitor_profile (image, unsaved_file.info, local_job.cancellable, false);
+			yield monitor_profile.apply_color_profile (image, unsaved_file.info, local_job.cancellable, false);
 
 			// Use this window if in browser mode or in viewer mode and the image was not modified
 			Window window = (current_page == Page.BROWSER) ? this : null;
@@ -1280,6 +1204,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	construct {
 		title = Config.APP_NAME;
 		current_page = Page.NONE;
+		monitor_profile = new MonitorProfile (this);
 
 		jobs = new Gth.JobQueue ();
 		jobs.size_changed.connect (() => {
