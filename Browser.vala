@@ -49,7 +49,8 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void init () {
-		thumbnailer = new Thumbnailer.for_browser (this);
+		thumbnailer = new Thumbnailer.for_window (window);
+		thumbnailer.get_next_file_func = get_next_file_for_thumbnailer;
 
 		init_folder_tree ();
 		init_file_grid ();

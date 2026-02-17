@@ -47,11 +47,12 @@ public class Gth.Thumbnailer {
 
 	public bool load_from_cache;
 	public bool save_to_cache;
+	public NextFileFunc get_next_file_func;
 
 	public Thumbnailer (Gth.MonitorProfile _monitor_profile, Gth.JobQueue? _app_jobs = null) {
 		app_jobs = _app_jobs ?? app.jobs;
 		monitor_profile = _monitor_profile;
-		browser = null;
+		get_next_file_func = null;
 		requested_size = 256;
 		load_from_cache = true;
 		save_to_cache = true;
@@ -62,11 +63,6 @@ public class Gth.Thumbnailer {
 
 	public Thumbnailer.for_window (Gth.Window window) {
 		this (window.monitor_profile, window.jobs);
-	}
-
-	public Thumbnailer.for_browser (Gth.Browser _browser) {
-		this.for_window (_browser.window);
-		browser = _browser;
 	}
 
 	public void add (FileData file, bool high_priority = false) {
@@ -140,8 +136,8 @@ public class Gth.Thumbnailer {
 			return;
 		}
 		FileData file = null;
-		if ((file == null) && (browser != null)) {
-			file = browser.get_next_file_for_thumbnailer ();
+		if ((file == null) && (get_next_file_func != null)) {
+			file = get_next_file_func ();
 			// if (file != null) {
 			// 	stdout.printf ("> LOAD THUMBNAIL [next]: %s\n", file.file.get_basename ());
 			// }
@@ -387,3 +383,5 @@ public class Gth.Thumbnailer {
 	GenericArray<ThumbnailJob> job_queue;
 	bool active;
 }
+
+public delegate Gth.FileData? NextFileFunc ();
