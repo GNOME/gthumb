@@ -29,7 +29,6 @@ gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *hei
 		&size, cancellable, NULL))
 	{
 		g_free (buffer);
-		g_object_unref (stream);
 		return FALSE;
 	}
 
