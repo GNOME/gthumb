@@ -512,7 +512,7 @@ stop_loading:
 				success = TRUE;
 			}
 			else {
-				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
 			}
 		}
 
