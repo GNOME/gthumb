@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthFileGrid">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
+        <style>
+          <class name="undershoot-top"/>
+          <class name="undershoot-bottom"/>
+        </style>
+        <child>
+          <object class="GtkGridView" id="view">
+            <property name="enable_rubberband">true</property>
+            <property name="max_columns">15</property>
+            <property name="vscroll_policy">minimum</property>
+            <style>
+              <class name="thumbnail-grid"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

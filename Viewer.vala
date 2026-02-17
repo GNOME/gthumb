@@ -83,7 +83,7 @@ public class Gth.Viewer : Gtk.Box {
 			else {
 				position = window.browser.get_file_position (file_data.file);
 			}
-			status.set_file_position (position);
+			set_current_position (position);
 			if (current_viewer != null) {
 				current_viewer.preload_some_files ();
 			}
@@ -213,10 +213,15 @@ public class Gth.Viewer : Gtk.Box {
 			return;
 		}
 		var new_position = window.browser.get_file_position (current_file.file);
-		status.set_file_position (new_position);
+		set_current_position (new_position);
 		if (new_position >= 0) {
 			position = new_position;
 		}
+	}
+
+	void set_current_position (int pos) {
+		status.set_file_position (pos);
+		file_grid.select_position (pos, SelectFile.SCROLL_TO_FILE);
 	}
 
 	public void metadata_changed (File file) {
@@ -399,6 +404,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	public void save_preferences (bool page_visible) {
 		app.viewer_settings.set_boolean (PREF_VIEWER_SIDEBAR_VISIBLE, main_view.show_sidebar && !main_view.collapsed);
+		app.viewer_settings.set_boolean (PREF_VIEWER_FILE_LIST_VISIBLE, content_view.show_sidebar && !content_view.collapsed);
 		if (page_visible) {
 			if (current_file != null) {
 				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, current_file.file.get_uri ());
@@ -407,6 +413,7 @@ public class Gth.Viewer : Gtk.Box {
 				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, "");
 			}
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) main_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
+			app.viewer_settings.set_int (PREF_VIEWER_FILE_LIST_SIZE, int.min ((int) content_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}
 		if (current_viewer != null) {
 			current_viewer.save_preferences ();
@@ -638,8 +645,28 @@ public class Gth.Viewer : Gtk.Box {
 			window.active_resizer = null;
 		});
 
+		file_grid_resizer.add_handle (content_view, Gtk.PackType.END);
+		file_grid_resizer.started.connect ((obj) => {
+			window.active_resizer = obj;
+		});
+		file_grid_resizer.ended.connect (() => {
+			window.active_resizer = null;
+		});
+
+		file_grid.set_model (window.browser.file_grid.model, true);
+		file_grid.view.model.selection_changed.connect (() => {
+			var single_selection = file_grid.view.model as Gtk.SingleSelection;
+			var pos = single_selection.get_selected ();
+			if ((pos != uint.MAX) && (pos != position)) {
+				window.browser.view_position (pos);
+			}
+		});
+
 		// Restore settings.
 		main_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_SIDEBAR_VISIBLE);
+		file_grid.thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
+		content_view.max_sidebar_width = app.viewer_settings.get_int (PREF_VIEWER_FILE_LIST_SIZE);
+		content_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_FILE_LIST_VISIBLE);
 
 		add_overlay_motion_controller (fullscreen_toolbar_revealer, false);
 		add_overlay_motion_controller (statusbar_revealer, false);
@@ -706,6 +733,12 @@ public class Gth.Viewer : Gtk.Box {
 			reveal_overlay_controls (!statusbar_revealer.reveal_child, false);
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction.stateful ("viewer-file-list", null, new Variant.boolean (content_view.show_sidebar));
+		action.activate.connect ((_action, param) => {
+			content_view.show_sidebar = Util.toggle_state (_action);
+		});
+		action_group.add_action (action);
 	}
 
 	construct {
@@ -736,6 +769,9 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Label header_state;
 	[GtkChild] public unowned Gth.ActionPopover tools_popover;
 	[GtkChild] public unowned Gtk.Stack sidebar_stack;
+	[GtkChild] public unowned Adw.OverlaySplitView content_view;
+	[GtkChild] public unowned Gth.FileGrid file_grid;
+	[GtkChild] public unowned Gth.SidebarResizer file_grid_resizer;
 
 	weak Window _window;
 	bool active_popup = false;

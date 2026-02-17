@@ -126,10 +126,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 					browser.property_sidebar.update_view ();
 				}
 				else if (viewer.position >= 0) {
-					browser.select_position (viewer.position, Browser.SelectFile.SCROLL_TO_FILE);
+					browser.select_position (viewer.position, SelectFile.SCROLL_TO_FILE);
 				}
 				else if (viewer.current_file != null) {
-					browser.select_file (viewer.current_file.file, Browser.SelectFile.SCROLL_TO_FILE);
+					browser.select_file (viewer.current_file.file, SelectFile.SCROLL_TO_FILE);
 				}
 			}
 			if (browser.never_loaded) {
@@ -206,7 +206,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void on_setting_change (string key) {
 		switch (key) {
 		case PREF_BROWSER_THUMBNAIL_SIZE:
-			browser.set_thumbnail_size (app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE));
+			var size= app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
+			browser.set_thumbnail_size (size);
+			viewer.file_grid.thumbnail_size = size;
 			break;
 		case PREF_BROWSER_THUMBNAIL_CAPTION:
 			browser.reload ();

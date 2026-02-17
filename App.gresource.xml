@@ -77,6 +77,7 @@
     <file preprocess="xml-stripblanks">gth-user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-user-home-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-valign-center-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-view-grid-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-refresh-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-fit-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-in-symbolic.svg</file>
@@ -118,6 +119,7 @@
     <file preprocess="xml-stripblanks">editor.ui</file>
     <file preprocess="xml-stripblanks">entry-dialog.ui</file>
     <file preprocess="xml-stripblanks">file-action-row.ui</file>
+    <file preprocess="xml-stripblanks">file-grid.ui</file>
     <file preprocess="xml-stripblanks">file-property-item.ui</file>
     <file preprocess="xml-stripblanks">file-property-view.ui</file>
     <file preprocess="xml-stripblanks">filter-bar.ui</file>

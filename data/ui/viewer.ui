@@ -34,6 +34,12 @@
                   </object>
                 </child>
                 <child>
+                  <object class="GtkToggleButton">
+                    <property name="icon-name">gth-view-grid-symbolic</property>
+                    <property name="action-name">win.viewer-file-list</property>
+                  </object>
+                </child>
+                <child>
                   <object class="GtkButton" id="fullscreen_button">
                     <property name="icon-name">gth-fullscreen-symbolic</property>
                     <property name="action-name">win.toggle-fullscreen</property>
@@ -121,62 +127,79 @@
               </object>
             </property>
             <property name="content">
-              <object class="GtkBox">
-                <property name="halign">fill</property>
-                <child>
-                  <object class="GtkOverlay" id="viewer_container">
-                    <property name="hexpand">true</property>
-                    <property name="vexpand">true</property>
-                    <child type="overlay">
-                      <object class="GtkRevealer" id="fullscreen_toolbar_revealer">
-                        <property name="halign">fill</property>
-                        <property name="valign">start</property>
-                        <property name="transition_type">crossfade</property>
-                        <property name="reveal-child">true</property>
+              <object class="AdwOverlaySplitView" id="content_view">
+                <property name="min_sidebar_width">200</property>
+                <property name="max_sidebar_width">400</property>
+                <property name="sidebar_width_fraction">1.0</property>
+                <property name="sidebar_width_unit">px</property>
+                <property name="sidebar_position">start</property>
+                <property name="sidebar">
+                  <object class="GthSidebarResizer" id="file_grid_resizer">
+                    <child>
+                      <object class="GthFileGrid" id="file_grid">
                       </object>
                     </child>
-                    <child type="overlay">
-                      <object class="GtkRevealer" id="statusbar_revealer">
-                        <property name="halign">end</property>
-                        <property name="valign">start</property>
-                        <property name="margin-start">24</property>
-                        <property name="margin-end">24</property>
-                        <property name="margin-top">24</property>
-                        <property name="hexpand">false</property>
-                        <property name="transition_type">crossfade</property>
-                        <property name="reveal-child">true</property>
-                        <child>
-                          <object class="GthViewerStatus" id="status">
+                  </object>
+                </property>
+                <property name="content">
+                  <object class="GtkBox">
+                    <property name="halign">fill</property>
+                    <child>
+                      <object class="GtkOverlay" id="viewer_container">
+                        <property name="hexpand">true</property>
+                        <property name="vexpand">true</property>
+                        <child type="overlay">
+                          <object class="GtkRevealer" id="fullscreen_toolbar_revealer">
+                            <property name="halign">fill</property>
+                            <property name="valign">start</property>
+                            <property name="transition_type">crossfade</property>
+                            <property name="reveal-child">true</property>
+                          </object>
+                        </child>
+                        <child type="overlay">
+                          <object class="GtkRevealer" id="statusbar_revealer">
+                            <property name="halign">end</property>
+                            <property name="valign">start</property>
+                            <property name="margin-start">24</property>
+                            <property name="margin-end">24</property>
+                            <property name="margin-top">24</property>
+                            <property name="hexpand">false</property>
+                            <property name="transition_type">crossfade</property>
+                            <property name="reveal-child">true</property>
+                            <child>
+                              <object class="GthViewerStatus" id="status">
+                                <property name="visible">false</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="overlay">
+                          <object class="GtkRevealer" id="mediabar_revealer">
+                            <property name="halign">fill</property>
+                            <property name="valign">end</property>
+                            <property name="margin-start">24</property>
+                            <property name="margin-end">24</property>
+                            <property name="margin-bottom">24</property>
+                            <property name="hexpand">false</property>
+                            <property name="transition_type">crossfade</property>
+                            <property name="reveal-child">true</property>
                             <property name="visible">false</property>
                           </object>
                         </child>
                       </object>
                     </child>
-                    <child type="overlay">
-                      <object class="GtkRevealer" id="mediabar_revealer">
-                        <property name="halign">fill</property>
-                        <property name="valign">end</property>
-                        <property name="margin-start">24</property>
-                        <property name="margin-end">24</property>
-                        <property name="margin-bottom">24</property>
-                        <property name="hexpand">false</property>
-                        <property name="transition_type">crossfade</property>
-                        <property name="reveal-child">true</property>
-                        <property name="visible">false</property>
+                    <child>
+                      <object class="GtkPopoverMenu" id="context_menu">
+                        <property name="menu-model">file_menu</property>
+                        <property name="has-arrow">true</property>
+                        <property name="position">bottom</property>
+                        <style>
+                          <class name="deeper"/>
+                        </style>
                       </object>
                     </child>
                   </object>
-                </child>
-                <child>
-                  <object class="GtkPopoverMenu" id="context_menu">
-                    <property name="menu-model">file_menu</property>
-                    <property name="has-arrow">true</property>
-                    <property name="position">bottom</property>
-                    <style>
-                      <class name="deeper"/>
-                    </style>
-                  </object>
-                </child>
+                </property>
               </object>
             </property>
           </object>

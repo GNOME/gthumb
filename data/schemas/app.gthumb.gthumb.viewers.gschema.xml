@@ -10,6 +10,12 @@
     <key name="sidebar-visible" type="b">
       <default>false</default>
     </key>
+    <key name="file-list-visible" type="b">
+      <default>false</default>
+    </key>
+    <key name="file-list-size" type="i">
+      <default>350</default>
+    </key>
   </schema>
 
   <enum id="app.gthumb.gthumb.ZoomType">

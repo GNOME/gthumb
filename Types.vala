@@ -393,3 +393,14 @@ public enum Gth.PrintUnit {
 		{ 25.4, 1 },
 	};
 }
+
+public enum Gth.SelectFile {
+	DEFAULT,
+	SCROLL_TO_FILE
+}
+
+public enum Gth.DropSide {
+	NONE,
+	LEFT,
+	RIGHT;
+}

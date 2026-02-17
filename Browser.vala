@@ -635,11 +635,6 @@ public class Gth.Browser : Gtk.Box {
 		return false;
 	}
 
-	public enum SelectFile {
-		DEFAULT,
-		SCROLL_TO_FILE
-	}
-
 	public void select_file (File file, SelectFile flags = SelectFile.DEFAULT) {
 		var iter = visible_files.iterator ();
 		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
@@ -1505,7 +1500,7 @@ public class Gth.Browser : Gtk.Box {
 
 	Gtk.Widget last_drop_target = null;
 
-	public Gth.FileData? get_next_file_for_thumbnailer () {
+	Gth.FileData? get_next_file_for_thumbnailer () {
 		// stdout.printf ("\n>>>> get_next_file_for_thumbnailer\n\n");
 		// First visible item.
 		var top = 0;
@@ -1803,8 +1798,9 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void set_thumbnail_size (int size) {
-		if (size == thumbnail_size)
+		if (size == thumbnail_size) {
 			return;
+		}
 		thumbnail_size = size;
 		thumbnailer.requested_size = (uint) thumbnail_size;
 		foreach (unowned Gtk.ListItem item in binded_grid_items) {
@@ -2492,12 +2488,6 @@ public class Gth.Browser : Gtk.Box {
 			return;
 		}
 		window.remove_files (files);
-	}
-
-	enum DropSide {
-		NONE,
-		LEFT,
-		RIGHT;
 	}
 
 	Gtk.ListItem? get_item_at (double x, double y, out DropSide side) {

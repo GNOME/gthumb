@@ -48,6 +48,8 @@ const string PREF_BROWSER_CLIPBOARD_TYPE = "clipboard-type";
 const string PREF_BROWSER_LAST_EXTENSION = "last-extension";
 
 const string PREF_VIEWER_SIDEBAR_VISIBLE = "sidebar-visible";
+const string PREF_VIEWER_FILE_LIST_VISIBLE = "file-list-visible";
+const string PREF_VIEWER_FILE_LIST_SIZE = "file-list-size";
 
 const string PREF_IMAGE_ZOOM_TYPE = "zoom-type";
 const string PREF_IMAGE_SCROLL_ACTION = "scroll-action";
