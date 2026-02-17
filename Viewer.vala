@@ -46,6 +46,13 @@ public class Gth.Viewer : Gtk.Box {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
+		if (ViewFlags.WITH_NEW_POSITION in flags) {
+			position = (int) new_position;
+		}
+		else {
+			position = window.browser.get_file_position (file_data.file);
+		}
+		set_current_position (position);
 		var local_job = (job != null) ? job : window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.FOREGROUND,
 			"gth-content-loading-symbolic");
@@ -77,13 +84,6 @@ public class Gth.Viewer : Gtk.Box {
 			}
 		}
 		if (!cancelled) {
-			if (ViewFlags.WITH_NEW_POSITION in flags) {
-				position = (int) new_position;
-			}
-			else {
-				position = window.browser.get_file_position (file_data.file);
-			}
-			set_current_position (position);
 			if (current_viewer != null) {
 				current_viewer.preload_some_files ();
 			}
