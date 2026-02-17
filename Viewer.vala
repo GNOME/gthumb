@@ -405,6 +405,7 @@ public class Gth.Viewer : Gtk.Box {
 	public void save_preferences (bool page_visible) {
 		app.viewer_settings.set_boolean (PREF_VIEWER_SIDEBAR_VISIBLE, main_view.show_sidebar && !main_view.collapsed);
 		app.viewer_settings.set_boolean (PREF_VIEWER_FILE_LIST_VISIBLE, content_view.show_sidebar && !content_view.collapsed);
+		app.viewer_settings.set_int (PREF_VIEWER_FILE_LIST_SIZE, int.min ((int) content_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		if (page_visible) {
 			if (current_file != null) {
 				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, current_file.file.get_uri ());
@@ -413,7 +414,6 @@ public class Gth.Viewer : Gtk.Box {
 				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, "");
 			}
 			app.settings.set_int (PREF_BROWSER_PROPERTIES_WIDTH, int.min ((int) main_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
-			app.viewer_settings.set_int (PREF_VIEWER_FILE_LIST_SIZE, int.min ((int) content_view.max_sidebar_width, MAX_SIDEBAR_WIDTH));
 		}
 		if (current_viewer != null) {
 			current_viewer.save_preferences ();
@@ -652,6 +652,7 @@ public class Gth.Viewer : Gtk.Box {
 		file_grid_resizer.ended.connect (() => {
 			window.active_resizer = null;
 		});
+		file_grid_resizer.add_css_class ("view");
 
 		file_grid.set_model (window.browser.file_grid.model, true);
 		file_grid.view.model.selection_changed.connect (() => {
