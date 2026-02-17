@@ -106,6 +106,9 @@ public class Gth.ImageSaver {
 			if (bytes == null) {
 				throw new IOError.FAILED ("Save failed");
 			}
+			if (cancellable.is_cancelled ()) {
+				throw new IOError.CANCELLED ("Cancelled");
+			}
 
 			// Update the embedded metadata
 

@@ -38,10 +38,11 @@ public class Gth.ImageLoader {
 		if (job.error != null) {
 			throw job.error;
 		}
+		var result = job.image;
 		if (monitor_profile != null) {
-			yield monitor_profile.apply_color_profile (job.image, info, cancellable, !(LoadFlags.NO_ICC_PROFILE in flags));
+			yield monitor_profile.apply_color_profile (result, info, cancellable, !(LoadFlags.NO_ICC_PROFILE in flags));
 		}
-		return job.image;
+		return result;
 	}
 
 	class Job : Work.Job {
@@ -93,6 +94,10 @@ public class Gth.ImageLoader {
 				else {
 					throw new IOError.NOT_SUPPORTED (_("No suitable loader available for this file type"));
 				}
+			}
+
+			if (cancellable.is_cancelled ()) {
+				throw new IOError.CANCELLED ("Cancelled");
 			}
 
 			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
