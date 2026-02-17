@@ -560,7 +560,7 @@ void gth_image_set_attribute (GthImage *self, const char *key, const char *value
 gboolean gth_image_remove_attribute (GthImage *self, const char *key) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	if (self->priv->attributes == NULL) {
-		return false;
+		return FALSE;
 	}
 	return g_hash_table_remove (self->priv->attributes, key);
 }

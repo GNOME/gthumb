@@ -204,7 +204,7 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 // Table of CRCs of all 8-bit messages.
 unsigned long crc_table[256];
 
-// Flag: has the table been computed? Initially false.
+// Flag: has the table been computed? Initially FALSE.
 int crc_table_computed = 0;
 
 // Make the table for a fast CRC
@@ -273,10 +273,10 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 	//	animation->frames->len);
 
 	if (animation->frames->len != animation->n_frames) {
-		g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 			"Wrong number of frames, %d, it should be %u.",
 			animation->frames->len, animation->n_frames);
-		return false;
+		return FALSE;
 	}
 
 	// Build the frame metadata with all the animation chunks
@@ -323,9 +323,9 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 		if ((frame->x_offset + frame->width > canvas_width)
 			|| (frame->y_offset + frame->height > canvas_height))
 		{
-			g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 				"Frame %d does not fit the canvas size.", i);
-			return false;
+			return FALSE;
 		}
 
 		// Check first frame size and position.
@@ -333,17 +333,17 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 			if ((frame->x_offset != 0)
 				|| (frame->y_offset != 0))
 			{
-				g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+				g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 					"Frame %d has wrong origin (should be 0).", i);
-				return false;
+				return FALSE;
 			}
 
 			if ((frame->width != canvas_width)
 				|| (frame->height != canvas_height))
 			{
-				g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+				g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 					"Frame %d has wrong size.", i);
-				return false;
+				return FALSE;
 			}
 		}
 
@@ -360,9 +360,9 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 			}
 
 			// Error: frame without data
-			g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 				"Frame %d has no data.", i);
-			return false;
+			return FALSE;
 		}
 
 		//g_print ("> BUILD FRAME %d (DATA CHUNKS: %d)\n", i, frame->data_chunks->len);
@@ -416,19 +416,31 @@ static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellab
 		GthImage *foreground = _load_png (frame_bytes, true, cancellable, error);
 		g_bytes_unref (frame_bytes);
 
+		if ((error != NULL) && (*error != NULL)) {
+			return FALSE;
+		}
+
+		if (g_cancellable_is_cancelled (cancellable)) {
+			if (foreground != NULL) {
+				g_object_unref (foreground);
+			}
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
+			return FALSE;
+		}
+
 		if (foreground == NULL) {
-			g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 				"Cannot allocate memory for frame %d.", i);
-			return false;
+			return FALSE;
 		}
 
 		// Render the new frame and add to loader_data.image
 
 		GthImage *canvas = gth_image_new (canvas_width, canvas_height);
 		if (canvas == NULL) {
-			g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 				"Cannot allocate memory for frame %d.", i);
-			return false;
+			return FALSE;
 		}
 		gth_image_render_frame (canvas, background, 0,
 			foreground, frame->x_offset, frame->y_offset,
@@ -462,12 +474,12 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 	loader_data.image = NULL;
 	loader_data.error = error;
 	loader_data.png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING,
-		&loader_data.error, error_func,	warning_func);
+		&loader_data.error, error_func, warning_func);
 	init_animation (&loader_data.animation);
 
 	if (loader_data.png_ptr == NULL) {
 		loader_data_destroy (&loader_data);
-		g_set_error_literal (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 			"Could not create the png struct");
 		return NULL;
 	}
@@ -475,7 +487,7 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 	loader_data.png_info_ptr = png_create_info_struct (loader_data.png_ptr);
 	if (loader_data.png_info_ptr == NULL) {
 		loader_data_destroy (&loader_data);
-		g_set_error_literal (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 			"Could not create the png info struct");
 		return NULL;
 	}
@@ -500,12 +512,12 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 	int bit_depth, color_type, interlace_type;
 
 	png_get_IHDR (loader_data.png_ptr, loader_data.png_info_ptr,
-		&width,	&height, &bit_depth, &color_type, &interlace_type,
+		&width, &height, &bit_depth, &color_type, &interlace_type,
 		NULL, NULL);
 
 	loader_data.image = gth_image_new (width, height);
 	if (loader_data.image == NULL) {
-		g_set_error_literal (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 			"Failed to allocate memory");
 		loader_data_destroy (&loader_data);
 		return NULL;
@@ -648,8 +660,13 @@ static GthImage* _load_png (GBytes *bytes, gboolean animation_frame, GCancellabl
 
 	// Compose the animation if any.
 	if (!animation_frame && (loader_data.animation.frames != NULL)) {
-		if (!_compose_animation (&loader_data, cancellable, error)) {
+		GError *compose_error = NULL;
+		if (!_compose_animation (&loader_data, cancellable, &compose_error)) {
+			if ((error != NULL) && (*error == NULL)) {
+				*error = g_error_copy (compose_error);
+			}
 			loader_data_destroy (&loader_data);
+			g_clear_error (&compose_error);
 			return NULL;
 		}
 	}

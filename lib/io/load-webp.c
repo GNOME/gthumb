@@ -100,7 +100,7 @@ GthImage* load_webp (GBytes *bytes, guint requested_size, GCancellable *cancella
 		if (is_animated) {
 			GthImage *canvas = gth_image_new (canvas_width, canvas_height);
 			if (canvas == NULL) {
-				g_set_error (error, G_IO_ERROR,	G_IO_ERROR_FAILED,
+				g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
 					"Cannot allocate memory for frame %d.", frame_idx);
 				g_object_unref (foreground);
 				WebPDemuxReleaseIterator (&iter);
