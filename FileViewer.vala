@@ -1,7 +1,7 @@
 public interface Gth.FileViewer : Object {
 	public abstract Gth.ShortcutContext shortcut_context { get; }
 	public abstract void activate (Gth.Window window);
-	public abstract async bool load (FileData file, Job job);
+	public abstract async bool load (FileData file, Job job) throws Error;
 	public abstract void deactivate ();
 	public abstract void save_preferences ();
 	public abstract void release_resources ();

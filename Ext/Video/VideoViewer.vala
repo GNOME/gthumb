@@ -126,9 +126,10 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		init_actions ();
 	}
 
-	public async bool load (FileData file_data, Job job) {
-		if (playbin == null)
+	public async bool load (FileData file_data, Job job) throws Error {
+		if (playbin == null) {
 			return false;
+		}
 		reset_state ();
 		reset_view ();
 		playbin.set_state (Gst.State.NULL);

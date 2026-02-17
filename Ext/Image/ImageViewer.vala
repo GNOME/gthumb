@@ -60,13 +60,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		init_actions ();
 	}
 
-	async void view_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
+	void view_image (Gth.Image image) {
 		// Keep the previous zoom type.
 		image_view.default_zoom_type = image_view.zoom_type;
 		image_view.image = image;
 	}
 
-	public async bool load (FileData file_data, Job job) {
+	public async bool load (FileData file_data, Job job) throws Error {
 		var success = false;
 		preloader.cancel ();
 		if (window.viewer.current_file != null) {
@@ -86,7 +86,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				// stdout.printf ("> FROM CACHE: %s\n", file_data.get_display_name ());
 			}
 			file_data.update_info (image.info, false);
-			yield view_image (image, file_data, job.cancellable);
+			view_image (image);
 			history.clear ();
 			history.add (image, false);
 			if (apply_icc_profile) {
@@ -96,7 +96,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 		catch (Error error) {
 			if (error is IOError.CANCELLED) {
-				return false;
+				throw error;
 			}
 			window.show_error (error);
 			image_view.image = null;
@@ -132,14 +132,18 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		}
 		var local_job = window.new_job ("Preload", JobFlags.HIDDEN);
 		preloader.load.begin (window.monitor_profile, queue, local_job, 0, (_obj, res) => {
-			preloader.load.end (res);
+			try {
+				preloader.load.end (res);
+			}
+			catch (Error error) {
+			}
 			// preloader.cache.print ();
 			local_job.done ();
 		});
 	}
 
-	public async void view_unsaved_image (Gth.Image image, Gth.FileData? file_data, Cancellable cancellable) {
-		yield view_image (image, file_data, cancellable);
+	public void view_unsaved_image (Gth.Image image) {
+		view_image (image);
 		history.clear ();
 		history.add (image, true);
 	}

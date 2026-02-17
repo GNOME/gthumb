@@ -20,7 +20,7 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 		window.viewer.viewer_container.remove_css_class ("image-view");
 	}
 
-	public async bool load (FileData file, Job job) {
+	public async bool load (FileData file, Job job) throws Error {
 		return false;
 	}
 
