@@ -1059,7 +1059,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files, Gth.Job? external_job = null) {
 		var local_job = new_job (name, JobFlags.FOREGROUND);
 		try {
-			exec_file_operation_with_job (operation, files, local_job);
+			yield exec_file_operation_with_job (operation, files, local_job);
 		}
 		catch (Error error) {
 			show_error (error);

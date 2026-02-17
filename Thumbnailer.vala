@@ -376,7 +376,6 @@ public class Gth.Thumbnailer {
 
 	uint _requested_size;
 	public Size cache_size;
-	weak Gth.Browser browser;
 	weak Gth.JobQueue app_jobs;
 	weak Gth.MonitorProfile monitor_profile;
 	Queue<FileData> file_queue;

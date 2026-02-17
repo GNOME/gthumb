@@ -186,7 +186,6 @@ public class Gth.PrintPreview : Gtk.Widget {
 		snapshot.append_color (white, paper_box);
 
 		if (print_layout != null) {
-			Gdk.RGBA gray = { 0.75f, 0.75f, 0.75f, 1 };
 			Gdk.RGBA frame_color = { 0.9f, 0.9f, 0.9f, 1 };
 			Gdk.RGBA selected_color = { 0.85f, 0.15f, 0.30f, 1 };
 			Gdk.RGBA preactive_color = { 0.5f, 0.5f, 0.5f, 1 };

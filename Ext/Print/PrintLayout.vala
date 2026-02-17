@@ -24,7 +24,6 @@ public class Gth.PrintLayout : Object {
 	public float top_margin;
 
 	bool printing;
-	Pango.Layout pango_layout;
 
 	public PrintLayout (GenericArray<PrintImageLayout> _images) {
 		images = _images;
@@ -92,8 +91,12 @@ public class Gth.PrintLayout : Object {
 		if (basename == null) {
 			basename = (images.length == 1) ? _("Image") : _("Images");
 		}
-		var uri = Filename.to_uri (path) + "/" + basename + "." + ext;
-		print_settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI, uri);
+		try {
+			var uri = Filename.to_uri (path) + "/" + basename + "." + ext;
+			print_settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI, uri);
+		}
+		catch (Error error) {
+		}
 	}
 
 	public void set_setup (Gtk.PrintSetup _print_setup) {
@@ -230,7 +233,7 @@ public class Gth.PrintLayout : Object {
 			}
 
 			cairo_context.save ();
-			var matrix = new Cairo.Matrix.identity ();
+			var matrix = Cairo.Matrix.identity ();
 			matrix.translate (
 				-image.image_box.origin.x,
 				-image.image_box.origin.y);

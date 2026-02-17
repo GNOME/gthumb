@@ -74,7 +74,6 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		switch (overwrite_response) {
 		case OverwriteResponse.CANCEL:
 			throw new IOError.CANCELLED ("Cancelled");
-			break;
 
 		case OverwriteResponse.OVERWRITE, OverwriteResponse.OVERWRITE_ALL:
 			file_data.set_etag (null);

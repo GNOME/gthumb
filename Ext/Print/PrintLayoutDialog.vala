@@ -123,7 +123,6 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 		if (initializing > 0) {
 			return;
 		}
-		var old_unit = print_layout.default_unit;
 		var toggle_group = obj as Adw.ToggleGroup;
 		print_layout.default_unit = PrintUnit.from_state (toggle_group.active_name);
 		initializing++;
