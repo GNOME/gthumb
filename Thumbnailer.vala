@@ -50,12 +50,12 @@ public class Gth.Thumbnailer {
 	public NextFileFunc get_next_file_func;
 
 	public Thumbnailer (Gth.MonitorProfile _monitor_profile, Gth.JobQueue? _app_jobs = null) {
-		app_jobs = _app_jobs ?? app.jobs;
 		monitor_profile = _monitor_profile;
-		get_next_file_func = null;
+		app_jobs = _app_jobs ?? app.jobs;
 		requested_size = 256;
 		load_from_cache = true;
 		save_to_cache = true;
+		get_next_file_func = null;
 		file_queue = new Queue<FileData>();
 		job_queue = new GenericArray<ThumbnailJob>();
 		active = true;
@@ -384,4 +384,4 @@ public class Gth.Thumbnailer {
 	bool active;
 }
 
-public delegate Gth.FileData? NextFileFunc ();
+public delegate Gth.FileData? Gth.NextFileFunc ();
