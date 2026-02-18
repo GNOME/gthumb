@@ -109,7 +109,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var queue = new Queue<File>();
 
 		void add_to_queue (uint pos) {
-			var file_data = window.browser.file_grid.model.get_item (pos) as FileData;
+			var file_data = window.browser.file_grid.view.model.get_item (pos) as FileData;
 			if (file_data == null) {
 				return;
 			}

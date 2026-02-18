@@ -14,6 +14,6 @@ public class Gth.WindowState {
 			file = window.viewer.current_file.file;
 		}
 		selected = window.browser.get_selected_files ();
-		vscroll = window.browser.file_grid.vadjustment.value;
+		vscroll = window.browser.file_grid.view.vadjustment.value;
 	}
 }

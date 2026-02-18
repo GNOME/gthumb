@@ -45,6 +45,7 @@ public class Gth.Thumbnailer {
 		}
 	}
 
+	public Size cache_size;
 	public bool load_from_cache;
 	public bool save_to_cache;
 	public NextFileFunc get_next_file_func;
@@ -375,7 +376,6 @@ public class Gth.Thumbnailer {
 	}
 
 	uint _requested_size;
-	public Size cache_size;
 	weak Gth.JobQueue app_jobs;
 	weak Gth.MonitorProfile monitor_profile;
 	Queue<FileData> file_queue;

@@ -19,28 +19,34 @@ public class Gth.Browser : Gtk.Box {
 		SELECTIONS,
 	}
 
-	public IterableList<FileData> visible_files;
 	public bool show_hidden_files = false;
-	SidebarState sidebar_state = SidebarState.NONE;
 	public bool open_in_fullscreen = false;
 	public int thumbnail_size;
-	[GtkChild] public unowned Gth.FolderTree folder_tree;
-	[GtkChild] public unowned Gth.Status status;
-	[GtkChild] public unowned Gth.SelectionsStatus selections_status;
 	public bool never_loaded;
 	public Gth.FileSorter file_sorter;
 	public Gth.FileFilter file_filter;
 	public SimpleActionGroup folder_actions;
 	public SimpleActionGroup catalog_actions;
-	public bool dragging = false;
-	public bool reordering {
-		get { return Util.get_active (window.action_group, "reorder-files"); }
-	}
+	// public bool reordering {
+	// 	get { return Util.get_active (window.action_group, "reorder-files"); }
+	// }
+	public uint total_files = 0;
+
+	[GtkChild] public unowned Gth.FolderTree folder_tree;
+	[GtkChild] public unowned Gth.FileGrid file_grid;
+	[GtkChild] public unowned Gth.Status status;
+	[GtkChild] public unowned Gth.SelectionsStatus selections_status;
+	[GtkChild] public unowned Adw.OverlaySplitView content_view;
+	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
+	[GtkChild] public unowned Gtk.MenuButton scripts_menu_button;
+	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
+	[GtkChild] public unowned Gth.FolderStatus folder_status;
+	[GtkChild] public unowned Gth.ActionPopover tools_popover;
+	[GtkChild] public unowned Gth.FilterBar filter_bar;
 
 	construct {
 		history = new History (this);
 		current_parents = null;
-		binded_grid_items = new GenericArray<Gtk.ListItem> ();
 		actions_category = new ActionCategory ("", -1);
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		parents_category = new ActionCategory (_("Path"), 1);
@@ -49,9 +55,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void init () {
-		thumbnailer = new Thumbnailer.for_window (window);
-		thumbnailer.get_next_file_func = get_next_file_for_thumbnailer;
-
 		init_folder_tree ();
 		init_file_grid ();
 
@@ -132,7 +135,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
-		thumbnailer.cancel ();
+		file_grid.stop_thumbnailer ();
 		try {
 			freeze_thumbnail_list ();
 			folder_tree.list_attributes = get_list_attributes (true);
@@ -168,8 +171,7 @@ public class Gth.Browser : Gtk.Box {
 		if (load_action != LoadAction.OPEN_FROM_HISTORY) {
 			history.add (folder_tree.current_folder.file);
 		}
-		thumbnailer.requested_size = (uint) thumbnail_size;
-		thumbnailer.queue_load_next ();
+		file_grid.start_thumbnailer ((uint) thumbnail_size);
 	}
 
 	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
@@ -270,16 +272,6 @@ public class Gth.Browser : Gtk.Box {
 		update_total_files ();
 	}
 
-	public void open_file_context_menu (Gth.FileListItem item, int x, int y) {
-		if (!is_selected (item.file_data.file)) {
-			select_file (item.file_data.file);
-		}
-		Graphene.Point p = Graphene.Point.zero ();
-		item.compute_point (non_empty_folder, Graphene.Point.zero (), out p);
-		file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
-		file_context_menu.popup ();
-	}
-
 	public void open_context_menu (int x, int y) {
 		Graphene.Point p = Graphene.Point.zero ();
 		file_grid.compute_point (folder_stack.get_visible_child (), Graphene.Point.zero (), out p);
@@ -322,8 +314,8 @@ public class Gth.Browser : Gtk.Box {
 		Util.enable_action (window.action_group, "remove-from-catalog", is_catalog || is_search);
 		Util.enable_action (window.action_group, "reload", is_vfs_folder);
 
-		var is_reorderable = folder_tree.current_source.is_reorderable ();
-		reorder_button.visible = is_reorderable;
+		file_grid.is_reorderable = folder_tree.current_source.is_reorderable ();
+		reorder_button.visible = file_grid.is_reorderable;
 
 		Util.enable_action (window.action_group, "cut-files", can_write);
 		Util.enable_action (window.action_group, "move-files-to", can_write);
@@ -424,10 +416,10 @@ public class Gth.Browser : Gtk.Box {
 	void freeze_thumbnail_list () {
 		// stdout.printf ("> freeze_thumbnail_list\n");
 		if (!thumbnail_list_frozen) {
-			grid_model = file_grid.model;
+			grid_model = file_grid.view.model;
 			sorted_model = file_sort_model.model;
 			filtered_model = file_filter_model.model;
-			file_grid.model = null;
+			file_grid.view.model = null;
 			file_sort_model.model = null;
 			file_filter_model.model = null;
 			thumbnail_list_frozen = true;
@@ -437,7 +429,7 @@ public class Gth.Browser : Gtk.Box {
 	void update_total_files () {
 		total_files = 0;
 		total_size = 0;
-		foreach (unowned var file in visible_files) {
+		foreach (unowned var file in file_grid.visible_files) {
 			total_files++;
 			total_size += file.info.get_size ();
 		}
@@ -458,13 +450,18 @@ public class Gth.Browser : Gtk.Box {
 		file_sorter.reset ();
 		file_filter_model.model = filtered_model;
 		file_sort_model.model = sorted_model;
-		file_grid.model = grid_model;
+		file_grid.view.model = grid_model;
 		update_total_files ();
 		focus_thumbnail_list ();
 	}
 
 	public void update_folder_status () {
-		folder_stack.set_visible_child ((total_files == 0) ? empty_folder : non_empty_folder);
+		if (total_files == 0) {
+			folder_stack.set_visible_child (empty_folder);
+		}
+		else {
+			folder_stack.set_visible_child (file_grid);
+		}
 		if (total_files == 0) {
 			if ((filter_bar.filter != null) && (filter_bar.filter.id != "")) {
 				folder_status.title = _("No Matches");
@@ -576,102 +573,54 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	// TODO: delete
 	public uint get_selected_position () {
-		var selected = file_grid.model.get_selection ();
-		if (selected.get_size () != 1) {
-			// TODO: the last context menu item.
-			return uint.MAX;
-		}
-		return selected.get_nth (0);
+		return file_grid.get_selected_position ();
 	}
 
+	// TODO: delete
 	public FileData? get_selected_file_data () {
-		var pos = get_selected_position ();
-		if (pos == uint.MAX) {
-			return null;
-		}
-		var file_data = file_grid.model.get_item (pos) as FileData;
-		return file_data;
+		return file_grid.get_selected_file_data ();
 	}
 
+	// TODO: delete
 	public File? get_selected_file () {
-		var file_data = get_selected_file_data ();
-		return (file_data != null) ? file_data.file : null;
+		return file_grid.get_selected_file ();
 	}
 
+	// TODO: delete
 	public GenericList<File> get_selected_files () {
-		var files = new GenericList<File> ();
-		var selection = file_grid.model.get_selection ();
-		var n_selected = selection.get_size ();
-		for (var i = 0; i < n_selected; i++) {
-			var pos = selection.get_nth (i);
-			var selected_file = file_grid.model.get_item (pos) as FileData;
-			files.model.append (selected_file.file);
-		}
-		return files;
+		return file_grid.get_selected_files ();
 	}
 
+	// TODO: delete
 	public GenericList<FileData> get_selected_file_data_list () {
-		var files = new GenericList<FileData> ();
-		var selection = file_grid.model.get_selection ();
-		var n_selected = selection.get_size ();
-		for (var i = 0; i < n_selected; i++) {
-			var pos = selection.get_nth (i);
-			var selected_file = file_grid.model.get_item (pos) as FileData;
-			files.model.append (selected_file);
-		}
-		return files;
+		return file_grid.get_selected_file_data_list ();
 	}
 
+	// TODO: delete
 	bool is_selected (File file) {
-		var selection = file_grid.model.get_selection ();
-		for (int64 idx = 0; idx < selection.get_size (); idx++) {
-			var pos = selection.get_nth ((uint) idx);
-			var selected_file = file_grid.model.get_item (pos) as FileData;
-			if (selected_file.file.equal (file)) {
-				return true;
-			}
-		}
-		return false;
+		return file_grid.is_selected (file);
 	}
 
+	// TODO: delete
 	public void select_file (File file, SelectFile flags = SelectFile.DEFAULT) {
-		var iter = visible_files.iterator ();
-		var pos = iter.find_first ((file_data) => file_data.file.equal (file));
-		select_position (pos, flags);
+		file_grid.select_file (file, flags);
 	}
 
+	// TODO: delete
 	public int get_file_position (File file) {
-		var iter = visible_files.iterator ();
-		return iter.find_first ((file_data) => file_data.file.equal (file));
+		return file_grid.get_file_position (file);
 	}
 
+	// TODO: delete
 	public void select_position (int position, SelectFile flags = SelectFile.DEFAULT) {
-		if (position < 0) {
-			return;
-		}
-		if (SelectFile.SCROLL_TO_FILE in flags) {
-			file_grid.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
-		}
-		else {
-			file_grid.model.select_item ((uint) position, true);
-		}
+		file_grid.select_position (position, flags);
 	}
 
+	// TODO: delete
 	public void select_files (GenericList<File> list) {
-		var first = true;
-		foreach (unowned var file in list) {
-			var position = get_file_position (file);
-			if (position >= 0) {
-				if (first) {
-					select_position (position, SelectFile.SCROLL_TO_FILE);
-					first = false;
-				}
-				else {
-					file_grid.model.select_item ((uint) position, false);
-				}
-			}
-		}
+		file_grid.select_files (list);
 	}
 
 	Gth.Job free_space_job = null;
@@ -720,10 +669,10 @@ public class Gth.Browser : Gtk.Box {
 		uint total_files = 0;
 		uint64 total_size = 0;
 		var selected_image = false;
-		var selected = file_grid.model.get_selection ();
+		var selected = file_grid.view.model.get_selection ();
 		for (int64 idx = 0; idx < selected.get_size (); idx++) {
 			var pos = selected.get_nth ((uint) idx);
-			var file = file_grid.model.get_item (pos) as FileData;
+			var file = file_grid.view.model.get_item (pos) as FileData;
 			if (file != null) {
 				total_files++;
 				total_size += file.info.get_size ();
@@ -1374,65 +1323,23 @@ public class Gth.Browser : Gtk.Box {
 		file_sorter = new Gth.FileSorter (this);
 		file_sort_model = new Gtk.SortListModel (file_filter_model, file_sorter);
 
-		visible_files = new IterableList<FileData> ((ListModel) file_sort_model);
-
-		file_grid.model = new Gtk.MultiSelection (file_sort_model);
-		file_grid.model.selection_changed.connect (() => {
-			update_selection_info ();
-		});
-
-		var factory = new Gtk.SignalListItemFactory ();
-		factory.setup.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FileListItem (this, thumbnail_attributes_v);
-		});
-		factory.teardown.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			list_item.child = null;
-		});
-		factory.bind.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			var file_item = list_item.child as Gth.FileListItem;
-			var file_data = list_item.item as FileData;
-			if (file_data != null) {
-				file_item.bind (file_data);
-				//thumbnailer.requested_size = (uint) thumbnail_size;
-				//thumbnailer.add (file_data);
-				//stdout.printf ("  BINDED: %u\n", binded_grid_items.length);
-				if (file_item.parent != null) {
-					file_item.parent.halign = Gtk.Align.CENTER;
-				}
-				binded_grid_items.add (list_item);
-				thumbnailer.queue_load_next ();
-				if (binded_grid_items.length < 50) {
-					thumbnailer.add (file_data);
-				}
+		file_grid.set_model (file_sort_model);
+		file_grid.file_context_menu = file_context_menu;
+		file_grid.view.model.selection_changed.connect (() => update_selection_info ());
+		file_grid.view.activate.connect ((position) => {
+			var flags = ViewFlags.NO_DELAY;
+			if (open_in_fullscreen) {
+				flags |= ViewFlags.FULLSCREEN;
 			}
+			view_position (position, flags);
 		});
-		factory.unbind.connect ((obj) => {
-			var list_item = obj as Gtk.ListItem;
-			var file_item = list_item.child as Gth.FileListItem;
-			if (file_item != null) {
-				file_item.unbind ();
-				var file_data = list_item.item as FileData;
-				if (file_data != null) {
-					thumbnailer.remove (file_data);
-					file_data.remove_thumbnail ();
-				}
-			}
-			binded_grid_items.remove (list_item);
-		});
-		file_grid.factory = factory;
-
-		file_grid.vadjustment.changed.connect (() => { after_grid_vadj_changed (); });
-		file_grid.vadjustment.value_changed.connect (() => { after_grid_vadj_changed (); });
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
 		click_events.pressed.connect ((n_press, x, y) => {
 			open_context_menu ((int) x, (int) y);
 		});
-		non_empty_folder.add_controller (click_events);
+		file_grid.view.add_controller (click_events);
 
 		click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
@@ -1457,16 +1364,16 @@ public class Gth.Browser : Gtk.Box {
 			folder.add_controller (copy_on_drop);
 		}
 		add_copy_on_drop (empty_folder);
-		add_copy_on_drop (non_empty_folder);
+		add_copy_on_drop (file_grid.view);
 
-		var reorder_on_drop = new Gtk.DropTarget (typeof (FileListItem), Gdk.DragAction.MOVE);
+		var reorder_on_drop = new Gtk.DropTarget (typeof (FileGridItem), Gdk.DragAction.MOVE);
 		reorder_on_drop.drop.connect ((value, x, y) => {
-			var source = value.get_object () as FileListItem;
-			if (source.browser != this) {
+			var source = value.get_object () as FileGridItem;
+			if (source.file_grid != file_grid) {
 				return false;
 			}
 			DropSide side;
-			var destination = get_item_at (x, y, out side);
+			var destination = file_grid.get_item_at (x, y, out side);
 			if (destination == null) {
 				return false;
 			}
@@ -1475,7 +1382,7 @@ public class Gth.Browser : Gtk.Box {
 		});
 		reorder_on_drop.motion.connect ((x, y) => {
 			DropSide side;
-			var item = get_item_at (x, y, out side);
+			var item = file_grid.get_item_at (x, y, out side);
 			if (item != null) {
 				if ((last_drop_target != null) && (last_drop_target.parent != null)) {
 					last_drop_target.parent.remove_css_class ("drop-target-left");
@@ -1495,70 +1402,10 @@ public class Gth.Browser : Gtk.Box {
 				last_drop_target = null;
 			}
 		});
-		non_empty_folder.add_controller (reorder_on_drop);
+		file_grid.view.add_controller (reorder_on_drop);
 	}
 
 	Gtk.Widget last_drop_target = null;
-
-	Gth.FileData? get_next_file_for_thumbnailer () {
-		// stdout.printf ("\n>>>> get_next_file_for_thumbnailer\n\n");
-		// First visible item.
-		var top = 0;
-		var bottom = file_grid.vadjustment.get_page_size ();
-		foreach (unowned Gtk.ListItem item in binded_grid_items) {
-			if (!item.child.get_mapped ()) {
-				continue;
-			}
-			Graphene.Rect bounds;
-			if (item.child.compute_bounds (file_grid, out bounds)) {
-				if (bounds.origin.x < 0) {
-					continue;
-				}
-
-				var file_data = item.item as FileData;
-				if (file_data.has_thumbnail ()) {
-					continue;
-				}
-				if (thumbnailer.already_added (file_data)) {
-					continue;
-				}
-
-				//stdout.printf ("> (%f,%f)[%f,%f] (state: %s) <=> [%f,%f]\n",
-				//	bounds.origin.x, bounds.origin.y,
-				//	bounds.size.width, bounds.size.height,
-				//	file_data.thumbnail_state.to_string (),
-				//	top, bottom);
-
-				if ((bounds.origin.y < top - bounds.size.height) || (bounds.origin.y > bottom)) {
-					continue;
-				}
-
-				//stdout.printf ("> y: %f, height %f (%s) <=> [%f,%f]\n",
-				//	bounds.origin.y,
-				//	bounds.size.height,
-				//	file_data.file.get_basename (),
-				//	top, bottom);
-
-				return file_data;
-			}
-		}
-		// First binded item.
-		foreach (unowned Gtk.ListItem item in binded_grid_items) {
-			var file_data = item.item as FileData;
-			if (file_data.has_thumbnail ()) {
-				continue;
-			}
-			if (thumbnailer.already_added (file_data)) {
-				continue;
-			}
-			return file_data;
-		}
-		return null;
-	}
-
-	void after_grid_vadj_changed () {
-		thumbnailer.queue_load_next ();
-	}
 
 	Job search_job = null;
 
@@ -1717,22 +1564,13 @@ public class Gth.Browser : Gtk.Box {
 		history.save_to_file ();
 	}
 
-	[GtkCallback]
-	void on_file_activate (uint position) {
-		var flags = ViewFlags.NO_DELAY;
-		if (open_in_fullscreen) {
-			flags |= ViewFlags.FULLSCREEN;
-		}
-		view_position (position, flags);
-	}
-
 	void edit_file () {
 		try {
 			var position = get_selected_position ();
 			if (position == uint.MAX) {
 				throw new IOError.FAILED (_("No files selected"));
 			}
-			var file = file_grid.model.get_item (position) as FileData;
+			var file = file_grid.view.model.get_item (position) as FileData;
 			if (file == null) {
 				throw new IOError.FAILED (_("No files selected"));
 			}
@@ -1748,7 +1586,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public async bool view_position_async (uint position, ViewFlags flags = ViewFlags.DEFAULT) {
-		var file = file_grid.model.get_item (position) as FileData;
+		var file = file_grid.view.model.get_item (position) as FileData;
 		if (file == null) {
 			return false;
 		}
@@ -1757,7 +1595,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public bool view_position (uint position, ViewFlags flags = ViewFlags.DEFAULT) {
-		var file = file_grid.model.get_item (position) as FileData;
+		var file = file_grid.view.model.get_item (position) as FileData;
 		if (file == null) {
 			return false;
 		}
@@ -1781,7 +1619,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public bool view_last_file () {
-		var pos = file_grid.model.get_n_items () - 1;
+		var pos = file_grid.view.model.get_n_items () - 1;
 		if ((window.viewer.position == pos) || !view_position (pos)) {
 			window.edge_reached ();
 			return false;
@@ -1797,17 +1635,9 @@ public class Gth.Browser : Gtk.Box {
 		return true;
 	}
 
+	// TODO: delete
 	public void set_thumbnail_size (int size) {
-		if (size == thumbnail_size) {
-			return;
-		}
-		thumbnail_size = size;
-		thumbnailer.requested_size = (uint) thumbnail_size;
-		foreach (unowned Gtk.ListItem item in binded_grid_items) {
-			unowned var file_item = item.child as Gth.FileListItem;
-			file_item.set_size (thumbnail_size);
-		}
-		thumbnailer.queue_load_next ();
+		file_grid.thumbnail_size = size;
 	}
 
 	public void add_to_search_results (File parent, FileData file_data) {
@@ -1829,7 +1659,7 @@ public class Gth.Browser : Gtk.Box {
 			window.viewer.update_list_info (total_files);
 		}
 		if (total_files == 1) {
-			folder_stack.set_visible_child (non_empty_folder);
+			folder_stack.set_visible_child (file_grid);
 		}
 	}
 
@@ -1957,12 +1787,14 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		// Update the thumbnails
+		var visible_files = new GenericArray<FileData>();
 		foreach (var file_data in changed_files) {
 			if (file_filter.filter.match (file_data)) {
-				thumbnailer.queue_load_next ();
-				thumbnailer.add (file_data);
+				visible_files.add (file_data);
 			}
 		}
+		file_grid.update_thumbnails (visible_files);
+
 		update_total_files ();
 		local_job.done ();
 	}
@@ -1979,8 +1811,7 @@ public class Gth.Browser : Gtk.Box {
 		if (file_data != null) {
 			file_data.remove_thumbnail ();
 			if (file_filter.filter.match (file_data)) {
-				thumbnailer.queue_load_next ();
-				thumbnailer.add (file_data);
+				file_grid.update_thumbnail (file_data);
 			}
 		}
 	}
@@ -2430,7 +2261,7 @@ public class Gth.Browser : Gtk.Box {
 			return;
 		}
 		if (total_files > 0) {
-			file_grid.grab_focus ();
+			file_grid.view.grab_focus ();
 		}
 	}
 
@@ -2490,75 +2321,15 @@ public class Gth.Browser : Gtk.Box {
 		window.remove_files (files);
 	}
 
-	Gtk.ListItem? get_item_at (double x, double y, out DropSide side) {
-		Graphene.Point point = { (float) x, (float) y };
-		var top = 0;
-		var bottom = file_grid.vadjustment.get_page_size ();
-		Gtk.ListItem closest_item = null;
-		float min_distance = 0f;
-		side = DropSide.NONE;
-		foreach (unowned Gtk.ListItem item in binded_grid_items) {
-			if (!item.child.get_mapped ()) {
-				continue;
-			}
-			Graphene.Rect bounds;
-			if (item.child.compute_bounds (file_grid, out bounds)) {
-				if (bounds.origin.x < 0) {
-					continue;
-				}
-
-				// stdout.printf ("> (%f,%f)[%f,%f] <=> VIEW: [%f,%f]\n",
-				// 	bounds.origin.x, bounds.origin.y,
-				// 	bounds.size.width, bounds.size.height,
-				// 	top, bottom);
-
-				if ((bounds.origin.y < top - bounds.size.height) || (bounds.origin.y > bottom)) {
-					continue;
-				}
-
-				// stdout.printf ("> (%f,%f)[%f,%f] <=> POINT: [%f,%f]\n",
-				// 	bounds.origin.x, bounds.origin.y,
-				// 	bounds.size.width, bounds.size.height,
-				// 	point.x, point.y);
-
-				if ((point.y < bounds.origin.y) || (point.y > bounds.origin.y + bounds.size.height)) {
-					continue;
-				}
-
-				if ((point.x >= bounds.origin.x) && (point.x <= bounds.origin.x + bounds.size.width)) {
-					side = (point.x < bounds.origin.x + (bounds.size.width / 2)) ? DropSide.LEFT : DropSide.RIGHT;
-					return item;
-				}
-
-				if (point.x < bounds.origin.x) {
-					var distance = bounds.origin.x - point.x;
-					if ((closest_item == null) || (distance < min_distance)) {
-						closest_item = item;
-						min_distance = distance;
-						side = DropSide.LEFT;
-					}
-				}
-				else {
-					var distance = point.x - (bounds.origin.x + bounds.size.width);
-					if ((closest_item == null) || (distance < min_distance)) {
-						closest_item = item;
-						min_distance = distance;
-						side = DropSide.RIGHT;
-					}
-				}
-			}
-		}
-		return closest_item;
-	}
-
 	void activate_reordering (bool active) {
-		file_grid.enable_rubberband = !active;
+		file_grid.reordering = active;
+		file_grid.view.enable_rubberband = !active;
 		Util.set_active (window.action_group, "reorder-files", active);
 	}
 
 	void reorder_selected_files (FileData dragged_file, uint destination) {
 		// Get the selected files or use the dragged file.
-		var selection = file_grid.model.get_selection ();
+		var selection = file_grid.view.model.get_selection ();
 		var n_selected = (uint) selection.get_size ();
 		var selected = new GenericList<FileData> ();
 		if (n_selected == 0) {
@@ -2567,7 +2338,7 @@ public class Gth.Browser : Gtk.Box {
 		else {
 			for (var i = 0; i < n_selected; i++) {
 				var old_pos = selection.get_nth (i);
-				var selected_file = file_grid.model.get_item (old_pos) as FileData;
+				var selected_file = file_grid.view.model.get_item (old_pos) as FileData;
 				selected.model.append (selected_file);
 			}
 		}
@@ -2578,7 +2349,7 @@ public class Gth.Browser : Gtk.Box {
 		var visible = new GenericSet<File> (Util.file_hash, Util.file_equal);
 
 		// Add the visible files to the list.
-		var iter = visible_files.iterator ();
+		var iter = file_grid.visible_files.iterator ();
 		while (iter.next ()) {
 			var file_data = iter.get ();
 			new_list.model.append (file_data);
@@ -2712,27 +2483,15 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
-	public void stop_thumbnailer () {
-		thumbnailer.set_active (false);
-	}
-
 	[GtkChild] unowned Adw.OverlaySplitView main_view;
-	[GtkChild] public unowned Adw.OverlaySplitView content_view;
-	[GtkChild] public unowned Gth.FilterBar filter_bar;
-	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
-	[GtkChild] public unowned Gtk.MenuButton scripts_menu_button;
 	[GtkChild] unowned Gth.ActionPopover bookmark_popover;
 	[GtkChild] unowned Gth.ActionPopover history_popover;
-	[GtkChild] public unowned Gtk.GridView file_grid;
 	[GtkChild] unowned Gtk.Stack folder_stack;
-	[GtkChild] unowned Gtk.Widget non_empty_folder;
-	[GtkChild] public unowned Adw.StatusPage empty_folder;
+	[GtkChild] unowned Adw.StatusPage empty_folder;
 	[GtkChild] unowned Gtk.ToggleButton vfs_button;
 	[GtkChild] unowned Gtk.ToggleButton catalog_button;
 	[GtkChild] unowned Gtk.ToggleButton selection_button;
 	[GtkChild] unowned Gtk.Stack sidebar_stack;
-	//[GtkChild] unowned Gtk.Stack second_sidebar_stack;
-	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
 	[GtkChild] unowned Gtk.MenuButton location_button;
 	[GtkChild] unowned Gtk.Label location_label;
 	[GtkChild] unowned Gth.ActionList location_actions;
@@ -2743,24 +2502,20 @@ public class Gth.Browser : Gtk.Box {
 	[GtkChild] unowned Gtk.Button reorder_button;
 	[GtkChild] unowned Gtk.PopoverMenu file_context_menu;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
-	[GtkChild] public unowned Gth.FolderStatus folder_status;
-	[GtkChild] public unowned Gth.ActionPopover tools_popover;
-	[GtkChild] public unowned Gtk.ToggleButton view_properties;
+	[GtkChild] unowned Gtk.ToggleButton view_properties;
 
 	Gth.Test general_filter;
-	public Gth.Thumbnailer thumbnailer;
 	Gth.History history;
 	weak Window _window;
 	Queue<File> current_parents;
 	File last_folder = null;
 	File last_catalog = null;
 	File last_selection = null;
-	GenericArray<Gtk.ListItem> binded_grid_items;
 	ActionCategory actions_category;
 	ActionCategory bookmarks_category;
 	ActionCategory parents_category;
-	public uint total_files = 0;
 	uint64 total_size = 0;
+	SidebarState sidebar_state = SidebarState.NONE;
 }
 
 public class Gth.FileSorter : Gtk.Sorter {

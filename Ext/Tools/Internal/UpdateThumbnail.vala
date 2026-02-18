@@ -10,7 +10,8 @@ public class Gth.UpdateThumbnail : Gth.FileOperation {
 			}
 		}
 		try {
-			var thumbnail_file = Thumbnailer.get_thumbnail_file (file, window.browser.thumbnailer.cache_size, FileIntent.READ, job.cancellable);
+			var cache_size = window.browser.file_grid.get_thumbnailer_cache_size ();
+			var thumbnail_file = Thumbnailer.get_thumbnail_file (file, cache_size, FileIntent.READ, job.cancellable);
 			yield thumbnail_file.delete_async (Priority.DEFAULT, job.cancellable);
 		}
 		catch (Error error) {

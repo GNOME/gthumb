@@ -654,7 +654,7 @@ public class Gth.Viewer : Gtk.Box {
 		});
 		file_grid_resizer.add_css_class ("view");
 
-		file_grid.set_model (window.browser.file_grid.model, true);
+		file_grid.set_model (window.browser.file_grid.view.model, true);
 		file_grid.view.model.selection_changed.connect (() => {
 			var single_selection = file_grid.view.model as Gtk.SingleSelection;
 			var pos = single_selection.get_selected ();

@@ -1,6 +1,7 @@
 public class Gth.FileGridItem : Gtk.Box {
 	public unowned string[] attributes_v;
 	public FileData file_data;
+	public weak Gth.FileGrid file_grid;
 
 	public FileGridItem (Gth.FileGrid _file_grid, string[] _attributes_v) {
 		file_grid = _file_grid;
@@ -139,7 +140,6 @@ public class Gth.FileGridItem : Gtk.Box {
 	Gtk.Inscription third_label;
 	uint size;
 	ulong file_renamed_id;
-	weak Gth.FileGrid file_grid;
 
 	const int V_SPACING = 6;
 }
