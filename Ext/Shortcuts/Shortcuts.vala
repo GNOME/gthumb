@@ -210,7 +210,7 @@ public class Gth.Shortcuts {
 		register ("win.viewer-controls", N_("View Controls"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F7");
 		register ("win.viewer-properties", N_("View Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "i");
 		register ("win.editor-tools", N_("Edit Image"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "e");
-		register ("win.viewer-file-list", N_("View Thumbnails"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F8");
+		register ("win.viewer-thumbnail-list", N_("View Thumbnails"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F8");
 
 		register ("image.zoom-in", N_("Zoom In"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "plus");
 		register ("image.zoom-out", N_("Zoom Out"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "minus");
@@ -260,11 +260,11 @@ public class Gth.Shortcuts {
 
 		register ("editor.apply", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "<Primary>Return");
 
-		// register ("slideshow", N_("Start Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
-		// register ("slideshow-close", N_("Terminate Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");
-		// register ("slideshow-toggle-pause", N_("Pause/Resume Presentation"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "p");
-		// register ("slideshow-next-image", N_("Show Next File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "space");
-		// register ("slideshow-previous-image", N_("Show Previous File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "b");
+		// register ("slideshow", N_("Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
+		// register ("slideshow-close", N_("Quit"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");
+		// register ("slideshow-toggle-pause", N_("Play/Pause"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "p");
+		// register ("slideshow-next-image", N_("Next File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "space");
+		// register ("slideshow-previous-image", N_("Previous File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "b");
 
 		register ("video.toggle-play", N_("Play/Pause"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "space");
 		register ("video.save-screenshot", N_("Screenshot"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>s");

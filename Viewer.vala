@@ -735,7 +735,7 @@ public class Gth.Viewer : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("viewer-file-list", null, new Variant.boolean (content_view.show_sidebar));
+		action = new SimpleAction.stateful ("viewer-thumbnail-list", null, new Variant.boolean (content_view.show_sidebar));
 		action.activate.connect ((_action, param) => {
 			content_view.show_sidebar = Util.toggle_state (_action);
 		});

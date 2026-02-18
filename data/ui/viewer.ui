@@ -36,7 +36,7 @@
                 <child>
                   <object class="GtkToggleButton">
                     <property name="icon-name">gth-view-grid-symbolic</property>
-                    <property name="action-name">win.viewer-file-list</property>
+                    <property name="action-name">win.viewer-thumbnail-list</property>
                     <property name="tooltip-text" translatable="yes">View Thumbnails</property>
                   </object>
                 </child>
