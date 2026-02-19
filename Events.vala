@@ -136,27 +136,27 @@ public class Gth.Events : Object {
 			event.update_time ();
 		}
 		else {
-			event = new MonitorEvent (file, event_type);
+			event = new FileEvent (file, event_type);
 			file_events.events.add (event);
 		}
 
-		queue_process_events ();
+		queue_process_file_events ();
 	}
 
-	void queue_process_events () {
+	void queue_process_file_events () {
 		if (update_id != 0) {
 			return;
 		}
 		update_id = Util.after_timeout (PROCESS_DELAY_MILLISECONDS, () => {
 			update_id = 0;
-			process_events ();
+			process_file_events ();
 		});
 	}
 
 	const uint PROCESS_DELAY_MILLISECONDS = 2000;
 	const uint PROCESS_DELAY_MICROSECONDS = PROCESS_DELAY_MILLISECONDS * 1000;
 
-	void process_events () {
+	void process_file_events () {
 		var young_events = 0;
 		var local_created = new GenericArray<File?>();
 		var local_deleted = new GenericList<File>();
@@ -207,7 +207,7 @@ public class Gth.Events : Object {
 		}
 
 		if (young_events > 0) {
-			queue_process_events ();
+			queue_process_file_events ();
 		}
 	}
 
@@ -226,13 +226,13 @@ public class Gth.Events : Object {
 
 
 class Gth.FileEvents {
-	public GenericArray<MonitorEvent> events;
+	public GenericArray<FileEvent> events;
 
 	public FileEvents () {
-		events = new GenericArray<MonitorEvent>();
+		events = new GenericArray<FileEvent>();
 	}
 
-	public MonitorEvent? get (File file) {
+	public FileEvent? get (File file) {
 		foreach (unowned var event in events) {
 			if (event.file.equal (file)) {
 				return event;
@@ -243,12 +243,12 @@ class Gth.FileEvents {
 }
 
 
-class Gth.MonitorEvent {
+class Gth.FileEvent {
 	public File file;
 	public GLib.DateTime time;
-	public FileMonitorEvent type;
+	public GLib.FileMonitorEvent type;
 
-	public MonitorEvent (File _file, FileMonitorEvent _type) {
+	public FileEvent (File _file, GLib.FileMonitorEvent _type) {
 		file = _file;
 		type = _type;
 		time = new GLib.DateTime.now_local ();
