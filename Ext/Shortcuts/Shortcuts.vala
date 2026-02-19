@@ -4,7 +4,7 @@ public class Gth.Shortcuts {
 
 	public signal void changed () {
 		save_to_file ();
-		//app.monitor.shortcuts_changed ();
+		//app.events.shortcuts_changed ();
 	}
 
 	public Shortcuts () {
@@ -42,7 +42,7 @@ public class Gth.Shortcuts {
 		}
 		local_job.done ();
 		loaded = true;
-		//app.monitor.shortcuts_changed ();
+		//app.events.shortcuts_changed ();
 		return true;
 	}
 

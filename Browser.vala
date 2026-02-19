@@ -2217,7 +2217,7 @@ public class Gth.Browser : Gtk.Box {
 			}
 			var gio_file = Catalog.to_gio_file (folder_tree.context_file.file);
 			yield gio_file.delete_async (Priority.DEFAULT, local_job.cancellable);
-			app.monitor.file_deleted_from_disk (folder_tree.context_file.file);
+			app.events.file_deleted_from_disk (folder_tree.context_file.file);
 		}
 		catch (Error error) {
 			window.show_error (error);
@@ -2244,8 +2244,8 @@ public class Gth.Browser : Gtk.Box {
 			yield gio_source.move_async (gio_destination,
 				FileCopyFlags.ALL_METADATA, Priority.DEFAULT,
 				local_job.cancellable, null);
-			app.monitor.file_created (new_catalog);
-			app.monitor.file_deleted_from_disk (catalog);
+			app.events.file_created (new_catalog);
+			app.events.file_deleted_from_disk (catalog);
 		}
 		catch (Error error) {
 			window.show_error (error);

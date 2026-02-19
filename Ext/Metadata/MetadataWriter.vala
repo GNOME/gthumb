@@ -18,7 +18,7 @@ public class Gth.MetadataWriter {
 		if (job.error != null) {
 			throw job.error;
 		}
-		app.monitor.metadata_changed (job.file_data.file);
+		app.events.metadata_changed (job.file_data.file);
 	}
 
 	class Job : Work.Job {

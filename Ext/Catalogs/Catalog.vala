@@ -182,7 +182,7 @@ public class Gth.Catalog : Object {
 		}
 		if (changed) {
 			yield catalog.save_async (job.cancellable);
-			app.monitor.files_added (catalog.file, files);
+			app.events.files_added (catalog.file, files);
 		}
 	}
 
@@ -196,7 +196,7 @@ public class Gth.Catalog : Object {
 		}
 		if (changed) {
 			yield catalog.save_async (job.cancellable);
-			app.monitor.files_removed_from_catalog (catalog.file, files);
+			app.events.files_removed_from_catalog (catalog.file, files);
 		}
 	}
 
@@ -389,7 +389,7 @@ public class Gth.Catalog : Object {
 				}
 			}
 		}
-		app.monitor.catalog_saved (this, previous_file);
+		app.events.catalog_saved (this, previous_file);
 	}
 
 	public void remove_all_files () {

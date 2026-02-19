@@ -55,7 +55,7 @@ public class Gth.FileManager {
 			}
 		}
 		finally {
-			app.monitor.files_deleted_from_disk (deleted_files);
+			app.events.files_deleted_from_disk (deleted_files);
 		}
 	}
 
@@ -76,7 +76,7 @@ public class Gth.FileManager {
 			yield operation.copy_files (files, destination, job);
 		}
 		finally {
-			app.monitor.files_added_or_changed (destination, operation.created_files);
+			app.events.files_added_or_changed (destination, operation.created_files);
 		}
 	}
 
@@ -97,8 +97,8 @@ public class Gth.FileManager {
 			yield operation.move_files (files, destination, job);
 		}
 		finally {
-			app.monitor.files_deleted_from_disk (operation.deleted_files);
-			app.monitor.files_added_or_changed (destination, operation.created_files);
+			app.events.files_deleted_from_disk (operation.deleted_files);
+			app.events.files_added_or_changed (destination, operation.created_files);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class Gth.FileManager {
 			yield operation.duplicate_files (files, destination, job);
 		}
 		finally {
-			app.monitor.files_added_or_changed (destination, operation.created_files);
+			app.events.files_added_or_changed (destination, operation.created_files);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class Gth.FileManager {
 			yield operation.rename_files (files, job);
 		}
 		finally {
-			app.monitor.files_renamed (operation.renamed_files);
+			app.events.files_renamed (operation.renamed_files);
 		}
 	}
 
@@ -664,7 +664,7 @@ class Gth.DeleteOperation {
 					//stdout.printf ("> ERROR: %s\n", error.message);
 				}
 			}
-			app.monitor.files_deleted_from_disk (deleted_files);
+			app.events.files_deleted_from_disk (deleted_files);
 		}
 	}
 

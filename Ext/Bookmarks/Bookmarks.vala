@@ -22,7 +22,7 @@ public class Gth.Bookmarks {
 		yield load_app_bookmarks ();
 		yield load_system_bookmarks ();
 		loaded = true;
-		app.monitor.bookmarks_changed ();
+		app.events.bookmarks_changed ();
 	}
 
 	async void load_app_bookmarks () {
@@ -128,7 +128,7 @@ public class Gth.Bookmarks {
 		}
 		finally {
 			local_job.done ();
-			app.monitor.bookmarks_changed ();
+			app.events.bookmarks_changed ();
 		}
 		if (local_job.error != null) {
 			throw local_job.error;

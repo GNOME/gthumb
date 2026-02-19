@@ -11,7 +11,11 @@ public class Gth.FileSourceVfs : FileSource {
 		yield add_root (roots, Files.get_special_dir (UserDirectory.VIDEOS), cancellable);
 		yield add_root (roots, Files.get_special_dir (UserDirectory.DOWNLOAD), cancellable);
 		yield add_root (roots, File.new_for_uri ("file:///"), cancellable);
+		FileSourceVfs.add_mountable_volumes (roots);
+		return roots;
+	}
 
+	public static void add_mountable_volumes (GenericList<FileData> roots) {
 		var monitor = VolumeMonitor.get ();
 		var mounts = monitor.get_mounts ();
 		foreach (var mount in mounts) {
@@ -73,8 +77,6 @@ public class Gth.FileSourceVfs : FileSource {
 			info.set_name (volume.get_name ());
 			roots.model.append (new Gth.FileData (file, info));
 		}
-
-		return roots;
 	}
 
 	public override FileInfo get_display_info (File file) {
@@ -122,7 +124,7 @@ public class Gth.FileSourceVfs : FileSource {
 	}
 
 	public override void monitor_directory (File file, bool activate) {
-		app.monitor.watch_file (file, activate);
+		app.events.watch_file (file, activate);
 	}
 
 	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
@@ -153,7 +155,7 @@ public class Gth.FileSourceVfs : FileSource {
 		}
 	}
 
-	bool file_is_present (GenericList<FileData> roots, File file) {
+	static bool file_is_present (GenericList<FileData> roots, File file) {
 		foreach (unowned var root in roots) {
 			if (root.file.equal (file))
 				return true;

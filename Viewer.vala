@@ -189,7 +189,7 @@ public class Gth.Viewer : Gtk.Box {
 	public void after_saving (FileData file_data) {
 		current_file.set_is_modified (false);
 		update_title ();
-		app.monitor.file_saved (file_data.file);
+		app.events.file_saved (file_data.file);
 	}
 
 	public void file_changed (FileData file_data) {

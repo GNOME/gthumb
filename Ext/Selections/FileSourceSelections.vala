@@ -95,7 +95,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 				}
 				finally {
 					if (selection_changed) {
-						app.monitor.selection_changed (number);
+						app.events.selection_changed (number);
 					}
 				}
 			}

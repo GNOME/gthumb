@@ -1,5 +1,5 @@
-public class Gth.Monitor : Object {
-	public Monitor () {
+public class Gth.Events : Object {
+	public Events () {
 		file_monitors = new HashTable<File, FileMonitor> (Util.file_hash, Util.file_equal);
 		file_events = new FileEvents ();
 	}

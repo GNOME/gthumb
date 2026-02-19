@@ -46,8 +46,8 @@ public class Gth.Selection {
 			add_file (file);
 		}
 		var location = File.new_for_uri ("selection:///%u".printf (number));
-		app.monitor.files_added (location, files);
-		app.monitor.selection_changed (number);
+		app.events.files_added (location, files);
+		app.events.selection_changed (number);
 	}
 
 	public void remove_files (GenericList<File> files) {
@@ -55,8 +55,8 @@ public class Gth.Selection {
 			remove_file (file);
 		}
 		var location = File.new_for_uri ("selection:///%u".printf (number));
-		app.monitor.files_removed_from_catalog (location, files);
-		app.monitor.selection_changed (number);
+		app.events.files_removed_from_catalog (location, files);
+		app.events.selection_changed (number);
 	}
 
 	public void set_files (GenericList<File> files) {
@@ -66,7 +66,7 @@ public class Gth.Selection {
 		foreach (unowned var file in files) {
 			add_file (file);
 		}
-		// TODO app.monitor.order_changed (location);
+		// TODO app.events.order_changed (location);
 	}
 
 	public void files_renamed (GenericList<RenamedFile> renamed_files) {

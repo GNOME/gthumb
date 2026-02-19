@@ -8,7 +8,7 @@ public class Gth.FileActions {
 
 	public signal void changed () {
 		save_to_file ();
-		app.monitor.scripts_changed ();
+		app.events.scripts_changed ();
 	}
 
 	public FileActions () {

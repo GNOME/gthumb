@@ -3,7 +3,7 @@ public class Gth.Scripts {
 
 	public signal void changed (string? script_id = null) {
 		save_to_file ();
-		app.monitor.scripts_changed ();
+		app.events.scripts_changed ();
 	}
 
 	public Scripts () {

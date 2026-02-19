@@ -24,7 +24,7 @@ public class Gth.Application : Adw.Application {
 	public MetadataReader metadata_reader;
 	public MetadataWriter metadata_writer;
 	public GenericList<FileData> roots;
-	public Monitor monitor;
+	public Events events;
 	public Bookmarks bookmarks;
 	public Migration migration;
 	public Scripts scripts;
@@ -56,7 +56,7 @@ public class Gth.Application : Adw.Application {
 		metadata_writer = new MetadataWriter (io_factory);
 		color_manager = new ColorManager ();
 		roots = new GenericList<FileData>();
-		monitor = new Monitor ();
+		events = new Events ();
 		bookmarks = new Bookmarks ();
 		migration = new Migration ();
 		image_editor = new ImageEditor ();
@@ -696,7 +696,7 @@ public class Gth.Application : Adw.Application {
 		tools.load_from_file ();
 		selections.load_from_file ();
 		shortcuts.load_from_file ();
-		monitor.scripts_changed ();
+		events.scripts_changed ();
 	}
 
 	uint setting_changed_id = 0;

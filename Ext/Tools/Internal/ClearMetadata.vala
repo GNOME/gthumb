@@ -13,7 +13,7 @@ public class Gth.ClearMetadata : Gth.FileOperation {
 		if (job.error != null) {
 			throw job.error;
 		}
-		app.monitor.file_changed (job.file);
+		app.events.file_changed (job.file);
 	}
 
 	class Job : Work.Job {
