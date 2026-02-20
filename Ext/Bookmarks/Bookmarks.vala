@@ -11,6 +11,7 @@ public class Gth.Bookmarks {
 		system_bookmarks_category = new ActionCategory (_("System Bookmarks"), 2);
 		locations = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		loaded = false;
+		app.events.mount_points_changed.connect (() => on_mount_points_changed.begin ());
 	}
 
 	public async void load_from_file () {
@@ -22,6 +23,14 @@ public class Gth.Bookmarks {
 		yield load_app_bookmarks ();
 		yield load_system_bookmarks ();
 		loaded = true;
+		app.events.bookmarks_changed ();
+	}
+
+	async void on_mount_points_changed () {
+		if (!loaded) {
+			return;
+		}
+		yield update_root_menu ();
 		app.events.bookmarks_changed ();
 	}
 

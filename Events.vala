@@ -2,6 +2,13 @@ public class Gth.Events : Object {
 	public Events () {
 		file_monitors = new HashTable<File, FileMonitor> (Util.file_hash, Util.file_equal);
 		file_events = new FileEvents ();
+		volume_monitor = VolumeMonitor.get ();
+		volume_monitor.mount_changed.connect (on_mount_points_changed);
+		volume_monitor.mount_added.connect (on_mount_points_changed);
+		volume_monitor.mount_removed.connect (on_mount_points_changed);
+		volume_monitor.volume_changed.connect (on_mount_points_changed);
+		volume_monitor.volume_added.connect (on_mount_points_changed);
+		volume_monitor.volume_removed.connect (on_mount_points_changed);
 	}
 
 	public signal void bookmarks_changed () {
@@ -44,6 +51,8 @@ public class Gth.Events : Object {
 			win.browser.files_renamed (files);
 		});
 	}
+
+	public signal void mount_points_changed ();
 
 	public void file_created (File file) {
 		var parent = file.get_parent ();
@@ -96,6 +105,14 @@ public class Gth.Events : Object {
 			stdout.printf ("> STOP WATCH FILE: %s\n", file.get_uri ());
 			file_monitors.remove (file);
 		}
+	}
+
+	public void release_resources () {
+		if (update_id != 0) {
+			Source.remove (update_id);
+			update_id = 0;
+		}
+		file_monitors.remove_all ();
 	}
 
 	void on_file_changed (File file, File? other_file, FileMonitorEvent event_type) {
@@ -211,15 +228,12 @@ public class Gth.Events : Object {
 		}
 	}
 
-	public void release_resources () {
-		if (update_id != 0) {
-			Source.remove (update_id);
-			update_id = 0;
-		}
-		file_monitors.remove_all ();
+	void on_mount_points_changed () {
+		Util.next_tick (() => mount_points_changed ());
 	}
 
 	HashTable<File, FileMonitor> file_monitors;
+	VolumeMonitor volume_monitor;
 	FileEvents file_events;
 	uint update_id = 0;
 }
