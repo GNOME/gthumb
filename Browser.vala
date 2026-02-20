@@ -331,7 +331,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	string list_attributes = null;
-	string[] thumbnail_attributes_v = {};
 
 	public unowned string get_list_attributes (bool recalc = false) {
 		if (recalc) {
@@ -363,12 +362,12 @@ public class Gth.Browser : Gtk.Box {
 		// Attributes required for the thumbnail caption.
 		var thumbnail_caption = app.settings.get_string (PREF_BROWSER_THUMBNAIL_CAPTION);
 		if (!Strings.empty (thumbnail_caption) && (thumbnail_caption != "none")) {
-			thumbnail_attributes_v = app.migration.metadata.get_new_key_v (thumbnail_caption);
+			file_grid.thumbnail_attributes_v = app.migration.metadata.get_new_key_v (thumbnail_caption);
 			attributes.append (",");
-			attributes.append (string.joinv (",", thumbnail_attributes_v));
+			attributes.append (string.joinv (",", file_grid.thumbnail_attributes_v));
 		}
 		else {
-			thumbnail_attributes_v = {};
+			file_grid.thumbnail_attributes_v = {};
 		}
 
 		// Other attributes. TODO
