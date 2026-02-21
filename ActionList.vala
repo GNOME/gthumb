@@ -97,7 +97,7 @@ public class Gth.ActionList : Gtk.Box {
 public class Gth.ActionInfo : Object {
 	public string name;
 	public Variant? value;
-	public string display_name;
+	public string display_name { get; set; }
 	public Icon icon;
 	public ActionCategory category;
 

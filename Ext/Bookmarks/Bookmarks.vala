@@ -1,13 +1,14 @@
 public class Gth.Bookmarks {
-	public GenericList<BookmarkEntry> entries;
+	public GenericList<ActionInfo> bookmarks;
 	public GenericList<ActionInfo> roots;
 	public GenericList<ActionInfo> system_bookmarks;
 
 	public Bookmarks () {
-		entries = new GenericList<BookmarkEntry> ();
+		bookmarks = new GenericList<ActionInfo> ();
 		roots = new GenericList<ActionInfo> ();
 		system_bookmarks = new GenericList<ActionInfo> ();
 		roots_category = new ActionCategory (_("Locations"), 0);
+		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		system_bookmarks_category = new ActionCategory (_("System Bookmarks"), 2);
 		locations = new GenericSet<File> (Util.file_hash, Util.file_equal);
 		loaded = false;
@@ -35,34 +36,30 @@ public class Gth.Bookmarks {
 	}
 
 	async void load_app_bookmarks () {
-		entries.model.remove_all ();
+		bookmarks.model.remove_all ();
 		var local_job = app.jobs.new_job ("Loading Bookmarks");
 		try {
-			var bookmarks_file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
+			var file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
 			size_t contents_size;
-			var contents = yield Files.load_contents_async (bookmarks_file, local_job.cancellable, out contents_size);
-			var bookmarks = new BookmarkFile ();
-			bookmarks.load_from_data (contents, contents_size);
-			var uris = bookmarks.get_uris ();
+			var contents = yield Files.load_contents_async (file, local_job.cancellable, out contents_size);
+			var bookmark_file = new BookmarkFile ();
+			bookmark_file.load_from_data (contents, contents_size);
+			var uris = bookmark_file.get_uris ();
 			foreach (unowned var uri in uris) {
 				if (Strings.empty (uri))
 					continue;
-				var file = File.new_for_uri (uri);
-				var name = bookmarks.get_title (uri);
-				entries.model.append (new BookmarkEntry (file, name));
-				locations.add (file);
+				var entry_file = File.new_for_uri (uri);
+				var name = bookmark_file.get_title (uri);
+				var entry = new ActionInfo.for_file ("win.load-location", entry_file, name);
+				entry.category = bookmarks_category;
+				bookmarks.model.append (entry);
+				locations.add (entry_file);
 			}
 		}
 		catch (Error error) {
 			// local_job.error = error;
 		}
 		local_job.done ();
-	}
-
-	public static MenuItem new_menu_item_from_entry (BookmarkEntry entry) {
-		var menu_item = Util.menu_item_for_file (entry.file, entry.display_name);
-		menu_item.set_action_and_target_value ("win.load-location", new Variant.string (entry.file.get_uri ()));
-		return menu_item;
 	}
 
 	async void load_system_bookmarks () {
@@ -121,8 +118,8 @@ public class Gth.Bookmarks {
 		var local_job = app.jobs.new_job ("Saving Bookmarks");
 		try {
 			var bookmark_content = new BookmarkFile ();
-			foreach (unowned var entry in entries) {
-				var uri = entry.file.get_uri ();
+			foreach (unowned var entry in bookmarks) {
+				var uri = entry.value.get_string ();
 				bookmark_content.set_is_private (uri, true);
 				bookmark_content.add_application (uri, "", "");
 				bookmark_content.set_title (uri, entry.display_name);
@@ -145,30 +142,22 @@ public class Gth.Bookmarks {
 	}
 
 	public async void add_bookmark (File file) throws Error {
-		foreach (unowned var entry in entries) {
-			if (entry.file.equal (file)) {
+		var file_uri = file.get_uri ();
+		foreach (unowned var entry in bookmarks) {
+			var uri = entry.value.get_string ();
+			if (uri == file_uri) {
 				throw new IOError.FAILED (_("Location already saved"));
 			}
 		}
-		var file_source = app.get_source_for_file (file);
-		var info = file_source.get_display_info (file);
-		var entry = new BookmarkEntry (file, info.get_display_name ());
-		entries.model.append (entry);
+		var entry = new ActionInfo.for_file ("win.load-location", file);
+		entry.category = bookmarks_category;
+		bookmarks.model.append (entry);
 		yield save_app_bookmarks ();
 	}
 
 	ActionCategory roots_category;
+	ActionCategory bookmarks_category;
 	ActionCategory system_bookmarks_category;
 	GenericSet<File> locations;
 	bool loaded;
-}
-
-public class Gth.BookmarkEntry : Object {
-	public File file;
-	public string display_name { get; set; }
-
-	public BookmarkEntry (File _file, string? _name) {
-		file = _file;
-		display_name = _name;
-	}
 }

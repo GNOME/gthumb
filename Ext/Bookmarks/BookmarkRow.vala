@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/bookmark-row.ui")]
 public class Gth.BookmarkRow : Adw.ActionRow {
-	public Gth.BookmarkEntry entry;
+	public Gth.ActionInfo entry;
 
 	[GtkChild] public unowned Gtk.Button edit_button;
 	[GtkChild] public unowned Gtk.Button delete_button;
@@ -11,15 +11,18 @@ public class Gth.BookmarkRow : Adw.ActionRow {
 	public signal void move_to_bottom ();
 	public signal void delete_row ();
 
-	public BookmarkRow (BookmarkEntry _entry, bool as_icon_content = false) {
+	public BookmarkRow (ActionInfo _entry, bool as_icon_content = false) {
 		entry = _entry;
 		title = entry.display_name;
-		var file_source = app.get_source_for_file (entry.file);
-		var info = file_source.get_display_info (entry.file);
+		var uri = entry.value.get_string ();
+		var file = File.new_for_uri (uri);
+		var file_source = app.get_source_for_file (file);
+		var info = file_source.get_display_info (file);
 		icon.set_from_gicon (info.get_symbolic_icon ());
 		entry.bind_property ("display_name", this, "title", BindingFlags.DEFAULT);
-		if (as_icon_content)
+		if (as_icon_content) {
 			return;
+		}
 
 		var drag_source = new Gtk.DragSource ();
 		drag_source.set_actions (Gdk.DragAction.MOVE);

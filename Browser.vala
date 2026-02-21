@@ -48,7 +48,6 @@ public class Gth.Browser : Gtk.Box {
 		history = new History (this);
 		current_parents = null;
 		actions_category = new ActionCategory ("", -1);
-		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
 		parents_category = new ActionCategory (_("Path"), 1);
 		never_loaded = true;
 		folder_stack.set_visible_child (empty_folder);
@@ -560,10 +559,8 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		// Bookmarks
-		foreach (unowned var entry in app.bookmarks.entries) {
-			action = new ActionInfo.for_file ("win.load-location", entry.file, entry.display_name);
-			action.category = bookmarks_category;
-			bookmark_menu.append_action (action);
+		foreach (unowned var file_action in app.bookmarks.bookmarks) {
+			bookmark_menu.append_action (file_action);
 		}
 
 		// System bookmarks
@@ -2511,7 +2508,6 @@ public class Gth.Browser : Gtk.Box {
 	File last_catalog = null;
 	File last_selection = null;
 	ActionCategory actions_category;
-	ActionCategory bookmarks_category;
 	ActionCategory parents_category;
 	uint64 total_size = 0;
 	SidebarState sidebar_state = SidebarState.NONE;
