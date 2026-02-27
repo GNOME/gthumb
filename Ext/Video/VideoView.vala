@@ -10,18 +10,24 @@ public class Gth.VideoView : Gtk.Widget {
 
 	public signal void resized ();
 
-	public void set_paintable (Gdk.Paintable? _paintable) {
-		if (_paintable == paintable) {
-			return;
+	public Gdk.Paintable paintable {
+		set {
+			if (_paintable == value) {
+				return;
+			}
+			unbind_current_paintable ();
+			_paintable = value;
+			if (_paintable == null) {
+				return;
+			}
+			invalidate_contents_id = _paintable.invalidate_contents.connect (() => queue_draw ());
+			invalidate_size_id = _paintable.invalidate_size.connect (() => queue_resize ());
+			queue_resize ();
 		}
-		unbind_current_paintable ();
-		paintable = _paintable;
-		if (paintable == null) {
-			return;
+
+		get {
+			return _paintable;
 		}
-		invalidate_contents_id = paintable.invalidate_contents.connect (() => queue_draw ());
-		invalidate_size_id = paintable.invalidate_size.connect (() => queue_resize ());
-		queue_resize ();
 	}
 
 	public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
@@ -32,7 +38,7 @@ public class Gth.VideoView : Gtk.Widget {
 	}
 
 	public override void size_allocate (int width, int height, int baseline) {
-		if (paintable == null) {
+		if (_paintable == null) {
 			_zoom = 1.0f;
 			return;
 		}
@@ -50,23 +56,23 @@ public class Gth.VideoView : Gtk.Widget {
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
-		if (paintable == null)
+		if (_paintable == null)
 			return;
 		//Util.print_rectangle ("> texture_box:", texture_box);
 		snapshot.save ();
 		snapshot.translate (texture_box.origin);
-		paintable.snapshot (snapshot, (double) texture_box.size.width, (double) texture_box.size.height);
+		_paintable.snapshot (snapshot, (double) texture_box.size.width, (double) texture_box.size.height);
 		snapshot.restore ();
 	}
 
 	public void release_resources () {
-		set_paintable (null);
+		paintable = null;
 	}
 
 	float get_zoom_for_allocation (int width, int height, out float zoomed_width, out float zoomed_height) {
 		var zoom = 1.0f;
-		var natural_width = paintable.get_intrinsic_width ();
-		var natural_height = paintable.get_intrinsic_height ();
+		var natural_width = _paintable.get_intrinsic_width ();
+		var natural_height = _paintable.get_intrinsic_height ();
 		if (_zoom_type == ZoomType.MAXIMIZE_IF_LARGER) {
 			if ((width < natural_width) || (height < natural_height)) {
 				zoom = Util.get_zoom_to_fit_surface (natural_width, natural_height, width, height);
@@ -85,18 +91,18 @@ public class Gth.VideoView : Gtk.Widget {
 	}
 
 	void unbind_current_paintable () {
-		if (paintable == null) {
+		if (_paintable == null) {
 			return;
 		}
 		if (invalidate_contents_id != 0) {
-			paintable.disconnect (invalidate_contents_id);
+			_paintable.disconnect (invalidate_contents_id);
 			invalidate_contents_id = 0;
 		}
 		if (invalidate_size_id != 0) {
-			paintable.disconnect (invalidate_size_id);
+			_paintable.disconnect (invalidate_size_id);
 			invalidate_size_id = 0;
 		}
-		paintable = null;
+		_paintable = null;
 	}
 
 	public override bool focus (Gtk.DirectionType direction) {
@@ -109,7 +115,7 @@ public class Gth.VideoView : Gtk.Widget {
 
 	construct {
 		focusable = true;
-		paintable = null;
+		_paintable = null;
 		invalidate_contents_id = 0;
 		invalidate_size_id = 0;
 		_zoom = 1f;
@@ -120,7 +126,7 @@ public class Gth.VideoView : Gtk.Widget {
 		unbind_current_paintable ();
 	}
 
-	Gdk.Paintable paintable;
+	Gdk.Paintable _paintable;
 	ulong invalidate_contents_id;
 	ulong invalidate_size_id;
 	Graphene.Rect texture_box;

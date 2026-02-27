@@ -254,7 +254,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 				Gdk.Paintable sink_paintable;
 				gtksink.get ("paintable", out sink_paintable);
-				video_view.set_paintable (sink_paintable);
+				video_view.paintable = sink_paintable;
 			}
 		}
 
@@ -657,7 +657,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			if (was_playing) {
 				playing = false;
 			}
-			var frame = get_playbin_current_frame (playbin);
+			var frame = get_current_frame ();
 			var bytes = save_png (frame, null, local_job.cancellable);
 			unowned var clipboard = window.get_clipboard ();
 			var content_provider = new Gdk.ContentProvider.for_bytes ("image/png", bytes);
@@ -708,7 +708,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			playing = false;
 		}
 
-		var screenshot = get_playbin_current_frame (playbin);
+		var screenshot = get_current_frame ();
 
 		// Basename
 		var basename = Util.remove_extension (window.viewer.current_file.info.get_display_name ());
@@ -837,6 +837,30 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		video_height = 0;
 		has_audio = false;
 		has_video = false;
+	}
+
+	Gth.Image? get_current_frame () throws Error {
+		// Copied from Showtime
+		// https://gitlab.gnome.org/GNOME/showtime/-/blob/1c03149187ab1e20317d8e3dfcf456402090b577/showtime/utils.py
+		if (video_view.paintable == null) {
+			throw new IOError.FAILED ("No paintable");
+		}
+		var current_image = video_view.paintable.get_current_image ();
+		var width = current_image.get_intrinsic_width ();
+		var height = current_image.get_intrinsic_height ();
+		var snapshot = new Gtk.Snapshot ();
+		current_image.snapshot (snapshot, width, height);
+		var node = snapshot.to_node ();
+		if (node == null) {
+			throw new IOError.FAILED ("No render node");
+		}
+		var renderer = window.get_renderer ();
+		if (renderer == null) {
+			throw new IOError.FAILED ("No renderer for this window");
+		}
+		Graphene.Rect viewport = { { 0, 0 }, { width, height } };
+		var texture = renderer.render_texture (node, viewport);
+		return new Gth.Image.from_texture (texture);
 	}
 
 	construct {
