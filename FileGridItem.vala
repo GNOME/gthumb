@@ -56,6 +56,9 @@ public class Gth.FileGridItem : Gtk.Box {
 			if (!dragging && !file_grid.reordering) {
 				return null;
 			}
+			if (!file_grid.is_selected (file_data.file)) {
+				file_grid.select_file (file_data.file);
+			}
 			var providers = new Gdk.ContentProvider[] {};
 			var selected = file_grid.get_selected_files ();
 			if (selected.length () > 0) {
