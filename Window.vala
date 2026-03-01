@@ -206,8 +206,8 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public void on_setting_change (string key) {
 		switch (key) {
 		case PREF_BROWSER_THUMBNAIL_SIZE:
-			var size= app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
-			browser.set_thumbnail_size (size);
+			var size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
+			browser.file_grid.thumbnail_size = size;
 			viewer.file_grid.thumbnail_size = size;
 			break;
 		case PREF_BROWSER_THUMBNAIL_CAPTION:
@@ -505,6 +505,23 @@ public class Gth.Window : Adw.ApplicationWindow {
 			else {
 				yield dialog.print_files (this, files, local_job);
 			}
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	async void import_files () {
+		var local_job = new_job (_("Import Files"), JobFlags.FOREGROUND);
+		try {
+			var selector = new Gth.SelectDevice ();
+			var source = yield selector.select (this, local_job);
+			var importer = new Gth.ImportFiles ();
+			yield importer.import (this, source, local_job);
+			browser.open_location (importer.destination);
 		}
 		catch (Error error) {
 			show_error (error);
@@ -1053,6 +1070,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 			}
 			print_files.begin (files);
 		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("import-files", null);
+		action.activate.connect (() => import_files.begin ());
 		action_group.add_action (action);
 	}
 

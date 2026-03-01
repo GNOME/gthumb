@@ -2,7 +2,7 @@ public class Gth.OverwriteDialog : Object {
 	public OverwriteResponse default_response;
 	public bool single_file;
 	public string new_name;
-	public string content_type;
+	// public string content_type;
 	public bool check_extension;
 
 	public OverwriteDialog (Gth.Window _parent) {
@@ -10,7 +10,7 @@ public class Gth.OverwriteDialog : Object {
 		default_response = OverwriteResponse.OVERWRITE;
 		single_file = true;
 		new_name = null;
-		content_type = null;
+		// content_type = null;
 		check_extension = false;
 		source = null;
 		thumbnailer = null;
@@ -236,7 +236,7 @@ public class Gth.OverwriteDialog : Object {
 
 	void load_thumbnails () {
 		thumbnailer = new Thumbnailer.for_window (parent);
-		thumbnailer.requested_size = parent.browser.thumbnail_size;
+		thumbnailer.requested_size = parent.browser.file_grid.thumbnail_size;
 		destination_thumbnail.size = thumbnailer.requested_size;
 		thumbnailer.add (destination);
 		if (source_thumbnail != null) {

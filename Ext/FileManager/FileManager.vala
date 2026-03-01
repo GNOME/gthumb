@@ -297,10 +297,12 @@ public class Gth.FileManager {
 	weak Window window;
 }
 
-class Gth.CopyOperation {
+public class Gth.CopyOperation {
 	public GenericList<File> deleted_files;
 	public GenericList<File> created_files;
 	public GenericList<RenamedFile> renamed_files;
+	public OverwriteResponse last_overwrite_response;
+	public uint total_files;
 
 	public CopyOperation (Window _window) {
 		window = _window;
@@ -445,7 +447,7 @@ class Gth.CopyOperation {
 		return destination_dir.get_child (source_file.get_basename ());
 	}
 
-	async void copy_file (File source_file, File default_destination_file, CopyFlags flags, Job job) throws Error {
+	public async void copy_file (File source_file, File default_destination_file, CopyFlags flags, Job job) throws Error {
 		var other_flags = CopyFlags.DEFAULT;
 		if (last_overwrite_response == OverwriteResponse.OVERWRITE_ALL) {
 			other_flags |= CopyFlags.OVERWRITE;
@@ -587,11 +589,9 @@ class Gth.CopyOperation {
 
 	weak Window window;
 	File last_made_destination;
-	uint total_files;
 	uint current_file;
 	uint64 total_bytes;
 	uint64 copied_bytes;
-	OverwriteResponse last_overwrite_response;
 	GenericSet<File> copied_sources;
 }
 
@@ -610,14 +610,16 @@ public enum Gth.CopyFlags {
 }
 
 
-class Gth.DeleteOperation {
+public class Gth.DeleteOperation {
+	public GenericList<File> deleted_files;
+
 	public DeleteOperation (Window _window) {
 		window = _window;
+		deleted_files = new GenericList<File>();
 	}
 
 	public async void delete_files_from_disk (GenericList<File> files, Job job) throws Error {
 		var file_data_list = yield FileManager.query_list_info (files, REQUIRED_ATTRIBUTES, QueryListFlags.DEFAULT, job.cancellable);
-		var deleted_files = new GenericList<File>();
 		var deleted_directories = new GenericList<File>();
 		try {
 			var iter = file_data_list.iterator ();
@@ -643,7 +645,6 @@ class Gth.DeleteOperation {
 							throw error;
 						}
 					}
-					deleted_files.model.append (file_data.file);
 					break;
 
 				default:
@@ -670,6 +671,7 @@ class Gth.DeleteOperation {
 
 	public async void delete_file (File file, Cancellable cancellable) throws Error {
 		yield file.delete_async (Priority.DEFAULT, cancellable);
+		deleted_files.model.append (file);
 
 		// Comment
 		try {

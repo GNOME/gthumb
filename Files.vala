@@ -199,6 +199,12 @@ public class Gth.Files {
 		yield stream.close_async (Priority.DEFAULT, cancellable);
 	}
 
+	public static async void create_file_async (File file, Bytes bytes, Cancellable? cancellable = null) throws Error {
+		var stream = yield file.create_async (FileCreateFlags.NONE, Priority.DEFAULT, cancellable);
+		yield stream.write_bytes_async (bytes, Priority.DEFAULT, cancellable);
+		yield stream.close_async (Priority.DEFAULT, cancellable);
+	}
+
 	public static async FileInfo query_info (File file, string attributes, Cancellable? cancellable = null) throws Error {
 		return yield file.query_info_async (attributes,	FileQueryInfoFlags.NONE,
 			Priority.DEFAULT, cancellable);

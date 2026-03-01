@@ -7,7 +7,7 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 		empty_row.halign = Gtk.Align.CENTER;
 		bookmark_list.set_placeholder (empty_row);
 
-		bookmark_list.bind_model (app.bookmarks.bookmarks.model, new_bookmark_row);
+		bookmark_list.bind_model (app.bookmarks.app_bookmarks.model, new_bookmark_row);
 	}
 
 	Gtk.Widget new_bookmark_row (Object item) {
@@ -38,8 +38,8 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 		if ((target_pos < 0) || (target_pos == source_pos))
 			return;
 		try {
-			app.bookmarks.bookmarks.model.remove (source_pos);
-			app.bookmarks.bookmarks.model.insert (target_pos, row.entry);
+			app.bookmarks.app_bookmarks.model.remove (source_pos);
+			app.bookmarks.app_bookmarks.model.insert (target_pos, row.entry);
 			yield app.bookmarks.save_app_bookmarks ();
 		}
 		catch (Error error) {
@@ -49,11 +49,11 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 
 	async void delete_entry (ActionInfo entry) {
 		try {
-			var pos = app.bookmarks.bookmarks.find (entry);
+			var pos = app.bookmarks.app_bookmarks.find (entry);
 			if (pos < 0) {
 				return;
 			}
-			app.bookmarks.bookmarks.model.remove (pos);
+			app.bookmarks.app_bookmarks.model.remove (pos);
 			yield app.bookmarks.save_app_bookmarks ();
 		}
 		catch (Error error) {
@@ -71,11 +71,11 @@ public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 			}
 			current_entry.value = new Variant.string (uri_row.text);
 			current_entry.display_name = name_row.text;
-			var pos = app.bookmarks.bookmarks.find (current_entry);
+			var pos = app.bookmarks.app_bookmarks.find (current_entry);
 			if (pos < 0) {
 				return;
 			}
-			app.bookmarks.bookmarks.model.items_changed (pos, 1, 1);
+			app.bookmarks.app_bookmarks.model.items_changed (pos, 1, 1);
 
 			yield app.bookmarks.save_app_bookmarks ();
 			pop_subpage ();

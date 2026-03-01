@@ -14,6 +14,10 @@
         <attribute name="label" translatable="yes">Open Clipboard</attribute>
         <attribute name="action">win.open-clipboard</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">_Import Files…</attribute>
+        <attribute name="action">win.import-files</attribute>
+      </item>
     </section>
     <section>
       <item>

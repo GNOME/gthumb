@@ -3,6 +3,10 @@ public class Gth.ImageEditor {
 		factory = new Work.Factory (Util.get_workers ());
 	}
 
+	~ImageEditor () {
+		factory.release_resources ();
+	}
+
 	public async Image? exec_operation (Image input, ImageOperation operation, Cancellable cancellable) throws Error {
 		var job = new Job ();
 		job.callback = exec_operation.callback;

@@ -17,6 +17,7 @@ const string GTHUMB_RESIZE_SCHEMA = GTHUMB_SCHEMA + ".resize";
 const string GTHUMB_CONVERT_SCHEMA = GTHUMB_SCHEMA + ".convert";
 const string GTHUMB_PRINT_SCHEMA = GTHUMB_SCHEMA + ".print";
 const string GTHUMB_CROP_SCHEMA = GTHUMB_SCHEMA + ".crop";
+const string GTHUMB_IMPORT_SCHEMA = GTHUMB_SCHEMA + ".import";
 
 const string PREF_GENERAL_STORE_METADATA_IN_FILES = "store-metadata-in-files";
 const string PREF_GENERAL_SHOW_FORMAT_OPTIONS = "show-format-options";
@@ -112,6 +113,12 @@ const string PREF_PRINT_UNIT = "unit";
 const string PREF_PRINT_OUTPUT_DIR = "output-dir";
 
 const string PREF_CROP_CUSTOM_RATIO = "custom-ratio";
+
+const string PREF_IMPORT_DESTINATION = "destination";
+const string PREF_IMPORT_AUTOMATIC_SUBFOLDER = "automatic-subfolder";
+const string PREF_IMPORT_AUTOMATIC_SUBFOLDER_DATE = "automatic-subfolder-date";
+const string PREF_IMPORT_AUTOMATIC_SUBFOLDER_FORMAT = "automatic-subfolder-format";
+const string PREF_IMPORT_DELETE_IMPORTED = "delete-imported";
 
 class Gth.Settings {
 	public static File get_home_folder (GLib.Settings settings) {

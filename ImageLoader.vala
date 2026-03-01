@@ -21,11 +21,34 @@ public class Gth.ImageLoader {
 		return image;
 	}
 
+	public async Image? load_bytes (Gth.MonitorProfile? monitor_profile,
+		Bytes bytes, FileInfo? info, LoadFlags flags, Cancellable cancellable,
+		uint requested_size = 0) throws Error
+	{
+		var job = new LoadBytes ();
+		job.callback = load_bytes.callback;
+		job.bytes = bytes;
+		job.info = info;
+		job.flags = flags;
+		job.cancellable = cancellable;
+		job.requested_size = requested_size;
+		factory.add_job (job);
+		yield;
+		if (job.error != null) {
+			throw job.error;
+		}
+		var result = job.image;
+		if (monitor_profile != null) {
+			yield monitor_profile.apply_color_profile (result, info, cancellable, !(LoadFlags.NO_ICC_PROFILE in flags));
+		}
+		return result;
+	}
+
 	async Image? load_stream (Gth.MonitorProfile? monitor_profile, InputStream stream, File? file,
 		FileInfo info, LoadFlags flags, Cancellable cancellable,
 		uint requested_size = 0) throws Error
 	{
-		var job = new Job ();
+		var job = new LoadStream ();
 		job.callback = load_stream.callback;
 		job.stream = stream;
 		job.file = file;
@@ -45,7 +68,7 @@ public class Gth.ImageLoader {
 		return result;
 	}
 
-	class Job : Work.Job {
+	class LoadStream : Work.Job {
 		public InputStream stream;
 		public File? file;
 		public FileInfo info;
@@ -54,7 +77,7 @@ public class Gth.ImageLoader {
 		public uint requested_size;
 		public Image image;
 
-		public Job () {
+		public LoadStream () {
 			image = null;
 		}
 
@@ -116,6 +139,54 @@ public class Gth.ImageLoader {
 			}
 
 			image.info = info;
+		}
+	}
+
+	class LoadBytes : Work.Job {
+		public Bytes bytes;
+		public FileInfo info;
+		public LoadFlags flags;
+		public Cancellable cancellable;
+		public uint requested_size;
+		public Image image;
+
+		public LoadBytes () {
+			image = null;
+		}
+
+		public override void run (uint8[] tmp_buffer) throws Error {
+			var buffer = bytes.get_data ();
+			var content_type = guess_content_type (buffer);
+			if (content_type == null) {
+				throw new IOError.FAILED (_("Unknown file type"));
+			}
+
+			var load_func = app.get_load_func (content_type);
+			if (load_func == null) {
+				throw new IOError.NOT_SUPPORTED (_("No suitable loader available for this file type"));
+			}
+			image = load_func (bytes, requested_size, cancellable);
+
+			if (cancellable.is_cancelled ()) {
+				throw new IOError.CANCELLED ("Cancelled");
+			}
+
+			if (info != null) {
+				info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
+				var frames = image.get_frames ();
+				if (frames > 1) {
+					var metadata = new Metadata.for_string ("%u".printf (frames));
+					info.set_attribute_object ("Animation::Frames", metadata);
+				}
+				if (!(LoadFlags.NO_METADATA in flags)) {
+					foreach (unowned var provider in app.metadata_providers) {
+						if (provider.can_read (null, info)) {
+							provider.read (null, bytes, info, cancellable);
+						}
+					}
+				}
+				image.info = info;
+			}
 		}
 	}
 }

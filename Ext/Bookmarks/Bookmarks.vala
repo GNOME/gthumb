@@ -1,11 +1,11 @@
 public class Gth.Bookmarks {
-	public GenericList<ActionInfo> bookmarks;
 	public GenericList<ActionInfo> roots;
+	public GenericList<ActionInfo> app_bookmarks;
 	public GenericList<ActionInfo> system_bookmarks;
 
 	public Bookmarks () {
-		bookmarks = new GenericList<ActionInfo> ();
 		roots = new GenericList<ActionInfo> ();
+		app_bookmarks = new GenericList<ActionInfo> ();
 		system_bookmarks = new GenericList<ActionInfo> ();
 		roots_category = new ActionCategory (_("Locations"), 0);
 		bookmarks_category = new ActionCategory (_("Bookmarks"), 1);
@@ -36,7 +36,7 @@ public class Gth.Bookmarks {
 	}
 
 	async void load_app_bookmarks () {
-		bookmarks.model.remove_all ();
+		app_bookmarks.model.remove_all ();
 		var local_job = app.jobs.new_job ("Loading Bookmarks");
 		try {
 			var file = UserDir.get_config_file (FileIntent.READ, BOOKMARKS_FILE);
@@ -52,7 +52,7 @@ public class Gth.Bookmarks {
 				var name = bookmark_file.get_title (uri);
 				var entry = new ActionInfo.for_file ("win.load-location", entry_file, name);
 				entry.category = bookmarks_category;
-				bookmarks.model.append (entry);
+				app_bookmarks.model.append (entry);
 				locations.add (entry_file);
 			}
 		}
@@ -118,7 +118,7 @@ public class Gth.Bookmarks {
 		var local_job = app.jobs.new_job ("Saving Bookmarks");
 		try {
 			var bookmark_content = new BookmarkFile ();
-			foreach (unowned var entry in bookmarks) {
+			foreach (unowned var entry in app_bookmarks) {
 				var uri = entry.value.get_string ();
 				bookmark_content.set_is_private (uri, true);
 				bookmark_content.add_application (uri, "", "");
@@ -143,7 +143,7 @@ public class Gth.Bookmarks {
 
 	public async void add_bookmark (File file) throws Error {
 		var file_uri = file.get_uri ();
-		foreach (unowned var entry in bookmarks) {
+		foreach (unowned var entry in app_bookmarks) {
 			var uri = entry.value.get_string ();
 			if (uri == file_uri) {
 				throw new IOError.FAILED (_("Location already saved"));
@@ -151,7 +151,7 @@ public class Gth.Bookmarks {
 		}
 		var entry = new ActionInfo.for_file ("win.load-location", file);
 		entry.category = bookmarks_category;
-		bookmarks.model.append (entry);
+		app_bookmarks.model.append (entry);
 		yield save_app_bookmarks ();
 	}
 

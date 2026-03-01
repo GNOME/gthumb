@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthDeviceDialog">
+    <property name="title" translatable="yes">Import</property>
+    <property name="default-width">600</property>
+    <property name="default-height">600</property>
+    <property name="resizable">true</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwNavigationView" id="main_view">
+        <child>
+          <object class="AdwNavigationPage" id="device_page">
+            <property name="title" translatable="yes">Import</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar"/>
+                </child>
+                <property name="content">
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup" id="device_group">
+                        <property name="title" translatable="yes">Source</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="bookmark_group">
+                        <property name="title" translatable="yes">Bookmarks</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="system_bookmark_group">
+                        <property name="title" translatable="yes">System Bookmarks</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwNavigationPage" id="import_page">
+            <property name="title" translatable="yes">Import</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar"/>
+                </child>
+                <property name="content">
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GthFileGrid" id="file_grid">
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesPage">
+                        <child>
+                          <object class="AdwPreferencesGroup">
+                            <child>
+                              <object class="AdwActionRow">
+                                <property name="title" translatable="yes">Files</property>
+                                <child type="suffix">
+                                  <object class="GtkLabel" id="file_info">
+                                    <property name="label">TODO</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwActionRow">
+                                <property name="title" translatable="yes">Destination</property>
+                                <property name="activatable">true</property>
+                                <child type="suffix">
+                                  <object class="GtkBox">
+                                    <property name="orientation">horizontal</property>
+                                    <child>
+                                      <object class="GtkLabel" id="destination_name">
+                                        <property name="label">Images/</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="subfolder_name">
+                                        <property name="label">2005/06</property>
+                                        <style>
+                                          <class name="accent"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <!--child>
+                              <object class="AdwEntryRow">
+                                <property name="title" translatable="yes">Event</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GthTagsRow" id="tags">
+                              </object>
+                            </child-->
+                            <child>
+                              <object class="AdwSwitchRow">
+                                <property name="title" translatable="yes">Delete imported files from source</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

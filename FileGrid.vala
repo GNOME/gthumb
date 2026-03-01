@@ -5,23 +5,29 @@ public class Gth.FileGrid : Gtk.Box {
 	public bool reordering;
 	public bool is_reorderable;
 	public unowned Gtk.PopoverMenu file_context_menu;
+	public Gth.Thumbnailer thumbnailer {
+		set {
+			_thumbnailer = value;
+			_thumbnailer.get_next_file_func = get_next_file_for_thumbnailer;
+		}
+		get {
+			return _thumbnailer;
+		}
+	}
 
 	[GtkChild] public unowned Gtk.GridView view;
 
 	public uint thumbnail_size {
 		get { return _thumbnail_size; }
 		set {
-			if (value == _thumbnail_size) {
-				return;
-			}
 			_thumbnail_size = value;
-			if (thumbnailer != null) {
-				thumbnailer.requested_size = _thumbnail_size;
+			if (_thumbnailer != null) {
+				_thumbnailer.requested_size = _thumbnail_size;
 				foreach (unowned Gtk.ListItem item in binded_grid_items) {
 					unowned var file_item = item.child as Gth.FileGridItem;
 					file_item.set_size (_thumbnail_size);
 				}
-				thumbnailer.queue_load_next ();
+				_thumbnailer.queue_load_next ();
 			}
 		}
 	}
@@ -207,17 +213,16 @@ public class Gth.FileGrid : Gtk.Box {
 	}
 
 	public void stop_thumbnailer () {
-		if (thumbnailer != null) {
-			thumbnailer.cancel ();
-			thumbnailer.set_active (false);
+		if (_thumbnailer != null) {
+			_thumbnailer.cancel ();
+			_thumbnailer.set_active (false);
 		}
 	}
 
-	public void start_thumbnailer (uint size) {
-		if (thumbnailer != null) {
-			thumbnailer.set_active (true);
-			thumbnail_size = size;
-			thumbnailer.queue_load_next ();
+	public void start_thumbnailer () {
+		if (_thumbnailer != null) {
+			_thumbnailer.set_active (true);
+			_thumbnailer.queue_load_next ();
 		}
 	}
 
@@ -225,23 +230,23 @@ public class Gth.FileGrid : Gtk.Box {
 		if (files.length == 0) {
 			return;
 		}
-		if (thumbnailer != null) {
+		if (_thumbnailer != null) {
 			foreach (var file in files) {
-				thumbnailer.add (file);
+				_thumbnailer.add (file);
 			}
-			thumbnailer.queue_load_next ();
+			_thumbnailer.queue_load_next ();
 		}
 	}
 
 	public void update_thumbnail (FileData file) {
-		if (thumbnailer != null) {
-			thumbnailer.add (file);
-			thumbnailer.queue_load_next ();
+		if (_thumbnailer != null) {
+			_thumbnailer.add (file);
+			_thumbnailer.queue_load_next ();
 		}
 	}
 
 	public Thumbnailer.Size get_thumbnailer_cache_size () {
-		return (thumbnailer != null) ? thumbnailer.cache_size : Thumbnailer.Size.NORMAL;
+		return (_thumbnailer != null) ? _thumbnailer.cache_size : Thumbnailer.Size.NORMAL;
 	}
 
 	Gth.FileData? get_next_file_for_thumbnailer () {
@@ -263,7 +268,7 @@ public class Gth.FileGrid : Gtk.Box {
 				if (file_data.has_thumbnail ()) {
 					continue;
 				}
-				if (thumbnailer.already_added (file_data)) {
+				if (_thumbnailer.already_added (file_data)) {
 					continue;
 				}
 
@@ -292,7 +297,7 @@ public class Gth.FileGrid : Gtk.Box {
 			if (file_data.has_thumbnail ()) {
 				continue;
 			}
-			if (thumbnailer.already_added (file_data)) {
+			if (_thumbnailer.already_added (file_data)) {
 				continue;
 			}
 			return file_data;
@@ -301,27 +306,21 @@ public class Gth.FileGrid : Gtk.Box {
 	}
 
 	void init_thumbnailer () {
-		if (thumbnailer == null) {
-			if (root is Gth.Window) {
-				var window = root as Gth.Window;
-				thumbnailer = new Thumbnailer.for_window (window);
-				thumbnailer.get_next_file_func = get_next_file_for_thumbnailer;
-				thumbnailer.requested_size = _thumbnail_size;
-				thumbnailer.queue_load_next ();
-			}
+		if (_thumbnailer != null) {
+			_thumbnailer.queue_load_next ();
 		}
 	}
 
 	void vadjustment_changed () {
-		if (thumbnailer != null) {
-			thumbnailer.queue_load_next ();
+		if (_thumbnailer != null) {
+			_thumbnailer.queue_load_next ();
 		}
 	}
 
 	construct {
 		reordering = false;
 		is_reorderable = false;
-		thumbnailer = null;
+		_thumbnailer = null;
 		file_context_menu = null;
 		thumbnail_attributes_v = {};
 		_thumbnail_size = DEFAULT_THUMBNAIL_SIZE;
@@ -348,10 +347,10 @@ public class Gth.FileGrid : Gtk.Box {
 					file_item.parent.halign = Gtk.Align.CENTER;
 				}
 				binded_grid_items.add (list_item);
-				if (thumbnailer != null) {
-					thumbnailer.queue_load_next ();
+				if (_thumbnailer != null) {
+					_thumbnailer.queue_load_next ();
 					if (binded_grid_items.length < 50) {
-						thumbnailer.add (file_data);
+						_thumbnailer.add (file_data);
 					}
 				}
 			}
@@ -363,8 +362,8 @@ public class Gth.FileGrid : Gtk.Box {
 				file_item.unbind ();
 				var file_data = list_item.item as FileData;
 				if (file_data != null) {
-					if (thumbnailer != null) {
-						thumbnailer.remove (file_data);
+					if (_thumbnailer != null) {
+						_thumbnailer.remove (file_data);
 					}
 					file_data.remove_thumbnail ();
 				}
@@ -378,8 +377,8 @@ public class Gth.FileGrid : Gtk.Box {
 	}
 
 	GenericArray<Gtk.ListItem> binded_grid_items;
+	Gth.Thumbnailer _thumbnailer;
 	uint _thumbnail_size;
-	Gth.Thumbnailer thumbnailer;
 
 	const uint DEFAULT_THUMBNAIL_SIZE = 256;
 }

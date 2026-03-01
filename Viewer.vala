@@ -665,6 +665,7 @@ public class Gth.Viewer : Gtk.Box {
 
 		// Restore settings.
 		main_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_SIDEBAR_VISIBLE);
+		file_grid.thumbnailer = new Thumbnailer.for_window (window);
 		file_grid.thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 		content_view.max_sidebar_width = app.viewer_settings.get_int (PREF_VIEWER_FILE_LIST_SIZE);
 		content_view.show_sidebar = app.viewer_settings.get_boolean (PREF_VIEWER_FILE_LIST_VISIBLE);

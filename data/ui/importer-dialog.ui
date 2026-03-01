@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthImporterDialog">
+    <property name="title" translatable="yes">Import Files</property>
+    <property name="default-width">1400</property>
+    <property name="default-height">800</property>
+    <property name="resizable">true</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <property name="content">
+      <object class="AdwNavigationSplitView" id="split_view">
+        <property name="min-sidebar-width">350</property>
+        <property name="content">
+          <object class="AdwNavigationPage" id="import_page">
+            <property name="title" translatable="yes">Import Files</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-start-title-buttons">false</property>
+                    <property name="show-end-title-buttons">false</property>
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use_underline">true</property>
+                        <signal name="clicked" handler="on_cancel" />
+                      </object>
+                    </child>
+                    <child type="end">
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">Import</property>
+                        <signal name="clicked" handler="on_save" />
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <property name="content">
+                  <object class="GthFileGrid" id="file_grid">
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="sidebar">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Import</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-start-title-buttons">false</property>
+                    <property name="show-end-title-buttons">false</property>
+                  </object>
+                </child>
+                <property name="content">
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Destination</property>
+                        <child>
+                          <object class="GthDestinationRow" id="destination">
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="subfolder">
+                            <property name="title" translatable="yes">Subfolder</property>
+                            <signal name="changed" handler="on_subfolder_changed"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwExpanderRow" id="automatic_subfolder">
+                            <property name="title" translatable="yes">Automatic Subfolder</property>
+                            <property name="show-enable-switch">true</property>
+                            <property name="enable-expansion">false</property>
+                            <signal name="notify::enable-expansion" handler="on_automatic_subfolder_enabled"/>
+                            <child>
+                              <object class="AdwComboRow" id="automatic_subfolder_value">
+                                <property name="title" translatable="yes">Date</property>
+                                <property name="model">
+                                  <object class="GtkStringList">
+                                    <items>
+                                      <item translatable="yes">Today</item>
+                                      <item translatable="yes">Modified</item>
+                                      <item translatable="yes" context="Date">Original</item>
+                                    </items>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwComboRow" id="automatic_subfolder_format">
+                                <property name="title" translatable="yes">Format</property>
+                                <signal name="notify::selected" handler="on_subfolder_format_changed"/>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Selection</property>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Files</property>
+                            <child type="suffix">
+                              <object class="GtkLabel" id="file_info">
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Bytes</property>
+                            <child type="suffix">
+                              <object class="GtkLabel" id="size_info">
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <!--child>
+                          <object class="GthTagsRow" id="tags">
+                          </object>
+                        </child-->
+                        <child>
+                          <object class="AdwSwitchRow" id="delete_imported">
+                            <property name="title" translatable="yes">Delete from source</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

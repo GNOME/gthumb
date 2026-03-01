@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthDestinationRow">
+    <property name="activatable">true</property>
+    <signal name="activated" handler="on_activated"/>
+    <child type="prefix">
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkImage" id="folder_icon">
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <child>
+              <object class="GtkLabel" id="folder_name">
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="subfolder_name">
+                <style>
+                  <class name="dimmed"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="automatic_subfolder_name">
+                <style>
+                  <class name="accent"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkImage">
+        <property name="icon-name">go-next-symbolic</property>
+      </object>
+    </child>
+  </template>
+</interface>

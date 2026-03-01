@@ -21,7 +21,6 @@ public class Gth.Browser : Gtk.Box {
 
 	public bool show_hidden_files = false;
 	public bool open_in_fullscreen = false;
-	public int thumbnail_size;
 	public bool never_loaded;
 	public Gth.FileSorter file_sorter;
 	public Gth.FileFilter file_filter;
@@ -99,7 +98,8 @@ public class Gth.Browser : Gtk.Box {
 		show_hidden_files = app.settings.get_boolean (PREF_BROWSER_SHOW_HIDDEN_FILES);
 		file_filter.update_filter ();
 
-		thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
+		file_grid.thumbnailer = new Thumbnailer.for_window (window);
+		file_grid.thumbnail_size = app.settings.get_int (PREF_BROWSER_THUMBNAIL_SIZE);
 		folder_tree.sort = {
 			app.settings.get_string (PREF_BROWSER_FOLDER_TREE_SORT_TYPE),
 			app.settings.get_boolean (PREF_BROWSER_FOLDER_TREE_SORT_INVERSE)
@@ -170,7 +170,7 @@ public class Gth.Browser : Gtk.Box {
 		if (load_action != LoadAction.OPEN_FROM_HISTORY) {
 			history.add (folder_tree.current_folder.file);
 		}
-		file_grid.start_thumbnailer ((uint) thumbnail_size);
+		file_grid.start_thumbnailer ();
 	}
 
 	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
@@ -445,7 +445,14 @@ public class Gth.Browser : Gtk.Box {
 		}
 		thumbnail_list_frozen = false;
 		file_filter.reset ();
-		file_sorter.reset ();
+		if (folder_tree.current_folder != null) {
+			file_sorter.set_order (
+				folder_tree.current_folder.get_sort_name (file_sorter.last.name),
+				folder_tree.current_folder.get_inverse_order (file_sorter.last.inverse));
+		}
+		else {
+			file_sorter.reset ();
+		}
 		file_filter_model.model = filtered_model;
 		file_sort_model.model = sorted_model;
 		file_grid.view.model = grid_model;
@@ -559,7 +566,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		// Bookmarks
-		foreach (unowned var file_action in app.bookmarks.bookmarks) {
+		foreach (unowned var file_action in app.bookmarks.app_bookmarks) {
 			bookmark_menu.append_action (file_action);
 		}
 
@@ -1316,7 +1323,7 @@ public class Gth.Browser : Gtk.Box {
 		file_filter = new Gth.FileFilter (this);
 		file_filter_model = new Gtk.FilterListModel (folder_tree.current_children.model, file_filter);
 
-		file_sorter = new Gth.FileSorter (this);
+		file_sorter = new Gth.FileSorter ();
 		file_sort_model = new Gtk.SortListModel (file_filter_model, file_sorter);
 
 		file_grid.set_model (file_sort_model);
@@ -1629,11 +1636,6 @@ public class Gth.Browser : Gtk.Box {
 			return false;
 		}
 		return true;
-	}
-
-	// TODO: delete
-	public void set_thumbnail_size (int size) {
-		file_grid.thumbnail_size = size;
 	}
 
 	public void add_to_search_results (File parent, FileData file_data) {
@@ -2519,11 +2521,10 @@ public class Gth.FileSorter : Gtk.Sorter {
 	public weak Gth.SortInfo? sort_info;
 	public Gth.Sort last;
 
-	public FileSorter (Browser _browser) {
+	public FileSorter () {
 		name = null;
 		inverse = false;
 		sort_info = null;
-		browser = _browser;
 		last = { null, false };
 	}
 
@@ -2541,14 +2542,7 @@ public class Gth.FileSorter : Gtk.Sorter {
 	}
 
 	public void reset () {
-		if (browser.folder_tree.current_folder != null) {
-			set_order (
-				browser.folder_tree.current_folder.get_sort_name (last.name),
-				browser.folder_tree.current_folder.get_inverse_order (last.inverse));
-		}
-		else {
-			set_order (last.name, last.inverse);
-		}
+		set_order (last.name, last.inverse);
 	}
 
 	public void set_inverse (bool _inverse) {
@@ -2575,8 +2569,6 @@ public class Gth.FileSorter : Gtk.Sorter {
 	public override Gtk.SorterOrder get_order () {
 		return Gtk.SorterOrder.TOTAL;
 	}
-
-	weak Browser browser;
 }
 
 public class Gth.FileFilter : Gtk.Filter {

@@ -20,7 +20,7 @@ public class Work.Factory {
 		}
 	}
 
-	~Factory() {
+	public void release_resources () {
 		// Exit the threads.
 		for (var i = 0; i < workers.length; i++) {
 			jobs.push (new Work.Job.exit ());
@@ -33,6 +33,10 @@ public class Work.Factory {
 
 	public void add_job (Work.Job job) {
 		jobs.push (job);
+	}
+
+	~Factory() {
+		release_resources ();
 	}
 
 	AsyncQueue<Work.Job> jobs;
