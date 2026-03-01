@@ -121,6 +121,10 @@ public class Gth.ActionInfo : Object {
 	public string to_string () {
 		return "%s [%s(%s)]".printf (display_name, name, (value != null) ? value.print (true) : "");
 	}
+
+	public File? get_file () {
+		return ((value != null) && value.is_of_type (VariantType.STRING)) ? File.new_for_uri (value.get_string ()) : null;
+	}
 }
 
 public class Gth.ActionItem : Gtk.Box {

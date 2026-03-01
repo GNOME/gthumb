@@ -294,6 +294,71 @@ public class Gth.FileManager {
 		}
 	}
 
+	public static FileData? get_nearest_parent (File file, GenericList<FileData> locations) {
+		FileData nearest_parent = null;
+		try {
+			var file_uri = Uri.parse (file.get_uri (), UriFlags.PARSE_RELAXED);
+			var file_path = file_uri.get_path ();
+			var max_length = 0;
+			foreach (unowned var location in locations) {
+				var location_uri = Uri.parse (location.file.get_uri (), UriFlags.PARSE_RELAXED);
+				if (location_uri.get_scheme () == file_uri.get_scheme ()) {
+					var location_path = location_uri.get_path ();
+					if (file_path.has_prefix (location_path)) {
+						var len = location_path.length;
+						if (len > max_length) {
+							nearest_parent = location;
+							max_length = len;
+						}
+					}
+				}
+			}
+		}
+		catch (Error error) {
+		}
+		return nearest_parent;
+	}
+
+	public static async FileData ensure_mounted (File location, Gtk.Window window, Job job) throws Error {
+		// Mount the location if required.
+		FileData nearest_root = FileManager.get_nearest_parent (location, app.roots);
+		//stdout.printf (">> nearest_root: %s\n", (nearest_root != null) ? nearest_root.file.get_uri () : "(nil)");
+
+		var try_again = false;
+		if (nearest_root == null) {
+			// Mount the enclosing volume.
+			var mount_op = new Gtk.MountOperation (window);
+			yield location.mount_enclosing_volume (0, mount_op, job.cancellable);
+			try_again = true;
+		}
+		else if (nearest_root.info.get_file_type () == FileType.MOUNTABLE) {
+			var volume = nearest_root.info.get_attribute_object (VOLUME_ATTRIBUTE) as Volume;
+			if (volume != null) {
+				var mount_op = new Gtk.MountOperation (window);
+				yield volume.mount (0, mount_op, job.cancellable);
+				var mount = volume.get_mount ();
+				if (mount == null) {
+					throw new IOError.NOT_MOUNTED (_("Location not available"));
+				}
+			}
+			else {
+				var mount_op = new Gtk.MountOperation (window);
+				yield nearest_root.file.mount_mountable (0, mount_op, job.cancellable);
+			}
+			try_again = true;
+		}
+		if (try_again) {
+			// TODO: update the window bookmarks as well.
+			yield app.update_roots ();
+			nearest_root = FileManager.get_nearest_parent (location, app.roots);
+			if ((nearest_root == null) || (nearest_root.info.get_file_type () != FileType.DIRECTORY)) {
+				throw new IOError.NOT_MOUNTED (_("Location not available"));
+			}
+		}
+
+		return nearest_root;
+	}
+
 	weak Window window;
 }
 

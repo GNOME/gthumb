@@ -3,7 +3,8 @@ public class Gth.ImportFiles : Object {
 
 	public async void import (Gth.Window window, ActionInfo folder_info, Job job) throws Error {
 		callback = import.callback;
-		destination = File.new_for_uri (folder_info.value.get_string ());
+		destination = folder_info.get_file ();
+		yield FileManager.ensure_mounted (destination, window, job);
 		var files = yield collect_files_from_folder (destination, job);
 		dialog = new ImporterDialog (window, folder_info, files);
 		dialog.saved.connect ((_importer) => {
