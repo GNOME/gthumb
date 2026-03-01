@@ -34,7 +34,7 @@ gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *hei
 
 	GthImageInfo image_info;
 	gboolean format_recognized = FALSE;
-	const char *mime_type = guess_mime_type (buffer, buffer_size);
+	const char *mime_type = guess_content_type (buffer, buffer_size);
 	if (mime_type == NULL) {
 		return FALSE;
 	}

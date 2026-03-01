@@ -114,7 +114,7 @@ namespace Gth.Util {
 		catch (Error error) {
 			return null;
 		}
-		unowned var content_type = guess_mime_type (buffer);
+		unowned var content_type = guess_content_type (buffer);
 		if (content_type == null) {
 			bool result_uncertain;
 			unowned var valid_data = buffer[0:content_size];

@@ -544,7 +544,7 @@ char * _g_date_time_to_xmp_date (GDateTime *date_time) {
 		(int) (utf_offset % 3600));
 }
 
-const char * guess_mime_type (const guchar* buffer, gsize buffer_size) {
+const char * guess_content_type (const guchar* buffer, gsize buffer_size) {
 	static const struct MagicInfo {
 		const char * const mime_type;
 		const unsigned int offset;

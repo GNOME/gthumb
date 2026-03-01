@@ -72,7 +72,7 @@ bool _g_parse_exif_date (const char *exif_date,
 GDateTime * _g_date_time_new_from_exif_date (const char *exif_date);
 char * _g_date_time_to_exif_date (GDateTime *date_time);
 char * _g_date_time_to_xmp_date (GDateTime *date_time);
-const char * guess_mime_type (const guchar* buffer, gsize buffer_size);
+const char * guess_content_type (const guchar* buffer, gsize buffer_size);
 char * _g_format_duration_for_display (gint64 msecs, int *hours, int *minutes);
 char * _g_format_duration_not_localized (gint64 msecs);
 char * _g_format_double (double value, int max_decimal_digits);
