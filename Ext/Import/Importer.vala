@@ -9,15 +9,18 @@ public class Gth.Importer {
 
 	public async void import_files (Gth.Window window, Gth.Job job) throws Error {
 		job.subtitle = null;
+		var total_files = files.length;
 		var created_subfolders = new GenericSet<string> (str_hash, str_equal);
 		var today = new GLib.DateTime.now_local ();
 		var last_overwrite_response = OverwriteResponse.NONE;
 		var copy_operation = new CopyOperation (window);
-		copy_operation.total_files = files.length;
+		copy_operation.total_files = total_files;
 		var delete_operation = new DeleteOperation (window);
 		var save_operation = new SaveOperation (window);
-		save_operation.total_files = files.length;
+		save_operation.total_files = total_files;
+		var current_file = 0;
 		foreach (var file_data in files) {
+			job.progress = Util.calc_progress (current_file++, total_files);
 			Bytes bytes = null;
 			var relative_path = new GenericArray<string?>();
 			if (!Strings.empty (subfolder)) {
