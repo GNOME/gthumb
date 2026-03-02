@@ -8,6 +8,7 @@ public class Gth.Importer {
 	public GenericArray<FileData> files;
 
 	public async void import_files (Gth.Window window, Gth.Job job) throws Error {
+		job.subtitle = null;
 		var created_subfolders = new GenericSet<string> (str_hash, str_equal);
 		var today = new GLib.DateTime.now_local ();
 		var last_overwrite_response = OverwriteResponse.NONE;

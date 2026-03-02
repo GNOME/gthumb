@@ -60,6 +60,7 @@ public class Gth.ImportFiles : Object {
 			attributes.append (",");
 			attributes.append (file_sorter.sort_info.required_attributes);
 		}
+		job.subtitle = _("Searching Files");
 		var source = app.get_source_for_file (folder);
 		yield source.foreach_child (folder, flags, attributes.str, job.cancellable, (child, is_parent) => {
 			var action = ForEachAction.CONTINUE;
