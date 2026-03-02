@@ -74,6 +74,9 @@ public class Gth.Importer {
 			relative_path.add (file_data.file.get_basename ());
 			relative_path.add (null); // for string.joinv
 			var destination = destination_folder.get_child (string.joinv ("/", relative_path.data));
+			if (destination.equal (file_data.file)) {
+				continue;
+			}
 
 			if (bytes != null) {
 				stdout.printf ("> SAVE: %s -> %s\n", file_data.file.get_uri (), destination.get_uri ());
