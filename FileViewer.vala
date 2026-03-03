@@ -14,5 +14,5 @@ public interface Gth.FileViewer : Object {
 	public virtual bool same_etag (FileInfo info) {
 		return false;
 	}
-	public virtual void preload_some_files () { /* void */ }
+	public virtual void preload_some_files () {}
 }
