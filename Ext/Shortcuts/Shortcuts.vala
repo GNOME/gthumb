@@ -212,6 +212,7 @@ public class Gth.Shortcuts {
 		register ("win.viewer-properties", N_("View Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "i");
 		register ("win.editor-tools", N_("Edit Image"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "e");
 		register ("win.viewer-thumbnail-list", N_("View Thumbnails"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F8");
+		register ("win.adapt-to-content", N_("Adapt Window to Content"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Primary>e");
 
 		register ("image.zoom-in", N_("Zoom In"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "plus");
 		register ("image.zoom-out", N_("Zoom Out"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "minus");
