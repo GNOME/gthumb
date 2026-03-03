@@ -35,6 +35,14 @@ public class Gth.Editor : Gtk.Box {
 		set_action_bar (null);
 	}
 
+	public void after_fullscreen () {
+		left_ui_buttons.visible = false;
+	}
+
+	public void after_unfullscreen () {
+		left_ui_buttons.visible = true;
+	}
+
 	public void set_left_toolbar (Gtk.Widget widget) {
 		left_toolbar.append (widget);
 	}
@@ -117,6 +125,7 @@ public class Gth.Editor : Gtk.Box {
 	[GtkChild] public unowned Gtk.Button apply_button;
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] public unowned Gtk.ScrolledWindow sidebar_content;
+	[GtkChild] public unowned Gtk.Box left_ui_buttons;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Adw.HeaderBar sidebar_header;
 	[GtkChild] unowned Gtk.Box action_bar;

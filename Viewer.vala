@@ -377,12 +377,11 @@ public class Gth.Viewer : Gtk.Box {
 		toolbar_view.remove (headerbar);
 		local_headerbar.show_start_title_buttons = false;
 		local_headerbar.show_end_title_buttons = false;
-		back_to_browser_button.visible = false;
+		left_ui_buttons.visible = false;
 		fullscreen_toolbar_revealer.child = local_headerbar;
 		statusbar_revealer.margin_top = 72;
 		fullscreen_button.icon_name = "gth-unfullscreen-symbolic";
 		fullscreen_button.tooltip_text = _("Exit Fullscreen");
-		adapt_window_button.visible = false;
 		fullscreen_state.save ();
 		reveal_overlay_controls (false);
 	}
@@ -393,11 +392,10 @@ public class Gth.Viewer : Gtk.Box {
 		toolbar_view.add_top_bar (local_headerbar);
 		local_headerbar.show_start_title_buttons = true;
 		local_headerbar.show_end_title_buttons = true;
-		back_to_browser_button.visible = true;
+		left_ui_buttons.visible = true;
 		statusbar_revealer.margin_top = 24;
 		fullscreen_button.icon_name = "gth-fullscreen-symbolic";
 		fullscreen_button.tooltip_text = _("Fullscreen");
-		adapt_window_button.visible = true;
 		fullscreen_state.restore ();
 		cursor = null;
 	}
@@ -764,9 +762,8 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.Revealer statusbar_revealer;
 	[GtkChild] unowned Gtk.Revealer mediabar_revealer;
 	[GtkChild] unowned Adw.HeaderBar headerbar;
-	[GtkChild] unowned Gtk.Button back_to_browser_button;
+	[GtkChild] unowned Gtk.Box left_ui_buttons;
 	[GtkChild] unowned Gtk.Button fullscreen_button;
-	[GtkChild] unowned Gtk.Button adapt_window_button;
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] unowned Adw.WindowTitle header_title;
 	[GtkChild] unowned Gtk.Label header_state;

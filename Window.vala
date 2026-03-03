@@ -727,9 +727,11 @@ public class Gth.Window : Adw.ApplicationWindow {
 		notify["fullscreened"].connect (() => {
 			if (fullscreened) {
 				viewer.after_fullscreen ();
+				editor.after_fullscreen ();
 			}
 			else {
 				viewer.after_unfullscreen ();
+				editor.after_unfullscreen ();
 			}
 		});
 

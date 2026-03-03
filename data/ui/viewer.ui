@@ -28,16 +28,30 @@
                 <property name="orientation">horizontal</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkButton" id="back_to_browser_button">
-                    <property name="icon-name">go-previous-symbolic</property>
-                    <property name="action-name">win.pop-page</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkToggleButton">
-                    <property name="icon-name">gth-view-grid-symbolic</property>
-                    <property name="action-name">win.viewer-thumbnail-list</property>
-                    <property name="tooltip-text" translatable="yes">View Thumbnails</property>
+                  <object class="GtkBox" id="left_ui_buttons">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <property name="margin-end">12</property>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="action-name">win.pop-page</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkToggleButton">
+                        <property name="icon-name">gth-view-grid-symbolic</property>
+                        <property name="action-name">win.viewer-thumbnail-list</property>
+                        <property name="tooltip-text" translatable="yes">View Thumbnails</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">gth-fullscreen-alt-symbolic</property>
+                        <property name="action-name">win.adapt-to-content</property>
+                        <property name="tooltip-text" translatable="yes">Adapt Window to Content</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
@@ -45,13 +59,6 @@
                     <property name="icon-name">gth-fullscreen-symbolic</property>
                     <property name="action-name">win.toggle-fullscreen</property>
                     <property name="tooltip-text" translatable="yes">Fullscreen</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton" id="adapt_window_button">
-                    <property name="icon-name">gth-fullscreen-alt-symbolic</property>
-                    <property name="action-name">win.adapt-to-content</property>
-                    <property name="tooltip-text" translatable="yes">Adapt Window to Content</property>
                   </object>
                 </child>
                 <child>
