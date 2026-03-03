@@ -5,10 +5,9 @@ public class Gth.ResizeImage : ImageTool {
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
+		image_view.zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		image_view.image = original;
 		add_default_controllers (image_view);
-		image_view.image = viewer.image_view.image;
-		image_view.set_first_state_from_view (viewer.image_view);
 
 		window.editor.set_content (image_view);
 
