@@ -202,6 +202,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		return true;
 	}
 
+	public override void adapt_content_to_window () {
+		image_view.zoom_type = ZoomType.MAXIMIZE;
+	}
 
 	public async void ask_name_and_save () {
 		File new_file = null;

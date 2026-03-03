@@ -726,6 +726,7 @@ public class Gth.Viewer : Gtk.Box {
 				//stdout.printf ("  NEW SIZE: %ux%u\n", new_width, new_height);
 
 				window.set_default_size ((int) new_width, (int) new_height);
+				current_viewer.adapt_content_to_window ();
 			}
 		});
 		action_group.add_action (action);
