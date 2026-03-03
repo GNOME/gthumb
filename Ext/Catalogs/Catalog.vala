@@ -100,6 +100,18 @@ public class Gth.Catalog : Object {
 		}
 	}
 
+	public static File? from_gdatetime (GLib.DateTime date_time, string extension) {
+		try {
+			var year = date_time.format ("%Y");
+			var dir = File.new_for_uri ("catalog:///" + year +  "/");
+			var display_name = date_time.format ("%Y-%m-%d");
+			return dir.get_child_for_display_name (display_name + extension);
+		}
+		catch (Error error) {
+			return null;
+		}
+	}
+
 	public static File get_base_dir () {
 		return UserDir.get_directory (FileIntent.READ, DirType.DATA, APP_DIR, "catalogs");
 	}

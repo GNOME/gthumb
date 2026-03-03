@@ -19,6 +19,7 @@ public class Gth.Importer {
 		var save_operation = new SaveOperation (window);
 		save_operation.total_files = total_files;
 		var current_file = 0;
+		var catalogs = new HashTable<string, Catalog> (str_hash, str_equal);
 		foreach (var file_data in files) {
 			job.progress = Util.calc_progress (current_file++, total_files);
 			Bytes bytes = null;
@@ -26,8 +27,8 @@ public class Gth.Importer {
 			if (!Strings.empty (subfolder)) {
 				relative_path.add (subfolder);
 			}
+			GLib.DateTime datetime = today;
 			if (automatic_subfolder) {
-				GLib.DateTime datetime = today;
 				switch (automatic_subfolder_date) {
 				case AutomaticDate.MODIFIED:
 					datetime = file_data.info.get_modification_date_time ();
@@ -91,6 +92,50 @@ public class Gth.Importer {
 				last_overwrite_response = copy_operation.last_overwrite_response;
 			}
 
+			// Catalog by date
+			var catalog_id = datetime.format ("%Y-%m-%d");
+			var catalog = catalogs.get (catalog_id);
+			if (catalog == null) {
+				var catalog_file = Catalog.from_gdatetime (datetime, ".catalog");
+				try {
+					catalog = yield Catalog.load_from_file (catalog_file, job.cancellable);
+				}
+				catch (Error error) {
+					catalog = new Catalog ();
+					catalog.file = catalog_file;
+					catalog.date = Date.from_gdatetime (datetime);
+					catalogs.set (catalog_id, catalog);
+				}
+			}
+			catalog.add_file (destination);
+
+			// "Last Imported" catalog
+			catalog = catalogs.get (LAST_IMPORTED_KEY);
+			if (catalog == null) {
+				if (subfolder != null) {
+					// Append files to the catalog if an event name was given.
+					var catalog_file = Catalog.from_display_name (subfolder, ".catalog");
+					try {
+						catalog = yield Catalog.load_from_file (catalog_file, job.cancellable);
+					}
+					catch (Error error) {
+						catalog = new Catalog ();
+						catalog.file = catalog_file;
+						catalog.date = Date.from_gdatetime (today);
+						catalogs.set (LAST_IMPORTED_KEY, catalog);
+					}
+				}
+				else {
+					// Overwrite the catalog content if the generic "last imported" catalog is used.
+					var catalog_file = Catalog.from_display_name (_("Last Imported"), ".catalog");
+					catalog = new Catalog ();
+					catalog.file = catalog_file;
+					catalog.date = Date.from_gdatetime (today);
+					catalogs.set (LAST_IMPORTED_KEY, catalog);
+				}
+			}
+			catalog.add_file (destination);
+
 			if (delete_imported) {
 				try {
 					yield delete_operation.delete_file (file_data.file, job.cancellable);
@@ -99,7 +144,20 @@ public class Gth.Importer {
 				}
 			}
 		}
+
+		var created_directories = new GenericSet<File> (Util.file_hash, Util.file_equal);
+		foreach (Catalog catalog in catalogs.get_values ()) {
+			var gio_file = Catalog.to_gio_file (catalog.file);
+			var gio_dir = gio_file.get_parent ();
+			if (!created_directories.contains (gio_dir)) {
+				Files.ensure_directory_exists (gio_dir);
+				created_directories.add (gio_dir);
+			}
+			yield catalog.save_async (job.cancellable);
+		}
 	}
+
+	const string LAST_IMPORTED_KEY = "last-imported";
 }
 
 public class Gth.SaveOperation {
