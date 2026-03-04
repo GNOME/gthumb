@@ -158,6 +158,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 
 	public float min_zoom;
 
+	public bool boundless_zoom;
+
 	public Gtk.ScrollablePolicy hscroll_policy { get; set; }
 
 	public Gtk.ScrollablePolicy vscroll_policy { get; set; }
@@ -261,7 +263,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (_image != null) {
 			uint natural_width, natural_height;
 			_image.get_natural_size (out natural_width, out natural_height);
-			if (_zoom_type == KEEP_PREVIOUS) {
+			if (_zoom_type == ZoomType.KEEP_PREVIOUS) {
 				float zoomed_width, zoomed_height;
 				get_zoomed_size_for_zoom (_zoom, out zoomed_width, out zoomed_height);
 				natural_width = (uint) zoomed_width;
@@ -612,7 +614,12 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	float set_valid_zoom (float new_zoom) {
-		_zoom = new_zoom.clamp (min_zoom, max_zoom);
+		if (boundless_zoom) {
+			_zoom = new_zoom;
+		}
+		else {
+			_zoom = new_zoom.clamp (min_zoom, max_zoom);
+		}
 		return _zoom;
 	}
 
@@ -1249,6 +1256,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		_controller = null;
 		min_zoom = MIN_ZOOM;
 		max_zoom = MAX_ZOOM;
+		boundless_zoom = false;
 		_zoom_limit = ZoomLimit.NONE;
 		first_allocation_state = null;
 		_filter_operation = null;

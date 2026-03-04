@@ -13,7 +13,7 @@ public class Gth.ImageOverview : Gtk.Box {
 		}
 	}
 
-	void update_selection (bool debug = false) {
+	void update_selection () {
 		var z = _main_view.zoom / preview.zoom;
 		viewport = { {
 				(float) (_main_view.hadjustment.value / z),
@@ -23,11 +23,6 @@ public class Gth.ImageOverview : Gtk.Box {
 				(float) (_main_view.vadjustment.page_size / z)
 			}
 		};
-		if (debug) {
-			stdout.printf ("> (%f,%f)[%f,%f]\n",
-				viewport.origin.x, viewport.origin.y,
-				viewport.size.width, viewport.size.height);
-		}
 		preview.set_selection (viewport);
 
 		SignalHandler.block (zoom_scale.adjustment, zoom_changed_id);
@@ -50,6 +45,7 @@ public class Gth.ImageOverview : Gtk.Box {
 			}
 		});
 
+		preview.boundless_zoom = true;
 		preview.resized.connect (() => update_selection ());
 
 		var drag_events = new Gtk.GestureDrag ();
