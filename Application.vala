@@ -24,6 +24,7 @@ public class Gth.Application : Adw.Application {
 	public MetadataReader metadata_reader;
 	public MetadataWriter metadata_writer;
 	public GenericList<FileData> roots;
+	public Devices devices;
 	public Events events;
 	public Bookmarks bookmarks;
 	public Migration migration;
@@ -56,6 +57,7 @@ public class Gth.Application : Adw.Application {
 		metadata_writer = new MetadataWriter (io_factory);
 		color_manager = new ColorManager ();
 		roots = new GenericList<FileData>();
+		devices = new Devices ();
 		events = new Events ();
 		bookmarks = new Bookmarks ();
 		migration = new Migration ();

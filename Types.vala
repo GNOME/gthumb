@@ -42,8 +42,7 @@ const string STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE =
 	STANDARD_ATTRIBUTES + "," +
 	FileAttribute.STANDARD_FAST_CONTENT_TYPE + "," +
 	FileAttribute.STANDARD_CONTENT_TYPE;
-const string EMBLEMS_ATTRIBUTE = "Private::File::Emblems";
-const string VOLUME_ATTRIBUTE = "Private::Volume";
+
 const string DEFAULT_STRFTIME_FORMAT = "%Y-%m-%d--%H.%M.%S";
 const Graphene.Size[] OTHER_RATIOS = {
 	{ 16, 9 },
@@ -207,6 +206,8 @@ namespace Gth.PrivateAttribute {
 	const string LOADED_IMAGE_WAS_MODIFIED = "Loaded::Image::WasModified";
 	const string LOADED_IMAGE_COLOR_PROFILE = "Loaded::Image::ColorProfile";
 	const string ASK_FILENAME_WHEN_SAVING = "Loaded::Image::AskFilename";
+	const string EMBLEMS = "Private::File::Emblems";
+	const string VOLUME = "Private::Volume";
 }
 
 [Flags]

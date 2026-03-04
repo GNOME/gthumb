@@ -67,7 +67,7 @@ public class Gth.FileSourceVfs : FileSource {
 
 			var info = new FileInfo ();
 			info.set_file_type (FileType.MOUNTABLE);
-			info.set_attribute_object (VOLUME_ATTRIBUTE, volume);
+			info.set_attribute_object (PrivateAttribute.VOLUME, volume);
 			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_READ, true);
 			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE, false);
 			info.set_attribute_boolean (FileAttribute.ACCESS_CAN_DELETE, false);

@@ -4,7 +4,7 @@ public class Gth.ImportFiles : Object {
 	public async void import (Gth.Window window, ActionInfo folder_info, Job job) throws Error {
 		callback = import.callback;
 		destination = folder_info.get_file ();
-		yield FileManager.ensure_mounted (destination, window, job);
+		yield app.devices.ensure_mounted (destination, window, job.cancellable);
 		var files = yield collect_files_from_folder (destination, job);
 		dialog = new ImporterDialog (window, folder_info, files);
 		dialog.saved.connect ((_importer) => {

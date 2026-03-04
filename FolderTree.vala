@@ -118,7 +118,7 @@ public class Gth.FolderTree : Gtk.Box {
 			load_job = local_job;
 		}
 		try {
-			var nearest_root = yield FileManager.ensure_mounted (location, get_root () as Gtk.Window, local_job);
+			var nearest_root = yield app.devices.ensure_mounted (location, get_root () as Gtk.Window, local_job.cancellable);
 
 			// Read the requested location metadata.
 			var file_data = yield source.read_metadata (location, "*", local_job.cancellable);
