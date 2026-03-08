@@ -2,7 +2,6 @@ public class Gth.Censor : ImageTool {
 	public override void after_activate () {
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/censor-image.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
-		// window.editor.sidebar.insert_action_group ("censor", action_group);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 
@@ -86,7 +85,6 @@ public class Gth.Censor : ImageTool {
 	}
 
 	public override void before_deactivate () {
-		// window.editor.sidebar.insert_action_group ("censor", null);
 		if (color_job != null) {
 			color_job.cancel ();
 		}
@@ -167,19 +165,6 @@ public class Gth.Censor : ImageTool {
 	construct {
 		title = _("Censor");
 		icon_name = "gth-censor-symbolic";
-
-		action_group = new SimpleActionGroup ();
-		// var action = new SimpleAction.stateful ("dither-method", VariantType.STRING, new Variant.string (Dither.Method.ORDERED.to_state ()));
-		// action.activate.connect ((_action, param) => {
-		// 	var method = param.get_string ();
-		// 	action.set_state (method);
-		// 	var dither_operation = filter_grid.get_operation (Effect.DITHER) as Dither;
-		// 	if (dither_operation != null) {
-		// 		dither_operation.method = Dither.Method.from_state (method);
-		// 		queue_update_preview ();
-		// 	}
-		// });
-		// action_group.add_action (action);
 	}
 
 	Gtk.Builder builder;
@@ -188,7 +173,6 @@ public class Gth.Censor : ImageTool {
 	Job color_job = null;
 	unowned Gtk.Adjustment amount_adjustment;
 	ulong amount_changed_id = 0;
-	SimpleActionGroup action_group;
 	MaskSelector selector;
 
 	const uint THUMBNAIL_SIZE = 140;
