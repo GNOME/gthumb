@@ -6,6 +6,7 @@ public class Gth.Devices {
 
 	// Mount the location if required.
 	public async FileData? ensure_mounted (File location, Gtk.Window window, Cancellable? cancellable = null) throws Error {
+		yield app.update_roots ();
 		var nearest_root = get_nearest_root (location);
 		if ((nearest_root != null) && (nearest_root.info.get_file_type () == FileType.DIRECTORY)) {
 			return nearest_root;
