@@ -33,5 +33,5 @@ public class Gth.Pixelize : ImageOperation, ParametricOperation {
 
 	public const double DEFAULT_AMOUNT = 5;
 	const double MAX_AMOUNT = 50;
-	const uint PREVIEW_AMOUNT = 10;
+	const uint PREVIEW_AMOUNT = 8;
 }
