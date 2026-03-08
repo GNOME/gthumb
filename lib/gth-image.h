@@ -147,6 +147,7 @@ GthImage * gth_image_cut (GthImage *self, guint x, guint y, guint width, guint h
 
 void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
 void gth_image_fill_color (GthImage *self, GdkRGBA *color);
+void gth_image_negative_colors (GthImage *self);
 void gth_image_render_frame (GthImage *canvas, GthImage *background,
 	guint32 background_color, GthImage *foreground, guint foreground_x,
 	guint foreground_y, gboolean blend);

@@ -88,6 +88,32 @@ void gth_image_fill_color (GthImage *self, GdkRGBA *color) {
 }
 
 
+void gth_image_negative_colors (GthImage *self) {
+	int row_stride;
+	int width;
+	int height;
+	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *pixel;
+	guchar red, green, blue, alpha;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+
+	for (int y = 0; y < height; y++) {
+		pixel = row;
+		for (int x = 0; x < width; x++) {
+			PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
+			red = 255 - red;
+			green = 255 - green;
+			blue = 255 - blue;
+
+			RGBA_TO_PIXEL (pixel, red, green, blue, alpha);
+			pixel += PIXEL_BYTES;
+		}
+		row += row_stride;
+	}
+}
+
+
 // f is aleady alpha multiplied
 #define RENDER_BLEND(b, f, a) \
 	temp = ((a) * (b)) + 0x80; \

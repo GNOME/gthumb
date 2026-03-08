@@ -4,11 +4,12 @@ special_effects_files = files(
   'CoolerColors.vala',
   'Dither.vala',
   'Lomo.vala',
+  'NegativeColors.vala',
   'ParametricCurveOperation.vala',
   'ParametricOperation.vala',
   'Pixelize.vala',
+  'SolidColor.vala',
   'Vignette.vala',
   'Vintage.vala',
   'WarmerColors.vala',
-  'SolidColor.vala',
 )

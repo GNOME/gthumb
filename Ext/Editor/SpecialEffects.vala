@@ -27,6 +27,9 @@ public class Gth.SpecialEffects : ImageTool {
 		// Translators: this is the name of an image filter.
 		filter_grid.add (Effect.DITHER, new Dither (), _("8 Colors"));
 
+		// Translators: this is the name of an image filter.
+		filter_grid.add (Effect.NEGATIVE, new NegativeColors (), _("Negative"));
+
 		filter_grid.activated.connect ((id) => {
 			var method = (Effect) id;
 			var operation = filter_grid.get_operation (method) as ParametricOperation;
@@ -125,6 +128,7 @@ public class Gth.SpecialEffects : ImageTool {
 		VINTAGE,
 		LOMO,
 		DITHER,
+		NEGATIVE,
 	}
 
 	construct {

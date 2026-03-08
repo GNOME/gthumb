@@ -61,6 +61,7 @@ namespace Gth {
 
 		public void fill_vertical (Image pattern, Fill fill);
 		public void fill_color (Gdk.RGBA color);
+		public void negative_colors ();
 
 		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
 		public Image? resize_to (uint width, uint height, ScaleFilter quality, Cancellable? cancellable = null);
