@@ -50,7 +50,7 @@ public class Gth.Viewer : Gtk.Box {
 			position = (int) new_position;
 		}
 		else {
-			position = window.browser.get_file_position (file_data.file);
+			position = window.browser.file_grid.get_file_position (file_data.file);
 		}
 		set_current_position (position);
 		var local_job = (job != null) ? job : window.new_job (_("Loading %s").printf (file_data.get_display_name ()),
@@ -212,7 +212,7 @@ public class Gth.Viewer : Gtk.Box {
 		if (current_file == null) {
 			return;
 		}
-		var new_position = window.browser.get_file_position (current_file.file);
+		var new_position = window.browser.file_grid.get_file_position (current_file.file);
 		set_current_position (new_position);
 		if (new_position >= 0) {
 			position = new_position;

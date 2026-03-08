@@ -183,7 +183,7 @@ public class Gth.Browser : Gtk.Box {
 			try {
 				open_location_async.end (res);
 				if (file_to_select != null) {
-					select_file (file_to_select, SelectFile.SCROLL_TO_FILE);
+					file_grid.select_file (file_to_select, SelectFile.SCROLL_TO_FILE);
 				}
 			}
 			catch (Error error) {
@@ -576,56 +576,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	// TODO: delete
-	public uint get_selected_position () {
-		return file_grid.get_selected_position ();
-	}
-
-	// TODO: delete
-	public FileData? get_selected_file_data () {
-		return file_grid.get_selected_file_data ();
-	}
-
-	// TODO: delete
-	public File? get_selected_file () {
-		return file_grid.get_selected_file ();
-	}
-
-	// TODO: delete
-	public GenericList<File> get_selected_files () {
-		return file_grid.get_selected_files ();
-	}
-
-	// TODO: delete
-	public GenericList<FileData> get_selected_file_data_list () {
-		return file_grid.get_selected_file_data_list ();
-	}
-
-	// TODO: delete
-	bool is_selected (File file) {
-		return file_grid.is_selected (file);
-	}
-
-	// TODO: delete
-	public void select_file (File file, SelectFile flags = SelectFile.DEFAULT) {
-		file_grid.select_file (file, flags);
-	}
-
-	// TODO: delete
-	public int get_file_position (File file) {
-		return file_grid.get_file_position (file);
-	}
-
-	// TODO: delete
-	public void select_position (int position, SelectFile flags = SelectFile.DEFAULT) {
-		file_grid.select_position (position, flags);
-	}
-
-	// TODO: delete
-	public void select_files (GenericList<File> list) {
-		file_grid.select_files (list);
-	}
-
 	Gth.Job free_space_job = null;
 
 	void update_free_space_info () {
@@ -1008,7 +958,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("cut-files", null);
 		action.activate.connect (() => {
-			var files = get_selected_files ();
+			var files = file_grid.get_selected_files ();
 			window.cut_files_to_clipboard (files);
 		});
 		action_group.add_action (action);
@@ -1036,7 +986,7 @@ public class Gth.Browser : Gtk.Box {
 				window.show_error (new IOError.FAILED (_("Cannot move files here")));
 				return;
 			}
-			var files = get_selected_files ();
+			var files = file_grid.get_selected_files ();
 			if (files.is_empty ()) {
 				return;
 			}
@@ -1103,7 +1053,7 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect ((_action, _params) => {
 			var is_selection = folder_tree.current_folder.file.has_uri_scheme ("selection");
 			if (is_selection) {
-				var files = get_selected_files ();
+				var files = file_grid.get_selected_files ();
 				if ((files != null) && !files.is_empty ()) {
 					window.remove_files (files);
 				}
@@ -1119,7 +1069,7 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("open-container", null);
 		action.activate.connect ((_action, _params) => {
-			var selected_file = get_selected_file ();
+			var selected_file = file_grid.get_selected_file ();
 			if (selected_file != null) {
 				var parent = selected_file.get_parent ();
 				if (parent != null) {
@@ -1147,7 +1097,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void view_fullscreen () {
-		var position = get_selected_position ();
+		var position = file_grid.get_selected_position ();
 		if (position != uint.MAX) {
 			view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
 		}
@@ -1544,7 +1494,7 @@ public class Gth.Browser : Gtk.Box {
 		}
 
 		if (page_visible) {
-			var selected_file = get_selected_file ();
+			var selected_file = file_grid.get_selected_file ();
 			if (selected_file != null) {
 				app.settings.set_string (PREF_BROWSER_SESSION_CURRENT_FILE, selected_file.get_uri ());
 			}
@@ -1569,7 +1519,7 @@ public class Gth.Browser : Gtk.Box {
 
 	void edit_file () {
 		try {
-			var position = get_selected_position ();
+			var position = file_grid.get_selected_position ();
 			if (position == uint.MAX) {
 				throw new IOError.FAILED (_("No files selected"));
 			}
@@ -2284,7 +2234,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	async void add_to_catalog () {
-		var files = get_selected_files ();
+		var files = file_grid.get_selected_files ();
 		if (files.is_empty ()) {
 			return;
 		}
@@ -2312,7 +2262,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void remove_from_catalog () {
-		var files = get_selected_files ();
+		var files = file_grid.get_selected_files ();
 		if ((files == null) || files.is_empty ()) {
 			return;
 		}
@@ -2416,7 +2366,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void add_to_selection (uint number) {
-		var files = get_selected_files ();
+		var files = file_grid.get_selected_files ();
 		if (files.is_empty ()) {
 			window.show_error (new IOError.FAILED (_("No files selected")));
 			return;
@@ -2426,7 +2376,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void remove_from_selection (uint number) {
-		var files = get_selected_files ();
+		var files = file_grid.get_selected_files ();
 		if (files.is_empty ()) {
 			window.show_error (new IOError.FAILED (_("No files selected")));
 			return;

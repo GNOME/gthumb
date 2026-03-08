@@ -126,10 +126,10 @@ public class Gth.Window : Adw.ApplicationWindow {
 					browser.property_sidebar.update_view ();
 				}
 				else if (viewer.position >= 0) {
-					browser.select_position (viewer.position, SelectFile.SCROLL_TO_FILE);
+					browser.file_grid.select_position (viewer.position, SelectFile.SCROLL_TO_FILE);
 				}
 				else if (viewer.current_file != null) {
-					browser.select_file (viewer.current_file.file, SelectFile.SCROLL_TO_FILE);
+					browser.file_grid.select_file (viewer.current_file.file, SelectFile.SCROLL_TO_FILE);
 				}
 			}
 			if (browser.never_loaded) {
@@ -257,7 +257,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public FileData? get_current_file_data () {
 		switch (current_page) {
 		case Page.BROWSER:
-			return browser.get_selected_file_data ();
+			return browser.file_grid.get_selected_file_data ();
 		case Page.VIEWER:
 			return viewer.current_file;
 		default:
@@ -273,7 +273,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public GenericList<File>? get_selected_files () {
 		switch (current_page) {
 		case Page.BROWSER:
-			return browser.get_selected_files ();
+			return browser.file_grid.get_selected_files ();
 		case Page.VIEWER:
 			return viewer.get_selected_file ();
 		default:
@@ -284,7 +284,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 	public GenericList<FileData>? get_selected_file_data_list () {
 		switch (current_page) {
 		case Page.BROWSER:
-			return browser.get_selected_file_data_list ();
+			return browser.file_grid.get_selected_file_data_list ();
 		case Page.VIEWER:
 			return viewer.get_selected_file_data_list ();
 		default:
@@ -1203,7 +1203,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (state.page == Page.BROWSER) {
 			try {
 				yield browser.open_location_async (state.location, LoadAction.OPEN, local_job);
-				browser.select_files (state.selected);
+				browser.file_grid.select_files (state.selected);
 			}
 			catch (Error error) {
 				show_error (error);

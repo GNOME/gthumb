@@ -13,7 +13,7 @@ public class Gth.WindowState {
 		if (window.viewer.current_file != null) {
 			file = window.viewer.current_file.file;
 		}
-		selected = window.browser.get_selected_files ();
+		selected = window.browser.file_grid.get_selected_files ();
 		vscroll = window.browser.file_grid.view.vadjustment.value;
 	}
 }
