@@ -551,6 +551,12 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			window.editor.activate_tool (new RotateImage ());
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("censor-image", null);
+		action.activate.connect ((action, param) => {
+			window.editor.activate_tool (new Censor ());
+		});
+		action_group.add_action (action);
 	}
 
 	public async bool edit_image (string title, ImageOperation operation, string? icon_name = null) {

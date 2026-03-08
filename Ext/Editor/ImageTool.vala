@@ -83,7 +83,7 @@ public class Gth.ImageTool : Object {
 		});
 	}
 
-	public void update_preview () {
+	public virtual void update_preview () {
 		if (image_view == null) {
 			return;
 		}

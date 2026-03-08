@@ -7,6 +7,7 @@
     <file preprocess="xml-stripblanks">gth-adjust-saturation-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-calendar-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-catalog-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-censor-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-checkmark-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-check-plain-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-circle-filled-symbolic.svg</file>
@@ -187,5 +188,6 @@
     <file preprocess="xml-stripblanks">device-dialog.ui</file>
     <file preprocess="xml-stripblanks">importer-dialog.ui</file>
     <file preprocess="xml-stripblanks">destination-row.ui</file>
+    <file preprocess="xml-stripblanks">censor-image.ui</file>
   </gresource>
 </gresources>

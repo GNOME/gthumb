@@ -1,40 +1,25 @@
-public class Gth.SpecialEffects : ImageTool {
+public class Gth.Censor : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/special-effects.ui");
+		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/censor-image.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
-		window.editor.sidebar.insert_action_group ("special-effects", action_group);
+		// window.editor.sidebar.insert_action_group ("censor", action_group);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 
-		// Translators: this is the name of a filter that produces warmer colors.
-		filter_grid.add (Effect.WARMER, new WarmerColors (), _("Warmer"));
-
-		// Translators: this is the name of a filter that produces cooler colors.
-		filter_grid.add (Effect.COOLER, new CoolerColors (), _("Cooler"));
-
-		// Translators: this is the name of an image filter that produces darker edges.
-		filter_grid.add (Effect.VIGNETTE, new Vignette (), _("Darker Edges"));
-
-		// Translators: this is the name of an image filter that produces blurred edges.
-		filter_grid.add (Effect.BLURRED_EDGES, new BlurredEdges (), _("Blurred Edges"));
+		var image_size = uint.max (viewer.image_view.image.width, viewer.image_view.image.height);
+		var default_pixels = (int) ((double) image_size * 0.75 / 100);
 
 		// Translators: this is the name of an image filter.
-		filter_grid.add (Effect.VINTAGE, new Vintage (), _("Vintage"));
+		filter_grid.add (Effect.PIXELIZE, new Pixelize (default_pixels), _("Mosaic"));
 
 		// Translators: this is the name of an image filter.
-		filter_grid.add (Effect.LOMO, new Lomo (), _("Lomography"));
-
-		// Translators: this is the name of an image filter.
-		filter_grid.add (Effect.DITHER, new Dither (), _("8 Colors"));
+		filter_grid.add (Effect.BLUR, new Blur (), _("Blur"));
 
 		filter_grid.activated.connect ((id) => {
 			var method = (Effect) id;
 			var operation = filter_grid.get_operation (method) as ParametricOperation;
 			if ((operation != null) && operation.has_parameter ()) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
-			}
-			else if (method == Effect.DITHER) {
-				window.editor.set_action_bar (builder.get_object ("dither_action_bar") as Gtk.Widget);
 			}
 			else {
 				window.editor.set_action_bar (null);
@@ -43,12 +28,14 @@ public class Gth.SpecialEffects : ImageTool {
 		});
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
-		add_default_controllers (image_view);
-		image_view.zoom_limit = ZoomLimit.MAXIMIZE;
 		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
 		image_view.image = viewer.image_view.image;
 
 		window.editor.set_content (image_view);
+
+		selector = new MaskSelector ();
+		selector.grid_type = GridType.NONE;
+		image_view.controller = selector;
 
 		amount_adjustment = builder.get_object ("amount_adjustment") as Gtk.Adjustment;
 		amount_changed_id = amount_adjustment.value_changed.connect (() => {
@@ -64,18 +51,27 @@ public class Gth.SpecialEffects : ImageTool {
 		reset_button.clicked.connect (() => reset_amount ());
 
 		update_thumbnails ();
+		filter_grid.activate_filter (Effect.PIXELIZE);
 	}
 
 	public override void before_deactivate () {
-		window.editor.sidebar.insert_action_group ("special-effects", null);
+		// window.editor.sidebar.insert_action_group ("censor", null);
 		if (thumbnails_job != null) {
 			thumbnails_job.cancel ();
 		}
+		image_view.controller = null;
 		builder = null;
 	}
 
 	public override ImageOperation? get_operation () {
-		return filter_grid.get_active_operation ();
+		var filter = filter_grid.get_active_operation ();
+		if (filter == null) {
+			return null;
+		}
+		var operation = new MaskedFilter (filter);
+		operation.mask = selector.selection;
+		operation.filtered = selector.filtered;
+		return operation;
 	}
 
 	public override void update_options_from_operation (ImageOperation image_operation) {
@@ -83,6 +79,17 @@ public class Gth.SpecialEffects : ImageTool {
 		SignalHandler.block (amount_adjustment, amount_changed_id);
 		amount_adjustment.set_value (Math.round (operation.get_amount () * 100.0));
 		SignalHandler.unblock (amount_adjustment, amount_changed_id);
+	}
+
+	public override void update_preview () {
+		if (image_view == null) {
+			return;
+		}
+		var operation = filter_grid.get_active_operation ();
+		if (operation != null) {
+			update_options_from_operation (operation);
+		}
+		selector.filter_operation = with_preview ? operation : null;
 	}
 
 	void update_thumbnails () {
@@ -118,31 +125,26 @@ public class Gth.SpecialEffects : ImageTool {
 
 	enum Effect {
 		NONE = 0,
-		WARMER,
-		COOLER,
-		VIGNETTE,
-		BLURRED_EDGES,
-		VINTAGE,
-		LOMO,
-		DITHER,
+		BLUR,
+		PIXELIZE,
 	}
 
 	construct {
-		title = _("Special Effects");
-		icon_name = "gth-special-effects-symbolic";
+		title = _("Censor");
+		icon_name = "gth-censor-symbolic";
 
 		action_group = new SimpleActionGroup ();
-		var action = new SimpleAction.stateful ("dither-method", VariantType.STRING, new Variant.string (Dither.Method.ORDERED.to_state ()));
-		action.activate.connect ((_action, param) => {
-			var method = param.get_string ();
-			action.set_state (method);
-			var dither_operation = filter_grid.get_operation (Effect.DITHER) as Dither;
-			if (dither_operation != null) {
-				dither_operation.method = Dither.Method.from_state (method);
-				queue_update_preview ();
-			}
-		});
-		action_group.add_action (action);
+		// var action = new SimpleAction.stateful ("dither-method", VariantType.STRING, new Variant.string (Dither.Method.ORDERED.to_state ()));
+		// action.activate.connect ((_action, param) => {
+		// 	var method = param.get_string ();
+		// 	action.set_state (method);
+		// 	var dither_operation = filter_grid.get_operation (Effect.DITHER) as Dither;
+		// 	if (dither_operation != null) {
+		// 		dither_operation.method = Dither.Method.from_state (method);
+		// 		queue_update_preview ();
+		// 	}
+		// });
+		// action_group.add_action (action);
 	}
 
 	Gtk.Builder builder;
@@ -151,6 +153,37 @@ public class Gth.SpecialEffects : ImageTool {
 	unowned Gtk.Adjustment amount_adjustment;
 	ulong amount_changed_id = 0;
 	SimpleActionGroup action_group;
+	MaskSelector selector;
 
 	const uint THUMBNAIL_SIZE = 140;
+}
+
+public class Gth.MaskedFilter : ImageOperation {
+	public Graphene.Rect mask;
+	public Image filtered;
+
+	public MaskedFilter (ImageOperation _filter) {
+		filter = _filter;
+		mask = Graphene.Rect.zero ();
+		filtered = null;
+	}
+
+	public override Gth.Image? execute (Image image, Cancellable cancellable, bool for_preview = false) {
+		if (filtered == null) {
+			filtered = filter.execute (image, cancellable);
+			if (filtered == null) {
+				return null;
+			}
+		}
+		var result = image.dup ();
+		filtered.copy_pixels_with_mask (result,
+			(uint) mask.origin.x,
+			(uint) mask.origin.y,
+			(uint) mask.size.width,
+			(uint) mask.size.height
+		);
+		return result;
+	}
+
+	ImageOperation filter;
 }

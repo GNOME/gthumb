@@ -29,7 +29,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		}
 	}
 
-	public void set_view (ImageView? _view) {
+	public virtual void set_view (ImageView? _view) {
 		if (view != null) {
 			view.disconnect (view_resized_id);
 			view.disconnect (view_scrolled_id);
@@ -627,7 +627,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		update_event_areas ();
 	}
 
-	public void on_unrealize () {
+	public virtual void on_unrealize () {
 		areas = {};
 	}
 
@@ -635,7 +635,7 @@ public class Gth.ImageSelector : Object, ImageController {
 		selection_changed ();
 	}
 
-	public void on_snapshot (Gtk.Snapshot snapshot) {
+	public virtual void on_snapshot (Gtk.Snapshot snapshot) {
 		view.snapshot_image (snapshot);
 
 		snapshot.push_clip (view.texture_box);
@@ -643,46 +643,14 @@ public class Gth.ImageSelector : Object, ImageController {
 		snapshot.pop ();
 	}
 
-	void snapshot_selection (Gtk.Snapshot snapshot) {
-		// stdout.printf ("> selection_box: (%f, %f) [%f, %f]\n",
-		// 	selection_box.origin.x,
-		// 	selection_box.origin.y,
-		// 	selection_box.size.width,
-		// 	selection_box.size.height);
-
-		// Darker image.
+	public void snapshot_selection_box (Gtk.Snapshot snapshot) {
+		if ((selection_box.size.width == 0) || (selection_box.size.height == 0)) {
+			return;
+		}
 
 		var box = selection_box;
 		box.origin.x += view.texture_box.origin.x;
 		box.origin.y += view.texture_box.origin.y;
-
-		Gdk.RGBA background_color = { 0, 0, 0, 0.5f };
-		var round_x =  Math.roundf (box.origin.x);
-		snapshot.append_color (background_color, {
-			{ 0, 0 },
-			{ round_x, view.viewport.size.height }
-		});
-		var round_width = Math.roundf (box.size.width);
-		snapshot.append_color (background_color, {
-			{ round_x + round_width, 0 },
-			{ view.viewport.size.width - (round_x + round_width) - 0.5f, view.viewport.size.height }
-		});
-		var round_y = Math.roundf (box.origin.y);
-		snapshot.append_color (background_color, {
-			{ round_x, 0 },
-			{ round_width, round_y }
-		});
-		var round_height = Math.roundf (box.size.height);
-		snapshot.append_color (background_color, {
-			{ round_x, round_y + round_height },
-			{ round_width, view.viewport.size.height - (round_y + round_height) }
-		});
-
-		// Selection box
-
-		if ((selection_box.size.width == 0) || (selection_box.size.height == 0)) {
-			return;
-		}
 
 		var rect = Gsk.RoundedRect ();
 		rect.init_from_rect (box, 0);
@@ -737,6 +705,46 @@ public class Gth.ImageSelector : Object, ImageController {
 		if (_grid_type != GridType.NONE) {
 			append_grid (snapshot, box);
 		}
+	}
+
+	void snapshot_selection (Gtk.Snapshot snapshot) {
+		// stdout.printf ("> selection_box: (%f, %f) [%f, %f]\n",
+		// 	selection_box.origin.x,
+		// 	selection_box.origin.y,
+		// 	selection_box.size.width,
+		// 	selection_box.size.height);
+
+		// Darker image.
+
+		var box = selection_box;
+		box.origin.x += view.texture_box.origin.x;
+		box.origin.y += view.texture_box.origin.y;
+
+		Gdk.RGBA background_color = { 0, 0, 0, 0.5f };
+		var round_x =  Math.roundf (box.origin.x);
+		snapshot.append_color (background_color, {
+			{ 0, 0 },
+			{ round_x, view.viewport.size.height }
+		});
+		var round_width = Math.roundf (box.size.width);
+		snapshot.append_color (background_color, {
+			{ round_x + round_width, 0 },
+			{ view.viewport.size.width - (round_x + round_width) - 0.5f, view.viewport.size.height }
+		});
+		var round_y = Math.roundf (box.origin.y);
+		snapshot.append_color (background_color, {
+			{ round_x, 0 },
+			{ round_width, round_y }
+		});
+		var round_height = Math.roundf (box.size.height);
+		snapshot.append_color (background_color, {
+			{ round_x, round_y + round_height },
+			{ round_width, view.viewport.size.height - (round_y + round_height) }
+		});
+
+		// Selection box
+
+		snapshot_selection_box (snapshot);
 	}
 
 	void append_grid (Gtk.Snapshot snapshot, Graphene.Rect rect) {
@@ -935,9 +943,9 @@ public class Gth.ImageSelector : Object, ImageController {
 		});
 	}
 
-	Graphene.Rect selection_box;
-	Graphene.Rect image_box;
-	ImageView view;
+	protected Graphene.Rect selection_box;
+	protected Graphene.Rect image_box;
+	protected ImageView view;
 	int _step;
 	float _ratio;
 	EventArea[] areas;

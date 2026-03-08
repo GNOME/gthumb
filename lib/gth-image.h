@@ -49,6 +49,7 @@ GthImage * gth_image_dup (GthImage *self);
 GthImage * gth_image_new_as_frame (GthImage *self);
 void gth_image_init_pixels (GthImage *self, guint width, guint height);
 void gth_image_copy_pixels (GthImage *src, GthImage *dest);
+void gth_image_copy_pixels_with_mask (GthImage *src, GthImage *dest, guint x, guint y, guint width, guint height);
 void gth_image_copy_metadata (GthImage *src, GthImage *dest);
 guchar * gth_image_get_pixels (GthImage *self, gsize *size);
 guint gth_image_get_row_stride (GthImage *self);

@@ -238,6 +238,26 @@ void gth_image_copy_pixels (GthImage *src, GthImage *dest) {
 	dest->priv->height = src->priv->height;
 }
 
+void gth_image_copy_pixels_with_mask (GthImage *src, GthImage *dest, guint x, guint y, guint width, guint height) {
+	g_return_if_fail (GTH_IS_IMAGE (src));
+	g_return_if_fail (GTH_IS_IMAGE (dest));
+	g_return_if_fail (src->priv->width == dest->priv->width);
+	g_return_if_fail (src->priv->height == dest->priv->height);
+
+	int src_stride;
+	guchar *src_pixels = gth_image_prepare_edit (src, &src_stride, NULL, NULL);
+	int dest_stride;
+	guchar *dest_pixels = gth_image_prepare_edit (dest, &dest_stride, NULL, NULL);
+	const guchar *src_row = src_pixels + (y * src_stride) + (x * PIXEL_BYTES);
+	guchar *dest_row = dest_pixels + (y * dest_stride) + (x * PIXEL_BYTES);
+	size_t row_size = width * PIXEL_BYTES;
+	for (int h = 0; h < height; h++) {
+		memcpy (dest_row, src_row, row_size);
+		src_row += src_stride;
+		dest_row += dest_stride;
+	}
+}
+
 static void gth_image_set_frame (GthImage *self, GthImage *frame) {
 	_gth_image_free_data (self);
 	self->priv->bytes = g_bytes_ref (frame->priv->bytes);
