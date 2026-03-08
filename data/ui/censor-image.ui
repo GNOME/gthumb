@@ -45,4 +45,18 @@
       </object>
     </child>
   </object>
+  <object class="AdwPreferencesGroup" id="color_action_bar">
+    <child>
+      <object class="AdwActionRow" id="color_row">
+        <property name="title" translatable="yes">Color</property>
+        <property name="activatable">true</property>
+        <child type="suffix">
+          <object class="GthColorPreview" id="color_preview">
+            <property name="color">#000</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>

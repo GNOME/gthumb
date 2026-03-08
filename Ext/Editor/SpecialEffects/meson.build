@@ -10,4 +10,5 @@ special_effects_files = files(
   'Vignette.vala',
   'Vintage.vala',
   'WarmerColors.vala',
+  'SolidColor.vala',
 )

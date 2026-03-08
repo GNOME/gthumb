@@ -15,16 +15,47 @@ public class Gth.Censor : ImageTool {
 		// Translators: this is the name of an image filter.
 		filter_grid.add (Effect.BLUR, new Blur (), _("Blur"));
 
+		filter_grid.add (Effect.COLOR, new SolidColor (), _("Color"));
+
 		filter_grid.activated.connect ((id) => {
 			var method = (Effect) id;
 			var operation = filter_grid.get_operation (method) as ParametricOperation;
 			if ((operation != null) && operation.has_parameter ()) {
 				window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 			}
+			else if (method == Effect.COLOR) {
+				window.editor.set_action_bar (builder.get_object ("color_action_bar") as Gtk.Widget);
+			}
 			else {
 				window.editor.set_action_bar (null);
 			}
 			queue_update_preview ();
+		});
+
+		var color_row = builder.get_object ("color_row") as Adw.ActionRow;
+		color_row.activated.connect (() => {
+			var local_job = window.new_job (_("Color"));
+			var selector = new Gth.ColorSelector ();
+			var operation = filter_grid.get_operation (Effect.COLOR) as SolidColor;
+			color_job = local_job;
+			selector.select_color.begin (window, operation.color, local_job.cancellable, (_obj, res) => {
+				try {
+					var color = selector.select_color.end (res);
+					if (color != null) {
+						var color_preview = builder.get_object ("color_preview") as Gth.ColorPreview;
+						color_preview.color = color;
+						operation.color = color;
+						queue_update_preview ();
+					}
+				}
+				catch (Error e) {
+					// Ignore.
+				}
+				local_job.done ();
+				if (local_job == color_job) {
+					color_job = null;
+				}
+			});
 		});
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
@@ -56,6 +87,9 @@ public class Gth.Censor : ImageTool {
 
 	public override void before_deactivate () {
 		// window.editor.sidebar.insert_action_group ("censor", null);
+		if (color_job != null) {
+			color_job.cancel ();
+		}
 		if (thumbnails_job != null) {
 			thumbnails_job.cancel ();
 		}
@@ -127,6 +161,7 @@ public class Gth.Censor : ImageTool {
 		NONE = 0,
 		BLUR,
 		PIXELIZE,
+		COLOR,
 	}
 
 	construct {
@@ -150,6 +185,7 @@ public class Gth.Censor : ImageTool {
 	Gtk.Builder builder;
 	Gth.FilterGrid filter_grid;
 	Job thumbnails_job = null;
+	Job color_job = null;
 	unowned Gtk.Adjustment amount_adjustment;
 	ulong amount_changed_id = 0;
 	SimpleActionGroup action_group;

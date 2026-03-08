@@ -60,6 +60,34 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	}
 }
 
+void gth_image_fill_color (GthImage *self, GdkRGBA *color) {
+	int row_stride;
+	int width;
+	int height;
+	guchar *pixels = gth_image_prepare_edit (self, &row_stride, &width, &height);
+	guchar *row = pixels;
+
+	guint32 pixel;
+	guint32 *pixel_p = &pixel;
+	guchar red = color->red * 255;
+	guchar green = color->green * 255;
+	guchar blue = color->blue * 255;
+	guchar alpha = color->alpha * 255;
+	guchar r, g, b; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
+	RGBA_TO_PIXEL (pixel_p, red, green, blue, alpha);
+
+	for (int y = 0; y < height; y++) {
+		pixel_p = (guint32 *) row;
+		for (int x = 0; x < width; x++) {
+			*pixel_p = pixel;
+			pixel_p += 1;
+		}
+		row += row_stride;
+	}
+}
+
+
 // f is aleady alpha multiplied
 #define RENDER_BLEND(b, f, a) \
 	temp = ((a) * (b)) + 0x80; \
