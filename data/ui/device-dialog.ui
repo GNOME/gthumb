@@ -74,7 +74,7 @@
                                 <property name="title" translatable="yes">Files</property>
                                 <child type="suffix">
                                   <object class="GtkLabel" id="file_info">
-                                    <property name="label">TODO</property>
+                                    <property name="label"></property>
                                   </object>
                                 </child>
                               </object>

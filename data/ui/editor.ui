@@ -95,7 +95,7 @@
                     </style>
                     <child>
                       <object class="GtkLabel">
-                        <property name="label">TODO</property>
+                        <property name="label"></property>
                       </object>
                     </child>
                   </object>
@@ -173,7 +173,7 @@
                             <property name="margin-end">6</property>
                             <child>
                               <object class="GtkLabel">
-                                <property name="label">TODO</property>
+                                <property name="label"></property>
                               </object>
                             </child>
                           </object>
