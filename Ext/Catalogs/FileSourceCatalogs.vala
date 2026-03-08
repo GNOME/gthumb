@@ -195,15 +195,15 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		return new Gth.FileData (file, info);
 	}
 
-	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
+	public override async void add_files (MainWindow window, File destination, GenericList<File> files, Job job) throws Error {
 		yield Catalog.add_files (destination, files, job);
 	}
 
-	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
+	public override async void remove_files (MainWindow window, File location, GenericList<File> files, Job job) throws Error {
 		yield Catalog.remove_files (location, files, job);
 	}
 
-	public override async void save_order (Window window, File location, GenericList<File> files, Job job) throws Error {
+	public override async void save_order (MainWindow window, File location, GenericList<File> files, Job job) throws Error {
 		yield Catalog.save_order (location, files, job);
 		// TODO app.events.order_changed (location);
 	}
@@ -212,7 +212,7 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 		return true;
 	}
 
-	public override async void files_renamed (Window window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
+	public override async void files_renamed (MainWindow window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
 		yield Catalog.rename_files (location, renamed_files, job);
 	}
 }

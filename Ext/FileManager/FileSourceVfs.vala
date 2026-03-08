@@ -127,11 +127,11 @@ public class Gth.FileSourceVfs : FileSource {
 		app.events.watch_file (file, activate);
 	}
 
-	public override async void add_files (Window window, File destination, GenericList<File> files, Job job) throws Error {
+	public override async void add_files (MainWindow window, File destination, GenericList<File> files, Job job) throws Error {
 		yield window.file_manager.copy_files (files, destination, job);
 	}
 
-	public override async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error {
+	public override async void remove_files (MainWindow window, File location, GenericList<File> files, Job job) throws Error {
 		yield window.file_manager.trash_files (files, job);
 	}
 

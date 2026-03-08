@@ -1,5 +1,5 @@
 public class Gth.RenameFiles : Object {
-	public async GenericList<RenamedFile>? rename (Gth.Window window, GenericList<File> files, Job job) throws Error {
+	public async GenericList<RenamedFile>? rename (Gth.MainWindow window, GenericList<File> files, Job job) throws Error {
 		callback = rename.callback;
 		dialog = new RenameDialog (window, files);
 		dialog.saved.connect (() => {
@@ -41,7 +41,7 @@ public class Gth.RenameFiles : Object {
 public class Gth.RenameDialog : Adw.Window {
 	public signal void saved ();
 
-	public RenameDialog (Gth.Window _window, GenericList<File> _files) throws Error {
+	public RenameDialog (Gth.MainWindow _window, GenericList<File> _files) throws Error {
 		window = _window;
 		transient_for = _window;
 		files = _files;
@@ -359,7 +359,7 @@ public class Gth.RenameDialog : Adw.Window {
 		Util.select_filename_without_ext (name_entry);
 	}
 
-	Gth.Window window;
+	Gth.MainWindow window;
 	GenericList<File> files;
 	GenericList<RenameEntry> name_list;
 	GenericList<FileData> file_data_list = null;

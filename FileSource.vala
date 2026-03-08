@@ -32,19 +32,19 @@ public abstract class Gth.FileSource : Object {
 		// void
 	}
 
-	public abstract async void add_files (Window window, File location, GenericList<File> files, Job job) throws Error;
+	public abstract async void add_files (MainWindow window, File location, GenericList<File> files, Job job) throws Error;
 
-	public abstract async void remove_files (Window window, File location, GenericList<File> files, Job job) throws Error;
+	public abstract async void remove_files (MainWindow window, File location, GenericList<File> files, Job job) throws Error;
 
 	public virtual bool is_reorderable () {
 		return false;
 	}
 
-	public virtual async void save_order (Window window, File location, GenericList<File> files, Job job) throws Error {
+	public virtual async void save_order (MainWindow window, File location, GenericList<File> files, Job job) throws Error {
 		throw new IOError.FAILED ("Cannot save order for this location");
 	}
 
-	public virtual async void files_renamed (Window window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
+	public virtual async void files_renamed (MainWindow window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
 		// void
 	}
 }

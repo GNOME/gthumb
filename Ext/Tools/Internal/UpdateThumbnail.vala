@@ -1,5 +1,5 @@
 public class Gth.UpdateThumbnail : Gth.FileOperation {
-	public override async void execute (Gth.Window window, File file, Gth.Job job) throws Error {
+	public override async void execute (Gth.MainWindow window, File file, Gth.Job job) throws Error {
 		try {
 			var thumbnail_file = Thumbnailer.get_failed_thumbnail_file (file, FileIntent.READ);
 			yield thumbnail_file.delete_async (Priority.DEFAULT, job.cancellable);

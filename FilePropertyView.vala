@@ -47,7 +47,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		var action = new SimpleAction ("copy-value", null);
 		action.activate.connect ((_action, param) => {
 			if (current_property != null) {
-				var win = app.active_window as Gth.Window;
+				var win = app.active_window as Gth.MainWindow;
 				if (win != null) {
 					win.copy_text_to_clipboard (current_property.value);
 				}
@@ -66,7 +66,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 					}
 				}
 				if (text != null) {
-					var win = app.active_window as Gth.Window;
+					var win = app.active_window as Gth.MainWindow;
 					if (win != null) {
 						win.copy_text_to_clipboard (text);
 					}
@@ -78,7 +78,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		action = new SimpleAction ("copy-path", null);
 		action.activate.connect ((_action, param) => {
 			if (file_data != null) {
-				var win = app.active_window as Gth.Window;
+				var win = app.active_window as Gth.MainWindow;
 				if (win != null) {
 					win.copy_text_to_clipboard (file_data.file.get_path ());
 				}
@@ -89,7 +89,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		action = new SimpleAction ("open-folder", null);
 		action.activate.connect ((_action, param) => {
 			if (file_data != null) {
-				var win = app.active_window as Gth.Window;
+				var win = app.active_window as Gth.MainWindow;
 				if (win != null) {
 					app.open_window (file_data.file.get_parent (), file_data.file, true);
 				}
@@ -100,7 +100,7 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 		action = new SimpleAction ("open-map", null);
 		action.activate.connect ((_action, param) => {
 			if (file_data != null) {
-				var win = app.active_window as Gth.Window;
+				var win = app.active_window as Gth.MainWindow;
 				if (win != null) {
 					var metadata = file_data.info.get_attribute_object ("Metadata::Coordinates") as Gth.Metadata;
 					double lat, long;

@@ -1,5 +1,5 @@
 public class Gth.ResizeImages : Object {
-	public async FileOperation? resize (Gth.Window window, Job job) throws Error {
+	public async FileOperation? resize (Gth.MainWindow window, Job job) throws Error {
 		callback = resize.callback;
 		dialog = new ResizeDialog (window);
 		dialog.saved.connect (() => {
@@ -40,7 +40,7 @@ public class Gth.ResizeImages : Object {
 public class Gth.ResizeDialog : Adw.Dialog {
 	public signal void saved ();
 
-	public ResizeDialog (Gth.Window window) throws Error {
+	public ResizeDialog (Gth.MainWindow window) throws Error {
 		settings = new GLib.Settings (GTHUMB_RESIZE_SCHEMA);
 
 		var format_names = new Gtk.StringList (null);

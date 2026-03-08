@@ -5,7 +5,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 		factory = app.io_factory;
 	}
 
-	public override async void execute (Gth.Window window, File file, Gth.Job cancellable_job) throws Error {
+	public override async void execute (Gth.MainWindow window, File file, Gth.Job cancellable_job) throws Error {
 		var job = new Job ();
 		job.callback = execute.callback;
 		job.file = file;

@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/editor.ui")]
 public class Gth.Editor : Gtk.Box {
-	public weak Window window {
+	public weak MainWindow window {
 		get { return _window; }
 		set {
 			_window = value;
@@ -9,7 +9,7 @@ public class Gth.Editor : Gtk.Box {
 	}
 
 	public void activate_tool (ImageTool tool) {
-		window.set_page.begin (Window.Page.EDITOR, (_obj, res) => {
+		window.set_page.begin (MainWindow.Page.EDITOR, (_obj, res) => {
 			window.set_page.end (res);
 			window.insert_action_group ("editor", action_group);
 			show_apply ();
@@ -106,14 +106,14 @@ public class Gth.Editor : Gtk.Box {
 			current_editor.apply_changes.begin ((_obj, res) => {
 				var edited = current_editor.apply_changes.end (res);
 				if (edited) {
-					window.set_page.begin (Window.Page.VIEWER);
+					window.set_page.begin (MainWindow.Page.VIEWER);
 				}
 			});
 		});
 		action_group.add_action (action);
 	}
 
-	weak Window _window;
+	weak MainWindow _window;
 	public SimpleActionGroup action_group;
 	public ImageTool current_editor;
 	Job apply_job = null;

@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/viewer.ui")]
 public class Gth.Viewer : Gtk.Box {
-	public weak Window window {
+	public weak MainWindow window {
 		get { return _window; }
 		set {
 			_window = value;
@@ -20,7 +20,7 @@ public class Gth.Viewer : Gtk.Box {
 		}
 		activate_viewer_for_file (file_data);
 		var loaded = yield current_viewer.load (file_data, job);
-		yield window.set_page (Window.Page.VIEWER);
+		yield window.set_page (MainWindow.Page.VIEWER);
 		current_file = file_data;
 		property_sidebar.current_file = current_file;
 		// Do not update the sidebar when loading images
@@ -134,7 +134,7 @@ public class Gth.Viewer : Gtk.Box {
 				throw new IOError.FAILED (_("Cannot view this kind of files"));
 			}
 			image_viewer.view_unsaved_image (image);
-			yield window.set_page (Window.Page.VIEWER);
+			yield window.set_page (MainWindow.Page.VIEWER);
 			current_file = file_data;
 			property_sidebar.current_file = file_data;
 			update_title ();
@@ -474,7 +474,7 @@ public class Gth.Viewer : Gtk.Box {
 				state = _("modified");
 			}
 		}
-		if (window.current_page == Window.Page.VIEWER) {
+		if (window.current_page == MainWindow.Page.VIEWER) {
 			window.title = title.str;
 		}
 		set_header_state (state);
@@ -510,12 +510,12 @@ public class Gth.Viewer : Gtk.Box {
 		if (deleted_pos < 0) {
 			return;
 		}
-		if (window.current_page == Window.Page.BROWSER) {
+		if (window.current_page == MainWindow.Page.BROWSER) {
 			current_file = null;
 		}
 		else if (!window.browser.view_position (position)) {
 			if (!window.browser.view_last_file ()) {
-				window.set_page.begin (Window.Page.BROWSER);
+				window.set_page.begin (MainWindow.Page.BROWSER);
 			}
 		}
 	}
@@ -594,7 +594,7 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void focus_viewer () {
-		if (window.current_page != Window.Page.VIEWER) {
+		if (window.current_page != MainWindow.Page.VIEWER) {
 			return;
 		}
 		if (current_viewer != null) {
@@ -773,7 +773,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] public unowned Gth.FileGrid file_grid;
 	[GtkChild] public unowned Gth.SidebarResizer file_grid_resizer;
 
-	weak Window _window;
+	weak MainWindow _window;
 	bool active_popup = false;
 	bool on_overlay = false;
 	uint hide_mediabar_id = 0;

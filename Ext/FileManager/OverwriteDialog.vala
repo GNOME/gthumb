@@ -5,7 +5,7 @@ public class Gth.OverwriteDialog : Object {
 	// public string content_type;
 	public bool check_extension;
 
-	public OverwriteDialog (Gth.Window _parent) {
+	public OverwriteDialog (Gth.MainWindow _parent) {
 		parent = _parent;
 		default_response = OverwriteResponse.OVERWRITE;
 		single_file = true;
@@ -251,7 +251,7 @@ public class Gth.OverwriteDialog : Object {
 		}
 	}
 
-	Gth.Window parent;
+	Gth.MainWindow parent;
 	FileData destination;
 	Gth.Thumbnail destination_thumbnail;
 	FileData source;

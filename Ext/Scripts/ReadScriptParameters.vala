@@ -1,7 +1,7 @@
 public class Gth.ReadScriptParameters : Object {
 	public FileData file = null;
 
-	public async void ask_user (Gth.Window parent, string title, GenericArray<ScriptParameter> parameters, bool can_skip, Job job) throws Error {
+	public async void ask_user (Gth.MainWindow parent, string title, GenericArray<ScriptParameter> parameters, bool can_skip, Job job) throws Error {
 		callback = ask_user.callback;
 		dialog = new ScriptParametersDialog (parent, title, parameters, file);
 		dialog.skip_button.visible = can_skip;
@@ -48,7 +48,7 @@ class Gth.ScriptParametersDialog : Adw.Window {
 	public signal void saved ();
 	public bool skipped;
 
-	public ScriptParametersDialog (Gth.Window parent, string title_text, GenericArray<ScriptParameter> _parameters, FileData? file) {
+	public ScriptParametersDialog (Gth.MainWindow parent, string title_text, GenericArray<ScriptParameter> _parameters, FileData? file) {
 		transient_for = parent;
 		custom_title.label = title_text;
 		file_info.visible = file != null;

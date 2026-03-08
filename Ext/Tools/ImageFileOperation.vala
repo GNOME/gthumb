@@ -8,7 +8,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		folder = null;
 	}
 
-	public override async void execute (Gth.Window window, File source, Job job) throws Error {
+	public override async void execute (Gth.MainWindow window, File source, Job job) throws Error {
 		// Load the image
 		var image = yield app.image_loader.load_file (window.monitor_profile, source, LoadFlags.DEFAULT, job.cancellable);
 
@@ -47,7 +47,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		yield create_file (window, new_image, file_data, job);
 	}
 
-	async void create_file (Gth.Window window, Image image, FileData file_data, Job job) throws Error {
+	async void create_file (Gth.MainWindow window, Image image, FileData file_data, Job job) throws Error {
 		try {
 			yield app.image_saver.create_file (window.monitor_profile, image, file_data, SaveFlags.DEFAULT, job.cancellable);
 		}
@@ -61,7 +61,7 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		}
 	}
 
-	async void ask_to_overwrite (Gth.Window window, Image image, FileData file_data, Job job) throws Error {
+	async void ask_to_overwrite (Gth.MainWindow window, Image image, FileData file_data, Job job) throws Error {
 		if (overwrite_response == OverwriteResponse.SKIP_ALL) {
 			return;
 		}

@@ -1,5 +1,5 @@
 public class Gth.FileManager {
-	public FileManager (Window _window) {
+	public FileManager (MainWindow _window) {
 		window = _window;
 	}
 
@@ -294,7 +294,7 @@ public class Gth.FileManager {
 		}
 	}
 
-	weak Window window;
+	weak MainWindow window;
 }
 
 public class Gth.CopyOperation {
@@ -304,7 +304,7 @@ public class Gth.CopyOperation {
 	public OverwriteResponse last_overwrite_response;
 	public uint total_files;
 
-	public CopyOperation (Window _window) {
+	public CopyOperation (MainWindow _window) {
 		window = _window;
 		deleted_files = new GenericList<File> ();
 		created_files = new GenericList<File> ();
@@ -587,7 +587,7 @@ public class Gth.CopyOperation {
 		}
 	}
 
-	weak Window window;
+	weak MainWindow window;
 	File last_made_destination;
 	uint current_file;
 	uint64 total_bytes;
@@ -613,7 +613,7 @@ public enum Gth.CopyFlags {
 public class Gth.DeleteOperation {
 	public GenericList<File> deleted_files;
 
-	public DeleteOperation (Window _window) {
+	public DeleteOperation (MainWindow _window) {
 		window = _window;
 		deleted_files = new GenericList<File>();
 	}
@@ -690,5 +690,5 @@ public class Gth.DeleteOperation {
 		}
 	}
 
-	Window window;
+	MainWindow window;
 }

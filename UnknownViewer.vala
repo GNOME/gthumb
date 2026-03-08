@@ -1,7 +1,7 @@
 public class Gth.UnknownViewer : Object, Gth.FileViewer {
 	public Gth.ShortcutContext shortcut_context { get { return ShortcutContext.VIEWER; } }
 
-	public void activate (Gth.Window _window) {
+	public void activate (Gth.MainWindow _window) {
 		window = _window;
 		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/unknown-viewer.ui");
 		unowned var main_view = builder.get_object ("main_view") as Gtk.Widget;
@@ -56,7 +56,7 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 		builder = null;
 	}
 
-	weak Gth.Window window;
+	weak Gth.MainWindow window;
 	GLib.Settings settings;
 	Gtk.Builder builder;
 	ScrollAction scroll_action;

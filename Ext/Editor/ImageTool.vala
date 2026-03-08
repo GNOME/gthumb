@@ -1,7 +1,7 @@
 public class Gth.ImageTool : Object {
 	public string title;
 	public string icon_name;
-	public weak Window window;
+	public weak MainWindow window;
 	public weak ImageViewer viewer;
 	public Image original;
 	public unowned ImageView image_view;
@@ -26,7 +26,7 @@ public class Gth.ImageTool : Object {
 		}
 	}
 
-	public void activate (Window _window) {
+	public void activate (MainWindow _window) {
 		window = _window;
 		viewer = window.viewer.current_viewer as ImageViewer;
 		original = viewer.image_view.image;

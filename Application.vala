@@ -550,19 +550,19 @@ public class Gth.Application : Adw.Application {
 		return get_viewer_type_for_content_type (content_type) == viewer_type;
 	}
 
-	public Gth.Window? get_active_main_window () {
+	public Gth.MainWindow? get_active_main_window () {
 		foreach (var win in get_windows ()) {
-			if (win is Gth.Window) {
-				return win as Gth.Window;
+			if (win is Gth.MainWindow) {
+				return win as Gth.MainWindow;
 			}
 		}
 		return null;
 	}
 
-	public void foreach_window (Gth.WindowFunc func) {
+	public void foreach_main_window (Gth.MainWindowFunc func) {
 		foreach (var w in get_windows ()) {
-			if (w is Gth.Window) {
-				var win = w as Gth.Window;
+			if (w is Gth.MainWindow) {
+				var win = w as Gth.MainWindow;
 				if ((win != null) && !win.closing) {
 					func (win);
 				}
@@ -709,7 +709,7 @@ public class Gth.Application : Adw.Application {
 		if (setting_changed_id == 0) {
 			setting_changed_id = Util.after_timeout (100, () => {
 				setting_changed_id = 0;
-				foreach_window ((win) => {
+				foreach_main_window ((win) => {
 					foreach (unowned var _key in changed_keys.get_values ()) {
 						win.on_setting_change (_key);
 					}
@@ -775,12 +775,14 @@ public class Gth.Application : Adw.Application {
 			force_new_window = true;
 			arg_new_window = false;
 		}
-		Gth.Window window = null;
+		Gth.MainWindow window = null;
 		if (!force_new_window && settings.get_boolean (PREF_BROWSER_REUSE_ACTIVE_WINDOW)) {
-			window = active_window as Gth.Window;
+			if (active_window is Gth.MainWindow) {
+				window = active_window as Gth.MainWindow;
+			}
 		}
 		if (window == null) {
-			window = new Gth.Window ();
+			window = new Gth.MainWindow ();
 		}
 		if (file_to_select != null) {
 			window.browser.open_location (location, LoadAction.OPEN, file_to_select);
@@ -825,4 +827,4 @@ public class Gth.Application : Adw.Application {
 	const int MAX_IO_WORKERS = 4;
 }
 
-public delegate void Gth.WindowFunc (Gth.Window win);
+public delegate void Gth.MainWindowFunc (Gth.MainWindow win);

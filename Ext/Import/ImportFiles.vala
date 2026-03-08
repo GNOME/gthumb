@@ -1,7 +1,7 @@
 public class Gth.ImportFiles : Object {
 	public File destination;
 
-	public async void import (Gth.Window window, ActionInfo folder_info, Job job) throws Error {
+	public async void import (Gth.MainWindow window, ActionInfo folder_info, Job job) throws Error {
 		callback = import.callback;
 		destination = folder_info.get_file ();
 		yield app.devices.ensure_mounted (destination, window, job.cancellable);
@@ -92,7 +92,7 @@ public class Gth.ImportFiles : Object {
 public class Gth.ImporterDialog : Adw.Window {
 	public signal void saved (Importer importer);
 
-	public ImporterDialog (Gth.Window _window, ActionInfo folder_info, ListModel model) {
+	public ImporterDialog (Gth.MainWindow _window, ActionInfo folder_info, ListModel model) {
 		window = _window;
 		transient_for = _window;
 		modal = true;
@@ -307,7 +307,7 @@ public class Gth.ImporterDialog : Adw.Window {
 	}
 
 	GLib.Settings settings;
-	Gth.Window window;
+	Gth.MainWindow window;
 	bool initializing;
 	[GtkChild] unowned Gth.FileGrid file_grid;
 	[GtkChild] unowned Gtk.Label file_info;

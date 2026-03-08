@@ -1,7 +1,7 @@
 public class Gth.ImageViewer : Object, Gth.FileViewer {
 	public Gth.ShortcutContext shortcut_context { get { return ShortcutContext.IMAGE_VIEWER; } }
 
-	public void activate (Gth.Window _window) {
+	public void activate (Gth.MainWindow _window) {
 		assert (window == null);
 
 		window = _window;
@@ -738,7 +738,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		preloader = new Preloader ();
 	}
 
-	weak Gth.Window window;
+	weak Gth.MainWindow window;
 	GLib.Settings settings;
 	Gtk.Builder builder;
 	public unowned Gth.ImageView image_view;

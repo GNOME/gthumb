@@ -70,7 +70,7 @@ public class Gth.Script : Object {
 		return shortcut;
 	}
 
-	public async void execute (Gth.Window window, GenericList<File> files) {
+	public async void execute (Gth.MainWindow window, GenericList<File> files) {
 		var local_job = window.new_job (display_name, JobFlags.FOREGROUND, "gth-script-symbolic");
 		try {
 			var attributes = get_requested_attributes ();
@@ -148,7 +148,7 @@ public class Gth.Script : Object {
 		}
 	}
 
-	async string get_command_line (Gth.Window window, GenericList<FileData> files, bool can_skip, Job job) throws Error {
+	async string get_command_line (Gth.MainWindow window, GenericList<FileData> files, bool can_skip, Job job) throws Error {
 		var template = new ScriptTemplate (command, TemplateFlags.NO_ENUMERATOR);
 		template.files = files;
 		return yield template.read_parameters (window, display_name, can_skip, job);

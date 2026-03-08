@@ -57,7 +57,7 @@ public class Gth.DesktopBackground {
 		window.add_toast (toast);
 	}
 
-	Window window;
+	Gth.Window window;
 	Wallpaper old_wallpaper;
 	Wallpaper new_wallpaper;
 	GLib.Settings settings;

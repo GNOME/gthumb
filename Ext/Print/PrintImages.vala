@@ -1,5 +1,5 @@
 public class Gth.PrintImages : Object {
-	public async void print_files (Gth.Window _window, GenericList<File> files, Job job) throws Error {
+	public async void print_files (Gth.MainWindow _window, GenericList<File> files, Job job) throws Error {
 		window = _window;
 		// Load the images
 		var images = new GenericArray<PrintImageLayout> ();
@@ -11,7 +11,7 @@ public class Gth.PrintImages : Object {
 		yield print (print_layout, job);
 	}
 
-	public async void print_image (Gth.Window _window, Image image, File? file, Job job) throws Error {
+	public async void print_image (Gth.MainWindow _window, Image image, File? file, Job job) throws Error {
 		window = _window;
 		var images = new GenericArray<PrintImageLayout> ();
 		images.add (new PrintImageLayout (file, image));
@@ -112,6 +112,6 @@ public class Gth.PrintImages : Object {
 		}
 	}
 
-	Gth.Window window;
+	Gth.MainWindow window;
 	PrintLayout print_layout;
 }

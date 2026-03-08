@@ -22,7 +22,7 @@ public class Gth.ScriptTemplate {
 		parameters = null;
 	}
 
-	public async string read_parameters (Gth.Window window, string title, bool can_skip, Job job) throws Error {
+	public async string read_parameters (Gth.MainWindow window, string title, bool can_skip, Job job) throws Error {
 		parameters = new GenericArray<ScriptParameter> ();
 		Template.for_each_token (template, flags, (parent_code, code, args) => {
 			if (code == Code.ASK_VALUE) {

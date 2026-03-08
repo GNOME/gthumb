@@ -2,7 +2,7 @@
 public class Gth.PrintLayoutDialog : Adw.Window {
 	public PrintDialogResult result;
 
-	public PrintLayoutDialog (Gth.Window _window, Gth.PrintLayout _print_layout) {
+	public PrintLayoutDialog (Gth.MainWindow _window, Gth.PrintLayout _print_layout) {
 		window = _window;
 		result = PrintDialogResult.CANCEL;
 
@@ -329,7 +329,7 @@ public class Gth.PrintLayoutDialog : Adw.Window {
 	[GtkChild] unowned Adw.SpinRow image_width;
 	[GtkChild] unowned Adw.SpinRow image_height;
 
-	Gth.Window window;
+	Gth.MainWindow window;
 	Gth.PrintLayout print_layout;
 	int initializing = 0;
 }

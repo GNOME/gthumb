@@ -1,5 +1,5 @@
 public class Gth.ConvertFormat : Object {
-	public async FileOperation? convert (Gth.Window window, Job job) throws Error {
+	public async FileOperation? convert (Gth.MainWindow window, Job job) throws Error {
 		callback = convert.callback;
 		dialog = new ConvertDialog (window);
 		dialog.saved.connect (() => {
@@ -40,7 +40,7 @@ public class Gth.ConvertFormat : Object {
 public class Gth.ConvertDialog : Adw.Dialog {
 	public signal void saved ();
 
-	public ConvertDialog (Gth.Window window) throws Error {
+	public ConvertDialog (Gth.MainWindow window) throws Error {
 		settings = new GLib.Settings (GTHUMB_CONVERT_SCHEMA);
 
 		var format_names = new Gtk.StringList (null);

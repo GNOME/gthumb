@@ -1,11 +1,11 @@
 public class Gth.WindowState {
-	public Gth.Window.Page page;
+	public Gth.MainWindow.Page page;
 	public File location;
 	public File file;
 	public GenericList<File> selected;
 	public double vscroll;
 
-	public WindowState (Gth.Window window) {
+	public WindowState (Gth.MainWindow window) {
 		page = window.current_page;
 		if (window.browser.folder_tree.current_folder != null) {
 			location = window.browser.folder_tree.current_folder.file;

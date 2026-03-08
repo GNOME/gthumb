@@ -34,7 +34,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 	}
 
-	public void activate (Gth.Window _window) {
+	public void activate (Gth.MainWindow _window) {
 		assert (window == null);
 		assert (video_view == null);
 
@@ -883,7 +883,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	}
 
 	GLib.Settings settings;
-	weak Gth.Window window;
+	weak Gth.MainWindow window;
 	Gst.Pipeline playbin;
 	unowned Gtk.Stack view_stack;
 	unowned Gth.VideoView video_view;

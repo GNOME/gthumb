@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/browser.ui")]
 public class Gth.Browser : Gtk.Box {
-	public weak Window window {
+	public weak MainWindow window {
 		get { return _window; }
 		set {
 			_window = value;
@@ -127,7 +127,7 @@ public class Gth.Browser : Gtk.Box {
 		var file_data_list = yield FileManager.query_list_info (files, attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
 		foreach (var file_data in file_data_list) {
 			folder_tree.current_children.model.append (file_data);
-			if (window.current_page == Window.Page.VIEWER) {
+			if (window.current_page == MainWindow.Page.VIEWER) {
 				window.viewer.file_changed (file_data);
 			}
 		}
@@ -174,7 +174,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
-		yield window.set_page (Window.Page.BROWSER);
+		yield window.set_page (MainWindow.Page.BROWSER);
 		yield load_folder (location, load_action, job);
 	}
 
@@ -208,8 +208,8 @@ public class Gth.Browser : Gtk.Box {
 			// Copy the settings from the previously focused window.
 			unowned var windows = app.get_windows ();
 			foreach (unowned var win in windows) {
-				if ((win != window) && (win is Gth.Window)) {
-					var previous_window = win as Gth.Window;
+				if ((win != window) && (win is Gth.MainWindow)) {
+					var previous_window = win as Gth.MainWindow;
 					history.copy (previous_window.browser.history);
 					filter_bar.set_active_filter (previous_window.browser.filter_bar.filter);
 					break;
@@ -400,7 +400,7 @@ public class Gth.Browser : Gtk.Box {
 		else {
 			title = "Thumbnails";
 		}
-		if (window.current_page == Window.Page.BROWSER) {
+		if (window.current_page == MainWindow.Page.BROWSER) {
 			window.title = title;
 		}
 		location_label.label = title;
@@ -432,7 +432,7 @@ public class Gth.Browser : Gtk.Box {
 			total_size += file.info.get_size ();
 		}
 		status.set_list_info (total_files, total_size);
-		if (window.current_page == Window.Page.VIEWER) {
+		if (window.current_page == MainWindow.Page.VIEWER) {
 			window.viewer.update_list_info (total_files);
 		}
 		update_folder_status ();
@@ -1111,7 +1111,7 @@ public class Gth.Browser : Gtk.Box {
 		var action = new SimpleAction ("open-new-window", null);
 		action.activate.connect ((_action, param) => {
 			if (folder_tree.context_file != null) {
-				var new_window = new Gth.Window ();
+				var new_window = new Gth.MainWindow ();
 				new_window.browser.open_location (folder_tree.context_file.file);
 				new_window.present ();
 			}
@@ -1603,7 +1603,7 @@ public class Gth.Browser : Gtk.Box {
 		total_size += file_data.info.get_size ();
 
 		status.set_list_info (total_files, total_size);
-		if (window.current_page == Window.Page.VIEWER) {
+		if (window.current_page == MainWindow.Page.VIEWER) {
 			window.viewer.update_list_info (total_files);
 		}
 		if (total_files == 1) {
@@ -1690,7 +1690,7 @@ public class Gth.Browser : Gtk.Box {
 			update_children.end (res);
 			// Update the viewer checking the etag to decide whether to
 			// reload the content.
-			if (window.current_page == Window.Page.VIEWER) {
+			if (window.current_page == MainWindow.Page.VIEWER) {
 				foreach (var file_data in changed_files) {
 					window.viewer.file_changed (file_data);
 				}
@@ -2022,7 +2022,7 @@ public class Gth.Browser : Gtk.Box {
 		// stdout.printf ("> BROWSER: UPDATE FILE METADATA\n");
 		update_file.begin (file_data, (_obj, res) => {
 			update_file.end (res);
-			if (window.current_page == Window.Page.VIEWER) {
+			if (window.current_page == MainWindow.Page.VIEWER) {
 				window.viewer.metadata_changed (file_data.file);
 			}
 		});
@@ -2205,7 +2205,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public void focus_thumbnail_list () {
-		if (window.current_page != Window.Page.BROWSER) {
+		if (window.current_page != MainWindow.Page.BROWSER) {
 			return;
 		}
 		if (total_files > 0) {
@@ -2454,7 +2454,7 @@ public class Gth.Browser : Gtk.Box {
 
 	Gth.Test general_filter;
 	Gth.History history;
-	weak Window _window;
+	weak MainWindow _window;
 	Queue<File> current_parents;
 	File last_folder = null;
 	File last_catalog = null;

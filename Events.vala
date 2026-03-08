@@ -12,42 +12,42 @@ public class Gth.Events : Object {
 	}
 
 	public signal void bookmarks_changed () {
-		app.foreach_window ((win) => win.browser.update_bookmarks_menu ());
+		app.foreach_main_window ((win) => win.browser.update_bookmarks_menu ());
 	}
 
 	public signal void catalog_saved (Gth.Catalog catalog, File old_file) {
-		app.foreach_window ((win) => win.browser.catalog_saved (catalog, old_file));
+		app.foreach_main_window ((win) => win.browser.catalog_saved (catalog, old_file));
 	}
 
 	public void metadata_changed (File file) {
-		app.foreach_window ((win) => win.browser.metadata_changed (file));
+		app.foreach_main_window ((win) => win.browser.metadata_changed (file));
 	}
 
 	public signal void file_changed (File file) {
-		app.foreach_window ((win) => win.browser.file_changed (file));
+		app.foreach_main_window ((win) => win.browser.file_changed (file));
 	}
 
 	public signal void files_added (File parent, GenericList<File> files) {
-		app.foreach_window ((win) => win.browser.files_added (parent, files));
+		app.foreach_main_window ((win) => win.browser.files_added (parent, files));
 	}
 
 	public signal void files_added_or_changed (File parent, GenericList<File> files) {
-		app.foreach_window ((win) => win.browser.files_added (parent, files, true));
+		app.foreach_main_window ((win) => win.browser.files_added (parent, files, true));
 	}
 
 	public signal void files_removed_from_catalog (File parent, GenericList<File> files) {
-		app.foreach_window ((win) => win.browser.files_removed_from_catalog (parent, files));
+		app.foreach_main_window ((win) => win.browser.files_removed_from_catalog (parent, files));
 	}
 
 	public signal void files_deleted_from_disk (GenericList<File> files) {
-		app.foreach_window ((win) => {
+		app.foreach_main_window ((win) => {
 			win.browser.files_deleted_from_disk (files);
 			win.viewer.files_deleted_from_disk (files);
 		});
 	}
 
 	public signal void files_renamed (GenericList<RenamedFile> files) {
-		app.foreach_window ((win) => {
+		app.foreach_main_window ((win) => {
 			win.browser.files_renamed (files);
 		});
 	}
@@ -81,11 +81,11 @@ public class Gth.Events : Object {
 	}
 
 	public void scripts_changed () {
-		app.foreach_window ((win) => win.update_scripts_actions ());
+		app.foreach_main_window ((win) => win.update_scripts_actions ());
 	}
 
 	public void selection_changed (uint number) {
-		app.foreach_window ((win) => win.update_selection_status (number));
+		app.foreach_main_window ((win) => win.update_selection_status (number));
 	}
 
 	public void watch_file (File file, bool watch) {

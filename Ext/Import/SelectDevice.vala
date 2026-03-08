@@ -1,5 +1,5 @@
 public class Gth.SelectDevice : Object {
-	public async ActionInfo select (Gth.Window window, Job job) throws Error {
+	public async ActionInfo select (Gth.MainWindow window, Job job) throws Error {
 		callback = select.callback;
 		dialog = new DeviceDialog (window);
 		dialog.selected.connect ((source) => {
@@ -40,7 +40,7 @@ public class Gth.SelectDevice : Object {
 public class Gth.DeviceDialog : Adw.Window {
 	public signal void selected (ActionInfo source);
 
-	public DeviceDialog (Gth.Window _window) {
+	public DeviceDialog (Gth.MainWindow _window) {
 		window = _window;
 		transient_for = _window;
 		modal = true;
@@ -93,7 +93,7 @@ public class Gth.DeviceDialog : Adw.Window {
 		return row;
 	}
 
-	Gth.Window window;
+	Gth.MainWindow window;
 	GenericList<ActionInfo> devices;
 	[GtkChild] unowned Adw.PreferencesGroup device_group;
 	[GtkChild] unowned Adw.PreferencesGroup bookmark_group;

@@ -7,7 +7,7 @@ public class Gth.Importer {
 	public bool delete_imported;
 	public GenericArray<FileData> files;
 
-	public async void import_files (Gth.Window window, Gth.Job job) throws Error {
+	public async void import_files (Gth.MainWindow window, Gth.Job job) throws Error {
 		job.subtitle = null;
 		var total_files = files.length;
 		var created_subfolders = new GenericSet<string> (str_hash, str_equal);
@@ -165,7 +165,7 @@ public class Gth.SaveOperation {
 	public OverwriteResponse last_overwrite_response;
 	public uint total_files;
 
-	public SaveOperation (Window _window) {
+	public SaveOperation (MainWindow _window) {
 		window = _window;
 		saved_files = new GenericList<File>();
 		last_overwrite_response = OverwriteResponse.NONE;
@@ -233,5 +233,5 @@ public class Gth.SaveOperation {
 			break;
 		}
 	}
-	weak Window window;
+	weak MainWindow window;
 }
