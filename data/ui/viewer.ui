@@ -31,7 +31,6 @@
                   <object class="GtkBox" id="left_ui_buttons">
                     <property name="orientation">horizontal</property>
                     <property name="spacing">6</property>
-                    <property name="margin-end">12</property>
                     <child>
                       <object class="GtkButton">
                         <property name="icon-name">go-previous-symbolic</property>
