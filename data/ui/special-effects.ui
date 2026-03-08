@@ -56,7 +56,7 @@
       <object class="GtkCheckButton" id="ordered_button">
         <property name="action-name">special-effects.dither-method</property>
         <property name="action-target">'ordered'</property>
-        <property name="label" translatable="yes">Patterns</property>
+        <property name="label" translatable="yes">Pattern</property>
       </object>
     </child>
     <child>
