@@ -333,9 +333,7 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 			r += c1[PIXEL_RED];
 			g += c1[PIXEL_GREEN];
 			b += c1[PIXEL_BLUE];
-			// if (n_channels == 4) {
-			// 	a += c1[PIXEL_ALPHA];
-			// }
+			a += c1[PIXEL_ALPHA];
 		}
 
 		p_dest_row = p_dest;
@@ -345,10 +343,7 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 			p_dest_row[PIXEL_RED] = div_kernel_size[r];
 			p_dest_row[PIXEL_GREEN] = div_kernel_size[g];
 			p_dest_row[PIXEL_BLUE] = div_kernel_size[b];
-			p_dest_row[PIXEL_ALPHA] = 0xff;
-			// if (n_channels == 4) {
-			// 	p_dest_row[PIXEL_ALPHA] = div_kernel_size[a];
-			// }
+			p_dest_row[PIXEL_ALPHA] = div_kernel_size[a];
 			p_dest_row += 4;
 
 			// The pixel to add to the kernel.
@@ -372,9 +367,7 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 			r += c1[PIXEL_RED] - c2[PIXEL_RED];
 			g += c1[PIXEL_GREEN] - c2[PIXEL_GREEN];
 			b += c1[PIXEL_BLUE] - c2[PIXEL_BLUE];
-			// if (n_channels == 4) {
-			// 	a += c1[PIXEL_ALPHA] - c2[PIXEL_ALPHA];
-			// }
+			a += c1[PIXEL_ALPHA] - c2[PIXEL_ALPHA];
 		}
 
 		p_src += src_rowstride;
@@ -402,9 +395,7 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 			r += c1[PIXEL_RED];
 			g += c1[PIXEL_GREEN];
 			b += c1[PIXEL_BLUE];
-			// if (n_channels == 4) {
-			// 	a += c1[PIXEL_ALPHA];
-			// }
+			a += c1[PIXEL_ALPHA];
 		}
 
 		p_dest_col = p_dest;
@@ -414,10 +405,7 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 			p_dest_col[PIXEL_RED] = div_kernel_size[r];
 			p_dest_col[PIXEL_GREEN] = div_kernel_size[g];
 			p_dest_col[PIXEL_BLUE] = div_kernel_size[b];
-			p_dest_col[PIXEL_ALPHA] = 0xff;
-			// if (n_channels == 4) {
-			// 	p_dest_row[PIXEL_ALPHA] = div_kernel_size[a];
-			// }
+			p_dest_col[PIXEL_ALPHA] = div_kernel_size[a];
 			p_dest_col += dest_rowstride;
 
 			// The pixel to add to the kernel.
@@ -441,9 +429,7 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 			r += c1[PIXEL_RED] - c2[PIXEL_RED];
 			g += c1[PIXEL_GREEN] - c2[PIXEL_GREEN];
 			b += c1[PIXEL_BLUE] - c2[PIXEL_BLUE];
-			// if (n_channels == 4) {
-			// 	a += c1[PIXEL_ALPHA] - c2[PIXEL_ALPHA];
-			// }
+			a += c1[PIXEL_ALPHA] - c2[PIXEL_ALPHA];
 		}
 
 		p_src += 4;
