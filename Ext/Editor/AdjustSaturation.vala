@@ -88,7 +88,7 @@ public class Gth.AdjustSaturation : ImageTool {
 			amount = _amount;
 		}
 
-		public override Gth.Image? execute (Image input, Cancellable cancellable) {
+		public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 			if (input == null) {
 				return null;
 			}

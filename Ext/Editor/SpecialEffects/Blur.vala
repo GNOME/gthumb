@@ -15,9 +15,9 @@ public class Gth.Blur : ImageOperation, ParametricOperation {
 		set_amount (DEFAULT_AMOUNT);
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
-			return input.blur ((int) Math.round (amount * 12), cancellable);
+			return input.blur (for_preview ? PREVIEW_RADIUS : (int) Math.round (amount * MAX_RADIUS), cancellable);
 		}
 		return null;
 	}
@@ -25,4 +25,6 @@ public class Gth.Blur : ImageOperation, ParametricOperation {
 	double amount = DEFAULT_AMOUNT;
 
 	const double DEFAULT_AMOUNT = 0.4;
+	const int MAX_RADIUS = 40;
+	const int PREVIEW_RADIUS = 3;
 }

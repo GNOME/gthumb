@@ -42,7 +42,7 @@ public class Gth.FilterGrid : Gtk.Box {
 		var preview_size = uint.max (image.width, image.height);
 		foreach (var id in cells.get_keys ()) {
 			var cell = cells.get (id);
-			var filter_preview = cell.operation.execute (image, cancellable);
+			var filter_preview = cell.operation.execute (image, cancellable, true);
 			if (filter_preview != null) {
 				cell.preview.paintable = filter_preview.get_texture ();
 				cell.preview.set_size_request ((int) preview_size, (int) preview_size);

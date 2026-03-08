@@ -1,5 +1,5 @@
 public class Gth.Lomo : ImageOperation, ParametricOperation {
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			var points = new Points (

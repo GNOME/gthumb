@@ -199,7 +199,7 @@ public class Gth.GammaCorrection : ImageOperation, ParametricOperation {
 		amount = 1.2;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if (output.gamma_correction (amount, cancellable)) {
@@ -234,7 +234,7 @@ public class Gth.BrightnessLinear : ImageOperation, ParametricOperation {
 		amount = 0.2;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if (output.adjust_brightness (amount, cancellable)) {

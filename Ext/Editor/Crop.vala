@@ -162,7 +162,7 @@ public class Gth.CutOperation : ImageOperation {
 		selection = _selection;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input == null) {
 			return null;
 		}

@@ -17,7 +17,7 @@ public class Gth.Dither : ImageOperation, ParametricOperation {
 
 	public Method method = Method.ORDERED;
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if ((method == Method.ORDERED) && output.dither_ordered (cancellable)) {

@@ -1315,7 +1315,7 @@ class Gth.SvgRenderer : Gth.ImageOperation {
 		zoom = _zoom;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		var texture = input.get_scaled_texture (
 			zoom,
 			0, 0,
@@ -1346,7 +1346,7 @@ class Gth.TextureScaler : Gth.ImageOperation {
 		filter = (image_box.size.width * image_box.size.height >= BIG_IMAGE) ? ScaleFilter.BOX : ScaleFilter.TRIANGLE;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		var visible_width = (uint) image_box.size.width;
 		var visible_height = (uint) image_box.size.height;
 		var visible = input.get_subimage (

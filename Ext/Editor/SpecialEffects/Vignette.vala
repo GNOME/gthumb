@@ -15,7 +15,7 @@ public class Gth.Vignette : ImageOperation, ParametricOperation {
 		set_amount (0.5);
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if (output.apply_vignette (amount, cancellable)) {

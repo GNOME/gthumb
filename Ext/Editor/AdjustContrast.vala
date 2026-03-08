@@ -199,7 +199,7 @@ public class Gth.ContrastStretch : ImageOperation, ParametricOperation {
 		amount = DEFAULT_AMOUNT;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if (output.stretch_histogram (amount, cancellable)) {
@@ -225,7 +225,7 @@ public class Gth.ContrastEqualize : ImageOperation, ParametricOperation {
 		return false;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if (output.equalize_histogram (equalize_linear, cancellable)) {
@@ -258,7 +258,7 @@ public class Gth.ContrastLinear : ImageOperation, ParametricOperation {
 		amount = DEFAULT_AMOUNT;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input != null) {
 			var output = input.dup ();
 			if (output.adjust_contrast (amount, cancellable)) {

@@ -136,7 +136,7 @@ public class Gth.ResizeImageOperation : Gth.ImageOperation {
 		high_quality = true;
 	}
 
-	public override Gth.Image? execute (Image input, Cancellable cancellable) {
+	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		var width = input.width;
 		var height = input.height;
 		if (unit == ResizeUnit.PERCENT) {

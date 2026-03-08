@@ -755,7 +755,7 @@ class Gth.ImageTransform : Gth.ImageOperation {
 		transform = _transform;
 	}
 
-	public override Gth.Image? execute (Image image, Cancellable cancellable) {
+	public override Gth.Image? execute (Image image, Cancellable cancellable, bool for_preview = false) {
 		return image.apply_transform (transform, cancellable);
 	}
 }
