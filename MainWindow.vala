@@ -1080,9 +1080,7 @@ public class Gth.MainWindow : Gth.Window {
 		}
 
 		var shortcut = app.shortcuts.find_by_key (context, keyval, state);
-		if ((shortcut == null)
-			|| (ShortcutContext.DOC in shortcut.context))
-		{
+		if ((shortcut == null) || (ShortcutContext.DOC in shortcut.context)) {
 			// stdout.printf ("> NULL\n");
 			return false;
 		}
