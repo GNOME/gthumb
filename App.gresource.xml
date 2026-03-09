@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/app/gthumb/gthumb/icons/scalable/actions/">
+    <file preprocess="xml-stripblanks">gth-adapt-window-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-brightness-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-colors-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-contrast-symbolic.svg</file>
@@ -21,7 +22,6 @@
     <file preprocess="xml-stripblanks">gth-curves-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-delete-item-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-delete-metadata-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-adapt-window-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-document-properties-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-edit-item-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-empty.svg</file>
@@ -111,9 +111,12 @@
     <file preprocess="xml-stripblanks">browser-preferences.ui</file>
     <file preprocess="xml-stripblanks">browser.ui</file>
     <file preprocess="xml-stripblanks">catalog-dialog.ui</file>
+    <file preprocess="xml-stripblanks">censor-image.ui</file>
     <file preprocess="xml-stripblanks">color-picker.ui</file>
     <file preprocess="xml-stripblanks">convert-dialog.ui</file>
     <file preprocess="xml-stripblanks">crop.ui</file>
+    <file preprocess="xml-stripblanks">destination-row.ui</file>
+    <file preprocess="xml-stripblanks">device-dialog.ui</file>
     <file preprocess="xml-stripblanks">editor-menu.ui</file>
     <file preprocess="xml-stripblanks">editor-palette.ui</file>
     <file preprocess="xml-stripblanks">editor-sidebar.ui</file>
@@ -138,9 +141,11 @@
     <file preprocess="xml-stripblanks">image-overview.ui</file>
     <file preprocess="xml-stripblanks">images-preferences.ui</file>
     <file preprocess="xml-stripblanks">image-viewer.ui</file>
+    <file preprocess="xml-stripblanks">importer-dialog.ui</file>
     <file preprocess="xml-stripblanks">job-status.ui</file>
     <file preprocess="xml-stripblanks">jpeg-preferences.ui</file>
     <file preprocess="xml-stripblanks">jxl-preferences.ui</file>
+    <file preprocess="xml-stripblanks">main-window.ui</file>
     <file preprocess="xml-stripblanks">metadata-dialog.ui</file>
     <file preprocess="xml-stripblanks">png-preferences.ui</file>
     <file preprocess="xml-stripblanks">preferences-dialog.ui</file>
@@ -185,10 +190,5 @@
     <file preprocess="xml-stripblanks">viewer-status.ui</file>
     <file preprocess="xml-stripblanks">viewer.ui</file>
     <file preprocess="xml-stripblanks">webp-preferences.ui</file>
-    <file preprocess="xml-stripblanks">main-window.ui</file>
-    <file preprocess="xml-stripblanks">device-dialog.ui</file>
-    <file preprocess="xml-stripblanks">importer-dialog.ui</file>
-    <file preprocess="xml-stripblanks">destination-row.ui</file>
-    <file preprocess="xml-stripblanks">censor-image.ui</file>
   </gresource>
 </gresources>
