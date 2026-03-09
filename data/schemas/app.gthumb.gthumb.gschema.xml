@@ -225,10 +225,10 @@
       <default>5</default>
     </key>
     <key name="random-order" type="b">
-      <default>false</default>
+      <default>true</default>
     </key>
     <key name="loop" type="b">
-      <default>false</default>
+      <default>true</default>
     </key>
   </schema>
 </schemalist>

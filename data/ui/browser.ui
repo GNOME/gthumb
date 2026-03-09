@@ -238,6 +238,13 @@
                     <property name="orientation">horizontal</property>
                     <property name="spacing">6</property>
                     <child>
+                      <object class="GtkButton">
+                        <property name="icon-name">gth-presentation-symbolic</property>
+                        <property name="action-name">win.slideshow</property>
+                        <property name="tooltip-text" translatable="true">Presentation</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkButton" id="edit_catalog_button">
                         <property name="icon-name">gth-document-properties-symbolic</property>
                         <property name="action-name">win.edit-catalog</property>

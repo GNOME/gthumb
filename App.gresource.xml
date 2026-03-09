@@ -59,6 +59,7 @@
     <file preprocess="xml-stripblanks">gth-pause-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-play-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-plus-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-presentation-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-reorder-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-resize-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-rotate-left-symbolic.svg</file>
