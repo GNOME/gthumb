@@ -13,7 +13,7 @@ public class Gth.PreferencesDialog : Adw.Dialog {
 		pages.model.append (new PageInfo ("shortcuts", _("Shortcuts")));
 		page_list.bind_model (pages.model, new_page_row);
 
-		content_view.replace_with_tags ({ "browser" });
+		content_view.replace_with_tags ({ "general" });
 	}
 
 	Gtk.Widget new_page_row (Object item) {
