@@ -22,9 +22,13 @@ public class Gth.Vintage : ImageOperation, ParametricOperation {
 
 		var output = input.dup ();
 		if (output.grayscale (0.3333, 0.3333, 0.3333, 1, cancellable)
-			&& output.colorize (Util.interpolate (0.45, 0.65, amount), Util.interpolate (0.2, 0.4, amount), 0, cancellable)
-			&& output.adjust_contrast (Util.interpolate (-0.1, 0.3, amount), cancellable)
-			&& output.apply_vignette (Util.interpolate (-0.4, -1.2, amount), cancellable))
+			&& output.colorize (
+				Util.interpolate (0.5, 0.65, amount),
+				Util.interpolate (0.2, 0.4, amount),
+				Util.interpolate (0.0, 0.2, amount),
+				cancellable)
+			&& output.adjust_contrast (Util.interpolate (0.2, 0.5, amount), cancellable)
+			&& output.apply_vignette (Util.interpolate (-0.2, -0.5, amount), cancellable))
 		{
 			return output;
 		}
@@ -32,5 +36,5 @@ public class Gth.Vintage : ImageOperation, ParametricOperation {
 	}
 
 	double amount = DEFAULT_AMOUNT;
-	const double DEFAULT_AMOUNT = 0.5;
+	const double DEFAULT_AMOUNT = 0.3;
 }
