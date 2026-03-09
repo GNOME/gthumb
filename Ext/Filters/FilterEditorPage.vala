@@ -124,7 +124,7 @@ public class Gth.FilterEditorPage : Adw.NavigationPage {
 	const SortInfo[] Sort_Name = {
 		{ "File::Name", N_("Name") },
 		{ "File::Size", N_("Size") },
-		{ "Time::Modified", N_("Modified") },
+		{ "Time::Modified", NC_("Time", "Modified") },
 	};
 
 	const Gtk.SortType[] Sort_Type = {

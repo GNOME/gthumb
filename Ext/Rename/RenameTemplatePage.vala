@@ -10,7 +10,7 @@ public class Gth.RenameTemplatePage : Gth.TemplatePage {
 		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.SIMPLE, _("File Extension"), RenameTemplate.Code.EXTENSION));
 		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.SIMPLE, _("Original Index"), RenameTemplate.Code.ORIGINAL_ENUMERATOR));
 		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.DATE, _("Created"), RenameTemplate.Code.CREATION_TIME, 1));
-		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.DATE, _("Modified"), RenameTemplate.Code.MODIFICATION_TIME, 1));
+		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.DATE, C_("Time", "Modified"), RenameTemplate.Code.MODIFICATION_TIME, 1));
 		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.DATE, _("Digitalized"), RenameTemplate.Code.DIGITALIZATION_TIME, 1));
 		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.DATE, _("Current Date"), RenameTemplate.Code.TIMESTAMP, 1));
 		allowed_codes.model.append (new TemplateCodeInfo (TemplateCodeType.FILE_ATTRIBUTE, _("File Attribute"), RenameTemplate.Code.FILE_ATTRIBUTE, 1));

@@ -92,7 +92,7 @@ public class Gth.Application : Adw.Application {
 		sorters = new HashTable<string, Gth.SortInfo?>(str_hash, str_equal);
 		ordered_sorters = new GenericArray<string>();
 		register_sorter ({ "File::Name", _("Name"), "standard::display-name", Sorters.cmp_basename });
-		register_sorter ({ "Time::Modified", _("Modified"), "time::modified,time::modified-usec", Sorters.cmp_modified_time });
+		register_sorter ({ "Time::Modified", C_("Time", "Modified"), "time::modified,time::modified-usec", Sorters.cmp_modified_time });
 		register_sorter ({ "Time::Changed", _("File Changed"), "time::changed,time::changed-usec", Sorters.cmp_changed_time });
 		register_sorter ({ "Time::Created", _("File Created"), "time::created,time::created-usec", Sorters.cmp_created_time });
 		register_sorter ({ "File::Size", _("Bytes"), "standard::size", Sorters.cmp_size });
@@ -118,7 +118,7 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("Private::File::ContentType", N_("Type"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Private::File::DisplaySize", N_("Bytes"), "File", METADATA_ALLOW_EVERYWHERE);
 		// Translators: the file modification time.
-		MetadataInfo.register ("Private::File::DisplayModified", N_("Modified"), "File", METADATA_ALLOW_EVERYWHERE);
+		MetadataInfo.register ("Private::File::DisplayModified", NC_("Time", "Modified"), "File", METADATA_ALLOW_EVERYWHERE);
 		// Translators: the file creation time.
 		MetadataInfo.register ("Private::File::DisplayCreated", N_("File Created"), "File", MetadataFlags.ALLOW_IN_PRINT);
 		// Translators: the file change time.

@@ -145,7 +145,7 @@ public class Gth.TestFileChangedTime : Gth.TestDate {
 public class Gth.TestContentModifiedTime : Gth.TestDate {
 	construct {
 		id = "Time::Modified";
-		display_name = _("Modified");
+		display_name = C_("Time", "Modified");
 		attributes = "time::modified,time::modified-usec";
 	}
 
