@@ -155,7 +155,7 @@ public class Gth.Slideshow : Gth.Window {
 
 	void start () {
 		if (random_order) {
-			// TODO
+			_files.sort ((a, b) => GLib.Random.int_range (-1, 2));
 		}
 		load_position.begin (0);
 	}
@@ -192,14 +192,15 @@ public class Gth.Slideshow : Gth.Window {
 	}
 
 	construct {
+		settings = new GLib.Settings (GTHUMB_SLIDESHOW_SCHEMA);
+		automatic = settings.get_boolean (PREF_SLIDESHOW_AUTOMATIC);
+		delay = settings.get_int (PREF_SLIDESHOW_DELAY);
+		loop = settings.get_boolean (PREF_SLIDESHOW_LOOP);
+		random_order = settings.get_boolean (PREF_SLIDESHOW_RANDOM_ORDER);
 		preloader = new Preloader ();
 		current_file = null;
 		load_job = null;
 		current_position = 0;
-		automatic = true;
-		delay = 3;
-		loop = true;
-		random_order = false;
 		next_id = 0;
 		map.connect (() => start ());
 		var key_events = new Gtk.EventControllerKey ();
@@ -220,4 +221,5 @@ public class Gth.Slideshow : Gth.Window {
 	Job load_job;
 	uint current_position;
 	uint next_id;
+	GLib.Settings settings;
 }

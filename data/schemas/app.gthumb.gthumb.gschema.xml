@@ -90,6 +90,7 @@
     <child name="print" schema="app.gthumb.gthumb.print" />
     <child name="crop" schema="app.gthumb.gthumb.crop" />
     <child name="import" schema="app.gthumb.gthumb.import" />
+    <child name="slideshow" schema="app.gthumb.gthumb.slideshow" />
   </schema>
 
   <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
@@ -212,6 +213,21 @@
       <default>'%Y/%m'</default>
     </key>
     <key name="delete-imported" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+
+  <schema id="app.gthumb.gthumb.slideshow" path="/app/gthumb/gthumb/slideshow/" gettext-domain="gthumb">
+    <key name="automatic" type="b">
+      <default>true</default>
+    </key>
+    <key name="delay" type="i">
+      <default>5</default>
+    </key>
+    <key name="random-order" type="b">
+      <default>false</default>
+    </key>
+    <key name="loop" type="b">
       <default>false</default>
     </key>
   </schema>

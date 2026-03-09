@@ -12,7 +12,7 @@
               <class name="slideshow-view"/>
             </style>
             <property name="default-zoom-type">maximize</property>
-            <property name="transparency">none</property>
+            <property name="transparency">gray</property>
           </object>
         </child>
       </object>

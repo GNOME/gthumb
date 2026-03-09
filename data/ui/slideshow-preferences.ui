@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GthSlideshowPreferences">
+    <property name="title" translatable="yes">Presentation</property>
+    <property name="tag">slideshow</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="separate-rows">true</property>
+                <child>
+                  <object class="AdwSwitchRow" id="random_order">
+                    <property name="title" translatable="yes">Random Order</property>
+                    <signal name="notify::active" handler="on_random_order_changed"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwSwitchRow" id="loop">
+                    <property name="title" translatable="yes">Repeat</property>
+                    <signal name="notify::active" handler="on_loop_changed"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwExpanderRow" id="automatic">
+                    <property name="title" translatable="yes">Automatic</property>
+                    <property name="show-enable-switch">true</property>
+                    <signal name="notify::enable-expansion" handler="on_automatic_enabled"/>
+                    <child>
+                      <object class="AdwSpinRow">
+                        <property name="title" translatable="yes">Delay in seconds</property>
+                        <property name="climb-rate">1</property>
+                        <property name="adjustment">
+                          <object class="GtkAdjustment" id="delay">
+                            <property name="lower">1</property>
+                            <property name="upper">30</property>
+                            <property name="step-increment">1</property>
+                            <property name="value">5</property>
+                            <signal name="value_changed" handler="on_delay_changed"/>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

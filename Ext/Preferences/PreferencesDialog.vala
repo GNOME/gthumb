@@ -2,15 +2,15 @@
 public class Gth.PreferencesDialog : Adw.Dialog {
 	construct {
 		pages = new GenericList<PageInfo?> ();
+		pages.model.append (new PageInfo ("general", _("General")));
 		pages.model.append (new PageInfo ("browser", _("Browser")));
 		pages.model.append (new PageInfo ("images", _("Images")));
 		pages.model.append (new PageInfo ("videos", _("Videos")));
 		// Translators: section for the file saving options in the preferences dialog.
 		pages.model.append (new PageInfo ("saving", _("Saving")));
 		// pages.model.append (new PageInfo ("print", _("Print")));
-		// pages.model.append (new PageInfo ("presentations", _("Presentations")));
+		pages.model.append (new PageInfo ("slideshow", _("Presentation")));
 		pages.model.append (new PageInfo ("shortcuts", _("Shortcuts")));
-		pages.model.append (new PageInfo ("general", _("General")));
 		page_list.bind_model (pages.model, new_page_row);
 
 		content_view.replace_with_tags ({ "browser" });

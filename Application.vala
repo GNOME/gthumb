@@ -821,6 +821,7 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.ImagesPreferences).ensure ();
 		typeof (Gth.VideosPreferences).ensure ();
 		typeof (Gth.ShortcutsPreferences).ensure ();
+		typeof (Gth.SlideshowPreferences).ensure ();
 		typeof (Gth.FolderRow).ensure ();
 	}
 

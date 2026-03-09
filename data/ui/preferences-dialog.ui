@@ -67,6 +67,10 @@
                       <object class="GthShortcutsPreferences">
                       </object>
                     </child>
+                    <child>
+                      <object class="GthSlideshowPreferences">
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
