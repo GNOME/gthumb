@@ -1013,6 +1013,10 @@ public class Gth.MainWindow : Gth.Window {
 			}
 			var slideshow = new Gth.Slideshow ();
 			slideshow.files = files;
+			if (slideshow.files.is_empty ()) {
+				show_message (_("No files selected"));
+				return;
+			}
 			slideshow.fullscreened = true;
 			slideshow.present ();
 		});

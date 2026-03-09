@@ -1,6 +1,9 @@
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/slideshow-window.ui")]
 public class Gth.Slideshow : Gth.Window {
 	public GenericList<FileData> files {
+		get {
+			return _files;
+		}
 		set {
 			var iter = value.iterator ();
 			_files = iter.filter ((file_data) => {
