@@ -4,6 +4,9 @@
     <property name="title">Thumbnails</property>
     <property name="default_width">800</property>
     <property name="default_height">800</property>
+    <style>
+      <class name="main-window"/>
+    </style>
     <property name="content">
       <object class="AdwToastOverlay" id="toast_overlay">
         <child>

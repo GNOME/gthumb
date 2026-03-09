@@ -137,6 +137,7 @@ public class Gth.Slideshow : Gth.Window {
 
 	void toggle_play () {
 		if (automatic) {
+			show_message (_("Paused"));
 			automatic = false;
 			cancel_automatic ();
 		}
