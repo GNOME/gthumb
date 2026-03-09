@@ -158,8 +158,13 @@ public class Gth.Slideshow : Gth.Window {
 	}
 
 	void start () {
-		if (random_order) {
-			_files.sort ((a, b) => GLib.Random.int_range (-1, 2));
+		if (_files.length () == 1) {
+			automatic = false;
+		}
+		else {
+			if (random_order) {
+				_files.sort ((a, b) => GLib.Random.int_range (-1, 2));
+			}
 		}
 		load_position.begin (0);
 	}
@@ -176,7 +181,9 @@ public class Gth.Slideshow : Gth.Window {
 
 	void restart () {
 		if (loop) {
-			start ();
+			if (_files.length () > 1) {
+				start ();
+			}
 		}
 		else {
 			close ();
