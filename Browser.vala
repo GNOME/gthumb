@@ -1054,7 +1054,7 @@ public class Gth.Browser : Gtk.Box {
 			var is_selection = folder_tree.current_folder.file.has_uri_scheme ("selection");
 			if (is_selection) {
 				var files = file_grid.get_selected_files ();
-				if ((files != null) && !files.is_empty ()) {
+				if (!files.is_empty ()) {
 					window.remove_files (files);
 				}
 			}
@@ -2263,7 +2263,7 @@ public class Gth.Browser : Gtk.Box {
 
 	void remove_from_catalog () {
 		var files = file_grid.get_selected_files ();
-		if ((files == null) || files.is_empty ()) {
+		if (files.is_empty ()) {
 			return;
 		}
 		window.remove_files (files);

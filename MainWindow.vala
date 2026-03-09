@@ -260,7 +260,7 @@ public class Gth.MainWindow : Gth.Window {
 		var local_job = new_job ("Choosing Application");
 		try {
 			var files = get_selected_file_data_list ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				throw new IOError.FAILED (_("No files selected"));
 			}
 			var app_selector = new Gth.AppSelector ();
@@ -727,7 +727,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("edit-metadata", null);
 		action.activate.connect (() => {
 			var files = get_selected_file_data_list ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -738,7 +738,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("copy-files-to", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				return;
 			}
 			copy_files_ask_destination (files);
@@ -748,7 +748,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("move-files-to", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				return;
 			}
 			move_files_ask_destination (files);
@@ -758,7 +758,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("remove-files", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				return;
 			}
 			remove_files (files);
@@ -768,7 +768,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("delete-files-from-disk", null);
 		action.activate.connect (() => {
 			var files = get_selected_file_data_list ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				return;
 			}
 			delete_files_from_disk (files);
@@ -778,7 +778,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("trash-files", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				return;
 			}
 			trash_files (files);
@@ -788,7 +788,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("exec-script", GLib.VariantType.STRING);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				return;
 			}
 			var id = param.get_string ();
@@ -835,7 +835,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("rotate-left", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -847,7 +847,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("rotate-right", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -859,7 +859,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("apply-orientation", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -871,7 +871,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("reset-orientation", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -883,7 +883,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("clear-metadata", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -895,7 +895,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("update-thumbnail", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -907,7 +907,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("open-with-gimp", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -918,7 +918,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("open-with-inkscape", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -956,7 +956,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("rename-files", null);
 		action.activate.connect (() => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -967,7 +967,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("resize-images", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -978,7 +978,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("convert-format", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
@@ -989,7 +989,7 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("print", null);
 		action.activate.connect ((_action, param) => {
 			var files = get_selected_files ();
-			if ((files == null) || files.is_empty ()) {
+			if (files.is_empty ()) {
 				show_message (_("No files selected"));
 				return;
 			}
