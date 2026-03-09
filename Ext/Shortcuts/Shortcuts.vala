@@ -262,11 +262,11 @@ public class Gth.Shortcuts {
 
 		register ("editor.apply", null, ShortcutContext.EDITOR, ShortcutCategory.HIDDEN, "<Primary>Return");
 
-		// register ("slideshow", N_("Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
-		// register ("slideshow-close", N_("Quit"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");
-		// register ("slideshow-toggle-pause", N_("Play/Pause"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "p");
-		// register ("slideshow-next-image", N_("Next File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "space");
-		// register ("slideshow-previous-image", N_("Previous File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "b");
+		register ("win.slideshow", N_("Presentation"), SHORTCUT_CONTEXT_BROWSER_VIEWER, ShortcutCategory.VIEWER, "F5");
+		register ("window.close", N_("Quit"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "Escape");
+		register ("win.toggle-play", N_("Play/Pause"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "p");
+		register ("win.next-image", N_("Next File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "space");
+		register ("win.previous-image", N_("Previous File"), ShortcutContext.SLIDESHOW, ShortcutCategory.SLIDESHOW, "b");
 
 		register ("video.toggle-play", N_("Play/Pause"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "space");
 		register ("video.save-screenshot", N_("Screenshot"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>s");

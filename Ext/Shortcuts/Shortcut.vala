@@ -258,7 +258,7 @@ public enum Gth.ShortcutCategory {
 		N_("General"),
 		N_("File Manager"),
 		N_("Viewer"),
-		N_("Slideshow"),
+		N_("Presentation"),
 		N_("Audio/Video"),
 		N_("Filters"),
 		N_("Scripts"),

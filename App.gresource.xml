@@ -166,6 +166,7 @@
     <file preprocess="xml-stripblanks">shortcut-dialog.ui</file>
     <file preprocess="xml-stripblanks">shortcut-row.ui</file>
     <file preprocess="xml-stripblanks">shortcuts-preferences.ui</file>
+    <file preprocess="xml-stripblanks">slideshow-window.ui</file>
     <file preprocess="xml-stripblanks">sort-files-dialog.ui</file>
     <file preprocess="xml-stripblanks">sort-folders-dialog.ui</file>
     <file preprocess="xml-stripblanks">special-effects.ui</file>

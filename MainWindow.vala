@@ -1000,6 +1000,23 @@ public class Gth.MainWindow : Gth.Window {
 		action = new SimpleAction ("import-files", null);
 		action.activate.connect (() => import_files.begin ());
 		action_group.add_action (action);
+
+		action = new SimpleAction ("slideshow", null);
+		action.activate.connect ((_action, param) => {
+			var files = get_selected_file_data_list ();
+			if (files.length () <= 1) {
+				files = browser.file_grid.get_file_data_list ();
+			}
+			if (files.is_empty ()) {
+				show_message (_("No files selected"));
+				return;
+			}
+			var slideshow = new Gth.Slideshow ();
+			slideshow.files = files;
+			slideshow.fullscreened = true;
+			slideshow.present ();
+		});
+		action_group.add_action (action);
 	}
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files, Gth.Job? external_job = null) {

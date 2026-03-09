@@ -151,6 +151,14 @@ public class Gth.FileGrid : Gtk.Box {
 		return files;
 	}
 
+	public GenericList<FileData> get_file_data_list () {
+		var files = new GenericList<FileData> ();
+		foreach (var file_data in visible_files) {
+			files.model.append (file_data);
+		}
+		return files;
+	}
+
 	public Gtk.ListItem? get_item_at (double x, double y, out DropSide side) {
 		Graphene.Point point = { (float) x, (float) y };
 		var top = 0;

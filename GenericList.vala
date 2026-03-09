@@ -14,7 +14,7 @@ public class Gth.GenericList<T> {
 	}
 
 	public T? get (int pos) {
-		return model.get_item (pos);
+		return ((pos >= 0) && (pos < length ())) ? model.get_item (pos) : null;
 	}
 
 	public inline bool is_empty () {
@@ -168,6 +168,16 @@ public class Gth.ListIterator<T> {
 			}
 		}
 		return -1;
+	}
+
+	public GenericList<T> filter (MatchGenericItemFunc<T> match_func) {
+		var result = new GenericList<T>();
+		while (next ()) {
+			if (match_func (item)) {
+				result.model.append (item as Object);
+			}
+		}
+		return result;
 	}
 
 	ListModel model;
