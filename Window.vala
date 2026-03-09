@@ -70,6 +70,7 @@ public class Gth.Window : Adw.ApplicationWindow {
 		if (cancel_jobs ()) {
 			return true;
 		}
+		before_closing ();
 		return false;
 	}
 
