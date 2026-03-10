@@ -409,7 +409,7 @@ public class Gth.CopyOperation {
 					catch (Error error) {
 						// Ignore NOT_FOUND errors when moving files.
 						// These are sidecar files already moved in copy_file()
-						if (moving && !(error is IOError.NOT_FOUND)) {
+						if (!(moving && (error is IOError.NOT_FOUND))) {
 							throw error;
 						}
 					}
