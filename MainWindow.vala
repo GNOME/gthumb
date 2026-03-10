@@ -1008,13 +1008,13 @@ public class Gth.MainWindow : Gth.Window {
 				files = browser.file_grid.get_file_data_list ();
 			}
 			if (files.is_empty ()) {
-				show_message (_("No files selected"));
+				show_message (_("No images selected"));
 				return;
 			}
 			var slideshow = new Gth.Slideshow ();
 			slideshow.files = files;
 			if (slideshow.files.is_empty ()) {
-				show_message (_("No files selected"));
+				show_message (_("No images selected"));
 				return;
 			}
 			slideshow.fullscreened = true;
