@@ -27,6 +27,12 @@
                     </property>
                   </object>
                 </child>
+                <child>
+                  <object class="AdwSwitchRow" id="autorotate">
+                    <property name="title" translatable="yes">Respect Orientation</property>
+                    <signal name="notify::active" handler="on_autorotate_activated"/>
+                  </object>
+                </child>
               </object>
             </child>
             <child>

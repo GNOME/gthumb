@@ -64,6 +64,7 @@ const string PREF_VIDEO_SCROLL_ACTION = "scroll-action";
 const string PREF_VIDEO_VOLUME = "volume";
 const string PREF_VIDEO_MUTE = "mute";
 const string PREF_VIDEO_ZOOM_TO_FIT = "zoom-to-fit";
+const string PREF_VIDEO_AUTOROTATE = "autorotate";
 
 const string PREF_PNG_COMPRESSION_LEVEL = "compression-level";
 

@@ -77,6 +77,9 @@
     <key name="zoom-to-fit" type="b">
       <default>true</default>
     </key>
+    <key name="autorotate" type="b">
+      <default>false</default>
+    </key>
   </schema>
 
 </schemalist>

@@ -237,10 +237,12 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		}
 
 		// Rotate according to the orientation tag.
-		var autorotate = Gst.ElementFactory.make_full ("autovideoflip",
-			"video-direction", Gst.Video.OrientationMethod.AUTO);
-		if (autorotate != null) {
-			playbin.set ("video-filter", autorotate);
+		if (settings.get_boolean (PREF_VIDEO_AUTOROTATE)) {
+			var autorotate = Gst.ElementFactory.make_full ("autovideoflip",
+				"video-direction", Gst.Video.OrientationMethod.AUTO);
+			if (autorotate != null) {
+				playbin.set ("video-filter", autorotate);
+			}
 		}
 
 		// Video sink.

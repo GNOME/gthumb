@@ -30,6 +30,14 @@ public class Gth.VideosPreferences : Adw.NavigationPage {
 		settings.set_enum (PREF_VIDEO_SCROLL_ACTION, ACTION[idx]);
 	}
 
+	[GtkCallback]
+	void on_autorotate_activated (Object obj, ParamSpec param) {
+		if (constructing) {
+			return;
+		}
+		settings.set_boolean (PREF_VIDEO_AUTOROTATE, autorotate.active);
+	}
+
 	uint get_action_index (ScrollAction value) {
 		uint idx = 0;
 		foreach (unowned var item in ACTION) {
@@ -46,6 +54,7 @@ public class Gth.VideosPreferences : Adw.NavigationPage {
 		constructing = true;
 
 		scroll_action.selected = get_action_index (settings.get_enum (PREF_VIDEO_SCROLL_ACTION));
+		autorotate.active = settings.get_boolean (PREF_VIDEO_AUTOROTATE);
 
 		// Screenshot folder
 		var folder = Gth.Settings.get_file (settings, PREF_VIDEO_SCREENSHOT_LOCATION);
@@ -76,6 +85,7 @@ public class Gth.VideosPreferences : Adw.NavigationPage {
 	[GtkChild] unowned Gth.FolderRow screenshot_folder;
 	[GtkChild] unowned Adw.ComboRow screenshot_format;
 	[GtkChild] unowned Adw.ComboRow scroll_action;
+	[GtkChild] unowned Adw.SwitchRow autorotate;
 	GLib.Settings settings;
 	bool constructing;
 	GenericArray<SaverPreferences> saver_preferences;
