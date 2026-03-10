@@ -12,7 +12,6 @@
           <object class="AdwPreferencesPage">
             <child>
               <object class="AdwPreferencesGroup">
-                <property name="separate-rows">true</property>
                 <child>
                   <object class="AdwSwitchRow" id="random_order">
                     <property name="title" translatable="yes">Random Order</property>
@@ -25,6 +24,10 @@
                     <signal name="notify::active" handler="on_loop_changed"/>
                   </object>
                 </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
                 <child>
                   <object class="AdwExpanderRow" id="automatic">
                     <property name="title" translatable="yes">Automatic</property>
