@@ -47,13 +47,13 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		yield create_file (window, new_image, file_data, job);
 	}
 
-	async void create_file (Gth.MainWindow window, Image image, FileData file_data, Job job) throws Error {
+	async void create_file (Gth.MainWindow window, Image image, FileData file_data, Job job, uint rename_tries = 0) throws Error {
 		try {
 			yield app.image_saver.create_file (window.monitor_profile, image, file_data, SaveFlags.DEFAULT, job.cancellable);
 		}
 		catch (Error error) {
 			if (error is IOError.EXISTS) {
-				yield ask_to_overwrite (window, image, file_data, job);
+				yield ask_to_overwrite (window, image, file_data, job, rename_tries);
 			}
 			else {
 				throw error;
@@ -61,9 +61,17 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 		}
 	}
 
-	async void ask_to_overwrite (Gth.MainWindow window, Image image, FileData file_data, Job job) throws Error {
+	async void ask_to_overwrite (Gth.MainWindow window, Image image, FileData file_data, Job job, uint rename_tries = 0) throws Error {
 		if (overwrite_response == OverwriteResponse.SKIP_ALL) {
 			return;
+		}
+		if (overwrite_response == OverwriteResponse.RENAME_ALL) {
+			if (rename_tries < MAX_RENAME_TRIES) {
+				var new_destination = Util.get_duplicated (file_data.file, rename_tries);
+				file_data.set_file (new_destination);
+				yield create_file (window, image, file_data, job, rename_tries + 1);
+				return;
+			}
 		}
 		var overwrite = new OverwriteDialog (window);
 		overwrite.check_extension = true;
@@ -82,6 +90,11 @@ public class Gth.ImageFileOperation : Gth.FileOperation {
 
 		case OverwriteResponse.RENAME:
 			file_data.rename_from_display_name (overwrite.new_name);
+			yield create_file (window, image, file_data, job);
+			break;
+
+		case OverwriteResponse.RENAME_ALL:
+			file_data.set_file (Util.get_duplicated (file_data.file));
 			yield create_file (window, image, file_data, job);
 			break;
 

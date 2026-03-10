@@ -186,7 +186,9 @@ public class Gth.SaveOperation {
 		saved_files.model.append (destination);
 	}
 
-	async void create (File destination, Bytes bytes, Job job, Image? image = null) throws Error {
+	const uint MAX_RENAME_TRIES = 1000;
+
+	async void create (File destination, Bytes bytes, Job job, Image? image = null, uint rename_tries = 0) throws Error {
 		try {
 			yield Files.create_file_async (destination, bytes, job.cancellable);
 			saved_files.model.append (destination);
@@ -202,6 +204,14 @@ public class Gth.SaveOperation {
 
 		if (last_overwrite_response == OverwriteResponse.SKIP_ALL) {
 			return;
+		}
+
+		if (last_overwrite_response == OverwriteResponse.RENAME_ALL) {
+			if (rename_tries < MAX_RENAME_TRIES) {
+				var new_destination = Util.get_duplicated (destination);
+				yield create (new_destination, bytes, job, image, rename_tries + 1);
+				return;
+			}
 		}
 
 		if (image == null) {
@@ -226,6 +236,11 @@ public class Gth.SaveOperation {
 
 		case OverwriteResponse.RENAME:
 			var new_destination = destination.get_parent ().get_child_for_display_name (overwrite.new_name);
+			yield create (new_destination, bytes, job, image);
+			break;
+
+		case OverwriteResponse.RENAME_ALL:
+			var new_destination = Util.get_duplicated (destination);
 			yield create (new_destination, bytes, job, image);
 			break;
 

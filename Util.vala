@@ -144,7 +144,7 @@ namespace Gth.Util {
 		return matches_all;
 	}
 
-	public static File get_duplicated (File file) {
+	public static File get_duplicated (File file, uint tries = 0) {
 		var uri = file.get_uri ();
 		string uri_no_ext;
 		string ext;
@@ -165,7 +165,7 @@ namespace Gth.Util {
 			if (info.matches ()) {
 				new_uri.append (info.fetch (1));
 				var n = uint.parse (info.fetch (2), 10);
-				new_uri.append_printf ("-%u", n + 1);
+				new_uri.append_printf ("-%u", n + 1 + tries);
 			}
 			else {
 				throw new IOError.FAILED ("Not a duplicate");

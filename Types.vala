@@ -13,6 +13,7 @@ const int CONTAINER_H_PADDING = 12; // pixels
 const int CONTAINER_V_PADDING = 12; // pixels
 const int MAX_SIDEBAR_WIDTH = 700;
 const int MAX_SIZE_FOR_PRELOADER = 5000 * 5000;
+const uint MAX_RENAME_TRIES = 1000;
 
 const string REQUIRED_ATTRIBUTES =
 	FileAttribute.STANDARD_TYPE + "," +

@@ -84,8 +84,13 @@ public class Gth.OverwriteDialog : Object {
 				response = OverwriteResponse.CANCEL;
 				break;
 			}
+			if (for_all) {
+				response = OverwriteResponse.RENAME_ALL;
+				break;
+			}
 
 			// Rename
+
 			var rename = new ReadFilename (_("Rename File"), _("_Rename"));
 			rename.default_value = destination.info.get_edit_name ();
 			rename.check_extension = check_extension;
@@ -271,6 +276,7 @@ public enum Gth.OverwriteResponse {
 	SKIP,
 	SKIP_ALL,
 	RENAME,
+	RENAME_ALL,
 }
 
 public enum Gth.OverwriteRequest {

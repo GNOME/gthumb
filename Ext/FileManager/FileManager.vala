@@ -490,7 +490,7 @@ public class Gth.CopyOperation {
 		copied_sources.add (sidecar_source);
 	}
 
-	async File? copy_file_to_destination (File source_file, File destination_file, CopyFlags flags, Job job) throws Error {
+	async File? copy_file_to_destination (File source_file, File destination_file, CopyFlags flags, Job job, uint rename_tries = 0) throws Error {
 		if (CopyFlags.MAKE_DESTINATION in flags) {
 			var destination_dir = destination_file.get_parent ();
 			if ((last_made_destination == null) || !destination_dir.equal (last_made_destination)) {
@@ -530,12 +530,21 @@ public class Gth.CopyOperation {
 		}
 		catch (Error error) {
 			if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags) && (CopyFlags.DUPLICATE in flags)) {
+				if (rename_tries >= MAX_RENAME_TRIES) {
+					throw new IOError.FAILED ("Too many files");
+				}
 				var new_destination_file = Util.get_duplicated (destination_file);
-				saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, job);
+				return yield copy_file_to_destination (source_file, new_destination_file, flags, job, rename_tries + 1);
 			}
-			else if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags)) {
+			if ((error is IOError.EXISTS) && !(CopyFlags.OVERWRITE in flags)) {
 				if (last_overwrite_response == OverwriteResponse.SKIP_ALL) {
 					return null;
+				}
+				if (last_overwrite_response == OverwriteResponse.RENAME_ALL) {
+					if (rename_tries < MAX_RENAME_TRIES) {
+						var new_destination_file = Util.get_duplicated (destination_file);
+						return yield copy_file_to_destination (source_file, new_destination_file, flags, job, rename_tries + 1);
+					}
 				}
 
 				var overwrite = new OverwriteDialog (window);
@@ -560,6 +569,11 @@ public class Gth.CopyOperation {
 				case OverwriteResponse.RENAME:
 					var parent = destination_file.get_parent ();
 					var new_destination_file = parent.get_child_for_display_name (overwrite.new_name);
+					saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, job);
+					break;
+
+				case OverwriteResponse.RENAME_ALL:
+					var new_destination_file = Util.get_duplicated (destination_file);
 					saved_as = yield copy_file_to_destination (source_file, new_destination_file, flags, job);
 					break;
 				}

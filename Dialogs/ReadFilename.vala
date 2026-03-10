@@ -48,13 +48,11 @@ public class Gth.ReadFilename : Gth.ReadText {
 		var destination = folder.get_child_for_display_name (value);
 		while (destination.query_exists (null)) {
 			tries++;
-			if (tries >= MAX_TRIES) {
+			if (tries >= MAX_RENAME_TRIES) {
 				throw new IOError.FAILED ("Too many files");
 			}
 			destination = Util.get_duplicated (destination);
 		}
 		return destination.get_basename ();
 	}
-
-	const uint MAX_TRIES = 1000;
 }
