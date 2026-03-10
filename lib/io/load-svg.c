@@ -67,11 +67,8 @@ static void gth_image_init_pixels_from_cairo_surface (GthImage *image, cairo_sur
 }
 
 
-static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **error) {
-	if (max_size == 0) {
-		max_size = DEFAULT_SIZE;
-	}
-
+static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint requested_size, GError **error) {
+	guint max_size = (requested_size > 0) ? requested_size : DEFAULT_SIZE;
 	guint width = max_size;
 	guint height = max_size;
 
@@ -79,6 +76,9 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 	if (rsvg_handle_get_intrinsic_size_in_pixels (rsvg, &iwidth, &iheight)) {
 		width = (guint) ceil (iwidth);
 		height = (guint) ceil (iheight);
+		if (requested_size > 0) {
+			scale_keeping_ratio (&width, &height, requested_size, requested_size, FALSE);
+		}
 	}
 	else {
 		gboolean has_viewbox;
@@ -89,6 +89,9 @@ static GthImage * gth_image_svg_new (RsvgHandle *rsvg, guint max_size, GError **
 		if (has_viewbox) {
 			width = (guint) ceil (viewbox.width);
 			height = (guint) ceil (viewbox.height);
+			if (requested_size > 0) {
+				scale_keeping_ratio (&width, &height, requested_size, requested_size, FALSE);
+			}
 		}
 	}
 
