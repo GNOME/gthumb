@@ -1,5 +1,5 @@
 {
-    "app-id": "org.gnome.gthumb",
+    "app-id": "app.gthumb.gthumb",
     "runtime": "org.gnome.Platform",
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
