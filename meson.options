@@ -10,6 +10,12 @@ option('flatpak-build',
   description : 'True for the flatpak build'
 )
 
+option('tarball-appdata',
+  type : 'boolean',
+  value : false,
+  description: 'Only merge translations, as tarball metainfo already has release notes'
+)
+
 option('colord',
   type : 'boolean',
   value : true,
