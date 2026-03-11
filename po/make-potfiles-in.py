@@ -8,17 +8,16 @@ valid_extensions = [
     '.c',
     '.h',
     '.cpp',
+    '.vala',
     '.ui',
     '.gschema.xml',
     '.schemas.in',
     '.xml.in',
     '.desktop.in',
     '.desktop.in.in',
-    '.extension.in.in'
 ]
 prefix_for_ext = {
     '.ui'              : '[type: gettext/glade]',
-    '.extension.in.in' : '[type: gettext/ini]',
     '.gschema.xml'     : '[type: gettext/gsettings]'
 }
 
