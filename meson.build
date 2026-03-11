@@ -2,7 +2,7 @@ project('gthumb',
   [ 'vala', 'c', 'cpp' ],
   license: 'GPL2+',
   version: '4',
-  meson_version: '>=1.0'
+  meson_version: '>=1.1.0'
 )
 
 glib_version = '2.84'
