@@ -1,2 +1,0 @@
-subdir('contactsheetthemes')
-subdir('ui')

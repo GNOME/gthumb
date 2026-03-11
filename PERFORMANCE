@@ -1,2 +1,0 @@
-strace -ttt -f -o /tmp/logfile.strace build/gthumb/gthumb
-./plot-timeline.py -o prettygraph.png /tmp/logfile.strace

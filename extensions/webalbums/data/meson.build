@@ -1,2 +1,0 @@
-subdir('albumthemes')
-subdir('ui')
