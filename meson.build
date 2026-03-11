@@ -199,7 +199,7 @@ if get_option('developer-mode')
 else
   config.set_quoted('PRIVEXECDIR', privexecdir)
   config.set_quoted('APP_ID', 'app.gthumb.gthumb')
-  exec_name = 'gthumb4'
+  exec_name = 'gthumb'
 endif
 config.set('FLATPAK', get_option('flatpak-build') ? 'true' : 'false')
 config.set_quoted('BUILD_TAG', get_option('flatpak-build') ? '-flatpak' : '')
