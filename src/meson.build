@@ -16,7 +16,7 @@ if get_option('developer-mode')
     '-D', 'DEVELOPER_MODE',
     '-D', 'RUN_IN_PLACE',
   ], language: 'vala')
-  config.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root()))
+  config.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root() + '/src'))
   config.set_quoted('APP_ID', 'app.gthumb.gthumb-devel')
   exec_name = 'gthumb-devel'
 else
