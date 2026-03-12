@@ -86,7 +86,8 @@ class Gth.CatalogDialog : Adw.Dialog {
 			changed ();
 		}
 		catch (Error error) {
-			// TODO: show error
+			toast_overlay.dismiss_all ();
+			toast_overlay.add_toast (Util.new_literal_toast (error.message));
 		}
 	}
 
@@ -114,6 +115,7 @@ class Gth.CatalogDialog : Adw.Dialog {
 	[GtkChild] unowned Gth.DateRow date_row;
 	[GtkChild] unowned Gth.SearchSourceEditorGroup sources_group;
 	[GtkChild] unowned Gth.TestExprEditorGroup rules_group;
+	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 
 	Catalog original_catalog;
 	Catalog catalog;

@@ -4,57 +4,61 @@
     <property name="title" translatable="yes">Catalog</property>
     <property name="content-width">700</property>
     <child>
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar">
-            <property name="show-start-title-buttons">false</property>
-            <property name="show-end-title-buttons">false</property>
-            <child type="start">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">_Cancel</property>
-                <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_cancel" />
+      <object class="AdwToastOverlay" id="toast_overlay">
+        <child>
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="show-start-title-buttons">false</property>
+                <property name="show-end-title-buttons">false</property>
+                <child type="start">
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <property name="use_underline">true</property>
+                    <signal name="clicked" handler="on_cancel" />
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">_Save</property>
+                    <property name="use_underline">true</property>
+                    <signal name="clicked" handler="on_save" />
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                </child>
               </object>
             </child>
-            <child type="end">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">_Save</property>
-                <property name="use_underline">true</property>
-                <signal name="clicked" handler="on_save" />
-                <style>
-                  <class name="suggested-action"/>
-                </style>
+            <property name="content">
+              <object class="AdwPreferencesPage">
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="separate-rows">true</property>
+                    <child>
+                      <object class="AdwEntryRow" id="name_row">
+                        <property name="title" translatable="yes">Name</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GthDateRow" id="date_row">
+                        <property name="title" translatable="yes">Date</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GthSearchSourceEditorGroup" id="sources_group">
+                  </object>
+                </child>
+                <child>
+                  <object class="GthTestExprEditorGroup" id="rules_group">
+                  </object>
+                </child>
               </object>
-            </child>
+            </property>
           </object>
         </child>
-        <property name="content">
-          <object class="AdwPreferencesPage">
-            <child>
-              <object class="AdwPreferencesGroup">
-                <property name="separate-rows">true</property>
-                <child>
-                  <object class="AdwEntryRow" id="name_row">
-                    <property name="title" translatable="yes">Name</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GthDateRow" id="date_row">
-                    <property name="title" translatable="yes">Date</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GthSearchSourceEditorGroup" id="sources_group">
-              </object>
-            </child>
-            <child>
-              <object class="GthTestExprEditorGroup" id="rules_group">
-              </object>
-            </child>
-          </object>
-        </property>
       </object>
     </child>
   </template>
