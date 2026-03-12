@@ -5,8 +5,8 @@ config.set_quoted('DOMAIN', meson.project_name ())
 config.set_quoted('G_LOG_DOMAIN', log_domain)
 config.set_quoted('APP_NAME', 'Thumbnails')
 app_version = meson.project_version()
-if get_option('flatpak-build')
-  app_version = app_version + '-flatpak'
+if get_option('developer-mode') and get_option('flatpak-build')
+  app_version = app_version + '.flatpak'
 endif
 config.set_quoted('APP_VERSION', app_version)
 config.set_quoted('PREFIX', get_option('prefix'))
