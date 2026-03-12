@@ -1,34 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014-2017 Paolo Bacchilega <paobac@src.gnome.org> -->
+<!-- Copyright 2014-2026 Paolo Bacchilega <paobac@src.gnome.org> -->
 <component type="desktop-application">
-  <id>app.gthumb.gthumb.desktop</id>
+  <id>app.gthumb.gthumb</id>
+  <replaces>
+    <id>org.gnome.gThumb.desktop</id>
+  </replaces>
+  <provides>
+    <id>org.gnome.gThumb.desktop</id>
+  </provides>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
 
   <name>Thumbnails</name>
   <summary>View and organize your images</summary>
+  <developer id="org.gnome">
+    <name translatable="no">Paolo Bacchilega</name>
+  </developer>
   <description>
     <p>
       Image viewer, editor, browser and organizer.
     </p>
     <p>
-      Supported formats: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF.
-      View metadata types embedded inside images such as EXIF, IPTC and XMP.
+      View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF.
     </p>
     <p>
-      Scale, rotate and crop the images; change the saturation, lightness,
-      contrast as well as other color transformations.
+      Edit images: scale, rotate and crop images, change contrast, brightness and saturation, as well as other color transformations.
     </p>
     <p>
-      Perform the common operations of a file manager such as copy, move and
-      delete files and folders.
-      Furthermore there is a series of image specific tools such as JPEG
-      lossless transformations; image resize; format conversion; slideshow;
-      setting an image as desktop background and several others.
+      View and edit embedded metadata: EXIF, IPTC and XMP.
     </p>
     <p>
-      Add comments and other metadata to images; organize images in catalogs
-      and catalogs in libraries; search  for images and save the result as
+      File manager operations: copy, move, rename and delete files and folders, execute scripts on the selected files.
+    </p>
+    <p>
+      Image specific tools:
+    </p>
+    <ul>
+      <li>JPEG lossless transformations</li>
+      <li>Image resize</li>
+      <li>Format conversion</li>
+      <li>Slideshow</li>
+      <li>Setting an image as desktop background</li>
+    </ul>
+    <p>
+      Add comments and other metadata to images, organize images in catalogs
+      and catalogs in libraries, search for images and save the result as
       a catalog.
     </p>
   </description>
@@ -38,7 +54,6 @@
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gthumb/-/issues</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gthumb/</url>
   <url type="translate">https://l10n.gnome.org/module/gthumb/</url>
-  <url type="help">https://help.gnome.org/users/gthumb/stable/</url>
   <screenshots>
     <screenshot type="default">
       <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
@@ -49,11 +64,6 @@
       <caption>Viewer mode</caption>
     </screenshot>
   </screenshots>
-  <!-- developer_name tag deprecated with Appstream 1.0 -->
-  <developer_name translatable="no">Paolo Bacchilega</developer_name>
-  <developer id="org.gnome">
-    <name translatable="no">Paolo Bacchilega</name>
-  </developer>
   <update_contact>paobac_at_src.gnome.org</update_contact>
   <kudos>
     <kudo>AppMenu</kudo>
@@ -61,7 +71,6 @@
     <kudo>ModernToolkit</kudo>
     <kudo>UserDocs</kudo>
   </kudos>
-  <project_group>GNOME</project_group>
   <translation type="gettext">gthumb</translation>
 
   <content_rating type="oars-1.1">

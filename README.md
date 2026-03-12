@@ -8,20 +8,17 @@ More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
 
 ## Features
 
-  Supported formats: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF.
-  View metadata types embedded inside images such as EXIF, IPTC and XMP.
+  - View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF.
 
-  Scale, rotate and crop the images; change the saturation, lightness,
-  contrast as well as other color transformations.
+  - Edit images: scale, rotate and crop images, change contrast, brightness and saturation, as well as other color transformations.
 
-  Perform the common operations of a file manager such as copy, move and
-  delete files and folders, plus a series of image specific tools such as JPEG
-  lossless transformations; image resize; format conversion; slideshow;
-  setting an image as desktop background and others.
+  - View and edit embedded metadata: EXIF, IPTC and XMP.
 
-  Add comments and other metadata to images; organize images in catalogs
-  and catalogs in libraries; search  for images and save the result as
-  a catalog.
+  - File manager operations: copy, move, rename and delete files and folders, execute scripts on the selected files.
+
+  - Image specific tools: JPEG lossless transformations, image resize, format conversion, slideshow, setting an image as desktop background and others.
+
+  - Add comments and other metadata to images, organize images in catalogs and catalogs in libraries, search for images and save the result as a catalog.
 
 ## Licensing
 
@@ -66,6 +63,6 @@ More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
 ## Installation
 
     cd gthumb
-    meson build
-    ninja -C build
-    sudo ninja -C build install
+    meson setup builddir
+    meson compile -C builddir
+    sudo meson install -C builddir
