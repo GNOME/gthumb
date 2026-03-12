@@ -3,10 +3,7 @@ public class Gth.SortFilesDialog : Adw.PreferencesDialog {
 	public SortFilesDialog (Gth.Browser _browser) {
 		browser = _browser;
 
-		sort = {
-			browser.folder_tree.current_folder.get_sort_name (browser.file_sorter.name),
-			browser.folder_tree.current_folder.get_inverse_order (browser.file_sorter.inverse)
-		};
+		sort = { browser.file_sorter.name, browser.file_sorter.inverse };
 
 		Gtk.CheckButton first_check_button = null;
 		foreach (unowned var id in app.ordered_sorters) {

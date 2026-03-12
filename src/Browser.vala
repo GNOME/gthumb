@@ -2028,6 +2028,24 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
+	public void files_reordered (File location, GenericList<File> new_order) {
+		if (!folder_tree.current_folder.file.equal (location)) {
+			return;
+		}
+		var pos = 0u;
+		foreach (var file in new_order) {
+			var iter = folder_tree.current_children.iterator ();
+			var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
+			if (file_data != null) {
+				file_data.set_position (pos);
+				pos++;
+			}
+		}
+		folder_tree.current_folder.info.set_attribute_string ("sort::type", "Private::Unsorted");
+		folder_tree.current_folder.info.set_attribute_boolean ("sort::inverse", false);
+		file_sorter.set_order ("Private::Unsorted", false);
+	}
+
 	async void new_folder () {
 		var local_job = window.new_job ("New Folder");
 		try {
@@ -2361,6 +2379,7 @@ public class Gth.Browser : Gtk.Box {
 				folder_tree.current_folder.info.set_attribute_string ("sort::type", "Private::Unsorted");
 				folder_tree.current_folder.info.set_attribute_boolean ("sort::inverse", false);
 				file_sorter.set_order ("Private::Unsorted", false);
+				app.events.files_reordered (folder_tree.current_folder.file, files, window);
 			}
 		});
 	}
@@ -2500,6 +2519,9 @@ public class Gth.FileSorter : Gtk.Sorter {
 			return;
 		}
 		inverse = _inverse;
+		if (last.name != "Private::Unsorted") {
+			last = { name, inverse };
+		}
 		changed (Gtk.SorterChange.INVERTED);
 	}
 

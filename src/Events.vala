@@ -88,6 +88,14 @@ public class Gth.Events : Object {
 		app.foreach_main_window ((win) => win.update_selection_status (number));
 	}
 
+	public void files_reordered (File location, GenericList<File> new_order, MainWindow? ignore_window = null) {
+		app.foreach_main_window ((win) => {
+			if (win != ignore_window) {
+				win.browser.files_reordered (location, new_order);
+			}
+		});
+	}
+
 	public void watch_file (File file, bool watch) {
 		if (watch) {
 			stdout.printf ("> START WATCH FILE: %s\n", file.get_uri ());
