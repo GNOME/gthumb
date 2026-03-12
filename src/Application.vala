@@ -298,11 +298,6 @@ public class Gth.Application : Adw.Application {
 
 		// Exec the command line.
 
-		if (arg_import_photos) {
-			// TODO
-			return 0;
-		}
-
 		if (remaining_args == null) {
 			// No location specified.
 			var location = Gth.Settings.get_startup_location (settings);
@@ -604,8 +599,6 @@ public class Gth.Application : Adw.Application {
 	bool arg_version = false;
 	bool arg_new_window = false;
 	bool arg_fullscreen = false;
-	bool arg_slideshow = false; // TODO
-	bool arg_import_photos = false; // TODO
 	[CCode (array_length = false, array_null_terminated = true)]
 	string[]? remaining_args = null;
 
@@ -636,24 +629,6 @@ public class Gth.Application : Adw.Application {
 				OptionArg.NONE,
 				ref arg_fullscreen,
 				N_("Open files in fullscreen mode"),
-				null
-			},
-			{
-				"slideshow",
-				's',
-				OptionFlags.NONE,
-				OptionArg.NONE,
-				ref arg_slideshow,
-				N_("Automatically start a presentation"),
-				null
-			},
-			{
-				"import-photos",
-				'i',
-				OptionFlags.NONE,
-				OptionArg.NONE,
-				ref arg_import_photos,
-				N_("Automatically import digital camera photos"),
 				null
 			},
 			{
@@ -795,9 +770,7 @@ public class Gth.Application : Adw.Application {
 			}
 			window.open.begin (location, flags);
 		}
-		if (!arg_slideshow) {
-			window.present ();
-		}
+		window.present ();
 	}
 
 	void register_types() {
