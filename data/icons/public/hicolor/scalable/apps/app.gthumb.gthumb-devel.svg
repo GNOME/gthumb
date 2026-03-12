@@ -7,7 +7,7 @@
    viewBox="0 0 67.733334 67.733334"
    version="1.1"
    id="svg4770"
-   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    sodipodi:docname="app.gthumb.gthumb-devel.svg"
    inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/public/hicolor/256x256/apps/gthumb.png"
    inkscape:export-xdpi="96"
@@ -482,16 +482,10 @@
        style="opacity:1;fill:#ce00c9;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m -16.790325,152.15501 v 15.60561 H 7.9842422 v -11.54436 c 0,-2.25006 -1.8111906,-4.06125 -4.0612508,-4.06125 z"
        sodipodi:nodetypes="cccssc" />
-    <text
-       xml:space="preserve"
-       style="font-size:10.2498px;line-height:0.512493px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="-13.786701"
-       y="163.72461"
-       id="text2"><tspan
-         sodipodi:role="line"
-         id="tspan2"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583px"
-         x="-13.786701"
-         y="163.72461">DEV</tspan></text>
+    <path
+       style="font-weight:bold;font-size:10.2498px;line-height:0.512493px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;stroke-width:0.264583px"
+       d="m -11.224251,163.72461 h -1.732216 v -7.5336 h 1.732216 q 0.266495,0 0.532989,0.041 0.266495,0.0307 0.51249,0.13324 0.2459955,0.1025 0.4612413,0.25625 0.2254956,0.15375 0.409992,0.34849 0.1844964,0.19475 0.3177438,0.42024 0.1434972,0.2255 0.2459952,0.47149 0.102498,0.246 0.1742466,0.51249 0.071749,0.25625 0.1127478,0.52274 0.040999,0.25625 0.051249,0.52274 0.0205,0.2665 0.0205,0.53299 0,0.27675 -0.0205,0.54324 -0.01025,0.2665 -0.051249,0.53299 -0.040999,0.25625 -0.1127478,0.52274 -0.071749,0.25625 -0.1742466,0.50224 -0.102498,0.246 -0.2459952,0.47149 -0.1332474,0.2255 -0.3177438,0.42024 -0.1844964,0.19475 -0.409992,0.3485 -0.2152458,0.15374 -0.4612413,0.25624 -0.245995,0.1025 -0.51249,0.1435 -0.266494,0.0308 -0.532989,0.0308 z m -0.51249,-1.03523 h 0.51249 q 0.174246,0 0.348493,-0.0308 0.174247,-0.041 0.327994,-0.13325 0.153747,-0.1025 0.276744,-0.22549 0.122998,-0.13325 0.215246,-0.27675 0.092248,-0.15374 0.1639967,-0.31774 0.071749,-0.164 0.1229976,-0.33824 0.051249,-0.17425 0.081998,-0.3485 0.030749,-0.17424 0.051249,-0.34849 0.0205,-0.17425 0.0205,-0.34849 0.01025,-0.1845 0.01025,-0.35875 0,-0.18449 -0.01025,-0.35874 0,-0.1845 -0.0205,-0.35874 -0.0205,-0.17425 -0.051249,-0.3485 -0.030749,-0.17424 -0.081998,-0.34849 -0.051249,-0.17425 -0.1229976,-0.33824 -0.071749,-0.164 -0.1639967,-0.3075 -0.09225,-0.15374 -0.215246,-0.27674 -0.122997,-0.13325 -0.276744,-0.2255 -0.153747,-0.1025 -0.327994,-0.13324 -0.174247,-0.041 -0.348493,-0.041 h -0.51249 z m 5.0121557,1.03523 v -7.5336 h 4.4074139 v 1.03523 h -3.1876877 v 2.06021 h 2.5112009 v 1.03523 h -2.5112009 v 2.3677 h 3.1876877 v 1.03523 z m 7.61560513,0 -1.86546355,-7.5336 h 1.26072536 l 1.09672856,5.0224 q 0.051249,0.23574 0.102498,0.47149 0.051249,0.22549 0.102498,0.45099 0.051249,-0.2255 0.102498,-0.45099 0.051249,-0.23575 0.102498,-0.47149 l 1.0967286,-5.0224 h 1.2607253 l -1.8654635,7.5336 z"
+       id="text2"
+       aria-label="DEV" />
   </g>
 </svg>
