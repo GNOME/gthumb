@@ -701,7 +701,7 @@ public class Gth.Application : Adw.Application {
 				"Paolo Bacchilega <paobac@src.gnome.org>",
 			};
 			Adw.show_about_dialog (active_window,
-				"application-name", Config.APP_NAME,
+				"application-name", _(Config.APP_NAME),
 				"application-icon", Config.APP_ID,
 				"version", Config.APP_VERSION,
 				"license-type", Gtk.License.GPL_2_0,
