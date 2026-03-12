@@ -37,7 +37,7 @@ public static int main (string[] args) {
 		opt_context.parse (ref args);
 
 		if (version) {
-			stdout.printf ("%s\n", Config.VERSION);
+			stdout.printf ("%s\n", Config.APP_VERSION);
 			return 0;
 		}
 

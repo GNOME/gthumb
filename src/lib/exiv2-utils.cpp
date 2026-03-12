@@ -1,5 +1,4 @@
 #include <config.h>
-#include <version.h>
 #include <glib.h>
 #include <exiv2/basicio.hpp>
 #include <exiv2/error.hpp>

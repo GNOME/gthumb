@@ -4,7 +4,11 @@ config.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('loca
 config.set_quoted('DOMAIN', meson.project_name ())
 config.set_quoted('G_LOG_DOMAIN', log_domain)
 config.set_quoted('APP_NAME', 'Thumbnails')
-config.set_quoted('VERSION', meson.project_version())
+app_version = meson.project_version()
+if get_option('flatpak-build')
+  app_version = app_version + '-flatpak'
+endif
+config.set_quoted('APP_VERSION', app_version)
 config.set_quoted('PREFIX', get_option('prefix'))
 config.set('DEVELOPER_MODE', get_option('developer-mode') ? 'true' : 'false')
 if get_option('developer-mode')
@@ -21,7 +25,6 @@ else
   exec_name = 'gthumb'
 endif
 config.set('FLATPAK', get_option('flatpak-build') ? 'true' : 'false')
-config.set_quoted('BUILD_TAG', get_option('flatpak-build') ? '-flatpak' : '')
 if have_progressive_jpeg
   config.set('HAVE_PROGRESSIVE_JPEG', 1)
 endif
@@ -56,13 +59,6 @@ endif
 config_file = configure_file(
   output : 'config.h',
   configuration : config
-)
-
-version_file = vcs_tag(
-  command: [ 'git', 'describe' ],
-  fallback: meson.project_version(),
-  input: 'lib/version.h.in',
-  output: 'version.h'
 )
 
 resources_files = gnome.compile_resources('resources',
@@ -273,7 +269,6 @@ executable(exec_name,
     template_files,
     tools_files,
     vapi_files,
-    version_file,
     video_files,
   ],
   dependencies: dependencies,
@@ -287,7 +282,6 @@ executable('video-thumbnailer',
     'Files.vala',
     'Strings.vala',
     config_file,
-    version_file,
     lib_files,
     vapi_files,
   ],
