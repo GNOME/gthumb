@@ -1,3 +1,5 @@
+install_man('gthumb.1')
+
 if get_option('developer-mode')
   desktop_file = i18n.merge_file(
     input: 'app.gthumb.gthumb-devel.desktop.in',
