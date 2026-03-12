@@ -52,6 +52,12 @@ public class Gth.Events : Object {
 		});
 	}
 
+	public signal void file_renamed (File old_file, File new_file) {
+		var files = new GenericList<RenamedFile>();
+		files.model.append (new RenamedFile (old_file, new_file));
+		files_renamed (files);
+	}
+
 	public signal void mount_points_changed ();
 
 	public void file_created (File file) {

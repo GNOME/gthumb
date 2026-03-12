@@ -1867,6 +1867,10 @@ public class Gth.Browser : Gtk.Box {
 			if (pos >= 0) {
 				new_files.model.append (renamed.new_file);
 			}
+			if (folder_tree.current_folder.file.equal (renamed.old_file)) {
+				open_location (renamed.new_file);
+				return;
+			}
 		}
 		if (!new_files.is_empty ()) {
 			update_renamed_files.begin (renamed_files, new_files);
@@ -2058,8 +2062,7 @@ public class Gth.Browser : Gtk.Box {
 			var basename = yield read_filename.read_value (window, local_job);
 			var new_folder = parent.get_child_for_display_name (basename);
 			yield old_folder.move_async (new_folder, FileCopyFlags.NONE, Priority.DEFAULT, local_job.cancellable, null);
-			// TODO: Monitor.renamed (old_folder, new_folder);
-			yield open_location_async (new_folder);
+			app.events.file_renamed (old_folder, new_folder);
 		}
 		catch (Error error) {
 			window.show_error (error);
