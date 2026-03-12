@@ -20,7 +20,7 @@
               <object class="AdwHeaderBar">
                 <property name="title-widget">
                   <object class="AdwWindowTitle">
-                    <property name="title">Thumbnails</property>
+                    <property name="title" translatable="yes">Thumbnails</property>
                   </object>
                 </property>
                 <child type="start">
