@@ -705,24 +705,6 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction.stateful ("set-sort-name",
-			GLib.VariantType.STRING,
-			new Variant.string (file_sorter.name ?? ""));
-		action.activate.connect ((_action, param) => {
-			_action.set_state (param);
-			// TODO
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction.stateful ("set-inverse-order",
-			GLib.VariantType.BOOLEAN,
-			new Variant.boolean (file_sorter.inverse));
-		action.activate.connect ((_action, param) => {
-			_action.set_state (param);
-			// TODO
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction ("sort-folders", null);
 		action.activate.connect (() => {
 			var dialog = new Gth.SortFoldersDialog (this);
