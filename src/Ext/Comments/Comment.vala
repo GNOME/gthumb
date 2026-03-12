@@ -52,47 +52,79 @@ public class Gth.Comment : Object {
 		reset ();
 
 		var root = doc.first_child;
-		if (root.tag_name != "comment")
-			return;
+		if (root.tag_name == "comment") {
+			unowned var version = root.get_attribute ("version");
+			if (version == "3.0") {
+				foreach (unowned var child in root) {
+					switch (child.tag_name) {
+					case "caption":
+						caption = child.get_inner_text ();
+						break;
 
-		unowned var version = root.get_attribute ("version");
-		if (version == "2.0") {
-			// TODO
+					case "note":
+						note = child.get_inner_text ();
+						break;
+
+					case "place":
+						place = child.get_inner_text ();
+						break;
+
+					case "time":
+						var exif_time = DateTime.get_from_exif_date (child.get_attribute ("value"));
+						if (exif_time != null) {
+							time.copy (exif_time);
+						}
+						break;
+
+					case "rating":
+						int value;
+						if (int.try_parse (child.get_attribute ("value"), out value, null, 10)) {
+							rating = value.clamp (0, 5);
+						}
+						break;
+
+					case "categories":
+						foreach (unowned var category in child) {
+							categories.add (category.get_attribute ("value"));
+						}
+						break;
+					}
+				}
+			}
 		}
-		else if (version == "3.0") {
-			foreach (unowned var child in root) {
-				switch (child.tag_name) {
-				case "caption":
-					caption = child.get_inner_text ();
-					break;
+		else if (root.tag_name == "Comment") {
+			unowned var version = root.get_attribute ("format");
+			if (version == "2.0") {
+				foreach (unowned var child in root) {
+					switch (child.tag_name) {
+					case "Note":
+						note = child.get_inner_text ();
+						break;
 
-				case "note":
-					note = child.get_inner_text ();
-					break;
+					case "Place":
+						place = child.get_inner_text ();
+						break;
 
-				case "place":
-					place = child.get_inner_text ();
-					break;
+					case "Time":
+						int64 unix_time = 0;
+						if (int64.try_parse (child.get_inner_text (), out unix_time, null, 10)) {
+							if (unix_time > 0) {
+								var gtime = new GLib.DateTime.from_unix_local (unix_time);
+								time.set_from_gdatetime (gtime);
+							}
+						}
+						break;
 
-				case "time":
-					var exif_time = DateTime.get_from_exif_date (child.get_attribute ("value"));
-					if (exif_time != null) {
-						time.copy (exif_time);
+					case "Keywords":
+						unowned var keywords = child.get_inner_text ();
+						if (keywords != null) {
+							var keywords_v = keywords.split (",");
+							foreach (unowned var keyword in keywords_v) {
+								categories.add (keyword);
+							}
+						}
+						break;
 					}
-					break;
-
-				case "rating":
-					int value;
-					if (int.try_parse (child.get_attribute ("value"), out value, null, 10)) {
-						rating = value.clamp (0, 5);
-					}
-					break;
-
-				case "categories":
-					foreach (unowned var category in child) {
-						categories.add (category.get_attribute ("value"));
-					}
-					break;
 				}
 			}
 		}
