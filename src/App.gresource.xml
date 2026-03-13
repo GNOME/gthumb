@@ -68,6 +68,7 @@
     <file preprocess="xml-stripblanks">gth-script-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-search-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-sharpen-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">gth-sidebar-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-skip-backward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-skip-forward-large-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-special-effects-symbolic.svg</file>
@@ -79,7 +80,6 @@
     <file preprocess="xml-stripblanks">gth-user-bookmarks-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-user-home-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-valign-center-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">gth-view-grid-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-refresh-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-fit-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-view-zoom-in-symbolic.svg</file>
