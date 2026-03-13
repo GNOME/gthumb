@@ -128,7 +128,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 	public async bool load (FileData file_data, Job job) throws Error {
 		if (playbin == null) {
-			return false;
+			throw new IOError.FAILED ("playbin is null");
 		}
 		reset_state ();
 		reset_view ();
@@ -226,7 +226,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			"mute", mute,
 			"force-aspect-ratio", true) as Gst.Pipeline;
 
-		// TODO: check if playbin is null
+		if (playbin == null) {
+			return;
+		}
 
 		// Adjust audio when not playing at normal speed.
 		var scaletempo = Gst.ElementFactory.make ("scaletempo");
