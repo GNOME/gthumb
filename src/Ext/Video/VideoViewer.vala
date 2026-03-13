@@ -135,8 +135,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		playbin.set_state (Gst.State.NULL);
 		playbin.set ("uri", file_data.file.get_uri ());
 		playing = true;
-		// TODO: allow to cancel
-		// TODO: yield and resume in on_bus_message
 		return true;
 	}
 
@@ -413,13 +411,9 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 				&& (pending_state != Gst.State.PAUSED))
 			{
 				update_stream_info ();
-				//gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
-				//gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, self->priv->updated_info, TRUE);
 			}
 			if ((old_state == Gst.State.READY) && (new_state == Gst.State.PAUSED)) {
 				update_stream_info ();
-				//gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
-				//gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, self->priv->updated_info, TRUE);
 			}
 			if ((old_state == Gst.State.READY) || (new_state == Gst.State.PAUSED)) {
 				update_volume_from_playbin ();
@@ -447,10 +441,6 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			int percent = 0;
 			msg.parse_buffering (out percent);
 			playbin.set_state ((percent == 100) ? Gst.State.PLAYING : Gst.State.PAUSED);
-			break;
-
-		case Gst.MessageType.ERROR:
-			// TODO: gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, NULL, FALSE);
 			break;
 
 		default:

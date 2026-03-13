@@ -68,11 +68,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 	public async bool load (FileData file_data, Job job) throws Error {
 		var success = false;
-		preloader.cancel ();
-		if (window.viewer.current_file != null) {
-			preloader.cache.touch (window.viewer.current_file.file);
-		}
 		try {
+			preloader.cancel ();
+			if (window.viewer.current_file != null) {
+				preloader.cache.touch (window.viewer.current_file.file);
+			}
 			var flags = LoadFlags.DEFAULT;
 			if (!apply_icc_profile) {
 				flags |= LoadFlags.NO_ICC_PROFILE;
@@ -567,7 +567,6 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var local_job = window.new_job (title, JobFlags.FOREGROUND, icon_name);
 		edit_job = local_job;
 		try {
-			// TODO: load the original image if needed.
 			var image = yield app.image_editor.exec_operation (
 				image_view.image,
 				operation,
