@@ -303,7 +303,8 @@ public class Gth.RenameDialog : Adw.Window {
 			update_entry_list ();
 		}
 		catch (Error error) {
-			// TODO: show error
+			toast_overlay.dismiss_all ();
+			toast_overlay.add_toast (Util.new_literal_toast (error.message));
 		}
 	}
 
@@ -389,6 +390,7 @@ public class Gth.RenameDialog : Adw.Window {
 	[GtkChild] unowned Adw.ToggleGroup strategy_group;
 	[GtkChild] unowned Adw.PreferencesGroup name_list_group;
 	[GtkChild] unowned Gtk.Button reset_name;
+	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 
 	const string REQUIRED_ATTRIBUTES =
 		FileAttribute.STANDARD_TYPE + "," +
