@@ -66,7 +66,6 @@ public class Gth.Selection {
 		foreach (unowned var file in files) {
 			add_file (file);
 		}
-		// TODO app.events.order_changed (location);
 	}
 
 	public void files_renamed (GenericList<RenamedFile> renamed_files) {
