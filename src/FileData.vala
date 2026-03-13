@@ -28,7 +28,7 @@ public class Gth.FileData : Object {
 		this.for_file (File.new_for_uri (uri), mime_type);
 	}
 
-	public FileData.for_rename (FileData other, File new_file) {
+	public FileData.for_rename (FileData other, File new_file) throws Error {
 		this (new_file, other.info.dup ());
 		if (!new_file.equal (other.file)) {
 			var basename = Util.get_parse_basename (new_file);
@@ -285,23 +285,18 @@ public class Gth.FileData : Object {
 		}
 	}
 
-	public void rename_from_display_name (string basename) {
-		try {
-			var new_file = file.get_parent ().get_child_for_display_name (basename);
-			set_file (new_file);
-			info.set_display_name (basename);
-			info.set_edit_name (basename);
+	public void rename_from_display_name (string basename) throws Error {
+		var new_file = file.get_parent ().get_child_for_display_name (basename);
+		set_file (new_file);
+		info.set_display_name (basename);
+		info.set_edit_name (basename);
 
-			var extension = Util.get_extension (basename);
-			if (extension != null) {
-				unowned var content_type = app.get_content_type_from_extension (extension);
-				if (content_type != null) {
-					set_content_type (content_type);
-				}
+		var extension = Util.get_extension (basename);
+		if (extension != null) {
+			unowned var content_type = app.get_content_type_from_extension (extension);
+			if (content_type != null) {
+				set_content_type (content_type);
 			}
-		}
-		catch (Error error) {
-			// TODO
 		}
 	}
 
