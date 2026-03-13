@@ -1082,7 +1082,7 @@ public class Gth.Browser : Gtk.Box {
 	public void view_fullscreen () {
 		var position = file_grid.get_selected_position ();
 		if (position != uint.MAX) {
-			view_position (position, ViewFlags.FULLSCREEN | ViewFlags.NO_DELAY);
+			view_position (position, ViewFlags.FULLSCREEN);
 		}
 	}
 
@@ -1263,7 +1263,7 @@ public class Gth.Browser : Gtk.Box {
 		file_grid.file_context_menu = file_context_menu;
 		file_grid.view.model.selection_changed.connect (() => update_selection_info ());
 		file_grid.view.activate.connect ((position) => {
-			var flags = ViewFlags.NO_DELAY;
+			var flags = ViewFlags.DEFAULT;
 			if (open_in_fullscreen) {
 				flags |= ViewFlags.FULLSCREEN;
 			}

@@ -188,7 +188,6 @@ public enum Gth.TransparencyStyle {
 [Flags]
 public enum Gth.ViewFlags {
 	DEFAULT,
-	NO_DELAY,
 	FULLSCREEN,
 	FOCUS,
 	WITH_NEW_POSITION,
