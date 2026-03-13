@@ -70,12 +70,14 @@ class Gth.SearchDialog : Adw.Dialog {
 			changed ();
 		}
 		catch (Error error) {
-			// TODO: show error
+			toast_overlay.dismiss_all ();
+			toast_overlay.add_toast (Util.new_literal_toast (error.message));
 		}
 	}
 
 	[GtkChild] unowned Gth.TestExprEditorGroup rules_group;
 	[GtkChild] unowned Gth.SearchSourceEditorGroup sources_group;
+	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 
 	CatalogSearch catalog;
 }

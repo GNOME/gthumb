@@ -4,48 +4,52 @@
     <property name="title" translatable="yes" context="Noun">Search</property>
     <property name="content-width">700</property>
     <child>
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar" />
-        </child>
-        <property name="content">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">24</property>
-            <style>
-              <class name="preferences-page"/>
-            </style>
-            <child>
-              <object class="GthSearchSourceEditorGroup" id="sources_group">
-              </object>
+      <object class="AdwToastOverlay" id="toast_overlay">
+        <child>
+          <object class="AdwToolbarView">
+            <child type="top">
+              <object class="AdwHeaderBar" />
             </child>
-            <child>
-              <object class="GthTestExprEditorGroup" id="rules_group">
-              </object>
-            </child>
-            <child>
+            <property name="content">
               <object class="GtkBox">
-                <property name="spacing">12</property>
-                <property name="halign">center</property>
-                <property name="homogeneous">true</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">24</property>
                 <style>
-                  <class name="response-area"/>
+                  <class name="preferences-page"/>
                 </style>
                 <child>
-                  <object class="GtkButton" id="save_button">
-                    <property name="label" translatable="yes" context="Verb">_Search</property>
-                    <property name="use_underline">true</property>
+                  <object class="GthSearchSourceEditorGroup" id="sources_group">
+                  </object>
+                </child>
+                <child>
+                  <object class="GthTestExprEditorGroup" id="rules_group">
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">12</property>
+                    <property name="halign">center</property>
+                    <property name="homogeneous">true</property>
                     <style>
-                      <class name="suggested-action"/>
-                      <class name="pill"/>
+                      <class name="response-area"/>
                     </style>
-                    <signal name="clicked" handler="on_save" />
+                    <child>
+                      <object class="GtkButton" id="save_button">
+                        <property name="label" translatable="yes" context="Verb">_Search</property>
+                        <property name="use_underline">true</property>
+                        <style>
+                          <class name="suggested-action"/>
+                          <class name="pill"/>
+                        </style>
+                        <signal name="clicked" handler="on_save" />
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
-            </child>
+            </property>
           </object>
-        </property>
+        </child>
       </object>
     </child>
   </template>
