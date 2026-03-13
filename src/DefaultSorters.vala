@@ -47,10 +47,46 @@ public class Gth.Sorters {
 	}
 
 	public static int cmp_frame_dimensions (Gth.FileData a, Gth.FileData b) {
-		return 0; // TODO
+		int a_pixels = 0;
+		if (a.info.has_attribute ("Frame::Width")
+			&& a.info.has_attribute ("Frame::Height"))
+		{
+			var width = a.info.get_attribute_int32 ("Frame::Width");
+			var height = a.info.get_attribute_int32 ("Frame::Height");
+			a_pixels = width * height;
+		}
+		int b_pixels = 0;
+		if (b.info.has_attribute ("Frame::Width")
+			&& b.info.has_attribute ("Frame::Height"))
+		{
+			var width = b.info.get_attribute_int32 ("Frame::Width");
+			var height = b.info.get_attribute_int32 ("Frame::Height");
+			b_pixels = width * height;
+		}
+		return Util.int_cmp (a_pixels, b_pixels);
 	}
 
 	public static int cmp_aspect_ratio (Gth.FileData a, Gth.FileData b) {
-		return 0; // TODO
+		var a_ratio = 0f;
+		if (a.info.has_attribute ("Frame::Width")
+			&& a.info.has_attribute ("Frame::Height"))
+		{
+			var width = a.info.get_attribute_int32 ("Frame::Width");
+			var height = a.info.get_attribute_int32 ("Frame::Height");
+			if (height > 0) {
+				a_ratio = (float) width / height;
+			}
+		}
+		var b_ratio = 0f;
+		if (b.info.has_attribute ("Frame::Width")
+			&& b.info.has_attribute ("Frame::Height"))
+		{
+			var width = b.info.get_attribute_int32 ("Frame::Width");
+			var height = b.info.get_attribute_int32 ("Frame::Height");
+			if (height > 0) {
+				b_ratio = (float) width / height;
+			}
+		}
+		return (a_ratio < b_ratio) ? -1 : (a_ratio > b_ratio) ? 1 : 0;
 	}
 }
