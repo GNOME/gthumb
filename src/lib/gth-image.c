@@ -152,12 +152,12 @@ void gth_image_init_pixels (GthImage *self, guint width, guint height) {
 
 	self->priv->row_stride = (int) (width * PIXEL_BYTES);
 	gsize size = (gsize) self->priv->row_stride * height;
-	// TODO: check the size
 	guchar *buffer = g_malloc (size);
-	// TODO: check if buffer is NULL
-	self->priv->bytes = g_bytes_new_take (buffer, size);
-	self->priv->width = width;
-	self->priv->height = height;
+	if (buffer != NULL) {
+		self->priv->bytes = g_bytes_new_take (buffer, size);
+		self->priv->width = width;
+		self->priv->height = height;
+	}
 }
 
 GthImage * gth_image_new (guint width, guint height) {
@@ -215,7 +215,7 @@ GthImage * gth_image_dup (GthImage *self) {
 GthImage * gth_image_new_as_frame (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	GthImage *image = (GthImage *) g_object_new (GTH_TYPE_IMAGE, NULL);
-	image->priv->bytes = g_bytes_ref (self->priv->bytes);
+	image->priv->bytes = (self->priv->bytes != NULL) ? g_bytes_ref (self->priv->bytes) : NULL;
 	image->priv->row_stride = self->priv->row_stride;
 	image->priv->width = self->priv->width;
 	image->priv->height = self->priv->height;
@@ -260,7 +260,7 @@ void gth_image_copy_pixels_with_mask (GthImage *src, GthImage *dest, guint x, gu
 
 static void gth_image_set_frame (GthImage *self, GthImage *frame) {
 	_gth_image_free_data (self);
-	self->priv->bytes = g_bytes_ref (frame->priv->bytes);
+	self->priv->bytes = (frame->priv->bytes != NULL) ? g_bytes_ref (frame->priv->bytes) : NULL;
 	self->priv->row_stride = frame->priv->row_stride;
 	self->priv->width = frame->priv->width;
 	self->priv->height = frame->priv->height;
@@ -300,6 +300,7 @@ void gth_image_copy_metadata (GthImage *src, GthImage *dest) {
 
 guchar* gth_image_get_pixels (GthImage *self, gsize *size) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	g_return_val_if_fail (self->priv->bytes != NULL, NULL);
 	return (guchar*) g_bytes_get_data (self->priv->bytes, size);
 }
 
@@ -376,6 +377,7 @@ cairo_surface_t * gth_image_to_surface (GthImage *source) {
 
 GdkTexture * gth_image_get_texture (GthImage *self) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	g_return_val_if_fail (self->priv->bytes != NULL, NULL);
 	return gdk_memory_texture_new (
 		self->priv->width,
 		self->priv->height,
@@ -452,7 +454,10 @@ GthImage * gth_image_get_subimage (GthImage *source, guint x, guint y, guint wid
 
 gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guchar *green, guchar *blue, guchar *alpha) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
-	if ((x >= self->priv->width) || (y >= self->priv->height)) {
+	if ((self->priv->bytes == NULL)
+		|| (x >= self->priv->width)
+		|| (y >= self->priv->height))
+	{
 		*red = 0;
 		*green = 0;
 		*blue = 0;
