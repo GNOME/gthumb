@@ -50,6 +50,7 @@ public class Gth.Browser : Gtk.Box {
 		parents_category = new ActionCategory (_("Path"), 1);
 		never_loaded = true;
 		folder_stack.set_visible_child (empty_folder);
+		filter_bar.options_error.connect ((error) => window.show_error (error));
 	}
 
 	void init () {

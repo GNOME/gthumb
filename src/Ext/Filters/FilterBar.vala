@@ -3,6 +3,7 @@ public class Gth.FilterBar : Gtk.Box {
 	public Gth.Test filter;
 
 	public signal void changed ();
+	public signal void options_error (Error error);
 
 	public void set_filter (string id) {
 		if (select_filter_by_id (id)) {
@@ -164,7 +165,7 @@ public class Gth.FilterBar : Gtk.Box {
 				changed ();
 			}
 			catch (Error error) {
-				// TODO: show error.
+				options_error (error);
 			}
 		});
 
