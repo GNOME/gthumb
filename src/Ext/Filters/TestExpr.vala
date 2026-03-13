@@ -80,15 +80,6 @@ public class Gth.TestExpr : Gth.Test {
 		return result;
 	}
 
-	public override Gtk.Widget? create_options () {
-		// TODO
-		return null;
-	}
-
-	public override void update_from_options () throws Error {
-		// TODO
-	}
-
 	public override void focus_options () {
 		var test = tests.first ();
 		if (test != null) {
