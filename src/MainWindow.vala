@@ -152,7 +152,6 @@ public class Gth.MainWindow : Gth.Window {
 		case Page.NONE:
 			break;
 		}
-		update_sensitivity ();
 	}
 
 	public void on_setting_change (string key) {
@@ -169,10 +168,6 @@ public class Gth.MainWindow : Gth.Window {
 			browser.open_in_fullscreen = app.settings.get_boolean (PREF_BROWSER_OPEN_IN_FULLSCREEN);
 			break;
 		}
-	}
-
-	void update_sensitivity () {
-		// TODO
 	}
 
 	public bool can_open_clipboard = false;
