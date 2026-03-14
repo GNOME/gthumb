@@ -1,0 +1,2583 @@
+# Kazakh translation for gthumb.
+# Copyright (C) 2026 gthumb's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gthumb package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>,  2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gthumb gthumb-3-10\n"
+"POT-Creation-Date: 2026-03-10 19:23+0000\n"
+"PO-Revision-Date: 2026-03-14 23:01+0500\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <Kazakh>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
+
+#. (itstool) path: credit/name
+#: C/index.page:7
+msgid "Paolo Bacchilega"
+msgstr "Paolo Bacchilega"
+
+#. (itstool) path: credit/name
+#: C/index.page:12
+msgid "Michael J. Chudobiak"
+msgstr "Michael J. Chudobiak"
+
+#. (itstool) path: page/title
+#: C/index.page:20
+msgid "gThumb Help"
+msgstr "gThumb көмегі"
+
+#. (itstool) path: section/title
+#: C/index.page:23
+msgid "Welcome"
+msgstr "Қош келдіңіз"
+
+#. (itstool) path: section/title
+#: C/index.page:27
+msgid "File Management"
+msgstr "Файлды басқару"
+
+#. (itstool) path: section/title
+#: C/index.page:31
+msgid "Editing Mode"
+msgstr "Түзету режимі"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
+#: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
+msgctxt "_"
+msgid ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
+msgstr ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
+
+#. (itstool) path: section/p
+#: C/index.page:32
+msgid ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
+"Numerous editing tools are provided for touching-up individual photos. Undo "
+"and redo functions are provided, up until the photo is saved. To access the "
+"editing tools, open an image and then click the <gui>Edit File</gui> "
+"toolbar button (the palette icon), or press <keyseq><key>e</key></keyseq>."
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Жеке "
+"фотосуреттерді жақсарту үшін көптеген түзету саймандары қарастырылған. "
+"Фотосурет сақталғанға дейін болдырмау және қайталау функциялары қолжетімді. "
+"Түзету саймандарына қол жеткізу үшін суретті ашып, саймандар панеліндегі "
+"<gui>Файлды түзету</gui> батырмасын (палитра таңбашасын) шертіңіз немесе "
+"<keyseq><key>e</key></keyseq> пернелерін басыңыз."
+
+#. (itstool) path: section/title
+#: C/index.page:42
+msgid "Batch Tools"
+msgstr "Топтық саймандар"
+
+#. (itstool) path: section/p
+#: C/index.page:43
+msgid ""
+"Batch tools are provided to modify multiple images simultaneously. Changes "
+"are written immediately, and are not undoable."
+msgstr ""
+"Бірнеше суретті бір уақытта өзгерту үшін топтық саймандар қарастырылған. "
+"Өзгерістер бірден жазылады және оларды болдырмау мүмкін емес."
+
+#. (itstool) path: section/title
+#: C/index.page:49
+msgid "Slideshows"
+msgstr "Слайдшоулар"
+
+#. (itstool) path: section/title
+#: C/index.page:53
+msgid "Importing"
+msgstr "Импорттау"
+
+#. (itstool) path: section/title
+#: C/index.page:57
+msgid "Sharing"
+msgstr "Бөлісу"
+
+#. (itstool) path: section/title
+#: C/index.page:61
+msgid "Organizing"
+msgstr "Ұйымдастыру"
+
+#. (itstool) path: section/title
+#: C/index.page:65
+msgid "Other Tools"
+msgstr "Басқа саймандар"
+
+#. (itstool) path: section/title
+#: C/index.page:69
+msgid "Reference"
+msgstr "Анықтамалық"
+
+#. (itstool) path: page/title
+#: C/attributes.page:6
+msgid "Attribute Codes"
+msgstr "Атрибут кодтары"
+
+#. (itstool) path: page/p
+#: C/attributes.page:7
+msgid ""
+"<app>gThumb</app> stores many different attributes for each file. "
+"Extensions may add more. The list below is a summary of some of the more "
+"common attributes:"
+msgstr ""
+"<app>gThumb</app> әр файл үшін көптеген түрлі атрибуттарды сақтайды. "
+"Кеңейтулер көбірек қоса алады. Төмендегі тізім кейбір жиі кездесетін "
+"атрибуттардың жиынтығы болып табылады:"
+
+#. (itstool) path: item/p
+#: C/attributes.page:12
+msgid "gth::file::display-size"
+msgstr "gth::file::display-size"
+
+#. (itstool) path: item/p
+#: C/attributes.page:15
+msgid "standard::fast-content-type"
+msgstr "standard::fast-content-type"
+
+#. (itstool) path: item/p
+#: C/attributes.page:18
+msgid "general::dimensions"
+msgstr "general::dimensions"
+
+#. (itstool) path: item/p
+#: C/attributes.page:21
+msgid "general::format"
+msgstr "general::format"
+
+#. (itstool) path: item/p
+#: C/attributes.page:24
+msgid "general::location"
+msgstr "general::location"
+
+#. (itstool) path: item/p
+#: C/attributes.page:27
+msgid "general::datetime"
+msgstr "general::datetime"
+
+#. (itstool) path: item/p
+#: C/attributes.page:30
+msgid "general::rating"
+msgstr "general::rating"
+
+#. (itstool) path: item/p
+#: C/attributes.page:33
+msgid "Exif::Image::Make"
+msgstr "Exif::Image::Make"
+
+#. (itstool) path: item/p
+#: C/attributes.page:36
+msgid "Exif::Image::Model"
+msgstr "Exif::Image::Model"
+
+#. (itstool) path: item/p
+#: C/attributes.page:39
+msgid "Exif::Image::Software"
+msgstr "Exif::Image::Software"
+
+#. (itstool) path: item/p
+#: C/attributes.page:42
+msgid "Exif::Image::Artist"
+msgstr "Exif::Image::Artist"
+
+#. (itstool) path: item/p
+#: C/attributes.page:45
+msgid "Exif::Image::Copyright"
+msgstr "Exif::Image::Copyright"
+
+#. (itstool) path: item/p
+#: C/attributes.page:48
+msgid "Exif::Photo::ISOSpeedRatings"
+msgstr "Exif::Photo::ISOSpeedRatings"
+
+#. (itstool) path: item/p
+#: C/attributes.page:51
+msgid "Exif::Photo::BrightnessValue"
+msgstr "Exif::Photo::BrightnessValue"
+
+#. (itstool) path: item/p
+#: C/attributes.page:54
+msgid "Exif::Photo::FNumber"
+msgstr "Exif::Photo::FNumber"
+
+#. (itstool) path: item/p
+#: C/attributes.page:57
+msgid "Exif::Photo::ApertureValue"
+msgstr "Exif::Photo::ApertureValue"
+
+#. (itstool) path: item/p
+#: C/attributes.page:60
+msgid "Exif::Photo::MaxApertureValue"
+msgstr "Exif::Photo::MaxApertureValue"
+
+#. (itstool) path: item/p
+#: C/attributes.page:63
+msgid "Exif::Photo::ExposureTime"
+msgstr "Exif::Photo::ExposureTime"
+
+#. (itstool) path: item/p
+#: C/attributes.page:66
+msgid "Exif::Photo::ExposureProgram"
+msgstr "Exif::Photo::ExposureProgram"
+
+#. (itstool) path: item/p
+#: C/attributes.page:69
+msgid "Exif::Photo::ExposureIndex"
+msgstr "Exif::Photo::ExposureIndex"
+
+#. (itstool) path: item/p
+#: C/attributes.page:72
+msgid "Exif::Photo::ExposureBiasValue"
+msgstr "Exif::Photo::ExposureBiasValue"
+
+#. (itstool) path: item/p
+#: C/attributes.page:75
+msgid "Exif::Photo::ExposureMode"
+msgstr "Exif::Photo::ExposureMode"
+
+#. (itstool) path: item/p
+#: C/attributes.page:78
+msgid "Exif::Photo::ShutterSpeedValue"
+msgstr "Exif::Photo::ShutterSpeedValue"
+
+#. (itstool) path: item/p
+#: C/attributes.page:81
+msgid "Exif::Photo::MeteringMode"
+msgstr "Exif::Photo::MeteringMode"
+
+#. (itstool) path: item/p
+#: C/attributes.page:84
+msgid "Exif::Photo::LightSource"
+msgstr "Exif::Photo::LightSource"
+
+#. (itstool) path: item/p
+#: C/attributes.page:87
+msgid "Exif::Photo::WhiteBalance"
+msgstr "Exif::Photo::WhiteBalance"
+
+#. (itstool) path: item/p
+#: C/attributes.page:90
+msgid "Exif::Photo::Flash"
+msgstr "Exif::Photo::Flash"
+
+#. (itstool) path: item/p
+#: C/attributes.page:93
+msgid "Exif::Photo::FocalLength"
+msgstr "Exif::Photo::FocalLength"
+
+#. (itstool) path: item/p
+#: C/attributes.page:96
+msgid "Exif::Photo::SubjectArea"
+msgstr "Exif::Photo::SubjectArea"
+
+#. (itstool) path: item/p
+#: C/attributes.page:99
+msgid "Exif::Photo::Contrast"
+msgstr "Exif::Photo::Contrast"
+
+#. (itstool) path: item/p
+#: C/attributes.page:102
+msgid "Exif::Photo::Saturation"
+msgstr "Exif::Photo::Saturation"
+
+#. (itstool) path: item/p
+#: C/attributes.page:105
+msgid "Exif::Photo::Sharpness"
+msgstr "Exif::Photo::Sharpness"
+
+#. (itstool) path: page/title
+#: C/strftime.page:8
+msgid "Date/Time Format Codes"
+msgstr "Күн/Уақыт пішімі кодтары"
+
+#. (itstool) path: page/p
+#: C/strftime.page:10
+msgid ""
+"This is a summary of standard date/time codes that may be used in format "
+"strings:"
+msgstr ""
+"Бұл пішім жолдарында қолданылуы мүмкін стандартты күн/уақыт кодтарының "
+"жиынтығы:"
+
+#. (itstool) path: table/title
+#: C/strftime.page:14
+msgid "Valid format codes for custom subfolders"
+msgstr "Пайдаланушының ішкі бумалары үшін жарамды пішім кодтары"
+
+#. (itstool) path: td/p
+#: C/strftime.page:20
+msgid "The abbreviated weekday name according to the current locale."
+msgstr "Ағымдағы локаль бойынша апта күнінің қысқартылған атауы."
+
+#. (itstool) path: td/p
+#: C/strftime.page:29
+msgid "The full weekday name according to the current locale."
+msgstr "Ағымдағы локаль бойынша апта күнінің толық атауы."
+
+#. (itstool) path: td/p
+#: C/strftime.page:38
+msgid "The abbreviated month name according to the current locale."
+msgstr "Ағымдағы локаль бойынша айдың қысқартылған атауы."
+
+#. (itstool) path: td/p
+#: C/strftime.page:47
+msgid "The full month name according to the current locale."
+msgstr "Ағымдағы локаль бойынша айдың толық атауы."
+
+#. (itstool) path: td/p
+#: C/strftime.page:55
+msgid "The preferred date and time representation for the current locale."
+msgstr "Ағымдағы локаль үшін күн мен уақыттың таңдаулы көрінісі."
+
+#. (itstool) path: td/p
+#: C/strftime.page:64
+msgid "The century number (year/100) as a 2-digit integer."
+msgstr "2 таңбалы бүтін сан ретіндегі ғасыр нөмірі (жыл/100)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:72
+msgid "The day of the month as a decimal number (range 01 to 31)."
+msgstr "Ондық сан түріндегі айдың күні (01-ден 31-ге дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:81
+msgid ""
+"Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note "
+"that in other countries %d/%m/%y is rather common. This means that in "
+"international context this format is ambiguous and should not be used.)"
+msgstr ""
+"%m/%d/%y эквиваленті. (Тек америкалықтар үшін. Басқа елдерде %d/%m/%y жиі "
+"кездесетінін ескеру керек. Бұл халықаралық контекстте бұл пішім екіұшты "
+"екенін және оны қолданбау керектігін білдіреді.)"
+
+#. (itstool) path: td/p
+#: C/strftime.page:92
+msgid ""
+"Like %d, the day of the month as a decimal number, but a leading zero is "
+"replaced by a space."
+msgstr ""
+"%d сияқты, айдың күні ондық сан ретінде, бірақ бастапқы нөл бос орынмен "
+"алмастырылады."
+
+#. (itstool) path: td/p
+#: C/strftime.page:101 C/strftime.page:210
+msgid "Modifier: use alternative format, see below."
+msgstr "Модификатор: балама пішімді қолдану, төменнен қараңыз."
+
+#. (itstool) path: td/p
+#: C/strftime.page:109
+msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
+msgstr "%Y-%m-%d эквиваленті (ISO 8601 күн пішімі). (C99)"
+
+#. (itstool) path: td/p
+#: C/strftime.page:118
+msgid ""
+"The ISO 8601 year with century as a decimal number. The 4-digit year "
+"corresponding to the ISO week number (see %V). This has the same format and "
+"value as %y, except that if the ISO week number belongs to the previous or "
+"next year, that year is used instead."
+msgstr ""
+"Ондық сан ретіндегі ғасыры бар ISO 8601 жылы. ISO апта нөміріне сәйкес "
+"келетін 4 таңбалы жыл (%V қараңыз). Оның %y сияқты пішімі мен мәні бар, "
+"бірақ егер ISO апта нөмірі алдыңғы немесе келесі жылға тиісті болса, оның "
+"орнына сол жыл қолданылады."
+
+#. (itstool) path: td/p
+#: C/strftime.page:130
+msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
+msgstr "%G сияқты, бірақ ғасырсыз, яғни 2 таңбалы жыл (00-99)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:139
+msgid "Equivalent to %b."
+msgstr "%b эквиваленті."
+
+#. (itstool) path: td/p
+#: C/strftime.page:147
+msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
+msgstr ""
+"24 сағаттық уақытты қолданатын ондық сан ретіндегі сағат (00-ден 23-ке "
+"дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:156
+msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
+msgstr ""
+"12 сағаттық уақытты қолданатын ондық сан ретіндегі сағат (01-ден 12-ге "
+"дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:165
+msgid "The day of the year as a decimal number (range 001 to 366)."
+msgstr "Жылдың күні ондық сан ретінде (001-ден 366-ға дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:174
+msgid ""
+"The hour (24-hour clock) as a decimal number (range 0 to 23); single digits "
+"are preceded by a blank. (See also %H.)"
+msgstr ""
+"Ондық сан ретіндегі сағат (24 сағаттық уақыт) (0-ден 23-ке дейінгі ауқым); "
+"жалғыз цифрлар алдында бос орын тұрады. (%H де қараңыз.)"
+
+#. (itstool) path: td/p
+#: C/strftime.page:184
+msgid ""
+"The hour (12-hour clock) as a decimal number (range 1 to 12); single digits "
+"are preceded by a blank. (See also %I.)"
+msgstr ""
+"Ондық сан ретіндегі сағат (12 сағаттық уақыт) (1-ден 12-ге дейінгі ауқым); "
+"жалғыз цифрлар алдында бос орын тұрады. (%I да қараңыз.)"
+
+#. (itstool) path: td/p
+#: C/strftime.page:194
+msgid "The month as a decimal number (range 01 to 12)."
+msgstr "Ай ондық сан ретінде (01-ден 12-ге дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:202
+msgid "The minute as a decimal number (range 00 to 59)."
+msgstr "Минут ондық сан ретінде (00-ден 59-ға дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:218
+msgid ""
+"Either 'AM' or 'PM' according to the given time value, or the corresponding "
+"strings for the current locale. Noon is treated as 'pm' and midnight as "
+"'am'."
+msgstr ""
+"Берілген уақыт мәніне байланысты 'AM' не 'PM', немесе ағымдағы локаль үшін "
+"тиісті жолдар. Тал түс 'pm' және түн ортасы 'am' ретінде қарастырылады."
+
+#. (itstool) path: td/p
+#: C/strftime.page:228
+msgid ""
+"Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the "
+"current locale."
+msgstr ""
+"%p сияқты, бірақ кіші әріптермен: 'am' не 'pm' немесе ағымдағы локаль үшін "
+"тиісті жол."
+
+#. (itstool) path: td/p
+#: C/strftime.page:237
+msgid ""
+"The time in a.m. or p.m. notation. In the POSIX locale this is equivalent "
+"to '%I:%M:%S %p'."
+msgstr ""
+"a.m. не p.m. белгілеріндегі уақыт. POSIX локалінде бұл '%I:%M:%S %p' "
+"эквиваленті."
+
+#. (itstool) path: td/p
+#: C/strftime.page:246
+msgid ""
+"The time in 24-hour notation (%H:%M). For a version including the seconds, "
+"see %T below."
+msgstr ""
+"24 сағаттық белгілеудегі уақыт (%H:%M). Секундтарды қамтитын нұсқа үшін "
+"төмендегі %T қараңыз."
+
+#. (itstool) path: td/p
+#: C/strftime.page:255
+msgid ""
+"The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
+msgstr "Эпохадан бергі секундтар саны, яғни 1970-01-01 00:00:00 UTC бастап."
+
+#. (itstool) path: td/p
+#: C/strftime.page:264
+msgid ""
+"The second as a decimal number (range 00 to 60). (The range is up to 60 to "
+"allow for occasional leap seconds.)"
+msgstr ""
+"Секунд ондық сан ретінде (00-ден 60-қа дейінгі ауқым). (Секіріс секундтарын "
+"есепке алу үшін ауқым 60-қа дейін.)"
+
+#. (itstool) path: td/p
+#: C/strftime.page:274
+msgid "The time in 24-hour notation (%H:%M:%S)."
+msgstr "24 сағаттық белгілеудегі уақыт (%H:%M:%S)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:282
+msgid ""
+"The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
+"also %w."
+msgstr ""
+"Апта күні ондық сан ретінде, 1-ден 7-ге дейінгі ауқым, дүйсенбі 1 болып "
+"табылады. %w да қараңыз."
+
+#. (itstool) path: td/p
+#: C/strftime.page:291
+msgid ""
+"The week number of the current year as a decimal number, range 00 to 53, "
+"starting with the first Sunday as the first day of week 01. See also %V and "
+"%W."
+msgstr ""
+"Ағымдағы жылдың апта нөмірі ондық сан ретінде, 00-ден 53-ке дейінгі ауқым, "
+"бірінші жексенбіден 01-аптаның бірінші күні ретінде басталады. %V және %W "
+"да қараңыз."
+
+#. (itstool) path: td/p
+#: C/strftime.page:301
+msgid ""
+"The ISO 8601:1988 week number of the current year as a decimal number, "
+"range 01 to 53, where week 1 is the first week that has at least 4 days in "
+"the current year, and with Monday as the first day of the week. See also %U "
+"and %W."
+msgstr ""
+"Ағымдағы жылдың ISO 8601:1988 апта нөмірі ондық сан ретінде, 01-ден 53-ке "
+"дейінгі ауқым, мұнда 1-апта - ағымдағы жылдағы кем дегенде 4 күні бар "
+"бірінші апта, ал дүйсенбі аптаның бірінші күні болып табылады. %U және %W "
+"да қараңыз."
+
+#. (itstool) path: td/p
+#: C/strftime.page:313
+msgid ""
+"The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u."
+msgstr ""
+"Апта күні ондық сан ретінде, 0-ден 6-ға дейінгі ауқым, жексенбі 0 болып "
+"табылады. %u да қараңыз."
+
+#. (itstool) path: td/p
+#: C/strftime.page:322
+msgid ""
+"The week number of the current year as a decimal number, range 00 to 53, "
+"starting with the first Monday as the first day of week 01."
+msgstr ""
+"Ағымдағы жылдың апта нөмірі ондық сан ретінде, 00-ден 53-ке дейінгі ауқым, "
+"бірінші дүйсенбіден 01-аптаның бірінші күні ретінде басталады."
+
+#. (itstool) path: td/p
+#: C/strftime.page:332
+msgid ""
+"The preferred date representation for the current locale without the time."
+msgstr "Ағымдағы локаль үшін уақытсыз таңдаулы күн көрінісі."
+
+#. (itstool) path: td/p
+#: C/strftime.page:341
+msgid ""
+"The preferred time representation for the current locale without the date."
+msgstr "Ағымдағы локаль үшін күнсіз таңдаулы уақыт көрінісі."
+
+#. (itstool) path: td/p
+#: C/strftime.page:350
+msgid "The year as a decimal number without a century (range 00 to 99)."
+msgstr "Ғасырсыз ондық сан ретіндегі жыл (00-ден 99-ға дейінгі ауқым)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:359
+msgid "The year as a decimal number including the century."
+msgstr "Ғасырды қоса алғанда ондық сан ретіндегі жыл."
+
+#. (itstool) path: td/p
+#: C/strftime.page:367
+msgid ""
+"The time-zone as hour offset from GMT. Required to emit RFC 822-conformant "
+"dates (using \"%a, %d %b %Y %H:%M:%S %z\")."
+msgstr ""
+"GMT-ден сағаттық ауытқу ретіндегі уақыт белдеуі. RFC 822 стандартына сәйкес "
+"күндерді шығару үшін қажет (\"%a, %d %b %Y %H:%M:%S %z\" қолданып)."
+
+#. (itstool) path: td/p
+#: C/strftime.page:377
+msgid "The time zone or name or abbreviation."
+msgstr "Уақыт белдеуі немесе атауы немесе қысқартылуы."
+
+#. (itstool) path: page/p
+#: C/strftime.page:382
+msgid ""
+"Some conversion specifications can be modified by preceding the conversion "
+"specifier character by the E or O modifier to indicate that an alternative "
+"format should be used. If the alternative format or specification does not "
+"exist for the current locale, the behaviour will be as if the unmodified "
+"conversion specification were used. The Single Unix Specification mentions "
+"%Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, "
+"%OV, %Ow, %OW, %Oy, where the effect of the O modifier is to use "
+"alternative numeric symbols (say, roman numerals), and that of the E "
+"modifier is to use a locale-dependent alternative representation."
+msgstr ""
+"Кейбір түрлендіру сипаттамаларын балама пішім қолданылуы керектігін көрсету "
+"үшін түрлендіру сипаттамасы таңбасының алдына E немесе O модификаторын қою "
+"арқылы өзгертуге болады. Егер ағымдағы локаль үшін балама пішім немесе "
+"сипаттама жоқ болса, әрекет өзгертілмеген түрлендіру сипаттамасы "
+"қолданылғандай болады. Single Unix Specification %Ec, %EC, %Ex, %EX, %Ey, "
+"%EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, %OW, %Oy "
+"сипаттамаларын атайды, мұнда O модификаторының әсері балама сандық "
+"таңбаларды (айталық, рим цифрларын) қолдану, ал E модификаторының әсері "
+"локальға тәуелді балама көріністі қолдану болып табылады."
+
+#. (itstool) path: page/title
+#: C/introduction.page:6
+msgid "About gThumb"
+msgstr "gThumb туралы"
+
+#. (itstool) path: page/p
+#: C/introduction.page:8
+msgid ""
+"<app>gThumb</app> is an image viewer and browser written for the GNOME "
+"environment. It lets you browse your hard disk, showing you thumbnails of "
+"image files and view single images of many different formats."
+msgstr ""
+"<app>gThumb</app> - бұл GNOME ортасы үшін жазылған суреттерді қарау құралы "
+"және браузер. Ол қатты дискіңізді шолуға, сурет файлдарының таңбашаларын "
+"көрсетуге және көптеген түрлі пішімдегі жеке суреттерді көруге мүмкіндік "
+"береді."
+
+#. (itstool) path: page/p
+#: C/introduction.page:13
+msgid ""
+"<app>gThumb</app> supports the most common graphics formats, including "
+"JPEG, GIF, TIF, and PNG. <app>gThumb</app> will also display other less "
+"common image types if the supporting libraries are installed, including "
+"TGA, ICO, BMP, XPM, and others."
+msgstr ""
+"<app>gThumb</app> ең таралған графикалық пішімдерді, соның ішінде JPEG, "
+"GIF, TIF және PNG қолдайды. Егер қолдау көрсететін кітапханалар орнатылған "
+"болса, <app>gThumb</app> сонымен қатар TGA, ICO, BMP, XPM және т.б. сияқты "
+"басқа сирек кездесетін сурет түрлерін де көрсетеді."
+
+#. (itstool) path: page/p
+#: C/introduction.page:18
+msgid ""
+"Some support for RAW image types is included, especially if the dcraw "
+"program is installed on your system."
+msgstr ""
+"RAW сурет түрлеріне кейбір қолдау көрсетіледі, әсіресе жүйеңізде dcraw "
+"бағдарламасы орнатылған болса."
+
+#. (itstool) path: page/p
+#: C/introduction.page:21
+msgid ""
+"<app>gThumb</app> not only lets you view image files but has many other "
+"features such as adding comments to images, organizing images into "
+"catalogs, printing images, slideshows, setting your desktop background, and "
+"more."
+msgstr ""
+"<app>gThumb</app> тек сурет файлдарын көруге ғана емес, сонымен қатар "
+"суреттерге түсініктемелер қосу, суреттерді каталогтарға ұйымдастыру, "
+"суреттерді басып шығару, слайдшоулар, жұмыс үстелінің фонын орнату және "
+"т.б. сияқты көптеген басқа мүмкіндіктерге ие."
+
+#. (itstool) path: page/p
+#: C/introduction.page:26
+msgid ""
+"<app>gThumb</app> includes a tool to import photos from attached cameras "
+"and memory card readers."
+msgstr ""
+"<app>gThumb</app> жалғанған камералардан және жад картасын оқу "
+"құрылғыларынан фотосуреттерді импорттауға арналған сайманды қамтиды."
+
+#. (itstool) path: page/p
+#: C/introduction.page:29
+msgid ""
+"<app>gThumb</app> can read EXIF, XMP, and IPTC metadata that is commonly "
+"embedded in files."
+msgstr ""
+"<app>gThumb</app> файлдарға жиі ендірілген EXIF, XMP және IPTC "
+"метадеректерін оқи алады."
+
+#. (itstool) path: page/p
+#: C/introduction.page:32
+msgid ""
+"<app>gThumb</app> provides a systems of extensions (or plug-ins), to allow "
+"users to extend the functionality of <app>gThumb</app>."
+msgstr ""
+"<app>gThumb</app> пайдаланушыларға <app>gThumb</app> функционалдығын "
+"кеңейтуге мүмкіндік беру үшін кеңейтулер (немесе плагиндер) жүйесін ұсынады."
+
+#. (itstool) path: page/p
+#: C/introduction.page:34
+msgid ""
+"More information about these extensions, and about <app>gThumb</app> "
+"generally, is available at <link href=\"https://wiki.gnome.org/Apps/"
+"gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
+msgstr ""
+"Осы кеңейтулер және жалпы <app>gThumb</app> туралы қосымша ақпаратты <link "
+"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/"
+"gthumb</link> сілтемесінен табуға болады."
+
+#. (itstool) path: page/title
+#: C/browser.page:6
+msgid "Browsing Your Files"
+msgstr "Файлдарыңызды шолу"
+
+#. (itstool) path: page/p
+#: C/browser.page:8
+msgid "When you start <app>gThumb</app> the following window is displayed:"
+msgstr "<app>gThumb</app> іске қосылғанда келесі терезе көрсетіледі:"
+
+#. (itstool) path: figure/title
+#: C/browser.page:11
+msgid "The main window"
+msgstr "Негізгі терезе"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/browser.page:13
+msgctxt "_"
+msgid ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
+msgstr ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
+
+#. (itstool) path: page/p
+#: C/browser.page:16
+msgid "The <app>gThumb</app> browser contains the following elements:"
+msgstr "<app>gThumb</app> браузері келесі элементтерден тұрады:"
+
+#. (itstool) path: item/title
+#: C/browser.page:20
+msgid "Menubar"
+msgstr "Мәзір жолағы"
+
+#. (itstool) path: item/p
+#: C/browser.page:21
+msgid ""
+"The menus on the menubar contain all of the commands that you can use in "
+"<app>gThumb</app>"
+msgstr ""
+"Мәзір жолағындағы мәзірлер <app>gThumb</app> бағдарламасында қолдануға "
+"болатын барлық командаларды қамтиды"
+
+#. (itstool) path: item/title
+#: C/browser.page:25
+msgid "Toolbar"
+msgstr "Саймандар панелі"
+
+#. (itstool) path: item/p
+#: C/browser.page:26
+msgid ""
+"The toolbar contains a subset of the commands that you can access from the "
+"menubar. In particular, the Tools button contains functions for batch "
+"processing multiple images."
+msgstr ""
+"Саймандар панелінде мәзір жолағынан қол жеткізуге болатын командалардың бір "
+"бөлігі бар. Атап айтқанда, Саймандар батырмасы бірнеше суретті топтық өңдеу "
+"функцияларын қамтиды."
+
+#. (itstool) path: item/title
+#: C/browser.page:31
+msgid "Locationbar"
+msgstr "Орналасу жолағы"
+
+#. (itstool) path: item/p
+#: C/browser.page:32
+msgid "The locationbar contains the current folder or catalog name."
+msgstr ""
+"Орналасу жолағында ағымдағы буманың немесе каталогтың атауы көрсетіледі."
+
+#. (itstool) path: item/title
+#: C/browser.page:36
+msgid "Folder Tree"
+msgstr "Бумалар ағашы"
+
+#. (itstool) path: item/p
+#: C/browser.page:37
+msgid ""
+"The folder tree allows you to navigate the filesystem. Single-clicking on a "
+"folder will load its images in the browser view. Double-clicking a folder, "
+"or clicking the expander arrow, will also list folder's subfolders in the "
+"tree."
+msgstr ""
+"Бумалар ағашы файлдық жүйе бойынша шарлауға мүмкіндік береді. Буманы бір "
+"рет шерту оның суреттерін браузер көрінісіне жүктейді. Буманы екі рет шерту "
+"немесе жаю бағдаршасын шерту сонымен қатар ағашта буманың ішкі бумаларын "
+"тізімдейді."
+
+#. (itstool) path: item/title
+#: C/browser.page:44
+msgid "Browser View"
+msgstr "Браузер көрінісі"
+
+#. (itstool) path: item/p
+#: C/browser.page:45
+msgid ""
+"The browser view shows the images in the current folder or catalog. Single-"
+"clicking an image will enable the Information Sidebar for that image. "
+"Double-clicking an image will open it in the viewer mode. Double-clicking "
+"with the middle mouse button will load the image in fullscreen viewer mode."
+msgstr ""
+"Браузер көрінісі ағымдағы бумадағы немесе каталогтағы суреттерді көрсетеді. "
+"Суретті бір рет шерту сол сурет үшін Ақпараттық бүйірлік панельді іске "
+"қосады. Суретті екі рет шерту оны қарау режимінде ашады. Тышқанның ортаңғы "
+"батырмасымен екі рет шерту суретті толық экранды қарау режимінде жүктейді."
+
+#. (itstool) path: item/title
+#: C/browser.page:52
+msgid "Organize Button"
+msgstr "Ұйымдастыру батырмасы"
+
+#. (itstool) path: item/p
+#: C/browser.page:53
+msgid ""
+"The Organize button, just above the browser view, allows you to group "
+"images into catalogs."
+msgstr ""
+"Браузер көрінісінің дәл үстінде орналасқан Ұйымдастыру батырмасы суреттерді "
+"каталогтарға топтастыруға мүмкіндік береді."
+
+#. (itstool) path: item/title
+#: C/browser.page:57
+msgid "Statusbar"
+msgstr "Қалып-күй жолағы"
+
+#. (itstool) path: item/p
+#: C/browser.page:58
+msgid "On the statusbar you can read:"
+msgstr "Қалып-күй жолағында келесілерді оқи аласыз:"
+
+#. (itstool) path: item/p
+#: C/browser.page:61
+msgid ""
+"the total number of images contained in the current folder or catalog and "
+"their total size."
+msgstr ""
+"ағымдағы бумадағы немесе каталогтағы суреттердің жалпы саны және олардың "
+"жалпы өлшемі."
+
+#. (itstool) path: item/p
+#: C/browser.page:65
+msgid "the number of the selected images and their size."
+msgstr "таңдалған суреттердің саны және олардың өлшемі."
+
+#. (itstool) path: item/p
+#: C/browser.page:68
+msgid "some properties of the currently focused image."
+msgstr "ағымдағы фокустағы суреттің кейбір қасиеттері."
+
+#. (itstool) path: item/title
+#: C/browser.page:73
+msgid "Information Sidebar"
+msgstr "Ақпараттық бүйірлік панель"
+
+#. (itstool) path: item/p
+#: C/browser.page:74
+msgid ""
+"If a single image is selected, the information sidebar (below the folder "
+"tree) will display detailed information (such as EXIF or XMP tags) about "
+"the selected image."
+msgstr ""
+"Егер бір сурет таңдалса, ақпараттық бүйірлік панель (бумалар ағашының "
+"астында) таңдалған сурет туралы егжей-тегжейлі ақпаратты (мысалы, EXIF "
+"немесе XMP тегтері) көрсетеді."
+
+#. (itstool) path: item/title
+#: C/browser.page:79
+msgid "Filter Bar"
+msgstr "Сүзгі жолағы"
+
+#. (itstool) path: item/p
+#: C/browser.page:80
+msgid ""
+"An image filtering tool is provided just below the browser view. This can "
+"be used to filter the displayed images. For example, the browser view can "
+"be limited to files of a certain size, date, or name pattern, or other "
+"characteristics."
+msgstr ""
+"Браузер көрінісінің дәл астында суреттерді сүзгілеу сайманы қарастырылған. "
+"Оны көрсетілетін суреттерді сүзгілеу үшін қолдануға болады. Мысалы, браузер "
+"көрінісін белгілі бір өлшемдегі, күндегі немесе атау үлгісіндегі файлдармен "
+"немесе басқа сипаттамалармен шектеуге болады."
+
+#. (itstool) path: page/title
+#: C/batch-rotate.page:6
+msgid "Rotating Images Losslessly"
+msgstr "Суреттерді шығынсыз бұру"
+
+#. (itstool) path: page/p
+#: C/batch-rotate.page:8
+msgid ""
+"To rotate one or more images, select the images in the browser view. Then "
+"click the <gui>Tools</gui> button on the main toolbar, and select either "
+"<guiseq><gui>Tools</gui><gui>Rotate Right</gui></guiseq> or "
+"<guiseq><gui>Tools</gui><gui>Rotate Left</gui></guiseq>. The images will be "
+"rotated."
+msgstr ""
+"Бір немесе бірнеше суретті бұру үшін оларды браузер көрінісінде таңдаңыз. "
+"Содан кейін негізгі саймандар панеліндегі <gui>Саймандар</gui> батырмасын "
+"шертіп, <guiseq><gui>Саймандар</gui><gui>Оңға бұру</gui></guiseq> немесе "
+"<guiseq><gui>Саймандар</gui><gui>Солға бұру</gui></guiseq> тармағын "
+"таңдаңыз. Суреттер бұрылады."
+
+#. (itstool) path: page/p
+#: C/batch-rotate.page:14
+msgid "Lossless rotation is used for jpeg images, when possible."
+msgstr "Мүмкін болған жағдайда jpeg суреттері үшін шығынсыз бұру қолданылады."
+
+#. (itstool) path: page/title
+#: C/batch-convert-format.page:6
+msgid "Converting File Formats"
+msgstr "Файл пішімдерін түрлендіру"
+
+#. (itstool) path: page/p
+#: C/batch-convert-format.page:8
+msgid ""
+"To convert one or more images into a new file format, select the images in "
+"the browser view. Then click the <gui>Tools</gui> button on the main "
+"toolbar, and select <guiseq><gui>Tools</gui><gui>Convert Format</gui></"
+"guiseq>."
+msgstr ""
+"Бір немесе бірнеше суретті жаңа файл пішіміне түрлендіру үшін оларды "
+"браузер көрінісінде таңдаңыз. Содан кейін негізгі саймандар панеліндегі "
+"<gui>Саймандар</gui> батырмасын шертіп, <guiseq><gui>Саймандар</"
+"gui><gui>Пішімді түрлендіру</gui></guiseq> таңдаңыз."
+
+#. (itstool) path: page/p
+#: C/batch-convert-format.page:12
+msgid ""
+"Select the desired output format and destination folder. Click "
+"<gui>Execute</gui> to complete the process."
+msgstr ""
+"Қажетті шығыс пішімін және мақсатты буманы таңдаңыз. Процесті аяқтау үшін "
+"<gui>Орындау</gui> түймесін шертіңіз."
+
+#. (itstool) path: page/title
+#: C/batch-resize.page:6
+msgid "Resizing Images"
+msgstr "Суреттер өлшемін өзгерту"
+
+#. (itstool) path: page/p
+#: C/batch-resize.page:8
+msgid ""
+"To resize one or more images using the same dimensions or scaling factors, "
+"select the images in the browser view. Then click the <gui>Tools</gui> "
+"button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Resize "
+"Images</gui></guiseq>."
+msgstr ""
+"Бірдей өлшемдерді немесе масштабтау коэффициенттерін пайдаланып бір немесе "
+"бірнеше суреттің өлшемін өзгерту үшін суреттерді браузер көрінісінде "
+"таңдаңыз. Содан кейін негізгі саймандар панеліндегі <gui>Саймандар</gui> "
+"батырмасын шертіп, <guiseq><gui>Саймандар</gui><gui>Суреттер өлшемін "
+"өзгерту</gui></guiseq> таңдаңыз."
+
+#. (itstool) path: page/p
+#: C/batch-resize.page:12
+msgid ""
+"Then select the desired maximum output dimensions, or the desired "
+"percentage scaling, and the destination folder. Click <gui>Execute</gui> to "
+"complete the process."
+msgstr ""
+"Содан кейін қажетті максималды шығыс өлшемдерін немесе қажетті пайыздық "
+"масштабтауды және мақсатты буманы таңдаңыз. Процесті аяқтау үшін "
+"<gui>Орындау</gui> түймесін шертіңіз."
+
+#. (itstool) path: page/title
+#: C/batch-change-date.page:6
+msgid "Changing Dates"
+msgstr "Күндерді өзгерту"
+
+#. (itstool) path: page/p
+#: C/batch-change-date.page:8
+msgid ""
+"To change the file modification times, the comment dates, or the Exif "
+"DateTimeOriginal tags of multiple files, select the files in the browser "
+"view. Then click the <gui>Tools</gui> button on the main toolbar, and "
+"select <guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
+msgstr ""
+"Бірнеше файлдың файлды өзгерту уақытын, түсініктеме күндерін немесе Exif "
+"DateTimeOriginal тегтерін өзгерту үшін файлдарды браузер көрінісінде "
+"таңдаңыз. Содан кейін негізгі саймандар панеліндегі <gui>Саймандар</gui> "
+"батырмасын шертіп, <guiseq><gui>Саймандар</gui><gui>Күнді өзгерту</gui></"
+"guiseq> таңдаңыз."
+
+#. (itstool) path: page/p
+#: C/batch-change-date.page:13
+msgid ""
+"Select the desired date options, and click <gui>Execute</gui> to complete "
+"the process."
+msgstr ""
+"Қажетті күн опцияларын таңдап, процесті аяқтау үшін <gui>Орындау</gui> "
+"түймесін шертіңіз."
+
+#. (itstool) path: page/title
+#: C/batch-scripts.page:6
+msgid "User-Defined Scripts"
+msgstr "Пайдаланушы анықтаған скрипттер"
+
+#. (itstool) path: page/p
+#: C/batch-scripts.page:8
+msgid ""
+"To define a script (a command-line sequence that <app>gThumb</app> will "
+"execute on your files), click the <gui>Tools</gui> button on the main "
+"toolbar, and select <guiseq><gui>Tools</gui><gui>Personalize</gui></guiseq>."
+msgstr ""
+"Скриптті (<app>gThumb</app> файлдарыңызда орындайтын командалық жол "
+"тізбегі) анықтау үшін негізгі саймандар панеліндегі <gui>Саймандар</gui> "
+"батырмасын шертіп, <guiseq><gui>Саймандар</gui><gui>Жекешелендіру</gui></"
+"guiseq> таңдаңыз."
+
+#. (itstool) path: page/p
+#: C/batch-scripts.page:12
+msgid "TODO: further documentation is needed here."
+msgstr "TODO: мұнда қосымша құжаттама қажет."
+
+#. (itstool) path: page/title
+#: C/thumbnails.page:6
+msgid "Thumbnail Sources"
+msgstr "Таңбашалар көздері"
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:8
+msgid ""
+"The browser window normally shows the thumbnails of the images and movies "
+"in the selected folder. Generic icons for other files (audio files, for "
+"instance) may also be shown."
+msgstr ""
+"Браузер терезесі әдетте таңдалған бумадағы суреттер мен фильмдердің "
+"таңбашаларын көрсетеді. Басқа файлдарға арналған жалпы таңбашалар (мысалы, "
+"аудио файлдар) да көрсетілуі мүмкін."
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:12
+msgid ""
+"You can select what types of files to show in the browser view using the "
+"<guiseq><gui>View</gui><gui>Filter</gui> </guiseq> dialog. The default is "
+"to show all media files (images, movies, audio), but this can be made more "
+"or less restrictive."
+msgstr ""
+"<guiseq><gui>Көрініс</gui><gui>Сүзгі</gui> </guiseq> сұхбат терезесі арқылы "
+"браузер көрінісінде файлдардың қандай түрлерін көрсету керектігін таңдай "
+"аласыз. Бастапқы күйінде барлық медиа файлдар (суреттер, фильмдер, аудио) "
+"көрсетіледі, бірақ мұны шектеулі немесе кеңірек етуге болады."
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:18
+msgid ""
+"The thumbnails may be generated by a number of different methods. "
+"<app>gThumb</app> will first check for existing thumbnails in the system "
+"cache."
+msgstr ""
+"Таңбашалар бірнеше түрлі әдістермен жасалуы мүмкін. <app>gThumb</app> "
+"алдымен жүйелік кэште бар таңбашаларды тексереді."
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:22
+msgid ""
+"If no cached thumbnail is found, and an image file contains an embedded "
+"thumbnail (jpeg files generated by digital cameras normally do), "
+"<app>gThumb</app> will attempt to use that. <app>gThumb</app> will confirm "
+"that the aspect ratio of the thumbnail is similar to that of the main "
+"image, and ignore thumbnails that do not appear to match the main image."
+msgstr ""
+"Егер кэштелген таңбаша табылмаса және сурет файлында ендірілген таңбаша "
+"болса (сандық камералар жасаған jpeg файлдарында әдетте болады), "
+"<app>gThumb</app> соны қолдануға тырысады. <app>gThumb</app> таңбашаның "
+"арақатынасы негізгі суреттің арақатынасына ұқсас екенін растайды және "
+"негізгі суретке сәйкес келмейтін таңбашаларды елемейді."
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:29
+msgid ""
+"If that doesn't work, <app>gThumb</app> will attempt to load the entire "
+"file and generate a scaled-down thumbnail."
+msgstr ""
+"Егер бұл жұмыс істемесе, <app>gThumb</app> бүкіл файлды жүктеп алып, "
+"кішірейтілген таңбаша жасауға тырысады."
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:32
+msgid ""
+"Lastly, <app>gThumb</app> will use any system-defined scripts for "
+"thumbnailing particular media types. For example, some systems may use "
+"<app>mplayer</app> or <app>totem</app> or other movie viewers to generate "
+"movie thumbnails."
+msgstr ""
+"Соңында, <app>gThumb</app> белгілі бір медиа түрлеріне арналған "
+"таңбашаларды жасау үшін кез келген жүйеде анықталған скрипттерді қолданады. "
+"Мысалы, кейбір жүйелер фильм таңбашаларын жасау үшін <app>mplayer</app> "
+"немесе <app>totem</app> немесе басқа фильм қарау құралдарын қолдануы мүмкін."
+
+#. (itstool) path: page/p
+#: C/thumbnails.page:37
+msgid ""
+"<app>gThumb</app> will save thumbnails to a system cache, to share them "
+"with other applications. By default, Gnome systems prune cached thumbnails "
+"when they are older than 180 days, or when the thumbnail cache exceeds 512 "
+"MB. Technically-inclined users can explore these settings with <app>dconf-"
+"editor</app>. See the org.gnome.desktop.thumbnail_cache.maximum_age and "
+"org.gnome.desktop.thumbnail_cache.maximum_size keys in particular. Certain "
+"applications (like <app>F-Spot</app>) may automatically increase these "
+"settings greatly."
+msgstr ""
+"<app>gThumb</app> таңбашаларды басқа қолданбалармен бөлісу үшін жүйелік "
+"кэшке сақтайды. Бастапқыда, Gnome жүйелері 180 күннен ескі немесе кэш 512 "
+"МБ-тан асқан кезде кэштелген таңбашаларды тазартады. Техникалық тұрғыдан "
+"білімді пайдаланушылар бұл баптауларды <app>dconf-editor</app> арқылы "
+"зерттей алады. Атап айтқанда org.gnome.desktop.thumbnail_cache.maximum_age "
+"және org.gnome.desktop.thumbnail_cache.maximum_size кілттерін қараңыз. "
+"Кейбір қолданбалар (мысалы, <app>F-Spot</app>) бұл баптауларды автоматты "
+"түрде айтарлықтай арттыруы мүмкін."
+
+#. (itstool) path: page/title
+#: C/thumbnail-pane.page:6
+msgid "Thumbnail Pane"
+msgstr "Таңбашалар панелі"
+
+#. (itstool) path: page/p
+#: C/thumbnail-pane.page:8
+msgid ""
+"When an image has been opened in the <app>gThumb</app> viewer, the user has "
+"the option of enabling or disabling a thumbnail pane, which shows the other "
+"images in the folder as thumbnails. This feature can be toggled with the "
+"<guiseq><gui>View</gui><gui>Thumbnail Pane</gui></guiseq> command, or by "
+"pressing <key>F8</key>."
+msgstr ""
+"<app>gThumb</app> қарау құралында сурет ашылғанда, пайдаланушыда бумадағы "
+"басқа суреттерді таңбашалар ретінде көрсететін таңбашалар панелін іске қосу "
+"немесе сөндіру опциясы болады. Бұл мүмкіндікті <guiseq><gui>Көрініс</"
+"gui><gui>Таңбашалар панелі</gui></guiseq> командасы арқылы немесе <key>F8</"
+"key> пернесін басу арқылы қосып-өшіруге болады."
+
+#. (itstool) path: page/p
+#: C/thumbnail-pane.page:14
+msgid ""
+"The thumbnail pane may be positioned along the bottom of the main image, or "
+"along the side. This is controlled by the settings in <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</"
+"gui></guiseq>."
+msgstr ""
+"Таңбашалар панелі негізгі суреттің төменгі жағында немесе бүйірінде "
+"орналасуы мүмкін. Бұл <guiseq><gui>Түзету</gui><gui>Баптаулар</"
+"gui><gui>Жалпы</gui><gui>Қарау құралындағы таңбашалар</gui></guiseq> "
+"ішіндегі баптаулармен басқарылады."
+
+#. (itstool) path: figure/title
+#: C/thumbnail-pane.page:19
+msgid "Thumbnail Pane, Along Bottom of Main Image"
+msgstr "Таңбашалар панелі, негізгі суреттің төменгі жағында"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/thumbnail-pane.page:21 C/viewer.page:23
+msgctxt "_"
+msgid ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
+msgstr ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
+
+#. (itstool) path: page/title
+#: C/rename-series.page:8
+msgid "Renaming Files"
+msgstr "Файлдардың атын өзгерту"
+
+#. (itstool) path: page/p
+#: C/rename-series.page:10
+msgid ""
+"To rename one or more images using a name template, select the files in the "
+"browser and choose <guiseq><gui>Edit</gui><gui>Rename</gui></guiseq>, or "
+"press <key>F2</key>."
+msgstr ""
+"Атау үлгісін пайдаланып бір немесе бірнеше суреттің атын өзгерту үшін "
+"браузерде файлдарды таңдап, <guiseq><gui>Түзету</gui><gui>Атын өзгерту</"
+"gui></guiseq> тармағын таңдаңыз немесе <key>F2</key> басыңыз."
+
+#. (itstool) path: page/p
+#: C/rename-series.page:15
+msgid ""
+"The name template is simply a pattern that is used for renaming all of the "
+"selected images. You can use some special characters to make the new names "
+"differ each other (this is essential if you are renaming more than one "
+"image, and optional if you are renaming a single image):"
+msgstr ""
+"Атау үлгісі - бұл барлық таңдалған суреттердің атын өзгерту үшін "
+"қолданылатын жай ғана үлгі. Жаңа атауларды бір-бірінен ерекшелендіру үшін "
+"кейбір арнайы таңбаларды қолдануға болады (егер бірнеше суреттің атын "
+"өзгертсеңіз, бұл өте маңызды, ал бір суреттің атын өзгертсеңіз, міндетті "
+"емес):"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:24
+msgid "Symbol"
+msgstr "Таңба"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:27
+msgid "Description"
+msgstr "Сипаттамасы"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:32
+msgid "<key>#</key>"
+msgstr "<key>#</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:37
+msgid ""
+"This symbol will be replaced with the value of a counter that increments "
+"itself by 1 passing from one image to another. If you specify this symbols "
+"in sequence you'll get leading zeros if the counter value has a lesser "
+"number of digits, for example ### will produce the sequence: 001, 002, 003, "
+"etc.."
+msgstr ""
+"Бұл таңба бір суреттен екінші суретке өткенде өзін 1-ге арттыратын "
+"есептегіш мәнімен алмастырылады. Егер сіз бұл таңбаларды тізбекпен "
+"көрсетсеңіз, есептегіш мәнінде цифрлар саны азырақ болса, бастапқы нөлдерді "
+"аласыз, мысалы ### келесі тізбекті береді: 001, 002, 003 және т.б."
+
+#. (itstool) path: td/p
+#: C/rename-series.page:47
+msgid "<key>%F</key>"
+msgstr "<key>%F</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:52
+msgid ""
+"This symbol will be replaced with the file's original name, excluding the "
+"original extension."
+msgstr ""
+"Бұл таңба бастапқы кеңейтуді қоспағанда, файлдың бастапқы атауымен "
+"алмастырылады."
+
+#. (itstool) path: td/p
+#: C/rename-series.page:58
+msgid "<key>%E</key>"
+msgstr "<key>%E</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:63
+msgid ""
+"This symbol will be replaced with the file's original filename extension."
+msgstr "Бұл таңба файлдың бастапқы файл атауының кеңейтуімен алмастырылады."
+
+#. (itstool) path: td/p
+#: C/rename-series.page:69
+msgid "<key>%N</key>"
+msgstr "<key>%N</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:74
+msgid ""
+"This symbol will be replaced with original image enumerator. For instance, "
+"if the original filename was IMG_9876.JPG, this extracts the \"9876\" "
+"portion. If the filename has more than one group of digits embedded in it "
+"(for example, IMG_123_456.JPG) only the first number will be used (\"123\" "
+"in this example)."
+msgstr ""
+"Бұл таңба бастапқы сурет санауышымен алмастырылады. Мысалы, егер бастапқы "
+"файл атауы IMG_9876.JPG болса, бұл \"9876\" бөлігін шығарып алады. Егер "
+"файл атауында бірнеше цифрлар тобы болса (мысалы, IMG_123_456.JPG), тек "
+"бірінші сан қолданылады (осы мысалда \"123\")."
+
+#. (itstool) path: td/p
+#: C/rename-series.page:84
+msgid "<key>%M{format}</key>"
+msgstr "<key>%M{пішім}</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:89
+msgid ""
+"This symbol will be replaced with the file modification date. The "
+"formatting of this date (and optionally time) can be specified by adding a "
+"standard formatting code in curly braces. For example, \"%M{%Y-%m-%d, %T}\" "
+"would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
+msgstr ""
+"Бұл таңба файлды өзгерту күнімен алмастырылады. Бұл күннің (және міндетті "
+"емес уақыттың) пішімін жүйелі жақшаға стандартты пішімдеу кодын қосу арқылы "
+"көрсетуге болады. Мысалы, \"%M{%Y-%m-%d, %T}\" \"2010-04-01, 15:02:01\" "
+"сияқты күн мен уақытпен алмастырылады."
+
+#. (itstool) path: td/p
+#: C/rename-series.page:98
+msgid "<key>%D{format}</key>"
+msgstr "<key>%D{пішім}</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:103
+msgid ""
+"This symbol will be replaced with the date that the photo was original "
+"taken (normally determined from the EXIF datestamps embedded inside the "
+"photo). The formatting of this date (and optionally time) can be specified "
+"by adding a standard formatting code in curly braces. For example, \"%D{%Y-"
+"%m-%d, %T}\" would be replaced with a date and time like \"2010-04-01, "
+"15:02:01\"."
+msgstr ""
+"Бұл таңба фотосуреттің бастапқы түсірілген күнімен алмастырылады (әдетте "
+"фотосуретке ендірілген EXIF күн белгілерімен анықталады). Бұл күннің (және "
+"міндетті емес уақыттың) пішімін жүйелі жақшаға стандартты пішімдеу кодын "
+"қосу арқылы көрсетуге болады. Мысалы, \"%D{%Y-%m-%d, %T}\" \"2010-04-01, "
+"15:02:01\" сияқты күн мен уақытпен алмастырылады."
+
+#. (itstool) path: td/p
+#: C/rename-series.page:114
+msgid "<key>%A{identifier}</key>"
+msgstr "<key>%A{идентификатор}</key>"
+
+#. (itstool) path: td/p
+#: C/rename-series.page:119
+msgid ""
+"This symbol will be replaced with the data that has been specified by the "
+"identifier. For example, \"%A{ general::dimensions }\" would be replaced "
+"with a size like \"320 x 240\"."
+msgstr ""
+"Бұл таңба идентификатормен көрсетілген деректермен алмастырылады. Мысалы, "
+"\"%A{ general::dimensions }\" \"320 x 240\" сияқты өлшеммен алмастырылады."
+
+#. (itstool) path: page/p
+#: C/rename-series.page:127
+msgid ""
+"A summary of these special codes may be viewed by clicking on the Help icon "
+"inside the template field."
+msgstr ""
+"Бұл арнайы кодтардың жиынтығын үлгі өрісіндегі Көмек таңбашасын шерту "
+"арқылы көруге болады."
+
+#. (itstool) path: page/p
+#: C/rename-series.page:130
+msgid ""
+"The list at the bottom of the dialog displays how the filenames will be "
+"renamed."
+msgstr ""
+"Сұхбат терезесінің төменгі жағындағы тізім файл атауларының қалай "
+"өзгеретінін көрсетеді."
+
+#. (itstool) path: page/p
+#: C/rename-series.page:133
+msgid "To rename the images click on <gui>Rename</gui>."
+msgstr ""
+"Суреттердің атын өзгерту үшін <gui>Атын өзгерту</gui> батырмасын шертіңіз."
+
+#. (itstool) path: page/p
+#: C/rename-series.page:135
+msgid ""
+"If the renaming of an image can overwrite an already existing image you "
+"will be asked how to proceed, five options are available: overwrite the "
+"image; do not overwrite the image; always overwrite; never overwrite; "
+"specify a new name."
+msgstr ""
+"Егер суреттің атын өзгерту бұрыннан бар суреттің үстінен жазуға әкеп соқса, "
+"сізден қалай жалғастыру керектігі сұралады, бес опция қолжетімді: суреттің "
+"үстінен жазу; суреттің үстінен жазбау; әрқашан үстінен жазу; ешқашан "
+"үстінен жазбау; жаңа атауды көрсету."
+
+#. (itstool) path: page/title
+#: C/edit-save-undo-redo.page:6
+msgid "File Save, Undo, Redo"
+msgstr "Файлды сақтау, болдырмау, қайталау"
+
+#. (itstool) path: page/p
+#: C/edit-save-undo-redo.page:8 C/edit-colors.page:8 C/edit-rotate.page:8
+#: C/edit-resize-crop.page:8 C/edit-redeye.page:7
+msgid ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> To "
+"access the editing tools, open an image and then click the <gui>Edit File</"
+"gui> toolbar button (the palette icon)."
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
+"Түзету саймандарына қол жеткізу үшін суретті ашып, саймандар панеліндегі "
+"<gui>Файлды түзету</gui> батырмасын (палитра таңбашасын) шертіңіз."
+
+#. (itstool) path: page/p
+#: C/edit-save-undo-redo.page:12
+msgid ""
+"Multiple changes may be made to an image before saving it. <gui>Undo</gui> "
+"and <gui>Redo</gui> buttons are provided, and may be used up until the file "
+"is saved."
+msgstr ""
+"Суретті сақтағанға дейін оған бірнеше өзгеріс енгізуге болады. "
+"<gui>Болдырмау</gui> және <gui>Қайталау</gui> батырмалары қарастырылған "
+"және оларды файл сақталғанға дейін қолдануға болады."
+
+#. (itstool) path: page/p
+#: C/edit-save-undo-redo.page:16
+msgid ""
+"A modified image may be saved by pressing <gui>Save</gui>. To save the "
+"modified image to a new location instead, leaving the original image "
+"unchanged, use <gui>Save As</gui>."
+msgstr ""
+"Өзгертілген суретті <gui>Сақтау</gui> батырмасын басу арқылы сақтауға "
+"болады. Өзгертілген суретті бастапқы суретті өзгертпей, жаңа орынға сақтау "
+"үшін <gui>Қалайша сақтау</gui> командасын қолданыңыз."
+
+#. (itstool) path: page/p
+#: C/edit-save-undo-redo.page:20
+msgid ""
+"If you exit the editing mode (by pressing <key>Esc</key> or the <gui>View "
+"the Folders</gui> toolbar button), or navigate away from the current image, "
+"you will be prompted to save or discard your changes."
+msgstr ""
+"Егер сіз түзету режимінен шықсаңыз (<key>Esc</key> немесе саймандар "
+"панеліндегі <gui>Бумаларды қарау</gui> батырмасын басу арқылы) немесе "
+"ағымдағы суреттен басқа жаққа өтсеңіз, өзгерістерді сақтау немесе жою "
+"туралы сұралады."
+
+#. (itstool) path: page/title
+#: C/edit-colors.page:6
+msgid "Color Adjustments"
+msgstr "Түстерді реттеу"
+
+#. (itstool) path: page/p
+#: C/edit-colors.page:12
+msgid "Several tools are provided to manipulate the colors in images."
+msgstr "Суреттердегі түстерді басқару үшін бірнеше сайман қарастырылған."
+
+#. (itstool) path: item/title
+#: C/edit-colors.page:17
+msgid "<gui>Enhance Colors</gui>"
+msgstr "<gui>Түстерді жақсарту</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-colors.page:18
+msgid ""
+"This tool provides automatic white balance correction. No user adjustments "
+"are required."
+msgstr ""
+"Бұл сайман ақ түс теңгерімін автоматты түрде түзетуді қамтамасыз етеді. "
+"Пайдаланушының реттеулері қажет емес."
+
+#. (itstool) path: item/title
+#: C/edit-colors.page:22
+msgid "<gui>Adjust Colors</gui>"
+msgstr "<gui>Түстерді реттеу</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-colors.page:23
+msgid ""
+"This tool provides manual color adjustments. Adjustments to the gamma, "
+"brightness, contrast, saturation, and the cyan/red, magenta/green, and "
+"yellow/blue color balances may be made."
+msgstr ""
+"Бұл сайман түстерді қолмен реттеуді қамтамасыз етеді. Гамманы, жарықтықты, "
+"контрастты, қанықтылықты және көгілдір/қызыл, күлгін/жасыл және сары/көк "
+"түс теңгерімдерін реттеуге болады."
+
+#. (itstool) path: item/title
+#: C/edit-colors.page:29
+msgid "<gui>Equalize</gui>"
+msgstr "<gui>Теңестіру</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-colors.page:30
+msgid ""
+"This tool provides automatic histogram equalization. No user adjustments "
+"are required."
+msgstr ""
+"Бұл сайман гистограмманы автоматты түрде теңестіруді қамтамасыз етеді. "
+"Пайдаланушының реттеулері қажет емес."
+
+#. (itstool) path: item/title
+#: C/edit-colors.page:34
+msgid "<gui>Desaturate</gui>"
+msgstr "<gui>Түссіздендіру</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-colors.page:35
+msgid ""
+"This tool converts the image colors into shades of grey. (This does not "
+"change this image storage format.)"
+msgstr ""
+"Бұл сайман сурет түстерін сұр реңктеріне түрлендіреді. (Бұл суретті сақтау "
+"пішімін өзгертпейді.)"
+
+#. (itstool) path: item/title
+#: C/edit-colors.page:39
+msgid "<gui>Negative</gui>"
+msgstr "<gui>Негатив</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-colors.page:40
+msgid "This tool inverts the color levels, providing an image negative."
+msgstr ""
+"Бұл сайман сурет негативін қамтамасыз етіп, түс деңгейлерін инверсиялайды."
+
+#. (itstool) path: page/title
+#: C/edit-rotate.page:6
+msgid "Rotations and Flips"
+msgstr "Бұру және айналдыру"
+
+#. (itstool) path: page/p
+#: C/edit-rotate.page:12
+msgid "Several tools are provided to manipulate the orientation of images."
+msgstr "Суреттердің бағытын басқару үшін бірнеше сайман қарастырылған."
+
+#. (itstool) path: item/title
+#: C/edit-rotate.page:17
+msgid "<gui>Mirror</gui>"
+msgstr "<gui>Айналық</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-rotate.page:18
+msgid ""
+"This flips the image horizontally. The left and right sides are swapped."
+msgstr ""
+"Бұл суретті горизонталды түрде айналдырады. Сол және оң жақтары "
+"ауыстырылады."
+
+#. (itstool) path: item/title
+#: C/edit-rotate.page:22
+msgid "<gui>Flip</gui>"
+msgstr "<gui>Айналдыру</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-rotate.page:23
+msgid "This flips the image vertically. The top and bottom are swapped."
+msgstr ""
+"Бұл суретті вертикалды түрде айналдырады. Жоғарғы және төменгі жақтары "
+"ауыстырылады."
+
+#. (itstool) path: item/title
+#: C/edit-rotate.page:27
+msgid "<gui>Rotate Right</gui>"
+msgstr "<gui>Оңға бұру</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-rotate.page:28
+msgid "This rotates the image clockwise."
+msgstr "Бұл суретті сағат тілімен бұрады."
+
+#. (itstool) path: item/title
+#: C/edit-rotate.page:31
+msgid "<gui>Rotate Left</gui>"
+msgstr "<gui>Солға бұру</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-rotate.page:32
+msgid "This rotates the image counter-clockwise."
+msgstr "Бұл суретті сағат тіліне қарсы бұрады."
+
+#. (itstool) path: page/p
+#: C/edit-rotate.page:36
+msgid ""
+"The rotations offered in the edit mode act on the image in memory. They are "
+"not direct file operations. For jpeg images, these means they are not "
+"lossless operations - the image will degrade slightly when it it is re-"
+"encoded and saved. However, <app>gThumb</app> does provide lossless "
+"rotation tools. See <link xref=\"gthumb-batch-rotate\"/>."
+msgstr ""
+"Түзету режимінде ұсынылатын бұру әрекеттері жадтағы суретке әсер етеді. "
+"Олар тікелей файлдық операциялар емес. Jpeg суреттері үшін бұл олардың "
+"шығынсыз операциялар емес екенін білдіреді - сурет қайта кодталғанда және "
+"сақталғанда сапасы сәл төмендейді. Дегенмен, <app>gThumb</app> шығынсыз "
+"бұру саймандарын ұсынады. <link xref=\"gthumb-batch-rotate\"/> қараңыз."
+
+#. (itstool) path: page/title
+#: C/edit-resize-crop.page:6
+msgid "Resizing and Cropping"
+msgstr "Өлшемін өзгерту және қиып жіберу"
+
+#. (itstool) path: page/p
+#: C/edit-resize-crop.page:12
+msgid "Two tools are provided to resize and crop images."
+msgstr ""
+"Суреттердің өлшемін өзгерту және қиып жіберу үшін екі сайман қарастырылған."
+
+#. (itstool) path: item/title
+#: C/edit-resize-crop.page:15
+msgid "<gui>Resize</gui>"
+msgstr "<gui>Өлшемін өзгерту</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-resize-crop.page:16
+msgid ""
+"This allows you to resize the image. The image may be scaled to a certain "
+"physical size, or to a certain percentage of the original size. The aspect "
+"ratio may be locked to a specific value, or freely adjusted."
+msgstr ""
+"Бұл суреттің өлшемін өзгертуге мүмкіндік береді. Суретті белгілі бір "
+"физикалық өлшемге немесе бастапқы өлшемнің белгілі бір пайызына дейін "
+"масштабтауға болады. Арақатынасты белгілі бір мәнге бекітуге немесе еркін "
+"реттеуге болады."
+
+#. (itstool) path: item/title
+#: C/edit-resize-crop.page:22
+msgid "<gui>Crop</gui>"
+msgstr "<gui>Қиып жіберу</gui>"
+
+#. (itstool) path: item/p
+#: C/edit-resize-crop.page:23
+msgid ""
+"This allows you to crop the image. Click and drag the mouse over the "
+"desired area of the image. The area may be locked to a specific aspect "
+"ratio, or it may be freely adjusted. A rule-of-thirds grid or golden-"
+"sections grid may be superimposed over the image for composition guidance."
+msgstr ""
+"Бұл суретті қиып жіберуге мүмкіндік береді. Тышқанды суреттің қажетті "
+"аймағының үстінен шертіп, сүйреңіз. Аймақты белгілі бір арақатынасқа "
+"бекітуге немесе оны еркін реттеуге болады. Композиция бойынша нұсқаулық "
+"ретінде суреттің үстіне үштен бір бөлік торы немесе алтын қима торы қойылуы "
+"мүмкін."
+
+#. (itstool) path: page/p
+#: C/edit-resize-crop.page:31
+msgid ""
+"<app>gThumb</app> also offers a batch-mode tool for resizing multiple "
+"images simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
+msgstr ""
+"<app>gThumb</app> сонымен қатар бірнеше суреттің өлшемін бір уақытта "
+"өзгертуге арналған топтық режим сайманын ұсынады. <link xref=\"gthumb-batch-"
+"resize\"/> қараңыз."
+
+#. (itstool) path: page/title
+#: C/edit-redeye.page:6
+msgid "Red Eye Removal"
+msgstr "Қызыл көз әсерін жою"
+
+#. (itstool) path: page/p
+#: C/edit-redeye.page:11
+msgid ""
+"<app>gThumb</app> provides a <gui>Red Eye Removal</gui> tool. To remove a "
+"red eye, position the mouse pointer over the red eye and click on it. "
+"<app>gThumb</app> will attempt to remove the red region and replace it with "
+"a more natural-looking gray region. If the results do not look correct, "
+"press <key>Escape</key> and click on the <gui>Undo</gui> item."
+msgstr ""
+"<app>gThumb</app> <gui>Қызыл көз әсерін жою</gui> сайманын ұсынады. Қызыл "
+"көзді жою үшін тышқан курсорын қызыл көздің үстіне қойып, оны шертіңіз. "
+"<app>gThumb</app> қызыл аймақты жойып, оны табиғи көрінетін сұр аймақпен "
+"алмастыруға тырысады. Егер нәтижелер дұрыс болмаса, <key>Escape</key> "
+"пернесін басып, <gui>Болдырмау</gui> тармағын шертіңіз."
+
+#. (itstool) path: page/p
+#: C/edit-redeye.page:18
+msgid ""
+"This tool works best when there is a high color contrast between the red "
+"eye and the surrounding facial area. It does not work well for \"orange "
+"eye\" sometimes seen in photos of children, or if the surrounding skin has "
+"a reddish tinge. This tool could use improvement - if you are fiendishly "
+"clever, love matrix algebra and open source software, please <link "
+"href=\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</"
+"link>"
+msgstr ""
+"Бұл сайман қызыл көз бен оның айналасындағы бет аймағы арасында жоғары түс "
+"контрасты болған кезде жақсы жұмыс істейді. Ол кейде балалардың "
+"фотосуреттерінде көрінетін \"қызғылт сары көз\" үшін немесе айналасындағы "
+"тері қызғылт реңкке ие болса, жақсы жұмыс істемейді. Бұл сайманды "
+"жақсартуға болады - егер сіз өте ақылды болсаңыз, матрицалық алгебраны және "
+"ашық бастапқы бағдарламалық қамтаны жақсы көрсеңіз, <link href=\"https://"
+"wiki.gnome.org/Apps/gthumb/development\">патч жіберіңіз!</link>"
+
+#. (itstool) path: page/title
+#: C/extensions.page:6
+msgid "Extending gThumb"
+msgstr "gThumb-ты кеңейту"
+
+#. (itstool) path: page/p
+#: C/extensions.page:8
+msgid ""
+"<app>gThumb</app> has a plug-in system for extensions. Some standard "
+"features are implemented as extensions and are supplied with the standard "
+"distribution. Users may write (and share) additional extensions."
+msgstr ""
+"<app>gThumb</app> бағдарламасында кеңейтулерге арналған плагин жүйесі бар. "
+"Кейбір стандартты мүмкіндіктер кеңейтулер ретінде іске асырылған және "
+"стандартты дистрибутивпен бірге жеткізіледі. Пайдаланушылар қосымша "
+"кеңейтулерді жаза (және бөлісе) алады."
+
+#. (itstool) path: page/p
+#: C/extensions.page:12
+msgid ""
+"You can enable or disable extensions using <guiseq><gui>Edit</"
+"gui><gui>Extensions</gui></guiseq>. Some extensions will have "
+"<gui>Preferences</gui> that can be modified from this dialog."
+msgstr ""
+"Кеңейтулерді <guiseq><gui>Түзету</gui><gui>Кеңейтулер</gui></guiseq> арқылы "
+"іске қосуға немесе сөндіруге болады. Кейбір кеңейтулердің осы сұхбат "
+"терезесінен өзгертуге болатын <gui>Баптаулары</gui> болады."
+
+#. (itstool) path: page/p
+#: C/extensions.page:16
+msgid ""
+"This manual is written with the assumption that the standard extensions are "
+"enabled. If you seem to be missing a feature, check to see which extensions "
+"are actually enabled."
+msgstr ""
+"Бұл нұсқаулық стандартты кеңейтулер іске қосылған деген болжаммен жазылған. "
+"Егер сізде қандай да бір мүмкіндік жетіспейтін сияқты болса, қай "
+"кеңейтулердің нақты іске қосылғанын тексеріңіз."
+
+#. (itstool) path: page/p
+#: C/extensions.page:20
+msgid ""
+"If you would like to write your own extension, please visit <link "
+"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+"Gthumb</link> for development information. An example extension is provided "
+"in the source code, which you can base your own extension on."
+msgstr ""
+"Егер сіз жеке кеңейтуіңізді жазғыңыз келсе, әзірлеу туралы ақпарат алу үшін "
+"<link href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/"
+"Apps/Gthumb</link> сайтына кіріңіз. Бастапқы кодта жеке кеңейтуіңізді "
+"жасауға негіз болатын мысалдық кеңейту берілген."
+
+#. (itstool) path: page/title
+#: C/gimp.page:6
+msgid "Launching GIMP"
+msgstr "GIMP іске қосу"
+
+#. (itstool) path: page/p
+#: C/gimp.page:7
+msgid ""
+"If you have files selected in the browser, or an image open in the viewer, "
+"you can open them in the <app>GNU Image Manipulation Program (GIMP)</app> "
+"by pressing <key>g</key>."
+msgstr ""
+"Егер браузерде файлдар таңдалған болса немесе қарау құралында сурет ашық "
+"болса, <key>g</key> пернесін басу арқылы оларды <app>GNU Image Manipulation "
+"Program (GIMP)</app> бағдарламасында ашуға болады."
+
+#. (itstool) path: page/p
+#: C/gimp.page:10
+msgid ""
+"<app>GIMP</app> provides a more sophisticated set of editing tools than "
+"that provided with <app>gThumb</app>."
+msgstr ""
+"<app>GIMP</app> <app>gThumb</app> ұсынғаннан гөрі жетілдірілген түзету "
+"саймандарының жиынтығын ұсынады."
+
+#. (itstool) path: page/title
+#: C/viewer.page:6
+msgid "Opening an Image"
+msgstr "Суретті ашу"
+
+#. (itstool) path: page/p
+#: C/viewer.page:8
+msgid ""
+"The browser view shows the images in the current folder or catalog (see "
+"<link xref=\"gthumb-browser-view\"/>). Double-clicking an image (or "
+"pressing <key>Return</key>) in the browser will open it in the viewer mode."
+msgstr ""
+"Браузер көрінісі ағымдағы бумадағы немесе каталогтағы суреттерді көрсетеді "
+"(<link xref=\"gthumb-browser-view\"/> қараңыз). Браузерде суретті екі рет "
+"шерту (немесе <key>Return</key> басу) оны қарау режимінде ашады."
+
+#. (itstool) path: page/p
+#: C/viewer.page:13
+msgid ""
+"Pressing <key>Escape</key> will exit the viewer mode, and return the user "
+"to the browser mode. A toolbar button (<gui>View the folders</gui>) is also "
+"provided for this purpose."
+msgstr ""
+"<key>Escape</key> пернесін басу қарау режимінен шығып, пайдаланушыны "
+"браузер режиміне қайтарады. Саймандар панеліндегі батырма (<gui>Бумаларды "
+"қарау</gui>) да осы мақсат үшін қарастырылған."
+
+#. (itstool) path: page/p
+#: C/viewer.page:17
+msgid ""
+"A <link xref=\"gthumb-thumbnail-pane\"/> may be displayed in the viewer "
+"mode, if desired."
+msgstr ""
+"Қаласаңыз, қарау режимінде <link xref=\"gthumb-thumbnail-pane\"/> "
+"көрсетілуі мүмкін."
+
+#. (itstool) path: figure/title
+#: C/viewer.page:21
+msgid "Viewer Mode with Thumbnail Pane"
+msgstr "Таңбашалар панелі бар қарау режимі"
+
+#. (itstool) path: page/p
+#: C/viewer.page:26
+msgid ""
+"In the viewer mode, you can advance to the next image by clicking the "
+"<gui>Next</gui> button, or by pressing <key>Space</key> or <key>Page Down</"
+"key>. You can go back to the previous image by clicking the <gui>Previous</"
+"gui> button, or by pressing <key>Backspace</key> or <key>Page Up</key>. You "
+"can go also click on thumbnails in the thumbnail pane to open a different "
+"image."
+msgstr ""
+"Қарау режимінде <gui>Келесі</gui> батырмасын шерту немесе <key>Space</key> "
+"не <key>Page Down</key> пернелерін басу арқылы келесі суретке өтуге болады. "
+"<gui>Алдыңғы</gui> батырмасын шерту немесе <key>Backspace</key> не "
+"<key>Page Up</key> пернелерін басу арқылы алдыңғы суретке қайта аласыз. "
+"Басқа суретті ашу үшін таңбашалар панеліндегі таңбашаларды да шертуге "
+"болады."
+
+#. (itstool) path: page/title
+#: C/fullscreen.page:8
+msgid "Manual Fullscreen Mode"
+msgstr "Қолмен толық экран режимі"
+
+#. (itstool) path: page/p
+#: C/fullscreen.page:10
+msgid ""
+"Pressing <key>f</key> in the browser or viewer modes will display the "
+"current image in fullscreen mode. (In the browser mode, you can also double-"
+"click with the middle mouse button.)"
+msgstr ""
+"Браузер немесе қарау режимінде <key>f</key> пернесін басу ағымдағы суретті "
+"толық экран режимінде көрсетеді. (Браузер режимінде тышқанның ортаңғы "
+"батырмасымен екі рет шертуге де болады.)"
+
+#. (itstool) path: page/p
+#: C/fullscreen.page:14
+msgid ""
+"Moving the mouse will activate a popup control panel briefly. This can be "
+"used to navigate to the next or previous image, or change zoom levels."
+msgstr ""
+"Тышқанды қозғалту қалқымалы басқару панелін қысқа уақытқа белсендіреді. Оны "
+"келесі немесе алдыңғы суретке өту немесе масштаб деңгейлерін өзгерту үшін "
+"қолдануға болады."
+
+#. (itstool) path: page/p
+#: C/fullscreen.page:18
+msgid ""
+"You can also advance to the next image by pressing <key>PageDown</key> or "
+"<key>Space</key>."
+msgstr ""
+"Сондай-ақ <key>PageDown</key> немесе <key>Space</key> пернелерін басу "
+"арқылы келесі суретке өтуге болады."
+
+#. (itstool) path: page/p
+#: C/fullscreen.page:21
+msgid ""
+"You can go back to the previous image by pressing <key>PageUp</key> or "
+"<key>Backspace</key>."
+msgstr ""
+"<key>PageUp</key> немесе <key>Backspace</key> пернелерін басу арқылы "
+"алдыңғы суретке қайта аласыз."
+
+#. (itstool) path: page/p
+#: C/fullscreen.page:24
+msgid "This can be used to implement a manually-controlled slideshow."
+msgstr "Бұл қолмен басқарылатын слайдшоуды іске асыру үшін қолданылуы мүмкін."
+
+#. (itstool) path: page/p
+#: C/fullscreen.page:27
+msgid "To exit the fullscreen mode, press <key>f</key> or <key>Escape</key>."
+msgstr ""
+"Толық экран режимінен шығу үшін <key>f</key> немесе <key>Escape</key> "
+"басыңыз."
+
+#. (itstool) path: page/title
+#: C/sorting.page:7
+msgid "Sorting Files"
+msgstr "Файлдарды сұрыптау"
+
+#. (itstool) path: page/p
+#: C/sorting.page:9
+msgid ""
+"Use the <guiseq><gui>View</gui><gui>Sort By</gui></guiseq> menu to select "
+"the desired file-sorting method for the browser view. Files can be sorted "
+"on the basis of their name, the file size, the file modification date, or "
+"the date the photo was taken."
+msgstr ""
+"Браузер көрінісі үшін қажетті файлдарды сұрыптау әдісін таңдау үшін "
+"<guiseq><gui>Көрініс</gui><gui>Сұрыптау</gui></guiseq> мәзірін қолданыңыз. "
+"Файлдарды олардың аты, файл өлшемі, файлды өзгерту күні немесе фотосуреттің "
+"түсірілген күні негізінде сұрыптауға болады."
+
+#. (itstool) path: page/title
+#: C/filtering.page:7
+msgid "Filtering Files"
+msgstr "Файлдарды сүзгілеу"
+
+#. (itstool) path: page/p
+#: C/filtering.page:9
+msgid ""
+"You can select what types of files to show in the browser view using the "
+"<guiseq><gui>View</gui><gui>Filter</gui></guiseq> dialog. The default is to "
+"show all media files (images, movies, audio), but this can be made more or "
+"less restrictive."
+msgstr ""
+"<guiseq><gui>Көрініс</gui><gui>Сүзгі</gui></guiseq> сұхбат терезесі арқылы "
+"браузер көрінісінде файлдардың қандай түрлерін көрсету керектігін таңдай "
+"аласыз. Бастапқыда барлық медиа файлдар (суреттер, фильмдер, аудио) "
+"көрсетіледі, бірақ мұны шектеулі немесе кеңірек етуге болады."
+
+#. (itstool) path: figure/title
+#: C/filtering.page:15
+msgid "Enabling Filters"
+msgstr "Сүзгілерді іске қосу"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/filtering.page:17
+msgctxt "_"
+msgid ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
+msgstr ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
+
+#. (itstool) path: page/p
+#: C/filtering.page:20
+msgid ""
+"The figure above shows how to configure <app>gThumb</app> to display media "
+"files only, by setting the <gui>General Filter</gui>."
+msgstr ""
+"Жоғарыдағы сурет <gui>Жалпы сүзгіні</gui> орнату арқылы тек медиа файлдарды "
+"көрсету үшін <app>gThumb</app> бағдарламасын қалай конфигурациялауға "
+"болатынын көрсетеді."
+
+#. (itstool) path: page/p
+#: C/filtering.page:23
+msgid ""
+"Also, by enabling <gui>Filename</gui> in <gui>Other Filters</gui>, a filter-"
+"by-filename ability is added to the filter bar at the bottom of the browser "
+"view:"
+msgstr ""
+"Сондай-ақ, <gui>Басқа сүзгілер</gui> ішінде <gui>Файл атауын</gui> іске "
+"қосу арқылы браузер көрінісінің төменгі жағындағы сүзгі жолағына файл атауы "
+"бойынша сүзгілеу мүмкіндігі қосылады:"
+
+#. (itstool) path: figure/title
+#: C/filtering.page:28
+msgid "Browser Filter Bar"
+msgstr "Браузер сүзгі жолағы"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/filtering.page:30
+msgctxt "_"
+msgid ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
+msgstr ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
+
+#. (itstool) path: page/p
+#: C/filtering.page:33
+msgid ""
+"In the above figure, the filename filter has been configured to show only "
+"files with \"gen\" in the filename. The matching is case-insensitive."
+msgstr ""
+"Жоғарыдағы суретте файл атауы сүзгісі файл атауында \"gen\" бар файлдарды "
+"ғана көрсететіндей конфигурацияланған. Сәйкестендіру регистрге сезімтал "
+"емес."
+
+#. (itstool) path: page/title
+#: C/printing.page:7
+msgid "Printing Images"
+msgstr "Суреттерді басып шығару"
+
+#. (itstool) path: page/p
+#: C/printing.page:9
+msgid ""
+"To print the current image in the viewer mode, use <guiseq><gui>File</"
+"gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></"
+"keyseq>."
+msgstr ""
+"Қарау режимінде ағымдағы суретті басып шығару үшін <guiseq><gui>Файл</"
+"gui><gui>Басып шығару</gui></guiseq> немесе <keyseq><key>Ctrl</key><key>p</"
+"key></keyseq> қолданыңыз."
+
+#. (itstool) path: page/p
+#: C/printing.page:13
+msgid ""
+"To print one or more images from the browser mode, select the desired "
+"images and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
+"<keyseq><key>Ctrl</key><key>p</key></keyseq>."
+msgstr ""
+"Браузер режимінде бір немесе бірнеше суретті басып шығару үшін қажетті "
+"суреттерді таңдап, <guiseq><gui>Файл</gui><gui>Басып шығару</gui></guiseq> "
+"немесе <keyseq><key>Ctrl</key><key>p</key></keyseq> қолданыңыз."
+
+#. (itstool) path: page/p
+#: C/printing.page:18
+msgid ""
+"The printer to use can be selected from the <gui>General</gui> tab of the "
+"print dialog."
+msgstr ""
+"Қолданылатын принтерді басып шығару сұхбат терезесінің <gui>Жалпы</gui> "
+"бетінен таңдауға болады."
+
+#. (itstool) path: page/p
+#: C/printing.page:21
+msgid ""
+"The type of paper to use can be selected from the <gui>Page Setup</gui> tab."
+msgstr ""
+"Қолданылатын қағаз түрін <gui>Парақ баптаулары</gui> бетінен таңдауға "
+"болады."
+
+#. (itstool) path: page/p
+#: C/printing.page:24
+msgid ""
+"The <gui>Layout</gui> tab provides some additional <app>gThumb</app>-"
+"specific options. You can set the number of images to include on each page "
+"here, and a preview pane is provided. Captions can also be added under the "
+"image, in a configurable font. The captions can be chosen from a selection "
+"of listed file attributes (like the file name, the date of the photo, "
+"camera shutter speed, and others). Each image can be repositioned inside "
+"its print area using the controls on this tab."
+msgstr ""
+"<gui>Жайма</gui> беті кейбір қосымша <app>gThumb</app>-қа тән опцияларды "
+"ұсынады. Мұнда әр бетке қосылатын суреттер санын орнатуға болады және алдын "
+"ала қарау панелі берілген. Сондай-ақ суреттің астына конфигурацияланатын "
+"қаріппен тақырыптар қосуға болады. Тақырыптарды тізімделген файл "
+"атрибуттарының ішінен таңдауға болады (мысалы, файл атауы, фотосурет күні, "
+"камераның ысырма жылдамдығы және т.б.). Әр суретті осы беттегі басқару "
+"элементтері арқылы басып шығару аймағының ішінде қайта орналастыруға болады."
+
+#. (itstool) path: page/p
+#: C/printing.page:34
+msgid "When you are ready to print, press the <gui>Print</gui> button."
+msgstr ""
+"Басып шығаруға дайын болғанда, <gui>Басып шығару</gui> батырмасын басыңыз."
+
+#. (itstool) path: page/title
+#: C/sharing-disc.page:6
+msgid "Creating a CD/DVD/ISO"
+msgstr "CD/DVD/ISO жасау"
+
+#. (itstool) path: page/p
+#: C/sharing-disc.page:7
+msgid ""
+"To write a series of files to an optical disk (CD or DVD), or to create an "
+"ISO disk image file, use the <guiseq><gui>File</gui> <gui>Export To</"
+"gui><gui>Optical Disc</gui></guiseq> menu item."
+msgstr ""
+"Бірнеше файлды оптикалық дискіге (CD немесе DVD) жазу немесе ISO диск "
+"бейнесі файлын жасау үшін <guiseq><gui>Файл</gui> <gui>Экспорттау</"
+"gui><gui>Оптикалық диск</gui></guiseq> мәзір тармағын қолданыңыз."
+
+#. (itstool) path: page/p
+#: C/sharing-disc.page:13
+msgid ""
+"You will be offered the choice of writing the currently selected files, the "
+"entire current folder, or the entire current folder and its subfolders. "
+"Click <gui>OK</gui> when you have made the appropriate selection."
+msgstr ""
+"Сізге ағымдағы таңдалған файлдарды, бүкіл ағымдағы буманы немесе бүкіл "
+"ағымдағы бума мен оның ішкі бумаларын жазу таңдауы ұсынылады. Тиісті таңдау "
+"жасағаннан кейін <gui>OK</gui> шертіңіз."
+
+#. (itstool) path: page/p
+#: C/sharing-disc.page:19
+msgid ""
+"The next dialog will select the destination disk, or the ISO file to save. "
+"When you are ready to complete the process, click <gui>Create Image</gui>. "
+"The optical disk writing process will then commence, or the ISO file will "
+"be written, completing the process."
+msgstr ""
+"Келесі сұхбат терезесі мақсатты дискіні немесе сақталатын ISO файлын "
+"таңдайды. Процесті аяқтауға дайын болғанда, <gui>Бейнені жасау</gui> "
+"түймесін шертіңіз. Содан кейін оптикалық дискіні жазу процесі басталады "
+"немесе ISO файлы жазылып, процесс аяқталады."
+
+#. (itstool) path: page/title
+#: C/sharing-social.page:6
+msgid "Uploading to Photo-Sharing Web Sites"
+msgstr "Фотосуреттермен бөлісетін веб-сайттарға жүктеп салу"
+
+#. (itstool) path: page/p
+#: C/sharing-social.page:7
+msgid ""
+"gThumb is provided with a number of extensions for uploading photos to "
+"various \"social media\" web sites. By default, uploaders for Facebook, "
+"Flickr, Picasa, and Photobucket are enabled."
+msgstr ""
+"gThumb фотосуреттерді әртүрлі \"әлеуметтік желі\" веб-сайттарына жүктеп "
+"салуға арналған бірнеше кеңейтулермен қамтамасыз етілген. Бастапқыда "
+"Facebook, Flickr, Picasa және Photobucket үшін жүктеушілер іске қосылған."
+
+#. (itstool) path: page/p
+#: C/sharing-social.page:13
+msgid ""
+"To upload a series of photos, select the images in the browser view, and "
+"click the <gui>Share</gui> button in the toolbar. Select the appropriate "
+"web site from the menu that appears."
+msgstr ""
+"Бірнеше фотосуретті жүктеп салу үшін суреттерді браузер көрінісінде таңдап, "
+"саймандар панеліндегі <gui>Бөлісу</gui> батырмасын шертіңіз. Пайда болған "
+"мәзірден тиісті веб-сайтты таңдаңыз."
+
+#. (itstool) path: page/p
+#: C/sharing-social.page:17
+msgid ""
+"You may be prompted for additional information specific to the destination "
+"site, like an album name. You may also be prompted for your user name and "
+"password for the site. It may be necessary for gThumb to open a web "
+"browser, where you complete the required authentication steps. Once you "
+"have completed the required authentication steps in the browser, return to "
+"gThumb and continue the upload."
+msgstr ""
+"Сізден альбом атауы сияқты мақсатты сайтқа тән қосымша ақпарат сұралуы "
+"мүмкін. Сондай-ақ сайт үшін пайдаланушы аты мен пароліңіз сұралуы мүмкін. "
+"gThumb-қа қажетті аутентификация қадамдарын орындайтын веб-браузерді ашу "
+"қажет болуы мүмкін. Браузерде қажетті аутентификация қадамдарын аяқтағаннан "
+"кейін, gThumb-қа оралып, жүктеп салуды жалғастырыңыз."
+
+#. (itstool) path: page/p
+#: C/sharing-social.page:26
+msgid ""
+"If you do not see the expected upload sites in the <gui>Share</gui> menu, "
+"check that the appropriate exporter extensions are enabled in "
+"<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
+msgstr ""
+"Егер <gui>Бөлісу</gui> мәзірінде күтілетін жүктеп салу сайттарын "
+"көрмесеңіз, тиісті экспорттаушы кеңейтулердің <guiseq><gui>Түзету</"
+"gui><gui>Кеңейтулер</gui></guiseq> ішінде іске қосылғанын тексеріңіз."
+
+#. (itstool) path: page/p
+#: C/sharing-social.page:31
+msgid ""
+"For some sites, gThumb also supports downloading photos from the site into "
+"gThumb. See the <guiseq><gui>File</gui><gui>Import From</gui></guiseq> menu "
+"for the available download options."
+msgstr ""
+"Кейбір сайттар үшін gThumb сонымен қатар сайттан фотосуреттерді gThumb-қа "
+"жүктеп алуды қолдайды. Қолжетімді жүктеп алу опцияларын <guiseq><gui>Файл</"
+"gui><gui>Импорттау</gui></guiseq> мәзірінен қараңыз."
+
+#. (itstool) path: page/title
+#: C/wallpaper.page:6
+msgid "Desktop Wallpaper"
+msgstr "Жұмыс үстелінің тұсқағазы"
+
+#. (itstool) path: page/p
+#: C/wallpaper.page:7
+msgid ""
+"To set an image as the system desktop wallpaper, right-click on the image "
+"and select <guiseq><gui>Set as Desktop Background</gui></guiseq> from the "
+"pop-up menu. The desktop background will change, and the Gnome Appearance "
+"Preferences dialog will appear. You can use this dialog to make adjustments "
+"to the background settings (positioning, stretching, tiling, et cetera.)."
+msgstr ""
+"Суретті жүйенің жұмыс үстелінің тұсқағазы ретінде орнату үшін суретті оң "
+"жақпен шертіп, қалқымалы мәзірден <guiseq><gui>Жұмыс үстелінің фоны ретінде "
+"орнату</gui></guiseq> тармағын таңдаңыз. Жұмыс үстелінің фоны өзгереді және "
+"Gnome сыртқы түрінің баптаулары сұхбат терезесі пайда болады. Бұл сұхбат "
+"терезесін фон баптауларын (орналастыру, созу, плиткалау және т.б.) реттеу "
+"үшін қолдануға болады."
+
+#. (itstool) path: page/title
+#: C/bookmarks.page:6
+msgid "Using Bookmarks"
+msgstr "Бетбелгілерді қолдану"
+
+#. (itstool) path: page/p
+#: C/bookmarks.page:8
+msgid ""
+"Frequently-used folders can be added to the bookmark list for rapid access. "
+"To add the current folder to the bookmark list, press <keyseq><key>Ctrl</"
+"key><key>D</key></keyseq> or use the command <guiseq><gui>Bookmarks</"
+"gui><gui>Add Bookmark</gui></guiseq>."
+msgstr ""
+"Жиі қолданылатын бумаларды жылдам қол жеткізу үшін бетбелгілер тізіміне "
+"қосуға болады. Ағымдағы буманы бетбелгілер тізіміне қосу үшін "
+"<keyseq><key>Ctrl</key><key>D</key></keyseq> басыңыз немесе "
+"<guiseq><gui>Бетбелгілер</gui><gui>Бетбелгіні қосу</gui></guiseq> "
+"командасын қолданыңыз."
+
+#. (itstool) path: page/p
+#: C/bookmarks.page:13
+msgid ""
+"To remove or rearrange bookmarks in a different order use the "
+"<guiseq><gui>Bookmarks</gui><gui>Edit Bookmarks</gui></guiseq> command."
+msgstr ""
+"Бетбелгілерді өшіру немесе басқа ретпен қайта орналастыру үшін "
+"<guiseq><gui>Бетбелгілер</gui><gui>Бетбелгілерді түзету</gui></guiseq> "
+"командасын қолданыңыз."
+
+#. (itstool) path: page/p
+#: C/bookmarks.page:16
+msgid ""
+"<guiseq><gui>Bookmarks</gui><gui>System Bookmarks</gui></guiseq> provides "
+"access to the system bookmarks that have been defined in <app>Nautilus</"
+"app> or the file-chooser dialog used in most Gnome applications."
+msgstr ""
+"<guiseq><gui>Бетбелгілер</gui><gui>Жүйелік бетбелгілер</gui></guiseq> "
+"<app>Nautilus</app> немесе көптеген Gnome қолданбаларында қолданылатын файл "
+"таңдау сұхбат терезесінде анықталған жүйелік бетбелгілерге қол жеткізуді "
+"қамтамасыз етеді."
+
+#. (itstool) path: page/title
+#: C/import.page:8
+msgid "Importing From a Camera"
+msgstr "Камерадан импорттау"
+
+#. (itstool) path: page/p
+#: C/import.page:10
+msgid ""
+"On most systems, <app>gThumb</app> will automatically launch the import "
+"dialog when a digital camera is connected to the computer, or a memory card "
+"with photos is plugged into a card reader. (It does this because it is "
+"registered as the default handler for x-content/image-dcf and x-content/"
+"image-picturecd mime types.)"
+msgstr ""
+"Көптеген жүйелерде сандық камера компьютерге қосылғанда немесе "
+"фотосуреттері бар жад картасы карта оқу құрылғысына салынғанда <app>gThumb</"
+"app> автоматты түрде импорттау сұхбат терезесін іске қосады. (Ол мұны x-"
+"content/image-dcf және x-content/image-picturecd mime түрлері үшін бастапқы "
+"өңдеуші ретінде тіркелгендіктен жасайды.)"
+
+#. (itstool) path: page/p
+#: C/import.page:16
+msgid ""
+"To manually launch the import dialog, use <guiseq><gui>File</"
+"gui><gui>Import From</gui><gui>Removable Device</gui></guiseq>."
+msgstr ""
+"Импорттау сұхбат терезесін қолмен іске қосу үшін <guiseq><gui>Файл</"
+"gui><gui>Импорттау</gui><gui>Алынбалы құрылғы</gui></guiseq> қолданыңыз."
+
+#. (itstool) path: figure/title
+#: C/import.page:20
+msgid "The Import Dialog"
+msgstr "Импорттау сұхбат терезесі"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:21
+msgctxt "_"
+msgid ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
+msgstr ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
+
+#. (itstool) path: page/p
+#: C/import.page:24
+msgid ""
+"The import dialog shows thumbnails of the photos available on the selected "
+"device. The user can select one of more photos using normal keyboard or "
+"mouse techniques (for example, Ctrl+click to add a photo to the selection, "
+"or click and drag the mouse over the desired photos.) If no photos are "
+"explicitly selected, all will be imported."
+msgstr ""
+"Импорттау сұхбат терезесі таңдалған құрылғыда қолжетімді фотосуреттердің "
+"таңбашаларын көрсетеді. Пайдаланушы қалыпты пернетақта немесе тышқан "
+"әдістерін пайдаланып бір немесе бірнеше фотосуретті таңдай алады (мысалы, "
+"таңдауға фотосуретті қосу үшін Ctrl+шерту немесе тышқанды қажетті "
+"фотосуреттердің үстінен шертіп, сүйреу). Егер фотосуреттер нақты "
+"таңдалмаса, барлығы импортталады."
+
+#. (itstool) path: page/p
+#: C/import.page:30
+msgid ""
+"Tags may optionally be associated with the imported photos, using the "
+"<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
+"control to see the predefined tags."
+msgstr ""
+"Таңбашалар терезесінің астындағы <gui>Тегтер</gui> басқару элементін "
+"пайдаланып, импортталған фотосуреттермен тегтерді міндетті емес түрде "
+"байланыстыруға болады. Алдын ала анықталған тегтерді көру үшін ашылмалы "
+"басқару элементін шертіңіз."
+
+#. (itstool) path: page/p
+#: C/import.page:34
+msgid ""
+"An event name may also be optionally associated with the photos. This event "
+"name can be used to generate an automatic subfolder name (possibly "
+"incorporating a date) as described below. For example, if the base "
+"destination folder is \"/photos\", and you enter \"Wedding-Jennifer\" in "
+"the <gui>Event</gui> field, you can configure generation of automatic "
+"subfolders like \"/photos/2010-07-31, Wedding-Jennifer\"."
+msgstr ""
+"Оқиға атауы да фотосуреттермен міндетті емес түрде байланыстырылуы мүмкін. "
+"Бұл оқиға атауын төменде сипатталғандай автоматты ішкі бума атауын жасау "
+"үшін (мүмкін күнді қамтитын) пайдалануға болады. Мысалы, егер негізгі "
+"мақсатты бума \"/photos\" болса және сіз <gui>Оқиға</gui> өрісіне \"Wedding-"
+"Jennifer\" енгізсеңіз, \"/photos/2010-07-31, Wedding-Jennifer\" сияқты "
+"автоматты ішкі бумаларды жасауды конфигурациялай аласыз."
+
+#. (itstool) path: figure/title
+#: C/import.page:42
+msgid "Standard Date-Based Subfolders"
+msgstr "Күнге негізделген стандартты ішкі бумалар"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:43
+msgctxt "_"
+msgid ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
+msgstr ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
+
+#. (itstool) path: page/p
+#: C/import.page:46
+msgid ""
+"As mentioned above, subfolders for imported photos can be automatically "
+"generated based on event names and dates. This is enabled or disabled by "
+"clicking on the destination foldername in the import dialog. This opens a "
+"second dialog, where the base folder for imports may be selected (the "
+"<gui>Destination</gui> folder). To generate automatic subfolders, select "
+"<gui>Automatic subfolder</gui>."
+msgstr ""
+"Жоғарыда айтылғандай, импортталған фотосуреттерге арналған ішкі бумалар "
+"оқиға атаулары мен күндері негізінде автоматты түрде жасалуы мүмкін. Бұл "
+"импорттау сұхбат терезесіндегі мақсатты бума атауын шерту арқылы іске "
+"қосылады немесе сөндіріледі. Бұл екінші сұхбат терезесін ашады, онда "
+"импорттауға арналған негізгі буманы (<gui>Мақсатты</gui> бума) таңдауға "
+"болады. Автоматты ішкі бумаларды жасау үшін <gui>Автоматты ішкі бума</gui> "
+"таңдаңыз."
+
+#. (itstool) path: page/p
+#: C/import.page:52
+msgid ""
+"You can select either the <gui>File Date</gui> or the <gui>Current Date</"
+"gui> to use as the basis for subfolder naming. (The <gui>File Date</gui> "
+"examines the dates embedded in the file metadata to determine when the "
+"photo was taken.) A variety of standard date formats are available "
+"(<gui>year-month</gui> for example). The <gui>as single subfolder</gui> "
+"checkbox controls whether a \"deep\" or \"shallow\" hierarchy of files is "
+"made (for example, with <gui>year-month</gui>, you can have year subfolders "
+"with month subfolders under them, or all subfolders can be at the same "
+"level in the filesystem, with the year and name both the folder name."
+msgstr ""
+"Ішкі бума атауының негізі ретінде <gui>Файл күнін</gui> немесе "
+"<gui>Ағымдағы күнді</gui> таңдауға болады. (<gui>Файл күні</gui> "
+"фотосуреттің қашан түсірілгенін анықтау үшін файл метадеректеріне "
+"ендірілген күндерді тексереді.) Әртүрлі стандартты күн пішімдері қолжетімді "
+"(мысалы, <gui>жыл-ай</gui>). <gui>жеке ішкі бума ретінде</gui> құсбелгісі "
+"файлдардың \"терең\" немесе \"таяз\" иерархиясы жасалатынын басқарады "
+"(мысалы, <gui>жыл-ай</gui> арқылы жыл ішкі бумаларының астында ай ішкі "
+"бумалары болуы мүмкін немесе барлық ішкі бумалар файлдық жүйеде бір "
+"деңгейде болуы мүмкін, бұл ретте жыл мен атау екеуі де бума атауы болады)."
+
+#. (itstool) path: page/p
+#: C/import.page:61
+msgid ""
+"It is not necessary to use the predefined date formats. If you select "
+"<gui>custom format</gui>, standard date codes can be used. Click on the "
+"help icon to the right of the custom format field for a list of format "
+"codes. \"%E\" is a special code that will embed the <gui>Event</gui> name "
+"defined in the main import dialog."
+msgstr ""
+"Алдын ала анықталған күн пішімдерін қолдану міндетті емес. Егер сіз "
+"<gui>пайдаланушы пішімін</gui> таңдасаңыз, стандартты күн кодтарын "
+"қолдануға болады. Кодтар тізімін алу үшін пайдаланушы пішімі өрісінің оң "
+"жағындағы көмек таңбашасын шертіңіз. \"%E\" - негізгі импорттау сұхбат "
+"терезесінде анықталған <gui>Оқиға</gui> атауын ендіретін арнайы код."
+
+#. (itstool) path: page/p
+#: C/import.page:67
+msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
+msgstr ""
+"Көбірек күн пішімі кодтары үшін <link xref=\"gthumb-date-formats\"/> "
+"қараңыз."
+
+#. (itstool) path: page/p
+#: C/import.page:69
+msgid ""
+"If you use automatic subfolder naming, the <gui>Destination</gui> field in "
+"the main import dialog will show the automatic portion of the folder in "
+"red. (For date-based formats, dummy data may be shown in the red portion.)"
+msgstr ""
+"Егер сіз ішкі бумалардың автоматты атауын қолдансаңыз, негізгі импорттау "
+"сұхбат терезесіндегі <gui>Мақсатты</gui> өрісі буманың автоматты бөлігін "
+"қызыл түспен көрсетеді. (Күнге негізделген пішімдер үшін қызыл бөлікте "
+"жалған деректер көрсетілуі мүмкін.)"
+
+#. (itstool) path: figure/title
+#: C/import.page:74
+msgid "Using Custom Formats"
+msgstr "Пайдаланушы пішімдерін қолдану"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:75
+msgctxt "_"
+msgid ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
+msgstr ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
+
+#. (itstool) path: page/title
+#: C/slideshow.page:7
+msgid "Automatic Slideshow"
+msgstr "Автоматты слайдшоу"
+
+#. (itstool) path: page/p
+#: C/slideshow.page:9
+msgid ""
+"A slideshow of the currently selected images can be started from the image "
+"browser by pressing <key>F5</key>, by clicking the slideshow toolbar icon, "
+"or by clicking <guiseq><gui>View</gui><gui>Slideshow</gui></guiseq>. If no "
+"images are selected, all images in the folder will be included."
+msgstr ""
+"Таңдалған суреттердің слайдшоуын сурет браузерінен <key>F5</key> пернесін "
+"басу, слайдшоу таңбашасын шерту немесе <guiseq><gui>Көрініс</"
+"gui><gui>Слайдшоу</gui></guiseq> шерту арқылы бастауға болады. Егер "
+"суреттер таңдалмаса, бумадағы барлық суреттер қосылады."
+
+#. (itstool) path: page/p
+#: C/slideshow.page:15
+msgid ""
+"The transition effects and the time each image is shown can be modified "
+"from the <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Slideshow</gui></"
+"guiseq> dialog."
+msgstr ""
+"Өту эффектілерін және әрбір суреттің көрсетілу уақытын <guiseq><gui>Түзету</"
+"gui><gui>Баптаулар</gui><gui>Слайдшоу</gui></guiseq> сұхбат терезесінен "
+"өзгертуге болады."
+
+#. (itstool) path: page/p
+#: C/slideshow.page:19
+msgid ""
+"Some graphics cards and drivers may experience problems (crashes) if "
+"transition effects are enabled. If you experience such difficulties, set "
+"the <gui>Transition effect</gui> preference to <gui>None</gui>."
+msgstr ""
+"Егер өту эффектілері іске қосылған болса, кейбір графикалық карталар мен "
+"драйверлерде мәселелер (істен шығу) туындауы мүмкін. Егер мұндай "
+"қиындықтарға тап болсаңыз, <gui>Өту эффектісі</gui> баптауын <gui>Жоқ</gui> "
+"мәніне орнатыңыз."
+
+#. (itstool) path: page/p
+#: C/slideshow.page:23
+msgid ""
+"You can advance manually to the next image by pressing <key>Down Arrow</"
+"key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
+msgstr ""
+"<key>Төмен бағдарша</key>, <key>Оң жақ бағдарша</key>, <key>Page Down</key> "
+"немесе <key>Space</key> пернелерін басу арқылы келесі суретке қолмен өтуге "
+"болады."
+
+#. (itstool) path: page/p
+#: C/slideshow.page:27
+msgid ""
+"You can go back to the previous image by pressing <key>Up Arrow</key>, "
+"<key>Left Arrow</key> or <key>Page Up</key>."
+msgstr ""
+"<key>Жоғары бағдарша</key>, <key>Сол жақ бағдарша</key> немесе <key>Page "
+"Up</key> пернелерін басу арқылы алдыңғы суретке қайта аласыз."
+
+#. (itstool) path: page/p
+#: C/slideshow.page:30
+msgid "You can pause or un-pause the slideshow by pressing <key>p</key>."
+msgstr ""
+"<key>p</key> пернесін басу арқылы слайдшоуды аялдатуға немесе аялдатуды "
+"болдырмауға болады."
+
+#. (itstool) path: page/p
+#: C/slideshow.page:32
+msgid "To exit the slideshow, press <key>Escape</key> or <key>F5</key>."
+msgstr "Слайдшоудан шығу үшін <key>Escape</key> немесе <key>F5</key> басыңыз."
+
+#. (itstool) path: page/title
+#: C/file-copy-move.page:6
+msgid "Copying and Moving Files"
+msgstr "Файлдарды көшіру және жылжыту"
+
+#. (itstool) path: page/p
+#: C/file-copy-move.page:8
+msgid "There are three ways to copy or move files in <app>gThumb</app>."
+msgstr ""
+"<app>gThumb</app> бағдарламасында файлдарды көшірудің немесе жылжытудың үш "
+"жолы бар."
+
+#. (itstool) path: item/title
+#: C/file-copy-move.page:12
+msgid "Cut and Paste"
+msgstr "Қиып алу және кірістіру"
+
+#. (itstool) path: item/p
+#: C/file-copy-move.page:13
+msgid ""
+"To copy a file in the browser view, use <guiseq><gui>Edit</gui><gui>Copy</"
+"gui></guiseq>, or press <keyseq><key>Ctrl</key><key>C</key></keyseq>. To "
+"move a file, use <guiseq><gui>Edit</gui><gui>Cut</gui></guiseq>, or press "
+"<keyseq><key>Ctrl</key><key>X</key></keyseq>. Then navigate to the "
+"destination folder using the folder tree. Use <guiseq><gui>Edit</"
+"gui><gui>Paste</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>V</"
+"key></keyseq>, to complete the file transfer."
+msgstr ""
+"Браузер көрінісінде файлды көшіру үшін <guiseq><gui>Түзету</"
+"gui><gui>Көшіру</gui></guiseq> қолданыңыз немесе <keyseq><key>Ctrl</"
+"key><key>C</key></keyseq> басыңыз. Файлды жылжыту үшін <guiseq><gui>Түзету</"
+"gui><gui>Қиып алу</gui></guiseq> қолданыңыз немесе <keyseq><key>Ctrl</"
+"key><key>X</key></keyseq> басыңыз. Содан кейін бумалар ағашын пайдаланып "
+"мақсатты бумаға өтіңіз. Файлды тасымалдауды аяқтау үшін "
+"<guiseq><gui>Түзету</gui><gui>Кірістіру</gui></guiseq> қолданыңыз немесе "
+"<keyseq><key>Ctrl</key><key>V</key></keyseq> басыңыз."
+
+#. (itstool) path: item/title
+#: C/file-copy-move.page:26
+msgid "Drag and Drop"
+msgstr "Сүйреп апару"
+
+#. (itstool) path: item/p
+#: C/file-copy-move.page:27
+msgid ""
+"To copy a file to another folder, simply drag the file (with a sustained "
+"left-mouse click) to the destination folder visible in the folder tree. To "
+"move a file, hold down the <key>Shift</key> key while dragging."
+msgstr ""
+"Файлды басқа бумаға көшіру үшін файлды (тышқанның сол жақ батырмасын басып "
+"тұрып) бумалар ағашында көрінетін мақсатты бумаға сүйреңіз. Файлды жылжыту "
+"үшін сүйреу кезінде <key>Shift</key> пернесін басып тұрыңыз."
+
+#. (itstool) path: item/p
+#: C/file-copy-move.page:31
+msgid ""
+"You can also use the middle mouse button to drag files. In this case, "
+"<app>gThumb</app> will ask you if you wish to copy the files, move the "
+"files, or cancel the operation."
+msgstr ""
+"Файлдарды сүйреу үшін тышқанның ортаңғы батырмасын да қолдануға болады. Бұл "
+"жағдайда <app>gThumb</app> сізден файлдарды көшіруді, жылжытуды немесе "
+"операциядан бас тартуды сұрайды."
+
+#. (itstool) path: item/title
+#: C/file-copy-move.page:37
+msgid "File Copy / Move Dialog"
+msgstr "Файлды көшіру / жылжыту сұхбат терезесі"
+
+#. (itstool) path: item/p
+#: C/file-copy-move.page:38
+msgid ""
+"Select the files to be transferred, right-click on the selection, and "
+"choose <guiseq><gui>Copy to...</gui></guiseq> or <guiseq><gui>Move to...</"
+"gui></guiseq>. This will open a folder-selection dialog, where you can "
+"choose the destination folder. At the bottom of the dialog, you can enable "
+"the <guiseq><gui>View the destination</gui></guiseq> option if you want to "
+"go to the destination folder after the file transfer is complete."
+msgstr ""
+"Тасымалданатын файлдарды таңдап, таңдалған элементтерді оң жақпен шертіп, "
+"<guiseq><gui>Көшіру...</gui></guiseq> немесе <guiseq><gui>Жылжыту...</gui></"
+"guiseq> тармағын таңдаңыз. Бұл мақсатты буманы таңдауға болатын буманы "
+"таңдау сұхбат терезесін ашады. Файл тасымалданғаннан кейін мақсатты бумаға "
+"барғыңыз келсе, сұхбат терезесінің төменгі жағында <guiseq><gui>Мақсатты "
+"қарау</gui></guiseq> опциясын іске қосуға болады."
+
+#. (itstool) path: p/link
+#: C/legal.xml:4
+msgid "Creative Commons Attribution-Share Alike 3.0 Unported License"
+msgstr "Creative Commons Attribution-Share Alike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:3
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Бұл жұмыс <_:link-1/> аясында лицензияланған."
+
+#. (itstool) path: license/p
+#: C/legal.xml:6
+msgid ""
+"As a special exception, the copyright holders give you permission to copy, "
+"modify, and distribute the example code contained in this document under "
+"the terms of your choosing, without restriction."
+msgstr ""
+"Арнайы ерекшелік ретінде авторлық құқық иелері сізге осы құжаттағы мысалдық "
+"кодты шектеусіз, өз қалауыңыз бойынша көшіруге, өзгертуге және таратуға "
+"рұқсат береді."
