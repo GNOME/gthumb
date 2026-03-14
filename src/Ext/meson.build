@@ -1,5 +1,6 @@
 subdir('Bookmarks')
 subdir('Catalogs')
+subdir('Color')
 subdir('Comments')
 subdir('DesktopBackground')
 subdir('Editor')
