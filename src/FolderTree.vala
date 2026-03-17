@@ -33,6 +33,7 @@ public class Gth.FolderTree : Gtk.Box {
 	public FileData context_file;
 	public bool skip_nochild_folders = false; // Used to show only libraries when moving a catalog.
 	public LoadState load_state = LoadState.NONE;
+	public bool loading { get; set; default = false; }
 
 	[Signal (action=true)]
 	public signal void load (FileData location, LoadAction action);
@@ -40,7 +41,8 @@ public class Gth.FolderTree : Gtk.Box {
 	public signal void before_context_menu_popup (FileData file_data);
 
 	Gth.Job load_job;
-	Queue<File> current_parents;
+	Queue<File> expand_parents;
+	FileData last_expanded;
 	public Gtk.TreeListModel tree_model;
 	Gtk.SingleSelection tree_selection_model;
 	bool current_folder_as_root;
@@ -106,7 +108,8 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		if (load_action.changes_current_folder ()) {
-			current_parents.clear ();
+			expand_parents.clear ();
+			last_expanded = null;
 		}
 
 		var job_is_local = (external_job == null);
@@ -116,6 +119,7 @@ public class Gth.FolderTree : Gtk.Box {
 				JobFlags.DEFAULT,
 				"folder-symbolic");
 			load_job = local_job;
+			loading = true;
 		}
 		try {
 			var nearest_root = yield app.devices.ensure_mounted (location, get_root () as Gtk.Window, local_job.cancellable);
@@ -127,18 +131,6 @@ public class Gth.FolderTree : Gtk.Box {
 			var all_attributes = Util.concat_attributes (list_attributes, file_data.get_sort_attributes ());
 			var children = yield source.list_children (location, all_attributes, local_job.cancellable);
 
-			if (load_action.changes_current_folder ()) {
-				var parent = location;
-				while (parent != null) {
-					//stdout.printf (">> add parent: %s\n", parent.get_uri ());
-					current_parents.push_head (parent);
-					if (parent.equal (nearest_root.file)) {
-						break;
-					}
-					parent = parent.get_parent ();
-				}
-			}
-
 			if (load_action == LoadAction.OPEN_AS_ROOT) {
 				nearest_root = file_data;
 			}
@@ -148,17 +140,23 @@ public class Gth.FolderTree : Gtk.Box {
 					current_root = file_data;
 				}
 				else {
-					var root = current_parents.peek_head ();
+					var root = nearest_root.file;
 					current_root = yield source.read_metadata (root, "*", local_job.cancellable);
 				}
 				current_folder = file_data;
 				current_children.copy (children);
 				current_source = source;
+
+				var parent = location;
+				while (parent != null) {
+					expand_parents.push_head (parent);
+					if (parent.equal (nearest_root.file)) {
+						break;
+					}
+					parent = parent.get_parent ();
+				}
 			}
 
-			//if (load_action != LoadAction.OPEN_FROM_HISTORY) {
-			//	history.add (current_folder.file);
-			//}
 			if (changes_root) {
 				update_folder_tree ();
 			}
@@ -166,9 +164,10 @@ public class Gth.FolderTree : Gtk.Box {
 				watched_files.add (current_folder.file);
 				var expand_tree = true;
 				if (load_action == LoadAction.OPEN_NEW_FOLDER) {
-					if (update_current_folder_parent ()) {
-						current_parents.clear ();
+					if (current_folder != null) {
+						expand_parents.clear ();
 						expand_tree = false;
+						list_subfolders (current_folder);
 					}
 				}
 				if (expand_tree) {
@@ -177,7 +176,6 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 		}
 		catch (Error error) {
-			stdout.printf ("ERROR: FolderTree.load_folder: %s\n", error.message);
 			local_job.error = error;
 			// Watch again the current folder.
 			if (load_action.changes_current_folder ()) {
@@ -190,6 +188,7 @@ public class Gth.FolderTree : Gtk.Box {
 			local_job.done ();
 			if (load_job == local_job) {
 				load_job = null;
+				loading = false;
 			}
 		}
 		if (local_job.error != null) {
@@ -201,41 +200,50 @@ public class Gth.FolderTree : Gtk.Box {
 		load (location, LoadAction.OPEN_SUBFOLDER);
 	}
 
-	public Gth.Job? list_subfolders (FileData file_data) {
-		//stdout.printf ("> LIST SUBFOLDERS %s\n", file_data.file.get_uri ());
+	public void list_subfolders (FileData file_data) {
+		stdout.printf ("> LIST SUBFOLDERS %s\n", file_data.file.get_uri ());
+
+		if (file_data.children_state != ChildrenState.NONE) {
+			return;
+		}
 
 		if (FileData.equal (file_data, current_folder)) {
 			set_file_data_children (file_data, current_children);
-			return null;
+			return;
 		}
 
 		var source = app.get_source_for_file (file_data.file);
 		if (source == null) {
 			//throw new IOError.FAILED (_("File type not supported"));
-			return null;
+			return;
 		}
+
+		if (load_job != null) {
+			load_job.cancel ();
+		}
+
+		file_data.children_state = ChildrenState.LOADING;
 		var local_job = job_queue.new_job (_("Loading %s").printf (file_data.get_display_name ()),
 			JobFlags.DEFAULT,
 			"folder-symbolic");
+		load_job = local_job;
+		loading = true;
 		source.list_children.begin (file_data.file, FOLDER_ATTRIBUTES, local_job.cancellable, (_obj, res) => {
 			try {
 				var all_children = source.list_children.end (res);
 				set_file_data_children (file_data, all_children);
-				var current_parent = current_folder.file.get_parent ();
-				if ((current_folder != null)
-					&& (current_parent != null)
-					&& file_data.file.equal (current_parent))
-				{
-					queue_select_current_folder ();
-				}
 			}
 			catch (Error error) {
+				file_data.children_state = ChildrenState.NONE;
 			}
 			finally {
 				local_job.done ();
+				if (load_job == local_job) {
+					load_job = null;
+					loading = false;
+				}
 			}
 		});
-		return local_job;
 	}
 
 	public bool is_loading () {
@@ -340,65 +348,66 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 	}
 
-	bool update_current_folder_parent () {
-		if (current_folder == null) {
-			return false;
+	void expand_tree_to_current_folder () {
+		if (last_expanded == null) {
+			if (current_root == null) {
+				return;
+			}
+			var root = expand_parents.peek_head ();
+			if (root == null) {
+				return;
+			}
+			if (!current_root.file.equal (root)) {
+				return;
+			}
+			last_expanded = current_root;
 		}
-		var row = get_file_row (current_folder.file.get_parent ());
+		var row = get_file_row (last_expanded.file);
 		if (row == null) {
-			return false;
+			after_expand_tree ();
+			return;
 		}
-		if (row.expanded) {
-			var file_data = row.item as Gth.FileData;
-			list_subfolders (file_data);
+		if (row.expanded && (last_expanded.children_state == ChildrenState.LOADED)) {
+			expand_next_parent_for_current_folder ();
 		}
 		else {
-			row.expanded = true;
+			list_subfolders (last_expanded);
 		}
-		return true;
 	}
 
-	void expand_tree_to_current_folder () {
-		var root = current_parents.peek_head ();
-		if (root != null) {
-			var root_row = get_file_row (root);
-			if (root_row != null) {
-				tree_selection_model.set_selected (uint.MAX); // unselect
-				if (root_row.expanded) {
-					expand_next_parent_for_current_folder ();
-				}
-				else {
-					root_row.expanded = true;
-				}
-			}
-		}
+	void after_expand_tree () {
+		expand_parents.clear ();
+		last_expanded = null;
+		queue_select_current_folder ();
 	}
 
 	void expand_next_parent_for_current_folder () {
-		current_parents.pop_head ();
-		var next_parent = current_parents.peek_head ();
+		expand_parents.pop_head ();
+		var next_parent = expand_parents.peek_head ();
 		if (next_parent == null) {
-			// stdout.printf ("  next_parent: (null)\n");
-			queue_select_current_folder ();
-		}
-		else if ((current_folder != null) && (current_folder.file.equal (next_parent))) {
-			// stdout.printf ("  next_parent == current_folder\n");
-			current_parents.clear ();
-			queue_select_current_folder ();
+			after_expand_tree ();
 		}
 		else {
-			// stdout.printf ("  next_parent: '%s'\n", next_parent.get_uri ());
-			var next_parent_row = get_file_row (next_parent);
-			if (next_parent_row != null) {
-				if (next_parent_row.expanded) {
-					// stdout.printf ("  next_parent_row.expanded\n");
-					expand_next_parent_for_current_folder ();
-				}
-				else {
-					next_parent_row.expanded = true;
-				}
+			var iter = last_expanded.children.iterator ();
+			var file_data = iter.find_first_item ((file_data) => file_data.file.equal (next_parent));
+			if (file_data != null) {
+				last_expanded = file_data;
+				list_subfolders (file_data);
+			}
+			else {
+				after_expand_tree ();
 			}
 		}
+	}
+
+	bool expand_file_row (File file) {
+		int position;
+		var row = get_file_row (file, out position);
+		if (row == null) {
+			return false;
+		}
+		row.expanded = true;
+		return true;
 	}
 
 	void set_file_data_children (FileData file_data, GenericList<FileData> all_children) {
@@ -420,8 +429,9 @@ public class Gth.FolderTree : Gtk.Box {
 		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
 		folders.model.sort ((a, b) => {
 			var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-			if (sort.inverse)
-				result *= -1;
+			if (sort.inverse) {
+				result = - result;
+			}
 			return result;
 		});
 
@@ -431,19 +441,14 @@ public class Gth.FolderTree : Gtk.Box {
 		foreach (unowned var file in folders) {
 			file_model.model.append (file);
 		}
-		file_data.children_loaded = true;
+		file_data.children_state = ChildrenState.LOADED;
+		if (expand_file_row (file_data.file)) {
+			watch_directory (file_data, true);
+		}
 
 		// Continue building the folder tree.
-		// stdout.printf ("set_file_data_children: '%s'\n", file_data.file.get_uri ());
-		// stdout.printf ("  current_parents: %p\n", current_parents);
-		var top_parent = current_parents.peek_head ();
-		// stdout.printf ("  top_parent: %s\n", (top_parent != null) ? top_parent.get_uri () : "(null)");
-		if ((top_parent != null) && top_parent.equal (file_data.file)) {
-			// stdout.printf ("  top_parent.equal (file_data.file)\n");
+		if ((last_expanded != null) && last_expanded.file.equal (file_data.file)) {
 			expand_next_parent_for_current_folder ();
-		}
-		else {
-			queue_select_current_folder ();
 		}
 	}
 
@@ -456,7 +461,6 @@ public class Gth.FolderTree : Gtk.Box {
 			Source.remove (select_id);
 		}
 		select_id = Util.after_next_rearrange (() => {
-			// stdout.printf ("> select_current_folder !!!\n");
 			select_id = 0;
 			select_current_folder ();
 		});
@@ -471,19 +475,15 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	bool building_the_tree () {
-		return !current_parents.is_empty ();
+		return !expand_parents.is_empty ();
 	}
 
 	void select_current_folder () {
 		if ((current_folder == null) || building_the_tree ()) {
 			return;
 		}
-		int position;
-		if (get_file_row (current_folder.file, out position) == null) {
-			return;
-		}
-		// stdout.printf ("CURRENT FOLDER POS: %d\n", position);
-		if (position >= 0) {
+		int position = 0;
+		if (get_file_row (current_folder.file, out position) != null) {
 			view.scroll_to ((uint) position, Gtk.ListScrollFlags.SELECT | Gtk.ListScrollFlags.FOCUS, null);
 		}
 	}
@@ -520,7 +520,7 @@ public class Gth.FolderTree : Gtk.Box {
 		sort = { null, false };
 		list_attributes = FOLDER_ATTRIBUTES;
 		load_job = null;
-		current_parents = new Queue<File>();
+		expand_parents = new Queue<File>();
 		current_folder_as_root = false;
 
 		tree_model = new Gtk.TreeListModel (visible_roots.model, false, false, (obj) => {
@@ -593,7 +593,6 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 		scrolled_window.vexpand = true;
 		scrolled_window.vadjustment.changed.connect (() => {
-			// stdout.printf ("> scrolled_window.vadjustment.upper: %f\n", scrolled_window.vadjustment.upper);
 			if (scroll_to_selected) {
 				queue_select_current_folder (false);
 			}

@@ -1250,6 +1250,14 @@ public class Gth.Browser : Gtk.Box {
 		folder_tree.before_context_menu_popup.connect ((file_data) => {
 			update_folder_context_menu_sensitivity (file_data);
 		});
+		folder_tree.notify["loading"].connect (() => {
+			if (folder_tree.loading) {
+				file_grid.stop_thumbnailer ();
+			}
+			else {
+				file_grid.start_thumbnailer ();
+			}
+		});
 	}
 
 	Gtk.SortListModel file_sort_model;

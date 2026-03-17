@@ -2,7 +2,7 @@ public class Gth.FileData : Object {
 	public File file;
 	public FileInfo info;
 	public GenericList<FileData> children;
-	public bool children_loaded;
+	public ChildrenState children_state { get; set; }
 
 	public signal void renamed ();
 
@@ -10,7 +10,7 @@ public class Gth.FileData : Object {
 		file = _file;
 		info = (_info != null) ? _info : new FileInfo ();
 		children = null;
-		children_loaded = false;
+		children_state = ChildrenState.NONE;
 	}
 
 	public FileData.copy (FileData other) {
@@ -423,4 +423,10 @@ public class Gth.FileData : Object {
 			return file.get_uri ();
 		}
 	}
+}
+
+public enum Gth.ChildrenState {
+	NONE,
+	LOADING,
+	LOADED,
 }

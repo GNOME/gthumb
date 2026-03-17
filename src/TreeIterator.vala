@@ -20,12 +20,12 @@ public class Gth.TreeIterator<T> {
 		if ((idx >= 0) && (row == null))
 			return false;
 		idx++;
-		row = model.get_item (idx) as Gtk.TreeListRow;
+		row = model.get_row (idx) as Gtk.TreeListRow;
 		return row != null;
 	}
 
 	public bool has_next () {
-		return model.get_item (idx + 1) != null;
+		return model.get_row (idx + 1) != null;
 	}
 
 	public int index () {
