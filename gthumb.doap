@@ -23,6 +23,7 @@
   <support-forum rdf:resource="https://discourse.gnome.org/tag/gthumb" />
   <download-page rdf:resource="https://download.gnome.org/sources/gthumb/" />
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gthumb/issues/" />
+  <programming-language>Vala</programming-language>
   <programming-language>C</programming-language>
   <maintainer>
     <foaf:Person>
