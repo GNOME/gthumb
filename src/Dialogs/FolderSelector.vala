@@ -6,7 +6,7 @@ public class Gth.FolderSelector : Object {
 		show_destination = false;
 	}
 
-	public async File? select_folder (Gth.MainWindow window, File? current_folder = null, Cancellable? cancellable = null) throws Error {
+	public async File? select_folder (Gth.MainWindow window, File? current_folder = null, Gth.Job job) throws Error {
 		callback = select_folder.callback;
 		FileData root = (FolderSelectorMode.CATALOGS_ONLY in mode) ? Catalog.get_root () : null;
 		dialog = new FolderSelectorDialog (window, root, mode, current_folder);
@@ -15,22 +15,23 @@ public class Gth.FolderSelector : Object {
 			result = dialog.selected_folder;
 			dialog.close ();
 		});
-		dialog.closed.connect (() => {
+		dialog.close_request.connect (() => {
 			if (callback != null) {
 				dialog.release_resources ();
 				Idle.add ((owned) callback);
 				callback = null;
 			}
+			return false;
 		});
-		if (cancellable != null) {
-			cancelled_event = cancellable.cancelled.connect (() => {
-				dialog.close ();
-			});
-		}
-		dialog.present (window);
+		cancelled_event = job.cancellable.cancelled.connect (() => {
+			dialog.close ();
+		});
+		job.opens_dialog ();
+		dialog.present ();
 		yield;
+		job.dialog_closed ();
 		if (cancelled_event != 0) {
-			cancellable.disconnect (cancelled_event);
+			job.cancellable.disconnect (cancelled_event);
 			cancelled_event = 0;
 		}
 		if (result == null) {
@@ -56,13 +57,14 @@ public enum FolderSelectorMode {
 }
 
 [GtkTemplate (ui = "/app/gthumb/gthumb/ui/folder-selector-dialog.ui")]
-class Gth.FolderSelectorDialog : Adw.Dialog {
+class Gth.FolderSelectorDialog : Adw.Window {
 	public signal void selected ();
 	public File selected_folder;
 	public bool show_destination;
 
 	public FolderSelectorDialog (Gth.MainWindow _window, FileData? root, FolderSelectorMode _mode, File? _selected_folder = null) {
 		window = _window;
+		transient_for = _window;
 		mode = _mode;
 		selected_folder = _selected_folder;
 		show_destination = false;

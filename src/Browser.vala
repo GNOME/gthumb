@@ -2185,8 +2185,7 @@ public class Gth.Browser : Gtk.Box {
 			var selector = new Gth.FolderSelector (FolderSelectorMode.CATALOGS_ONLY | FolderSelectorMode.FOR_MOVING);
 			var catalog = folder_tree.context_file.file;
 			var parent = catalog.get_parent ();
-			local_job.opens_dialog ();
-			var destination = yield selector.select_folder (window, parent, local_job.cancellable);
+			var destination = yield selector.select_folder (window, parent, local_job);
 			if (destination.equal (parent)) {
 				throw new IOError.FAILED (_("Source and destination are the same"));
 			}
@@ -2203,7 +2202,6 @@ public class Gth.Browser : Gtk.Box {
 			window.show_error (error);
 		}
 		finally {
-			local_job.dialog_closed ();
 			local_job.done ();
 		}
 	}
@@ -2247,8 +2245,7 @@ public class Gth.Browser : Gtk.Box {
 			var selector = new Gth.FolderSelector (FolderSelectorMode.CATALOGS_ONLY | FolderSelectorMode.FOR_COPYING);
 			selector.show_destination = app.settings.get_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION);
 			var last_catalog = Settings.get_file (app.settings, PREF_BROWSER_LAST_CATALOG);
-			local_job.opens_dialog ();
-			var catalog_file = yield selector.select_folder (window, last_catalog, local_job.cancellable);
+			var catalog_file = yield selector.select_folder (window, last_catalog, local_job);
 			yield Catalog.add_files (catalog_file, files, local_job);
 			app.settings.set_string (PREF_BROWSER_LAST_CATALOG, catalog_file.get_uri ());
 			app.settings.set_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION, selector.show_destination);
@@ -2260,7 +2257,6 @@ public class Gth.Browser : Gtk.Box {
 			window.show_error (error);
 		}
 		finally {
-			local_job.dialog_closed ();
 			local_job.done ();
 		}
 	}

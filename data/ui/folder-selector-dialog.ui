@@ -2,8 +2,19 @@
 <interface>
   <template class="GthFolderSelectorDialog">
     <property name="title" translatable="yes">Location</property>
-    <property name="content-width">550</property>
-    <property name="content-height">750</property>
+    <property name="width-request">550</property>
+    <property name="height-request">750</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
     <child>
       <object class="AdwToastOverlay" id="toast_overlay">
         <child>
