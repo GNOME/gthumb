@@ -218,6 +218,16 @@ public class Gth.Slideshow : Gth.Window {
 		key_events.key_pressed.connect (on_key_pressed);
 		image_view.add_controller (key_events);
 		image_view.cursor = new Gdk.Cursor.from_name ("none", null);
+
+		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_PRIMARY);
+		click_events.pressed.connect ((n_press, x, y) => next ());
+		image_view.add_controller (click_events);
+
+		var seconday_click_events = new Gtk.GestureClick ();
+		seconday_click_events.set_button (Gdk.BUTTON_SECONDARY);
+		seconday_click_events.pressed.connect ((n_press, x, y) => close ());
+		image_view.add_controller (seconday_click_events);
 	}
 
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
