@@ -622,7 +622,7 @@ public class Gth.Browser : Gtk.Box {
 		weak Gth.FileData selected_file = null;
 		uint total_files = 0;
 		uint64 total_size = 0;
-		var selected_image = false;
+		var only_images = true;
 		var selected = file_grid.view.model.get_selection ();
 		for (int64 idx = 0; idx < selected.get_size (); idx++) {
 			var pos = selected.get_nth ((uint) idx);
@@ -630,9 +630,11 @@ public class Gth.Browser : Gtk.Box {
 			if (file != null) {
 				total_files++;
 				total_size += file.info.get_size ();
+				if (!Util.content_type_is_image (file.get_content_type ())) {
+					only_images = false;
+				}
 				if (total_files == 1) {
 					selected_file = file;
-					selected_image = Util.content_type_is_image (file.get_content_type ());
 				}
 			}
 		}
@@ -665,8 +667,9 @@ public class Gth.Browser : Gtk.Box {
 
 		var can_open_container = (total_files == 1) && !(folder_tree.current_source is FileSourceVfs);
 		Util.enable_action (window.action_group, "open-container", can_open_container);
-		Util.enable_action (window.action_group, "set-desktop-background", (total_files == 1) && selected_image);
-		Util.enable_action (window.action_group, "edit-file", (total_files == 1) && selected_image);
+		Util.enable_action (window.action_group, "set-desktop-background", (total_files == 1) && only_images);
+		Util.enable_action (window.action_group, "edit-file", (total_files == 1) && only_images);
+		Util.enable_action (window.action_group, "print", (total_files > 0) && only_images);
 	}
 
 	void init_actions () {
