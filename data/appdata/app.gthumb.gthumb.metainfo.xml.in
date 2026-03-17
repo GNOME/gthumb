@@ -56,12 +56,16 @@
   <url type="translate">https://l10n.gnome.org/module/gthumb/</url>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
-      <caption>Browser mode</caption>
+      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/browser.png</image>
+      <caption>Browser</caption>
     </screenshot>
     <screenshot>
-      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png</image>
-      <caption>Viewer mode</caption>
+      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/viewer.png</image>
+      <caption>Viewer</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/editor.png</image>
+      <caption>Editor</caption>
     </screenshot>
   </screenshots>
   <update_contact>paobac_at_src.gnome.org</update_contact>
@@ -69,7 +73,6 @@
     <kudo>AppMenu</kudo>
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
-    <kudo>UserDocs</kudo>
   </kudos>
   <translation type="gettext">gthumb</translation>
 

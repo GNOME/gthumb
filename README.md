@@ -4,7 +4,7 @@ Image viewer, editor, browser and organizer.
 
 More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
 
-![Image](https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png)
+![Image](https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/viewer.png)
 
 ## Features
 
@@ -62,7 +62,6 @@ More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
 
 ## Installation
 
-    cd gthumb
     meson setup builddir
     meson compile -C builddir
     sudo meson install -C builddir
