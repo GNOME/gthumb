@@ -332,7 +332,7 @@ public class Gth.MainWindow : Gth.Window {
 			return;
 		}
 		var desktop_background = new DesktopBackground (this);
-		var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
+		var local_job = new_job (_("Set as Desktop Background"), JobFlags.FOREGROUND);
 		desktop_background.set_file.begin (file_data, local_job.cancellable, (_obj, res) => {
 			try {
 				desktop_background.set_file.end (res);
