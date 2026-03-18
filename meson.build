@@ -136,7 +136,7 @@ else
   use_libtiff = false
 endif
 
-# libgif_version
+# libgif
 
 if get_option('libgif')
   libgif_dep = c_comp.find_library('libgif', required: false)
