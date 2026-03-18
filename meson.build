@@ -18,6 +18,7 @@ librsvg_version = '>= 2.34.0'
 libheif_version = '>= 1.11'
 libjxl_version = '>= 0.3.0'
 libgif_version = '>= 5.2.0'
+libportal_version = '>= 0.9'
 
 c_comp = meson.get_compiler('c')
 cpp_comp = meson.get_compiler('cpp')
@@ -91,6 +92,13 @@ gstreamer_dep_list = [
   gstreamer_dep,
   gstreamer_plugins_base_dep,
   gstreamer_video_dep
+]
+
+# libportal
+
+libportal_deps = [
+  dependency('libportal', version : libportal_version),
+  dependency('libportal-gtk4', version : libportal_version)
 ]
 
 # libheif

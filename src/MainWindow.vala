@@ -331,7 +331,7 @@ public class Gth.MainWindow : Gth.Window {
 			show_error (new IOError.FAILED (_("No files selected")));
 			return;
 		}
-		desktop_background = new DesktopBackground (this);
+		var desktop_background = new DesktopBackground (this);
 		var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
 		desktop_background.set_file.begin (file_data, local_job.cancellable, (_obj, res) => {
 			try {
@@ -342,6 +342,7 @@ public class Gth.MainWindow : Gth.Window {
 			}
 			finally {
 				local_job.done ();
+				desktop_background = null;
 			}
 		});
 	}
@@ -684,26 +685,6 @@ public class Gth.MainWindow : Gth.Window {
 
 		action = new SimpleAction ("set-desktop-background", null);
 		action.activate.connect (() => set_desktop_background ());
-		action_group.add_action (action);
-
-		action = new SimpleAction ("undo-desktop-background", null);
-		action.activate.connect (() => {
-			if (desktop_background == null) {
-				return;
-			}
-			var local_job = new_job (_("Setting Background"), JobFlags.FOREGROUND);
-			desktop_background.undo.begin (local_job.cancellable, (_obj, res) => {
-				try {
-					desktop_background.undo.end (res);
-				}
-				catch (Error error) {
-					show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("view-new-window", null);
@@ -1215,7 +1196,6 @@ public class Gth.MainWindow : Gth.Window {
 		stdout.printf ("~MainWindow\n");
 	}
 
-	DesktopBackground desktop_background = null;
 	public Bytes script_output = null;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
 }

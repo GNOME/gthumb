@@ -272,7 +272,10 @@ executable(exec_name,
     vapi_files,
     video_files,
   ],
-  dependencies: dependencies,
+  dependencies: [
+    dependencies,
+    libportal_deps,
+  ],
   install: true,
 )
 
