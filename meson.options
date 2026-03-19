@@ -57,3 +57,9 @@ option('libgif',
   value : true,
   description : 'Use libgif to load GIF images'
 )
+
+option('libraw',
+  type : 'boolean',
+  value : true,
+  description : 'Use libraw to load RAW images'
+)

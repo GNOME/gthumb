@@ -198,6 +198,13 @@ public class Gth.Application : Adw.Application {
 #if HAVE_LIBGIF
 		register_image_loader ("image/gif", load_gif);
 #endif
+#if HAVE_LIBRAW
+		register_image_loader ("image/x-dcraw", load_raw);
+		register_image_loader ("image/x-canon-cr2", load_raw);
+		register_image_loader ("image/x-canon-crw", load_raw);
+		register_image_loader ("image/x-fuji-raf", load_raw);
+		register_image_loader ("image/x-olympus-orf", load_raw);
+#endif
 
 		external_loaders = new HashTable<string, Gth.LoadFileFunc>(str_hash, str_equal);
 		register_external_loader ("video/*", load_video_thumbnail, typeof (VideoViewer));

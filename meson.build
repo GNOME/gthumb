@@ -19,6 +19,7 @@ libheif_version = '>= 1.11'
 libjxl_version = '>= 0.3.0'
 libgif_version = '>= 5.2.0'
 libportal_version = '>= 0.9'
+libraw_version = '>= 0.22'
 
 c_comp = meson.get_compiler('c')
 cpp_comp = meson.get_compiler('cpp')
@@ -145,6 +146,15 @@ else
   use_libgif = false
 endif
 
+# libraw
+
+if get_option('libraw')
+  libraw_dep = dependency('libraw', version: libraw_version, required: false)
+  use_libraw = libraw_dep.found()
+else
+  use_libraw = false
+endif
+
 gettext_package = meson.project_name()
 log_domain = meson.project_name()
 prefix = get_option('prefix')
@@ -183,6 +193,7 @@ summary(
     'libjxl': use_libjxl,
     'libtiff': use_libtiff,
     'libgif': use_libgif,
+    'libraw': use_libraw,
   },
   section: 'Configuration summary:',
 )

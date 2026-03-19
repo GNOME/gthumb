@@ -1,5 +1,6 @@
 #include "image-info.h"
 #include "svg-info.h"
+#include "lib/util.h"
 #include "lib/jpeg/jpeg-info.h"
 #if HAVE_LIBWEBP
 #include <webp/decode.h>
@@ -16,6 +17,9 @@
 #endif
 #if HAVE_LIBGIF
 #include <lib/io/load-gif.h>
+#endif
+#if HAVE_LIBRAW
+#include <lib/io/load-raw.h>
 #endif
 
 #define BUFFER_SIZE 4096
@@ -35,6 +39,7 @@ gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *hei
 	GthImageInfo image_info;
 	gboolean format_recognized = FALSE;
 	const char *mime_type = guess_content_type (buffer, buffer_size);
+	//g_print ("> mime_type: %s\n", mime_type);
 	if (mime_type == NULL) {
 		return FALSE;
 	}
@@ -116,6 +121,14 @@ gboolean load_image_info_from_stream (GInputStream *stream, int *width, int *hei
 		}
 	}
 #endif /* HAVE_LIBGIF */
+
+#if HAVE_LIBRAW
+	if (!format_recognized && _g_content_type_is_raw (mime_type)) {
+		if (load_raw_info (stream, &image_info, cancellable)) {
+			format_recognized = TRUE;
+		}
+	}
+#endif /* HAVE_LIBRAW */
 
 	if (!format_recognized && (g_strcmp0 (mime_type, "image/svg+xml") == 0)) {
 		if (load_svg_info ((const char *) buffer, buffer_size, &image_info, cancellable)) {

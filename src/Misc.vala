@@ -55,10 +55,6 @@ namespace Gth.Util {
 		return ContentType.is_a (content_type, "image/*");
 	}
 
-	public static bool content_type_is_raw (string content_type) {
-		return ContentType.is_a (content_type, "image/x-dcraw");
-	}
-
 	public static bool content_type_is_video (string content_type) {
 		if (ContentType.is_a (content_type, "video/*")) {
 			return true;

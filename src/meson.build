@@ -55,6 +55,10 @@ if use_libgif
   config.set('HAVE_LIBGIF', 1)
   add_project_arguments(['-D', 'HAVE_LIBGIF'], language: 'vala')
 endif
+if use_libraw
+  config.set('HAVE_LIBRAW', 1)
+  add_project_arguments(['-D', 'HAVE_LIBRAW'], language: 'vala')
+endif
 
 config_file = configure_file(
   output : 'config.h',
@@ -125,6 +129,9 @@ endif
 if use_libgif
   lib_files += files('lib/io/load-gif.c')
 endif
+if use_libraw
+  lib_files += files('lib/io/load-raw.cpp')
+endif
 
 vapi_files = files(
   'vapi/ColorManager.vapi',
@@ -171,6 +178,7 @@ dependencies = [
   use_libjxl ? libjxl_deps : [],
   use_libtiff ? libtiff_deps : [],
   use_libgif ? libgif_dep : [],
+  use_libraw? libraw_dep : [],
 ]
 
 executable(exec_name,

@@ -553,12 +553,14 @@ const char * guess_content_type (const guchar* buffer, gsize buffer_size) {
 	} MAGIC_IDS[] = {
 		// Some magic ids taken from file-4.21 tarball.
 		{ "image/png",  0,  8, "\x89PNG\x0d\x0a\x1a\x0a" },
+		{ "image/jpeg", 0,  3, "\xff\xd8\xff" },
+		{ "image/webp", 8,  7, "WEBPVP8" },
+		// To keep before tiff
+		{ "image/x-canon-cr2", 0, 10, "II\x2a\0\x10\0\0\0CR" },
 		{ "image/tiff", 0,  4, "MM\x00\x2a" },
 		{ "image/tiff", 0,  4, "II\x2a\x00" },
 		{ "image/gif",  0,  6, "GIF87a" },
 		{ "image/gif",  0,  6, "GIF89a" },
-		{ "image/jpeg", 0,  3, "\xff\xd8\xff" },
-		{ "image/webp", 8,  7, "WEBPVP8" },
 		{ "image/jxl",  0,  2, "\xff\x0a" },
 		{ "image/jxl",  0, 12, "\x00\x00\x00\x0cJXL\x20\x0d\x0a\x87\x0a" },
 		{ "image/heic", 4, 8, "ftypmif1" },
@@ -587,14 +589,21 @@ const char * guess_content_type (const guchar* buffer, gsize buffer_size) {
 		{ "image/avif", 4, 8, "ftypssss" },
 		{ "image/avif", 4, 8, "ftypuvvu" },
 		{ "image/svg+xml", 0, 5, "<?xml" },
+		{ "image/x-canon-crw", 0, 14, "II\x1a\0\0\0HEAPCCDR" },
+		{ "image/x-fuji-raf", 0, 15, "FUJIFILMCCD-RAW" },
+		{ "image/x-dcraw", 0, 6, "\0000MRM" },
+		{ "image/x-olympus-orf", 0, 4, "MMOR" },
+		{ "image/x-olympus-orf", 0, 4, "IIRO" },
+		{ "image/x-olympus-orf", 0, 4, "IIRS" },
+		{ "image/x-dcraw", 0, 4, "FOVb" },
 	};
 
 	for (int i = 0; i < G_N_ELEMENTS (MAGIC_IDS); i++) {
 		const struct MagicInfo * const info = &MAGIC_IDS[i];
-
 		if ((info->offset + info->bytes) <= buffer_size) {
-			if (memcmp (buffer + info->offset, info->id, info->bytes) == 0)
+			if (memcmp (buffer + info->offset, info->id, info->bytes) == 0) {
 				return info->mime_type;
+			}
 		}
 	}
 	return NULL;
@@ -938,4 +947,13 @@ void _g_file_info_set_frame_size (GFileInfo *info, int width, int height) {
 	char *pixels = g_strdup_printf ("%d × %d", width, height);
 	g_file_info_set_attribute_string (info, "Frame::Pixels", pixels);
 	g_free (pixels);
+}
+
+gboolean _g_content_type_is_raw (const char *content_type) {
+	// return g_content_type_is_a (content_type, "image/x-dcraw");
+	return (g_strcmp0 (content_type, "image/x-dcraw") == 0)
+		|| (g_strcmp0 (content_type, "image/x-canon-cr2") == 0)
+		|| (g_strcmp0 (content_type, "image/x-canon-crw") == 0)
+		|| (g_strcmp0 (content_type, "image/x-fuji-raf") == 0)
+		|| (g_strcmp0 (content_type, "image/x-olympus-orf") == 0);
 }
