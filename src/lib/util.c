@@ -588,7 +588,10 @@ const char * guess_content_type (const guchar* buffer, gsize buffer_size) {
 		{ "image/avif", 4, 8, "ftypsisx" },
 		{ "image/avif", 4, 8, "ftypssss" },
 		{ "image/avif", 4, 8, "ftypuvvu" },
-		{ "image/svg+xml", 0, 5, "<?xml" },
+		{ "image/svg+xml", 0, 6, "<?xml " },
+		{ "image/svg+xml", 0, 9, "\xef\xbb\xbf<?xml " },
+		{ "image/svg+xml", 0, 5, "<svg " },
+		{ "image/svg+xml", 0, 8, "\xef\xbb\xbf<svg " },
 		{ "image/x-canon-crw", 0, 14, "II\x1a\0\0\0HEAPCCDR" },
 		{ "image/x-fuji-raf", 0, 15, "FUJIFILMCCD-RAW" },
 		{ "image/x-dcraw", 0, 6, "\0000MRM" },
@@ -889,11 +892,11 @@ void _g_file_info_copy_attributes (GFileInfo *src, GFileInfo *dest) {
 		gpointer attr_value_p;
 		GFileAttributeStatus attr_status;
 
-		g_print ("  COPY ATTRIBUTE %s [1]\n", attr);
+		// g_print ("  COPY ATTRIBUTE %s [1]\n", attr);
 
 		if (!g_file_info_get_attribute_data (src, attr, &attr_type,
 			&attr_value_p, &attr_status)) {
-			g_print ("  [1.1]\n");
+			// g_print ("  [1.1]\n");
 			continue;
 		}
 
@@ -902,7 +905,7 @@ void _g_file_info_copy_attributes (GFileInfo *src, GFileInfo *dest) {
 			continue;
 		}*/
 
-		g_print ("  COPY ATTRIBUTE %s [2]\n", attr);
+		// g_print ("  COPY ATTRIBUTE %s [2]\n", attr);
 
 		switch (attr_type) {
 		case G_FILE_ATTRIBUTE_TYPE_STRING:
