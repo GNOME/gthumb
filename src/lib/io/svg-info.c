@@ -47,9 +47,19 @@ static gboolean tokenizer_match_case_insensitive (struct Tokenizer *tok, const c
 }
 
 
-static gboolean tokenizer_match_until_end_of_string (struct Tokenizer *tok) {
+static gboolean tokenizer_match_string_quote (struct Tokenizer *tok, char *ch) {
+	if ((tok->buffer[tok->next] == '"') || (tok->buffer[tok->next] == '\'')) {
+		*ch = tok->buffer[tok->next];
+		tok->next++;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
+static gboolean tokenizer_match_until_ch (struct Tokenizer *tok, char ch) {
 	while (tok->next < tok->buffer_size) {
-		if (tok->buffer[tok->next] == '"') {
+		if (tok->buffer[tok->next] == ch) {
 			return TRUE;
 		}
 		tok->next++;
@@ -177,7 +187,6 @@ static gboolean _svg_parse_viewbox (const char *buffer, int start, int end, int 
 
 
 gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image_info, GCancellable *cancellable) {
-	//g_print ("> load_svg_info\n");
 	image_info->width = -1;
 	image_info->height = -1;
 	struct Tokenizer tokenizer;
@@ -186,13 +195,14 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 	enum SvgState state = SVG_STATE_START;
 	int offset = 0;
 	int value_start, value_end;
+	char ch;
 	while (offset < buffer_size) {
 		if ((state == SVG_STATE_START)
 			&& tokenizer_start_from (&tokenizer, offset)
 			&& tokenizer_match_ch (&tokenizer, '<')
 			&& tokenizer_match_case_insensitive (&tokenizer, "svg"))
 		{
-			//g_print ("  SVG_TAG\n");
+			// g_print ("  SVG_TAG\n");
 			tokenizer_matched (&tokenizer, &offset);
 			state = SVG_STATE_SVG_TAG;
 			continue;
@@ -202,19 +212,19 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 			&& tokenizer_start_from (&tokenizer, offset)
 			&& tokenizer_match_case_insensitive (&tokenizer, "viewbox")
 			&& tokenizer_match_ch (&tokenizer, '=')
-			&& tokenizer_match_ch (&tokenizer, '"')
+			&& tokenizer_match_string_quote (&tokenizer, &ch)
 			&& tokenizer_get_next (&tokenizer, &value_start)
-			&& tokenizer_match_until_end_of_string (&tokenizer)
+			&& tokenizer_match_until_ch (&tokenizer, ch)
 			&& tokenizer_get_next (&tokenizer, &value_end)
-			&& tokenizer_match_ch (&tokenizer, '"'))
+			&& tokenizer_match_ch (&tokenizer, ch))
 		{
-			//g_print ("  viewBox\n");
+			// g_print ("  viewBox\n");
 			tokenizer_matched (&tokenizer, &offset);
 			int x, y, width, height;
 			if (_svg_parse_viewbox (buffer, value_start, value_end, &x, &y, &width, &height)) {
 				image_info->width = width;
 				image_info->height = height;
-				//g_print ("  size: %d, %d\n", width, height);
+				// g_print ("  size: %d, %d\n", width, height);
 				return TRUE;
 			}
 			continue;
@@ -224,12 +234,13 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 			&& tokenizer_start_from (&tokenizer, offset)
 			&& tokenizer_match_case_insensitive (&tokenizer, "width")
 			&& tokenizer_match_ch (&tokenizer, '=')
-			&& tokenizer_match_ch (&tokenizer, '"')
+			&& tokenizer_match_string_quote (&tokenizer, &ch)
 			&& tokenizer_get_next (&tokenizer, &value_start)
-			&& tokenizer_match_until_end_of_string (&tokenizer)
+			&& tokenizer_match_until_ch (&tokenizer, ch)
 			&& tokenizer_get_next (&tokenizer, &value_end)
-			&& tokenizer_match_ch (&tokenizer, '"'))
+			&& tokenizer_match_ch (&tokenizer, ch))
 		{
+			// g_print ("  width\n");
 			if (!_svg_parse_integer (buffer, value_start, value_end, &image_info->width)) {
 				return FALSE;
 			}
@@ -241,12 +252,13 @@ gboolean load_svg_info (const char *buffer, int buffer_size, GthImageInfo *image
 			&& tokenizer_start_from (&tokenizer, offset)
 			&& tokenizer_match_case_insensitive (&tokenizer, "height")
 			&& tokenizer_match_ch (&tokenizer, '=')
-			&& tokenizer_match_ch (&tokenizer, '"')
+			&& tokenizer_match_string_quote (&tokenizer, &ch)
 			&& tokenizer_get_next (&tokenizer, &value_start)
-			&& tokenizer_match_until_end_of_string (&tokenizer)
+			&& tokenizer_match_until_ch (&tokenizer, ch)
 			&& tokenizer_get_next (&tokenizer, &value_end)
-			&& tokenizer_match_ch (&tokenizer, '"'))
+			&& tokenizer_match_ch (&tokenizer, ch))
 		{
+			// g_print ("  height\n");
 			if (!_svg_parse_integer (buffer, value_start, value_end, &image_info->height)) {
 				return FALSE;
 			}
