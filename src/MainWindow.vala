@@ -331,9 +331,9 @@ public class Gth.MainWindow : Gth.Window {
 			show_error (new IOError.FAILED (_("No files selected")));
 			return;
 		}
-		var desktop_background = new DesktopBackground (this);
+		var desktop_background = new DesktopBackground ();
 		var local_job = new_job (_("Set as Desktop Background"), JobFlags.FOREGROUND);
-		desktop_background.set_file.begin (file_data, local_job.cancellable, (_obj, res) => {
+		desktop_background.set_file.begin (this, file_data, local_job.cancellable, (_obj, res) => {
 			try {
 				desktop_background.set_file.end (res);
 			}

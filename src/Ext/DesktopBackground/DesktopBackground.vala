@@ -1,9 +1,5 @@
 public class Gth.DesktopBackground {
-	public DesktopBackground (Gtk.Window _window) {
-		window = _window;
-	}
-
-	public async void set_file (Gth.FileData file_data, Cancellable cancellable) throws Error {
+	public async void set_file (Gtk.Window window, Gth.FileData file_data, Cancellable cancellable) throws Error {
 		var portal = new Xdp.Portal ();
 		var parent = Xdp.parent_new_gtk (window);
 		yield portal.set_wallpaper (parent,
@@ -12,6 +8,4 @@ public class Gth.DesktopBackground {
 			cancellable
 		);
 	}
-
-	weak Gtk.Window window;
 }
