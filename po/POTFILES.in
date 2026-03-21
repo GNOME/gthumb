@@ -130,6 +130,11 @@ src/Ext/Catalogs/Catalog.vala
 src/Ext/Catalogs/CatalogEditor.vala
 src/Ext/Catalogs/FileSourceCatalogs.vala
 src/Ext/Catalogs/NewCatalogDialog.vala
+src/Ext/Color/Color.vala
+src/Ext/Color/ColorPreview.vala
+src/Ext/Color/ColorRange.vala
+src/Ext/Color/ColorRangeType.vala
+src/Ext/Color/ColorSelector.vala
 src/Ext/Comments/Comment.vala
 src/Ext/Comments/CommentMetadataProvider.vala
 src/Ext/DesktopBackground/DesktopBackground.vala
@@ -139,14 +144,8 @@ src/Ext/Editor/AdjustContrast.vala
 src/Ext/Editor/AdjustSaturation.vala
 src/Ext/Editor/AspectRatioGroup.vala
 src/Ext/Editor/Censor.vala
-src/Ext/Editor/Color.vala
 src/Ext/Editor/ColorPicker.vala
-src/Ext/Editor/ColorPreview.vala
-src/Ext/Editor/ColorRange.vala
-src/Ext/Editor/ColorRangeType.vala
-src/Ext/Editor/ColorSelector.vala
 src/Ext/Editor/Crop.vala
-src/Ext/Editor/Curve.vala
 src/Ext/Editor/CurveOperation.vala
 src/Ext/Editor/EditorPalette.vala
 src/Ext/Editor/EditorSidebar.vala
@@ -395,6 +394,8 @@ src/lib/io/load-jxl.c
 src/lib/io/load-jxl.h
 src/lib/io/load-png.c
 src/lib/io/load-png.h
+src/lib/io/load-raw.cpp
+src/lib/io/load-raw.h
 src/lib/io/load-svg.c
 src/lib/io/load-svg.h
 src/lib/io/load-tiff.c
