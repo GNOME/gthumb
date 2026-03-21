@@ -1,6 +1,6 @@
 id: app.gthumb.gthumb
 runtime: org.gnome.Platform
-runtime-version: '49'
+runtime-version: '50'
 sdk: org.gnome.Sdk
 command: gthumb
 tags:
