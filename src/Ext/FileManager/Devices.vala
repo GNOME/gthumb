@@ -100,6 +100,6 @@ class Gth.Callback {
 	public SourceFunc callback;
 
 	public Callback (owned SourceFunc _callback) {
-		callback = _callback;
+		callback = (owned) _callback;
 	}
 }

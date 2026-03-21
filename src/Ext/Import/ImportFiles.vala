@@ -168,7 +168,6 @@ public class Gth.ImporterDialog : Adw.Window {
 	void update_selection_info () {
 		uint total_files = 0;
 		uint64 total_size = 0;
-		var selected_image = false;
 		var selected = file_grid.view.model.get_selection ();
 		for (int64 idx = 0; idx < selected.get_size (); idx++) {
 			var pos = selected.get_nth ((uint) idx);
