@@ -11,3 +11,7 @@ trim_trailing_whitespace = true
 [*.{vala,vapi}]
 indent_style = tab
 indent_size = 4
+
+[*.{c,h,cpp}]
+indent_style = tab
+indent_size = 8
