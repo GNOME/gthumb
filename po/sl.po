@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-03-21 18:08+0000\n"
-"PO-Revision-Date: 2026-03-21 22:30+0100\n"
+"PO-Revision-Date: 2026-03-21 22:49+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -75,49 +75,37 @@ msgstr ""
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:35
 #, fuzzy
-#| msgid "Image tools"
 msgid "Image specific tools:"
-msgstr "Slikovna orodja"
+msgstr "Posebna slikovna orodja:"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:39
 msgid "JPEG lossless transformations"
-msgstr ""
+msgstr "Preoblikovanja JPEG brez izgub"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:40
-#, fuzzy
-#| msgid "Image size"
 msgid "Image resize"
-msgstr "Velikost slike"
+msgstr "Spremeni velikost slike"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:41
 #, fuzzy
-#| msgid "Show version"
 msgid "Format conversion"
-msgstr "Pokaži različico"
+msgstr "Pretvorba med vrstami datotek"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:42
 msgid "Slideshow"
 msgstr "Predstavitev"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:43
-#, fuzzy
-#| msgid "Set the image as desktop background"
 msgid "Setting an image as desktop background"
-msgstr "Nastavi sliko za ozadje namizja"
+msgstr "Nastavljanje slike za ozadje namizja"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:45
-#, fuzzy
-#| msgid ""
-#| "As an image organizer gThumb allows to add comments and other metadata to "
-#| "images; organize images in catalogs and catalogs in libraries; search for "
-#| "images and save the result as a catalog."
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
 msgstr ""
-"Kot organizator slik gThumb omogoča dodajanje komentarjev in drugih metapodatkov "
-"slikam; organiziranje slik v katalogih in katalogih v knjižnicah; iskanje slik in "
-"shranjevanje rezultatov kot kataloga."
+"Dodajte komentarje in druge metapodatke slikam; organizirajte slike v kataloge in "
+"kataloge v knjižnice; poiščite slike in shranite rezultate kot katalog."
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4 src/Ext/Preferences/PreferencesDialog.vala:6
@@ -131,10 +119,8 @@ msgid "Viewer"
 msgstr "Pregledovalnik"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:68
-#, fuzzy
-#| msgid "Edit"
 msgid "Editor"
-msgstr "Uredi"
+msgstr "Urejevalnik"
 
 #: data/schemas/app.gthumb.gthumb.gschema.xml:23
 msgid "Open files in the active window"
@@ -187,9 +173,8 @@ msgstr "Predogled"
 #: data/ui/adjust-contrast.ui:54 src/Ext/Editor/AdjustBrightness.vala:15
 #: src/Ext/Editor/AdjustContrast.vala:15
 #, fuzzy
-#| msgid "Linear scale"
 msgid "Linear"
-msgstr "Linearna skala"
+msgstr "Linearno"
 
 #: data/ui/adjust-saturation.ui:66 data/ui/jxl-preferences.ui:33
 #: data/ui/resize-image.ui:69 data/ui/webp-preferences.ui:33
@@ -253,21 +238,15 @@ msgstr "Kakovost"
 
 #: data/ui/avif-preferences.ui:23 data/ui/jpeg-preferences.ui:18
 #: data/ui/jxl-preferences.ui:25 data/ui/webp-preferences.ui:23
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "_Low"
 msgctxt "Quality"
 msgid "Low"
-msgstr "_Nizka"
+msgstr "Nizka"
 
 #: data/ui/avif-preferences.ui:25 data/ui/jpeg-preferences.ui:20
 #: data/ui/jxl-preferences.ui:23 data/ui/webp-preferences.ui:25
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "_High"
 msgctxt "Quality"
 msgid "High"
-msgstr "_Visoka"
+msgstr "Visoka"
 
 #: data/ui/bookmarks-dialog.ui:4 data/ui/browser.ui:101 data/ui/device-dialog.ui:38
 #: src/Ext/Bookmarks/Bookmarks.vala:11 src/Ext/Shortcuts/Shortcuts.vala:157
@@ -790,9 +769,8 @@ msgstr "Omejena vsebina"
 
 #: data/ui/filter-editor-page.ui:54
 #, fuzzy
-#| msgid "Text Files"
 msgid "Max Files"
-msgstr "Besedilne datoteke"
+msgstr "Največ datotek"
 
 #: data/ui/filter-editor-page.ui:74
 msgid "Total Size"
@@ -854,22 +832,17 @@ msgid "At Startup"
 msgstr "Ob zagonu"
 
 #: data/ui/general-preferences.ui:18
-#, fuzzy
-#| msgid "Go to last _visited location"
 msgid "Open the last visited location"
-msgstr "Pojdi na _zadnje obiskano mesto"
+msgstr "Odpri zadnje obiskano mesto"
 
 #: data/ui/general-preferences.ui:30
 #, fuzzy
-#| msgid "View the folders"
 msgid "Open the home folder"
-msgstr "Pogled map"
+msgstr "Odpri domačo mapo"
 
 #: data/ui/general-preferences.ui:46
-#, fuzzy
-#| msgid "_Reuse the active window to open files"
 msgid "Reuse the active window to open files"
-msgstr "_Uporabi dejavno okno za odpiranje datotek"
+msgstr "Ponovno uporabi dejavno okno za odpiranje datotek"
 
 #: data/ui/general-preferences.ui:64 src/Browser.vala:2422
 msgid "Terminal"
@@ -1171,20 +1144,14 @@ msgid "Compression"
 msgstr "Stiskanje"
 
 #: data/ui/png-preferences.ui:18
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "_Low"
 msgctxt "Compression"
 msgid "Low"
-msgstr "_Nizka"
+msgstr "Nizko"
 
 #: data/ui/png-preferences.ui:20
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "_High"
 msgctxt "Compression"
 msgid "High"
-msgstr "_Visoka"
+msgstr "Visoko"
 
 #: data/ui/print-layout-dialog.ui:48 src/Ext/Print/PrintLayout.vala:92
 msgid "Image"
@@ -1219,23 +1186,17 @@ msgid "mm"
 msgstr "mm"
 
 #: data/ui/print-layout-dialog.ui:172 data/ui/print-layout-dialog.ui:260
-#, fuzzy
-#| msgid "millimeters"
 msgctxt "Length Unit"
 msgid "millimiters"
 msgstr "milimetri"
 
 #. Translators: inches as length unit
 #: data/ui/print-layout-dialog.ui:179 data/ui/print-layout-dialog.ui:267
-#, fuzzy
-#| msgid "Find"
 msgctxt "Length Unit"
 msgid "in"
-msgstr "Poišči"
+msgstr "pal"
 
 #: data/ui/print-layout-dialog.ui:180 data/ui/print-layout-dialog.ui:268
-#, fuzzy
-#| msgid "inches"
 msgctxt "Length Unit"
 msgid "inches"
 msgstr "palci"
@@ -1326,8 +1287,6 @@ msgid "Edit Template"
 msgstr "Uredi predlogo"
 
 #: data/ui/rename-dialog.ui:212
-#, fuzzy
-#| msgid "_Rename"
 msgctxt "Verb"
 msgid "_Rename"
 msgstr "_Preimenuj"
@@ -1361,25 +1320,23 @@ msgid "percentage"
 msgstr "odstotek"
 
 #: data/ui/resize-dialog.ui:87
-#, fuzzy
-#| msgid "_Preserve original aspect ratios"
 msgid "Preserve Aspect Ratio"
-msgstr "_Ohrani izvirno razmerje velikosti"
+msgstr "Ohrani izvirno razmerje velikosti"
 
 #. Translators: width and height of images or videos.
 #: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
 #, fuzzy
-#| msgid "Pixels:"
 msgid "Pixels"
-msgstr "Točke:"
+msgstr "Točke"
 
 #: data/ui/resize-image.ui:72
 msgid "Scaled"
 msgstr ""
 
 #: data/ui/resize-image.ui:85
+#, fuzzy
 msgid "Repeated"
-msgstr ""
+msgstr "Ponavljajoče se"
 
 #: data/ui/resize-image.ui:120
 msgid "High Quality"
@@ -1403,8 +1360,6 @@ msgid "Original Size"
 msgstr "Izvorna velikost"
 
 #: data/ui/rotate-image.ui:79
-#, fuzzy
-#| msgid "Bounding box"
 msgid "Bounding Box"
 msgstr "Obsegajoči okvir"
 
@@ -1496,7 +1451,7 @@ msgstr "Odstrani"
 
 #: data/ui/sharpen-image.ui:6
 msgid "Adjust blurred images."
-msgstr ""
+msgstr "Prilagodi zabrisane slike."
 
 #: data/ui/sharpen-image.ui:41
 msgid "Radius"
@@ -1599,12 +1554,14 @@ msgid "Rules"
 msgstr "Pravila"
 
 #: data/ui/test-expr-editor-group.ui:37
+#, fuzzy
 msgid "Match All the Rules"
-msgstr ""
+msgstr "Ujemanje vseh pravil"
 
 #: data/ui/test-expr-editor-group.ui:48
+#, fuzzy
 msgid "Match Any Rule"
-msgstr ""
+msgstr "Ujemanje vsaj enega pravila"
 
 #: data/ui/test-expr-editor-group.ui:72
 #, fuzzy
@@ -1726,9 +1683,8 @@ msgstr "Pojdi naprej za 5 minut"
 
 #: data/ui/video-viewer.ui:279
 #, fuzzy
-#| msgid "Current date"
 msgid "Copy Current Time"
-msgstr "Trenutni datum"
+msgstr "Kopiraj trenutni čas"
 
 #: data/ui/video-viewer.ui:358
 msgid "Take a screenshot"
@@ -2015,24 +1971,18 @@ msgid "Pasting Files"
 msgstr "Lepljenje datotek"
 
 #: src/Browser.vala:972 src/Browser.vala:2004
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot move files here"
-msgstr "Datotek ni mogoče premakniti"
+msgstr "Datotek ni možno premakniti sem"
 
 #: src/Browser.vala:979
-#, fuzzy
-#| msgid "Duplicates"
 msgid "Duplicating Files"
-msgstr "Podvojeno"
+msgstr "Podvajanje datotek"
 
 #. Show a message on the browser.
 #: src/Browser.vala:1363 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
-#, fuzzy
-#| msgid "Reading files"
 msgid "Searching Files"
-msgstr "Branje datotek"
+msgstr "Iskanje datotek"
 
 #: src/Browser.vala:1391 src/Browser.vala:1421 src/Browser.vala:1661
 #: src/Browser.vala:1893
@@ -2047,10 +1997,8 @@ msgstr "Posodabljanje %s"
 #: src/MainWindow.vala:863 src/MainWindow.vala:875 src/MainWindow.vala:887
 #: src/MainWindow.vala:898 src/MainWindow.vala:936 src/MainWindow.vala:947
 #: src/MainWindow.vala:958 src/MainWindow.vala:969
-#, fuzzy
-#| msgid "No valid file selected."
 msgid "No files selected"
-msgstr "Nobena veljavna datoteka ni izbrana."
+msgstr "Izbrana ni nobena datoteka"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
@@ -2094,11 +2042,11 @@ msgstr "Trajno izbriši"
 #: src/Browser.vala:2166 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
-msgstr ""
+msgstr "Dejanja ni moč povrniti. Ali želite izbrisati <i>%s</i>?"
 
 #: src/Browser.vala:2201
 msgid "Source and destination are the same"
-msgstr ""
+msgstr "Vir in cilj sta ista"
 
 #: src/Browser.vala:2234 src/Ext/Image/ImageViewer.vala:600
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
@@ -2131,8 +2079,9 @@ msgid "Text Files"
 msgstr "Besedilne datoteke"
 
 #: src/DefaultTests.vala:160
+#, fuzzy
 msgid "Created (Original)"
-msgstr ""
+msgstr "Ustvarjeno (izvirnik)"
 
 #: src/DefaultTests.vala:208
 msgid "Tag"
@@ -2310,9 +2259,8 @@ msgstr "Drugo …"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:193
 #, fuzzy, c-format
-#| msgid "Rotate"
 msgid "%s (Rotated)"
-msgstr "Zavrti"
+msgstr "%s (zasukano)"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/Censor.vala:12
@@ -2330,10 +2278,8 @@ msgid "Rule of Thirds"
 msgstr "Pravilo tretjin"
 
 #: src/Ext/Editor/GridGroup.vala:28
-#, fuzzy
-#| msgid "Golden Sections"
 msgid "Golden Ratio"
-msgstr "Zlati rezi"
+msgstr "Zlati rez"
 
 #: src/Ext/Editor/GridGroup.vala:29
 msgid "Center Lines"
@@ -2373,10 +2319,8 @@ msgstr "Hladnejše"
 
 #. Translators: this is the name of an image filter that produces darker edges.
 #: src/Ext/Editor/SpecialEffects.vala:16
-#, fuzzy
-#| msgid "Blurred Edges"
 msgid "Darker Edges"
-msgstr "Zabrisani robovi"
+msgstr "Temnejši robovi"
 
 #. Translators: this is the name of an image filter that produces blurred edges.
 #: src/Ext/Editor/SpecialEffects.vala:19
@@ -2395,10 +2339,8 @@ msgstr "Lomografija"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:28
-#, fuzzy
-#| msgid "Colors"
 msgid "8 Colors"
-msgstr "Barve"
+msgstr "8 barv"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:31
@@ -2500,10 +2442,8 @@ msgid ""
 msgstr "Katalog z imenom »%s« že obstaja. Ali ga želite prepisati?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
-#, fuzzy
-#| msgid "Rename files"
 msgid "Rename File?"
-msgstr "Preimenuj datoteke"
+msgstr "Ali želite preimenovati datoteko?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:158
@@ -2528,7 +2468,7 @@ msgstr "Nova vsebina"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:235
 msgid "Same answer for all the files"
-msgstr ""
+msgstr "Isti odgovor za vse datoteke"
 
 #: src/Ext/Filters/Filter.vala:108
 msgid "files"
@@ -2596,8 +2536,9 @@ msgid "GB"
 msgstr "GB"
 
 #: src/Ext/Filters/TestDate.vala:110 src/Ext/Filters/TestString.vala:146
+#, fuzzy
 msgid "Different From"
-msgstr ""
+msgstr "Se razlikuje od"
 
 #: src/Ext/Filters/TestString.vala:142
 #, fuzzy
@@ -2624,20 +2565,24 @@ msgid "Does not Contain"
 msgstr "ne vsebuje"
 
 #: src/Ext/Filters/TestString.vala:148 src/Ext/Filters/TestStringList.vala:140
+#, fuzzy
 msgid "Matches Pattern"
-msgstr ""
+msgstr "Se ujema z vzorcem"
 
 #: src/Ext/Filters/TestStringList.vala:137
+#, fuzzy
 msgid "Includes"
-msgstr ""
+msgstr "Vključuje"
 
 #: src/Ext/Filters/TestStringList.vala:138
+#, fuzzy
 msgid "Includes Only"
-msgstr ""
+msgstr "Vključuje samo"
 
 #: src/Ext/Filters/TestStringList.vala:139
+#, fuzzy
 msgid "Not Includes"
-msgstr ""
+msgstr "Ne vključuje"
 
 #. Ask the filename
 #: src/Ext/Image/ImageViewer.vala:220 src/Ext/Image/ImageViewer.vala:276
@@ -2875,8 +2820,9 @@ msgid "Open Location"
 msgstr "Odpri mesto"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:141
+#, fuzzy
 msgid "Home"
-msgstr ""
+msgstr "Domov"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:142
 msgid "Parent Folder"
@@ -2889,8 +2835,9 @@ msgid "Previous Visited"
 msgstr "Predhodna"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:145
+#, fuzzy
 msgid "Next Visited"
-msgstr ""
+msgstr "Naslednje obiskano"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:146
 msgid "Next Folder"
@@ -2929,10 +2876,8 @@ msgid "Open with Gimp"
 msgstr "Odpri s programom Gimp"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:182
-#, fuzzy
-#| msgid "Open with Gimp"
 msgid "Open with Inkscape"
-msgstr "Odpri s programom Gimp"
+msgstr "Odpri s programom Inkscape"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:194
 msgid "Add to Selection 1"
@@ -3101,10 +3046,8 @@ msgid "Save As"
 msgstr "Shrani kot"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:243
-#, fuzzy
-#| msgid "Revert image to saved"
 msgid "Revert to Saved"
-msgstr "Povrni sliko v shranjeno"
+msgstr "Povrni v shranjeno"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:267 src/Ext/Shortcuts/Shortcuts.vala:271
 msgid "Play/Pause"
@@ -3127,10 +3070,8 @@ msgid "Play Slower"
 msgstr "Predvajaj počasneje"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:276
-#, fuzzy
-#| msgid "No_rmal (Deflate)"
 msgid "Normal Speed"
-msgstr "O_bičajno (stisnjeno)"
+msgstr "Navadna hitrost"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:278
 #, fuzzy
@@ -3295,18 +3236,17 @@ msgid "Copy Path"
 msgstr "Kopiraj pot"
 
 #: src/FilePropertyView.vala:126
-#, fuzzy
-#| msgid "View the photo location on OpenStreetMap"
 msgid "View on OpenStreetMap"
-msgstr "Oglejte si lokacijo fotografije na OpenStreetMap"
+msgstr "Pokaži na OpenStreetMap"
 
 #: src/Files.vala:239
 msgid "Computer"
 msgstr "Računalnik"
 
 #: src/Files.vala:243
+#, fuzzy
 msgid "User Home"
-msgstr ""
+msgstr "Osebna mapa uporabnika"
 
 #: src/History.vala:39
 msgid "_Delete History"
@@ -3338,10 +3278,8 @@ msgid "Clear EXIF Rotation"
 msgstr "Počisti sukanje EXIF"
 
 #: src/MainWindow.vala:987 src/MainWindow.vala:993
-#, fuzzy
-#| msgid "No valid file selected."
 msgid "No images selected"
-msgstr "Nobena veljavna datoteka ni izbrana."
+msgstr "Nobena slika ni izbrana"
 
 #: src/MainWindow.vala:1038
 #, c-format
@@ -3374,10 +3312,8 @@ msgstr "Izhod iz celozaslonskega načina"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
 #: src/Viewer.vala:461
-#, fuzzy
-#| msgid "[modified]"
 msgid "modified"
-msgstr "[spremenjeno]"
+msgstr "spremenjeno"
 
 #: src/lib/exiv2-utils.cpp:20 src/lib/util.c:286
 msgid "(invalid value)"
