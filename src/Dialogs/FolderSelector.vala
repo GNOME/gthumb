@@ -6,7 +6,7 @@ public class Gth.FolderSelector : Object {
 		show_destination = false;
 	}
 
-	public async File? select_folder (Gth.MainWindow window, File? current_folder = null, Gth.Job job) throws Error {
+	public async File? select_folder (Gth.MainWindow window, File? current_folder = null, Gth.Job? job = null) throws Error {
 		callback = select_folder.callback;
 		FileData root = (FolderSelectorMode.CATALOGS_ONLY in mode) ? Catalog.get_root () : null;
 		dialog = new FolderSelectorDialog (window, root, mode, current_folder);
@@ -23,16 +23,20 @@ public class Gth.FolderSelector : Object {
 			}
 			return false;
 		});
-		cancelled_event = job.cancellable.cancelled.connect (() => {
-			dialog.close ();
-		});
-		job.opens_dialog ();
+		if (job != null) {
+			cancelled_event = job.cancellable.cancelled.connect (() => {
+				dialog.close ();
+			});
+			job.opens_dialog ();
+		}
 		dialog.present ();
 		yield;
-		job.dialog_closed ();
-		if (cancelled_event != 0) {
-			job.cancellable.disconnect (cancelled_event);
-			cancelled_event = 0;
+		if (job != null) {
+			job.dialog_closed ();
+			if (cancelled_event != 0) {
+				job.cancellable.disconnect (cancelled_event);
+				cancelled_event = 0;
+			}
 		}
 		if (result == null) {
 			throw new IOError.CANCELLED ("No folder selected.");
