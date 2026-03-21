@@ -41,6 +41,8 @@ cleanup:
   - '/lib/girepository-1.0'
   - '/lib/pkgconfig'
   - '/share/aclocal'
+  - '/share/doc'
+  - '/share/gir-1.0'
 modules:
   - name: libraw
     buildsystem: simple
@@ -98,9 +100,25 @@ modules:
       - -DEXIV2_ENABLE_WEBREADY=ON
       - -DEXIV2_ENABLE_BMFF=ON
     sources:
-     - type: git
-       url: https://github.com/Exiv2/exiv2.git
-       tag: v0.28.3
+      - type: git
+        url: https://github.com/Exiv2/exiv2.git
+        tag: v0.28.3
+  - name: libportal
+    buildsystem: meson
+    config-opts:
+      - -Dbackend-gtk4=enabled
+      - -Dbackend-gtk3=disabled
+      - -Dbackend-qt5=disabled
+      - -Dbackend-qt6=disabled
+      - -Dportal-tests=false
+      - -Dintrospection=true
+      - -Dvapi=true
+      - -Ddocs=false
+      - -Dtests=false
+    sources:
+      - type: git
+        url: https://github.com/flatpak/libportal
+        tag: 0.9.1
   - name: gthumb
     buildsystem: meson
     config-opts:
