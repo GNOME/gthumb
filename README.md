@@ -8,7 +8,7 @@ More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
 
 ## Features
 
-  - View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF.
+  - View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW.
 
   - Edit images: scale, rotate and crop images, change contrast, brightness and saturation, as well as other color transformations.
 
