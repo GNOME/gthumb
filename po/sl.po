@@ -4,13 +4,14 @@
 #
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009–2010.
 # Matej Urbančič <mateju@svn.gnome.org>, 2007–2020.
+# Martin Srebotnjak <miles@filmsi.net>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-03-21 18:08+0000\n"
-"PO-Revision-Date: 2026-03-21 22:49+0100\n"
+"PO-Revision-Date: 2026-03-21 23:03+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -72,9 +73,10 @@ msgid ""
 "File manager operations: copy, move, rename and delete files and folders, execute "
 "scripts on the selected files."
 msgstr ""
+"Operacije upravitelja datotek: kopiranje, premikanje, preimenovanje in brisanje "
+"datotek in map, izvajanje skriptov z izbranimi datotekami."
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:35
-#, fuzzy
 msgid "Image specific tools:"
 msgstr "Posebna slikovna orodja:"
 
@@ -87,7 +89,6 @@ msgid "Image resize"
 msgstr "Spremeni velikost slike"
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:41
-#, fuzzy
 msgid "Format conversion"
 msgstr "Pretvorba med vrstami datotek"
 
@@ -172,7 +173,6 @@ msgstr "Predogled"
 #. Translators: filter that makes a linear transformation of the colors.
 #: data/ui/adjust-contrast.ui:54 src/Ext/Editor/AdjustBrightness.vala:15
 #: src/Ext/Editor/AdjustContrast.vala:15
-#, fuzzy
 msgid "Linear"
 msgstr "Linearno"
 
@@ -869,26 +869,20 @@ msgid "Logarithmic"
 msgstr "Logaritemsko"
 
 #: data/ui/image-viewer.ui:25 src/Ext/Shortcuts/Shortcuts.vala:218
-#, fuzzy
-#| msgid "Zoom out"
 msgid "Zoom Out"
-msgstr "Pomanjšaj"
+msgstr "Oddalji"
 
 #: data/ui/image-viewer.ui:35 src/Ext/Shortcuts/Shortcuts.vala:217
-#, fuzzy
-#| msgid "Zoom in"
 msgid "Zoom In"
-msgstr "Povečaj"
+msgstr "Približaj"
 
 #: data/ui/image-viewer.ui:59 data/ui/image-viewer.ui:229
 msgid "100%"
 msgstr "100 %"
 
 #: data/ui/image-viewer.ui:69 data/ui/image-viewer.ui:197
-#, fuzzy
-#| msgid "All Images"
 msgid "Full Image"
-msgstr "Vse slike"
+msgstr "Celotna slika"
 
 #: data/ui/image-viewer.ui:104
 msgid "Apply Color Profile"
@@ -1005,16 +999,14 @@ msgid "Modified"
 msgstr "Spremenjeno"
 
 #: data/ui/importer-dialog.ui:97
-#, fuzzy
-#| msgid "Original size"
 msgctxt "Date"
 msgid "Original"
-msgstr "Izvorna velikost"
+msgstr "Izvorno"
 
 #: data/ui/importer-dialog.ui:127 src/Application.vala:98 src/Application.vala:119
 #: src/SelectionView.vala:41
 msgid "Bytes"
-msgstr "Bajti"
+msgstr "bajtov"
 
 #: data/ui/importer-dialog.ui:140
 #, fuzzy
@@ -1040,23 +1032,18 @@ msgstr "Progresivno"
 
 #: data/ui/jpeg-preferences.ui:60 data/ui/tiff-preferences.ui:52
 #, fuzzy
-#| msgid "_Default extension:"
 msgid "Default Extension"
-msgstr "_Privzete pripona:"
+msgstr "Privzete pripona"
 
 #: data/ui/jxl-preferences.ui:43 data/ui/webp-preferences.ui:43
-#, fuzzy
-#| msgid "Faster"
 msgctxt "Method"
 msgid "Fast"
-msgstr "Hitreje"
+msgstr "Hitro"
 
 #: data/ui/jxl-preferences.ui:45 data/ui/webp-preferences.ui:45
-#, fuzzy
-#| msgid "Slower"
 msgctxt "Method"
 msgid "Slow"
-msgstr "Počasneje"
+msgstr "Počasi"
 
 #: data/ui/metadata-dialog.ui:38
 msgid "Save only cha_nged fields"
@@ -1082,7 +1069,6 @@ msgid "Place"
 msgstr "Mesto"
 
 #: data/ui/metadata-dialog.ui:94
-#, fuzzy
 msgid "Time of Day"
 msgstr "Čas dneva"
 
@@ -1330,8 +1316,9 @@ msgid "Pixels"
 msgstr "Točke"
 
 #: data/ui/resize-image.ui:72
+#, fuzzy
 msgid "Scaled"
-msgstr ""
+msgstr "Skalirano/Umerjeno"
 
 #: data/ui/resize-image.ui:85
 #, fuzzy
@@ -1403,9 +1390,8 @@ msgstr "Skript"
 
 #: data/ui/script-editor-page.ui:71
 #, fuzzy
-#| msgid "Could not save the script"
 msgid "Execute as a shell script"
-msgstr "Skripta ni mogoče shraniti"
+msgstr "Izvedi kot skript lupine"
 
 #: data/ui/script-editor-page.ui:76
 msgid "Execute for every file"
@@ -1582,10 +1568,8 @@ msgid "Vertical Resolution"
 msgstr "Navpična ločljivost"
 
 #: data/ui/unknown-viewer.ui:4 src/Viewer.vala:134
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot view this kind of files"
-msgstr "Datotek ni mogoče premakniti"
+msgstr "Datotek te vrste ni možno prikazati"
 
 #: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:346
 msgid "Play"
@@ -1682,7 +1666,6 @@ msgid "Go forward 5 minutes"
 msgstr "Pojdi naprej za 5 minut"
 
 #: data/ui/video-viewer.ui:279
-#, fuzzy
 msgid "Copy Current Time"
 msgstr "Kopiraj trenutni čas"
 
@@ -1925,16 +1908,12 @@ msgid "No Files Found"
 msgstr "Ni najdenih datotek"
 
 #: src/Browser.vala:485
-#, fuzzy
-#| msgid "Catalog"
 msgid "Empty Catalog"
-msgstr "Katalog"
+msgstr "Prazen katalog"
 
 #: src/Browser.vala:489
-#, fuzzy
-#| msgid "Selection"
 msgid "Empty Selection"
-msgstr "Izbira"
+msgstr "Prazen izbor"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:496
@@ -1953,10 +1932,8 @@ msgid "Use %s to view selection %u"
 msgstr "Pokaži izbiro %d"
 
 #: src/Browser.vala:518
-#, fuzzy
-#| msgid "Open Folder"
 msgid "Empty Folder"
-msgstr "Odpri mapo"
+msgstr "Prazna mapa"
 
 #: src/Browser.vala:556
 msgid "_Add To Bookmarks"
@@ -2034,10 +2011,8 @@ msgstr "_Preimenuj"
 
 #. Ask confirmation
 #: src/Browser.vala:2164 src/Ext/FileManager/FileManager.vala:8
-#, fuzzy
-#| msgid "Delete permanently"
 msgid "Delete Permanently?"
-msgstr "Trajno izbriši"
+msgstr "Ali želite trajno izbrisati?"
 
 #: src/Browser.vala:2166 src/Ext/FileManager/FileManager.vala:12
 #, c-format
@@ -2055,10 +2030,8 @@ msgid "Open"
 msgstr "Odpri"
 
 #: src/DateRow.vala:32
-#, fuzzy
-#| msgid "Select all"
 msgid "Select a day"
-msgstr "Izbere vse"
+msgstr "Izberite dan"
 
 #: src/DefaultTests.vala:4
 msgid "Visible Files"
@@ -2103,10 +2076,8 @@ msgstr "Ni izbrane datoteke"
 
 #. Cannot copy to libraries.
 #: src/Dialogs/FolderSelector.vala:148 src/Ext/Bookmarks/BookmarksDialog.vala:67
-#, fuzzy
-#| msgid "Invalid Destination"
 msgid "Invalid location"
-msgstr "Neveljaven cilj"
+msgstr "Neveljavno mesto"
 
 #: src/Dialogs/ReadFilename.vala:17
 msgid "Automatic Filename"
@@ -2114,16 +2085,13 @@ msgstr "Samodejno ime datoteke"
 
 #: src/Dialogs/ReadFilename.vala:27
 #, fuzzy
-#| msgid "File extension"
 msgid "Enter a file extension"
-msgstr "Pripona datoteke"
+msgstr "Vnesite končnico datoteke"
 
 #: src/Dialogs/ReadFilename.vala:31 src/Ext/Tools/Internal/ImageRotation.vala:112
 #: src/ImageSaver.vala:66 src/ImageSaver.vala:71
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot save this kind of files"
-msgstr "Datotek ni mogoče premakniti"
+msgstr "Datotek te vrste ni možno shraniti"
 
 #: src/Dialogs/ReadFilename.vala:37
 msgid "Name already used"
@@ -2138,10 +2106,8 @@ msgid "Locations"
 msgstr "Mesta"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:149
-#, fuzzy
-#| msgid "Name already used"
 msgid "Location already saved"
-msgstr "Ime že obstaja"
+msgstr "Mesto je že shranjeno"
 
 #: src/Ext/Bookmarks/BookmarksDialog.vala:5 src/Ext/Filters/FiltersDialog.vala:30
 #: src/Ext/Filters/TestExprEditorGroup.vala:25 src/Ext/Scripts/ScriptsDialog.vala:8
@@ -2155,16 +2121,12 @@ msgid "Invalid name"
 msgstr "Neveljavno ime"
 
 #: src/Ext/Color/ColorSelector.vala:123
-#, fuzzy
-#| msgid "Select a color"
 msgid "Selected Color"
-msgstr "Izbor barve"
+msgstr "Izbrana barva"
 
 #: src/Ext/Color/ColorSelector.vala:130
-#, fuzzy
-#| msgid "Keep the original format"
 msgid "Reset Original Color"
-msgstr "Ohrani izvirni zapis"
+msgstr "Ponastavi izvirno barvo"
 
 #: src/Ext/Color/ColorSelector.vala:142
 msgid "_Color:"
@@ -2224,23 +2186,17 @@ msgid "Disabled"
 msgstr "Onemogočene"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:52 src/Ext/Editor/AspectRatioGroup.vala:54
-#, fuzzy
-#| msgid "Screenshot"
 msgctxt "Aspect Ratio"
 msgid "Screen"
-msgstr "Zaslonska slika"
+msgstr "Zaslon"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:59 src/Ext/Editor/AspectRatioGroup.vala:60
-#, fuzzy
-#| msgid "Image"
 msgctxt "Aspect Ratio"
 msgid "Image"
 msgstr "Slika"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:65 src/Ext/Editor/AspectRatioGroup.vala:66
 #: src/Ext/Filters/TestAspectRatio.vala:168
-#, fuzzy
-#| msgid "Square"
 msgctxt "Aspect Ratio"
 msgid "Square"
 msgstr "Kvadrat"
@@ -2349,21 +2305,16 @@ msgstr "Negativ"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:6
 #, fuzzy
-#| msgid "Exif Conditions"
 msgid "Conditions"
-msgstr "Pogoji Exif"
+msgstr "Pogoji"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:7
-#, fuzzy
-#| msgid "Exif Structure"
 msgid "Structure"
-msgstr "Struktura Exif"
+msgstr "Struktura"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:8
-#, fuzzy
-#| msgid "Thumbnails"
 msgid "Thumbnail"
-msgstr "Sličice"
+msgstr "Ogledna sličica"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:9
 msgid "GPS"
@@ -2371,9 +2322,8 @@ msgstr "GPS"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:10
 #, fuzzy
-#| msgid "Exif Maker Notes"
 msgid "Maker Notes"
-msgstr "Sporočilca ustvarjalca Exif"
+msgstr "Sporočilca ustvarjalca"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:11
 msgid "Versions"
@@ -2418,10 +2368,9 @@ msgstr "Ali želite zamenjati datoteko?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:122
-#, fuzzy, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
+#, c-format
 msgid "A file named “%s” already exists. Do you want to replace it?"
-msgstr "Katalog z imenom »%s« že obstaja. Ali ga želite prepisati?"
+msgstr "Datoteka z imenom »%s« že obstaja. Ali jo želite zamenjati?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:126
 #: src/Ext/FileManager/OverwriteDialog.vala:134
@@ -2435,11 +2384,10 @@ msgstr "Ali želite zamenjati vsebino?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:145
-#, fuzzy, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
+#, c-format
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
-msgstr "Katalog z imenom »%s« že obstaja. Ali ga želite prepisati?"
+msgstr "Datoteko »%s« je že spremenil drug program. Ali jo želite zamenjati?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
 msgid "Rename File?"
@@ -2447,10 +2395,9 @@ msgstr "Ali želite preimenovati datoteko?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:158
-#, fuzzy, c-format
-#| msgid "Are you sure you want to remove “%s”?"
+#, c-format
 msgid "Source and destination are the same. Do you want to rename “%s”?"
-msgstr "Ali ste prepričani, da želite odstraniti »%s«?"
+msgstr "Vir in cilj sta ista. Ali ste prepričani, da želite preimenovati »%s«?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:168
 msgid "Skip _All"
@@ -2458,9 +2405,8 @@ msgstr "Preskoči _vse"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:204
 #, fuzzy
-#| msgid "Convert to lower-case"
 msgid "Content to Replace"
-msgstr "Pretvori v male črke"
+msgstr "Vsebina za zamenjavo"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:224
 msgid "New Content"
@@ -2621,10 +2567,8 @@ msgid "The operation requires %s of space, but only %s are available on “%s”
 msgstr "Zahtevano je %s prostora za operacijo, na voljo pa ga je le %s v »%s«."
 
 #: src/Ext/Import/ImportFiles.vala:244
-#, fuzzy
-#| msgid "%s of free space"
 msgid "Not enough free space"
-msgstr "%s neporabljenega prostora"
+msgstr "Ni dovolj prostora"
 
 #: src/Ext/Import/ImportFiles.vala:247 src/Ext/Shortcuts/Shortcuts.vala:206
 msgid "Close"
@@ -2632,10 +2576,8 @@ msgstr "Zapri"
 
 #. Overwrite the catalog content if the generic "last imported" catalog is used.
 #: src/Ext/Import/Importer.vala:130
-#, fuzzy
-#| msgid "Last imported"
 msgid "Last Imported"
-msgstr "Zadnjič uvoženo"
+msgstr "Zadnje uvoženo"
 
 #. Caption
 #: src/Ext/Preferences/BrowserPreferences.vala:74
@@ -2645,10 +2587,9 @@ msgstr "Skrito"
 
 #. Translators: %s is a file format, such as JPEG
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:46
-#, fuzzy, c-format
-#| msgid "Options"
+#, c-format
 msgid "%s Options"
-msgstr "Možnosti"
+msgstr "Možnosti %s"
 
 #. Translators: filter that shows all the shortcuts.
 #: src/Ext/Preferences/ShortcutsPreferences.vala:37
@@ -2711,9 +2652,8 @@ msgstr "Ustvarjeno"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:14
 #, fuzzy
-#| msgid "Digitalization date"
 msgid "Digitalized"
-msgstr "Datum digitalizacije"
+msgstr "Digitizirano"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:15
 #: src/Ext/Scripts/ScriptCommandPage.vala:14
@@ -2782,10 +2722,8 @@ msgid "Command is empty"
 msgstr "Ukaz je prazen"
 
 #: src/Ext/Search/SearchEditor.vala:48
-#, fuzzy
-#| msgid "Search"
 msgid "Last Search"
-msgstr "Poišči"
+msgstr "Zadnje iskanje"
 
 #. Translators: %u is replaced with a number
 #: src/Ext/Selections/Selection.vala:167
@@ -3074,62 +3012,42 @@ msgid "Normal Speed"
 msgstr "Navadna hitrost"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:278
-#, fuzzy
-#| msgid "Go forward 1 second"
 msgid "Go Forward 1 Second"
 msgstr "Pojdi naprej za 1 sekundo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:279
-#, fuzzy
-#| msgid "Go forward 5 seconds"
 msgid "Go Forward 5 Seconds"
 msgstr "Pojdi naprej za 5 sekund"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:280
-#, fuzzy
-#| msgid "Go forward 10 seconds"
 msgid "Go Forward 10 Seconds"
 msgstr "Pojdi naprej za 10 sekund"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:281
-#, fuzzy
-#| msgid "Go forward 1 minute"
 msgid "Go Forward 1 Minute"
 msgstr "Pojdi naprej za 1 minuto"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:282
-#, fuzzy
-#| msgid "Go forward 5 minutes"
 msgid "Go Forward 5 Minutes"
 msgstr "Pojdi naprej za 5 minut"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:283
-#, fuzzy
-#| msgid "Go back 1 second"
 msgid "Go Backward 1 Second"
 msgstr "Pojdi nazaj za 1 sekundo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:284
-#, fuzzy
-#| msgid "Go back 5 seconds"
 msgid "Go Backward 5 Seconds"
 msgstr "Pojdi nazaj za 5 sekund"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:285
-#, fuzzy
-#| msgid "Go back 10 seconds"
 msgid "Go Backward 10 Seconds"
 msgstr "Pojdi nazaj za 10 sekund"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:286
-#, fuzzy
-#| msgid "Go back 1 minute"
 msgid "Go Backward 1 Minute"
 msgstr "Pojdi nazaj za 1 minuto"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:287
-#, fuzzy
-#| msgid "Go back 5 minutes"
 msgid "Go Backward 5 Minutes"
 msgstr "Pojdi nazaj za 5 minut"
 
@@ -3379,2177 +3297,3 @@ msgstr "%d∶%02d∶%02d"
 msgctxt "short time format"
 msgid "%d∶%02d"
 msgstr "%d∶%02d"
-
-#~ msgid "gThumb Image Viewer"
-#~ msgstr "Pregledovalnik slik gThumb"
-
-#~ msgid ""
-#~ "gThumb is an image viewer, editor, browser and organizer. It is designed to be "
-#~ "well integrated with the GNOME 3 desktop."
-#~ msgstr ""
-#~ "gThumb je pregledovalnik slik, urejevalnik, brskalnik in organizator. Zasnovan "
-#~ "je tako, da je dobro integriran z namizjem GNOME 3."
-
-#~ msgid ""
-#~ "As an image viewer gThumb allows to view common image file formats such as "
-#~ "BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
-#~ "is also possible to view various metadata types embedded inside an image such "
-#~ "as EXIF, IPTC and XMP."
-#~ msgstr ""
-#~ "Kot pregledovalnik slik gThumb omogoča ogled pogostih vrst slikovnih datotek, "
-#~ "kot so slike BMP, JPEG, GIF (vključno z animacijami), PNG, TIFF, TGA in RAW. "
-#~ "Prav tako si je mogoče ogledati različne vrste metapodatkov, vdelanih v slike, "
-#~ "kot so EXIF, IPTC in XMP."
-
-#~ msgid ""
-#~ "As an image browser gThumb shows the thumbnails of the images saved on your "
-#~ "disk, allows to perform the common operations of a file manager such as copy, "
-#~ "move and delete files and folders. Furthermore there is a series of image "
-#~ "specific tools such as JPEG lossless transformations; image resize; format "
-#~ "conversion; slideshow; setting an image as desktop background and several "
-#~ "others."
-#~ msgstr ""
-#~ "gThumb kot brskalnik prikazuje ogledne sličice slik, shranjenih na vašem "
-#~ "disku, omogoča izvajanje skupnih operacij upravitelja datotek, kot so "
-#~ "kopiranje, premikanje in brisanje datotek in map. Poleg tega obstaja vrsta "
-#~ "orodij, specifičnih za slike, kot so preoblikovanja JPEG brez izgub; "
-#~ "spreminjanje velikosti slike; pretvorba zapisa; diaprojekcija; nastavitev "
-#~ "slike kot ozadja namizja in še več drugih."
-
-#~ msgid "Browser mode"
-#~ msgstr "Način brskalnika"
-
-#~ msgid "Viewer mode"
-#~ msgstr "Način pregledovalnika"
-
-#~ msgid ""
-#~ "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to "
-#~ "generate thumbnails for all images."
-#~ msgstr ""
-#~ "Slike nad to velikostjo (v bajtih) bodo bile brez sličic. V primeru, da želite "
-#~ "ustvariti sličice za vse slike, uporabite vrednost 0."
-
-#~ msgid "Whether to reset the scrollbars position after changing image"
-#~ msgstr "Ali naj se položaji drsnika po spremembi slike ponastavi"
-
-#~ msgid "Show images inside a frame"
-#~ msgstr "Pokaži slike v okviru"
-
-#~ msgid ""
-#~ "Possible values include: general::unsorted, file::name, file::size, "
-#~ "file::mtime, exif::photo::datetimeoriginal"
-#~ msgstr ""
-#~ "Mogoče vrednosti vključujejo: general::unsorted, file::name, file::size, "
-#~ "file::mtime, exif::photo::datetimeoriginal"
-
-#~ msgid "Import with gThumb"
-#~ msgstr "Uvozi s programom gThumb"
-
-#~ msgid "Photo Import Tool"
-#~ msgstr "Orodje za uvoz fotografij"
-
-#~ msgid "Import the photos on your camera card"
-#~ msgstr "Uvozi fotografij s kartice digitalnega fotoaparata"
-
-#~ msgid "gThumb"
-#~ msgstr "gThumb"
-
-#~ msgid "Image Viewer"
-#~ msgstr "Pregledovalnik slik"
-
-#~ msgid "_Single click to open files"
-#~ msgstr "_Enojni klik odpre datoteko"
-
-#~ msgid "_Double click to open files"
-#~ msgstr "_Dvojni klik odpre datoteko"
-
-#~ msgid "D_etermine image type from content (slower)"
-#~ msgstr "_Določi vrsto slike iz vsebine (počasneje)"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "remove"
-#~ msgstr "odstrani"
-
-#~ msgid "add"
-#~ msgstr "dodaj"
-
-#~ msgid "_Extensions:"
-#~ msgstr "_Razširitve:"
-
-#~ msgid "Next"
-#~ msgstr "Naslednja"
-
-#~ msgid "Filter _Name:"
-#~ msgstr "Ime _filtra:"
-
-#~ msgid "_Match:"
-#~ msgstr "_Ujemanje:"
-
-#~ msgid "_Limit to"
-#~ msgstr "_Omeji na"
-
-#~ msgid "Mean:"
-#~ msgstr "Povprečje:"
-
-#~ msgid "Std dev:"
-#~ msgstr "Odklon:"
-
-#~ msgid "Median:"
-#~ msgstr "Mediana:"
-
-#~ msgctxt "Pixels"
-#~ msgid "Max:"
-#~ msgstr "Največ:"
-
-#~ msgid "_Location:"
-#~ msgstr "_Mesto:"
-
-#~ msgid "Overwrite the old file with the new one?"
-#~ msgstr "Ali naj bo stara datoteka prepisana z novo?"
-
-#~ msgid "Old File:"
-#~ msgstr "Stara datoteka:"
-
-#~ msgid "Filename:"
-#~ msgstr "Ime datoteke:"
-
-#~ msgid "Size:"
-#~ msgstr "Velikost:"
-
-#~ msgid "Modified:"
-#~ msgstr "Spremenjeno:"
-
-#~ msgid "New File:"
-#~ msgstr "Nova datoteka:"
-
-#~ msgid "Over_write the old file"
-#~ msgstr "P_repiši starejšo datoteko"
-
-#~ msgid "Do not overwrite _the old file"
-#~ msgstr "Ne prepiši _stare datoteke"
-
-#~ msgid "Overwrite _all files"
-#~ msgstr "Prepiši _vse datoteke"
-
-#~ msgid "_Do not overwrite any file"
-#~ msgstr "_Ne prepiši datotek"
-
-#~ msgid "_Save the new file as:"
-#~ msgstr "_Shrani novo datoteko kot:"
-
-#~ msgid "_Other filters:"
-#~ msgstr "_Drugi filtri:"
-
-#~ msgid "below the folder list"
-#~ msgstr "pod seznamom map"
-
-#~ msgid "on the right"
-#~ msgstr "na desni strani"
-
-#~ msgid "gThumb Preferences"
-#~ msgstr "Možnosti gThumb"
-
-#~ msgid "Appearance"
-#~ msgstr "Videz"
-
-#~ msgid "T_humbnails in viewer:"
-#~ msgstr "S_ličice v pregledovalniku:"
-
-#~ msgid "on the side"
-#~ msgstr "ob strani"
-
-#~ msgid "File _properties in browser:"
-#~ msgstr "Lastnosti _datoteke v brskalniku:"
-
-#~ msgid "_Statusbar"
-#~ msgstr "Vrstica _stanja"
-
-#~ msgid "Go to this _folder:"
-#~ msgstr "Pojdi v to _mapo:"
-
-#~ msgid "Set to C_urrent"
-#~ msgstr "Nastavi na t_retnuno"
-
-#~ msgid "As_k confirmation before deleting files or catalogs"
-#~ msgstr "Pred izbrisom slik ali katalogov _vprašaj za potrditev"
-
-#~ msgid "Ask whether to save _modified files"
-#~ msgstr "Vprašaj ali naj bodo _spremenjene datoteke shranjene"
-
-#~ msgid "Shortcuts:"
-#~ msgstr "Tipkovne bližnjice:"
-
-#~ msgid "_Restore All…"
-#~ msgstr "_Obnovi vse …"
-
-#~ msgid "file name"
-#~ msgstr "ime datoteke"
-
-#~ msgid "file modified date"
-#~ msgstr "datum spremembe datoteke"
-
-#~ msgid "_Inverse order"
-#~ msgstr "_Obratni vrstni red"
-
-#~ msgid "Add bookmarks support."
-#~ msgstr "Doda podporo zaznamkom."
-
-#~ msgid "_Bookmarks:"
-#~ msgstr "_Zaznamki:"
-
-#~ msgid "Go to this location"
-#~ msgstr "Pojdi na to mesto"
-
-#~ msgid "_Name"
-#~ msgstr "_Ime"
-
-#~ msgid "_Location"
-#~ msgstr "_Mesto"
-
-#~ msgid "Could not remove the bookmark"
-#~ msgstr "Zaznamka ni mogoče odstraniti"
-
-#~ msgid "Burn CD/DVD"
-#~ msgstr "Zapiši CD/DVD"
-
-#~ msgid "Save files to an optical disc."
-#~ msgstr "Shrani datoteke na optični disk."
-
-#~ msgid "_Optical Disc…"
-#~ msgstr "_Optični nosilec …"
-
-#~ msgid "Disc Name"
-#~ msgstr "Ime diska"
-
-#~ msgid "Current _folder"
-#~ msgstr "Trenutna _mapa"
-
-#~ msgid "Current folder and its s_ub-folders"
-#~ msgstr "Trenutna mapa in njene _podmape"
-
-#~ msgid "_Selected files"
-#~ msgstr "_Izbrane datoteke"
-
-#~ msgid "Write to Disc"
-#~ msgstr "Zapiši na disk"
-
-#, c-format
-#~ msgid "Error interpreting JPEG image file: %s"
-#~ msgstr "Napaka tolmačenja slikovne datoteke JPEG: %s"
-
-#, c-format
-#~ msgid "Unknown JPEG color space (%d)"
-#~ msgstr "Neznan barvni prostor zapisa JPEG (%d)"
-
-#~ msgid "Compression _level:"
-#~ msgstr "_Raven stiskanja:"
-
-#~ msgid "Default options:"
-#~ msgstr "Privzete možnosti:"
-
-#~ msgid "_RLE compression"
-#~ msgstr "Stiskanje _RLE"
-
-#~ msgid "_No compression"
-#~ msgstr "_Brez stiskanja"
-
-#~ msgid "_Loss compression (JPEG)"
-#~ msgstr "_Stiskanje z izgubo (JPEG)"
-
-#~ msgid "dpi"
-#~ msgstr "dpi"
-
-#~ msgid "TGA"
-#~ msgstr "TGA"
-
-#~ msgid "WebP"
-#~ msgstr "WebP"
-
-#, c-format
-#~ msgid "No name specified"
-#~ msgstr "Ime ni določeno"
-
-#, c-format
-#~ msgid "Invalid name. The following characters are not allowed: %s"
-#~ msgstr "Neveljavno ime. V imenu so nedovoljeni znaki: %s"
-
-#~ msgid "New catalog"
-#~ msgstr "Nov katalog"
-
-#~ msgid "Enter the catalog name:"
-#~ msgstr "Ime kataloga:"
-
-#~ msgid "C_reate"
-#~ msgstr "Ustva_ri"
-
-#~ msgid "New library"
-#~ msgstr "Nova knjižnica"
-
-#~ msgid "Enter the library name:"
-#~ msgstr "Ime knjižnice:"
-
-#~ msgid "Could not remove the catalog"
-#~ msgstr "Kataloga ni mogoče odstraniti"
-
-#~ msgid "Create Catalog"
-#~ msgstr "Ustvari katalog"
-
-#~ msgid "Create Library"
-#~ msgstr "Ustvari knjižnico"
-
-#~ msgid "Organize"
-#~ msgstr "Organiziraj"
-
-#~ msgid "Automatically organize files by date"
-#~ msgstr "Samodejno organiziraj datoteke po datumu"
-
-#~ msgid "Create file collections."
-#~ msgstr "Ustvari zbirke datotek."
-
-#~ msgid "C_atalogs:"
-#~ msgstr "_Katalogi:"
-
-#~ msgid "_View the destination"
-#~ msgstr "_Pogled cilja"
-
-#~ msgid "_Name:"
-#~ msgstr "_Ime:"
-
-#~ msgid "Cancel operation"
-#~ msgstr "Prekliči opravilo"
-
-#~ msgid "Organization:"
-#~ msgstr "Organizacija:"
-
-#~ msgid "Catalog _Preview:"
-#~ msgstr "_Predogled kataloga:"
-
-#~ msgid "_Group files by:"
-#~ msgstr "_Združi datoteke po:"
-
-#~ msgid "Ignore catalogs with a single file"
-#~ msgstr "Prezri kataloge z eno datoteko"
-
-#~ msgid "Put single files in the catalog:"
-#~ msgstr "Postavi posamezne datoteke v katalog:"
-
-#~ msgid "Singles"
-#~ msgstr "Posamezne"
-
-#~ msgid "Could not create the catalog"
-#~ msgstr "Kataloga ni mogoče ustvariti"
-
-#~ msgid "Add to Catalog"
-#~ msgstr "Dodaj v katalog"
-
-#~ msgid "Keep the dialog open"
-#~ msgstr "Ohrani pogovorno okno odprto"
-
-#~ msgid "Could not save the catalog"
-#~ msgstr "Kataloga ni mogoče shraniti"
-
-#~ msgid "Could not load the catalog"
-#~ msgstr "Kataloga ni mogoče naložiti"
-
-#~ msgid "Organize Files"
-#~ msgstr "Organiziraj datoteke"
-
-#~ msgid "Files will be organized in catalogs. No file will be moved on disk."
-#~ msgstr ""
-#~ "Datoteke bodo organizirane v kataloge. Nobena datoteka ne bo premaknjena na "
-#~ "disku."
-
-#~ msgid "Date photo was taken"
-#~ msgstr "Datum zajema fotografije"
-
-#~ msgid "Tag (embedded)"
-#~ msgstr "Oznaka (vključena)"
-
-#, c-format
-#~ msgid "The library “%s” already exists, do you want to overwrite it?"
-#~ msgstr "Knjižnica z imenom »%s« že obstaja. Ali jo želite prepisati?"
-
-#~ msgid "Over_write"
-#~ msgstr "_Prepiši"
-
-#~ msgid "Cannot copy the files"
-#~ msgstr "Datotek ni mogoče kopirati"
-
-#~ msgid "Invalid destination."
-#~ msgstr "Neveljaven cilj."
-
-#, c-format
-#~ msgid "Copying files to “%s”"
-#~ msgstr "Kopiranje datotek v »%s«"
-
-#~ msgid "Could not remove the files from the catalog"
-#~ msgstr "Ni mogoče odstraniti datotek iz kataloga"
-
-#, c-format
-#~ msgid "Operation completed. Catalogs: %d. Images: %d."
-#~ msgstr "Dejanje je končano. Katalogi: %d. Slike: %d."
-
-#~ msgid "Change _Date…"
-#~ msgstr "Spremeni _datum …"
-
-#~ msgid "Change date"
-#~ msgstr "Spremeni datum"
-
-#~ msgid "Change the files date"
-#~ msgstr "Spremeni datum datotek"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Change the following values:"
-#~ msgstr "Spremeni naslednje vrednosti:"
-
-#~ msgid "_Last modified date"
-#~ msgstr "Datum z_adnje spremembe"
-
-#~ msgid "Co_mment date"
-#~ msgstr "Datum o_pombe"
-
-#~ msgid "The _following date:"
-#~ msgstr "_Naslednji datum:"
-
-#~ msgid "File _modified date"
-#~ msgstr "Datum _spremembe datoteke"
-
-#~ msgid "File c_reation date"
-#~ msgstr "Datum _ustvarjanja datoteke"
-
-#~ msgid "Date p_hoto was taken"
-#~ msgstr "Datum zajema _fotografije"
-
-#~ msgid "A_djust by"
-#~ msgstr "Prilago_di za"
-
-#~ msgid "hours"
-#~ msgstr "ure"
-
-#~ msgid "minutes"
-#~ msgstr "minute"
-
-#~ msgid "Change Date"
-#~ msgstr "Spremeni datum"
-
-#~ msgid "Import Embedded Metadata"
-#~ msgstr "Uvozi vstavljene metapodatke"
-
-#~ msgid "Comments and tags"
-#~ msgstr "Opombe in oznake"
-
-#~ msgid "Add comments and tags to any file type."
-#~ msgstr "Doda opombe in oznake katerikoli vrsti datoteke."
-
-#~ msgid "_Synchronize with the embedded metadata"
-#~ msgstr "_Uskladi z vloženimi metapodatki"
-
-#~ msgid "Comment Date & Time"
-#~ msgstr "Datum in čas komentarja"
-
-#~ msgid "Contact _Sheet…"
-#~ msgstr "Podatki _stika …"
-
-#~ msgid "Image _Wall…"
-#~ msgstr "Slikovni _zid …"
-
-#~ msgid "Contact Sheet"
-#~ msgstr "Fotokazalo"
-
-#~ msgid "Create an index image displaying the thumbnails of the selected files."
-#~ msgstr "Ustvari sliko kazala s sličicami izbranih datotek."
-
-#~ msgid "Simple"
-#~ msgstr "Enostavno"
-
-#~ msgid "Simple with shadow"
-#~ msgstr "Preprosto s senco"
-
-#~ msgid "Shadow only"
-#~ msgstr "Samo senca"
-
-#~ msgid "Inward Shadow"
-#~ msgstr "Notranja senca"
-
-#~ msgid "Outward Shadow"
-#~ msgstr "Zunanja senca"
-
-#~ msgid "_Solid color"
-#~ msgstr "_Enobarvno"
-
-#~ msgid "_Gradient"
-#~ msgstr "_Preliv"
-
-#~ msgid "_Style:"
-#~ msgstr "_Slog:"
-
-#~ msgid "_Header:"
-#~ msgstr "_Glava:"
-
-#~ msgid "Select a font"
-#~ msgstr "Izbor pisave"
-
-#~ msgid "_Footer:"
-#~ msgstr "_Noga:"
-
-#~ msgid "Caption:"
-#~ msgstr "Naslov:"
-
-#~ msgid "Help"
-#~ msgstr "Pomoč"
-
-#~ msgid "Edit template"
-#~ msgstr "Uredi predlogo"
-
-#~ msgid "_Destination:"
-#~ msgstr "_Cilj:"
-
-#~ msgid "Choose destination folder"
-#~ msgstr "Izbor ciljne mape"
-
-#~ msgid "File_name:"
-#~ msgstr "Ime _datoteke:"
-
-#~ msgid "Create _HTML image map"
-#~ msgstr "Ustvari _HTML zemljevid slik"
-
-#~ msgid "Create a new theme"
-#~ msgstr "Ustvari novo temo"
-
-#~ msgid "Edit the selected theme"
-#~ msgstr "Uredi izbrano temo"
-
-#~ msgid "Delete the selected theme"
-#~ msgstr "Izbriši izbrano temo"
-
-#~ msgid "Theme"
-#~ msgstr "Tema"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "Images per page:"
-#~ msgstr "Slik na stran:"
-
-#~ msgid "All images on a single page"
-#~ msgstr "Vse slike na eni strani"
-
-#~ msgid "_All pages with the same size"
-#~ msgstr "Vs_e strani enake velikosti"
-
-#~ msgid "S_ort:"
-#~ msgstr "_Razvrsti:"
-
-#~ msgid "Re_verse order"
-#~ msgstr "_Obrnjen vrstni red"
-
-#~ msgid "_Size:"
-#~ msgstr "_Velikost:"
-
-#~ msgid "Sq_uared"
-#~ msgstr "K_vadratno"
-
-#~ msgid "Enumerator"
-#~ msgstr "Števec"
-
-#~ msgid "Current page number"
-#~ msgstr "Številka trenutne strani"
-
-#~ msgid "Total number of pages"
-#~ msgstr "Skupno število strani"
-
-#~ msgid "Could not save the theme"
-#~ msgstr "Teme ni mogoče shraniti"
-
-#~ msgid "Could not delete the theme"
-#~ msgstr "Teme ni mogoče izbrisati"
-
-#~ msgid "Image Wall"
-#~ msgstr "Stena slike"
-
-#~ msgid "Creating images"
-#~ msgstr "Ustvarjanje slik"
-
-#~ msgid "Generating thumbnails"
-#~ msgstr "Ustvarjanje sličic"
-
-#~ msgid "Theme Properties"
-#~ msgstr "Lastnosti teme"
-
-#~ msgid "New theme"
-#~ msgstr "Nova tema"
-
-#~ msgid "Header"
-#~ msgstr "Glava"
-
-#~ msgid "Footer"
-#~ msgstr "Noga"
-
-#~ msgid "Convert Format…"
-#~ msgstr "Pretvori zapis …"
-
-#~ msgid "Convert format"
-#~ msgstr "Pretvarjanje zapisa slike"
-
-#~ msgid "Save images in a different format"
-#~ msgstr "Shranjevanje slike v drugem zapisu slikovnih datotek"
-
-#~ msgid "New format"
-#~ msgstr "Nova vrsta datoteke"
-
-#~ msgid "_Use the original image folder"
-#~ msgstr "Uporabi _privzeto mapo slik"
-
-#~ msgid "Converting images"
-#~ msgstr "Pretvarjanje slik"
-
-#~ msgid "Could not show the desktop background properties"
-#~ msgstr "Lastnosti ozadja namizja ni mogoče pokazati"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Možnosti"
-
-#~ msgid "_Undo"
-#~ msgstr "_Razveljavi"
-
-#~ msgid "Could not set the desktop background"
-#~ msgstr "Ozadja namizja ni mogoče nastaviti"
-
-#~ msgid "Desktop background"
-#~ msgstr "Ozadje namizja"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently delete the metadata of the selected files?"
-#~ msgstr ""
-#~ "Ali ste prepričani, da želite trajno izbrisati metapodatke izbranih datotek?"
-
-#~ msgid "If you delete the metadata, it will be permanently lost."
-#~ msgstr "V primeru, da metapodatke izbrišete, bo ti trajno izgubljeni."
-
-#~ msgid "D_escription:"
-#~ msgstr "Op_is:"
-
-#~ msgid "T_ags:"
-#~ msgstr "Ozn_ake:"
-
-#~ msgid "_Rating:"
-#~ msgstr "_Ocena:"
-
-#~ msgid "_Title:"
-#~ msgstr "_Naslov:"
-
-#~ msgid "Could not save the file metadata"
-#~ msgstr "Metapodatkov datoteke ni mogoče shraniti"
-
-#~ msgid "Cannot read file information"
-#~ msgstr "Ni mogoče prebrati podatkov o datoteki"
-
-#~ msgid "Edit metadata"
-#~ msgstr "Urejanje metapodatkov"
-
-#~ msgid "Allow to edit files metadata."
-#~ msgstr "Dovoli urejanje metapodatkov datotek."
-
-#~ msgid "No date"
-#~ msgstr "Brez datuma"
-
-#~ msgid "The following date"
-#~ msgstr "Naslednji datum"
-
-#~ msgid "Last modified date"
-#~ msgstr "Datum zadnje spremembe"
-
-#~ msgid "File creation date"
-#~ msgstr "Datum ustvaritve datoteke"
-
-#~ msgid "Do not modify"
-#~ msgstr "Ne spreminjaj"
-
-#~ msgid "Assigning tags to the selected files"
-#~ msgstr "Dodeljevanje oznak izbranim datotekam"
-
-#~ msgid "example"
-#~ msgstr "primer"
-
-#~ msgid "What example does"
-#~ msgstr "Kaj naredi primer"
-
-#~ msgid "C_opyright:"
-#~ msgstr "Avt_orske pravice:"
-
-#~ msgid "_Code:"
-#~ msgstr "Po_štna številka:"
-
-#~ msgid "_Source:"
-#~ msgstr "_Vir:"
-
-#~ msgid "EXIF, IPTC, XMP support"
-#~ msgstr "Podpora EXIF, IPTC, XMP"
-
-#~ msgid "Read and write exif, iptc and xmp metadata."
-#~ msgstr "Branje in pisanje exif, iptc in xmp metapodatkov."
-
-#~ msgid "Exif General"
-#~ msgstr "Splošni Exif"
-
-#~ msgid "Exif Thumbnail"
-#~ msgstr "Sličica Exif"
-
-#~ msgid "Exif GPS"
-#~ msgstr "GPS Exif"
-
-#~ msgid "Exif Other"
-#~ msgstr "Drugi Exif"
-
-#~ msgid "XMP Embedded"
-#~ msgstr "Vložen XMP"
-
-#~ msgid "date photo was taken"
-#~ msgstr "datum zajema fotografije"
-
-#~ msgid "_Export To"
-#~ msgstr "_Izvozi v"
-
-#~ msgid "Enter the folder name:"
-#~ msgstr "Ime mape:"
-
-#~ msgid "Could not perform the operation"
-#~ msgstr "Ni mogoče izvesti opravila"
-
-#~ msgid "Could not move the files"
-#~ msgstr "Datotek ni mogoče premakniti"
-
-#~ msgid ""
-#~ "Files cannot be moved to the current location, as alternative you can choose "
-#~ "to copy them."
-#~ msgstr ""
-#~ "Datotek ni mogoče premakniti na trenutno mesto, lahko pa jih poskusite "
-#~ "kopirati."
-
-#~ msgid "Copy To"
-#~ msgstr "Kopiraj v"
-
-#~ msgid "Could not open the location"
-#~ msgstr "Mesta ni mogoče odpreti"
-
-#, c-format
-#~ msgid "Do you want to move “%s” to “%s”?"
-#~ msgstr "Ali ste prepričani, da želite premakniti »%s« v »%s«i?"
-
-#, c-format
-#~ msgid "Do you want to copy “%s” to “%s”?"
-#~ msgstr "Ali želite kopirati »%s« v »%s«?"
-
-#, c-format
-#~ msgid "Do you want to move the dragged files to “%s”?"
-#~ msgstr "Ali želite povlečene datoteke premakniti v »%s«?"
-
-#, c-format
-#~ msgid "Do you want to copy the dragged files to “%s”?"
-#~ msgstr "Ali želite povlečene datoteke kopirati v »%s«?"
-
-#~ msgid "_Copy"
-#~ msgstr "_Kopiraj"
-
-#~ msgid "File manager operations."
-#~ msgstr "Dejanja upravljalnika datotek."
-
-#~ msgid "Adjust contrast"
-#~ msgstr "Prilagodi kontrast"
-
-#~ msgid "Flip"
-#~ msgstr "Obrni"
-
-#~ msgid "Mirror"
-#~ msgstr "Zrcaljenje"
-
-#~ msgid "Rotate right"
-#~ msgstr "Zavrti desno"
-
-#~ msgid "Rotate left"
-#~ msgstr "Zavrti levo"
-
-#~ msgid "_Preview"
-#~ msgstr "_Predogled"
-
-#~ msgid "B_rightness:"
-#~ msgstr "_Svetlost:"
-
-#~ msgid "_Magenta-Green:"
-#~ msgstr "_Škrlatno-zelena:"
-
-#~ msgid "_Yellow-Blue:"
-#~ msgstr "_Rumeno-Modra:"
-
-#~ msgid "Color Levels"
-#~ msgstr "Barvne ravni"
-
-#~ msgid "_X:"
-#~ msgstr "_X:"
-
-#~ msgid "_Y:"
-#~ msgstr "_Y:"
-
-#~ msgid "_Grid:"
-#~ msgstr "_Mreža:"
-
-#~ msgid "_Width:"
-#~ msgstr "_Širina:"
-
-#~ msgid "Heigh_t:"
-#~ msgstr "_Višina:"
-
-#~ msgid "_Position:"
-#~ msgstr "_Položaj:"
-
-#~ msgid "I_nvert aspect ratio"
-#~ msgstr "_Obrni razmerje velikosti"
-
-#~ msgid "M_ultiple of:"
-#~ msgstr "Ve_čkratnik števila:"
-
-#~ msgid "Include current channel"
-#~ msgstr "Vključi trenutni kanal"
-
-#~ msgid "Dimensions"
-#~ msgstr "Mere"
-
-#~ msgid "Set the image size to this value"
-#~ msgstr "Nastavi velikost slike na to vrednost"
-
-#~ msgid "Original dimensions:"
-#~ msgstr "Izvorne mere:"
-
-#~ msgid "Scale factor:"
-#~ msgstr "Faktor merila:"
-
-#~ msgid "New dimensions:"
-#~ msgstr "Nove mere:"
-
-#~ msgid "_Background:"
-#~ msgstr "_Ozadje:"
-
-#~ msgid "Pick a background color"
-#~ msgstr "Izbor barve ozadja"
-
-#~ msgid "_Transparent"
-#~ msgstr "_Prosojno"
-
-#~ msgid "Point 1:"
-#~ msgstr "Točka 1:"
-
-#~ msgid "Point 2:"
-#~ msgstr "Točka 2:"
-
-#~ msgid "Keep aspect ratio"
-#~ msgstr "Ohrani razmerje velikosti"
-
-#~ msgid "Parallel"
-#~ msgstr "Vzporedno"
-
-#~ msgid "Perpendicular"
-#~ msgstr "Pravokotno"
-
-#~ msgid "Alignment"
-#~ msgstr "Poravnava"
-
-#~ msgid "Amount:"
-#~ msgstr "Količina:"
-
-#, c-format
-#~ msgid "%d → %d"
-#~ msgstr "%d → %d"
-
-#~ msgid "Channel:"
-#~ msgstr "Kanal:"
-
-#~ msgid "Presets"
-#~ msgstr "Shranjene predloge"
-
-#~ msgid "Applying changes"
-#~ msgstr "Uveljavljanje sprememb"
-
-#~ msgid "Adjust Colors"
-#~ msgstr "Prilagajanje barv"
-
-#~ msgid "Change brightness, contrast, saturation and gamma level of the image"
-#~ msgstr "Spremeni svetlost, kontrast, nasičenje in gama raven slike"
-
-#~ msgid "Stretch"
-#~ msgstr "Raztegni"
-
-#, no-c-format
-#~ msgid "Stretch the histogram after trimming 0.5% from both ends"
-#~ msgstr "Raztegnite histogram po obrezovanju 0,5 % z obeh koncev"
-
-#~ msgid "Equalize the histogram using the square root function"
-#~ msgstr "Izenači histogram s funkcijo kvadratnega korena"
-
-#~ msgid "Equalize the histogram using the linear function"
-#~ msgstr "Izenači histogram z linearno funkcijo"
-
-#~ msgid "Adjust Contrast"
-#~ msgstr "Prilagodi kontrast"
-
-#~ msgid "Automatic contrast adjustment"
-#~ msgstr "Samodejno prilagajanje kontrasta"
-
-#~ msgid "Pick a color from the image"
-#~ msgstr "Izbor barve s slike"
-
-#, c-format
-#~ msgid "%d × %d (Image)"
-#~ msgstr "%d × %d (slika)"
-
-#, c-format
-#~ msgid "%d × %d (Screen)"
-#~ msgstr "%d × %d (zaslon)"
-
-#~ msgid "5∶4"
-#~ msgstr "5∶4"
-
-#~ msgid "4∶3 (DVD, Book)"
-#~ msgstr "4:3 (knjiga, DVD)"
-
-#~ msgid "7∶5"
-#~ msgstr "7∶5"
-
-#~ msgid "3∶2 (Postcard)"
-#~ msgstr "3:2 (Razglednica)"
-
-#~ msgid "16∶10"
-#~ msgstr "16∶10"
-
-#~ msgid "16∶9 (DVD)"
-#~ msgstr "16:9 (DVD)"
-
-#~ msgid "1.85∶1"
-#~ msgstr "1.85∶1"
-
-#~ msgid "1.91∶1"
-#~ msgstr "1,91∶1"
-
-#~ msgid "2.39∶1"
-#~ msgstr "2.39∶1"
-
-#~ msgid "Add to Presets"
-#~ msgstr "Dodaj med prednastavitve"
-
-#~ msgid "Enter the preset name:"
-#~ msgstr "Novo ime predloge:"
-
-#~ msgid "Could not save the file"
-#~ msgstr "Ni mogoče shraniti datoteke"
-
-#~ msgid "Add to presets"
-#~ msgstr "Dodaj med prednastavitve"
-
-#~ msgid "Adjust color curves"
-#~ msgstr "Prilagodi krivulje barv"
-
-#~ msgid "Soil"
-#~ msgstr "Prst"
-
-#~ msgid "Desert"
-#~ msgstr "Puščavska"
-
-#~ msgid "Arctic"
-#~ msgstr "Arktika"
-
-#~ msgid "Mangos"
-#~ msgstr "Mango"
-
-#~ msgid "Fresh Blue"
-#~ msgstr "Sveže modra"
-
-#~ msgid "Cherry"
-#~ msgstr "Češnja"
-
-#~ msgid "Vignette"
-#~ msgstr "Vinjetiranje"
-
-#~ msgid "Flip the image vertically"
-#~ msgstr "Zrcali sliko navpično"
-
-#~ msgid "Lomo"
-#~ msgstr "Lomo"
-
-#~ msgid "Mirror the image horizontally"
-#~ msgstr "Zrcali sliko vodoravno"
-
-#~ msgid "Resizing images"
-#~ msgstr "Spreminjanje v"
-
-#~ msgid "Rotate the image by 90 degrees counterclockwise"
-#~ msgstr "Zavrti sliko za 90 stopinj v levo"
-
-#~ msgid "Rotate the image by 90 degrees clockwise"
-#~ msgstr "Zavrti sliko za 90 stopinj v desno"
-
-#~ msgid "Sharpening image"
-#~ msgstr "Ostrenje slike"
-
-#~ msgid "Enhance Focus"
-#~ msgstr "Izboljšaj žarišče"
-
-#~ msgid "Find _Duplicates…"
-#~ msgstr "Najdi _podvojene …"
-
-#~ msgid "Duplicates:"
-#~ msgstr "Podvojene:"
-
-#~ msgid "No duplicates found."
-#~ msgstr "Ni najdenih dvojnikov."
-
-#~ msgid "Start _at:"
-#~ msgstr "Začni p_ri:"
-
-#~ msgid "_Filter:"
-#~ msgstr "_Filter:"
-
-#~ msgid "Find Duplicates"
-#~ msgstr "Najdi podvojene"
-
-#~ msgid "_Find"
-#~ msgstr "_Najdi"
-
-#~ msgid "Find duplicated files."
-#~ msgstr "Najdi podvojene datoteke."
-
-#~ msgid "leave the newest duplicates"
-#~ msgstr "ohrani novejšo različico dvojnika"
-
-#~ msgid "leave the oldest duplicates"
-#~ msgstr "ohrani starejšo različico dvojnika"
-
-#~ msgid "all files"
-#~ msgstr "vse datoteke"
-
-#~ msgid "no file"
-#~ msgstr "brez datotek"
-
-#, c-format
-#~ msgid "%d file (%s)"
-#~ msgid_plural "%d files (%s)"
-#~ msgstr[0] "%d datotek (%s)"
-#~ msgstr[1] "%d datoteka (%s)"
-#~ msgstr[2] "%d datoteki (%s)"
-#~ msgstr[3] "%d datoteke (%s)"
-
-#, c-format
-#~ msgid "%d duplicate"
-#~ msgid_plural "%d duplicates"
-#~ msgstr[0] "%d dvojnikov"
-#~ msgstr[1] "%d dvojnik"
-#~ msgstr[2] "%d dvojnika"
-#~ msgstr[3] "%d dvojniki"
-
-#~ msgid "Searching for duplicates"
-#~ msgstr "Iskanje podvojenih datotek"
-
-#, c-format
-#~ msgid "%d file remaining"
-#~ msgid_plural "%d files remaining"
-#~ msgstr[0] "%d preostalih datotek"
-#~ msgstr[1] "%d preostala datoteka"
-#~ msgstr[2] "%d preostali datoteki"
-#~ msgstr[3] "%d preostale datoteke"
-
-#~ msgid "Getting the file list"
-#~ msgstr "Pridobivanje seznama datotek"
-
-#, c-format
-#~ msgid "Image saved as %s"
-#~ msgstr "Slika je shranjena kot %s"
-
-#~ msgctxt "Filename"
-#~ msgid "Screenshot"
-#~ msgstr "Zaslonska slika"
-
-#~ msgid "Could not take a screenshot"
-#~ msgstr "Ni mogoče zajeti zaslonske slike"
-
-#~ msgid "Use hardware acceleration"
-#~ msgstr "Uporabi strojno pospeševanje"
-
-#~ msgid "_Screenshots location:"
-#~ msgstr "Mesto zajetih _slik:"
-
-#~ msgid "Restart when finished"
-#~ msgstr "Znova zaženi po koncu predvajanja"
-
-#~ msgid "Time:"
-#~ msgstr "Čas:"
-
-#~ msgid "Audio/Video support"
-#~ msgstr "Podpora zvoka/videa"
-
-#~ msgid "Play audio and video files."
-#~ msgstr "Predvajanje zvočnih in video datotek."
-
-#~ msgid "Playing video"
-#~ msgstr "Predvajanje video datotek"
-
-#~ msgid "Fit to window"
-#~ msgstr "Prilagodi oknu"
-
-#~ msgid "Bitrate"
-#~ msgstr "Bitna hitrost"
-
-#~ msgid "Codec"
-#~ msgstr "Kodek"
-
-#~ msgid "Framerate"
-#~ msgstr "Hitrost sličic"
-
-#~ msgid "Channels"
-#~ msgstr "Kanali"
-
-#~ msgid "Sample rate"
-#~ msgstr "Vzorčna hitrost"
-
-#, c-format
-#~ msgid "%d × %d"
-#~ msgstr "%d × %d"
-
-#~ msgid "Could not print the selected files"
-#~ msgstr "Ni mogoče natisniti izbranih datotek"
-
-#~ msgid "Centered"
-#~ msgstr "Sredinjeno"
-
-#~ msgid "Custom"
-#~ msgstr "Po meri"
-
-#~ msgid "The current page number"
-#~ msgstr "Številka trenutne strani"
-
-#~ msgid "The total number of pages"
-#~ msgstr "Skupno število strani"
-
-#~ msgid "Special code"
-#~ msgstr "Posebna koda"
-
-#~ msgid "%D{ format }"
-#~ msgstr "%D{ oblika }"
-
-#~ msgid "The current date"
-#~ msgstr "Trenutni datum"
-
-#~ msgid "The total number of files"
-#~ msgstr "Skupno število datotek"
-
-#~ msgid "The event description"
-#~ msgstr "Opis dogodka"
-
-#~ msgid "Position:"
-#~ msgstr "Položaj:"
-
-#~ msgid "Rotation:"
-#~ msgstr "Vrtenje:"
-
-#~ msgid "Fonts"
-#~ msgstr "Pisave"
-
-#~ msgid "Select Caption Font"
-#~ msgstr "Izbor pisave naslova"
-
-#~ msgid "Select Header Font"
-#~ msgstr "Izbor pisave glave"
-
-#~ msgid "Select Footer Font"
-#~ msgstr "Izbor pisave noge"
-
-#~ msgid "Total number of files"
-#~ msgstr "Skupno število datotek"
-
-#~ msgid "Event description"
-#~ msgstr "Opis dogodka"
-
-#, c-format
-#~ msgid "Page %d of %d"
-#~ msgstr "Stran %d od %d"
-
-#~ msgid "Could not print"
-#~ msgstr "Ni mogoče natisniti dokumenta"
-
-#~ msgid "Loading images"
-#~ msgstr "Nalaganje slik"
-
-#~ msgid "Image print"
-#~ msgstr "Natisni sliko"
-
-#~ msgid "Allow to print images choosing the page layout."
-#~ msgstr "Dovoli tisk slik z izbiro postavitve strani."
-
-#~ msgid "Image rotation"
-#~ msgstr "Vrtenje slik"
-
-#~ msgid "Rotate images without data loss."
-#~ msgstr "Zavrti slike brez izgube kakovosti."
-
-#, c-format
-#~ msgid "Problem transforming the image: %s"
-#~ msgstr "Napaka med preoblikovanjem slike: %s"
-
-#~ msgid ""
-#~ "This transformation may introduce small image distortions along one or more "
-#~ "edges, because the image dimensions are not multiples of 8.\n"
-#~ "\n"
-#~ "The distortion is reversible, however. If the resulting image is unacceptable, "
-#~ "simply apply the reverse transformation to return to the original image.\n"
-#~ "\n"
-#~ "You can also choose to discard (or trim) any untransformable edge pixels. For "
-#~ "practical use, this mode gives the best looking results, but the "
-#~ "transformation is not strictly lossless anymore."
-#~ msgstr ""
-#~ "Preoblikovanje lahko povzroči majhno popačenje slike na enem ali več robovih, "
-#~ "ker mere slike niso mnogokratniki števila 8.\n"
-#~ "\n"
-#~ "Popačenje je povrnljivo. V primeru da je preoblikovana slika nesprejemljiva, "
-#~ "za vrnitev na izvirno sliko uporabite obratno preoblikovanje.\n"
-#~ "\n"
-#~ "Moteče robne točke lahko zavržete (ali obrežete). V praksi ta način daje "
-#~ "najboljše rezultate, toda preoblikovanje ni več strogo brez izgub."
-
-#~ msgid "_Trim"
-#~ msgstr "_Robljenje"
-
-#~ msgid "_Accept distortion"
-#~ msgstr "_Sprejmi počpačenje"
-
-#~ msgid "Zoom to fit width if larger"
-#~ msgstr "Prilagodi velikost širini, če je večja"
-
-#~ msgid "Zoom to fit height if larger"
-#~ msgstr "Prilagodi velikost širini, če je večja"
-
-#~ msgid "Undo edit"
-#~ msgstr "Razveljavi urejanje"
-
-#~ msgid "Redo edit"
-#~ msgstr "Ponovno uveljavi urejanje"
-
-#~ msgid "After loading an image:"
-#~ msgstr "Po nalaganju slike:"
-
-#~ msgid "Set to actual size"
-#~ msgstr "Nastavi sliko na dejansko velikost"
-
-#~ msgid "Keep previous zoom"
-#~ msgstr "Ohrani predhodno približanje"
-
-#~ msgid "Fit to window if larger"
-#~ msgstr "Prilagodi velikost oknu, če je večja"
-
-#~ msgid "Fit to width"
-#~ msgstr "Prilagodi širini"
-
-#~ msgid "Fit to width if larger"
-#~ msgstr "Prilagodi velikost širini, če je večja"
-
-#~ msgid "Reset scrollbar positions"
-#~ msgstr "Ponastavi položaje drsnikov"
-
-#~ msgid "Mouse wheel action:"
-#~ msgstr "Dejanje kolesca miške:"
-
-#~ msgctxt "zoom quality"
-#~ msgid "Zoom image"
-#~ msgstr "Približaj sliko"
-
-#~ msgid "Zoom quality:"
-#~ msgstr "Kakovost približanja:"
-
-#~ msgid "Gray"
-#~ msgstr "Siva"
-
-#~ msgid "Fit to height"
-#~ msgstr "Prilagodi višini"
-
-#~ msgid "Paste Image"
-#~ msgstr "Prilepi sliko"
-
-#~ msgid "Apply the embedded color profile"
-#~ msgstr "Uveljavi vdelani barvni profil"
-
-#~ msgid "Save Image"
-#~ msgstr "Shrani sliko"
-
-#~ msgid "Loading the original image"
-#~ msgstr "Nalaganje izvorne slike"
-
-#~ msgid "JPEG XL container"
-#~ msgstr "Vsebnik JPEG XL"
-
-#~ msgid "Scroll Image"
-#~ msgstr "Drsenje po sliki"
-
-#~ msgid "Image Editor"
-#~ msgstr "Urejevalnik slik"
-
-#~ msgid "_Destination"
-#~ msgstr "_Cilj"
-
-#~ msgid "No file imported"
-#~ msgstr "Nobena datoteka ni bila uvožena"
-
-#~ msgid "The selected files are already present in the destination."
-#~ msgstr "Izbrane datoteke so že prisotne na cilju."
-
-#~ msgid "Could not delete the files"
-#~ msgstr "Datotek ni mogoče izbrisati"
-
-#~ msgid "Delete operation not supported."
-#~ msgstr "Dejanje izbrisa ni podprto."
-
-#~ msgid "No file specified."
-#~ msgstr "Ni določene datoteke."
-
-#, c-format
-#~ msgid ""
-#~ "Not enough free space in “%s”.\n"
-#~ "%s of space is required but only %s is available."
-#~ msgstr ""
-#~ "V mapi »%s« ni dovolj prostora.\n"
-#~ "Zahtevano je %s prostora, na voljo pa ga je le %s."
-
-#~ msgid "Co_mmands:"
-#~ msgstr "_Ukazi:"
-
-#~ msgid "_Terminal command (shell script)"
-#~ msgstr "Ukaz _terminala (skript lupine)"
-
-#~ msgid "Sh_ortcut:"
-#~ msgstr "Bl_ižnjica:"
-
-#~ msgid "_Command:"
-#~ msgstr "_Ukaz:"
-
-#~ msgid "Edit command"
-#~ msgstr "Uredi ukaz"
-
-#~ msgid "Edit Command"
-#~ msgstr "Uredi ukaz"
-
-#~ msgid "Are you sure you want to delete the selected command?"
-#~ msgstr "Ali ste prepričani, da želite izbrisati izbran ukaz?"
-
-#, c-format
-#~ msgid "No command specified"
-#~ msgstr "Ukaz ni določen"
-
-#~ msgid "File list tools"
-#~ msgstr "Orodja seznama datotek"
-
-#~ msgid "Scripting and batch manipulation of files."
-#~ msgstr "Skripti in paketno upravljanje datotek."
-
-#~ msgid "Map"
-#~ msgstr "Zemljevid"
-
-#~ msgid "View the photo position on the map"
-#~ msgstr "Pokaže mesto zajema slike na zemljevidu."
-
-#~ msgid "Open Map"
-#~ msgstr "Odpri zemljevid"
-
-#~ msgid "Choose a folder"
-#~ msgstr "Izbor mape"
-
-#~ msgid "_Removable Device…"
-#~ msgstr "_Odstranljivi nosilec …"
-
-#~ msgid "F_older…"
-#~ msgstr "_Mapa …"
-
-#~ msgid "I_mport From"
-#~ msgstr "U_vozi iz"
-
-#~ msgid "After importing from a device:"
-#~ msgstr "Po uvažanju z naprave:"
-
-#~ msgid "_Rotate the images physically"
-#~ msgstr "_Fizično zavrti slike"
-
-#~ msgid "S_how:"
-#~ msgstr "_Pokaži:"
-
-#~ msgid "_Event:"
-#~ msgstr "_Dogodek:"
-
-#~ msgid "_Tags:"
-#~ msgstr "O_znake:"
-
-#~ msgid "Could not import the files"
-#~ msgstr "Datotek ni mogoče uvoziti"
-
-#, c-format
-#~ msgid "Files to import: %d (%s)"
-#~ msgstr "Datoteke za uvoz: %d (%s)"
-
-#~ msgid "Could not load the folder"
-#~ msgstr "Mape ni mogoče naložiti"
-
-#~ msgid "Getting the folder content…"
-#~ msgstr "Pridobivanje vsebine mape …"
-
-#~ msgid "_Import"
-#~ msgstr "_Uvozi"
-
-#~ msgid "Import from Removable Device"
-#~ msgstr "Uvozi z odstranljive naprave"
-
-#~ msgid "Import from Folder"
-#~ msgstr "Uvozi iz mape"
-
-#~ msgid "Import photos"
-#~ msgstr "Uvozi fotografije"
-
-#~ msgid "Import photos from removable devices."
-#~ msgstr "Uvozi fotografije z odstranljivih naprav."
-
-#~ msgid "RAW Format"
-#~ msgstr "Surovi zapis"
-
-#~ msgid "Raw format support"
-#~ msgstr "Podpora za surovo vrsto"
-
-#~ msgid "Allow to load raw format images."
-#~ msgstr "Dovoli nalaganje slik surove vrste."
-
-#~ msgid "Red Eye Removal"
-#~ msgstr "Odstranjevanje rdečih oči"
-
-#~ msgid "Remove the red eye effect caused by camera flashes"
-#~ msgstr "Odstrani učinek rdečih oči, ki ga povzročijo bliskavice"
-
-#~ msgid "Red-eye removal"
-#~ msgstr "Odstranjevanje rdečih oči"
-
-#~ msgid "Tool to remove the red-eye effect from a photo."
-#~ msgstr "Orodje za odstranjevanje učinka rdečih oči s fotografije."
-
-#~ msgid "_Sort by:"
-#~ msgstr "_Razvrsti po:"
-
-#~ msgid "Cas_e:"
-#~ msgstr "V_elikost črk:"
-
-#~ msgid "Revert to the last used template"
-#~ msgstr "Povrni na nazadnje uporabljeno predlogo"
-
-#~ msgid "_Preview:"
-#~ msgstr "_Predogled:"
-
-#~ msgid "Original enumerator"
-#~ msgstr "Izvirni števec"
-
-#~ msgid "Modification date"
-#~ msgstr "Datum spremembe"
-
-#~ msgid "Could not rename the files"
-#~ msgstr "Ni mogoče preimenovati datotek"
-
-#~ msgid "Old Name"
-#~ msgstr "Staro ime"
-
-#~ msgid "New Name"
-#~ msgstr "Novo ime"
-
-#~ msgid "Keep original case"
-#~ msgstr "Ohrani izvirno velikost"
-
-#~ msgid "Convert to upper-case"
-#~ msgstr "Pretvori v velike črke"
-
-#~ msgid "Renaming files"
-#~ msgstr "Preimenovanje datotek"
-
-#~ msgid "Rename series of files."
-#~ msgstr "Preimenuj zaporedje datotek."
-
-#~ msgid "Resize Images…"
-#~ msgstr "Prilagodi velikost slik …"
-
-#~ msgid "pixel"
-#~ msgstr "točka"
-
-#~ msgid "New dimensions"
-#~ msgstr "Nove mere"
-
-#~ msgid "_Height:"
-#~ msgstr "_Višina:"
-
-#~ msgid "Resize images"
-#~ msgstr "Spremeni velikost slik"
-
-#~ msgid "Resize series of images."
-#~ msgstr "Spremeni velikost zaporedja slik."
-
-#~ msgid "Could not perform the search"
-#~ msgstr "Ni mogoče izvesti iskanja"
-
-#~ msgid "Search Result"
-#~ msgstr "Rezultati iskanja"
-
-#~ msgid "all the following rules"
-#~ msgstr "vsa naslednja pravila"
-
-#~ msgid "any of the following rules"
-#~ msgstr "katerokoli od naslednjih pravil"
-
-#~ msgid "Add another location"
-#~ msgstr "Dodaj novo mesto"
-
-#, c-format
-#~ msgid "Files found so far: %s"
-#~ msgstr "Doslej najdene datoteke: %s"
-
-#~ msgid "Searching…"
-#~ msgstr "Poteka iskanje …"
-
-#~ msgid "Cancel the operation"
-#~ msgstr "Prekliči opravilo"
-
-#~ msgid "File search tool."
-#~ msgstr "Orodje iskanja datotek."
-
-#~ msgid "Remove from selection"
-#~ msgstr "Odstrani iz izbora"
-
-#~ msgid "Advanced file selection."
-#~ msgstr "Napredna izbira datotek"
-
-#~ msgid "Start presentation"
-#~ msgstr "Začni predstavitev"
-
-#~ msgid "Terminate presentation"
-#~ msgstr "Zaključi predstavitev"
-
-#~ msgid "Pause/Resume presentation"
-#~ msgstr "Ustavi/Nadaljuj predstavitev"
-
-#~ msgid "Show next file"
-#~ msgstr "Pokaži naslednjo datoteko"
-
-#~ msgid "Show previous file"
-#~ msgstr "Pokaži predhodno datoteko"
-
-#~ msgid "_Personalize"
-#~ msgstr "_Prilagodi po meri"
-
-#~ msgid "_Transition effect:"
-#~ msgstr "Učinek _prehoda:"
-
-#~ msgid "_Change automatically, every"
-#~ msgstr "S_amodejno spremeni vsakih"
-
-#~ msgctxt "Every x seconds"
-#~ msgid "seconds"
-#~ msgstr "sekund"
-
-#~ msgid "_Restart when finished"
-#~ msgstr "Znova _predvajaj po koncu predvajanja"
-
-#~ msgid "Playlist"
-#~ msgstr "Seznam predvajanja"
-
-#~ msgid "Add files to the playlist"
-#~ msgstr "Dodaj datoteke na seznam predvajanja"
-
-#~ msgid "Remove the selected files"
-#~ msgstr "Odstrani izbrane datoteke"
-
-#~ msgid "Choose the files to play"
-#~ msgstr "Izbor datotek za predvajanje"
-
-#~ msgid "Random"
-#~ msgstr "Naključno"
-
-#~ msgid "Playing a presentation"
-#~ msgstr "Predvajanje predstavitve"
-
-#~ msgid "Push from right"
-#~ msgstr "Potisk z desne"
-
-#~ msgid "Push from bottom"
-#~ msgstr "Potisk od spodaj"
-
-#~ msgid "Slide from right"
-#~ msgstr "Zdrsni z desne"
-
-#~ msgid "Slide from bottom"
-#~ msgstr "Zdrsni od spodaj"
-
-#~ msgid "Fade in"
-#~ msgstr "Postopno ojačanje"
-
-#~ msgid "Flip page"
-#~ msgstr "Obrni stran"
-
-#~ msgid "Cube from right"
-#~ msgstr "Kocka z desne"
-
-#~ msgid "Cube from bottom"
-#~ msgstr "Kocka od spodaj"
-
-#~ msgid "Play a presentation of images."
-#~ msgstr "Predvajaj predstavitev iz slik."
-
-#~ msgid "Open a folder in a terminal"
-#~ msgstr "Odpri mapo v terminalu"
-
-#~ msgid "_Web Album…"
-#~ msgstr "_Spletni album …"
-
-#~ msgid "Click to view the image"
-#~ msgstr "Kliknite za pogled slike"
-
-#~ msgid "Go back to the index"
-#~ msgstr "Pojdi nazaj na kazalo"
-
-#, c-format
-#~ msgid "Image %d of %d"
-#~ msgstr "Slika %d od %d"
-
-#, c-format
-#~ msgid "View page %d"
-#~ msgstr "Pogled strani %d"
-
-#~ msgid "View the next image"
-#~ msgstr "Pogled naslednje slike"
-
-#~ msgid "View the next page"
-#~ msgstr "Pogled naslednje strani"
-
-#~ msgid "View the previous image"
-#~ msgstr "Pogled predhodne slike"
-
-#~ msgid "View the previous page"
-#~ msgstr "Pogled predhodne strani"
-
-#~ msgid "All images on a single image"
-#~ msgstr "Vse slike na eni sliki"
-
-#~ msgid "Adapts to the window width"
-#~ msgstr "Prilagodi se širini okna"
-
-#~ msgid "_Copy originals to destination"
-#~ msgstr "_Kopiraj izvirnike na cilj"
-
-#~ msgid "_Resize if larger than:"
-#~ msgstr "_Spremeni velikost, če je večja kot:"
-
-#~ msgid "_Adapt to the window width "
-#~ msgstr "_Prilagodi na širino okna "
-
-#~ msgid "Index Page"
-#~ msgstr "Stran kazala"
-
-#~ msgid "Thumbnail Caption"
-#~ msgstr "Naslov sličice"
-
-#~ msgid "Image Page"
-#~ msgstr "Stran slike"
-
-#~ msgid "Show the following attributes:"
-#~ msgstr "Pokaži naslednje atribute:"
-
-#~ msgid "Image Attributes"
-#~ msgstr "Atributi slike"
-
-#~ msgid "Current image number"
-#~ msgstr "Številka trenutne slike"
-
-#~ msgid "Total number of images"
-#~ msgstr "Skupno število slik"
-
-#~ msgid "Original filename"
-#~ msgstr "Izvirno ime datoteke"
-
-#~ msgid "Web Album"
-#~ msgstr "Spletni album"
-
-#~ msgid "Malformed command"
-#~ msgstr "Slabo oblikovan ukaz"
-
-#~ msgid "Could not show the destination"
-#~ msgstr "Ni mogoče pokazati cilja"
-
-#~ msgid "The album has been created successfully."
-#~ msgstr "Album je bil uspešno ustvarjen."
-
-#~ msgid "_Open in the Browser"
-#~ msgstr "_Odpri v brskalniku"
-
-#~ msgid "Saving thumbnails"
-#~ msgstr "Shranjevanje sličic"
-
-#~ msgid "Saving HTML pages: Images"
-#~ msgstr "Shranjevanje strani HTML: slike"
-
-#~ msgid "Saving HTML pages: Indexes"
-#~ msgstr "Shranjevanje strani HTML: kazala"
-
-#~ msgid "Copying original images"
-#~ msgstr "Kopiranje izvirnih slik"
-
-#~ msgid "Could not find the style folder"
-#~ msgstr "Ni mogoče najti mape slogov"
-
-#~ msgid "Could not create a temporary folder"
-#~ msgstr "Začasne mape ni mogoče ustvariti"
-
-#~ msgid "Web Albums"
-#~ msgstr "Spletni albumi"
-
-#~ msgid "Create static web albums."
-#~ msgstr "Ustvari statične spletne albume."
-
-#, c-format
-#~ msgid "Could not load the position “%s”"
-#~ msgstr "Ni mogoče naložiti mesta »%s«"
-
-#~ msgid "New Filter"
-#~ msgstr "Nov filter"
-
-#~ msgctxt "Extensions"
-#~ msgid "All"
-#~ msgstr "Vse"
-
-#~ msgctxt "Extensions"
-#~ msgid "Enabled"
-#~ msgstr "Omogočenoe"
-
-#~ msgid "Viewers"
-#~ msgstr "Pregledovalniki"
-
-#~ msgid "File tools"
-#~ msgstr "Datotečna orodja"
-
-#~ msgid "List tools"
-#~ msgstr "Orodja seznama"
-
-#~ msgid "Importers"
-#~ msgstr "Uvozniki"
-
-#~ msgid "Exporters"
-#~ msgstr "Izvozniki"
-
-#~ msgid "Could not activate the extension"
-#~ msgstr "Ni mogoče omogočiti razširitve"
-
-#~ msgid "Could not deactivate the extension"
-#~ msgstr "Ni mogoče onemogočiti razširitve"
-
-#~ msgid "gThumb Development Team"
-#~ msgstr "Razvojna skupina gThumb"
-
-#~ msgid "Extensions"
-#~ msgstr "Razširitve"
-
-#~ msgid "Restart required"
-#~ msgstr "Zahtevan je ponoven zagon"
-
-#~ msgid "You need to restart gthumb for these changes to take effect"
-#~ msgstr "Za uveljavitev nekaterih sprememb je treba program ponovno zagnati."
-
-#~ msgid "_Restart"
-#~ msgstr "_Znova zaženi"
-
-#~ msgid "Revert"
-#~ msgstr "Povrni"
-
-#~ msgid "Do you want to revert all the changes and use the default shortcuts?"
-#~ msgstr "Ali želite povrniti vse spremembe in uporabiti privzete bližnjice?"
-
-#, c-format
-#~ msgid "%s of %s"
-#~ msgstr "%s od %s"
-
-#, c-format
-#~ msgid "Moving “%s” to “%s”"
-#~ msgstr "Poteka premikanje »%s« v »%s«."
-
-#, c-format
-#~ msgid "Copying “%s” to “%s”"
-#~ msgstr "Poteka kopiranje »%s« v »%s«."
-
-#~ msgid "Getting file information"
-#~ msgstr "Pridobivanje podrobnosti datoteke"
-
-#~ msgid "Moving files to trash"
-#~ msgstr "Poteka premikanje datotek v smeti"
-
-#~ msgid "Start in fullscreen mode"
-#~ msgstr "Zaženi v celozaslonskem načinu"
-
-#~ msgid "Automatically start a presentation"
-#~ msgstr "Samodejno začni predstavitev"
-
-#~ msgid "Automatically import digital camera photos"
-#~ msgstr "Samodejno uvozi fotografije z digitalnega fotoaparata"
-
-#~ msgid ""
-#~ "gThumb is free software; you can redistribute it and/or modify it under the "
-#~ "terms of the GNU General Public License as published by the Free Software "
-#~ "Foundation; either version 2 of the License, or (at your option) any later "
-#~ "version."
-#~ msgstr ""
-#~ "Program gthumb je prosta programska oprema; program lahko razširjate in/ali "
-#~ "spreminjate pod pogoji Splošnega javnega dovoljenja GNU (GNU General Public "
-#~ "License), kot ga je objavila ustanova Free Software Foundation; bodisi "
-#~ "različice 2, ali (po vaši izbiri) katerekoli kasnejše različice."
-
-#~ msgid ""
-#~ "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
-#~ "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR "
-#~ "A PARTICULAR PURPOSE.  See the GNU General Public License for more details."
-#~ msgstr ""
-#~ "Program gthumb se razširja v upanju, da bo uporaben, vendar BREZ VSAKRŠNEGA "
-#~ "JAMSTVA; tudi brez posredne zagotovitve CENOVNE VREDNOSTI ali PRIMERNOSTI ZA "
-#~ "DOLOČEN NAMEN. Za podrobnosti poglejte besedilo Splošnega javnega dovoljenja "
-#~ "GNU."
-
-#~ msgid ""
-#~ "You should have received a copy of the GNU General Public License along with "
-#~ "gThumb.  If not, see http://www.gnu.org/licenses/."
-#~ msgstr ""
-#~ "Skupaj s programom bi morali prejeti tudi kopijo Splošnega javnega dovoljenja "
-#~ "GNU . Če je niste, si oglejte http://www.gnu.org/licenses/."
-
-#~ msgid "Show browser"
-#~ msgstr "Pokaži brskalnik"
-
-#~ msgid "Save image as"
-#~ msgstr "Shrani sliko kot"
-
-#~ msgid "Statusbar"
-#~ msgstr "Vrstica stanja"
-
-#~ msgid "Thumbnails list"
-#~ msgstr "Seznam sličic"
-
-#~ msgid "Load previous location"
-#~ msgstr "Naloži predhodno mesto"
-
-#~ msgid "Load next location"
-#~ msgstr "Naloži naslednje mesto"
-
-#~ msgid "Load parent folder"
-#~ msgstr "Naloži nadrejeno mapo"
-
-#~ msgid "Load home"
-#~ msgstr "Naloži osebno"
-
-#~ msgid "Reload location"
-#~ msgstr "Ponovno naloži mesto"
-
-#~ msgid "Show/Hide hidden files"
-#~ msgstr "Pokaži/skrij skrite datoteke"
-
-#~ msgid "Change sorting order"
-#~ msgstr "Spremeni način razvrščanja"
-
-#~ msgid "Show first file"
-#~ msgstr "Pokaži prvo datoteko"
-
-#~ msgid "Show last file"
-#~ msgstr "Pokaži zadnjo datoteko"
-
-#~ msgid "Select none"
-#~ msgstr "Odstrani izbor"
-
-#~ msgid "All"
-#~ msgstr "Vse"
-
-#, c-format
-#~ msgid "%d file selected (%s)"
-#~ msgid_plural "%d files selected (%s)"
-#~ msgstr[0] "%d izbranih datotek (%s)"
-#~ msgstr[1] "%d izbrana datoteka (%s)"
-#~ msgstr[2] "%d izbrani datoteki (%s)"
-#~ msgstr[3] "%d izbrane datoteke (%s)"
-
-#, c-format
-#~ msgid "No suitable module found for %s"
-#~ msgstr "Ustreznega modula za %s ni bilo mogoče najti"
-
-#, c-format
-#~ msgid "Save changes to file “%s”?"
-#~ msgstr "Ali želite shraniti spremembe datoteke »%s«?"
-
-#~ msgid "Do _Not Save"
-#~ msgstr "_Ne shrani"
-
-#~ msgid "Accept"
-#~ msgstr "Sprejmi"
-
-#~ msgid "Could not change name"
-#~ msgstr "Ni mogoče spremeniti imena"
-
-#~ msgid "Go to the previous visited location"
-#~ msgstr "Pojdi na predhodno obiskano mesto"
-
-#~ msgid "Go to the next visited location"
-#~ msgstr "Pojdi na naslednje obiskano mesto"
-
-#~ msgid "Edit file"
-#~ msgstr "Uredi datoteko"
-
-#, c-format
-#~ msgid "No suitable module found"
-#~ msgstr "Ni mogoče najti ustreznega modula"
-
-#, c-format
-#~ msgid "Could not open the module “%s”: %s"
-#~ msgstr "Ni mogoče odpreti modula »%s«: %s"
-
-#, c-format
-#~ msgid "The extension “%1$s” is required by the extension “%2$s”"
-#~ msgstr "Razširitev »%2$s«' zahteva namestitev tudi razširitve »%1$s«."
-
-#~ msgid "All Supported Files"
-#~ msgstr "Vse podprte datoteke"
-
-#~ msgid "_Show Format Options"
-#~ msgstr "Pokaži _možnosti zapisa"
-
-#~ msgid "No file"
-#~ msgstr "Ni nobene datoteke"
-
-#~ msgid "Loading…"
-#~ msgstr "Poteka nalaganje …"
-
-#, c-format
-#~ msgid "%d file"
-#~ msgid_plural "%d files"
-#~ msgstr[0] "%d datotek"
-#~ msgstr[1] "%d datoteka"
-#~ msgstr[2] "%d datoteki"
-#~ msgstr[3] "%d datoteke"
-
-#~ msgid "Could not move the files to the Trash"
-#~ msgstr "Datotek ni mogoče premakniti v smeti"
-
-#, c-format
-#~ msgid "Are you sure you want to permanently delete “%s”?"
-#~ msgstr "Ali ste prepričani, da želite trajno izbrisati »%s«?"
-
-#, c-format
-#~ msgid "Are you sure you want to permanently delete the %'d selected file?"
-#~ msgid_plural ""
-#~ "Are you sure you want to permanently delete the %'d selected files?"
-#~ msgstr[0] "Ali ste prepričani, da želite trajno izbrisati %'d izbranih datotek?"
-#~ msgstr[1] "Ali ste prepričani, da želite trajno izbrisati %'d izbrano datoteko?"
-#~ msgstr[2] "Ali ste prepričani, da želite trajno izbrisati %'d izbrani datoteki?"
-#~ msgstr[3] "Ali ste prepričani, da želite trajno izbrisati %'d izbrane datoteke?"
-
-#~ msgid "If you delete a file, it will be permanently lost."
-#~ msgstr "Če datoteko izbrišete, bo ta trajno izgubljena."
-
-#, c-format
-#~ msgid "No limit specified"
-#~ msgstr "Omejitev ni navedena"
-
-#~ msgid "(Open Parent)"
-#~ msgstr "(Odpri nadrejeno)"
-
-#~ msgid "Enter the new name:"
-#~ msgstr "Vpišite novo ime:"
-
-#~ msgid "RGB"
-#~ msgstr "RGB"
-
-#~ msgid "Could not rename the file"
-#~ msgstr "Datoteke ni mogoče preimenovati"
-
-#, c-format
-#~ msgid "Could not find a suitable module to save the image as “%s”"
-#~ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot »%s«"
-
-#~ msgid "Reading file information"
-#~ msgstr "Pridobivanje podrobnosti datoteke"
-
-#~ msgid "Modified Date & Time"
-#~ msgstr "Datum in ura spremembe"
-
-#~ msgid "Exposure Settings"
-#~ msgstr "Nastavitve osvetlitve"
-
-#~ msgid "General Date & Time"
-#~ msgstr "Splošni datum in ura"
-
-#~ msgid "file path"
-#~ msgstr "pot datoteke"
-
-#~ msgid "file size"
-#~ msgstr "velikost datoteke"
-
-#~ msgid "no sorting"
-#~ msgstr "brez razvrščanja"
-
-#~ msgid "dimensions"
-#~ msgstr "mere"
-
-#~ msgid "aspect ratio"
-#~ msgstr "razmerje velikosti"
-
-#~ msgid "JPEG Images"
-#~ msgstr "Slike JPEG"
-
-#~ msgid "Raw Photos"
-#~ msgstr "Surove fotografije"
-
-#~ msgid "Filename"
-#~ msgstr "Ime datoteke"
-
-#~ msgid "Title (embedded)"
-#~ msgstr "Naslov (vključen)"
-
-#~ msgid "Description (embedded)"
-#~ msgstr "Opis (vključen)"
-
-#~ msgid "Show/Hide"
-#~ msgstr "Pokaži/Skrij"
-
-#~ msgid "Navigation"
-#~ msgstr "Krmarjenje"
-
-#~ msgid "Overwrite"
-#~ msgstr "Prepiši"
-
-#~ msgid "Saving file information"
-#~ msgstr "Shranjevanje podrobnosti datoteke"
-
-#, c-format
-#~ msgid "Saving “%s”"
-#~ msgstr "Poteka shranjevanje »%s«"
-
-#, c-format
-#~ msgid "Create tag “%s”"
-#~ msgstr "Ustvari oznako »%s«"
-
-#~ msgid "Show all the tags"
-#~ msgstr "Pokaži vse oznake"
-
-#~ msgid "Holidays"
-#~ msgstr "Počitnice"
-
-#~ msgid "Temporary"
-#~ msgstr "Začasno"
-
-#~ msgid "Science"
-#~ msgstr "Znanost"
-
-#~ msgid "Favorite"
-#~ msgstr "Priljubljeno"
-
-#~ msgid "Important"
-#~ msgstr "Pomembno"
-
-#~ msgid "GNOME"
-#~ msgstr "GNOME"
-
-#~ msgid "Games"
-#~ msgstr "Igre"
-
-#~ msgid "Party"
-#~ msgstr "Zabava"
-
-#~ msgid "Birthday"
-#~ msgstr "Rojstni dan"
-
-#~ msgid "Astronomy"
-#~ msgstr "Astronomija"
-
-#~ msgid "Family"
-#~ msgstr "Družina"
-
-#~ msgid "Day of the month"
-#~ msgstr "Dan v mesecu"
-
-#, c-format
-#~ msgid "The test definition is incomplete"
-#~ msgstr "Preizkusno določilo je nepopolno"
-
-#~ msgid "is"
-#~ msgstr "je"
-
-#~ msgid "is only"
-#~ msgstr "je le"
-
-#~ msgid "is not"
-#~ msgstr "ni"
-
-#~ msgid "Remove this rule"
-#~ msgstr "Odstrani to pravilo"
-
-#~ msgid "Rotation"
-#~ msgstr "Vrtenje"
-
-#, c-format
-#~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s».  Do you want "
-#~ "to reassign it to this action instead?"
-#~ msgstr ""
-#~ "Kombinacija tipk »%s« je že dodeljena dejanju »%s«. Ali jo želite predodeliti "
-#~ "temu dejanju?"
-
-#~ msgid "Reassign"
-#~ msgstr "Predodeli"
-
-#, c-format
-#~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s» and cannot be "
-#~ "changed."
-#~ msgstr ""
-#~ "Kombinacija tipk »%s« je že dodeljena dejanju »%s« in je ni možno spremeniti."
-
-#, c-format
-#~ msgid "The key combination «%s» is already assigned and cannot be changed."
-#~ msgstr "Kombinacija tipk »%s« je že dodeljena in je ni mogoče spremeniti."
-
-#~ msgid "Could not display help"
-#~ msgstr "Pomoči ni mogoče prikazati"
-
-#~ msgid "Could not launch the application"
-#~ msgstr "Programa ni mogoče zagnati"
-
-#~ msgid "_Copy Here"
-#~ msgstr "_Kopiraj sem"
-
-#~ msgid "_Move Here"
-#~ msgstr "_Premakni sem"
-
-#~ msgid "_Link Here"
-#~ msgstr "_Poveži sem"
-
-#~ msgid "_Help"
-#~ msgstr "Pomo_č"
-
-#~ msgid "_New"
-#~ msgstr "_Nova"
-
-#~ msgid "_Ok"
-#~ msgstr "_V redu"
-
-#~ msgid "_Remove"
-#~ msgstr "_Odstrani"
-
-#~ msgid "Sort By…"
-#~ msgstr "Razvrsti po …"
-
-#~ msgid "Open Location…"
-#~ msgstr "Odpri mesto …"
-
-#~ msgid "_About gThumb"
-#~ msgstr "_O Programu"
