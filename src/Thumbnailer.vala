@@ -206,8 +206,8 @@ public class Gth.Thumbnailer {
 				filmholes = load_png (bytes, 0, job.cancellable);
 			}
 			if (filmholes != null) {
-				thumbnail.fill_vertical (filmholes, Fill.START);
-				thumbnail.fill_vertical (filmholes, Fill.END);
+				thumbnail.fill_pattern (filmholes, Fill.VERTICAL_START);
+				thumbnail.fill_pattern (filmholes, Fill.VERTICAL_END);
 			}
 		}
 		return thumbnail;

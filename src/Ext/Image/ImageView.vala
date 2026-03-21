@@ -1318,6 +1318,7 @@ class Gth.SvgRenderer : Gth.ImageOperation {
 	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		var texture = input.get_scaled_texture (
 			zoom,
+			zoom,
 			0, 0,
 			(uint) (zoom * input.width),
 			(uint) (zoom * input.height));

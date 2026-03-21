@@ -37,7 +37,7 @@ struct _GthImage {
 struct _GthImageClass {
 	GObjectClass __parent_class;
 	gboolean (*get_is_scalable) (GthImage *self);
-	cairo_surface_t * (*get_scaled_texture) (GthImage *self, double factor, guint x, guint y, guint width, guint height);
+	cairo_surface_t * (*get_scaled_texture) (GthImage *self, double x_scale, double y_scale, guint x, guint y, guint width, guint height);
 };
 
 GType gth_image_get_type (void);
@@ -87,7 +87,7 @@ void gth_image_set_info (GthImage *self, GFileInfo *info);
 
 // Scalable images
 gboolean gth_image_get_is_scalable (GthImage *self);
-cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height);
+cairo_surface_t * gth_image_get_scaled_texture (GthImage *self, double x_scale, double y_scale, guint x, guint y, guint width, guint height);
 
 // Animated images
 void gth_image_add_frame (GthImage *self, GthImage *frame, uint delay);
@@ -145,7 +145,7 @@ GthImage * gth_image_cut (GthImage *self, guint x, guint y, guint width, guint h
 
 // Edit
 
-void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill);
+void gth_image_fill_pattern (GthImage *self, GthImage *pattern, GthFill fill);
 void gth_image_fill_color (GthImage *self, GdkRGBA *color);
 void gth_image_negative_colors (GthImage *self);
 void gth_image_render_frame (GthImage *canvas, GthImage *background,

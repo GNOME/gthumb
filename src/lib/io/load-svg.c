@@ -138,17 +138,17 @@ static gboolean gth_image_svg_get_is_scalable (GthImage *base) {
 }
 
 
-static cairo_surface_t * gth_image_svg_get_scaled_texture (GthImage *base, double scale_factor, guint x, guint y, guint width, guint height) {
+static cairo_surface_t * gth_image_svg_get_scaled_texture (GthImage *base, double x_scale, double y_scale, guint x, guint y, guint width, guint height) {
 	GthImageSvg *self = GTH_IMAGE_SVG (base);
 	guint original_width, original_height;
 	gth_image_get_original_size (base, &original_width, &original_height);
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	cairo_t *cr = cairo_create (surface);
 	RsvgRectangle viewport = {
-		.x = - ((double) x) * scale_factor,
-		.y = - ((double) y) * scale_factor,
-		.width = (double) original_width * scale_factor,
-		.height = (double) original_height * scale_factor
+		.x = - ((double) x) * x_scale,
+		.y = - ((double) y) * y_scale,
+		.width = (double) original_width * x_scale,
+		.height = (double) original_height * y_scale
 	};
 	if (!rsvg_handle_render_document (self->rsvg, cr, &viewport, NULL)) {
 		cairo_surface_destroy (surface);

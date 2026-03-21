@@ -213,8 +213,9 @@ public class Gth.PrintLayout : Object {
 
 			Cairo.Surface surface;
 			if (image.image.get_is_scalable ()) {
-				var scale_factor = (double) print_width / image.image.width;
-				surface = image.image.get_scaled_texture (scale_factor, 0, 0, print_width, print_height);
+				var x_scale = (double) print_width / image.image.width;
+				var y_scale = (double) print_height / image.image.height;
+				surface = image.image.get_scaled_texture (x_scale, y_scale, 0, 0, print_width, print_height);
 				if (image.orientation != Orientation.UP) {
 					var scaled = new Image.from_cairo_surface (surface);
 					scaled = scaled.apply_transform (image.orientation.to_transform (), cancellable);
@@ -551,9 +552,11 @@ public class Gth.PrintImageLayout {
 				var scaled_width = (uint) image_box.size.width;
 				var scaled_height = (uint) image_box.size.height;
 				Lib.scale_keeping_ratio (ref scaled_width, ref scaled_height, size, size, true);
-				var scale_factor = (double) scaled_width / image.width;
+				var x_scale = (double) scaled_width / image.width;
+				var y_scale = (double) scaled_height / image.height;
 				var texture = image.get_scaled_texture (
-					scale_factor,
+					x_scale,
+					y_scale,
 					0, 0,
 					scaled_width,
 					scaled_height);

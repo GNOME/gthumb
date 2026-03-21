@@ -66,8 +66,9 @@ typedef enum {
 } GthResizeFlags;
 
 typedef enum {
-	GTH_FILL_START,
-	GTH_FILL_END,
+	GTH_FILL_VERTICAL_START,
+	GTH_FILL_VERTICAL_END,
+	GTH_FILL_COVER,
 } GthFill;
 
 #define VALUE_MAP_ROWS 4

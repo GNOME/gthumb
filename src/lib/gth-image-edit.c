@@ -7,7 +7,7 @@
 #include "lib/types.h"
 #include "lib/util.h"
 
-void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
+void gth_image_fill_pattern (GthImage *self, GthImage *pattern, GthFill fill) {
 	int row_stride;
 	int width;
 	int height;
@@ -18,45 +18,57 @@ void gth_image_fill_vertical (GthImage *self, GthImage *pattern, GthFill fill) {
 	int pattern_height;
 	guchar *pattern_pixels = gth_image_prepare_edit (pattern, &pattern_stride, &pattern_width, &pattern_height);
 
-	if (width <= pattern_width * 2)
-		return;
-
-	int first_column = (fill == GTH_FILL_END) ? (width - pattern_width) : 0;
-	guchar *pattern_row = pattern_pixels;
-	guchar *dest_row = pixels;
-	int pattern_row_idx = 0;
+	int first_column = (fill == GTH_FILL_VERTICAL_END) ? (width - pattern_width) : 0;
+	int columns = 1;
+	if (fill == GTH_FILL_COVER) {
+		columns = width / pattern_width;
+		if (width % pattern_width != 0) {
+			columns += 1;
+		}
+	}
+	guchar *pattern_row;
+	guchar *dest_row;
+	int pattern_row_idx;
 	int temp;
 	int alpha;
 	float factor;
+	int column = first_column;
 
-	for (int row_idx = 0; row_idx < height; row_idx++) {
-		guchar *dest_pixel = dest_row + (first_column * PIXEL_BYTES);
-		guchar *pattern_pixel = pattern_row;
-		for (int col = 0; col < pattern_width; col++) {
-			alpha = pattern_pixel[PIXEL_ALPHA];
-			if (alpha == 0xFF) {
-				memcpy (dest_pixel, pattern_pixel, PIXEL_BYTES);
+	for (int column_idx = 0; column_idx < columns; column_idx++) {
+		dest_row = pixels;
+		pattern_row = pattern_pixels;
+		pattern_row_idx = 0;
+		for (int row_idx = 0; row_idx < height; row_idx++) {
+			guchar *dest_pixel = dest_row + (column * PIXEL_BYTES);
+			guchar *pattern_pixel = pattern_row;
+			int max_col = (column + pattern_width > width) ? width - column : pattern_width;
+			for (int col = 0; col < max_col; col++) {
+				alpha = pattern_pixel[PIXEL_ALPHA];
+				if (alpha == 0xFF) {
+					memcpy (dest_pixel, pattern_pixel, PIXEL_BYTES);
+				}
+				else {
+					factor = (float) (0xFF - alpha) / 0xFF;
+					dest_pixel[PIXEL_RED] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_RED] + pattern_pixel[PIXEL_RED]);
+					dest_pixel[PIXEL_GREEN] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_GREEN] + pattern_pixel[PIXEL_GREEN]);
+					dest_pixel[PIXEL_BLUE] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_BLUE] + pattern_pixel[PIXEL_BLUE]);
+				}
+				dest_pixel += PIXEL_BYTES;
+				pattern_pixel += PIXEL_BYTES;
+			}
+			dest_row += row_stride;
+
+			// Restart from row 0 if the pattern ends.
+			pattern_row_idx += 1;
+			if (pattern_row_idx >= pattern_height) {
+				pattern_row_idx = 0;
+				pattern_row = pattern_pixels;
 			}
 			else {
-				factor = (float) (0xFF - alpha) / 0xFF;
-				dest_pixel[PIXEL_RED] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_RED] + pattern_pixel[PIXEL_RED]);
-				dest_pixel[PIXEL_GREEN] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_GREEN] + pattern_pixel[PIXEL_GREEN]);
-				dest_pixel[PIXEL_BLUE] = PIXEL_CLAMP (factor * dest_pixel[PIXEL_BLUE] + pattern_pixel[PIXEL_BLUE]);
+				pattern_row += pattern_stride;
 			}
-			dest_pixel += PIXEL_BYTES;
-			pattern_pixel += PIXEL_BYTES;
 		}
-		dest_row += row_stride;
-
-		// Restart from row 0 if the pattern ends.
-		pattern_row_idx += 1;
-		if (pattern_row_idx >= pattern_height) {
-			pattern_row_idx = 0;
-			pattern_row = pattern_pixels;
-		}
-		else {
-			pattern_row += pattern_stride;
-		}
+		column += pattern_width;
 	}
 }
 

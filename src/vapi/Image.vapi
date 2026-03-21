@@ -46,7 +46,7 @@ namespace Gth {
 		public bool get_rgba (uint x, uint y, out uint8 red, out uint8 green, out uint8 blue, out uint8 alpha);
 
 		public virtual bool get_is_scalable ();
-		public virtual Cairo.Surface? get_scaled_texture (double factor, uint x, uint y, uint width, uint height);
+		public virtual Cairo.Surface? get_scaled_texture (double x_scale, double y_scale, uint x, uint y, uint width, uint height);
 
 		public bool get_is_animated ();
 		public uint get_frames ();
@@ -59,7 +59,7 @@ namespace Gth {
 		public bool apply_icc_profile (ColorManager color_manager, IccProfile profile, Cancellable cancellable);
 		public async bool apply_icc_profile_async (ColorManager color_manager, IccProfile profile, Cancellable cancellable) throws Error;
 
-		public void fill_vertical (Image pattern, Fill fill);
+		public void fill_pattern (Image pattern, Fill fill);
 		public void fill_color (Gdk.RGBA color);
 		public void negative_colors ();
 

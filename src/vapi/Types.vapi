@@ -65,8 +65,9 @@ public enum Gth.ResizeFlags {
 
 [CCode (cheader_filename = "lib/types.h", has_type_id = false)]
 public enum Gth.Fill {
-	START,
-	END
+	VERTICAL_START,
+	VERTICAL_END,
+	COVER,
 }
 
 [CCode (cheader_filename = "lib/types.h", has_type_id = false)]

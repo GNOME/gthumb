@@ -11,6 +11,18 @@ public class Gth.ResizeImage : ImageTool {
 
 		window.editor.set_content (image_view);
 
+		var method_check = builder.get_object ("method_scaled_check") as Gtk.CheckButton;
+		method_check.notify["active"].connect ((obj, _param) => {
+			var local_check = obj as Gtk.CheckButton;
+			repeated = !local_check.active;
+			if (!ratio_disabled ()) {
+				set_size_with_ratio (width, height);
+			}
+			else {
+				queue_update_size ();
+			}
+		});
+
 		var high_quality_switch = builder.get_object ("high_quality_switch") as Adw.SwitchRow;
 		high_quality_switch.notify["active"].connect ((obj, _param) => {
 			var local_switch = obj as Adw.SwitchRow;
@@ -32,30 +44,16 @@ public class Gth.ResizeImage : ImageTool {
 		var spin_row = builder.get_object ("width") as Adw.SpinRow;
 		width_changed_id = spin_row.adjustment.value_changed.connect ((obj) => {
 			var local_adj = obj as Gtk.Adjustment;
-			uint new_width, new_height;
-			if (unit == ResizeUnit.PERCENT) {
-				new_width = (uint) (local_adj.value * original.width / 100.0);
-				new_height = (ratio == 0) ? height : (uint) (local_adj.value * original.height / 100.0);
-			}
-			else {
-				new_width = (uint) local_adj.value;
-				new_height = (ratio == 0) ? height : (uint) ((float) new_width / ratio);
-			}
+			var new_width = (uint) local_adj.value;
+			var new_height = ratio_disabled () ? height : (uint) ((float) new_width / ratio);
 			set_size (new_width, new_height);
 		});
 
 		spin_row = builder.get_object ("height") as Adw.SpinRow;
 		height_changed_id = spin_row.adjustment.value_changed.connect ((obj) => {
 			var local_adj = obj as Gtk.Adjustment;
-			uint new_width, new_height;
-			if (unit == ResizeUnit.PERCENT) {
-				new_height = (uint) (local_adj.value * original.height / 100.0);
-				new_width = (ratio == 0) ? width : (uint) (local_adj.value * original.width / 100.0);
-			}
-			else {
-				new_height = (uint) local_adj.value;
-				new_width = (ratio == 0) ? width : (uint) (ratio * new_height);
-			}
+			var new_height = (uint) local_adj.value;
+			var new_width = ratio_disabled () ? width : (uint) (ratio * new_height);
 			set_size (new_width, new_height);
 		});
 
@@ -69,7 +67,7 @@ public class Gth.ResizeImage : ImageTool {
 			var button = new Adw.ButtonRow ();
 			button.child = new_size_button_content (_("Screen"), (uint) geometry.width, (uint) geometry.height);
 			button.activated.connect (() => {
-				if (ratio == 0) {
+				if (ratio_disabled ()) {
 					set_size ((uint) geometry.width, (uint) geometry.height);
 				}
 				else {
@@ -81,6 +79,7 @@ public class Gth.ResizeImage : ImageTool {
 						new_width = (uint) ((float) new_height * ratio);
 					}
 					set_size (new_width, new_height);
+
 				}
 			});
 			special_size_group.add (button);
@@ -109,14 +108,6 @@ public class Gth.ResizeImage : ImageTool {
 			update_ratio (after_rotation);
 		});
 
-		var unit_group = builder.get_object ("unit_group") as Adw.ToggleGroup;
-		unit_group.active_name = (unit == ResizeUnit.PIXEL) ? "pixels" : "percent";
-		unit_group.notify["active-name"].connect ((obj, param) => {
-			var local_group = obj as Adw.ToggleGroup;
-			unit = (local_group.active_name == "pixels") ? ResizeUnit.PIXEL : ResizeUnit.PERCENT;
-			set_size (width, height);
-		});
-
 		ratio = (float) original.width / original.height;
 		set_size (original.width, original.height);
 	}
@@ -133,7 +124,11 @@ public class Gth.ResizeImage : ImageTool {
 	}
 
 	public override ImageOperation? get_operation () {
-		return new ResizeOperation (width, height, high_quality);
+		return new ResizeOperation (width, height, high_quality, repeated);
+	}
+
+	inline bool ratio_disabled () {
+		return (ratio == 0) || repeated;
 	}
 
 	Gtk.Widget new_size_button_content (string title, uint width, uint height, string? icon = null) {
@@ -165,7 +160,6 @@ public class Gth.ResizeImage : ImageTool {
 		title = _("Resize");
 		icon_name = "gth-resize-symbolic";
 		preview_job = null;
-		unit = ResizeUnit.PIXEL;
 	}
 
 	void set_size (uint _width, uint _height) {
@@ -182,36 +176,20 @@ public class Gth.ResizeImage : ImageTool {
 		var spin_row = builder.get_object ("width") as Adw.SpinRow;
 		SignalHandler.block (spin_row.adjustment, width_changed_id);
 		spin_row.adjustment.freeze_notify ();
-		if (unit == ResizeUnit.PERCENT) {
-			spin_row.adjustment.lower = 1;
-			spin_row.adjustment.upper = MAX_PERCENT;
-			spin_row.adjustment.step_increment = 1;
-			spin_row.adjustment.value = (double) width / original.width * 100;;
-		}
-		else {
-			spin_row.adjustment.lower = 1;
-			spin_row.adjustment.upper = MAX_SIZE;
-			spin_row.adjustment.step_increment = 1;
-			spin_row.adjustment.value = (double) width;
-		}
+		spin_row.adjustment.lower = 1;
+		spin_row.adjustment.upper = MAX_SIZE;
+		spin_row.adjustment.step_increment = 1;
+		spin_row.adjustment.value = (double) width;
 		spin_row.adjustment.thaw_notify ();
 		SignalHandler.unblock (spin_row.adjustment, width_changed_id);
 
 		spin_row = builder.get_object ("height") as Adw.SpinRow;
 		SignalHandler.block (spin_row.adjustment, height_changed_id);
 		spin_row.adjustment.freeze_notify ();
-		if (unit == ResizeUnit.PERCENT) {
-			spin_row.adjustment.lower = 1;
-			spin_row.adjustment.upper = MAX_PERCENT;
-			spin_row.adjustment.step_increment = 1;
-			spin_row.adjustment.value = (double) height / original.height * 100;
-		}
-		else {
-			spin_row.adjustment.lower = 1;
-			spin_row.adjustment.upper = MAX_SIZE;
-			spin_row.adjustment.step_increment = 1;
-			spin_row.adjustment.value = (double) height;
-		}
+		spin_row.adjustment.lower = 1;
+		spin_row.adjustment.upper = MAX_SIZE;
+		spin_row.adjustment.step_increment = 1;
+		spin_row.adjustment.value = (double) height;
 		spin_row.adjustment.thaw_notify ();
 		SignalHandler.unblock (spin_row.adjustment, height_changed_id);
 
@@ -219,7 +197,7 @@ public class Gth.ResizeImage : ImageTool {
 	}
 
 	void set_size_with_ratio (uint width, uint height) {
-		if (ratio != 0) {
+		if ((ratio != 0) && !repeated) {
 			var new_height = height;
 			var new_width = (uint) (ratio * height);
 			if (new_width > width) {
@@ -282,14 +260,13 @@ public class Gth.ResizeImage : ImageTool {
 	uint width;
 	uint height;
 	float ratio;
-	ResizeUnit unit;
 	Job preview_job;
 	unowned Gtk.Adjustment zoom_adjustment;
 	ulong zoom_adj_changed_id;
 	bool high_quality = true;
+	bool repeated = false;
 
 	const double MAX_SIZE = 10000;
-	const double MAX_PERCENT = 1000;
 	const uint UPDATE_DELAY = 100;
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 3f;
@@ -297,20 +274,38 @@ public class Gth.ResizeImage : ImageTool {
 }
 
 public class Gth.ResizeOperation : ImageOperation {
-	public ResizeOperation (uint _width, uint _height, bool _high_quality) {
+	public ResizeOperation (uint _width, uint _height, bool _high_quality, bool _repeat) {
 		width = _width;
 		height = _height;
 		high_quality = _high_quality;
+		repeat = _repeat;
 	}
 
 	public override Gth.Image? execute (Image input, Cancellable cancellable, bool for_preview = false) {
 		if (input == null) {
 			return null;
 		}
-		return input.resize_to (width, height, high_quality ? ScaleFilter.BEST : ScaleFilter.POINT, cancellable);
+		Image output;
+		if (repeat) {
+			output = new Image (width, height);
+			Gdk.RGBA background = { 0, 0, 0, 0 };
+			output.fill_color (background);
+			output.fill_pattern (input, Fill.COVER);
+		}
+		else if (input.get_is_scalable ()) {
+			var x_scale = (double) width / input.width;
+			var y_scale = (double) height / input.height;
+			var surface = input.get_scaled_texture (x_scale, y_scale, 0, 0, width, height);
+			output = new Image.from_cairo_surface (surface);
+		}
+		else {
+			output = input.resize_to (width, height, high_quality ? ScaleFilter.BEST : ScaleFilter.POINT, cancellable);
+		}
+		return output;
 	}
 
 	uint width;
 	uint height;
 	bool high_quality;
+	bool repeat;
 }

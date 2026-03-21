@@ -115,7 +115,7 @@ static gboolean base_get_is_scalable (GthImage *self) {
 	return FALSE;
 }
 
-static cairo_surface_t * base_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height) {
+static cairo_surface_t * base_get_scaled_texture (GthImage *self, double x_scale, double y_scale, guint x, guint y, guint width, guint height) {
 	return NULL;
 }
 
@@ -619,9 +619,9 @@ gboolean gth_image_get_is_scalable (GthImage *self) {
 	return GTH_IMAGE_GET_CLASS (self)->get_is_scalable (self);
 }
 
-cairo_surface_t* gth_image_get_scaled_texture (GthImage *self, double factor, guint x, guint y, guint width, guint height) {
+cairo_surface_t* gth_image_get_scaled_texture (GthImage *self, double x_scale, double y_scale, guint x, guint y, guint width, guint height) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
-	return GTH_IMAGE_GET_CLASS (self)->get_scaled_texture (self, factor, x, y, width, height);
+	return GTH_IMAGE_GET_CLASS (self)->get_scaled_texture (self, x_scale, y_scale, x, y, width, height);
 }
 
 void gth_image_add_frame (GthImage *self, GthImage *frame_image, guint delay) {
