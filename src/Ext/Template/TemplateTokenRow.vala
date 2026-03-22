@@ -157,7 +157,7 @@ public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 			token.value = get_value ();
 			icon_widget.append (new TemplateTokenRow (token, true));
 
-			unowned var drag_icon = Gtk.DragIcon.get_for_drag (drag) as Gtk.DragIcon;
+			unowned var drag_icon = Util.get_drag_icon_for_drag (drag);
 			drag_icon.set_child (icon_widget);
 			drag.set_hotspot (hot_x, hot_y);
 		});

@@ -25,7 +25,7 @@ public class Gth.SearchSourceRow : Adw.ActionRow {
 			icon_widget.set_size_request (this.get_width (), this.get_height ());
 			icon_widget.append (new Gth.SearchSourceRow (search_source, true));
 
-			unowned var drag_icon = Gtk.DragIcon.get_for_drag (drag) as Gtk.DragIcon;
+			unowned var drag_icon = Util.get_drag_icon_for_drag (drag);
 			drag_icon.set_child (icon_widget);
 			drag.set_hotspot (hot_x, hot_y);
 		});

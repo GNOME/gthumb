@@ -135,6 +135,7 @@ endif
 
 vapi_files = files(
   'vapi/ColorManager.vapi',
+  'vapi/Compat.vapi',
   'vapi/Config.vapi',
   'vapi/Curve.vapi',
   'vapi/Exiv2.vapi',
