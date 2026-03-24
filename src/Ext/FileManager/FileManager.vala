@@ -226,6 +226,14 @@ public class Gth.FileManager {
 					break;
 				}
 				foreach (var info in info_list) {
+					if (!info.has_attribute (FileAttribute.STANDARD_IS_BACKUP)) {
+						info.set_attribute_boolean (FileAttribute.STANDARD_IS_BACKUP, false);
+					}
+
+					if (!info.has_attribute (FileAttribute.STANDARD_IS_HIDDEN)) {
+						info.set_attribute_boolean (FileAttribute.STANDARD_IS_HIDDEN, false);
+					}
+
 					var child = enumerator.get_child (info);
 					var child_data = new Gth.FileData (child, info);
 
