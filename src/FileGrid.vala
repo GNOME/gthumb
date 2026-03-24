@@ -349,7 +349,7 @@ public class Gth.FileGrid : Gtk.Box {
 		var factory = new Gtk.SignalListItemFactory ();
 		factory.setup.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;
-			list_item.child = new Gth.FileGridItem (this, thumbnail_attributes_v);
+			list_item.child = new Gth.FileGridItem (this);
 		});
 		factory.teardown.connect ((obj) => {
 			var list_item = obj as Gtk.ListItem;

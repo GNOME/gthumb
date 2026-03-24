@@ -1,11 +1,10 @@
 public class Gth.FileGridItem : Gtk.Box {
-	public unowned string[] attributes_v;
 	public FileData file_data;
 	public weak Gth.FileGrid file_grid;
 
-	public FileGridItem (Gth.FileGrid _file_grid, string[] _attributes_v) {
+	public FileGridItem (Gth.FileGrid _file_grid) {
 		file_grid = _file_grid;
-		attributes_v = _attributes_v;
+		attributes_v = file_grid.thumbnail_attributes_v;
 		size = 0;
 		orientation = Gtk.Orientation.VERTICAL;
 		halign = Gtk.Align.CENTER;
@@ -147,6 +146,7 @@ public class Gth.FileGridItem : Gtk.Box {
 	Gtk.Inscription third_label;
 	uint size;
 	ulong file_renamed_id;
+	unowned string[] attributes_v;
 
 	const int V_SPACING = 6;
 }
