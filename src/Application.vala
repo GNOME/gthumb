@@ -469,7 +469,9 @@ public class Gth.Application : Adw.Application {
 			// 'video/mp4' -> 'video/*'
 			var generic_type = Util.get_generic_type (content_type);
 			func = external_loaders.get (generic_type);
-			external_loaders.set (content_type, func);
+			if (func != null) {
+				external_loaders.set (content_type, func);
+			}
 		}
 		return external_loaders.get (content_type);
 	}
