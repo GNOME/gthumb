@@ -14,6 +14,7 @@ public class Gth.FileGrid : Gtk.Box {
 			return _thumbnailer;
 		}
 	}
+	public bool filename_as_tooltip { get; set; default = false; }
 
 	[GtkChild] public unowned Gtk.GridView view;
 

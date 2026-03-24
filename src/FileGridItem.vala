@@ -123,6 +123,7 @@ public class Gth.FileGridItem : Gtk.Box {
 		first_label.set_text ("");
 		second_label.set_text ("");
 		third_label.set_text ("");
+		tooltip_text = null;
 	}
 
 	void update_attributes () {
@@ -134,6 +135,9 @@ public class Gth.FileGridItem : Gtk.Box {
 		}
 		if (attributes_v.length > 2) {
 			third_label.set_text (file_data.get_attribute_as_string (attributes_v[2]));
+		}
+		if (file_grid.filename_as_tooltip) {
+			tooltip_text = file_data.get_display_name ();
 		}
 	}
 

@@ -144,6 +144,7 @@
                   <object class="GthSidebarResizer" id="file_grid_resizer">
                     <child>
                       <object class="GthFileGrid" id="file_grid">
+                        <property name="filename_as_tooltip">true</property>
                       </object>
                     </child>
                   </object>
