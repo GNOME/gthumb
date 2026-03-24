@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-03-21 18:08+0000\n"
-"PO-Revision-Date: 2026-03-21 23:03+0100\n"
+"POT-Creation-Date: 2026-03-24 16:16+0000\n"
+"PO-Revision-Date: 2026-03-24 18:14+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -338,7 +338,7 @@ msgstr "Tretja vrstica"
 msgid "Behavior"
 msgstr "Obnašanje"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:638
+#: data/ui/browser-preferences.ui:71 src/Application.vala:640
 msgid "Open files in fullscreen mode"
 msgstr "Odpri datoteke v celozaslonskem načinu"
 
@@ -754,7 +754,6 @@ msgid "Move to Bottom"
 msgstr "Premakni na dno"
 
 #: data/ui/file-property-view.ui:36
-#, fuzzy
 msgid "Copy Raw Value"
 msgstr "Kopiraj neobdelano vrednost"
 
@@ -763,12 +762,10 @@ msgid "Filter"
 msgstr "Filter"
 
 #: data/ui/filter-editor-page.ui:50
-#, fuzzy
 msgid "Limited Content"
 msgstr "Omejena vsebina"
 
 #: data/ui/filter-editor-page.ui:54
-#, fuzzy
 msgid "Max Files"
 msgstr "Največ datotek"
 
@@ -1031,9 +1028,8 @@ msgid "Progressive"
 msgstr "Progresivno"
 
 #: data/ui/jpeg-preferences.ui:60 data/ui/tiff-preferences.ui:52
-#, fuzzy
 msgid "Default Extension"
-msgstr "Privzete pripona"
+msgstr "Privzeta pripona"
 
 #: data/ui/jxl-preferences.ui:43 data/ui/webp-preferences.ui:43
 msgctxt "Method"
@@ -1389,7 +1385,6 @@ msgid "Script"
 msgstr "Skript"
 
 #: data/ui/script-editor-page.ui:71
-#, fuzzy
 msgid "Execute as a shell script"
 msgstr "Izvedi kot skript lupine"
 
@@ -1540,12 +1535,10 @@ msgid "Rules"
 msgstr "Pravila"
 
 #: data/ui/test-expr-editor-group.ui:37
-#, fuzzy
 msgid "Match All the Rules"
 msgstr "Ujemanje vseh pravil"
 
 #: data/ui/test-expr-editor-group.ui:48
-#, fuzzy
 msgid "Match Any Rule"
 msgstr "Ujemanje vsaj enega pravila"
 
@@ -1744,17 +1737,13 @@ msgstr "Spremenjeno"
 
 #. Translators: the file change time.
 #: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
-#, fuzzy
-#| msgid "File manager"
 msgid "File Changed"
-msgstr "Upravljalnik datotek"
+msgstr "Datoteka spremenjena"
 
 #. Translators: the file creation time.
 #: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
-#, fuzzy
-#| msgid "File date"
 msgid "File Created"
-msgstr "Datum datoteke"
+msgstr "Datoteka ustvarjena"
 
 #: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
@@ -1875,23 +1864,23 @@ msgstr "Sličice"
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: src/Application.vala:620
+#: src/Application.vala:622
 msgid "Show the application version"
 msgstr "Pokaži različico programa"
 
-#: src/Application.vala:629
+#: src/Application.vala:631
 msgid "Open a new window"
 msgstr "Odpri novo okno"
 
-#: src/Application.vala:648
+#: src/Application.vala:650
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[DATOTEKA...] [MAPA...]"
 
-#: src/Application.vala:652
+#: src/Application.vala:654
 msgid "— Image Browser and Viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
 
-#: src/Application.vala:715
+#: src/Application.vala:717
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
@@ -2404,7 +2393,6 @@ msgid "Skip _All"
 msgstr "Preskoči _vse"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:204
-#, fuzzy
 msgid "Content to Replace"
 msgstr "Vsebina za zamenjavo"
 
@@ -2482,51 +2470,38 @@ msgid "GB"
 msgstr "GB"
 
 #: src/Ext/Filters/TestDate.vala:110 src/Ext/Filters/TestString.vala:146
-#, fuzzy
 msgid "Different From"
 msgstr "Se razlikuje od"
 
 #: src/Ext/Filters/TestString.vala:142
-#, fuzzy
-#| msgid "contains"
 msgid "Contains"
 msgstr "vsebuje"
 
 #: src/Ext/Filters/TestString.vala:143
-#, fuzzy
-#| msgid "starts with"
 msgid "Starts With"
 msgstr "se začne z"
 
 #: src/Ext/Filters/TestString.vala:144
-#, fuzzy
-#| msgid "ends with"
 msgid "Ends With"
 msgstr "se konča z"
 
 #: src/Ext/Filters/TestString.vala:147
-#, fuzzy
-#| msgid "does not contain"
 msgid "Does not Contain"
 msgstr "ne vsebuje"
 
 #: src/Ext/Filters/TestString.vala:148 src/Ext/Filters/TestStringList.vala:140
-#, fuzzy
 msgid "Matches Pattern"
 msgstr "Se ujema z vzorcem"
 
 #: src/Ext/Filters/TestStringList.vala:137
-#, fuzzy
 msgid "Includes"
 msgstr "Vključuje"
 
 #: src/Ext/Filters/TestStringList.vala:138
-#, fuzzy
 msgid "Includes Only"
 msgstr "Vključuje samo"
 
 #: src/Ext/Filters/TestStringList.vala:139
-#, fuzzy
 msgid "Not Includes"
 msgstr "Ne vključuje"
 
@@ -2628,15 +2603,11 @@ msgstr "Ime datoteke"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:9
 #: src/Ext/Scripts/ScriptCommandPage.vala:11
-#, fuzzy
-#| msgid "File name, no extension"
 msgid "File Name, No Extension"
 msgstr "Ime datoteke, brez pripone"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:10
 #: src/Ext/Scripts/ScriptCommandPage.vala:12
-#, fuzzy
-#| msgid "File extension"
 msgid "File Extension"
 msgstr "Pripona datoteke"
 
@@ -2651,7 +2622,6 @@ msgid "Created"
 msgstr "Ustvarjeno"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:14
-#, fuzzy
 msgid "Digitalized"
 msgstr "Digitizirano"
 
@@ -2677,7 +2647,6 @@ msgstr "JPEG"
 
 #. Translators: file type
 #: src/Ext/Savers/JxlPreferences.vala:8
-#| msgid "JPEG XL"
 msgid "JXL"
 msgstr "JXL"
 
@@ -2737,9 +2706,8 @@ msgstr "Upravljalnik datotek"
 
 #: src/Ext/Shortcuts/Shortcut.vala:262
 #, fuzzy
-#| msgid "Audio/Video Player"
 msgid "Audio/Video"
-msgstr "Predvajalnik videa/zvoka"
+msgstr "Zvok in video"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:134
 msgid "Close Window"
@@ -2767,13 +2735,10 @@ msgid "Parent Folder"
 msgstr "Nadrejena mapa"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:144
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous Visited"
-msgstr "Predhodna"
+msgstr "Predhodno obiskano"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:145
-#, fuzzy
 msgid "Next Visited"
 msgstr "Naslednje obiskano"
 
@@ -3132,10 +3097,8 @@ msgid "Saving File"
 msgstr "Shranjevanje datoteke"
 
 #: src/Ext/Video/VideoViewer.vala:659
-#, fuzzy
-#| msgid "Could not add the files to the catalog"
 msgid "Could not copy the image to the clipboard"
-msgstr "Datotek ni mogoče dodati v katalog"
+msgstr "Slike ni možno kopirati v odložišče"
 
 #: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
 #: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:287
@@ -3144,10 +3107,9 @@ msgstr "Neveljavno ime datoteke"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
 #: src/Ext/Video/VideoViewer.vala:758
-#, fuzzy, c-format
-#| msgid "Save As…"
+#, c-format
 msgid "Saved %s"
-msgstr "Shrani kot s…"
+msgstr "Shranjeno %s"
 
 #: src/FilePropertyView.vala:124
 msgid "Copy Path"
@@ -3191,7 +3153,6 @@ msgid "Copying Files"
 msgstr "Kopiranje datotek"
 
 #: src/MainWindow.vala:855
-#, fuzzy
 msgid "Clear EXIF Rotation"
 msgstr "Počisti sukanje EXIF"
 
