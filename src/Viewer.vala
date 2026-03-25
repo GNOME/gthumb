@@ -234,10 +234,9 @@ public class Gth.Viewer : Gtk.Box {
 	void activate_viewer_for_file (FileData file) {
 		if ((current_viewer == null) || !app.viewer_can_view (current_viewer.get_class ().get_type (), file.get_content_type ())) {
 			if (current_viewer != null) {
-				before_close_page ();
+				before_close_viewer ();
 			}
 			current_viewer = app.get_viewer_for_type (file.get_content_type ());
-			before_open_page ();
 			current_viewer.activate (window);
 		}
 	}
@@ -336,10 +335,22 @@ public class Gth.Viewer : Gtk.Box {
 		right_toolbar.append (toolbar);
 	}
 
-	public void before_open_page () {
+	public void after_open_page () {
+		if (content_view.show_sidebar) {
+			file_grid.start_thumbnailer ();
+		}
+		update_title ();
+		focus_viewer ();
 	}
 
 	public void before_close_page () {
+		before_close_viewer ();
+		if (content_view.show_sidebar) {
+			file_grid.stop_thumbnailer ();
+		}
+	}
+
+	public void before_close_viewer () {
 		viewer_signals.disconnect_all ();
 		viewer_container.child = null;
 		Util.remove_all_children (left_toolbar);
@@ -729,6 +740,14 @@ public class Gth.Viewer : Gtk.Box {
 		fullscreen_state = new FullscreenState (this);
 		viewer_signals = new RegisteredSignals ();
 		fixed_signals = new RegisteredSignals ();
+		content_view.notify["show-sidebar"].connect (() => {
+			if (!content_view.show_sidebar) {
+				file_grid.stop_thumbnailer ();
+			}
+			else if (window.current_page == MainWindow.Page.VIEWER) {
+				file_grid.start_thumbnailer ();
+			}
+		});
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;

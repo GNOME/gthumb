@@ -59,7 +59,7 @@ public class Gth.Thumbnailer {
 		get_next_file_func = null;
 		file_queue = new Queue<FileData>();
 		job_queue = new GenericArray<ThumbnailJob>();
-		active = true;
+		active = false;
 	}
 
 	public Thumbnailer.for_window (Gth.Window window) {

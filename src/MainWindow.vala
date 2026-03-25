@@ -114,12 +114,12 @@ public class Gth.MainWindow : Gth.Window {
 					}
 				}
 			}
-			browser.update_title ();
-			browser.focus_thumbnail_list ();
+			browser.after_open_page ();
 			break;
 
 		case Page.VIEWER:
 			if (previuos_page == Page.BROWSER) {
+				browser.before_close_page ();
 				browser.save_window_size ();
 				if (browser.content_view.show_sidebar) {
 					viewer.main_view.max_sidebar_width = browser.content_view.max_sidebar_width;
@@ -130,8 +130,7 @@ public class Gth.MainWindow : Gth.Window {
 				viewer.main_view.max_sidebar_width = editor.main_view.max_sidebar_width;
 			}
 			stack.set_visible_child (viewer);
-			viewer.update_title ();
-			viewer.focus_viewer ();
+			viewer.after_open_page ();
 			if (previuos_page == Page.EDITOR) {
 				var image_viewer = viewer.current_viewer as ImageViewer;
 				if (image_viewer != null) {
@@ -1142,6 +1141,7 @@ public class Gth.MainWindow : Gth.Window {
 
 	public override void before_closing () {
 		browser.file_grid.stop_thumbnailer ();
+		viewer.file_grid.stop_thumbnailer ();
 		var save_preferences = app.one_window () && get_realized ();
 		if (save_preferences) {
 			browser.save_preferences (current_page == Page.BROWSER);

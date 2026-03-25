@@ -135,7 +135,6 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	public async void load_folder (File location, LoadAction load_action, Job? job = null) throws Error {
-		file_grid.stop_thumbnailer ();
 		try {
 			freeze_thumbnail_list ();
 			folder_tree.list_attributes = get_list_attributes (true);
@@ -171,7 +170,6 @@ public class Gth.Browser : Gtk.Box {
 		if (load_action != LoadAction.OPEN_FROM_HISTORY) {
 			history.add (folder_tree.current_folder.file);
 		}
-		file_grid.start_thumbnailer ();
 	}
 
 	public async void open_location_async (File location, LoadAction load_action = LoadAction.OPEN, Job? job = null) throws Error {
@@ -226,6 +224,18 @@ public class Gth.Browser : Gtk.Box {
 			return;
 		}
 		open_location (folder_tree.current_folder.file, LoadAction.OPEN_SUBFOLDER);
+	}
+
+	public void after_open_page () {
+		update_title ();
+		focus_thumbnail_list ();
+		if (!folder_tree.loading) {
+			file_grid.start_thumbnailer ();
+		}
+	}
+
+	public void before_close_page () {
+		file_grid.stop_thumbnailer ();
 	}
 
 	public void set_file_order (string name, bool inverse) {
@@ -1254,7 +1264,7 @@ public class Gth.Browser : Gtk.Box {
 			if (folder_tree.loading) {
 				file_grid.stop_thumbnailer ();
 			}
-			else {
+			else if (window.current_page == MainWindow.Page.BROWSER) {
 				file_grid.start_thumbnailer ();
 			}
 		});

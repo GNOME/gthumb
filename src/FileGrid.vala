@@ -221,27 +221,14 @@ public class Gth.FileGrid : Gtk.Box {
 		return closest_item;
 	}
 
-	uint thumbnailer_stops = 0;
-
 	public void stop_thumbnailer () {
-		thumbnailer_stops++;
-		if (_thumbnailer != null) {
-			_thumbnailer.cancel ();
-			_thumbnailer.set_active (false);
-		}
+		_thumbnailer.cancel ();
+		_thumbnailer.set_active (false);
 	}
 
 	public void start_thumbnailer () {
-		if (thumbnailer_stops > 0) {
-			thumbnailer_stops--;
-			if (thumbnailer_stops > 0) {
-				return;
-			}
-		}
-		if (_thumbnailer != null) {
-			_thumbnailer.set_active (true);
-			_thumbnailer.queue_load_next ();
-		}
+		_thumbnailer.set_active (true);
+		_thumbnailer.queue_load_next ();
 	}
 
 	public void update_thumbnails (GenericArray<FileData> files) {

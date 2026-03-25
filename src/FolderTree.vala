@@ -112,6 +112,8 @@ public class Gth.FolderTree : Gtk.Box {
 			last_expanded = null;
 		}
 
+		loading = true;
+
 		var job_is_local = (external_job == null);
 		var local_job = external_job;
 		if (local_job == null) {
@@ -119,7 +121,6 @@ public class Gth.FolderTree : Gtk.Box {
 				JobFlags.DEFAULT,
 				"folder-symbolic");
 			load_job = local_job;
-			loading = true;
 		}
 		try {
 			var nearest_root = yield app.devices.ensure_mounted (location, get_root () as Gtk.Window, local_job.cancellable);
@@ -188,8 +189,10 @@ public class Gth.FolderTree : Gtk.Box {
 			local_job.done ();
 			if (load_job == local_job) {
 				load_job = null;
-				loading = false;
 			}
+		}
+		if (!building_the_tree ()) {
+			loading = false;
 		}
 		if (local_job.error != null) {
 			throw local_job.error;
@@ -379,6 +382,7 @@ public class Gth.FolderTree : Gtk.Box {
 		expand_parents.clear ();
 		last_expanded = null;
 		queue_select_current_folder ();
+		loading = false;
 	}
 
 	void expand_next_parent_for_current_folder () {
