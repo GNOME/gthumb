@@ -38,6 +38,7 @@ More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
   * libjpeg
   * exiv2: embedded metadata support
   * lcms2: color profile support
+  * gstreamer, gstreamer-plugins-base, gstreamer-video: audio/video support
   * gsettings-desktop-schemas
 
   Other optional libraries:
@@ -49,7 +50,6 @@ More information can be found at <https://gitlab.gnome.org/GNOME/gthumb/>.
   * libjxl: display and save JPEG XL images
   * libheif: display and save AVIF images
   * libgif: display GIF animation
-  * gstreamer, gstreamer-plugins-base, gstreamer-video: audio/video support
   * colord: read the monitor color profile
 
 ## Download
