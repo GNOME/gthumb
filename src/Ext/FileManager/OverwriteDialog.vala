@@ -242,6 +242,7 @@ public class Gth.OverwriteDialog : Object {
 	void load_thumbnails () {
 		thumbnailer = new Thumbnailer.for_window (parent);
 		thumbnailer.requested_size = parent.browser.file_grid.thumbnail_size;
+		thumbnailer.set_active (true);
 		destination_thumbnail.size = thumbnailer.requested_size;
 		thumbnailer.add (destination);
 		if (source_thumbnail != null) {

@@ -60,6 +60,7 @@ class Gth.ScriptParametersDialog : Adw.Window {
 
 			thumbnailer = new Thumbnailer.for_window (parent);
 			thumbnailer.requested_size = parent.browser.file_grid.thumbnail_size;
+			thumbnailer.set_active (true);
 			thumbnailer.add (file);
 		}
 		else {
