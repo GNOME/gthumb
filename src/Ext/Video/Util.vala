@@ -13,7 +13,7 @@ public Gth.Image? load_video_thumbnail (File file, uint requested_size, Cancella
 	var proc = new Subprocess.newv (argv, SubprocessFlags.NONE);
 	ulong id = 0;
 	try {
-		id = cancellable.connect (() => proc.force_exit ());
+		id = cancellable.cancelled.connect (() => proc.force_exit ());
 		proc.wait_check (null);
 		if (proc.get_if_exited ()) {
 			var bytes = Files.load_file (tmp_output, cancellable);
