@@ -1746,6 +1746,7 @@ public class Gth.Browser : Gtk.Box {
 			}
 		}
 		file_grid.update_thumbnails (visible_files);
+		window.viewer.file_grid.update_thumbnails (visible_files);
 
 		update_total_files ();
 		local_job.done ();
