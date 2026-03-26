@@ -696,7 +696,13 @@ public class Gth.Viewer : Gtk.Box {
 		action.activate.connect ((_action, param) => {
 			uint width, height;
 			if (current_viewer.get_pixel_size (out width, out height)) {
-				var extra_width = (uint) (main_view.show_sidebar ? main_view.sidebar.get_width () : 0);
+				var extra_width = 0u;
+				if (main_view.show_sidebar) {
+					extra_width += main_view.sidebar.get_width ();
+				}
+				if (content_view.show_sidebar) {
+					extra_width += content_view.sidebar.get_width ();
+				}
 				var extra_height = (uint) headerbar.get_height ();
 
 				//stdout.printf ("> WINDOW SIZE: %dx%d\n", window.get_width (), window.get_height ());
