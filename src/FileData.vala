@@ -4,8 +4,6 @@ public class Gth.FileData : Object {
 	public GenericList<FileData> children;
 	public ChildrenState children_state { get; set; }
 
-	public signal void renamed ();
-
 	public FileData (File _file, FileInfo? _info = null) {
 		file = _file;
 		info = (_info != null) ? _info : new FileInfo ();
@@ -88,7 +86,7 @@ public class Gth.FileData : Object {
 		return sort_key;
 	}
 
-	public void info_changed () {
+	public virtual signal void info_changed () {
 		// Invalidate cached data.
 		mtime = null;
 		btime = null;

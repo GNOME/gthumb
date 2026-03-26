@@ -57,7 +57,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 				folder_tree.list_subfolders (file_data);
 			}
 		});
-		file_renamed_id = file_data.renamed.connect (() => {
+		file_renamed_id = file_data.info_changed.connect_after (() => {
 			label.set_text (file_data.info.get_display_name ());
 		});
 		children_state_changed_id = file_data.notify["children-state"].connect (() => {

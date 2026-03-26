@@ -110,7 +110,7 @@ public class Gth.FileGridItem : Gtk.Box {
 		}
 
 		update_attributes ();
-		file_renamed_id = file_data.renamed.connect (() => {
+		file_renamed_id = file_data.info_changed.connect_after (() => {
 			update_attributes ();
 		});
 		thumbnail.bind (file_data);

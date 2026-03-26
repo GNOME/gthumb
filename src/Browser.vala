@@ -1629,7 +1629,6 @@ public class Gth.Browser : Gtk.Box {
 				child.set_file (catalog.file);
 				catalog.update_file_info (child.info);
 				child.info_changed ();
-				child.renamed ();
 				break;
 			}
 		}
@@ -1664,6 +1663,7 @@ public class Gth.Browser : Gtk.Box {
 				new_files.model.append (file);
 			}
 			else if (changed_if_present) {
+				// stdout.printf ("> BROWSER: CHANGED\n");
 				changed_files.model.append (file_data);
 			}
 		}
@@ -1712,6 +1712,7 @@ public class Gth.Browser : Gtk.Box {
 		FileData new_sidebar_file = null;
 		foreach (var file_data in changed_files) {
 			try {
+				// stdout.printf ("> UPDATE: %s\n", file_data.file.get_uri ());
 				var new_file_data = yield FileManager.read_metadata (file_data.file, attributes, local_job.cancellable);
 				file_data.update_info (new_file_data.info);
 				file_data.remove_thumbnail ();
@@ -1724,6 +1725,7 @@ public class Gth.Browser : Gtk.Box {
 				}
 			}
 			catch (Error error) {
+				// stdout.printf ("> ERROR: %s\n", error.message);
 			}
 		}
 		file_filter.reset ();
@@ -1926,7 +1928,6 @@ public class Gth.Browser : Gtk.Box {
 				if (child_data != null) {
 					child_data.set_file (file_data.file);
 					child_data.update_info (file_data.info);
-					child_data.renamed ();
 
 					// Check whether to update the sidebar as well.
 					if ((new_sidebar_file == null) && (property_sidebar.current_file != null)) {
