@@ -45,6 +45,13 @@ public class Gth.ImageCache {
 		return true;
 	}
 
+	public void remove (File file) {
+		var idx = index_of (file);
+		if (idx >= 0) {
+			list.remove_index (idx);
+		}
+	}
+
 	public void clear () {
 		list.length = 0;
 	}

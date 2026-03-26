@@ -199,6 +199,7 @@ public class Gth.Viewer : Gtk.Box {
 				&& !current_viewer.same_etag (file_data.info))
 			{
 				// stdout.printf ("> VIEWER: RELOAD FILE %s\n", file_data.file.get_uri ());
+				current_viewer.remove_from_cache (file_data.file);
 				view_file_async.begin (file_data, ViewFlags.DEFAULT);
 			}
 		}

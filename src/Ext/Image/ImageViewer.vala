@@ -142,6 +142,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 	}
 
+	public override void remove_from_cache (File file) {
+		preloader.cache.remove (file);
+	}
+
 	public void view_unsaved_image (Gth.Image image) {
 		view_image (image);
 		history.clear ();

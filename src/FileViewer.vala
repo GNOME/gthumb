@@ -15,4 +15,5 @@ public interface Gth.FileViewer : Object {
 		return false;
 	}
 	public virtual void preload_some_files () {}
+	public virtual void remove_from_cache (File file) {}
 }
