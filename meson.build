@@ -140,7 +140,7 @@ endif
 # libgif
 
 if get_option('libgif')
-  libgif_dep = c_comp.find_library('libgif', required: false)
+  libgif_dep = c_comp.find_library('gif', required: false)
   use_libgif = libgif_dep.found()
 else
   use_libgif = false
