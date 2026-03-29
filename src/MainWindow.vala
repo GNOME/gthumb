@@ -1132,16 +1132,12 @@ public class Gth.MainWindow : Gth.Window {
 			save_and_close.begin ();
 			return true;
 		}
-		if (base.on_close ()) {
-			return true;
-		}
-		before_closing ();
-		return false;
+		browser.file_grid.stop_thumbnailer ();
+		viewer.file_grid.stop_thumbnailer ();
+		return base.on_close ();
 	}
 
 	public override void before_closing () {
-		browser.file_grid.stop_thumbnailer ();
-		viewer.file_grid.stop_thumbnailer ();
 		var save_preferences = app.one_window () && get_realized ();
 		if (save_preferences) {
 			browser.save_preferences (current_page == Page.BROWSER);
