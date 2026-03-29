@@ -46,12 +46,11 @@ public class Gth.MainWindow : Gth.Window {
 	async void save_and_close () {
 		try {
 			yield viewer.ask_whether_to_save ();
+			close ();
 		}
 		catch (Error error) {
 			show_error (error);
-			return;
 		}
-		close ();
 	}
 
 	public async void set_page (Page new_page) {
