@@ -148,13 +148,31 @@ public class Gth.FolderTree : Gtk.Box {
 				current_children.copy (children);
 				current_source = source;
 
-				var parent = location;
-				while (parent != null) {
-					expand_parents.push_head (parent);
-					if (parent.equal (nearest_root.file)) {
-						break;
+				if (load_action == LoadAction.OPEN_NEW_FOLDER) {
+					// Expand from parent.
+					var parent = location.get_parent ();
+					if (parent != null) {
+						expand_parents.push_head (location);
+						expand_parents.push_head (parent);
+						var row = get_file_row (parent);
+						if (row != null) {
+							last_expanded = row.item as Gth.FileData;
+							if (last_expanded != null) {
+								last_expanded.children_state = ChildrenState.NONE;
+							}
+						}
 					}
-					parent = parent.get_parent ();
+				}
+				else {
+					// Expand from nearest_root.
+					var parent = location;
+					while (parent != null) {
+						expand_parents.push_head (parent);
+						if (parent.equal (nearest_root.file)) {
+							break;
+						}
+						parent = parent.get_parent ();
+					}
 				}
 			}
 
@@ -163,17 +181,7 @@ public class Gth.FolderTree : Gtk.Box {
 			}
 			if (load_action.changes_current_folder ()) {
 				watched_files.add (current_folder.file);
-				var expand_tree = true;
-				if (load_action == LoadAction.OPEN_NEW_FOLDER) {
-					if (current_folder != null) {
-						expand_parents.clear ();
-						expand_tree = false;
-						list_subfolders (current_folder);
-					}
-				}
-				if (expand_tree) {
-					expand_tree_to_current_folder ();
-				}
+				expand_tree_to_current_folder ();
 			}
 		}
 		catch (Error error) {
@@ -204,7 +212,7 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	public void list_subfolders (FileData file_data) {
-		stdout.printf ("> LIST SUBFOLDERS %s\n", file_data.file.get_uri ());
+		// stdout.printf ("> LIST SUBFOLDERS %s\n", file_data.file.get_uri ());
 
 		if (file_data.children_state != ChildrenState.NONE) {
 			return;
