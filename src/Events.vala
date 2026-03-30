@@ -104,7 +104,7 @@ public class Gth.Events : Object {
 
 	public void watch_file (File file, bool watch) {
 		if (watch) {
-			stdout.printf ("> START WATCH FILE: %s\n", file.get_uri ());
+			// stdout.printf ("> START WATCH FILE: %s\n", file.get_uri ());
 			if (!file_monitors.contains (file)) {
 				try {
 					var file_monitor = file.monitor_directory (FileMonitorFlags.NONE, null);
@@ -116,7 +116,7 @@ public class Gth.Events : Object {
 			}
 		}
 		else {
-			stdout.printf ("> STOP WATCH FILE: %s\n", file.get_uri ());
+			// stdout.printf ("> STOP WATCH FILE: %s\n", file.get_uri ());
 			file_monitors.remove (file);
 		}
 	}
@@ -146,7 +146,7 @@ public class Gth.Events : Object {
 			break;
 		}
 
-		stdout.printf ("> MONITOR: %s: %s\n", event_type.to_string (), file.get_uri ());
+		// stdout.printf ("> MONITOR: %s: %s\n", event_type.to_string (), file.get_uri ());
 
 		var event = file_events.get (file);
 		if (event != null) {

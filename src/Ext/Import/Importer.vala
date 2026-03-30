@@ -80,13 +80,13 @@ public class Gth.Importer {
 			}
 
 			if (bytes != null) {
-				stdout.printf ("> SAVE: %s -> %s\n", file_data.file.get_uri (), destination.get_uri ());
+				// stdout.printf ("> SAVE: %s -> %s\n", file_data.file.get_uri (), destination.get_uri ());
 				save_operation.last_overwrite_response = last_overwrite_response;
 				yield save_operation.save (destination, bytes, job);
 				last_overwrite_response = save_operation.last_overwrite_response;
 			}
 			else {
-				stdout.printf ("> COPY: %s -> %s\n", file_data.file.get_uri (), destination.get_uri ());
+				// stdout.printf ("> COPY: %s -> %s\n", file_data.file.get_uri (), destination.get_uri ());
 				copy_operation.last_overwrite_response = last_overwrite_response;
 				yield copy_operation.copy_file (file_data.file, destination, CopyFlags.DEFAULT, job);
 				last_overwrite_response = copy_operation.last_overwrite_response;

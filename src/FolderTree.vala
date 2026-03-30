@@ -667,7 +667,6 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	~FolderTree () {
-		stdout.printf ("~FolderTree\n");
 		release_resources ();
 	}
 

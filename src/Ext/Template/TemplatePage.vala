@@ -104,9 +104,9 @@ public class Gth.TemplatePage : Adw.NavigationPage {
 			var template_page = new TemplatePage ();
 			template_page.title = title;
 			template_page.parent_code = source_row.token.code.code;
-			stdout.printf ("> template_page.parent_code: '%s'\n", template_page.parent_code.to_string ());
+			// stdout.printf ("> template_page.parent_code: '%s'\n", template_page.parent_code.to_string ());
 			if (source_row.token.code.type == TemplateCodeType.DATE) {
-				stdout.printf ("> DATE\n");
+				// stdout.printf ("> DATE\n");
 				if (date_codes == null) {
 					date_codes = create_date_codes ();
 				}

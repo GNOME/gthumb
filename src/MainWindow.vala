@@ -1187,9 +1187,9 @@ public class Gth.MainWindow : Gth.Window {
 		update_selection_status (3);
 	}
 
-	~MainWindow () {
-		stdout.printf ("~MainWindow\n");
-	}
+	// ~MainWindow () {
+	// 	stdout.printf ("~MainWindow\n");
+	// }
 
 	public Bytes script_output = null;
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
