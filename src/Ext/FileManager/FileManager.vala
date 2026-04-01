@@ -76,7 +76,7 @@ public class Gth.FileManager {
 			yield operation.copy_files (files, destination, job);
 		}
 		finally {
-			app.events.files_added_or_changed (destination, operation.created_files);
+			app.events.files_added_to_disk (operation.created_files);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class Gth.FileManager {
 		}
 		finally {
 			app.events.files_deleted_from_disk (operation.deleted_files);
-			app.events.files_added_or_changed (destination, operation.created_files);
+			app.events.files_added_to_disk (operation.created_files);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class Gth.FileManager {
 			yield operation.duplicate_files (files, destination, job);
 		}
 		finally {
-			app.events.files_added_or_changed (destination, operation.created_files);
+			app.events.files_added_to_disk (operation.created_files);
 		}
 	}
 
@@ -399,6 +399,7 @@ public class Gth.CopyOperation {
 					//stdout.printf ("> mkdir: %s\n", new_dir.get_uri ());
 					yield Files.make_directory_async (new_dir, job.cancellable);
 					copied_sources.add (file_data.file);
+					created_files.model.append (new_dir);
 					if (moving) {
 						moved_directories.model.append (file_data.file);
 					}
@@ -439,11 +440,12 @@ public class Gth.CopyOperation {
 			var dir = iter.get ();
 			try {
 				dir.delete (job.cancellable);
+				deleted_files.model.append (dir);
 			}
 			catch (Error error) {
 				// Ignore this kind of errors, because
 				// it is caused by the user choice of
-				// not move a file.
+				// not moving a file.
 				if (!(error is IOError.NOT_EMPTY)) {
 					throw error;
 				}

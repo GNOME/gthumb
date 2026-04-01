@@ -86,6 +86,8 @@ public class Gth.FileData : Object {
 		return sort_key;
 	}
 
+	public signal void children_changed ();
+
 	public virtual signal void info_changed () {
 		// Invalidate cached data.
 		mtime = null;

@@ -31,8 +31,8 @@ public class Gth.Events : Object {
 		app.foreach_main_window ((win) => win.browser.files_added (parent, files));
 	}
 
-	public signal void files_added_or_changed (File parent, GenericList<File> files) {
-		app.foreach_main_window ((win) => win.browser.files_added (parent, files, true));
+	public signal void files_added_to_disk (GenericList<File> files) {
+		app.foreach_main_window ((win) => win.browser.files_added_to_disk (files));
 	}
 
 	public signal void files_removed_from_catalog (File parent, GenericList<File> files) {
@@ -60,24 +60,10 @@ public class Gth.Events : Object {
 
 	public signal void mount_points_changed ();
 
-	public void file_created (File file) {
-		var parent = file.get_parent ();
-		if (parent == null) {
-			return;
-		}
+	public void file_added_to_disk (File file) {
 		var files = new GenericList<File>();
 		files.model.append (file);
-		files_added (parent, files);
-	}
-
-	public void file_saved (File file) {
-		var parent = file.get_parent ();
-		if (parent == null) {
-			return;
-		}
-		var files = new GenericList<File>();
-		files.model.append (file);
-		files_added_or_changed (parent, files);
+		files_added_to_disk (files);
 	}
 
 	public void file_deleted_from_disk (File file) {

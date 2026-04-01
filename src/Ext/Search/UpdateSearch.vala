@@ -22,7 +22,7 @@ public class Gth.UpdateSearch {
 
 			search.remove_all_files ();
 			yield search.save_async (job.cancellable);
-			app.events.file_created (search.file);
+			app.events.file_added_to_disk (search.file);
 
 			// Open the catalog.
 
@@ -84,7 +84,7 @@ public class Gth.UpdateSearch {
 		// Save the catalog.
 		var local_cancellable = new Cancellable ();
 		yield search.save_async (local_cancellable);
-		app.events.file_created (search.file);
+		app.events.file_added_to_disk (search.file);
 		browser.update_folder_status ();
 
 		if ((error != null) && !(error is IOError.CANCELLED)) {

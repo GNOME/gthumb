@@ -91,7 +91,10 @@ public class Gth.FolderTree : Gtk.Box {
 		if (load_action == LoadAction.OPEN_AS_ROOT) {
 			changes_root = true;
 		}
-		else if ((load_action == LoadAction.OPEN_SUBFOLDER) || (load_action == LoadAction.OPEN_NEW_FOLDER)) {
+		else if ((load_action == LoadAction.OPEN_SUBFOLDER)
+			|| (load_action == LoadAction.OPEN_NEW_FOLDER)
+			|| (load_action == LoadAction.RELOAD))
+		{
 			changes_root = false;
 		}
 		else if (single_root) {
@@ -148,7 +151,20 @@ public class Gth.FolderTree : Gtk.Box {
 				current_children.copy (children);
 				current_source = source;
 
-				if (load_action == LoadAction.OPEN_NEW_FOLDER) {
+				if ((load_action == LoadAction.RELOAD)
+					|| (load_action == LoadAction.OPEN_SUBFOLDER))
+				{
+					// Expand from current location
+					var row = get_file_row (location);
+					if (row != null) {
+						last_expanded = row.item as Gth.FileData;
+						if (last_expanded != null) {
+							// Force reloading.
+							last_expanded.children_state = ChildrenState.NONE;
+						}
+					}
+				}
+				else if (load_action == LoadAction.OPEN_NEW_FOLDER) {
 					// Expand from parent.
 					var parent = location.get_parent ();
 					if (parent != null) {
@@ -158,6 +174,7 @@ public class Gth.FolderTree : Gtk.Box {
 						if (row != null) {
 							last_expanded = row.item as Gth.FileData;
 							if (last_expanded != null) {
+								// Force reloading.
 								last_expanded.children_state = ChildrenState.NONE;
 							}
 						}
@@ -211,10 +228,8 @@ public class Gth.FolderTree : Gtk.Box {
 		load (location, LoadAction.OPEN_SUBFOLDER);
 	}
 
-	public void list_subfolders (FileData file_data) {
-		// stdout.printf ("> LIST SUBFOLDERS %s\n", file_data.file.get_uri ());
-
-		if (file_data.children_state != ChildrenState.NONE) {
+	public void list_subfolders (FileData file_data, bool reload = false) {
+		if (!reload && (file_data.children_state != ChildrenState.NONE)) {
 			return;
 		}
 
@@ -255,6 +270,40 @@ public class Gth.FolderTree : Gtk.Box {
 				}
 			}
 		});
+	}
+
+	public async void add_missing_folders (GenericList<File> files) {
+		var local_job = job_queue.new_job ("Updating Files");
+		try {
+			var file_data_list = yield FileManager.query_list_info (files, FOLDER_ATTRIBUTES, QueryListFlags.NOT_RECURSIVE, local_job.cancellable);
+			sort_info = app.get_folder_sorter_by_id (sort.name);
+			foreach (var file_data in file_data_list) {
+				if (file_data.info.get_file_type () != FileType.DIRECTORY) {
+					continue;
+				}
+				var row = get_file_row (file_data.file);
+				if (row != null) {
+					continue;
+				}
+				var parent = file_data.file.get_parent ();
+				if (parent == null) {
+					continue;
+				}
+				row = get_file_row (parent);
+				if (row != null) {
+					var parent_data = row.item as Gth.FileData;
+					if (parent_data.children_state == ChildrenState.LOADED) {
+						parent_data.children.model.insert_sorted (file_data, sort_func);
+						parent_data.children_changed ();
+					}
+				}
+			}
+		}
+		catch (Error error) {
+		}
+		finally {
+			local_job.done ();
+		}
 	}
 
 	public bool is_loading () {
@@ -438,14 +487,8 @@ public class Gth.FolderTree : Gtk.Box {
 		}
 
 		// Sort the folders
-		unowned var sort_info = app.get_folder_sorter_by_id (sort.name);
-		folders.model.sort ((a, b) => {
-			var result = sort_info.cmp_func ((FileData) a, (FileData) b);
-			if (sort.inverse) {
-				result = - result;
-			}
-			return result;
-		});
+		sort_info = app.get_folder_sorter_by_id (sort.name);
+		folders.model.sort (sort_func);
 
 		// Update file_data
 		var file_model = file_data.get_children_model ();
@@ -454,6 +497,7 @@ public class Gth.FolderTree : Gtk.Box {
 			file_model.model.append (file);
 		}
 		file_data.children_state = ChildrenState.LOADED;
+		file_data.children_changed ();
 		if (expand_file_row (file_data.file)) {
 			watch_directory (file_data, true);
 		}
@@ -462,6 +506,19 @@ public class Gth.FolderTree : Gtk.Box {
 		if ((last_expanded != null) && last_expanded.file.equal (file_data.file)) {
 			expand_next_parent_for_current_folder ();
 		}
+	}
+
+	unowned Gth.SortInfo? sort_info = null;
+
+	public int sort_func (Object a, Object b) {
+		if (sort_info == null) {
+			sort_info = app.get_folder_sorter_by_id (sort.name);
+		}
+		var result = sort_info.cmp_func ((FileData) a, (FileData) b);
+		if (sort.inverse) {
+			result = - result;
+		}
+		return result;
 	}
 
 	uint select_id = 0;
@@ -486,7 +543,7 @@ public class Gth.FolderTree : Gtk.Box {
 		return true;
 	}
 
-	bool building_the_tree () {
+	public bool building_the_tree () {
 		return !expand_parents.is_empty ();
 	}
 

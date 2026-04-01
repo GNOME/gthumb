@@ -7,6 +7,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		row_expended_id = 0;
 		file_renamed_id = 0;
 		children_state_changed_id = 0;
+		children_changed_id = 0;
 
 		expander = new Gtk.TreeExpander ();
 		expander.margin_start = ROW_H_PADDING;
@@ -53,8 +54,8 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		expander.list_row = row;
 		update_expander_visibility ();
 		row_expended_id = row.notify["expanded"].connect ((obj, _spec) => {
-			if (expander.list_row.expanded) {
-				folder_tree.list_subfolders (file_data);
+			if (expander.list_row.expanded && !folder_tree.building_the_tree ()) {
+				folder_tree.list_subfolders (file_data, true);
 			}
 		});
 		file_renamed_id = file_data.info_changed.connect_after (() => {
@@ -63,12 +64,16 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		children_state_changed_id = file_data.notify["children-state"].connect (() => {
 			update_expander_visibility ();
 		});
+		children_changed_id = file_data.children_changed.connect (() => {
+			update_expander_visibility ();
+		});
 	}
 
 	public void unbind () {
 		expander.list_row.disconnect (row_expended_id);
 		file_data.disconnect (file_renamed_id);
 		file_data.disconnect (children_state_changed_id);
+		file_data.disconnect (children_changed_id);
 		expander.list_row = null;
 		file_data = null;
 	}
@@ -86,4 +91,5 @@ public class Gth.FolderTreeItem : Gtk.Box {
 	ulong row_expended_id;
 	ulong file_renamed_id;
 	ulong children_state_changed_id;
+	ulong children_changed_id;
 }

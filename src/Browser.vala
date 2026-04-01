@@ -128,8 +128,18 @@ public class Gth.Browser : Gtk.Box {
 		var file_data_list = yield FileManager.query_list_info (files, attributes, QueryListFlags.NOT_RECURSIVE, job.cancellable);
 		foreach (var file_data in file_data_list) {
 			folder_tree.current_children.model.append (file_data);
-			if (window.current_page == MainWindow.Page.VIEWER) {
-				window.viewer.file_changed (file_data);
+			if (file_data.info.get_file_type () == FileType.DIRECTORY) {
+				var row = folder_tree.get_file_row (folder_tree.current_folder.file);
+				if (row != null) {
+					var parent_data = row.item as Gth.FileData;
+					parent_data.children.model.insert_sorted (file_data, folder_tree.sort_func);
+					parent_data.children_changed ();
+				}
+			}
+			else {
+				if (window.current_page == MainWindow.Page.VIEWER) {
+					window.viewer.file_changed (file_data);
+				}
 			}
 		}
 	}
@@ -223,7 +233,7 @@ public class Gth.Browser : Gtk.Box {
 		if (folder_tree.current_folder == null) {
 			return;
 		}
-		open_location (folder_tree.current_folder.file, LoadAction.OPEN_SUBFOLDER);
+		open_location (folder_tree.current_folder.file, LoadAction.RELOAD);
 	}
 
 	public void after_open_page () {
@@ -1648,6 +1658,35 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
+	public void files_added_to_disk (GenericList<File> files) {
+		if (!(folder_tree.current_source is FileSourceVfs)) {
+			return;
+		}
+		var current_folder_children = new GenericList<File>();
+		var tree_children = new GenericList<File>();
+		foreach (unowned var file in files) {
+			var parent = file.get_parent ();
+			if (parent == null) {
+				continue;
+			}
+			if (folder_tree.current_folder.file.equal (parent)) {
+				current_folder_children.model.append (file);
+			}
+			else {
+				var row = folder_tree.get_file_row (parent);
+				if ((row != null) && row.expanded) {
+					tree_children.model.append (file);
+				}
+			}
+		}
+		if (current_folder_children.length () > 0) {
+			files_added (folder_tree.current_folder.file, current_folder_children, true);
+		}
+		if (tree_children.length () > 0) {
+			folder_tree.add_missing_folders.begin (tree_children);
+		}
+	}
+
 	public void files_added (File parent, GenericList<File> files, bool changed_if_present = false) {
 		if (!folder_tree.current_folder.file.equal (parent)) {
 			return;
@@ -1836,6 +1875,7 @@ public class Gth.Browser : Gtk.Box {
 					var file_pos = iter.find_first ((file_data) => file_data.file.equal (file));
 					if (file_pos >= 0) {
 						children.model.remove ((uint) file_pos);
+						parent_data.children_changed ();
 					}
 				}
 			}
@@ -2218,7 +2258,7 @@ public class Gth.Browser : Gtk.Box {
 			yield gio_source.move_async (gio_destination,
 				FileCopyFlags.ALL_METADATA, Priority.DEFAULT,
 				local_job.cancellable, null);
-			app.events.file_created (new_catalog);
+			app.events.file_added_to_disk (new_catalog);
 			app.events.file_deleted_from_disk (catalog);
 		}
 		catch (Error error) {
