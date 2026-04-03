@@ -229,13 +229,15 @@ public class Gth.FolderTree : Gtk.Box {
 	}
 
 	public void list_subfolders (FileData file_data, bool reload = false) {
-		if (!reload && (file_data.children_state != ChildrenState.NONE)) {
-			return;
-		}
+		if (!reload) {
+			if (file_data.children_state != ChildrenState.NONE) {
+				return;
+			}
 
-		if (FileData.equal (file_data, current_folder)) {
-			set_file_data_children (file_data, current_children);
-			return;
+			if (FileData.equal (file_data, current_folder)) {
+				set_file_data_children (file_data, current_children);
+				return;
+			}
 		}
 
 		var source = app.get_source_for_file (file_data.file);
