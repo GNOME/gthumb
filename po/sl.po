@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-03-24 16:16+0000\n"
-"PO-Revision-Date: 2026-03-24 18:14+0100\n"
+"POT-Creation-Date: 2026-04-04 11:29+0000\n"
+"PO-Revision-Date: 2026-04-07 10:12+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -196,7 +196,7 @@ msgstr "Odpri z"
 #: data/ui/app-selector-dialog.ui:14 data/ui/catalog-dialog.ui:16
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
-#: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14 src/Browser.vala:2169
+#: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14 src/Browser.vala:2221
 #: src/Ext/Color/ColorSelector.vala:64 src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -258,7 +258,7 @@ msgstr "Zaznamki"
 msgid "Location"
 msgstr "Mesto"
 
-#: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24 data/ui/viewer.ui:228
+#: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24 data/ui/viewer.ui:229
 #: src/Ext/Shortcuts/Shortcuts.vala:241
 msgid "Save"
 msgstr "Shrani"
@@ -398,7 +398,7 @@ msgid "Edit Image"
 msgstr "Uredi sliko"
 
 #: data/ui/browser.ui:293 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
-#: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:351
+#: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:349
 msgid "Edit Comment"
 msgstr "Uredi komentar"
 
@@ -417,11 +417,11 @@ msgid "Open Fullscreen"
 msgstr "Odpri v celozaslonskem načinu"
 
 #: data/ui/browser.ui:426 data/ui/browser.ui:576 data/ui/browser.ui:641
-#: data/ui/browser.ui:681 data/ui/viewer.ui:220
+#: data/ui/browser.ui:681 data/ui/viewer.ui:221
 msgid "Open in New Window"
 msgstr "Odpri v novem oknu"
 
-#: data/ui/browser.ui:430 data/ui/viewer.ui:224
+#: data/ui/browser.ui:430 data/ui/viewer.ui:225
 msgid "Open _With…"
 msgstr "Odpri _z …"
 
@@ -431,13 +431,13 @@ msgstr "Odpri mapo"
 
 #: data/ui/browser.ui:441 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
-#: data/ui/viewer.ui:240 src/Ext/Print/PrintImages.vala:61
-#: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:430
+#: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
+#: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "Natisni"
 
-#: data/ui/browser.ui:445 data/ui/viewer.ui:245 src/Ext/Shortcuts/Shortcuts.vala:183
-#: src/MainWindow.vala:335
+#: data/ui/browser.ui:445 data/ui/viewer.ui:246 src/Ext/Shortcuts/Shortcuts.vala:183
+#: src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "Nastavi kot ozadje namizja"
 
@@ -449,7 +449,7 @@ msgstr "Izreži"
 
 #. Translators: it's a verb, as in "Copy Files"
 #: data/ui/browser.ui:458 data/ui/browser.ui:603 data/ui/file-property-view.ui:32
-#: data/ui/viewer.ui:253 src/Ext/FileManager/FileManager.vala:65
+#: data/ui/viewer.ui:254 src/Ext/FileManager/FileManager.vala:65
 #: src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Kopiraj"
@@ -467,20 +467,20 @@ msgstr "Prilepi"
 msgid "Select All"
 msgstr "Izberi vse"
 
-#: data/ui/browser.ui:475 data/ui/browser.ui:614 data/ui/viewer.ui:269
+#: data/ui/browser.ui:475 data/ui/browser.ui:614 data/ui/viewer.ui:270
 msgid "Copy To…"
 msgstr "Kopiraj v …"
 
 #: data/ui/browser.ui:479 data/ui/browser.ui:618 data/ui/browser.ui:667
-#: data/ui/viewer.ui:273
+#: data/ui/viewer.ui:274
 msgid "Move To…"
 msgstr "Premakni v …"
 
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:484 data/ui/browser.ui:623 data/ui/browser.ui:663
-#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:278
-#: src/Browser.vala:2070 src/Browser.vala:2133 src/Ext/Shortcuts/Shortcuts.vala:170
-#: src/MainWindow.vala:385
+#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
+#: src/Browser.vala:2122 src/Browser.vala:2185 src/Ext/Shortcuts/Shortcuts.vala:170
+#: src/MainWindow.vala:383
 msgid "Rename"
 msgstr "Preimenuj"
 
@@ -489,42 +489,42 @@ msgstr "Preimenuj"
 msgid "Duplicate"
 msgstr "Podvoji"
 
-#: data/ui/browser.ui:497 data/ui/browser.ui:629 data/ui/viewer.ui:283
+#: data/ui/browser.ui:497 data/ui/browser.ui:629 data/ui/viewer.ui:284
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "Premakni v smeti"
 
 #: data/ui/browser.ui:501 data/ui/browser.ui:633 data/ui/browser.ui:673
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
-#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:287
+#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
 msgid "Delete"
 msgstr "Izbriši"
 
-#: data/ui/browser.ui:508 data/ui/viewer.ui:294
+#: data/ui/browser.ui:508 data/ui/viewer.ui:295
 msgid "Add to Selection"
 msgstr "Dodaj v izbor"
 
-#: data/ui/browser.ui:511 data/ui/selections-status.ui:12 data/ui/viewer.ui:297
+#: data/ui/browser.ui:511 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
 msgid "Selection 1"
 msgstr "Izbor 1"
 
-#: data/ui/browser.ui:517 data/ui/selections-status.ui:24 data/ui/viewer.ui:303
+#: data/ui/browser.ui:517 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
 msgid "Selection 2"
 msgstr "Izbor 2"
 
-#: data/ui/browser.ui:523 data/ui/selections-status.ui:36 data/ui/viewer.ui:309
+#: data/ui/browser.ui:523 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
 msgid "Selection 3"
 msgstr "Izbor 3"
 
-#: data/ui/browser.ui:530 data/ui/viewer.ui:316
+#: data/ui/browser.ui:530 data/ui/viewer.ui:317
 msgid "Add to Catalog…"
 msgstr "Dodaj v katalog …"
 
-#: data/ui/browser.ui:537 data/ui/viewer.ui:323
+#: data/ui/browser.ui:537 data/ui/viewer.ui:324
 msgid "Remove from Selection"
 msgstr "Odstrani iz izbora"
 
-#: data/ui/browser.ui:542 data/ui/viewer.ui:328
+#: data/ui/browser.ui:542 data/ui/viewer.ui:329
 msgid "Remove from Catalog"
 msgstr "Odstrani iz kataloga"
 
@@ -558,8 +558,8 @@ msgstr "Katalog"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:220
-#: src/Ext/Image/ImageViewer.vala:276 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:224
+#: src/Ext/Image/ImageViewer.vala:280 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_Shrani"
 
@@ -589,7 +589,7 @@ msgctxt "Position"
 msgid "Top"
 msgstr "Na vrhu"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:415
+#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:413
 msgid "Convert Format"
 msgstr "Zapisa slike"
 
@@ -666,7 +666,7 @@ msgstr "Datoteke"
 msgid "Delete imported files from source"
 msgstr "Izbriši uvožene slike z vira"
 
-#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:233
+#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
 msgid "Save As…"
 msgstr "Shrani kot s…"
 
@@ -710,7 +710,6 @@ msgid "Special Effects"
 msgstr "Posebni učinki"
 
 #: data/ui/editor-palette.ui:170 src/Ext/Editor/Censor.vala:166
-#, fuzzy
 msgid "Censor"
 msgstr "Cenzor"
 
@@ -739,7 +738,7 @@ msgid "Rotate"
 msgstr "Zavrti"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60 src/Ext/Shortcuts/Shortcuts.vala:186
-#: src/Viewer.vala:385
+#: src/Viewer.vala:397
 msgid "Fullscreen"
 msgstr "Celozaslonski način"
 
@@ -833,15 +832,14 @@ msgid "Open the last visited location"
 msgstr "Odpri zadnje obiskano mesto"
 
 #: data/ui/general-preferences.ui:30
-#, fuzzy
 msgid "Open the home folder"
-msgstr "Odpri domačo mapo"
+msgstr "Odpri osebno mapo"
 
 #: data/ui/general-preferences.ui:46
 msgid "Reuse the active window to open files"
 msgstr "Ponovno uporabi dejavno okno za odpiranje datotek"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2422
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2474
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -975,7 +973,7 @@ msgid "Change File"
 msgstr "Spremeni sliko"
 
 #: data/ui/importer-dialog.ui:4 data/ui/importer-dialog.ui:24
-#: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:454
+#: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:452
 msgid "Import Files"
 msgstr "Uvozi datoteke"
 
@@ -1254,7 +1252,6 @@ msgstr "Razvrsti"
 
 #: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:107
 #, fuzzy
-#| msgid "is before"
 msgid "Before"
 msgstr "je pred"
 
@@ -1275,26 +1272,20 @@ msgstr "_Preimenuj"
 
 #. Translators: pixels as length unit
 #: data/ui/resize-dialog.ui:69 data/ui/resize-image.ui:43
-#, fuzzy
-#| msgid "px"
 msgctxt "Length Unit"
 msgid "px"
-msgstr "točk"
+msgstr "sl. t."
 
 #: data/ui/resize-dialog.ui:70 data/ui/resize-image.ui:44
-#, fuzzy
-#| msgid "pixels"
 msgctxt "Length Unit"
 msgid "pixels"
-msgstr "točke"
+msgstr "sl. točk"
 
 #. Translators: percentage as length unit
 #: data/ui/resize-dialog.ui:76 data/ui/resize-image.ui:51
-#, fuzzy
-#| msgid "%"
 msgctxt "Length Unit"
 msgid "%"
-msgstr "%"
+msgstr " %"
 
 #: data/ui/resize-dialog.ui:77 data/ui/resize-image.ui:52
 msgctxt "Length Unit"
@@ -1307,9 +1298,8 @@ msgstr "Ohrani izvirno razmerje velikosti"
 
 #. Translators: width and height of images or videos.
 #: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
-#, fuzzy
 msgid "Pixels"
-msgstr "Točke"
+msgstr "sl. točk"
 
 #: data/ui/resize-image.ui:72
 #, fuzzy
@@ -1317,7 +1307,6 @@ msgid "Scaled"
 msgstr "Skalirano/Umerjeno"
 
 #: data/ui/resize-image.ui:85
-#, fuzzy
 msgid "Repeated"
 msgstr "Ponavljajoče se"
 
@@ -1356,7 +1345,7 @@ msgstr "Nariši črto na sliki za določanje poravnave."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2362
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2414
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "Shranjevanje"
@@ -1455,7 +1444,7 @@ msgstr "Pritisnite kombinacijo tipk, ki jih želite uporabiti kot bližnjico."
 msgid "Press Esc to cancel"
 msgstr "Pritisnite ubežnico (Esc) za preklic"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2170
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2222
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "_Izbriši"
@@ -1543,10 +1532,8 @@ msgid "Match Any Rule"
 msgstr "Ujemanje vsaj enega pravila"
 
 #: data/ui/test-expr-editor-group.ui:72
-#, fuzzy
-#| msgid "Could not save the filter"
 msgid "Choose a rule to add to the filter."
-msgstr "Filtra ni mogoče shraniti"
+msgstr "Izberite pravilo, ki ga želite dodati filtru."
 
 #: data/ui/text-viewer-dialog.ui:4 src/Ext/Scripts/Script.vala:106
 msgid "Details"
@@ -1706,10 +1693,8 @@ msgid "Next File"
 msgstr "Naslednja datoteka"
 
 #: data/ui/viewer.ui:44 src/Ext/Shortcuts/Shortcuts.vala:214
-#, fuzzy
-#| msgid "Thumbnails"
 msgid "View Thumbnails"
-msgstr "Sličice"
+msgstr "Pokaži sličice"
 
 #: data/ui/viewer.ui:51 src/Ext/Shortcuts/Shortcuts.vala:215
 msgid "Adapt Window to Content"
@@ -1719,11 +1704,11 @@ msgstr "Prilagodi okno vsebini"
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: data/ui/viewer.ui:257
+#: data/ui/viewer.ui:258
 msgid "Copy Image"
 msgstr "Kopiraj sliko"
 
-#: data/ui/viewer.ui:262 src/Ext/Shortcuts/Shortcuts.vala:288
+#: data/ui/viewer.ui:263 src/Ext/Shortcuts/Shortcuts.vala:288
 msgid "Copy Frame"
 msgstr "Kopiraj sličico"
 
@@ -1827,26 +1812,26 @@ msgstr "Goriščna razdalja"
 msgid "Flash"
 msgstr "Bliskavica"
 
-#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:449
-#: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:258
-#: src/MainWindow.vala:831
+#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:453
+#: src/Ext/Image/ImageViewer.vala:462 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "Zavrti desno"
 
 #: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
-#: src/MainWindow.vala:819
+#: src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "Zavrti levo"
 
-#: src/Application.vala:237 src/MainWindow.vala:400
+#: src/Application.vala:237 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "Spremeni velikost slik"
 
-#: src/Application.vala:238 src/MainWindow.vala:867
+#: src/Application.vala:238 src/MainWindow.vala:865
 msgid "Clear Metadata"
 msgstr "Počisti metapodatke"
 
-#: src/Application.vala:239 src/MainWindow.vala:843
+#: src/Application.vala:239 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "Fizično zavrti"
 
@@ -1854,11 +1839,9 @@ msgstr "Fizično zavrti"
 msgid "Reset EXIF Orientation"
 msgstr "Ponastavi usmerjenost EXIF"
 
-#: src/Application.vala:243 src/MainWindow.vala:879
-#, fuzzy
-#| msgid "Thumbnails"
+#: src/Application.vala:243 src/MainWindow.vala:877
 msgid "Update Thumbnail"
-msgstr "Sličice"
+msgstr "Posodobi sličico"
 
 #: src/Application.vala:405 src/DefaultTests.vala:23
 msgid "All Files"
@@ -1888,24 +1871,24 @@ msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 msgid "Path"
 msgstr "Pot"
 
-#: src/Browser.vala:473
+#: src/Browser.vala:493
 msgid "No Matches"
 msgstr "Ni zadetkov"
 
-#: src/Browser.vala:481
+#: src/Browser.vala:501
 msgid "No Files Found"
 msgstr "Ni najdenih datotek"
 
-#: src/Browser.vala:485
+#: src/Browser.vala:505
 msgid "Empty Catalog"
 msgstr "Prazen katalog"
 
-#: src/Browser.vala:489
+#: src/Browser.vala:509
 msgid "Empty Selection"
 msgstr "Prazen izbor"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:496
+#: src/Browser.vala:516
 #, fuzzy, c-format
 #| msgid ""
 #| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -1914,82 +1897,82 @@ msgstr ""
 "Uporabi Alt-%d za dodajanje datotek temu izboru, Ctrl-%d za ogled tega izbora."
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:505
+#: src/Browser.vala:525
 #, fuzzy, c-format
 #| msgid "Show selection %d"
 msgid "Use %s to view selection %u"
 msgstr "Pokaži izbiro %d"
 
-#: src/Browser.vala:518
+#: src/Browser.vala:538
 msgid "Empty Folder"
 msgstr "Prazna mapa"
 
-#: src/Browser.vala:556
+#: src/Browser.vala:576
 msgid "_Add To Bookmarks"
 msgstr "_Dodaj med zaznamke"
 
-#: src/Browser.vala:560
+#: src/Browser.vala:580
 msgid "_Edit Bookmarks…"
 msgstr "_Uredi zaznamke …"
 
-#: src/Browser.vala:954 src/Browser.vala:1131
+#: src/Browser.vala:974 src/Browser.vala:1151
 msgid "Pasting Files"
 msgstr "Lepljenje datotek"
 
-#: src/Browser.vala:972 src/Browser.vala:2004
+#: src/Browser.vala:992 src/Browser.vala:2056
 msgid "Cannot move files here"
 msgstr "Datotek ni možno premakniti sem"
 
-#: src/Browser.vala:979
+#: src/Browser.vala:999
 msgid "Duplicating Files"
 msgstr "Podvajanje datotek"
 
 #. Show a message on the browser.
-#: src/Browser.vala:1363 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:1383 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "Iskanje datotek"
 
-#: src/Browser.vala:1391 src/Browser.vala:1421 src/Browser.vala:1661
-#: src/Browser.vala:1893
+#: src/Browser.vala:1411 src/Browser.vala:1441 src/Browser.vala:1710
+#: src/Browser.vala:1946
 #, c-format
 msgid "Updating %s"
 msgstr "Posodabljanje %s"
 
-#: src/Browser.vala:1518 src/Browser.vala:1522 src/Browser.vala:2383
-#: src/Browser.vala:2393 src/MainWindow.vala:259 src/MainWindow.vala:331
-#: src/MainWindow.vala:694 src/MainWindow.vala:707 src/MainWindow.vala:815
-#: src/MainWindow.vala:827 src/MainWindow.vala:839 src/MainWindow.vala:851
-#: src/MainWindow.vala:863 src/MainWindow.vala:875 src/MainWindow.vala:887
-#: src/MainWindow.vala:898 src/MainWindow.vala:936 src/MainWindow.vala:947
-#: src/MainWindow.vala:958 src/MainWindow.vala:969
+#: src/Browser.vala:1538 src/Browser.vala:1542 src/Browser.vala:2435
+#: src/Browser.vala:2445 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
+#: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
+#: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
+#: src/MainWindow.vala:896 src/MainWindow.vala:934 src/MainWindow.vala:945
+#: src/MainWindow.vala:956 src/MainWindow.vala:967
 msgid "No files selected"
 msgstr "Izbrana ni nobena datoteka"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1699
+#: src/Browser.vala:1748
 msgid "Updating Files"
 msgstr "Posodabljanje datotek"
 
-#: src/Browser.vala:1960
+#: src/Browser.vala:2012
 msgid "Adding Files"
 msgstr "Dodajanje datotek"
 
-#: src/Browser.vala:1960 src/MainWindow.vala:615
+#: src/Browser.vala:2012 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "Premikanje datotek"
 
-#: src/Browser.vala:2050
+#: src/Browser.vala:2102
 msgid "New Folder"
 msgstr "Nova mapa"
 
-#: src/Browser.vala:2050 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2102 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_Ustvari"
 
-#: src/Browser.vala:2133 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2185 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1999,20 +1982,20 @@ msgid "_Rename"
 msgstr "_Preimenuj"
 
 #. Ask confirmation
-#: src/Browser.vala:2164 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2216 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "Ali želite trajno izbrisati?"
 
-#: src/Browser.vala:2166 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2218 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "Dejanja ni moč povrniti. Ali želite izbrisati <i>%s</i>?"
 
-#: src/Browser.vala:2201
+#: src/Browser.vala:2253
 msgid "Source and destination are the same"
 msgstr "Vir in cilj sta ista"
 
-#: src/Browser.vala:2234 src/Ext/Image/ImageViewer.vala:600
+#: src/Browser.vala:2286 src/Ext/Image/ImageViewer.vala:604
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2041,7 +2024,6 @@ msgid "Text Files"
 msgstr "Besedilne datoteke"
 
 #: src/DefaultTests.vala:160
-#, fuzzy
 msgid "Created (Original)"
 msgstr "Ustvarjeno (izvirnik)"
 
@@ -2050,10 +2032,8 @@ msgid "Tag"
 msgstr "Oznaka"
 
 #: src/Dialogs/AppSelector.vala:6
-#, fuzzy
-#| msgid "No options available for this file type"
 msgid "No application registered for this file type"
-msgstr "Za to vrsto datotek ni razpoložljivih možnosti"
+msgstr "Za to vrsto datoteke ni določen privzeti program"
 
 #: src/Dialogs/FolderSelector.vala:98
 msgid "_Move"
@@ -2073,9 +2053,8 @@ msgid "Automatic Filename"
 msgstr "Samodejno ime datoteke"
 
 #: src/Dialogs/ReadFilename.vala:27
-#, fuzzy
 msgid "Enter a file extension"
-msgstr "Vnesite končnico datoteke"
+msgstr "Vnesite pripono datoteke"
 
 #: src/Dialogs/ReadFilename.vala:31 src/Ext/Tools/Internal/ImageRotation.vala:112
 #: src/ImageSaver.vala:66 src/ImageSaver.vala:71
@@ -2203,7 +2182,7 @@ msgid "Other…"
 msgstr "Drugo …"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:193
-#, fuzzy, c-format
+#, c-format
 msgid "%s (Rotated)"
 msgstr "%s (zasukano)"
 
@@ -2214,7 +2193,6 @@ msgstr "Mozaik"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/Censor.vala:15
-#, fuzzy
 msgid "Blur"
 msgstr "Zabriši"
 
@@ -2235,10 +2213,8 @@ msgid "Uniform"
 msgstr "Enotno"
 
 #: src/Ext/Editor/ResizeImage.vala:68
-#, fuzzy
-#| msgid "Screenshot"
 msgid "Screen"
-msgstr "Zaslonska slika"
+msgstr "Zaslon"
 
 #: src/Ext/Editor/ResizeImage.vala:95
 msgid "4K"
@@ -2293,7 +2269,6 @@ msgid "Negative"
 msgstr "Negativ"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:6
-#, fuzzy
 msgid "Conditions"
 msgstr "Pogoji"
 
@@ -2310,9 +2285,8 @@ msgid "GPS"
 msgstr "GPS"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:10
-#, fuzzy
 msgid "Maker Notes"
-msgstr "Sporočilca ustvarjalca"
+msgstr "Opombe ustvarjalca/ke"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:11
 msgid "Versions"
@@ -2415,7 +2389,7 @@ msgstr "Pokaži"
 
 #. Translators: the "Personalize filters" command.
 #. Actions
-#: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:480
+#: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:478
 msgid "Personalize…"
 msgstr "Po meri …"
 
@@ -2424,33 +2398,23 @@ msgid "Name is empty"
 msgstr "Ime je prazno"
 
 #: src/Ext/Filters/Test.vala:56
-#, fuzzy
-#| msgid "is greater than"
 msgid "Greater Than"
 msgstr "je večje kot"
 
 #: src/Ext/Filters/Test.vala:57
-#, fuzzy
-#| msgid "is greater than or equal to"
 msgid "Greater Than or Equal To"
 msgstr "je večje ali enako"
 
 #: src/Ext/Filters/Test.vala:58
-#, fuzzy
-#| msgid "is lower than"
 msgid "Lower Than"
 msgstr "je manjše kot"
 
 #: src/Ext/Filters/Test.vala:59
-#, fuzzy
-#| msgid "is lower than or equal to"
 msgid "Lower Than or Equal To"
 msgstr "je manjše ali enako"
 
 #: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:109
 #: src/Ext/Filters/TestString.vala:145
-#, fuzzy
-#| msgid "is equal to"
 msgid "Equal To"
 msgstr "je enako"
 
@@ -2506,33 +2470,33 @@ msgid "Not Includes"
 msgstr "Ne vključuje"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:220 src/Ext/Image/ImageViewer.vala:276
+#: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
 msgid "Save File"
 msgstr "Shrani sliko"
 
-#: src/Ext/Image/ImageViewer.vala:255
+#: src/Ext/Image/ImageViewer.vala:259
 #, c-format
 msgid "Saving %s"
 msgstr "Shranjevanje %s"
 
-#: src/Ext/Image/ImageViewer.vala:287 src/FolderTree.vala:81
-#: src/MainWindow.vala:1089
+#: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
+#: src/MainWindow.vala:1087
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: src/Ext/Image/ImageViewer.vala:431 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:435 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "Vodoravno prezrcali"
 
-#: src/Ext/Image/ImageViewer.vala:440 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:444 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "Navpično prezrcali"
 
-#: src/Ext/Image/ImageViewer.vala:591 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:595 src/Ext/Video/VideoViewer.vala:648
 msgid "Copying to the Clipboard"
 msgstr "Kopiranje v odložišče"
 
-#: src/Ext/Image/ImageViewer.vala:599 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:665
 msgid "Copied to the Clipboard"
 msgstr "Kopirano v odložišče"
 
@@ -2612,10 +2576,8 @@ msgid "File Extension"
 msgstr "Pripona datoteke"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:11
-#, fuzzy
-#| msgid "Original size"
 msgid "Original Index"
-msgstr "Izvorna velikost"
+msgstr "Izvorni indeks"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:12
 msgid "Created"
@@ -2705,9 +2667,8 @@ msgid "File Manager"
 msgstr "Upravljalnik datotek"
 
 #: src/Ext/Shortcuts/Shortcut.vala:262
-#, fuzzy
 msgid "Audio/Video"
-msgstr "Zvok in video"
+msgstr "Zvok/video"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:134
 msgid "Close Window"
@@ -2726,7 +2687,6 @@ msgid "Open Location"
 msgstr "Odpri mesto"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:141
-#, fuzzy
 msgid "Home"
 msgstr "Domov"
 
@@ -2831,22 +2791,16 @@ msgid "Last File"
 msgstr "Zadnja datoteka"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:211
-#, fuzzy
-#| msgid "View the folders"
 msgid "View Controls"
-msgstr "Pogled map"
+msgstr "Pokaži kontrolnike"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:219
-#, fuzzy
-#| msgid "Zoom in"
 msgid "Zoom In Fast"
-msgstr "Povečaj"
+msgstr "Hitro pribložaj"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:220
-#, fuzzy
-#| msgid "Zoom out"
 msgid "Zoom Out Fast"
-msgstr "Pomanjšaj"
+msgstr "Hitro oddalji"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:221
 msgid "Zoom 100%"
@@ -2885,10 +2839,8 @@ msgid "Zoom to Fit Height"
 msgstr "Prilagodi velikost širini"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:228
-#, fuzzy
-#| msgid "Automatic"
 msgid "Automatic Zoom"
-msgstr "Samodejno"
+msgstr "Samodejno približanje"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:231
 #, fuzzy
@@ -3020,17 +2972,15 @@ msgstr "Pojdi nazaj za 5 minut"
 msgid "Select None"
 msgstr "Brez izbora"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:118
-#: src/FolderTree.vala:226 src/Viewer.vala:56 src/Viewer.vala:126
+#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
+#: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
 msgid "Loading %s"
 msgstr "Nalaganje %s"
 
 #: src/Ext/Slideshow/Slideshow.vala:143
-#, fuzzy
-#| msgid "Pause"
 msgid "Paused"
-msgstr "Premor"
+msgstr "Prekinjeno"
 
 #: src/Ext/Template/TemplatePage.vala:160
 msgid "Year"
@@ -3101,7 +3051,7 @@ msgid "Could not copy the image to the clipboard"
 msgstr "Slike ni možno kopirati v odložišče"
 
 #: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:287
+#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "Neveljavno ime datoteke"
 
@@ -3124,7 +3074,6 @@ msgid "Computer"
 msgstr "Računalnik"
 
 #: src/Files.vala:243
-#, fuzzy
 msgid "User Home"
 msgstr "Osebna mapa uporabnika"
 
@@ -3136,31 +3085,31 @@ msgstr "_Izbriši zgodovino"
 msgid "Copied to Clipboard"
 msgstr "Kopirano na odložišče"
 
-#: src/MainWindow.vala:282
+#: src/MainWindow.vala:280
 msgid "Reading Clipboard"
 msgstr "Branje odložišča"
 
-#: src/MainWindow.vala:293
+#: src/MainWindow.vala:291
 msgid "Clipboard"
 msgstr "Odložišče"
 
-#: src/MainWindow.vala:555 src/MainWindow.vala:570 src/MainWindow.vala:585
+#: src/MainWindow.vala:553 src/MainWindow.vala:568 src/MainWindow.vala:583
 msgid "Deleting Files"
 msgstr "Brisanje datotek"
 
-#: src/MainWindow.vala:600
+#: src/MainWindow.vala:598
 msgid "Copying Files"
 msgstr "Kopiranje datotek"
 
-#: src/MainWindow.vala:855
+#: src/MainWindow.vala:853
 msgid "Clear EXIF Rotation"
 msgstr "Počisti sukanje EXIF"
 
-#: src/MainWindow.vala:987 src/MainWindow.vala:993
+#: src/MainWindow.vala:985 src/MainWindow.vala:991
 msgid "No images selected"
 msgstr "Nobena slika ni izbrana"
 
-#: src/MainWindow.vala:1038
+#: src/MainWindow.vala:1036
 #, c-format
 msgid "Application '%s' not found"
 msgstr "Programa »%s« ni možno najti"
@@ -3185,12 +3134,12 @@ msgstr "V primeru, da sprememb ne shranite, bodo trajno izgubljene."
 msgid "_Discard"
 msgstr "_Zavrzi"
 
-#: src/Viewer.vala:371
+#: src/Viewer.vala:383
 msgid "Exit Fullscreen"
 msgstr "Izhod iz celozaslonskega načina"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:461
+#: src/Viewer.vala:473
 msgid "modified"
 msgstr "spremenjeno"
 
