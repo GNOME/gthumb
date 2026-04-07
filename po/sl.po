@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-04-04 11:29+0000\n"
-"PO-Revision-Date: 2026-04-07 10:12+0200\n"
+"PO-Revision-Date: 2026-04-07 20:46+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -53,16 +53,12 @@ msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 msgstr "Oglejte si slike: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:26
-#, fuzzy
-#| msgid ""
-#| "As an image editor gThumb allows to scale, rotate and crop the images; change "
-#| "the saturation, lightness, contrast as well as other color transformations."
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
 msgstr ""
-"Urejevalnik slik gThumb omogoča merjenje, vrtenje in obrezovanje slik; spremenite "
-"nasičenost, svetlost, kontrast in druge barvne preoblikovanja."
+"Urejevalnik slik: spreminjanje velikosti, vrtenje in obrezovanje slik; spremenite "
+"kontrast, svetlost, nasičenost; druga barvna preoblikovanja."
 
 #: data/appdata/app.gthumb.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
@@ -957,16 +953,12 @@ msgid "Images"
 msgstr "Slike"
 
 #: data/ui/images-preferences.ui:17 data/ui/videos-preferences.ui:17
-#, fuzzy
-#| msgid "Scroll down"
 msgid "Scroll Action"
-msgstr "Drsenje navzdol"
+msgstr "Dejanje drsenja"
 
 #: data/ui/images-preferences.ui:22
-#, fuzzy
-#| msgid "Change to:"
 msgid "Change Zoom"
-msgstr "Spremeni v:"
+msgstr "Spremeni povečavo"
 
 #: data/ui/images-preferences.ui:23 data/ui/videos-preferences.ui:24
 msgid "Change File"
@@ -1004,10 +996,8 @@ msgid "Bytes"
 msgstr "bajtov"
 
 #: data/ui/importer-dialog.ui:140
-#, fuzzy
-#| msgid "_Delete History"
 msgid "Delete from source"
-msgstr "_Izbriši zgodovino"
+msgstr "Izbriši iz vira"
 
 #: data/ui/job-status.ui:5 data/ui/progress-dialog.ui:6
 msgid "Operations"
@@ -1230,9 +1220,8 @@ msgstr "Predloga"
 
 #: data/ui/rename-dialog.ui:80
 #, fuzzy
-#| msgid "Index"
 msgid "First Index"
-msgstr "Kazalo"
+msgstr "Prvi indeks"
 
 #: data/ui/rename-dialog.ui:98 src/Ext/Editor/GridGroup.vala:26
 msgid "None"
@@ -1251,15 +1240,12 @@ msgid "Sort"
 msgstr "Razvrsti"
 
 #: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:107
-#, fuzzy
 msgid "Before"
-msgstr "je pred"
+msgstr "Pred"
 
 #: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:108
-#, fuzzy
-#| msgid "is after"
 msgid "After"
-msgstr "je po"
+msgstr "Po"
 
 #: data/ui/rename-dialog.ui:196
 msgid "Edit Template"
@@ -1889,19 +1875,15 @@ msgstr "Prazen izbor"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:516
-#, fuzzy, c-format
-#| msgid ""
-#| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
+#, c-format
 msgid "Use %s to add files to selection %u"
-msgstr ""
-"Uporabi Alt-%d za dodajanje datotek temu izboru, Ctrl-%d za ogled tega izbora."
+msgstr "Uporabite %s za dodajanje datotek izboru %u"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:525
-#, fuzzy, c-format
-#| msgid "Show selection %d"
+#, c-format
 msgid "Use %s to view selection %u"
-msgstr "Pokaži izbiro %d"
+msgstr "Uporabite %s za ogled izbora %u"
 
 #: src/Browser.vala:538
 msgid "Empty Folder"
@@ -2305,16 +2287,14 @@ msgid "EXIF"
 msgstr "EXIF"
 
 #: src/Ext/FileManager/FileManager.vala:17
-#, fuzzy, c-format
-#| msgid ""
-#| "The files cannot be moved to the Trash. Do you want to delete them permanently?"
+#, c-format
 msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
-msgstr[0] "Datotek ni mogoče premakniti v smeti. Ali jih želite trajno izbrisati?"
-msgstr[1] "Datotek ni mogoče premakniti v smeti. Ali jih želite trajno izbrisati?"
-msgstr[2] "Datotek ni mogoče premakniti v smeti. Ali jih želite trajno izbrisati?"
-msgstr[3] "Datotek ni mogoče premakniti v smeti. Ali jih želite trajno izbrisati?"
+msgstr[0] "Dejanja ni možno povrniti. Ali želite izbrisati %d izbranih datotek?"
+msgstr[1] "Dejanja ni možno povrniti. Ali želite izbrisati %d izbrano datoteko?"
+msgstr[2] "Dejanja ni možno povrniti. Ali želite izbrisati %d izbrani datoteki?"
+msgstr[3] "Dejanja ni možno povrniti. Ali želite izbrisati %d izbrane datoteke?"
 
 #: src/Ext/FileManager/FileManager.vala:86
 msgid "Move"
@@ -2815,84 +2795,58 @@ msgid "Zoom 300%"
 msgstr "Približaj na 300 %"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:224
-#, fuzzy
-#| msgid "Zoom to fit"
 msgid "Zoom to Fit"
-msgstr "Prilagodi oknu"
+msgstr "Prilagodi pogledu"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:225
-#, fuzzy
-#| msgid "Zoom to fit if larger"
 msgid "Zoom to Fit if Larger"
-msgstr "Prilagodi velikost širini, če je večja"
+msgstr "Prilagodi velikost pogledu, če je večja"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:226
-#, fuzzy
-#| msgid "Zoom to fit width"
 msgid "Zoom to Fit Width"
 msgstr "Prilagodi velikost širini"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:227
-#, fuzzy
-#| msgid "Zoom to fit height"
 msgid "Zoom to Fit Height"
-msgstr "Prilagodi velikost širini"
+msgstr "Prilagodi velikost višini"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:228
 msgid "Automatic Zoom"
 msgstr "Samodejno približanje"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:231
-#, fuzzy
-#| msgid "Scroll left"
 msgid "Scroll Left"
 msgstr "Drsenje v levo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:232
-#, fuzzy
-#| msgid "Scroll right"
 msgid "Scroll Right"
 msgstr "Drsenje v desno"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:233
-#, fuzzy
-#| msgid "Scroll up"
 msgid "Scroll Up"
 msgstr "Drsenje navzgor"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:234
-#, fuzzy
-#| msgid "Scroll down"
 msgid "Scroll Down"
 msgstr "Drsenje navzdol"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:235
-#, fuzzy
-#| msgid "Scroll left fast"
 msgid "Scroll Left Fast"
 msgstr "Drsenje hitro v levo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:236
-#, fuzzy
-#| msgid "Scroll right fast"
 msgid "Scroll Right Fast"
 msgstr "Drsenje hitro v desno"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:237
-#, fuzzy
-#| msgid "Scroll up fast"
 msgid "Scroll Up Fast"
 msgstr "Drsenje hitro navzgor"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:238
-#, fuzzy
-#| msgid "Scroll down fast"
 msgid "Scroll Down Fast"
 msgstr "Drsenje hitro navzdol"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:239
-#, fuzzy
-#| msgid "Scroll to center"
 msgid "Scroll to Center"
 msgstr "Drsenje na sredino"
 
