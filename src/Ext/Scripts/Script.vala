@@ -137,14 +137,9 @@ public class Gth.Script : Object {
 		}
 
 		process = new ScriptProcess ();
-		process.wait_command = wait_command;
-		process.spawn (argv);
+		process.spawn (argv, wait_command);
 		if (wait_command) {
-			yield process.wait_process (job.cancellable);
-			// var output = process.read_output ();
-			// if (output != null) {
-			// 	stdout.printf ("> OUTPUT: %s\n", (string) output.get_data ());
-			// }
+			yield process.wait_process (job);
 		}
 	}
 
@@ -180,13 +175,8 @@ errordomain Gth.ScriptError {
 
 
 class Gth.ScriptProcess {
-	public bool wait_command;
-
-	public ScriptProcess () {
-		wait_command = false;
-	}
-
-	public void spawn (string[] argv) throws Error {
+	public void spawn (string[] argv, bool _wait_command) throws Error {
+		wait_command = _wait_command;
 		output_memory = new MemoryOutputStream (null, GLib.realloc, GLib.free);
 		output_stream = new DataOutputStream (output_memory);
 
@@ -213,37 +203,85 @@ class Gth.ScriptProcess {
 			out standard_input,
 			out standard_output,
 			out standard_error);
+
 		output = new IOChannel.unix_new (standard_output);
+		output.set_encoding (null);
+		output.set_buffered (false);
+		output.add_watch (IOCondition.IN | IOCondition.PRI | IOCondition.HUP, (channel, condition) => {
+			if (condition == IOCondition.HUP) {
+				return false;
+			}
+			read_channel (channel);
+			return true;
+		});
+
 		error = new IOChannel.unix_new (standard_error);
+		error.set_encoding (null);
+		error.set_buffered (false);
+		error.add_watch (IOCondition.IN | IOCondition.PRI | IOCondition.HUP, (channel, condition) => {
+			if (condition == IOCondition.HUP) {
+				return false;
+			}
+			read_channel (channel);
+			return true;
+		});
 	}
 
-	public async void wait_process (Cancellable cancellable) throws Error {
+	public async void wait_process (Job job) throws Error {
+		cancellable = job.cancellable;
 		cancellable.cancelled.connect (() => {
 			if (child_pid != 0) {
+				wait_error = new IOError.CANCELLED ("Cancelled");
 				Posix.killpg (child_pid, Posix.Signal.TERM);
+				if (wait_timeout == 0) {
+					wait_timeout = Util.after_seconds (MAX_WAIT, () => stop_waiting ());
+				}
 			}
 		});
 		wait_callback = wait_process.callback;
 		wait_error = null;
-		watch_id = ChildWatch.add (child_pid, (pid, status) => {
-			Process.close_pid (pid);
-			child_pid = 0;
-			watch_id = 0;
-			if (status != 0) {
-				wait_error = new IOError.FAILED (_("Command exited abnormally with status %d").printf (status));
-			}
-			wait_callback ();
-		});
+		watch_id = ChildWatch.add (child_pid, (pid, status) => on_process_exit (pid, status));
 		yield;
 		if (wait_error != null) {
 			throw wait_error;
 		}
 	}
 
+	void on_process_exit (Pid pid, int status) {
+		watch_id = 0;
+		if (child_pid == 0) {
+			return;
+		}
+		if (wait_timeout != 0) {
+			Source.remove (wait_timeout);
+			wait_timeout = 0;
+		}
+		Process.close_pid (child_pid);
+		child_pid = 0;
+		if ((status != 0) && (wait_error == null)) {
+			wait_error = new IOError.FAILED (_("Command exited abnormally with status %d").printf (status));
+		}
+		wait_callback ();
+	}
+
+	void stop_waiting () {
+		wait_timeout = 0;
+		if (child_pid == 0) {
+			return;
+		}
+		if (watch_id != 0) {
+			Source.remove (watch_id);
+			watch_id = 0;
+		}
+		Process.close_pid (child_pid);
+		child_pid = 0;
+		wait_callback ();
+	}
+
 	public Bytes? read_output () {
-		read_channel (output);
-		read_channel (error);
 		try {
+			read_channel_to_end (output);
+			read_channel_to_end (error);
 			output_stream.close ();
 		}
 		catch (Error error) {
@@ -258,22 +296,28 @@ class Gth.ScriptProcess {
 		}
 	}
 
-	void read_channel (IOChannel channel) {
-		if (channel != null) {
-			try {
-				string line;
-				size_t length = -1;
-				size_t terminator_pos = -1;
-				while (channel.read_line (out line, out length, out terminator_pos) != IOStatus.EOF) {
-					if (length > 0) {
-						output_stream.write (line.data[0:terminator_pos]);
-						output_stream.put_string ("\n");
-					}
-				}
-			}
-			catch (Error error) {
-			}
+	char buffer[2];
+
+	bool read_channel (IOChannel channel) {
+		if (channel == null) {
+			return false;
 		}
+		try {
+			size_t bytes;
+			channel.read_chars (buffer, out bytes);
+			if (bytes == 0) {
+				return false;
+			}
+			output_stream.write ((uint8[]) buffer[0:bytes]);
+			return true;
+		}
+		catch (Error error) {
+			return false;
+		}
+	}
+
+	inline void read_channel_to_end (IOChannel channel) {
+		while (read_channel (channel)) { /* void */ }
 	}
 
 	void child_setup () {
@@ -287,12 +331,17 @@ class Gth.ScriptProcess {
 		}
 	}
 
+	bool wait_command;
 	Pid child_pid;
 	SourceFunc wait_callback;
 	Error wait_error;
+	uint wait_timeout = 0;
 	uint watch_id;
 	IOChannel output;
 	IOChannel error;
 	MemoryOutputStream output_memory;
 	DataOutputStream output_stream;
+	Cancellable cancellable;
+
+	const uint MAX_WAIT = 5; // seconds
 }
