@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-04-04 11:29+0000\n"
-"PO-Revision-Date: 2026-04-07 20:46+0200\n"
+"POT-Creation-Date: 2026-04-09 07:19+0000\n"
+"PO-Revision-Date: 2026-04-09 21:35+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -23,36 +23,26 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 3.8\n"
 
-#: data/app.gthumb.gthumb-devel.desktop.in:2 data/app.gthumb.gthumb.desktop.in:2
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:14 data/ui/browser.ui:23
-#: data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
+#: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
+#: data/ui/browser.ui:23 data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
 msgid "Thumbnails"
 msgstr "Sličice"
 
-#: data/app.gthumb.gthumb-devel.desktop.in:3 data/app.gthumb.gthumb.desktop.in:3
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:15
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:15
+#: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
 msgid "View and organize your images"
 msgstr "Oglejte in uredite svoje slike"
 
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
-#: data/app.gthumb.gthumb-devel.desktop.in:5 data/app.gthumb.gthumb.desktop.in:5
-msgid "Image;Viewer;"
-msgstr "Image;Viewer;slike;pregledovanje;pregledovalnik;fotografije;urejanje;album;"
-
-#: data/app.gthumb.gthumb-devel.desktop.in:17 data/app.gthumb.gthumb.desktop.in:17
-#: src/Ext/Shortcuts/Shortcuts.vala:133
-msgid "New Window"
-msgstr "Novo okno"
-
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:20
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
 msgstr "Pregledovalnik, urejevalnik, brskalnik in organizator slik."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:23
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:23
 msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 msgstr "Oglejte si slike: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:26
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
@@ -60,11 +50,11 @@ msgstr ""
 "Urejevalnik slik: spreminjanje velikosti, vrtenje in obrezovanje slik; spremenite "
 "kontrast, svetlost, nasičenost; druga barvna preoblikovanja."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:29
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
 msgstr "Oglejte si in urejajte vdelane metapodatke: EXIF, IPTC in XMP."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:32
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:32
 msgid ""
 "File manager operations: copy, move, rename and delete files and folders, execute "
 "scripts on the selected files."
@@ -72,31 +62,31 @@ msgstr ""
 "Operacije upravitelja datotek: kopiranje, premikanje, preimenovanje in brisanje "
 "datotek in map, izvajanje skriptov z izbranimi datotekami."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:35
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
 msgstr "Posebna slikovna orodja:"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:39
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:39
 msgid "JPEG lossless transformations"
 msgstr "Preoblikovanja JPEG brez izgub"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:40
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:40
 msgid "Image resize"
 msgstr "Spremeni velikost slike"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:41
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:41
 msgid "Format conversion"
 msgstr "Pretvorba med vrstami datotek"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:42
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:42
 msgid "Slideshow"
 msgstr "Predstavitev"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:43
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:43
 msgid "Setting an image as desktop background"
 msgstr "Nastavljanje slike za ozadje namizja"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:45
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
@@ -104,30 +94,39 @@ msgstr ""
 "Dodajte komentarje in druge metapodatke slikam; organizirajte slike v kataloge in "
 "kataloge v knjižnice; poiščite slike in shranite rezultate kot katalog."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:60
-#: data/ui/browser-preferences.ui:4 src/Ext/Preferences/PreferencesDialog.vala:6
-#: src/Ext/Shortcuts/Shortcuts.vala:163
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:60 data/ui/browser-preferences.ui:4
+#: src/Ext/Preferences/PreferencesDialog.vala:6 src/Ext/Shortcuts/Shortcuts.vala:163
 msgid "Browser"
 msgstr "Brskalnik"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:64
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:64
 #: src/Ext/Shortcuts/Shortcut.vala:260
 msgid "Viewer"
 msgstr "Pregledovalnik"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:68
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:68
 msgid "Editor"
 msgstr "Urejevalnik"
 
-#: data/schemas/app.gthumb.gthumb.gschema.xml:23
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
+#: data/org.gnome.gthumb-devel.desktop.in:5 data/org.gnome.gthumb.desktop.in:5
+msgid "Image;Viewer;"
+msgstr "Image;Viewer;slike;pregledovanje;pregledovalnik;fotografije;urejanje;album;"
+
+#: data/org.gnome.gthumb-devel.desktop.in:17 data/org.gnome.gthumb.desktop.in:17
+#: src/Ext/Shortcuts/Shortcuts.vala:133
+msgid "New Window"
+msgstr "Novo okno"
+
+#: data/schemas/org.gnome.gthumb.gschema.xml:23
 msgid "Open files in the active window"
 msgstr "Odpri datoteke v dejavnem oknu"
 
-#: data/schemas/app.gthumb.gthumb.savers.gschema.xml:24
+#: data/schemas/org.gnome.gthumb.savers.gschema.xml:24
 msgid "Possible values are: jpeg, jpg."
 msgstr "Mogoči vrednosti sta jpg in jpeg."
 
-#: data/schemas/app.gthumb.gthumb.savers.gschema.xml:55
+#: data/schemas/org.gnome.gthumb.savers.gschema.xml:55
 msgid "Possible values are: tiff, tif."
 msgstr "Mogoči vrednosti sta tif in tiff."
 
@@ -696,9 +695,8 @@ msgstr "Sivine"
 
 #: data/ui/editor-palette.ui:148 src/Ext/Editor/SharpenImage.vala:84
 #: src/Ext/Shortcuts/Shortcuts.vala:254
-#, fuzzy
 msgid "Focus"
-msgstr "Pozornost/Ostrina"
+msgstr "Ostrina"
 
 #: data/ui/editor-palette.ui:159 src/Ext/Editor/SpecialEffects.vala:135
 #: src/Ext/Shortcuts/Shortcuts.vala:253
@@ -769,10 +767,8 @@ msgid "Total Size"
 msgstr "Skupna velikost"
 
 #: data/ui/filter-editor-page.ui:102
-#, fuzzy
-#| msgid "selected by"
 msgid "Selected By"
-msgstr "izbrano po"
+msgstr "Izbrano po"
 
 #: data/ui/filter-editor-page.ui:107 data/ui/rename-dialog.ui:117
 msgid "Direction"
@@ -913,26 +909,20 @@ msgid "Automatic"
 msgstr "Samodejno"
 
 #: data/ui/image-viewer.ui:202 data/ui/video-viewer.ui:435
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Size"
-msgstr "Razpni"
+msgstr "Razpni velikost"
 
 #: data/ui/image-viewer.ui:207 src/Ext/Shortcuts/Shortcuts.vala:229
 msgid "Fill Space"
 msgstr "Zapolni prostor"
 
 #: data/ui/image-viewer.ui:212
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Width"
-msgstr "Razpni"
+msgstr "Razpni po širini"
 
 #: data/ui/image-viewer.ui:217
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Height"
-msgstr "Razpni"
+msgstr "Razpni po višini"
 
 #: data/ui/image-viewer.ui:224
 msgid "50%"
@@ -1208,10 +1198,8 @@ msgid "Cancel All"
 msgstr "Prekliči vse"
 
 #: data/ui/property-sidebar.ui:32
-#, fuzzy
-#| msgid "Search completed"
 msgid "search property"
-msgstr "Iskanje je končano"
+msgstr "iskanje lastnosti"
 
 #: data/ui/rename-dialog.ui:50 data/ui/rename-dialog.ui:60
 #: src/Ext/Rename/RenameTemplatePage.vala:3
@@ -1219,7 +1207,6 @@ msgid "Template"
 msgstr "Predloga"
 
 #: data/ui/rename-dialog.ui:80
-#, fuzzy
 msgid "First Index"
 msgstr "Prvi indeks"
 
@@ -1288,9 +1275,8 @@ msgid "Pixels"
 msgstr "sl. točk"
 
 #: data/ui/resize-image.ui:72
-#, fuzzy
 msgid "Scaled"
-msgstr "Skalirano/Umerjeno"
+msgstr "Skalirano"
 
 #: data/ui/resize-image.ui:85
 msgid "Repeated"
@@ -1749,10 +1735,8 @@ msgid "Color Profile"
 msgstr "Barvni profil"
 
 #: src/Application.vala:133
-#, fuzzy
-#| msgid "Frame"
 msgid "Frames"
-msgstr "Okvir"
+msgstr "Sličice"
 
 #: src/Application.vala:139 src/TagEntry.vala:71
 msgid "Tags"
@@ -2607,7 +2591,7 @@ msgstr "TIFF"
 msgid "WEBP"
 msgstr "WEBP"
 
-#: src/Ext/Scripts/Script.vala:233
+#: src/Ext/Scripts/Script.vala:262
 #, c-format
 msgid "Command exited abnormally with status %d"
 msgstr "Ukaz je končal nepravilno s stanjem %d"
