@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/slideshow-window.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/slideshow-window.ui")]
 public class Gth.Slideshow : Gth.Window {
 	public GenericList<FileData> files {
 		get {

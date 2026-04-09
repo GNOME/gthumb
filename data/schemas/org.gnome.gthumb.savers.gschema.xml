@@ -1,15 +1,15 @@
 <schemalist>
 
-  <schema id="app.gthumb.gthumb.savers" path="/app/gthumb/gthumb/savers/">
-    <child name="avif" schema="app.gthumb.gthumb.savers.avif" />
-    <child name="jpeg" schema="app.gthumb.gthumb.savers.jpeg" />
-    <child name="png" schema="app.gthumb.gthumb.savers.png" />
-    <child name="tiff" schema="app.gthumb.gthumb.savers.tiff" />
-    <child name="webp" schema="app.gthumb.gthumb.savers.webp" />
-    <child name="jxl" schema="app.gthumb.gthumb.savers.jxl" />
+  <schema id="org.gnome.gthumb.savers" path="/org/gnome/gthumb/savers/">
+    <child name="avif" schema="org.gnome.gthumb.savers.avif" />
+    <child name="jpeg" schema="org.gnome.gthumb.savers.jpeg" />
+    <child name="png" schema="org.gnome.gthumb.savers.png" />
+    <child name="tiff" schema="org.gnome.gthumb.savers.tiff" />
+    <child name="webp" schema="org.gnome.gthumb.savers.webp" />
+    <child name="jxl" schema="org.gnome.gthumb.savers.jxl" />
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.avif" path="/app/gthumb/gthumb/savers/avif/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.savers.avif" path="/org/gnome/gthumb/savers/avif/" gettext-domain="gthumb">
     <key name="quality" type="i">
       <default>50</default>
     </key>
@@ -18,7 +18,7 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.jpeg" path="/app/gthumb/gthumb/savers/jpeg/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.savers.jpeg" path="/org/gnome/gthumb/savers/jpeg/" gettext-domain="gthumb">
     <key name="default-ext" type="s">
       <default>'jpeg'</default>
       <description>Possible values are: jpeg, jpg.</description>
@@ -37,24 +37,24 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.png" path="/app/gthumb/gthumb/savers/png/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.savers.png" path="/org/gnome/gthumb/savers/png/" gettext-domain="gthumb">
     <key name="compression-level" type="i">
       <default>6</default>
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.TiffCompression">
+  <enum id="org.gnome.gthumb.TiffCompression">
     <value nick="none" value="0"/>
     <value nick="lossless" value="1"/>
     <value nick="jpeg" value="2"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.savers.tiff" path="/app/gthumb/gthumb/savers/tiff/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.savers.tiff" path="/org/gnome/gthumb/savers/tiff/" gettext-domain="gthumb">
     <key name="default-ext" type="s">
       <default>'tiff'</default>
       <description>Possible values are: tiff, tif.</description>
     </key>
-    <key name="compression" enum="app.gthumb.gthumb.TiffCompression">
+    <key name="compression" enum="org.gnome.gthumb.TiffCompression">
       <default>'lossless'</default>
     </key>
     <key name="horizontal-resolution" type="i">
@@ -65,7 +65,7 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.webp" path="/app/gthumb/gthumb/savers/webp/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.savers.webp" path="/org/gnome/gthumb/savers/webp/" gettext-domain="gthumb">
     <key name="quality" type="i">
       <default>75</default>
     </key>
@@ -77,7 +77,7 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.savers.jxl" path="/app/gthumb/gthumb/savers/jxl/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.savers.jxl" path="/org/gnome/gthumb/savers/jxl/" gettext-domain="gthumb">
     <key name="effort" type="i">
       <default>7</default>
     </key>

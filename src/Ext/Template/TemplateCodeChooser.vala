@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/template-code-chooser.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/template-code-chooser.ui")]
 public class Gth.TemplateCodeChooser : Adw.NavigationPage {
 	public int pos;
 

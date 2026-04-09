@@ -1,6 +1,6 @@
 public class Gth.AdjustColors : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-colors.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/adjust-colors.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/browser-preferences.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/browser-preferences.ui")]
 public class Gth.BrowserPreferences : Adw.NavigationPage {
 	uint get_caption_index (string id) {
 		uint idx = 0;

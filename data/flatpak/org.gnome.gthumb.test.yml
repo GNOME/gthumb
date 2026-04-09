@@ -1,6 +1,6 @@
-id: app.gthumb.gthumb
+id: org.gnome.gthumb
 runtime: org.gnome.Platform
-runtime-version: master
+runtime-version: '50'
 sdk: org.gnome.Sdk
 command: gthumb
 tags:
@@ -124,5 +124,5 @@ modules:
     config-opts:
       - -Dflatpak-build=true
     sources:
-      - type: git
-        url: https://gitlab.gnome.org/GNOME/gthumb.git
+      - type: dir
+        path: ../..

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/folder-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/folder-row.ui")]
 public class Gth.FolderRow : Adw.ActionRow {
 	public File folder {
 		get { return _folder; }

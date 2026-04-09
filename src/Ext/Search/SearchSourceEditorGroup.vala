@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/search-source-editor-group.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/search-source-editor-group.ui")]
 public class Gth.SearchSourceEditorGroup : Adw.PreferencesGroup {
 	public GenericList<SearchSource> sources;
 	public File default_folder;

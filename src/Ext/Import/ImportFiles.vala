@@ -88,7 +88,7 @@ public class Gth.ImportFiles : Object {
 	Importer importer = null;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/importer-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/importer-dialog.ui")]
 public class Gth.ImporterDialog : Adw.Window {
 	public signal void saved (Importer importer);
 

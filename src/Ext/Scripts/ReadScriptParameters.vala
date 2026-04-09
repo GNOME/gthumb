@@ -43,7 +43,7 @@ public class Gth.ReadScriptParameters : Object {
 }
 
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/script-parameters-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/script-parameters-dialog.ui")]
 class Gth.ScriptParametersDialog : Adw.Window {
 	public signal void saved ();
 	public bool skipped;

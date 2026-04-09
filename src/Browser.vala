@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/browser.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/browser.ui")]
 public class Gth.Browser : Gtk.Box {
 	public weak MainWindow window {
 		get { return _window; }
@@ -693,7 +693,7 @@ public class Gth.Browser : Gtk.Box {
 	}
 
 	void init_actions () {
-		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/browser-menu.ui");
+		var builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/browser-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
 		history.actions = history_popover.actions;

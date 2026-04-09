@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/bookmark-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/bookmark-row.ui")]
 public class Gth.BookmarkRow : Adw.ActionRow {
 	public Gth.ActionInfo entry;
 

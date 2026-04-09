@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-grid.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/file-grid.ui")]
 public class Gth.FileGrid : Gtk.Box {
 	public IterableList<FileData> visible_files;
 	public string[] thumbnail_attributes_v;

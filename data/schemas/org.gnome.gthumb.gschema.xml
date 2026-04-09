@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="app.gthumb.gthumb" path="/app/gthumb/gthumb/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb" path="/org/gnome/gthumb/" gettext-domain="gthumb">
     <key name="store-metadata-in-files" type="b">
       <default>true</default>
     </key>
@@ -29,7 +29,7 @@
       <default>false</default>
     </key>
     <key name="thumbnail-size" type="i">
-      <default>250</default>
+      <default>256</default>
     </key>
     <key name="thumbnail-caption" type="s">
       <default>''</default>
@@ -82,30 +82,30 @@
     <key name="last-extension" type="s">
       <default>''</default>
     </key>
-    <child name="terminal" schema="app.gthumb.gthumb.terminal" />
-    <child name="rename" schema="app.gthumb.gthumb.rename" />
-    <child name="rotate" schema="app.gthumb.gthumb.rotate" />
-    <child name="resize" schema="app.gthumb.gthumb.resize" />
-    <child name="convert" schema="app.gthumb.gthumb.convert" />
-    <child name="print" schema="app.gthumb.gthumb.print" />
-    <child name="crop" schema="app.gthumb.gthumb.crop" />
-    <child name="import" schema="app.gthumb.gthumb.import" />
-    <child name="slideshow" schema="app.gthumb.gthumb.slideshow" />
+    <child name="terminal" schema="org.gnome.gthumb.terminal" />
+    <child name="rename" schema="org.gnome.gthumb.rename" />
+    <child name="rotate" schema="org.gnome.gthumb.rotate" />
+    <child name="resize" schema="org.gnome.gthumb.resize" />
+    <child name="convert" schema="org.gnome.gthumb.convert" />
+    <child name="print" schema="org.gnome.gthumb.print" />
+    <child name="crop" schema="org.gnome.gthumb.crop" />
+    <child name="import" schema="org.gnome.gthumb.import" />
+    <child name="slideshow" schema="org.gnome.gthumb.slideshow" />
   </schema>
 
-  <schema id="app.gthumb.gthumb.terminal" path="/app/gthumb/gthumb/terminal/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.terminal" path="/org/gnome/gthumb/terminal/" gettext-domain="gthumb">
     <key name="command" type="s">
       <default>'kgx --working-directory=%f'</default>
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.GthTextTransform">
+  <enum id="org.gnome.gthumb.GthTextTransform">
     <value nick="none" value="0"/>
     <value nick="lowercase" value="1"/>
     <value nick="uppercase" value="2"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.rename" path="/app/gthumb/gthumb/rename/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.rename" path="/org/gnome/gthumb/rename/" gettext-domain="gthumb">
     <key name="template" type="s">
       <default>'####%E'</default>
     </key>
@@ -118,39 +118,39 @@
     <key name="reverse-order" type="b">
       <default>false</default>
     </key>
-    <key name="text-transform" enum="app.gthumb.gthumb.GthTextTransform">
+    <key name="text-transform" enum="org.gnome.gthumb.GthTextTransform">
       <default>'none'</default>
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.GthRotatedSize">
+  <enum id="org.gnome.gthumb.GthRotatedSize">
     <value nick="original" value="0"/>
     <value nick="bounding-box" value="1"/>
     <value nick="crop-borders" value="2"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.rotate" path="/app/gthumb/gthumb/rotate/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.rotate" path="/org/gnome/gthumb/rotate/" gettext-domain="gthumb">
     <key name="background" type="s">
       <default>'#000'</default>
     </key>
-    <key name="size" enum="app.gthumb.gthumb.GthRotatedSize">
+    <key name="size" enum="org.gnome.gthumb.GthRotatedSize">
       <default>'bounding-box'</default>
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.GthResizeUnit">
+  <enum id="org.gnome.gthumb.GthResizeUnit">
     <value nick="pixel" value="0"/>
     <value nick="percent" value="1"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.resize" path="/app/gthumb/gthumb/resize/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.resize" path="/org/gnome/gthumb/resize/" gettext-domain="gthumb">
     <key name="width" type="i">
       <default>200</default>
     </key>
     <key name="height" type="i">
       <default>200</default>
     </key>
-    <key name="unit" enum="app.gthumb.gthumb.GthResizeUnit">
+    <key name="unit" enum="org.gnome.gthumb.GthResizeUnit">
       <default>'pixel'</default>
     </key>
     <key name="keep-aspect-ratio" type="b">
@@ -161,25 +161,25 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.convert" path="/app/gthumb/gthumb/convert/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.convert" path="/org/gnome/gthumb/convert/" gettext-domain="gthumb">
     <key name="format" type="s">
       <default>''</default>
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.GthPrintUnit">
+  <enum id="org.gnome.gthumb.GthPrintUnit">
     <value nick="mm" value="0"/>
     <value nick="inch" value="1"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.print" path="/app/gthumb/gthumb/print/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.print" path="/org/gnome/gthumb/print/" gettext-domain="gthumb">
     <key name="rows" type="i">
       <default>1</default>
     </key>
     <key name="columns" type="i">
       <default>1</default>
     </key>
-    <key name="unit" enum="app.gthumb.gthumb.GthPrintUnit">
+    <key name="unit" enum="org.gnome.gthumb.GthPrintUnit">
       <default>'mm'</default>
     </key>
     <key name="output-dir" type="s">
@@ -187,26 +187,26 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.crop" path="/app/gthumb/gthumb/crop/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.crop" path="/org/gnome/gthumb/crop/" gettext-domain="gthumb">
     <key name="custom-ratio" type="d">
       <default>0</default>
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.GthAutomaticDate">
+  <enum id="org.gnome.gthumb.GthAutomaticDate">
     <value nick="today" value="0"/>
     <value nick="modified" value="1"/>
     <value nick="original" value="2"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.import" path="/app/gthumb/gthumb/import/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.import" path="/org/gnome/gthumb/import/" gettext-domain="gthumb">
     <key name="destination" type="s">
       <default>''</default>
     </key>
     <key name="automatic-subfolder" type="b">
       <default>false</default>
     </key>
-    <key name="automatic-subfolder-date" enum="app.gthumb.gthumb.GthAutomaticDate">
+    <key name="automatic-subfolder-date" enum="org.gnome.gthumb.GthAutomaticDate">
       <default>'original'</default>
     </key>
     <key name="automatic-subfolder-format" type="s">
@@ -217,7 +217,7 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.slideshow" path="/app/gthumb/gthumb/slideshow/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.slideshow" path="/org/gnome/gthumb/slideshow/" gettext-domain="gthumb">
     <key name="automatic" type="b">
       <default>true</default>
     </key>

@@ -22,7 +22,7 @@ public class Gth.WebpPreferences : Gth.SaverPreferences {
 
 	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
-			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/webp-preferences.ui");
+			builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/webp-preferences.ui");
 		}
 
 		unowned var adj = builder.get_object ("quality_adjustment") as Gtk.Adjustment;

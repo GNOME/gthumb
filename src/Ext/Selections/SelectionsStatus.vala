@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/selections-status.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/selections-status.ui")]
 public class Gth.SelectionsStatus : Gtk.Box {
 	public void set_selection_size (uint number, uint files) {
 		var button = (number == 1) ? selection1 : (number == 2) ? selection2 : selection3;

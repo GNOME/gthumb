@@ -1,12 +1,12 @@
 <schemalist>
 
-  <schema id="app.gthumb.gthumb.viewers" path="/app/gthumb/gthumb/viewers/">
-    <child name="common" schema="app.gthumb.gthumb.viewers.common" />
-    <child name="images" schema="app.gthumb.gthumb.viewers.images" />
-    <child name="videos" schema="app.gthumb.gthumb.viewers.videos" />
+  <schema id="org.gnome.gthumb.viewers" path="/org/gnome/gthumb/viewers/">
+    <child name="common" schema="org.gnome.gthumb.viewers.common" />
+    <child name="images" schema="org.gnome.gthumb.viewers.images" />
+    <child name="videos" schema="org.gnome.gthumb.viewers.videos" />
   </schema>
 
-  <schema id="app.gthumb.gthumb.viewers.common" path="/app/gthumb/gthumb/viewers/common/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.viewers.common" path="/org/gnome/gthumb/viewers/common/" gettext-domain="gthumb">
     <key name="sidebar-visible" type="b">
       <default>false</default>
     </key>
@@ -18,7 +18,7 @@
     </key>
   </schema>
 
-  <enum id="app.gthumb.gthumb.ZoomType">
+  <enum id="org.gnome.gthumb.ZoomType">
     <value nick="natural-size" value="0"/>
     <value nick="keep-previous" value="1"/>
     <value nick="best-fit" value="2"/>
@@ -29,28 +29,28 @@
     <value nick="fill-space" value="7"/>
   </enum>
 
-  <enum id="app.gthumb.gthumb.ScrollAction">
+  <enum id="org.gnome.gthumb.ScrollAction">
     <value nick="change-file" value="0"/>
     <value nick="change-zoom" value="1"/>
     <value nick="change-volume" value="2"/>
     <value nick="change-current-time" value="3"/>
   </enum>
 
-  <enum id="app.gthumb.gthumb.TransparencyStyle">
+  <enum id="org.gnome.gthumb.TransparencyStyle">
     <value nick="checkered" value="0"/>
     <value nick="white" value="1"/>
     <value nick="gray" value="2"/>
     <value nick="black" value="3"/>
   </enum>
 
-  <schema id="app.gthumb.gthumb.viewers.images" path="/app/gthumb/gthumb/viewers/images/" gettext-domain="gthumb">
-    <key name="zoom-type" enum="app.gthumb.gthumb.ZoomType">
+  <schema id="org.gnome.gthumb.viewers.images" path="/org/gnome/gthumb/viewers/images/" gettext-domain="gthumb">
+    <key name="zoom-type" enum="org.gnome.gthumb.ZoomType">
       <default>'best-fit'</default>
     </key>
-    <key name="scroll-action" enum="app.gthumb.gthumb.ScrollAction">
+    <key name="scroll-action" enum="org.gnome.gthumb.ScrollAction">
       <default>'change-zoom'</default>
     </key>
-    <key name="transparency" enum="app.gthumb.gthumb.TransparencyStyle">
+    <key name="transparency" enum="org.gnome.gthumb.TransparencyStyle">
       <default>'gray'</default>
     </key>
     <key name="apply-icc-profile" type="b">
@@ -58,14 +58,14 @@
     </key>
   </schema>
 
-  <schema id="app.gthumb.gthumb.viewers.videos" path="/app/gthumb/gthumb/viewers/videos/" gettext-domain="gthumb">
+  <schema id="org.gnome.gthumb.viewers.videos" path="/org/gnome/gthumb/viewers/videos/" gettext-domain="gthumb">
     <key name="screenshot-location" type="s">
       <default>''</default>
     </key>
     <key name="screenshot-type" type="s">
       <default>'image/jpeg'</default>
     </key>
-    <key name="scroll-action" enum="app.gthumb.gthumb.ScrollAction">
+    <key name="scroll-action" enum="org.gnome.gthumb.ScrollAction">
       <default>'change-current-time'</default>
     </key>
     <key name="volume" type="i">

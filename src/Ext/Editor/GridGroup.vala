@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/grid-group.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/grid-group.ui")]
 public class Gth.GridGroup : Adw.PreferencesGroup {
 	public signal void changed ();
 

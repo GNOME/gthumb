@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/script-editor-page.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/script-editor-page.ui")]
 public class Gth.ScriptEditorPage : Adw.NavigationPage {
 	public Gth.Script script;
 

@@ -36,7 +36,7 @@ public class Gth.SelectDevice : Object {
 	ActionInfo result = null;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/device-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/device-dialog.ui")]
 public class Gth.DeviceDialog : Adw.Window {
 	public signal void selected (ActionInfo source);
 

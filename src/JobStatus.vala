@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/job-status.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/job-status.ui")]
 public class Gth.JobStatus : Gtk.Button {
 	public void set_count (uint count) {
 		job_count.label = "%u".printf (count);

@@ -22,7 +22,7 @@ public class Gth.PngPreferences : Gth.SaverPreferences {
 
 	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
-			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/png-preferences.ui");
+			builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/png-preferences.ui");
 		}
 
 		unowned var adj = builder.get_object ("compression_adjustment") as Gtk.Adjustment;

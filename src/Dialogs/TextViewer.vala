@@ -28,7 +28,7 @@ public class Gth.TextViewer : Object {
 	ulong cancelled_event = 0;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/text-viewer-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/text-viewer-dialog.ui")]
 class Gth.TextViewerDialog : Adw.Dialog {
 	public TextViewerDialog (Bytes buffer) {
 		var text = (string) buffer.get_data ();

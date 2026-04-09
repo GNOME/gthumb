@@ -6,7 +6,7 @@ Keywords=Image;Viewer;
 Categories=GNOME;GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;
 Exec=gthumb %U
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)
-Icon=app.gthumb.gthumb
+Icon=org.gnome.gthumb
 MimeType=image/png;image/apng;image/jpeg;image/webp;image/svg+xml;image/jxl;image/heif;image/heic;image/avif;image/tiff;image/gif;image/x-canon-cr2;image/x-canon-crw;image/x-fuji-raf;image/x-dcraw;image/x-olympus-orf;
 StartupNotify=true
 Terminal=false

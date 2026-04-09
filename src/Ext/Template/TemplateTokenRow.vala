@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/template-token-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/template-token-row.ui")]
 public class Gth.TemplateTokenRow : Gtk.ListBoxRow {
 	public TemplateToken token;
 

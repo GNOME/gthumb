@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/status.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/status.ui")]
 public class Gth.Status : Gtk.Box {
 	public void set_n_jobs (uint n) {
 		job_status.set_count (n);

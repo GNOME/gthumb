@@ -3,7 +3,7 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 
 	public void activate (Gth.MainWindow _window) {
 		window = _window;
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/unknown-viewer.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/unknown-viewer.ui");
 		unowned var main_view = builder.get_object ("main_view") as Gtk.Widget;
 		scroll_action = (ScrollAction) settings.get_enum (PREF_IMAGE_SCROLL_ACTION);
 		window.viewer.set_viewer_widget (main_view);

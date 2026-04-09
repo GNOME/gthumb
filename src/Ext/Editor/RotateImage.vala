@@ -1,6 +1,6 @@
 public class Gth.RotateImage : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/rotate-image.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/rotate-image.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 		window.editor.sidebar.insert_action_group ("rotate", action_group);
 

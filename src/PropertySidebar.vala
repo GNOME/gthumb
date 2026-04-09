@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/property-sidebar.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/property-sidebar.ui")]
 public class Gth.PropertySidebar : Gtk.Box {
 	public Gth.FileData current_file {
 		get { return _file; }

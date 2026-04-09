@@ -1,6 +1,6 @@
 // Schemas
 
-const string GTHUMB_SCHEMA = "app.gthumb.gthumb";
+const string GTHUMB_SCHEMA = "org.gnome.gthumb";
 const string GTHUMB_VIEWER_SCHEMA = GTHUMB_SCHEMA + ".viewers.common";
 const string GTHUMB_IMAGES_SCHEMA = GTHUMB_SCHEMA + ".viewers.images";
 const string GTHUMB_VIDEOS_SCHEMA = GTHUMB_SCHEMA + ".viewers.videos";

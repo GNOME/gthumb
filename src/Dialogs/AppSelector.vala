@@ -40,7 +40,7 @@ public class Gth.AppSelector : Object {
 	AppInfo? result = null;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/app-selector-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/app-selector-dialog.ui")]
 class Gth.AppSelectorDialog : Adw.Dialog {
 	public signal void selected ();
 	public AppInfo app_info;

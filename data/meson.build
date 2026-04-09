@@ -2,8 +2,8 @@ install_man('gthumb.1')
 
 if get_option('developer-mode')
   desktop_file = i18n.merge_file(
-    input: 'app.gthumb.gthumb-devel.desktop.in',
-    output: 'app.gthumb.gthumb-devel.desktop',
+    input: 'org.gnome.gthumb-devel.desktop.in',
+    output: 'org.gnome.gthumb-devel.desktop',
     type: 'desktop',
     po_dir: join_paths(meson.project_source_root(), 'po'),
     install: true,
@@ -11,8 +11,8 @@ if get_option('developer-mode')
   )
 else
   desktop_file = i18n.merge_file(
-    input: 'app.gthumb.gthumb.desktop.in',
-    output: 'app.gthumb.gthumb.desktop',
+    input: 'org.gnome.gthumb.desktop.in',
+    output: 'org.gnome.gthumb.desktop',
     type: 'desktop',
     po_dir: join_paths(meson.project_source_root(), 'po'),
     install: true,

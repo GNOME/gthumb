@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/main-window.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/main-window.ui")]
 public class Gth.MainWindow : Gth.Window {
 	public FileManager file_manager;
 	public Page current_page;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/app/gthumb/gthumb/icons/scalable/actions/">
+  <gresource prefix="/org/gnome/gthumb/icons/scalable/actions/">
     <file preprocess="xml-stripblanks">gth-adapt-window-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-brightness-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-adjust-colors-symbolic.svg</file>
@@ -87,17 +87,17 @@
     <file preprocess="xml-stripblanks">gth-view-zoom-out-symbolic.svg</file>
     <file preprocess="xml-stripblanks">gth-zoom-menu-symbolic.svg</file>
   </gresource>
-  <gresource prefix="/app/gthumb/gthumb/icons/scalable/apps">
-    <file preprocess="xml-stripblanks">app.gthumb.gthumb.svg</file>
-    <file preprocess="xml-stripblanks">app.gthumb.gthumb-devel.svg</file>
+  <gresource prefix="/org/gnome/gthumb/icons/scalable/apps">
+    <file preprocess="xml-stripblanks">org.gnome.gthumb.svg</file>
+    <file preprocess="xml-stripblanks">org.gnome.gthumb-devel.svg</file>
   </gresource>
-  <gresource prefix="/app/gthumb/gthumb/icons/">
+  <gresource prefix="/org/gnome/gthumb/icons/">
     <file>filmholes.png</file>
   </gresource>
-  <gresource prefix="/app/gthumb/gthumb/css">
+  <gresource prefix="/org/gnome/gthumb/css">
     <file>style.css</file>
   </gresource>
-  <gresource prefix="/app/gthumb/gthumb/ui">
+  <gresource prefix="/org/gnome/gthumb/ui">
     <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>
     <file preprocess="xml-stripblanks">adjust-brightness.ui</file>
     <file preprocess="xml-stripblanks">adjust-colors.ui</file>

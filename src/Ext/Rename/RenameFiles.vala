@@ -37,7 +37,7 @@ public class Gth.RenameFiles : Object {
 	bool saved = false;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/rename-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/rename-dialog.ui")]
 public class Gth.RenameDialog : Adw.Window {
 	public signal void saved ();
 

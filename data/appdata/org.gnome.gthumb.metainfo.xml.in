@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014-2026 Paolo Bacchilega <paobac@src.gnome.org> -->
 <component type="desktop-application">
-  <id>app.gthumb.gthumb</id>
+  <id>org.gnome.gthumb</id>
   <replaces>
     <id>org.gnome.gThumb.desktop</id>
   </replaces>
@@ -49,7 +49,7 @@
     </p>
   </description>
 
-  <launchable type="desktop-id">app.gthumb.gthumb.desktop</launchable>
+  <launchable type="desktop-id">org.gnome.gthumb.desktop</launchable>
   <url type="homepage">https://gitlab.gnome.org/GNOME/gthumb/</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gthumb/-/issues</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gthumb/</url>

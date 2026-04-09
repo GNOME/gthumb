@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/filters-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/filters-dialog.ui")]
 public class Gth.FiltersDialog : Adw.PreferencesDialog {
 	public FiltersDialog () {
 		current_filter = null;

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/saver-preferences-page.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/saver-preferences-page.ui")]
 public class Gth.SaverPreferencesPage : Adw.NavigationPage {
 	public SaverPreferencesPage (SaverPreferences _options) {
 		options = _options;

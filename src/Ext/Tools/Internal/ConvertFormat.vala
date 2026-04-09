@@ -36,7 +36,7 @@ public class Gth.ConvertFormat : Object {
 	bool saved = false;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/convert-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/convert-dialog.ui")]
 public class Gth.ConvertDialog : Adw.Dialog {
 	public signal void saved ();
 

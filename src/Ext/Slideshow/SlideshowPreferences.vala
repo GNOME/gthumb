@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/slideshow-preferences.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/slideshow-preferences.ui")]
 public class Gth.SlideshowPreferences : Adw.NavigationPage {
 	construct {
 		settings = new GLib.Settings (GTHUMB_SLIDESHOW_SCHEMA);

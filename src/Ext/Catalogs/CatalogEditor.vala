@@ -51,7 +51,7 @@ public class Gth.CatalogEditor : Object {
 }
 
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/catalog-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/catalog-dialog.ui")]
 class Gth.CatalogDialog : Adw.Dialog {
 	public signal void changed ();
 

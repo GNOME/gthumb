@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/shortcut-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/shortcut-row.ui")]
 public class Gth.ShortcutRow : Adw.ActionRow {
 	public bool save_on_change { get; set; default = true; }
 

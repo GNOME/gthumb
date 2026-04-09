@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-property-view.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/file-property-view.ui")]
 public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 	public enum Filter {
 		NONE,
@@ -352,7 +352,7 @@ public class Gth.FileProperty : Object {
 	public unowned Gth.MetadataCategory? category;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-property-item.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/file-property-item.ui")]
 public class Gth.FilePropertyItem : Gtk.Box {
 	public unowned Gth.FileProperty property = null;
 	[GtkChild] public unowned Gtk.Label title;

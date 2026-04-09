@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/histogram-view.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/histogram-view.ui")]
 public class Gth.HistogramView : Gtk.Box {
 	public enum DisplayMode {
 		ONE_CHANNEL,

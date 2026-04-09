@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/editor.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/editor.ui")]
 public class Gth.Editor : Gtk.Box {
 	public weak MainWindow window {
 		get { return _window; }
@@ -77,7 +77,7 @@ public class Gth.Editor : Gtk.Box {
 	}
 
 	void init () {
-		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/editor-menu.ui");
+		var builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/editor-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
 		sidebar_resizer.add_handle (main_view, Gtk.PackType.START);

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/filter-editor-page.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/filter-editor-page.ui")]
 public class Gth.FilterEditorPage : Adw.NavigationPage {
 	public Gth.Filter filter;
 

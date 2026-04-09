@@ -40,7 +40,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 
 		window = _window;
 
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/video-viewer.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/video-viewer.ui");
 		view_stack = builder.get_object ("view_stack") as Gtk.Stack;
 		video_view = builder.get_object ("video_view") as Gth.VideoView;
 		audio_view = builder.get_object ("audio_view") as Adw.StatusPage;

@@ -70,7 +70,7 @@ public class Gth.TextGenerator {
 	public unowned GenerateTextFunc generate;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/entry-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/entry-dialog.ui")]
 public class Gth.EntryDialog : Adw.Dialog {
 	public signal void saved ();
 

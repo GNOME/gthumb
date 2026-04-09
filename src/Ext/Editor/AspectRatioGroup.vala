@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/aspect-ratio-group.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/aspect-ratio-group.ui")]
 public class Gth.AspectRatioGroup : Adw.PreferencesGroup {
 	public signal void changed (bool after_rotation);
 

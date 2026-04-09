@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/progress-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/progress-dialog.ui")]
 public class Gth.ProgressDialog : Adw.Dialog {
 	public ProgressDialog (Gth.Window _window) {
 		window = _window;

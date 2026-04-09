@@ -34,7 +34,7 @@ public class Gth.EditMetadata : Object {
 	bool saved = false;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/metadata-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/metadata-dialog.ui")]
 class Gth.MetadataDialog : Adw.Dialog {
 	public signal void saved ();
 

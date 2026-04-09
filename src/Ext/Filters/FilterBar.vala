@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/filter-bar.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/filter-bar.ui")]
 public class Gth.FilterBar : Gtk.Box {
 	public Gth.Test filter;
 

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/file-action-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/file-action-row.ui")]
 public class Gth.FileActionRow : Adw.ActionRow {
 	public Gth.FileAction tool;
 

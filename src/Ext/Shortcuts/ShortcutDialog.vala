@@ -35,7 +35,7 @@ public class Gth.ReadShortcut : Object {
 	ShortcutKey? result = null;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/shortcut-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/shortcut-dialog.ui")]
 class Gth.ShortcutDialog : Adw.Dialog {
 	public signal void saved ();
 	public ShortcutKey key;

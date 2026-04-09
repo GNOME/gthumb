@@ -34,7 +34,7 @@ public class Gth.FormatPreferencesDialog : Object {
 	bool saved = false;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/format-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/format-dialog.ui")]
 class Gth.FormatDialog : Adw.Dialog {
 	public signal void saved ();
 

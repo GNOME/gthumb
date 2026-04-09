@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/images-preferences.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/images-preferences.ui")]
 public class Gth.ImagesPreferences : Adw.NavigationPage {
 	construct {
 		settings = new GLib.Settings (GTHUMB_IMAGES_SCHEMA);

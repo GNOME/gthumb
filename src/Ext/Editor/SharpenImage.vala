@@ -1,6 +1,6 @@
 public class Gth.SharpenImage : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/sharpen-image.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/sharpen-image.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 		window.editor.set_content (builder.get_object ("content") as Gtk.Widget);
 

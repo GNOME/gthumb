@@ -1,6 +1,6 @@
 public class Gth.Grayscale : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/grayscale.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/grayscale.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;

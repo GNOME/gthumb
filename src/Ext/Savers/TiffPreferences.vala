@@ -22,7 +22,7 @@ public class Gth.TiffPreferences : Gth.SaverPreferences {
 
 	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
-			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/tiff-preferences.ui");
+			builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/tiff-preferences.ui");
 		}
 
 		unowned var combo_row = builder.get_object ("default_extension") as Adw.ComboRow;

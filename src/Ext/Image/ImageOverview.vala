@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/image-overview.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/image-overview.ui")]
 public class Gth.ImageOverview : Gtk.Box {
 	public Gth.ImageView main_view {
 		set {

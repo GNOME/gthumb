@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/preferences-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/preferences-dialog.ui")]
 public class Gth.PreferencesDialog : Adw.Dialog {
 	construct {
 		pages = new GenericList<PageInfo?> ();

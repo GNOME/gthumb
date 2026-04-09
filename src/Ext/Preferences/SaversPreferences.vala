@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/savers-preferences.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/savers-preferences.ui")]
 public class Gth.SaversPreferences : Adw.NavigationPage {
 	construct {
 		settings = new GLib.Settings (GTHUMB_SCHEMA);

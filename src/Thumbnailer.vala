@@ -202,7 +202,7 @@ public class Gth.Thumbnailer {
 		}
 		if (Util.content_type_is_video (file_data.get_content_type ())) {
 			if (filmholes == null) {
-				var bytes = GLib.resources_lookup_data ("/app/gthumb/gthumb/icons/filmholes.png", ResourceLookupFlags.NONE);
+				var bytes = GLib.resources_lookup_data ("/org/gnome/gthumb/icons/filmholes.png", ResourceLookupFlags.NONE);
 				filmholes = load_png (bytes, 0, job.cancellable);
 			}
 			if (filmholes != null) {

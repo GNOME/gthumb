@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/sort-folders-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/sort-folders-dialog.ui")]
 public class Gth.SortFoldersDialog : Adw.PreferencesDialog {
 	public SortFoldersDialog (Gth.Browser _browser) {
 		browser = _browser;

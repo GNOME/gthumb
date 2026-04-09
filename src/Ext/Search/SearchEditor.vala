@@ -37,7 +37,7 @@ public class Gth.SearchEditor : Object {
 }
 
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/search-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/search-dialog.ui")]
 class Gth.SearchDialog : Adw.Dialog {
 	public signal void changed ();
 

@@ -2,7 +2,7 @@ public class Gth.ColorPicker : ImageTool {
 	public override void after_activate () {
 		init_actions ();
 
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/color-picker.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/color-picker.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 		window.editor.hide_apply ();
 

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/general-preferences.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/general-preferences.ui")]
 public class Gth.GeneralPreferences : Adw.NavigationPage {
 	[GtkCallback]
 	void on_restore_session_changed (Object obj, ParamSpec param) {

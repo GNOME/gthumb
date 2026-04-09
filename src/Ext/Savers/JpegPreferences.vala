@@ -22,7 +22,7 @@ public class Gth.JpegPreferences : Gth.SaverPreferences {
 
 	public override Adw.PreferencesPage create_widget (bool only_format_options = false) {
 		if (builder == null) {
-			builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/jpeg-preferences.ui");
+			builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/jpeg-preferences.ui");
 		}
 
 		unowned var combo_row = builder.get_object ("default_extension") as Adw.ComboRow;

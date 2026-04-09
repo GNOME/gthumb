@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/viewer.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/viewer.ui")]
 public class Gth.Viewer : Gtk.Box {
 	public weak MainWindow window {
 		get { return _window; }
@@ -670,7 +670,7 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	void init_actions () {
-		var builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/viewer-menu.ui");
+		var builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/viewer-menu.ui");
 		app_menu_button.menu_model = builder.get_object ("app_menu") as MenuModel;
 
 		var action_group = window.action_group;

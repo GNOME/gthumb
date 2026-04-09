@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/tool-button.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/tool-button.ui")]
 public class Gth.ToolButton : Gtk.Button {
 	public new string icon_name {
 		set {

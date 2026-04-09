@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/template-page.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/template-page.ui")]
 public class Gth.TemplatePage : Adw.NavigationPage {
 	public GenericList<TemplateCodeInfo> allowed_codes;
 	public unowned TemplatePreviewFunc get_preview_func = null;

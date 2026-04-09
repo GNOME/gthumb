@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/folder-status.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/folder-status.ui")]
 public class Gth.FolderStatus : Gtk.Box {
 	public Icon gicon {
 		set {

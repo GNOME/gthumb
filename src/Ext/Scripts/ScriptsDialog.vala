@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/scripts-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/scripts-dialog.ui")]
 public class Gth.ScriptsDialog : Adw.PreferencesDialog {
 	public ScriptsDialog () {
 		tool_list.bind_model (app.tools.entries.model, new_tool_row);

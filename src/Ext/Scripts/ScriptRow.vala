@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/script-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/script-row.ui")]
 public class Gth.ScriptRow : Adw.ActionRow {
 	public Gth.Script script;
 

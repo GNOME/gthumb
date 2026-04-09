@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/selection-view.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/selection-view.ui")]
 public class Gth.SelectionView : Gtk.Box, Gth.PropertyView {
 	public unowned string get_id () {
 		return "selection";

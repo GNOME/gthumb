@@ -1,6 +1,6 @@
 public class Gth.Crop : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/crop.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/crop.ui");
 		window.editor.set_action_bar (builder.get_object ("action_bar") as Gtk.Widget);
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 

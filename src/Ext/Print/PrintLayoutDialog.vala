@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/print-layout-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/print-layout-dialog.ui")]
 public class Gth.PrintLayoutDialog : Adw.Window {
 	public PrintDialogResult result;
 

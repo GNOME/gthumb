@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/test-expr-editor-group.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/test-expr-editor-group.ui")]
 public class Gth.TestExprEditorGroup : Adw.PreferencesGroup {
 	public Gth.TestExpr expr;
 

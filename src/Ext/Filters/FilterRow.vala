@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/filter-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/filter-row.ui")]
 public class Gth.FilterRow : Adw.ActionRow {
 	public Gth.Test filter;
 

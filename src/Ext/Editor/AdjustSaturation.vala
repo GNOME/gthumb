@@ -1,6 +1,6 @@
 public class Gth.AdjustSaturation : ImageTool {
 	public override void after_activate () {
-		builder = new Gtk.Builder.from_resource ("/app/gthumb/gthumb/ui/adjust-saturation.ui");
+		builder = new Gtk.Builder.from_resource ("/org/gnome/gthumb/ui/adjust-saturation.ui");
 		window.editor.set_options (builder.get_object ("options") as Gtk.Widget);
 		window.editor.sidebar.insert_action_group ("saturation", action_group);
 

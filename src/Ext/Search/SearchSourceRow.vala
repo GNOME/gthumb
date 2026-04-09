@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/search-source-row.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/search-source-row.ui")]
 public class Gth.SearchSourceRow : Adw.ActionRow {
 	public Gth.SearchSource search_source;
 

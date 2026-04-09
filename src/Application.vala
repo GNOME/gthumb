@@ -665,10 +665,10 @@ public class Gth.Application : Adw.Application {
 
 		var css_provider = new Gtk.CssProvider ();
 		Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-		css_provider.load_from_resource ("/app/gthumb/gthumb/css/style.css");
+		css_provider.load_from_resource ("/org/gnome/gthumb/css/style.css");
 
 		var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
-		icon_theme.add_resource_path ("/app/gthumb/gthumb/icons");
+		icon_theme.add_resource_path ("/org/gnome/gthumb/icons");
 
 		settings = new GLib.Settings (GTHUMB_SCHEMA);
 		settings.changed.connect ((key) => {

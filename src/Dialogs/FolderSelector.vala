@@ -60,7 +60,7 @@ public enum FolderSelectorMode {
 	CATALOGS_ONLY,
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/folder-selector-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/folder-selector-dialog.ui")]
 class Gth.FolderSelectorDialog : Adw.Window {
 	public signal void selected ();
 	public File selected_folder;

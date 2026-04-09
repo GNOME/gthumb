@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/bookmarks-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/bookmarks-dialog.ui")]
 public class Gth.BookmarksDialog : Adw.PreferencesDialog {
 	public BookmarksDialog () {
 		var empty_row = new Adw.ActionRow ();

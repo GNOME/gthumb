@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/shortcuts-preferences.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/shortcuts-preferences.ui")]
 public class Gth.ShortcutsPreferences : Adw.NavigationPage {
 	GenericList<CategoryEntry> categories;
 

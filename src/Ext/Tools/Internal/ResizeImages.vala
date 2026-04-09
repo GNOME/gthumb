@@ -36,7 +36,7 @@ public class Gth.ResizeImages : Object {
 	bool saved = false;
 }
 
-[GtkTemplate (ui = "/app/gthumb/gthumb/ui/resize-dialog.ui")]
+[GtkTemplate (ui = "/org/gnome/gthumb/ui/resize-dialog.ui")]
 public class Gth.ResizeDialog : Adw.Dialog {
 	public signal void saved ();
 

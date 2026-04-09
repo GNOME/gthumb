@@ -17,11 +17,11 @@ if get_option('developer-mode')
     '-D', 'RUN_IN_PLACE',
   ], language: 'vala')
   config.set_quoted('PRIVEXECDIR', join_paths(meson.project_build_root() + '/src'))
-  config.set_quoted('APP_ID', 'app.gthumb.gthumb-devel')
+  config.set_quoted('APP_ID', 'org.gnome.gthumb-devel')
   exec_name = 'gthumb-devel'
 else
   config.set_quoted('PRIVEXECDIR', privexecdir)
-  config.set_quoted('APP_ID', 'app.gthumb.gthumb')
+  config.set_quoted('APP_ID', 'org.gnome.gthumb')
   exec_name = 'gthumb'
 endif
 config.set('FLATPAK', get_option('flatpak-build') ? 'true' : 'false')
