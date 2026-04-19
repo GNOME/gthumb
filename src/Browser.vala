@@ -26,9 +26,6 @@ public class Gth.Browser : Gtk.Box {
 	public Gth.FileFilter file_filter;
 	public SimpleActionGroup folder_actions;
 	public SimpleActionGroup catalog_actions;
-	// public bool reordering {
-	// 	get { return Util.get_active (window.action_group, "reorder-files"); }
-	// }
 	public uint total_files = 0;
 
 	[GtkChild] public unowned Gth.FolderTree folder_tree;
@@ -335,7 +332,7 @@ public class Gth.Browser : Gtk.Box {
 		Util.enable_action (window.action_group, "reload", is_vfs_folder);
 
 		file_grid.is_reorderable = folder_tree.current_source.is_reorderable ();
-		reorder_button.visible = file_grid.is_reorderable;
+		reorder_button.tooltip_text = file_grid.is_reorderable ? _("Reorder Files") : _("Drag Files");
 
 		Util.enable_action (window.action_group, "cut-files", can_write);
 		Util.enable_action (window.action_group, "move-files-to", can_write);

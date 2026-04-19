@@ -253,7 +253,6 @@
                         <property name="icon-name">gth-reorder-symbolic</property>
                         <property name="action-name">win.reorder-files</property>
                         <property name="tooltip-text" translatable="true">Reorder Files</property>
-                        <property name="visible">false</property>
                         <style>
                           <class name="flat"/>
                         </style>
