@@ -52,10 +52,8 @@ public class Gth.FileGrid : Gtk.Box {
 		if (!is_selected (item.file_data.file)) {
 			select_file (item.file_data.file);
 		}
-		Graphene.Point p = Graphene.Point.zero ();
-		item.compute_point (this, Graphene.Point.zero (), out p);
 		if (file_context_menu != null) {
-			file_context_menu.pointing_to = { (int) p.x + x, (int) p.y + y, 1, 12 };
+			file_context_menu.pointing_to = { x, y, 18, 18 };
 			file_context_menu.popup ();
 		}
 	}
@@ -160,7 +158,7 @@ public class Gth.FileGrid : Gtk.Box {
 		return files;
 	}
 
-	public Gtk.ListItem? get_item_at (double x, double y, out DropSide side) {
+	public Gtk.ListItem? get_item_at (double x, double y, out DropSide? side) {
 		Graphene.Point point = { (float) x, (float) y };
 		var top = 0;
 		var bottom = view.vadjustment.get_page_size ();

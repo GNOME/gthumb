@@ -39,57 +39,6 @@ public class Gth.FileGridItem : Gtk.Box {
 		first_label.visible = attributes_v.length > 0;
 		second_label.visible = attributes_v.length > 1;
 		third_label.visible = attributes_v.length > 2;
-
-		var click_events = new Gtk.GestureClick ();
-		click_events.set_button (Gdk.BUTTON_SECONDARY);
-		click_events.pressed.connect ((n_press, x, y) => {
-			file_grid.open_file_context_menu (this, (int) x, (int) y);
-		});
-		add_controller (click_events);
-
-		var drag_source = new Gtk.DragSource ();
-		drag_source.set_actions (Gdk.DragAction.MOVE);
-		drag_source.prepare.connect ((controller, x, y) => {
-			var state = controller.get_current_event_state ();
-			var dragging = (state & Gdk.ModifierType.CONTROL_MASK) != 0;
-			if (!dragging && !file_grid.reordering) {
-				return null;
-			}
-			if (!file_grid.is_selected (file_data.file)) {
-				file_grid.select_file (file_data.file);
-			}
-			var providers = new Gdk.ContentProvider[] {};
-			var selected = file_grid.get_selected_files ();
-			if (selected.length () > 0) {
-				var text = new StringBuilder ();
-				var uri_list = new StringBuilder ();
-				foreach (unowned var file in selected) {
-					if (text.len > 0) {
-						text.append ("\n");
-					}
-					if (file.get_uri_scheme () == "file") {
-						text.append (file.get_path ());
-					}
-					else {
-						text.append (file.get_uri ());
-					}
-					if (uri_list.len > 0) {
-						uri_list.append ("\n");
-					}
-					uri_list.append (file.get_uri ());
-				}
-				var text_provider = new Gdk.ContentProvider.for_value (text.str);
-				var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
-				providers += text_provider;
-				providers += uri_provider;
-			}
-			if ((dragging || file_grid.reordering) && file_grid.is_reorderable) {
-				var item_provider = new Gdk.ContentProvider.for_value (this);
-				providers += item_provider;
-			}
-			return new Gdk.ContentProvider.union (providers);
-		});
-		add_controller (drag_source);
 	}
 
 	public void set_size (uint _size) {

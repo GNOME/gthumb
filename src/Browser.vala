@@ -1304,9 +1304,61 @@ public class Gth.Browser : Gtk.Box {
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
 		click_events.pressed.connect ((n_press, x, y) => {
-			open_context_menu ((int) x, (int) y);
+			var item = file_grid.get_item_at (x, y, null);
+			if (item != null) {
+				file_grid.open_file_context_menu (item.child as Gth.FileGridItem, (int) x, (int) y);
+			}
+			else {
+				open_context_menu ((int) x, (int) y);
+			}
 		});
 		file_grid.view.add_controller (click_events);
+
+		var drag_source = new Gtk.DragSource ();
+		drag_source.set_actions (Gdk.DragAction.COPY | Gdk.DragAction.MOVE);
+		drag_source.prepare.connect ((controller, x, y) => {
+			if (!file_grid.reordering) {
+				return null;
+			}
+			var item = file_grid.get_item_at (x, y, null);
+			if (item != null) {
+				var file_data = item.item as FileData;
+				if (!file_grid.is_selected (file_data.file)) {
+					file_grid.select_file (file_data.file);
+				}
+			}
+			var providers = new Gdk.ContentProvider[] {};
+			var selected = file_grid.get_selected_files ();
+			if (selected.length () > 0) {
+				var text = new StringBuilder ();
+				var uri_list = new StringBuilder ();
+				foreach (unowned var file in selected) {
+					if (text.len > 0) {
+						text.append ("\n");
+					}
+					if (file.get_uri_scheme () == "file") {
+						text.append (file.get_path ());
+					}
+					else {
+						text.append (file.get_uri ());
+					}
+					if (uri_list.len > 0) {
+						uri_list.append ("\n");
+					}
+					uri_list.append (file.get_uri ());
+				}
+				var text_provider = new Gdk.ContentProvider.for_value (text.str);
+				var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
+				providers += text_provider;
+				providers += uri_provider;
+			}
+			if (file_grid.reordering && file_grid.is_reorderable) {
+				var item_provider = new Gdk.ContentProvider.for_value (file_grid);
+				providers += item_provider;
+			}
+			return new Gdk.ContentProvider.union (providers);
+		});
+		file_grid.view.add_controller (drag_source);
 
 		click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
@@ -1333,10 +1385,10 @@ public class Gth.Browser : Gtk.Box {
 		add_copy_on_drop (empty_folder);
 		add_copy_on_drop (file_grid.view);
 
-		var reorder_on_drop = new Gtk.DropTarget (typeof (FileGridItem), Gdk.DragAction.MOVE);
+		var reorder_on_drop = new Gtk.DropTarget (typeof (FileGrid), Gdk.DragAction.MOVE);
 		reorder_on_drop.drop.connect ((value, x, y) => {
-			var source = value.get_object () as FileGridItem;
-			if (source.file_grid != file_grid) {
+			var source_grid = value.get_object () as FileGrid;
+			if (source_grid != file_grid) {
 				return false;
 			}
 			DropSide side;
@@ -1344,7 +1396,7 @@ public class Gth.Browser : Gtk.Box {
 			if (destination == null) {
 				return false;
 			}
-			reorder_selected_files (source.file_data, (side == DropSide.LEFT) ? destination.position : destination.position + 1);
+			reorder_selected_files ((side == DropSide.LEFT) ? destination.position : destination.position + 1);
 			return true;
 		});
 		reorder_on_drop.motion.connect ((x, y) => {
@@ -2338,20 +2390,18 @@ public class Gth.Browser : Gtk.Box {
 		Util.set_active (window.action_group, "reorder-files", active);
 	}
 
-	void reorder_selected_files (FileData dragged_file, uint destination) {
-		// Get the selected files or use the dragged file.
+	void reorder_selected_files (uint destination) {
 		var selection = file_grid.view.model.get_selection ();
 		var n_selected = (uint) selection.get_size ();
-		var selected = new GenericList<FileData> ();
 		if (n_selected == 0) {
-			selected.model.append (dragged_file);
+			return;
 		}
-		else {
-			for (var i = 0; i < n_selected; i++) {
-				var old_pos = selection.get_nth (i);
-				var selected_file = file_grid.view.model.get_item (old_pos) as FileData;
-				selected.model.append (selected_file);
-			}
+
+		var selected = new GenericList<FileData> ();
+		for (var i = 0; i < n_selected; i++) {
+			var old_pos = selection.get_nth (i);
+			var selected_file = file_grid.view.model.get_item (old_pos) as FileData;
+			selected.model.append (selected_file);
 		}
 
 		// Create the new file list.
