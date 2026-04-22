@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-04-09 07:19+0000\n"
-"PO-Revision-Date: 2026-04-09 21:35+0200\n"
+"POT-Creation-Date: 2026-04-19 10:16+0000\n"
+"PO-Revision-Date: 2026-04-22 07:53+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -191,7 +191,7 @@ msgstr "Odpri z"
 #: data/ui/app-selector-dialog.ui:14 data/ui/catalog-dialog.ui:16
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
-#: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14 src/Browser.vala:2221
+#: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14 src/Browser.vala:2270
 #: src/Ext/Color/ColorSelector.vala:64 src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -372,177 +372,177 @@ msgstr "Ponovno naloži"
 msgid "Catalog Properties"
 msgstr "Lastnosti kataloga"
 
-#: data/ui/browser.ui:255
+#: data/ui/browser.ui:255 src/Browser.vala:335
 msgid "Reorder Files"
 msgstr "Prerazvrsti datoteke"
 
 #. pages.model.append (new PageInfo ("print", _("Print")));
-#: data/ui/browser.ui:272 data/ui/slideshow-preferences.ui:4
+#: data/ui/browser.ui:271 data/ui/slideshow-preferences.ui:4
 #: src/Ext/Preferences/PreferencesDialog.vala:12 src/Ext/Shortcuts/Shortcut.vala:261
 #: src/Ext/Shortcuts/Shortcuts.vala:265
 msgid "Presentation"
 msgstr "Predstavitev"
 
-#: data/ui/browser.ui:279 src/Ext/Shortcuts/Shortcuts.vala:154
+#: data/ui/browser.ui:278 src/Ext/Shortcuts/Shortcuts.vala:154
 msgid "File Properties"
 msgstr "Lastnosti datoteke"
 
-#: data/ui/browser.ui:286 data/ui/viewer.ui:88 src/Ext/Shortcuts/Shortcuts.vala:156
+#: data/ui/browser.ui:285 data/ui/viewer.ui:88 src/Ext/Shortcuts/Shortcuts.vala:156
 #: src/Ext/Shortcuts/Shortcuts.vala:213
 msgid "Edit Image"
 msgstr "Uredi sliko"
 
-#: data/ui/browser.ui:293 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
+#: data/ui/browser.ui:292 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
 #: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:349
 msgid "Edit Comment"
 msgstr "Uredi komentar"
 
-#: data/ui/browser.ui:299 data/ui/scripts-dialog.ui:4 data/ui/scripts-dialog.ui:11
+#: data/ui/browser.ui:298 data/ui/scripts-dialog.ui:4 data/ui/scripts-dialog.ui:11
 #: data/ui/viewer.ui:101 src/Ext/Tools/FileActions.vala:19
 msgid "Tools"
 msgstr "Orodja"
 
-#: data/ui/browser.ui:397 src/Ext/Shortcuts/Shortcuts.vala:155
+#: data/ui/browser.ui:396 src/Ext/Shortcuts/Shortcuts.vala:155
 #: src/Ext/Shortcuts/Shortcuts.vala:212
 msgid "View Properties"
 msgstr "Pokaži lastnosti"
 
-#: data/ui/browser.ui:422
+#: data/ui/browser.ui:421
 msgid "Open Fullscreen"
 msgstr "Odpri v celozaslonskem načinu"
 
-#: data/ui/browser.ui:426 data/ui/browser.ui:576 data/ui/browser.ui:641
-#: data/ui/browser.ui:681 data/ui/viewer.ui:221
+#: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
+#: data/ui/browser.ui:680 data/ui/viewer.ui:221
 msgid "Open in New Window"
 msgstr "Odpri v novem oknu"
 
-#: data/ui/browser.ui:430 data/ui/viewer.ui:225
+#: data/ui/browser.ui:429 data/ui/viewer.ui:225
 msgid "Open _With…"
 msgstr "Odpri _z …"
 
-#: data/ui/browser.ui:436
+#: data/ui/browser.ui:435
 msgid "Open Folder"
 msgstr "Odpri mapo"
 
-#: data/ui/browser.ui:441 data/ui/print-layout-dialog.ui:4
+#: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
 #: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
 #: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "Natisni"
 
-#: data/ui/browser.ui:445 data/ui/viewer.ui:246 src/Ext/Shortcuts/Shortcuts.vala:183
+#: data/ui/browser.ui:444 data/ui/viewer.ui:246 src/Ext/Shortcuts/Shortcuts.vala:183
 #: src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "Nastavi kot ozadje namizja"
 
 #. Translators: it's a verb, as in "Cut Files"
-#: data/ui/browser.ui:452 data/ui/browser.ui:597
+#: data/ui/browser.ui:451 data/ui/browser.ui:596
 #: src/Ext/Shortcuts/Shortcuts.vala:165
 msgid "Cut"
 msgstr "Izreži"
 
 #. Translators: it's a verb, as in "Copy Files"
-#: data/ui/browser.ui:458 data/ui/browser.ui:603 data/ui/file-property-view.ui:32
+#: data/ui/browser.ui:457 data/ui/browser.ui:602 data/ui/file-property-view.ui:32
 #: data/ui/viewer.ui:254 src/Ext/FileManager/FileManager.vala:65
 #: src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Kopiraj"
 
 #. Translators: it's a verb, as in "Paste Files"
-#: data/ui/browser.ui:464 data/ui/browser.ui:564 data/ui/browser.ui:608
-#: data/ui/browser.ui:657 data/ui/browser.ui:687
+#: data/ui/browser.ui:463 data/ui/browser.ui:563 data/ui/browser.ui:607
+#: data/ui/browser.ui:656 data/ui/browser.ui:686
 #: src/Ext/Shortcuts/Shortcuts.vala:167
 msgid "Paste"
 msgstr "Prilepi"
 
 #. Not real actions, used for documentation only.
-#: data/ui/browser.ui:469 data/ui/browser.ui:568
+#: data/ui/browser.ui:468 data/ui/browser.ui:567
 #: src/Ext/Shortcuts/Shortcuts.vala:292
 msgid "Select All"
 msgstr "Izberi vse"
 
-#: data/ui/browser.ui:475 data/ui/browser.ui:614 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
 msgid "Copy To…"
 msgstr "Kopiraj v …"
 
-#: data/ui/browser.ui:479 data/ui/browser.ui:618 data/ui/browser.ui:667
+#: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
 #: data/ui/viewer.ui:274
 msgid "Move To…"
 msgstr "Premakni v …"
 
 #. Translators: it's a verb, as in "Rename Files"
-#: data/ui/browser.ui:484 data/ui/browser.ui:623 data/ui/browser.ui:663
+#: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
 #: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2122 src/Browser.vala:2185 src/Ext/Shortcuts/Shortcuts.vala:170
+#: src/Browser.vala:2171 src/Browser.vala:2234 src/Ext/Shortcuts/Shortcuts.vala:170
 #: src/MainWindow.vala:383
 msgid "Rename"
 msgstr "Preimenuj"
 
 #. Translators: it's a verb, as in "Duplicate Files"
-#: data/ui/browser.ui:489 src/Ext/Shortcuts/Shortcuts.vala:173
+#: data/ui/browser.ui:488 src/Ext/Shortcuts/Shortcuts.vala:173
 msgid "Duplicate"
 msgstr "Podvoji"
 
-#: data/ui/browser.ui:497 data/ui/browser.ui:629 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "Premakni v smeti"
 
-#: data/ui/browser.ui:501 data/ui/browser.ui:633 data/ui/browser.ui:673
+#: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
 #: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
 msgid "Delete"
 msgstr "Izbriši"
 
-#: data/ui/browser.ui:508 data/ui/viewer.ui:295
+#: data/ui/browser.ui:507 data/ui/viewer.ui:295
 msgid "Add to Selection"
 msgstr "Dodaj v izbor"
 
-#: data/ui/browser.ui:511 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
 msgid "Selection 1"
 msgstr "Izbor 1"
 
-#: data/ui/browser.ui:517 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
 msgid "Selection 2"
 msgstr "Izbor 2"
 
-#: data/ui/browser.ui:523 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
 msgid "Selection 3"
 msgstr "Izbor 3"
 
-#: data/ui/browser.ui:530 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:317
 msgid "Add to Catalog…"
 msgstr "Dodaj v katalog …"
 
-#: data/ui/browser.ui:537 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:324
 msgid "Remove from Selection"
 msgstr "Odstrani iz izbora"
 
-#: data/ui/browser.ui:542 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:329
 msgid "Remove from Catalog"
 msgstr "Odstrani iz kataloga"
 
-#: data/ui/browser.ui:551 data/ui/browser.ui:584
+#: data/ui/browser.ui:550 data/ui/browser.ui:583
 #: src/Ext/Shortcuts/Shortcuts.vala:148
 msgid "Open with File Manager"
 msgstr "Odpri z upravljalnikom datotek"
 
-#: data/ui/browser.ui:556 data/ui/browser.ui:580
+#: data/ui/browser.ui:555 data/ui/browser.ui:579
 #: src/Ext/Shortcuts/Shortcuts.vala:149
 msgid "Open in Terminal"
 msgstr "Odpri v terminalu"
 
-#: data/ui/browser.ui:590
+#: data/ui/browser.ui:589
 msgid "Create Folder"
 msgstr "Ustvari mapo"
 
-#: data/ui/browser.ui:647 data/ui/folder-selector-dialog.ui:77
+#: data/ui/browser.ui:646 data/ui/folder-selector-dialog.ui:77
 #: src/Ext/Catalogs/NewCatalogDialog.vala:3
 msgid "New Catalog"
 msgstr "Nov katalog"
 
-#: data/ui/browser.ui:651 data/ui/folder-selector-dialog.ui:85
+#: data/ui/browser.ui:650 data/ui/folder-selector-dialog.ui:85
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "New Library"
 msgstr "Nova knjižnica"
@@ -831,7 +831,7 @@ msgstr "Odpri osebno mapo"
 msgid "Reuse the active window to open files"
 msgstr "Ponovno uporabi dejavno okno za odpiranje datotek"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2474
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -1317,7 +1317,7 @@ msgstr "Nariši črto na sliki za določanje poravnave."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2414
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "Shranjevanje"
@@ -1416,7 +1416,7 @@ msgstr "Pritisnite kombinacijo tipk, ki jih želite uporabiti kot bližnjico."
 msgid "Press Esc to cancel"
 msgstr "Pritisnite ubežnico (Esc) za preklic"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2222
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "_Izbriši"
@@ -1837,76 +1837,80 @@ msgstr "- Brskalnik in pregledovalnik slik"
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
-#: src/Browser.vala:50
+#: src/Browser.vala:47
 msgid "Path"
 msgstr "Pot"
 
-#: src/Browser.vala:493
+#: src/Browser.vala:335
+msgid "Drag Files"
+msgstr "Povleci datoteke"
+
+#: src/Browser.vala:490
 msgid "No Matches"
 msgstr "Ni zadetkov"
 
-#: src/Browser.vala:501
+#: src/Browser.vala:498
 msgid "No Files Found"
 msgstr "Ni najdenih datotek"
 
-#: src/Browser.vala:505
+#: src/Browser.vala:502
 msgid "Empty Catalog"
 msgstr "Prazen katalog"
 
-#: src/Browser.vala:509
+#: src/Browser.vala:506
 msgid "Empty Selection"
 msgstr "Prazen izbor"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:516
+#: src/Browser.vala:513
 #, c-format
 msgid "Use %s to add files to selection %u"
 msgstr "Uporabite %s za dodajanje datotek izboru %u"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:525
+#: src/Browser.vala:522
 #, c-format
 msgid "Use %s to view selection %u"
 msgstr "Uporabite %s za ogled izbora %u"
 
-#: src/Browser.vala:538
+#: src/Browser.vala:535
 msgid "Empty Folder"
 msgstr "Prazna mapa"
 
-#: src/Browser.vala:576
+#: src/Browser.vala:573
 msgid "_Add To Bookmarks"
 msgstr "_Dodaj med zaznamke"
 
-#: src/Browser.vala:580
+#: src/Browser.vala:577
 msgid "_Edit Bookmarks…"
 msgstr "_Uredi zaznamke …"
 
-#: src/Browser.vala:974 src/Browser.vala:1151
+#: src/Browser.vala:971 src/Browser.vala:1148
 msgid "Pasting Files"
 msgstr "Lepljenje datotek"
 
-#: src/Browser.vala:992 src/Browser.vala:2056
+#: src/Browser.vala:989 src/Browser.vala:2105
 msgid "Cannot move files here"
 msgstr "Datotek ni možno premakniti sem"
 
-#: src/Browser.vala:999
+#: src/Browser.vala:996
 msgid "Duplicating Files"
 msgstr "Podvajanje datotek"
 
 #. Show a message on the browser.
-#: src/Browser.vala:1383 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "Iskanje datotek"
 
-#: src/Browser.vala:1411 src/Browser.vala:1441 src/Browser.vala:1710
-#: src/Browser.vala:1946
+#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
+#: src/Browser.vala:1995
 #, c-format
 msgid "Updating %s"
 msgstr "Posodabljanje %s"
 
-#: src/Browser.vala:1538 src/Browser.vala:1542 src/Browser.vala:2435
-#: src/Browser.vala:2445 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
+#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -1917,28 +1921,28 @@ msgstr "Izbrana ni nobena datoteka"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1748
+#: src/Browser.vala:1797
 msgid "Updating Files"
 msgstr "Posodabljanje datotek"
 
-#: src/Browser.vala:2012
+#: src/Browser.vala:2061
 msgid "Adding Files"
 msgstr "Dodajanje datotek"
 
-#: src/Browser.vala:2012 src/MainWindow.vala:613
+#: src/Browser.vala:2061 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "Premikanje datotek"
 
-#: src/Browser.vala:2102
+#: src/Browser.vala:2151
 msgid "New Folder"
 msgstr "Nova mapa"
 
-#: src/Browser.vala:2102 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_Ustvari"
 
-#: src/Browser.vala:2185 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1948,20 +1952,20 @@ msgid "_Rename"
 msgstr "_Preimenuj"
 
 #. Ask confirmation
-#: src/Browser.vala:2216 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "Ali želite trajno izbrisati?"
 
-#: src/Browser.vala:2218 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "Dejanja ni moč povrniti. Ali želite izbrisati <i>%s</i>?"
 
-#: src/Browser.vala:2253
+#: src/Browser.vala:2302
 msgid "Source and destination are the same"
 msgstr "Vir in cilj sta ista"
 
-#: src/Browser.vala:2286 src/Ext/Image/ImageViewer.vala:604
+#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:604
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
