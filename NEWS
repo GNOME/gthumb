@@ -1,3 +1,15 @@
+Version 4.0.alpha
+~~~~~~~~~~~~~~~~~
+Released: 2026-04-26
+
+Features:
+ * Ported to GTK4, rewritten in Vala
+ * Play WEBP and PNG animations
+ * Save as JXL
+ * Filters: allow to change the quantity of the applied filter for many filters
+ * Filters: added Censor to pixelize or blur an image area
+ * Removed web albums, contact sheet, adjust time, find duplicates
+
 Version 3.12.10
 ~~~~~~~~~~~~~~~
 Released: 2026-02-10
