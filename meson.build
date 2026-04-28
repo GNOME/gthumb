@@ -27,6 +27,7 @@ vala_comp = meson.get_compiler('vala')
 gnome = import('gnome')
 prefix = get_option('prefix')
 datadir = join_paths(prefix, get_option('datadir'))
+podir = join_paths(meson.project_source_root(), 'po')
 
 # colord
 

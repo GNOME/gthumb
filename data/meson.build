@@ -5,7 +5,7 @@ if get_option('developer-mode')
     input: 'org.gnome.gthumb-devel.desktop.in',
     output: 'org.gnome.gthumb-devel.desktop',
     type: 'desktop',
-    po_dir: join_paths(meson.project_source_root(), 'po'),
+    po_dir: podir,
     install: true,
     install_dir: join_paths(datadir, 'applications')
   )
@@ -14,7 +14,7 @@ else
     input: 'org.gnome.gthumb.desktop.in',
     output: 'org.gnome.gthumb.desktop',
     type: 'desktop',
-    po_dir: join_paths(meson.project_source_root(), 'po'),
+    po_dir: podir,
     install: true,
     install_dir: join_paths(datadir, 'applications')
   )
