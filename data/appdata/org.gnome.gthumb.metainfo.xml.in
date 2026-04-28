@@ -68,6 +68,38 @@
       <caption>Editor</caption>
     </screenshot>
   </screenshots>
+  <releases>
+    <release version="4.0.alpha" date="2026-04-26" type="unstable">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Ported to GTK4, rewritten in Vala</li>
+          <li>Play WEBP and PNG animations</li>
+          <li>Save as JXL</li>
+          <li>Filters: allow to change the quantity of the applied filter for many filters</li>
+          <li>Filters: added Censor to pixelize or blur an image area</li>
+          <li>Removed web albums, contact sheet, adjust time, find duplicates</li>
+        </ul>
+      </description>
+    </release>
+    <release version="3.12.10" date="2026-02-10" type="stable">
+      <description>
+        Fixed potential crash.
+      </description>
+    </release>
+    <release version="3.12.9" date="2026-01-23" type="stable">
+      <description>
+        <p>This release fixes the following bugs:</p>
+        <ul>
+          <li>Fixed compilation when lcms2 is disabled</li>
+          <li>Lossless rotation: make sure to modify the orientation tags only</li>
+          <li>Do not change the file modification time if the content did not change</li>
+          <li>Sharpen: allow to view the image at natural size</li>
+          <li>Rotation: fixed bilinear filter</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
   <update_contact>paobac_at_src.gnome.org</update_contact>
   <kudos>
     <kudo>AppMenu</kudo>
