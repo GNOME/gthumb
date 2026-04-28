@@ -71,7 +71,7 @@ resources_files = gnome.compile_resources('resources',
   source_dir: [
     '../data/icons/private/',
     '../data/icons/private/actions',
-    '../data/icons/public/hicolor/scalable/apps',
+    '../data/icons/',
     '../data/css',
     '../data/ui',
   ]
