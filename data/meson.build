@@ -27,6 +27,7 @@ endif
 
 subdir('schemas')
 subdir('icons')
+subdir('appdata')
 
 gnome.post_install(
   glib_compile_schemas: true,
