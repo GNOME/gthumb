@@ -6,56 +6,43 @@
 # lainme <lainme993@gmail.com>, 2010.
 # tuhaihe <1132321739qq@gmail.com>, 2012.
 # Tong Hui <tonghuix@gmail.com>, 2016-2021.
-# lumingzh <lumingzh@qq.com>, 2025.
+# lumingzh <lumingzh@qq.com>, 2025-2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-03-27 16:44+0000\n"
-"PO-Revision-Date: 2026-04-03 18:54-0400\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"POT-Creation-Date: 2026-04-28 15:41+0000\n"
+"PO-Revision-Date: 2026-05-15 12:47+0800\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Gtranslator 50.0\n"
 
-#: data/app.gthumb.gthumb-devel.desktop.in:2
-#: data/app.gthumb.gthumb.desktop.in:2
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:14 data/ui/browser.ui:23
-#: data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
+#: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
+#: data/ui/browser.ui:23 data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
 msgid "Thumbnails"
 msgstr "缩略图"
 
-#: data/app.gthumb.gthumb-devel.desktop.in:3
-#: data/app.gthumb.gthumb.desktop.in:3
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:15
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:15
+#: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
 msgid "View and organize your images"
 msgstr "查看及管理图像"
 
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
-#: data/app.gthumb.gthumb-devel.desktop.in:5
-#: data/app.gthumb.gthumb.desktop.in:5
-msgid "Image;Viewer;"
-msgstr "Image;Viewer;图像;浏览器;查看;照片;"
-
-#: data/app.gthumb.gthumb-devel.desktop.in:17
-#: data/app.gthumb.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
-msgid "New Window"
-msgstr "新建窗口"
-
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:20
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
 msgstr "图像查看工具、编辑工具、浏览器和整理工具。"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:23
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:23
 msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 msgstr "查看图像：PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW。"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:26
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
@@ -63,42 +50,42 @@ msgstr ""
 "编辑图像：缩放、旋转以及裁剪图像，调整色彩饱和度，亮度，对比度以及其他颜色变"
 "换。"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:29
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
 msgstr "查看和编辑嵌入的元数据：EXIF, IPTC 和 XMP。"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:32
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:32
 msgid ""
 "File manager operations: copy, move, rename and delete files and folders, "
 "execute scripts on the selected files."
 msgstr ""
 "文件管理器操作：复制、移动、重命名和删除文件与文件夹、对选中的文件执行脚本。"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:35
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
 msgstr "图像专用工具："
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:39
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:39
 msgid "JPEG lossless transformations"
 msgstr "JPEG 无损变换"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:40
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:40
 msgid "Image resize"
 msgstr "图像缩放"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:41
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:41
 msgid "Format conversion"
 msgstr "格式转换"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:42
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:42
 msgid "Slideshow"
 msgstr "幻灯片放映"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:43
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:43
 msgid "Setting an image as desktop background"
 msgstr "将图像设置为桌面背景"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:45
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
@@ -106,31 +93,41 @@ msgstr ""
 "添加评论以及其他元数据至图像，管理一览表中的图像以及图库中的一览表，搜索图像"
 "以及另存搜索结果为一览表。"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:60
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4
 #: src/Ext/Preferences/PreferencesDialog.vala:6
 #: src/Ext/Shortcuts/Shortcuts.vala:163
 msgid "Browser"
 msgstr "浏览器"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:64
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:64
 #: src/Ext/Shortcuts/Shortcut.vala:260
 msgid "Viewer"
 msgstr "查看器"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:68
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:68
 msgid "Editor"
 msgstr "编辑器"
 
-#: data/schemas/app.gthumb.gthumb.gschema.xml:23
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
+#: data/org.gnome.gthumb-devel.desktop.in:5 data/org.gnome.gthumb.desktop.in:5
+msgid "Image;Viewer;"
+msgstr "Image;Viewer;图像;浏览器;查看;照片;"
+
+#: data/org.gnome.gthumb-devel.desktop.in:17
+#: data/org.gnome.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
+msgid "New Window"
+msgstr "新建窗口"
+
+#: data/schemas/org.gnome.gthumb.gschema.xml:23
 msgid "Open files in the active window"
 msgstr "在活动窗口中打开文件"
 
-#: data/schemas/app.gthumb.gthumb.savers.gschema.xml:24
+#: data/schemas/org.gnome.gthumb.savers.gschema.xml:24
 msgid "Possible values are: jpeg, jpg."
 msgstr "可取的值有：jpeg，jpg。"
 
-#: data/schemas/app.gthumb.gthumb.savers.gschema.xml:55
+#: data/schemas/org.gnome.gthumb.savers.gschema.xml:55
 msgid "Possible values are: tiff, tif."
 msgstr "可取的值有：tiff，tif。"
 
@@ -172,41 +169,31 @@ msgstr "预览"
 #. Translators: filter that makes a linear transformation of the colors.
 #: data/ui/adjust-contrast.ui:54 src/Ext/Editor/AdjustBrightness.vala:15
 #: src/Ext/Editor/AdjustContrast.vala:15
-#, fuzzy
-#| msgid "Linear scale"
 msgid "Linear"
-msgstr "线性刻度"
+msgstr "线性"
 
 #: data/ui/adjust-saturation.ui:66 data/ui/jxl-preferences.ui:33
 #: data/ui/resize-image.ui:69 data/ui/webp-preferences.ui:33
-#, fuzzy
-#| msgid "_Method:"
 msgid "Method"
-msgstr "方式(_M):"
+msgstr "方式"
 
 #: data/ui/adjust-saturation.ui:82 src/Ext/Editor/Grayscale.vala:8
-#, fuzzy
-#| msgid "_Lightness:"
 msgid "Lightness"
-msgstr "亮度(_L)："
+msgstr "亮度"
 
 #: data/ui/adjust-saturation.ui:95 src/Ext/Editor/Grayscale.vala:9
-#, fuzzy
-#| msgid "_Average"
 msgid "Average"
-msgstr "平均(_A)"
+msgstr "平均"
 
 #: data/ui/app-selector-dialog.ui:4
-#, fuzzy
-#| msgid "Open _With"
 msgid "Open With"
-msgstr "打开方式(_W)"
+msgstr "打开方式"
 
 #: data/ui/app-selector-dialog.ui:14 data/ui/catalog-dialog.ui:16
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2181 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2270 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -233,10 +220,8 @@ msgid "Other"
 msgstr "其它"
 
 #: data/ui/aspect-ratio-group.ui:39
-#, fuzzy
-#| msgid "Rotate"
 msgid "Rotated"
-msgstr "旋转"
+msgstr "已旋转"
 
 #: data/ui/avif-preferences.ui:8 data/ui/jxl-preferences.ui:8
 #: data/ui/webp-preferences.ui:8
@@ -291,32 +276,24 @@ msgstr "新建窗口(_N)"
 
 #: data/ui/browser-menu.ui:10 data/ui/editor-menu.ui:10
 #: data/ui/viewer-menu.ui:10
-#, fuzzy
-#| msgid "Open"
 msgid "_Open…"
-msgstr "打开"
+msgstr "打开(_O)…"
 
 #: data/ui/browser-menu.ui:14 data/ui/editor-menu.ui:14
 msgid "Open _Clipboard"
-msgstr ""
+msgstr "打开剪贴板(_C)"
 
 #: data/ui/browser-menu.ui:18 data/ui/viewer-menu.ui:18
-#, fuzzy
-#| msgid "Importing files"
 msgid "_Import Files…"
-msgstr "正在导入文件"
+msgstr "导入文件(_I)…"
 
 #: data/ui/browser-menu.ui:24
-#, fuzzy
-#| msgid "Text Files"
 msgid "_Sort Files"
-msgstr "文本文件"
+msgstr "文件排序(_S)"
 
 #: data/ui/browser-menu.ui:28
-#, fuzzy
-#| msgid "_Folders:"
 msgid "_Sort Folders"
-msgstr "文件夹(_F)："
+msgstr "文件夹排序(_S)"
 
 #: data/ui/browser-menu.ui:32
 msgid "_Hidden Files"
@@ -331,14 +308,12 @@ msgstr "首选项"
 #: data/ui/browser-menu.ui:42 data/ui/editor-menu.ui:24
 #: data/ui/viewer-menu.ui:28 src/Ext/Shortcuts/Shortcuts.vala:137
 msgid "Keyboard Shortcuts"
-msgstr "快捷键(_K)"
+msgstr "键盘快捷键"
 
 #: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28
 #: data/ui/viewer-menu.ui:32
-#, fuzzy
-#| msgid "Thumbnails"
 msgid "About Thumbnails"
-msgstr "缩略图"
+msgstr "关于缩略图"
 
 #: data/ui/browser-preferences.ui:17
 msgid "Thumbnail Size"
@@ -346,21 +321,19 @@ msgstr "缩略图大小"
 
 #: data/ui/browser-preferences.ui:42
 msgid "Caption"
-msgstr "标题"
+msgstr "图片说明"
 
 #: data/ui/browser-preferences.ui:45
 msgid "First Row"
-msgstr ""
+msgstr "第一行"
 
 #: data/ui/browser-preferences.ui:52
-#, fuzzy
-#| msgid "Second"
 msgid "Second Row"
-msgstr "秒"
+msgstr "第二行"
 
 #: data/ui/browser-preferences.ui:59
 msgid "Third Row"
-msgstr ""
+msgstr "第三行"
 
 #: data/ui/browser-preferences.ui:68
 msgid "Behavior"
@@ -378,7 +351,7 @@ msgstr "文件夹"
 #: data/ui/browser.ui:64 src/Ext/Catalogs/Catalog.vala:130
 #: src/Ext/Shortcuts/Shortcuts.vala:159
 msgid "Catalogs"
-msgstr "一览表"
+msgstr "类目"
 
 #: data/ui/browser.ui:75 src/Ext/Selections/Selection.vala:177
 #: src/Ext/Shortcuts/Shortcut.vala:265
@@ -400,199 +373,191 @@ msgstr "再次搜索"
 
 #: data/ui/browser.ui:222 src/Ext/Shortcuts/Shortcuts.vala:143
 msgid "Reload"
-msgstr "刷新"
+msgstr "重新加载"
 
 #: data/ui/browser.ui:244
 msgid "Catalog Properties"
-msgstr "一览表属性"
+msgstr "类目属性"
 
-#: data/ui/browser.ui:255
-#, fuzzy
-#| msgid "Hidden Files"
+#: data/ui/browser.ui:255 src/Browser.vala:335
 msgid "Reorder Files"
-msgstr "隐藏的文件"
+msgstr "重新排序文件"
 
 #. pages.model.append (new PageInfo ("print", _("Print")));
-#: data/ui/browser.ui:272 data/ui/slideshow-preferences.ui:4
+#: data/ui/browser.ui:271 data/ui/slideshow-preferences.ui:4
 #: src/Ext/Preferences/PreferencesDialog.vala:12
 #: src/Ext/Shortcuts/Shortcut.vala:261 src/Ext/Shortcuts/Shortcuts.vala:265
 msgid "Presentation"
 msgstr "演示"
 
-#: data/ui/browser.ui:279 src/Ext/Shortcuts/Shortcuts.vala:154
+#: data/ui/browser.ui:278 src/Ext/Shortcuts/Shortcuts.vala:154
 msgid "File Properties"
 msgstr "文件属性"
 
-#: data/ui/browser.ui:286 data/ui/viewer.ui:88
+#: data/ui/browser.ui:285 data/ui/viewer.ui:88
 #: src/Ext/Shortcuts/Shortcuts.vala:156 src/Ext/Shortcuts/Shortcuts.vala:213
 msgid "Edit Image"
 msgstr "编辑图像"
 
-#: data/ui/browser.ui:293 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
-#: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:350
+#: data/ui/browser.ui:292 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
+#: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:349
 msgid "Edit Comment"
-msgstr "修改备注"
+msgstr "编辑备注"
 
-#: data/ui/browser.ui:299 data/ui/scripts-dialog.ui:4
+#: data/ui/browser.ui:298 data/ui/scripts-dialog.ui:4
 #: data/ui/scripts-dialog.ui:11 data/ui/viewer.ui:101
 #: src/Ext/Tools/FileActions.vala:19
 msgid "Tools"
 msgstr "工具"
 
-#: data/ui/browser.ui:397 src/Ext/Shortcuts/Shortcuts.vala:155
+#: data/ui/browser.ui:396 src/Ext/Shortcuts/Shortcuts.vala:155
 #: src/Ext/Shortcuts/Shortcuts.vala:212
 msgid "View Properties"
 msgstr "查看属性"
 
-#: data/ui/browser.ui:422
-#, fuzzy
-#| msgid "Fullscreen"
+#: data/ui/browser.ui:421
 msgid "Open Fullscreen"
-msgstr "全屏"
+msgstr "打开全屏"
 
-#: data/ui/browser.ui:426 data/ui/browser.ui:576 data/ui/browser.ui:641
-#: data/ui/browser.ui:681 data/ui/viewer.ui:221
+#: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
+#: data/ui/browser.ui:680 data/ui/viewer.ui:221
 msgid "Open in New Window"
 msgstr "在新窗口打开"
 
-#: data/ui/browser.ui:430 data/ui/viewer.ui:225
-#, fuzzy
-#| msgid "Open _With"
+#: data/ui/browser.ui:429 data/ui/viewer.ui:225
 msgid "Open _With…"
-msgstr "打开方式(_W)"
+msgstr "打开方式(_W)…"
 
-#: data/ui/browser.ui:436
+#: data/ui/browser.ui:435
 msgid "Open Folder"
 msgstr "打开文件夹"
 
-#: data/ui/browser.ui:441 data/ui/print-layout-dialog.ui:4
+#: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
 #: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
-#: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:429
+#: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "打印"
 
-#: data/ui/browser.ui:445 data/ui/viewer.ui:246
-#: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:334
+#: data/ui/browser.ui:444 data/ui/viewer.ui:246
+#: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "设为桌面背景"
 
 #. Translators: it's a verb, as in "Cut Files"
-#: data/ui/browser.ui:452 data/ui/browser.ui:597
+#: data/ui/browser.ui:451 data/ui/browser.ui:596
 #: src/Ext/Shortcuts/Shortcuts.vala:165
 msgid "Cut"
 msgstr "剪切"
 
 #. Translators: it's a verb, as in "Copy Files"
-#: data/ui/browser.ui:458 data/ui/browser.ui:603
+#: data/ui/browser.ui:457 data/ui/browser.ui:602
 #: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
 #: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "复制"
 
 #. Translators: it's a verb, as in "Paste Files"
-#: data/ui/browser.ui:464 data/ui/browser.ui:564 data/ui/browser.ui:608
-#: data/ui/browser.ui:657 data/ui/browser.ui:687
+#: data/ui/browser.ui:463 data/ui/browser.ui:563 data/ui/browser.ui:607
+#: data/ui/browser.ui:656 data/ui/browser.ui:686
 #: src/Ext/Shortcuts/Shortcuts.vala:167
 msgid "Paste"
 msgstr "粘贴"
 
 #. Not real actions, used for documentation only.
-#: data/ui/browser.ui:469 data/ui/browser.ui:568
+#: data/ui/browser.ui:468 data/ui/browser.ui:567
 #: src/Ext/Shortcuts/Shortcuts.vala:292
 msgid "Select All"
 msgstr "全选"
 
-#: data/ui/browser.ui:475 data/ui/browser.ui:614 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
 msgid "Copy To…"
 msgstr "复制到…"
 
-#: data/ui/browser.ui:479 data/ui/browser.ui:618 data/ui/browser.ui:667
+#: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
 #: data/ui/viewer.ui:274
 msgid "Move To…"
 msgstr "移动到…"
 
 #. Translators: it's a verb, as in "Rename Files"
-#: data/ui/browser.ui:484 data/ui/browser.ui:623 data/ui/browser.ui:663
+#: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
 #: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2082 src/Browser.vala:2145
-#: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:384
+#: src/Browser.vala:2171 src/Browser.vala:2234
+#: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "重命名"
 
 #. Translators: it's a verb, as in "Duplicate Files"
-#: data/ui/browser.ui:489 src/Ext/Shortcuts/Shortcuts.vala:173
+#: data/ui/browser.ui:488 src/Ext/Shortcuts/Shortcuts.vala:173
 msgid "Duplicate"
-msgstr "重复项"
+msgstr "制作副本"
 
-#: data/ui/browser.ui:497 data/ui/browser.ui:629 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "移至回收站"
 
-#: data/ui/browser.ui:501 data/ui/browser.ui:633 data/ui/browser.ui:673
+#: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
 #: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
 msgid "Delete"
 msgstr "删除"
 
-#: data/ui/browser.ui:508 data/ui/viewer.ui:295
-#, fuzzy
-#| msgid "Add to selection"
+#: data/ui/browser.ui:507 data/ui/viewer.ui:295
 msgid "Add to Selection"
 msgstr "添加到选区"
 
-#: data/ui/browser.ui:511 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
 msgid "Selection 1"
 msgstr "选区 1"
 
-#: data/ui/browser.ui:517 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
 msgid "Selection 2"
 msgstr "选区 2"
 
-#: data/ui/browser.ui:523 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
 msgid "Selection 3"
 msgstr "选区 3"
 
-#: data/ui/browser.ui:530 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:317
 msgid "Add to Catalog…"
-msgstr "添加到一览表…"
+msgstr "添加到类目…"
 
-#: data/ui/browser.ui:537 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:324
 msgid "Remove from Selection"
-msgstr "从选区中删除"
+msgstr "从选区中移除"
 
-#: data/ui/browser.ui:542 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:329
 msgid "Remove from Catalog"
-msgstr "从一览表中删除"
+msgstr "从类目中移除"
 
-#: data/ui/browser.ui:551 data/ui/browser.ui:584
+#: data/ui/browser.ui:550 data/ui/browser.ui:583
 #: src/Ext/Shortcuts/Shortcuts.vala:148
 msgid "Open with File Manager"
 msgstr "使用文件管理器打开"
 
-#: data/ui/browser.ui:556 data/ui/browser.ui:580
+#: data/ui/browser.ui:555 data/ui/browser.ui:579
 #: src/Ext/Shortcuts/Shortcuts.vala:149
 msgid "Open in Terminal"
 msgstr "在终端打开"
 
-#: data/ui/browser.ui:590
+#: data/ui/browser.ui:589
 msgid "Create Folder"
 msgstr "创建文件夹"
 
-#: data/ui/browser.ui:647 data/ui/folder-selector-dialog.ui:77
+#: data/ui/browser.ui:646 data/ui/folder-selector-dialog.ui:77
 #: src/Ext/Catalogs/NewCatalogDialog.vala:3
 msgid "New Catalog"
-msgstr "新建一览表"
+msgstr "新建类目"
 
-#: data/ui/browser.ui:651 data/ui/folder-selector-dialog.ui:85
+#: data/ui/browser.ui:650 data/ui/folder-selector-dialog.ui:85
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "New Library"
 msgstr "新建图库"
 
 #: data/ui/catalog-dialog.ui:4
 msgid "Catalog"
-msgstr "一览表"
+msgstr "类目"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
@@ -619,21 +584,17 @@ msgstr "位置"
 
 #: data/ui/color-picker.ui:96 data/ui/crop.ui:25
 #: data/ui/print-layout-dialog.ui:139
-#, fuzzy
-#| msgid "Left"
 msgctxt "Position"
 msgid "Left"
-msgstr "左"
+msgstr "左侧"
 
 #: data/ui/color-picker.ui:101 data/ui/crop.ui:30
 #: data/ui/print-layout-dialog.ui:145
-#, fuzzy
-#| msgid "Top"
 msgctxt "Position"
 msgid "Top"
-msgstr "上"
+msgstr "顶部"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:414
+#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:413
 msgid "Convert Format"
 msgstr "转换格式"
 
@@ -645,7 +606,7 @@ msgstr "执行(_X)"
 #: data/ui/importer-dialog.ui:72 data/ui/metadata-dialog.ui:203
 #: data/ui/resize-dialog.ui:96 data/ui/videos-preferences.ui:43
 msgid "Destination"
-msgstr "目的"
+msgstr "目标"
 
 #: data/ui/convert-dialog.ui:42 data/ui/editor-palette.ui:262
 #: data/ui/importer-dialog.ui:105 data/ui/resize-dialog.ui:101
@@ -655,7 +616,7 @@ msgstr "格式"
 
 #: data/ui/crop.ui:12
 msgid "Step"
-msgstr ""
+msgstr "步长"
 
 #: data/ui/crop.ui:22 data/ui/importer-dialog.ui:115 src/SelectionView.vala:8
 #: src/SelectionView.vala:84
@@ -674,11 +635,9 @@ msgstr "高度"
 
 #: data/ui/crop.ui:52
 msgid "Expand"
-msgstr ""
+msgstr "扩大"
 
 #: data/ui/crop.ui:57
-#, fuzzy
-#| msgid "Center"
 msgctxt "Verb"
 msgid "Center"
 msgstr "居中"
@@ -697,7 +656,7 @@ msgstr "导入"
 
 #: data/ui/device-dialog.ui:33 data/ui/metadata-dialog.ui:195
 msgid "Source"
-msgstr "源"
+msgstr "来源"
 
 #: data/ui/device-dialog.ui:43 src/Ext/Bookmarks/Bookmarks.vala:12
 msgid "System Bookmarks"
@@ -709,10 +668,8 @@ msgid "Files"
 msgstr "文件"
 
 #: data/ui/device-dialog.ui:117
-#, fuzzy
-#| msgid "_Delete the imported files from the source"
 msgid "Delete imported files from source"
-msgstr "从来源中删除导入的图像(_D)"
+msgstr "从来源中删除导入的文件"
 
 #: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
 msgid "Save As…"
@@ -720,7 +677,7 @@ msgstr "另存为…"
 
 #: data/ui/editor-palette.ui:52 src/Ext/Shortcuts/Shortcuts.vala:244
 msgid "Undo"
-msgstr "撤销"
+msgstr "撤消"
 
 #: data/ui/editor-palette.ui:66 src/Ext/Shortcuts/Shortcuts.vala:245
 msgid "Redo"
@@ -739,17 +696,17 @@ msgstr "对比度"
 #: data/ui/editor-palette.ui:115 src/Ext/Editor/AdjustSaturation.vala:116
 #: src/Ext/Shortcuts/Shortcuts.vala:249
 msgid "Saturation"
-msgstr "色饱和度"
+msgstr "饱和度"
 
 #: data/ui/editor-palette.ui:137 src/Ext/Editor/Grayscale.vala:94
 #: src/Ext/Shortcuts/Shortcuts.vala:252
 msgid "Grayscale"
-msgstr "灰度图"
+msgstr "灰度"
 
 #: data/ui/editor-palette.ui:148 src/Ext/Editor/SharpenImage.vala:84
 #: src/Ext/Shortcuts/Shortcuts.vala:254
 msgid "Focus"
-msgstr ""
+msgstr "焦点"
 
 #: data/ui/editor-palette.ui:159 src/Ext/Editor/SpecialEffects.vala:135
 #: src/Ext/Shortcuts/Shortcuts.vala:253
@@ -758,18 +715,16 @@ msgstr "特殊效果"
 
 #: data/ui/editor-palette.ui:170 src/Ext/Editor/Censor.vala:166
 msgid "Censor"
-msgstr ""
+msgstr "打码"
 
 #: data/ui/editor-palette.ui:181 src/Ext/Editor/ColorPicker.vala:191
 #: src/Ext/Shortcuts/Shortcuts.vala:255
 msgid "Color Picker"
-msgstr "颜色选择器"
+msgstr "颜色拾取器"
 
 #: data/ui/editor-palette.ui:196 data/ui/rename-dialog.ui:94
-#, fuzzy
-#| msgid "_Transform"
 msgid "Transform"
-msgstr "转换(_T)"
+msgstr "变换"
 
 #: data/ui/editor-palette.ui:273 data/ui/resize-dialog.ui:4
 #: src/Ext/Editor/ResizeImage.vala:160 src/Ext/Shortcuts/Shortcuts.vala:260
@@ -793,78 +748,58 @@ msgstr "全屏"
 
 #: data/ui/file-action-row.ui:36 data/ui/filter-row.ui:53
 #: data/ui/script-row.ui:30 data/ui/template-token-row.ui:225
-#, fuzzy
-#| msgid "Move To"
 msgid "Move to Top"
-msgstr "移动到"
+msgstr "移至顶部"
 
 #: data/ui/file-action-row.ui:40 data/ui/filter-row.ui:57
 #: data/ui/script-row.ui:34 data/ui/template-token-row.ui:229
-#, fuzzy
-#| msgid "on the bottom"
 msgid "Move to Bottom"
-msgstr "在底部"
+msgstr "移至底部"
 
 #: data/ui/file-property-view.ui:36
 msgid "Copy Raw Value"
-msgstr ""
+msgstr "复制原始值"
 
 #: data/ui/filter-editor-page.ui:4
 msgid "Filter"
-msgstr "过滤器"
+msgstr "筛选器"
 
 #: data/ui/filter-editor-page.ui:50
-#, fuzzy
-#| msgid "Restricted content"
 msgid "Limited Content"
 msgstr "受限内容"
 
 #: data/ui/filter-editor-page.ui:54
-#, fuzzy
-#| msgid "Text Files"
 msgid "Max Files"
-msgstr "文本文件"
+msgstr "最多文件"
 
 #: data/ui/filter-editor-page.ui:74
-#, fuzzy
-#| msgid "Actual Size"
 msgid "Total Size"
-msgstr "实际大小"
+msgstr "总计大小"
 
 #: data/ui/filter-editor-page.ui:102
-#, fuzzy
-#| msgid "selected by"
 msgid "Selected By"
 msgstr "选择依据"
 
 #: data/ui/filter-editor-page.ui:107 data/ui/rename-dialog.ui:117
-#, fuzzy
-#| msgid "<b>Direction</b>"
 msgid "Direction"
-msgstr "<b>方向</b>"
+msgstr "方向"
 
 #: data/ui/filter-editor-page.ui:111 data/ui/rename-dialog.ui:121
-#, fuzzy
-#| msgid "ascending"
 msgid "Ascending"
 msgstr "升序"
 
 #: data/ui/filter-editor-page.ui:112 data/ui/rename-dialog.ui:122
-#, fuzzy
-#| msgid "descending"
 msgid "Descending"
 msgstr "降序"
 
 #: data/ui/filters-dialog.ui:4 data/ui/filters-dialog.ui:25
 #: src/Ext/Shortcuts/Shortcut.vala:263 src/Ext/Shortcuts/Shortcuts.vala:161
 msgid "Filters"
-msgstr "过滤器"
+msgstr "筛选器"
 
 #: data/ui/filters-dialog.ui:15
-#, fuzzy
-#| msgid "_General filter:"
 msgid "General Filter"
-msgstr "常规过滤器(_G)："
+msgstr "常规筛选器"
 
 #: data/ui/filters-dialog.ui:34 data/ui/scripts-dialog.ui:33
 #: data/ui/search-source-editor-group.ui:13 data/ui/template-page.ui:49
@@ -873,20 +808,14 @@ msgid "_Add"
 msgstr "添加(_A)"
 
 #: data/ui/folder-selector-dialog.ui:64
-#, fuzzy
-#| msgid "Hidden Files"
 msgid "Show _Hidden Files"
-msgstr "隐藏的文件"
+msgstr "显示隐藏文件(_H)"
 
 #: data/ui/folder-selector-dialog.ui:70
-#, fuzzy
-#| msgid "Destination"
 msgid "Show Destination"
-msgstr "目的"
+msgstr "显示目标"
 
 #: data/ui/format-dialog.ui:22 data/ui/metadata-dialog.ui:21
-#, fuzzy
-#| msgid "_Save"
 msgctxt "Verb"
 msgid "_Save"
 msgstr "保存(_S)"
@@ -898,28 +827,22 @@ msgid "General"
 msgstr "常规"
 
 #: data/ui/general-preferences.ui:15
-#, fuzzy
-#| msgid "On startup:"
 msgid "At Startup"
-msgstr "程序启动时："
+msgstr "程序启动时"
 
 #: data/ui/general-preferences.ui:18
-#, fuzzy
-#| msgid "Go to last _visited location"
 msgid "Open the last visited location"
-msgstr "转到上次访问的位置(_V)"
+msgstr "打开上次访问的位置"
 
 #: data/ui/general-preferences.ui:30
 msgid "Open the home folder"
 msgstr "打开主文件夹"
 
 #: data/ui/general-preferences.ui:46
-#, fuzzy
-#| msgid "_Reuse the active window to open files"
 msgid "Reuse the active window to open files"
-msgstr "打开文件时重用活动窗口(_R)"
+msgstr "重用活动窗口打开文件"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2434
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
 msgid "Terminal"
 msgstr "终端"
 
@@ -929,7 +852,7 @@ msgstr "网格"
 
 #: data/ui/histogram-view.ui:26 src/Ext/Scripts/ScriptTemplate.vala:230
 msgid "Value"
-msgstr "亮度"
+msgstr "明度"
 
 #: data/ui/histogram-view.ui:30
 msgid "Alpha"
@@ -940,10 +863,8 @@ msgid "Histogram"
 msgstr "直方图"
 
 #: data/ui/histogram-view.ui:42
-#, fuzzy
-#| msgid "Logarithmic scale"
 msgid "Logarithmic"
-msgstr "对数刻度"
+msgstr "对数"
 
 #: data/ui/image-viewer.ui:25 src/Ext/Shortcuts/Shortcuts.vala:218
 msgid "Zoom Out"
@@ -958,20 +879,16 @@ msgid "100%"
 msgstr "100%"
 
 #: data/ui/image-viewer.ui:69 data/ui/image-viewer.ui:197
-#, fuzzy
-#| msgid "All Images"
 msgid "Full Image"
-msgstr "所有图像"
+msgstr "完整图像"
 
 #: data/ui/image-viewer.ui:104
-#, fuzzy
-#| msgid "Color Profile"
 msgid "Apply Color Profile"
-msgstr "颜色配置文件"
+msgstr "应用色彩特性文件"
 
 #: data/ui/image-viewer.ui:109
 msgid "Transparency"
-msgstr "透明度"
+msgstr "透明"
 
 #: data/ui/image-viewer.ui:111 data/ui/rotate-image.ui:136
 msgid "Background"
@@ -995,38 +912,28 @@ msgstr "暂停"
 
 #: data/ui/image-viewer.ui:174 data/ui/video-viewer.ui:294
 #: src/Ext/Shortcuts/Shortcuts.vala:277
-#, fuzzy
-#| msgid "Next frame"
 msgid "Next Frame"
 msgstr "下一帧"
 
 #: data/ui/image-viewer.ui:192 data/ui/slideshow-preferences.ui:33
 msgid "Automatic"
-msgstr "自动设置"
+msgstr "自动"
 
 #: data/ui/image-viewer.ui:202 data/ui/video-viewer.ui:435
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Size"
-msgstr "最大化"
+msgstr "最大尺寸"
 
 #: data/ui/image-viewer.ui:207 src/Ext/Shortcuts/Shortcuts.vala:229
-#, fuzzy
-#| msgid "Space"
 msgid "Fill Space"
-msgstr "空格"
+msgstr "填充空间"
 
 #: data/ui/image-viewer.ui:212
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Width"
-msgstr "最大化"
+msgstr "最大宽度"
 
 #: data/ui/image-viewer.ui:217
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Height"
-msgstr "最大化"
+msgstr "最大高度"
 
 #: data/ui/image-viewer.ui:224
 msgid "50%"
@@ -1047,26 +954,19 @@ msgid "Images"
 msgstr "图像"
 
 #: data/ui/images-preferences.ui:17 data/ui/videos-preferences.ui:17
-#, fuzzy
-#| msgid "Scroll down"
 msgid "Scroll Action"
-msgstr "向下滚动"
+msgstr "滚轮动作"
 
 #: data/ui/images-preferences.ui:22
-#, fuzzy
-#| msgid "Change to:"
 msgid "Change Zoom"
-msgstr "更改为："
+msgstr "更改缩放"
 
 #: data/ui/images-preferences.ui:23 data/ui/videos-preferences.ui:24
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "Change image"
 msgid "Change File"
-msgstr "更改图像"
+msgstr "更改文件"
 
 #: data/ui/importer-dialog.ui:4 data/ui/importer-dialog.ui:24
-#: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:453
+#: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:452
 msgid "Import Files"
 msgstr "导入文件"
 
@@ -1075,10 +975,8 @@ msgid "Subfolder"
 msgstr "子文件夹"
 
 #: data/ui/importer-dialog.ui:85
-#, fuzzy
-#| msgid "_Automatic subfolder"
 msgid "Automatic Subfolder"
-msgstr "自动设置子文件夹(_A)"
+msgstr "自动设置子文件夹"
 
 #: data/ui/importer-dialog.ui:95 src/DateRow.vala:39
 msgid "Today"
@@ -1086,14 +984,12 @@ msgstr "今天"
 
 #: data/ui/importer-dialog.ui:96
 msgid "Modified"
-msgstr "修改时间"
+msgstr "修改日期"
 
 #: data/ui/importer-dialog.ui:97
-#, fuzzy
-#| msgid "Original size"
 msgctxt "Date"
 msgid "Original"
-msgstr "原来大小"
+msgstr "原始日期"
 
 #: data/ui/importer-dialog.ui:127 src/Application.vala:98
 #: src/Application.vala:119 src/SelectionView.vala:41
@@ -1101,56 +997,42 @@ msgid "Bytes"
 msgstr "字节"
 
 #: data/ui/importer-dialog.ui:140
-#, fuzzy
-#| msgid "_Delete History"
 msgid "Delete from source"
-msgstr "删除浏览记录(_D)"
+msgstr "从来源中删除"
 
 #: data/ui/job-status.ui:5 data/ui/progress-dialog.ui:6
 msgid "Operations"
 msgstr "操作"
 
 #: data/ui/jpeg-preferences.ui:28
-#, fuzzy
-#| msgid "_Smoothing:"
 msgid "Smoothing"
-msgstr "平滑化(_S)："
+msgstr "平滑"
 
 #: data/ui/jpeg-preferences.ui:46
-#, fuzzy
-#| msgid "Opti_mize"
 msgid "Optimize"
-msgstr "优化(_M)"
+msgstr "优化"
 
 #: data/ui/jpeg-preferences.ui:51
-#, fuzzy
-#| msgid "_Progressive"
 msgid "Progressive"
-msgstr "渐进(_P)"
+msgstr "渐进"
 
 #: data/ui/jpeg-preferences.ui:60 data/ui/tiff-preferences.ui:52
-#, fuzzy
-#| msgid "_Default extension:"
 msgid "Default Extension"
-msgstr "默认扩展(_D)："
+msgstr "默认扩展"
 
 #: data/ui/jxl-preferences.ui:43 data/ui/webp-preferences.ui:43
-#, fuzzy
-#| msgid "Faster"
 msgctxt "Method"
 msgid "Fast"
-msgstr "加快"
+msgstr "快"
 
 #: data/ui/jxl-preferences.ui:45 data/ui/webp-preferences.ui:45
-#, fuzzy
-#| msgid "Slower"
 msgctxt "Method"
 msgid "Slow"
-msgstr "减慢"
+msgstr "慢"
 
 #: data/ui/metadata-dialog.ui:38
 msgid "Save only cha_nged fields"
-msgstr "只保存已更改的区域(_N)"
+msgstr "只保存已更改区域(_N)"
 
 #: data/ui/metadata-dialog.ui:46 src/Application.vala:136
 msgid "Comment"
@@ -1174,7 +1056,7 @@ msgstr "位置"
 
 #: data/ui/metadata-dialog.ui:94
 msgid "Time of Day"
-msgstr ""
+msgstr "时刻"
 
 #: data/ui/metadata-dialog.ui:99 src/Application.vala:140
 #: src/DefaultTests.vala:196
@@ -1191,22 +1073,16 @@ msgid "Copyright"
 msgstr "版权"
 
 #: data/ui/metadata-dialog.ui:123
-#, fuzzy
-#| msgid "Cr_edit:"
 msgid "Credit"
-msgstr "鸣谢(_E)："
+msgstr "鸣谢"
 
 #: data/ui/metadata-dialog.ui:131
-#, fuzzy
-#| msgid "_Byline:"
 msgid "Byline"
-msgstr "署名(_B)："
+msgstr "署名"
 
 #: data/ui/metadata-dialog.ui:139
-#, fuzzy
-#| msgid "Byline _Title:"
 msgid "Byline Title"
-msgstr "署名标题(_T)："
+msgstr "署名头衔"
 
 #: data/ui/metadata-dialog.ui:147
 msgid "Country"
@@ -1255,10 +1131,8 @@ msgid "Image"
 msgstr "图像"
 
 #: data/ui/print-layout-dialog.ui:52 data/ui/print-layout-dialog.ui:197
-#, fuzzy
-#| msgid "Presentation"
 msgid "Orientation"
-msgstr "演示"
+msgstr "方向"
 
 #: data/ui/print-layout-dialog.ui:87 src/DefaultTests.vala:112
 #: src/Ext/Filters/FilterEditorPage.vala:126
@@ -1266,14 +1140,12 @@ msgid "Size"
 msgstr "大小"
 
 #: data/ui/print-layout-dialog.ui:117
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "Center Horizontally"
-msgstr "水平(_H)："
+msgstr "水平居中"
 
 #: data/ui/print-layout-dialog.ui:128
 msgid "Center Vertically"
-msgstr ""
+msgstr "竖直居中"
 
 #: data/ui/print-layout-dialog.ui:163 data/ui/print-layout-dialog.ui:251
 #: data/ui/resize-dialog.ui:63 data/ui/resize-image.ui:35
@@ -1304,55 +1176,43 @@ msgstr "英寸"
 
 #: data/ui/print-layout-dialog.ui:194
 msgid "Page"
-msgstr ""
+msgstr "页面"
 
 #: data/ui/print-layout-dialog.ui:220
 msgid "Margins"
-msgstr "距"
+msgstr "边距"
 
 #: data/ui/print-layout-dialog.ui:223 data/ui/rotate-image.ui:192
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "Horizontal"
-msgstr "水平(_H)："
+msgstr "水平"
 
 #: data/ui/print-layout-dialog.ui:237 data/ui/rotate-image.ui:180
-#, fuzzy
-#| msgid "_Vertical:"
 msgid "Vertical"
-msgstr "垂直(_V)："
+msgstr "竖直"
 
 #: data/ui/print-layout-dialog.ui:282
 msgid "Layout"
 msgstr "布局"
 
 #: data/ui/print-layout-dialog.ui:285
-#, fuzzy
-#| msgid "_Rows:"
 msgid "Rows"
-msgstr "行数(_R)："
+msgstr "行"
 
 #: data/ui/print-layout-dialog.ui:300
-#, fuzzy
-#| msgid "Columns:"
 msgid "Columns"
-msgstr "列数："
+msgstr "列"
 
 #: data/ui/print-layout-dialog.ui:387 src/ProgressDialog.vala:170
 msgid "Cancel"
 msgstr "取消"
 
 #: data/ui/progress-dialog.ui:13
-#, fuzzy
-#| msgid "Cancel"
 msgid "Cancel All"
-msgstr "取消"
+msgstr "全部取消"
 
 #: data/ui/property-sidebar.ui:32
-#, fuzzy
-#| msgid "Search completed"
 msgid "search property"
-msgstr "搜索完成"
+msgstr "搜索属性"
 
 #: data/ui/rename-dialog.ui:50 data/ui/rename-dialog.ui:60
 #: src/Ext/Rename/RenameTemplatePage.vala:3
@@ -1360,10 +1220,8 @@ msgid "Template"
 msgstr "模板"
 
 #: data/ui/rename-dialog.ui:80
-#, fuzzy
-#| msgid "Index"
 msgid "First Index"
-msgstr "索引"
+msgstr "首个索引"
 
 #: data/ui/rename-dialog.ui:98 src/Ext/Editor/GridGroup.vala:26
 msgid "None"
@@ -1371,25 +1229,23 @@ msgstr "无"
 
 #: data/ui/rename-dialog.ui:99
 msgid "Lowercase"
-msgstr ""
+msgstr "小写"
 
 #: data/ui/rename-dialog.ui:100
 msgid "Uppercase"
-msgstr ""
+msgstr "大写"
 
 #: data/ui/rename-dialog.ui:112
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort"
-msgstr "排列"
+msgstr "排序"
 
 #: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:107
 msgid "Before"
-msgstr "在指定时间之前"
+msgstr "之前"
 
 #: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:108
 msgid "After"
-msgstr "在指定时间之后"
+msgstr "之后"
 
 #: data/ui/rename-dialog.ui:196
 msgid "Edit Template"
@@ -1402,23 +1258,17 @@ msgstr "重命名(_R)"
 
 #. Translators: pixels as length unit
 #: data/ui/resize-dialog.ui:69 data/ui/resize-image.ui:43
-#, fuzzy
-#| msgid "px"
 msgctxt "Length Unit"
 msgid "px"
-msgstr "像素"
+msgstr "px"
 
 #: data/ui/resize-dialog.ui:70 data/ui/resize-image.ui:44
-#, fuzzy
-#| msgid "pixels"
 msgctxt "Length Unit"
 msgid "pixels"
 msgstr "像素"
 
 #. Translators: percentage as length unit
 #: data/ui/resize-dialog.ui:76 data/ui/resize-image.ui:51
-#, fuzzy
-#| msgid "%"
 msgctxt "Length Unit"
 msgid "%"
 msgstr "%"
@@ -1426,30 +1276,24 @@ msgstr "%"
 #: data/ui/resize-dialog.ui:77 data/ui/resize-image.ui:52
 msgctxt "Length Unit"
 msgid "percentage"
-msgstr ""
+msgstr "百分比"
 
 #: data/ui/resize-dialog.ui:87
-#, fuzzy
-#| msgid "_Preserve original aspect ratio"
 msgid "Preserve Aspect Ratio"
-msgstr "保持长宽比(_P)"
+msgstr "保持长宽比"
 
 #. Translators: width and height of images or videos.
 #: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
-#, fuzzy
-#| msgid "Pixels:"
 msgid "Pixels"
-msgstr "像素："
+msgstr "像素"
 
 #: data/ui/resize-image.ui:72
-#, fuzzy
-#| msgid "_Scaled"
 msgid "Scaled"
-msgstr "依比例缩放(_S)"
+msgstr "已缩放"
 
 #: data/ui/resize-image.ui:85
 msgid "Repeated"
-msgstr ""
+msgstr "已重复"
 
 #: data/ui/resize-image.ui:120
 msgid "High Quality"
@@ -1473,51 +1317,35 @@ msgid "Original Size"
 msgstr "原始大小"
 
 #: data/ui/rotate-image.ui:79
-#, fuzzy
-#| msgid "Bounding box"
 msgid "Bounding Box"
-msgstr "边框"
+msgstr "边界框"
 
 #: data/ui/rotate-image.ui:92
-#, fuzzy
-#| msgid "Crop borders"
 msgid "Crop Borders"
 msgstr "剪裁边界"
 
 #: data/ui/rotate-image.ui:176
-#, fuzzy
-#| msgid ""
-#| "Draw a line on the image \n"
-#| "to set the alignment."
 msgid "Draw a line on the image to set the alignment."
-msgstr ""
-"在图像上绘制一条线\n"
-"用来设置对齐方式。"
+msgstr "在图像上绘制一条线以设置对齐。"
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2374
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
-msgstr "正在保存"
+msgstr "保存"
 
 #: data/ui/savers-preferences.ui:17
-#, fuzzy
-#| msgid "_Store metadata inside files if possible"
 msgid "Store metadata inside files if possible"
-msgstr "尽可能将元数据保存在文件中(_S)"
+msgstr "尽可能将元数据存储在文件中"
 
 #: data/ui/savers-preferences.ui:23
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:48
-#, fuzzy
-#| msgid "Show the description, if available"
 msgid "Show the options before saving"
-msgstr "如果可用，显示描述"
+msgstr "保存前显示选项"
 
 #. Translators: File Formats
 #: data/ui/savers-preferences.ui:32
-#, fuzzy
-#| msgid "Format"
 msgid "Formats"
 msgstr "格式"
 
@@ -1531,22 +1359,16 @@ msgid "Script"
 msgstr "脚本"
 
 #: data/ui/script-editor-page.ui:71
-#, fuzzy
-#| msgid "Could not save the script"
 msgid "Execute as a shell script"
-msgstr "无法保存脚本"
+msgstr "作为 Shell 脚本执行"
 
 #: data/ui/script-editor-page.ui:76
-#, fuzzy
-#| msgid "E_xecute command once for every file"
 msgid "Execute for every file"
-msgstr "为每个文件执行一次命令(_X)"
+msgstr "为每个文件执行"
 
 #: data/ui/script-editor-page.ui:81
-#, fuzzy
-#| msgid "_Wait for the command to finish"
 msgid "Wait for the command to finish"
-msgstr "等待命令完成(_W)"
+msgstr "等待命令完成"
 
 #: data/ui/script-parameters-dialog.ui:85
 #: src/Ext/FileManager/OverwriteDialog.vala:133
@@ -1556,12 +1378,10 @@ msgstr "跳过(_S)"
 
 #: data/ui/script-parameters-dialog.ui:92
 msgid "_Run"
-msgstr ""
+msgstr "运行(_R)"
 
 #: data/ui/scripts-dialog.ui:24 src/Ext/Shortcuts/Shortcut.vala:264
 #: src/Ext/Shortcuts/Shortcuts.vala:180 src/Ext/Tools/FileActions.vala:20
-#, fuzzy
-#| msgid "Script"
 msgid "Scripts"
 msgstr "脚本"
 
@@ -1582,11 +1402,11 @@ msgstr "包含子文件夹"
 
 #: data/ui/search-source-row.ui:40 src/Ext/Shortcuts/Shortcuts.vala:174
 msgid "Remove"
-msgstr "删除"
+msgstr "移除"
 
 #: data/ui/sharpen-image.ui:6
 msgid "Adjust blurred images."
-msgstr ""
+msgstr "调整模糊的图像。"
 
 #: data/ui/sharpen-image.ui:41
 msgid "Radius"
@@ -1609,7 +1429,7 @@ msgstr "按组合键以用作快捷键。"
 msgid "Press Esc to cancel"
 msgstr "按 Esc 以取消"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2182
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "删除(_D)"
@@ -1620,53 +1440,38 @@ msgid "Shortcuts"
 msgstr "快捷键"
 
 #: data/ui/slideshow-preferences.ui:17
-#, fuzzy
-#| msgid "R_andom order"
 msgid "Random Order"
-msgstr "随机顺序(_A)"
+msgstr "随机顺序"
 
 #: data/ui/slideshow-preferences.ui:23 data/ui/video-viewer.ui:431
 msgid "Repeat"
-msgstr ""
+msgstr "重复"
 
 #: data/ui/slideshow-preferences.ui:38
-#, fuzzy
-#| msgid "The seconds"
 msgid "Delay in seconds"
-msgstr "秒"
+msgstr "延迟秒数"
 
 #: data/ui/sort-files-dialog.ui:4 src/Ext/Shortcuts/Shortcuts.vala:151
-#, fuzzy
-#| msgid "Text Files"
 msgid "Sort Files"
-msgstr "文本文件"
+msgstr "文件排序"
 
 #: data/ui/sort-files-dialog.ui:17 data/ui/sort-folders-dialog.ui:17
-#, fuzzy
-#| msgid "Re_verse Order"
 msgid "Reverse Order"
-msgstr "相反次序排列(_V)"
+msgstr "逆序"
 
 #: data/ui/sort-folders-dialog.ui:4 src/Ext/Shortcuts/Shortcuts.vala:152
-#, fuzzy
-#| msgid "Create Folder"
 msgid "Sort Folders"
-msgstr "创建文件夹"
+msgstr "文件夹排序"
 
 #: data/ui/special-effects.ui:52
-#, fuzzy
-#| msgid "Letter"
 msgid "Pattern"
-msgstr "信函"
+msgstr "模式"
 
 #: data/ui/special-effects.ui:64
 msgid "Dots"
-msgstr ""
+msgstr "点"
 
 #: data/ui/status.ui:16
-#, fuzzy
-#| msgctxt "Pixels"
-#| msgid "Selected:"
 msgid "Selected:"
 msgstr "选中："
 
@@ -1676,21 +1481,17 @@ msgstr "文件："
 
 #. Translators: "Free Space on Disk"
 #: data/ui/status.ui:63
-#, fuzzy
-#| msgid "Free space:"
 msgid "Free:"
-msgstr "剩余空间："
+msgstr "可用："
 
 #: data/ui/template-code-chooser.ui:4 data/ui/template-token-row.ui:215
 #: src/TagsRow.vala:19
-#, fuzzy
-#| msgid "_Add"
 msgid "Add"
-msgstr "添加(_A)"
+msgstr "添加"
 
 #: data/ui/template-page.ui:13 src/Ext/Template/TemplatePage.vala:118
 msgid "_Apply"
-msgstr ""
+msgstr "应用(_A)"
 
 #: data/ui/template-page.ui:27
 msgid "Example"
@@ -1702,49 +1503,39 @@ msgstr "数字"
 
 #: data/ui/template-token-row.ui:195 src/Ext/Template/TemplateTokenRow.vala:219
 msgid "Default Value"
-msgstr "默认数值"
+msgstr "默认值"
 
 #: data/ui/test-expr-editor-group.ui:4
-#, fuzzy
-#| msgid "Rules:"
 msgid "Rules"
-msgstr "规则："
+msgstr "规则"
 
 #: data/ui/test-expr-editor-group.ui:37
 msgid "Match All the Rules"
-msgstr ""
+msgstr "匹配所有规则"
 
 #: data/ui/test-expr-editor-group.ui:48
 msgid "Match Any Rule"
-msgstr ""
+msgstr "匹配任意规则"
 
 #: data/ui/test-expr-editor-group.ui:72
-#, fuzzy
-#| msgid "Could not save the filter"
 msgid "Choose a rule to add to the filter."
-msgstr "无法保存过滤器"
+msgstr "选择添加到筛选器的规则。"
 
 #: data/ui/text-viewer-dialog.ui:4 src/Ext/Scripts/Script.vala:106
 msgid "Details"
-msgstr "细节"
+msgstr "详情"
 
 #: data/ui/tiff-preferences.ui:22
-#, fuzzy
-#| msgid "Resolution"
 msgid "Horizontal Resolution"
-msgstr "分辨率"
+msgstr "水平分辨率"
 
 #: data/ui/tiff-preferences.ui:35
-#, fuzzy
-#| msgid "Resolution"
 msgid "Vertical Resolution"
-msgstr "分辨率"
+msgstr "竖直分辨率"
 
 #: data/ui/unknown-viewer.ui:4 src/Viewer.vala:134
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot view this kind of files"
-msgstr "无法移动文件"
+msgstr "无法查看此类文件"
 
 #: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:346
 msgid "Play"
@@ -1753,7 +1544,7 @@ msgstr "播放"
 #. minus 1 second
 #: data/ui/video-viewer.ui:118
 msgid "-1s"
-msgstr "-1秒"
+msgstr "-1s"
 
 #: data/ui/video-viewer.ui:119
 msgid "Go back 1 second"
@@ -1762,7 +1553,7 @@ msgstr "后退 1 秒"
 #. plus 1 second
 #: data/ui/video-viewer.ui:133
 msgid "+1s"
-msgstr "+1秒"
+msgstr "+1s"
 
 #: data/ui/video-viewer.ui:134
 msgid "Go forward 1 second"
@@ -1771,7 +1562,7 @@ msgstr "前进 1 秒"
 #. minus 5 seconds
 #: data/ui/video-viewer.ui:148
 msgid "-5s"
-msgstr "-5秒"
+msgstr "-5s"
 
 #: data/ui/video-viewer.ui:149
 msgid "Go back 5 seconds"
@@ -1780,7 +1571,7 @@ msgstr "后退 5 秒"
 #. plus 5 seconds
 #: data/ui/video-viewer.ui:163
 msgid "+5s"
-msgstr "+5秒"
+msgstr "+5s"
 
 #: data/ui/video-viewer.ui:164
 msgid "Go forward 5 seconds"
@@ -1789,7 +1580,7 @@ msgstr "前进 5 秒"
 #. minus 10 seconds
 #: data/ui/video-viewer.ui:178
 msgid "-10s"
-msgstr "-10秒"
+msgstr "-10s"
 
 #: data/ui/video-viewer.ui:179
 msgid "Go back 10 seconds"
@@ -1798,7 +1589,7 @@ msgstr "后退 10 秒"
 #. plus 10 seconds
 #: data/ui/video-viewer.ui:193
 msgid "+10s"
-msgstr "+10秒"
+msgstr "+10s"
 
 #: data/ui/video-viewer.ui:194
 msgid "Go forward 10 seconds"
@@ -1807,7 +1598,7 @@ msgstr "前进 10 秒"
 #. minus 1 minute
 #: data/ui/video-viewer.ui:208
 msgid "-1m"
-msgstr "-1分"
+msgstr "-1m"
 
 #: data/ui/video-viewer.ui:209
 msgid "Go back 1 minute"
@@ -1816,7 +1607,7 @@ msgstr "后退 1 分钟"
 #. plus 1 minute
 #: data/ui/video-viewer.ui:223
 msgid "+1m"
-msgstr "+1分"
+msgstr "+1m"
 
 #: data/ui/video-viewer.ui:224
 msgid "Go forward 1 minute"
@@ -1825,7 +1616,7 @@ msgstr "前进 1 分钟"
 #. minus 5 minutes
 #: data/ui/video-viewer.ui:238
 msgid "-5m"
-msgstr "-5分"
+msgstr "-5m"
 
 #: data/ui/video-viewer.ui:239
 msgid "Go back 5 minutes"
@@ -1834,17 +1625,15 @@ msgstr "后退 5 分钟"
 #. plus 5 minutes
 #: data/ui/video-viewer.ui:253
 msgid "+5m"
-msgstr "+5分"
+msgstr "+5m"
 
 #: data/ui/video-viewer.ui:254
 msgid "Go forward 5 minutes"
 msgstr "前进 5 分钟"
 
 #: data/ui/video-viewer.ui:279
-#, fuzzy
-#| msgid "Current date"
 msgid "Copy Current Time"
-msgstr "当前日期"
+msgstr "复制当前时间"
 
 #: data/ui/video-viewer.ui:358
 msgid "Take a screenshot"
@@ -1852,67 +1641,50 @@ msgstr "截图"
 
 #: data/ui/video-viewer.ui:382
 msgid "Playback Speed"
-msgstr ""
+msgstr "播放速度"
 
 #: data/ui/videos-preferences.ui:4 src/DefaultTests.vala:47
 #: src/Ext/Preferences/PreferencesDialog.vala:8
-#, fuzzy
-#| msgid "Video"
 msgid "Videos"
 msgstr "视频"
 
 #: data/ui/videos-preferences.ui:22
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "Change image"
 msgid "Change Time"
-msgstr "更改图像"
+msgstr "更改时间"
 
 #: data/ui/videos-preferences.ui:23
-#, fuzzy
-#| msgid "Change volume level"
 msgid "Change Volume"
-msgstr "改变音量级别"
+msgstr "更改音量"
 
 #: data/ui/videos-preferences.ui:32
-#, fuzzy
-#| msgid "Reset the EXIF Orientation"
 msgid "Respect Orientation"
-msgstr "重设 EXIF 方向"
+msgstr "遵循方向"
 
 #: data/ui/videos-preferences.ui:40
 msgid "Screenshots"
-msgstr "屏幕快照"
+msgstr "截图"
 
 #: data/ui/viewer-menu.ui:14 src/Ext/Shortcuts/Shortcuts.vala:179
 msgid "Open Clipboard"
-msgstr ""
+msgstr "打开剪贴板"
 
 #: data/ui/viewer-status.ui:45 src/Ext/Shortcuts/Shortcuts.vala:208
 #: src/Ext/Shortcuts/Shortcuts.vala:269
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous File"
-msgstr "上一幅"
+msgstr "上个文件"
 
 #: data/ui/viewer-status.ui:55 src/Ext/Shortcuts/Shortcuts.vala:207
 #: src/Ext/Shortcuts/Shortcuts.vala:268
-#, fuzzy
-#| msgid "Text Files"
 msgid "Next File"
-msgstr "文本文件"
+msgstr "下个文件"
 
 #: data/ui/viewer.ui:44 src/Ext/Shortcuts/Shortcuts.vala:214
-#, fuzzy
-#| msgid "View thumbnails"
 msgid "View Thumbnails"
 msgstr "查看缩略图"
 
 #: data/ui/viewer.ui:51 src/Ext/Shortcuts/Shortcuts.vala:215
-#, fuzzy
-#| msgid "_Fit Window to Image"
 msgid "Adapt Window to Content"
-msgstr "使窗口适合图像(_F)"
+msgstr "使窗口适合内容"
 
 #: data/ui/viewer.ui:81 src/FilePropertyView.vala:216
 msgid "Properties"
@@ -1923,34 +1695,26 @@ msgid "Copy Image"
 msgstr "复制图像"
 
 #: data/ui/viewer.ui:263 src/Ext/Shortcuts/Shortcuts.vala:288
-#, fuzzy
-#| msgid "Copy _From"
 msgid "Copy Frame"
-msgstr "复制来源(_F)"
+msgstr "复制帧"
 
 #. Translators: the file modification time.
 #: src/Application.vala:95 src/Application.vala:121 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
-#, fuzzy
-#| msgid "Modified"
 msgctxt "Time"
 msgid "Modified"
 msgstr "修改时间"
 
 #. Translators: the file change time.
 #: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
-#, fuzzy
-#| msgid "File manager"
 msgid "File Changed"
-msgstr "文件管理器"
+msgstr "更改时间"
 
 #. Translators: the file creation time.
 #: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
-#, fuzzy
-#| msgid "File date"
 msgid "File Created"
-msgstr "文件日期"
+msgstr "创建时间"
 
 #: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
@@ -1958,7 +1722,7 @@ msgstr "文件路径"
 
 #: src/Application.vala:102
 msgid "Unsorted"
-msgstr ""
+msgstr "未排序"
 
 #: src/Application.vala:110
 msgid "File"
@@ -1978,11 +1742,11 @@ msgstr "文件夹"
 
 #: src/Application.vala:131
 msgid "Duration"
-msgstr "持续时长"
+msgstr "时长"
 
 #: src/Application.vala:132
 msgid "Color Profile"
-msgstr "颜色配置文件"
+msgstr "特性文件"
 
 #: src/Application.vala:133
 msgid "Frames"
@@ -2010,7 +1774,7 @@ msgstr "曝光"
 
 #: src/Application.vala:148
 msgid "Aperture"
-msgstr "光圈值"
+msgstr "光圈"
 
 #: src/Application.vala:149
 msgid "ISO Speed"
@@ -2034,34 +1798,32 @@ msgstr "闪光"
 
 #: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:453
 #: src/Ext/Image/ImageViewer.vala:462 src/Ext/Shortcuts/Shortcuts.vala:258
-#: src/MainWindow.vala:830
+#: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "向右旋转"
 
 #: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
-#: src/MainWindow.vala:818
+#: src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "向左旋转"
 
-#: src/Application.vala:237 src/MainWindow.vala:399
+#: src/Application.vala:237 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "调整图像大小"
 
-#: src/Application.vala:238 src/MainWindow.vala:866
+#: src/Application.vala:238 src/MainWindow.vala:865
 msgid "Clear Metadata"
-msgstr "删除元数据"
+msgstr "清除元数据"
 
-#: src/Application.vala:239 src/MainWindow.vala:842
+#: src/Application.vala:239 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "物理旋转"
 
 #: src/Application.vala:241
-#, fuzzy
-#| msgid "Reset the EXIF Orientation"
 msgid "Reset EXIF Orientation"
-msgstr "重设 EXIF 方向"
+msgstr "重置 EXIF 方向"
 
-#: src/Application.vala:243 src/MainWindow.vala:878
+#: src/Application.vala:243 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "更新缩略图"
 
@@ -2075,15 +1837,13 @@ msgstr "显示应用程序版本"
 
 #: src/Application.vala:631
 msgid "Open a new window"
-msgstr "打开一个新窗口"
+msgstr "打开新窗口"
 
 #: src/Application.vala:650
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[文件…] [目录…]"
 
 #: src/Application.vala:654
-#, fuzzy
-#| msgid "— Image browser and viewer"
 msgid "— Image Browser and Viewer"
 msgstr "— 图像浏览器和查看器"
 
@@ -2095,138 +1855,114 @@ msgstr ""
 "Liu Songhe <jackliu9999@263.net>, 2003, 2004.\n"
 "Zhang Miao <mymzhang@gmail.com>, 2009.\n"
 "Yating Kuang <yatingkuang@ubuntukylin.com>, 2016.\n"
-"lumingzh <lumingzh@qq.com>, 2025."
+"lumingzh <lumingzh@qq.com>, 2025-2026."
 
-#: src/Browser.vala:50
+#: src/Browser.vala:47
 msgid "Path"
 msgstr "路径"
 
-#: src/Browser.vala:483
-#, fuzzy
-#| msgid "matches"
-msgid "No Matches"
-msgstr "匹配"
+#: src/Browser.vala:335
+msgid "Drag Files"
+msgstr "拖放文件"
 
-#: src/Browser.vala:491
+#: src/Browser.vala:490
+msgid "No Matches"
+msgstr "无匹配项"
+
+#: src/Browser.vala:498
 msgid "No Files Found"
 msgstr "未找到文件"
 
-#: src/Browser.vala:495
-#, fuzzy
-#| msgid "Catalog"
+#: src/Browser.vala:502
 msgid "Empty Catalog"
-msgstr "一览表"
+msgstr "空类目"
 
-#: src/Browser.vala:499
-#, fuzzy
-#| msgid "Selection"
-msgid "Empty Selection"
-msgstr "选区"
-
-#. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:506
-#, fuzzy, c-format
-#| msgid ""
-#| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
-msgid "Use %s to add files to selection %u"
-msgstr "使用 Alt-%d 添加文件到该选区，使用 Ctrl-%d 查看该选区。"
+msgid "Empty Selection"
+msgstr "空选区"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:515
-#, fuzzy, c-format
-#| msgid "Show selection %d"
-msgid "Use %s to view selection %u"
-msgstr "显示选区 %d"
+#: src/Browser.vala:513
+#, c-format
+msgid "Use %s to add files to selection %u"
+msgstr "使用 %s 将文件添加到选区 %u"
 
-#: src/Browser.vala:528
+#. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
+#: src/Browser.vala:522
+#, c-format
+msgid "Use %s to view selection %u"
+msgstr "使用 %s 查看选区 %u"
+
+#: src/Browser.vala:535
 msgid "Empty Folder"
 msgstr "空文件夹"
 
-#: src/Browser.vala:566
-#, fuzzy
-#| msgid "_Add Bookmark"
+#: src/Browser.vala:573
 msgid "_Add To Bookmarks"
-msgstr "添加书签(_A)"
+msgstr "添加到书签(_A)"
 
-#: src/Browser.vala:570
+#: src/Browser.vala:577
 msgid "_Edit Bookmarks…"
 msgstr "编辑书签(_E)…"
 
-#: src/Browser.vala:964 src/Browser.vala:1141
-#, fuzzy
-#| msgid "Writing files"
+#: src/Browser.vala:971 src/Browser.vala:1148
 msgid "Pasting Files"
-msgstr "正在写入文件"
+msgstr "正在粘贴文件"
 
-#: src/Browser.vala:982 src/Browser.vala:2016
+#: src/Browser.vala:989 src/Browser.vala:2105
 msgid "Cannot move files here"
 msgstr "无法移动文件到此处"
 
-#: src/Browser.vala:989
-#, fuzzy
-#| msgid "Duplicates"
+#: src/Browser.vala:996
 msgid "Duplicating Files"
-msgstr "重复项"
+msgstr "正在制作文件副本"
 
 #. Show a message on the browser.
-#: src/Browser.vala:1373 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
-#, fuzzy
-#| msgid "Reading files"
 msgid "Searching Files"
-msgstr "正在读取文件"
+msgstr "正在搜索文件"
 
-#: src/Browser.vala:1401 src/Browser.vala:1431 src/Browser.vala:1671
-#: src/Browser.vala:1906
-#, fuzzy, c-format
-#| msgid "Uploading “%s”"
+#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
+#: src/Browser.vala:1995
+#, c-format
 msgid "Updating %s"
-msgstr "正在上传“%s”"
+msgstr "正在更新 %s"
 
-#: src/Browser.vala:1528 src/Browser.vala:1532 src/Browser.vala:2395
-#: src/Browser.vala:2405 src/MainWindow.vala:258 src/MainWindow.vala:330
-#: src/MainWindow.vala:693 src/MainWindow.vala:706 src/MainWindow.vala:814
-#: src/MainWindow.vala:826 src/MainWindow.vala:838 src/MainWindow.vala:850
-#: src/MainWindow.vala:862 src/MainWindow.vala:874 src/MainWindow.vala:886
-#: src/MainWindow.vala:897 src/MainWindow.vala:935 src/MainWindow.vala:946
-#: src/MainWindow.vala:957 src/MainWindow.vala:968
-#, fuzzy
-#| msgid "No valid file selected."
+#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
+#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
+#: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
+#: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
+#: src/MainWindow.vala:896 src/MainWindow.vala:934 src/MainWindow.vala:945
+#: src/MainWindow.vala:956 src/MainWindow.vala:967
 msgid "No files selected"
-msgstr "未选择有效的文件。"
+msgstr "未选择文件"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1709
-#, fuzzy
-#| msgid "Importing files"
+#: src/Browser.vala:1797
 msgid "Updating Files"
-msgstr "正在导入文件"
+msgstr "正在更新文件"
 
-#: src/Browser.vala:1972
-#, fuzzy
-#| msgid "Hidden Files"
+#: src/Browser.vala:2061
 msgid "Adding Files"
-msgstr "隐藏的文件"
+msgstr "正在添加文件"
 
-#: src/Browser.vala:1972 src/MainWindow.vala:614
-#, fuzzy
-#| msgid "Moving files"
+#: src/Browser.vala:2061 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "正在移动文件"
 
-#: src/Browser.vala:2062
-#, fuzzy
-#| msgid "New folder"
+#: src/Browser.vala:2151
 msgid "New Folder"
 msgstr "新建文件夹"
 
-#: src/Browser.vala:2062 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "创建(_C)"
 
-#: src/Browser.vala:2145 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -2236,39 +1972,32 @@ msgid "_Rename"
 msgstr "重命名(_R)"
 
 #. Ask confirmation
-#: src/Browser.vala:2176 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
-msgstr "是否永久删除？"
+msgstr "永久删除吗？"
 
-#: src/Browser.vala:2178 src/Ext/FileManager/FileManager.vala:12
-#, fuzzy, c-format
-#| msgid "The destination folder does not exist. Do you want to create it?"
+#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
+#, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
-msgstr "目标文件夹不存在。是否创建该文件夹？"
+msgstr "此操作不可逆。您想要删除 <i>%s</i> 吗？"
 
-#: src/Browser.vala:2213
-#, fuzzy
-#| msgid "source and destination are the same"
+#: src/Browser.vala:2302
 msgid "Source and destination are the same"
-msgstr "源目录和目的地一样"
+msgstr "来源和目标相同"
 
-#: src/Browser.vala:2246 src/Ext/Image/ImageViewer.vala:604
+#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:604
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
 msgstr "打开"
 
 #: src/DateRow.vala:32
-#, fuzzy
-#| msgid "Select all"
 msgid "Select a day"
-msgstr "全选"
+msgstr "选择日期"
 
 #: src/DefaultTests.vala:4
-#, fuzzy
-#| msgid "Hidden Files"
 msgid "Visible Files"
-msgstr "隐藏的文件"
+msgstr "可见文件"
 
 #. Translators: Audio Files
 #: src/DefaultTests.vala:60
@@ -2286,75 +2015,59 @@ msgstr "文本文件"
 
 #: src/DefaultTests.vala:160
 msgid "Created (Original)"
-msgstr ""
+msgstr "创建日期（原始）"
 
 #: src/DefaultTests.vala:208
 msgid "Tag"
 msgstr "标签"
 
 #: src/Dialogs/AppSelector.vala:6
-#, fuzzy
-#| msgid "No options available for this file type"
 msgid "No application registered for this file type"
-msgstr "这种文件类型没有可用选项"
+msgstr "没有用于此文件类型的应用程序"
 
 #: src/Dialogs/FolderSelector.vala:98
-#, fuzzy
-#| msgid "Move"
 msgid "_Move"
-msgstr "移动"
+msgstr "移动(_M)"
 
 #: src/Dialogs/FolderSelector.vala:143
-#, fuzzy
-#| msgid "No valid file selected."
 msgid "No file selected"
-msgstr "未选择有效的文件。"
+msgstr "未选择文件"
 
 #. Cannot copy to libraries.
 #: src/Dialogs/FolderSelector.vala:148
 #: src/Ext/Bookmarks/BookmarksDialog.vala:67
 msgid "Invalid location"
-msgstr "无效的路径"
+msgstr "无效的位置"
 
 #: src/Dialogs/ReadFilename.vala:17
-#, fuzzy
-#| msgid "Automatic"
 msgid "Automatic Filename"
-msgstr "自动设置"
+msgstr "自动设置文件名"
 
 #: src/Dialogs/ReadFilename.vala:27
-#, fuzzy
-#| msgid "File extension"
 msgid "Enter a file extension"
-msgstr "文件扩展名"
+msgstr "输入文件扩展名"
 
 #: src/Dialogs/ReadFilename.vala:31
 #: src/Ext/Tools/Internal/ImageRotation.vala:112 src/ImageSaver.vala:66
 #: src/ImageSaver.vala:71
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot save this kind of files"
-msgstr "无法移动文件"
+msgstr "无法保存此类型文件"
 
 #: src/Dialogs/ReadFilename.vala:37
 msgid "Name already used"
-msgstr "名称已使用"
+msgstr "名称已经使用"
 
 #: src/Dialogs/ReadText.vala:125
-#, fuzzy
-#| msgid "Enter a value:"
 msgid "Enter a value"
-msgstr "输入值："
+msgstr "输入值"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:10
 msgid "Locations"
 msgstr "位置"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:149
-#, fuzzy
-#| msgid "Name already used"
 msgid "Location already saved"
-msgstr "名称已使用"
+msgstr "位置已经保存"
 
 #: src/Ext/Bookmarks/BookmarksDialog.vala:5
 #: src/Ext/Filters/FiltersDialog.vala:30
@@ -2370,16 +2083,12 @@ msgid "Invalid name"
 msgstr "无效的名称"
 
 #: src/Ext/Color/ColorSelector.vala:123
-#, fuzzy
-#| msgid "Select a color"
 msgid "Selected Color"
-msgstr "请选择颜色"
+msgstr "选中颜色"
 
 #: src/Ext/Color/ColorSelector.vala:130
-#, fuzzy
-#| msgid "Keep the original format"
 msgid "Reset Original Color"
-msgstr "保留原格式"
+msgstr "重置原始颜色"
 
 #: src/Ext/Color/ColorSelector.vala:142
 msgid "_Color:"
@@ -2390,16 +2099,12 @@ msgid "_Red:"
 msgstr "红色(_R)："
 
 #: src/Ext/Color/ColorSelector.vala:154
-#, fuzzy
-#| msgid "Green"
 msgid "_Green:"
-msgstr "绿"
+msgstr "绿色(_G)："
 
 #: src/Ext/Color/ColorSelector.vala:157
-#, fuzzy
-#| msgid "Blue"
 msgid "_Blue:"
-msgstr "蓝"
+msgstr "蓝色(_B)："
 
 #: src/Ext/Color/ColorSelector.vala:160
 msgid "_Transparency:"
@@ -2407,11 +2112,11 @@ msgstr "透明度(_T)："
 
 #: src/Ext/Color/ColorSelector.vala:169
 msgid "_Hue:"
-msgstr "色调(_H)："
+msgstr "色相(_H)："
 
 #: src/Ext/Color/ColorSelector.vala:172
 msgid "_Saturation:"
-msgstr "色饱和度(_S)："
+msgstr "饱和度(_S)："
 
 #: src/Ext/Color/ColorSelector.vala:175
 msgid "_Brightness:"
@@ -2419,50 +2124,39 @@ msgstr "亮度(_B)："
 
 #. Translators: filter that executes a gamma correction.
 #: src/Ext/Editor/AdjustBrightness.vala:9
-#, fuzzy
-#| msgid "G_amma:"
 msgid "Gamma"
-msgstr "伽马(_A)："
+msgstr "伽马"
 
 #. Translators: filter that adjust the color curves.
 #: src/Ext/Editor/AdjustBrightness.vala:12
 #: src/Ext/Editor/AdjustContrast.vala:12
-#, fuzzy
-#| msgid "Color Curves"
 msgid "Curves"
-msgstr "颜色曲线"
+msgstr "曲线"
 
 #. Translators: filter that adjust the contrast balancing the white component.
 #: src/Ext/Editor/AdjustContrast.vala:9
 msgid "Balanced"
-msgstr ""
+msgstr "平衡"
 
 #. Translators: filter that equalizes the histogram.
 #: src/Ext/Editor/AdjustContrast.vala:18
 msgid "Equalize"
-msgstr "均衡"
+msgstr "均化"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:41
 #: src/Ext/Editor/AspectRatioGroup.vala:42
-#, fuzzy
-#| msgctxt "Extensions"
-#| msgid "Disabled"
 msgctxt "Aspect Ratio"
 msgid "Disabled"
 msgstr "已禁用"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:52
 #: src/Ext/Editor/AspectRatioGroup.vala:54
-#, fuzzy
-#| msgid "Screenshot"
 msgctxt "Aspect Ratio"
 msgid "Screen"
-msgstr "屏幕快照"
+msgstr "屏幕"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:59
 #: src/Ext/Editor/AspectRatioGroup.vala:60
-#, fuzzy
-#| msgid "Image"
 msgctxt "Aspect Ratio"
 msgid "Image"
 msgstr "图像"
@@ -2470,17 +2164,13 @@ msgstr "图像"
 #: src/Ext/Editor/AspectRatioGroup.vala:65
 #: src/Ext/Editor/AspectRatioGroup.vala:66
 #: src/Ext/Filters/TestAspectRatio.vala:168
-#, fuzzy
-#| msgid "Square"
 msgctxt "Aspect Ratio"
 msgid "Square"
-msgstr "方形"
+msgstr "正方形"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:79
 #: src/Ext/Editor/AspectRatioGroup.vala:81
 #: src/Ext/Filters/TestAspectRatio.vala:179
-#, fuzzy
-#| msgid "A4"
 msgctxt "Aspect Ratio"
 msgid "A4"
 msgstr "A4"
@@ -2493,30 +2183,27 @@ msgid "Other…"
 msgstr "其它…"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:193
-#, fuzzy, c-format
-#| msgid "Rotate"
+#, c-format
 msgid "%s (Rotated)"
-msgstr "旋转"
+msgstr "%s（已旋转）"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/Censor.vala:12
 msgid "Mosaic"
-msgstr ""
+msgstr "马赛克"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/Censor.vala:15
 msgid "Blur"
-msgstr ""
+msgstr "模糊"
 
 #: src/Ext/Editor/GridGroup.vala:27
 msgid "Rule of Thirds"
-msgstr "三分法则"
+msgstr "三分法"
 
 #: src/Ext/Editor/GridGroup.vala:28
-#, fuzzy
-#| msgid "Golden Sections"
 msgid "Golden Ratio"
-msgstr "黄金分割"
+msgstr "黄金比例"
 
 #: src/Ext/Editor/GridGroup.vala:29
 msgid "Center Lines"
@@ -2527,41 +2214,35 @@ msgid "Uniform"
 msgstr "统一化"
 
 #: src/Ext/Editor/ResizeImage.vala:68
-#, fuzzy
-#| msgid "Screenshot"
 msgid "Screen"
-msgstr "屏幕快照"
+msgstr "屏幕"
 
 #: src/Ext/Editor/ResizeImage.vala:95
-#, fuzzy
-#| msgid "4"
 msgid "4K"
-msgstr "4"
+msgstr "4K"
 
 #: src/Ext/Editor/ResizeImage.vala:96
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/Ext/Editor/ResizeImage.vala:97
 msgid "720p"
-msgstr ""
+msgstr "720p"
 
 #. Translators: this is the name of a filter that produces warmer colors.
 #: src/Ext/Editor/SpecialEffects.vala:10
 msgid "Warmer"
-msgstr "温暖"
+msgstr "暖色"
 
 #. Translators: this is the name of a filter that produces cooler colors.
 #: src/Ext/Editor/SpecialEffects.vala:13
 msgid "Cooler"
-msgstr "清凉"
+msgstr "冷色"
 
 #. Translators: this is the name of an image filter that produces darker edges.
 #: src/Ext/Editor/SpecialEffects.vala:16
-#, fuzzy
-#| msgid "Blurred Edges"
 msgid "Darker Edges"
-msgstr "模糊边缘"
+msgstr "压暗边缘"
 
 #. Translators: this is the name of an image filter that produces blurred edges.
 #: src/Ext/Editor/SpecialEffects.vala:19
@@ -2576,77 +2257,60 @@ msgstr "复古"
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:25
 msgid "Lomography"
-msgstr ""
+msgstr "乐魔"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:28
-#, fuzzy
-#| msgid "Colors"
 msgid "8 Colors"
-msgstr "颜色"
+msgstr "8 色"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:31
 msgid "Negative"
-msgstr "底片效果"
+msgstr "负片"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:6
-#, fuzzy
-#| msgid "Exif Conditions"
 msgid "Conditions"
-msgstr "Exif 照相条件"
+msgstr "状况"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:7
-#, fuzzy
-#| msgid "Exif Structure"
 msgid "Structure"
-msgstr "Exif 图像结构"
+msgstr "结构"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:8
-#, fuzzy
-#| msgid "Thumbnails"
 msgid "Thumbnail"
 msgstr "缩略图"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:9
 msgid "GPS"
-msgstr ""
+msgstr "GPS"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:10
-#, fuzzy
-#| msgid "Exif Maker Notes"
 msgid "Maker Notes"
-msgstr "Exif 生产者信息"
+msgstr "厂商注释"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:11
-#, fuzzy
-#| msgid "Exif Versions"
 msgid "Versions"
-msgstr "Exif 版本"
+msgstr "版本"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:14 src/Ext/Exiv2/XmpPropertyView.vala:11
 msgid "XMP"
-msgstr ""
+msgstr "XMP"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:15
-#, fuzzy
-#| msgid "XMP Attached"
 msgid "Attached"
-msgstr "附加的 XMP"
+msgstr "附加"
 
 #: src/Ext/Exiv2/ExifPropertyView.vala:11
 msgid "EXIF"
-msgstr ""
+msgstr "EXIF"
 
 #: src/Ext/FileManager/FileManager.vala:17
-#, fuzzy, c-format
-#| msgid ""
-#| "The files cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
+#, c-format
 msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
-msgstr[0] "无法将文件移至回收站。是否永久删除图像？"
+msgstr[0] "此操作不可逆。您想要删除这 %'d 个选中的文件吗？"
 
 #: src/Ext/FileManager/FileManager.vala:86
 msgid "Move"
@@ -2659,71 +2323,56 @@ msgstr "重命名文件"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:120
 msgid "Replace File?"
-msgstr ""
+msgstr "替换文件吗？"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:122
-#, fuzzy, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
+#, c-format
 msgid "A file named “%s” already exists. Do you want to replace it?"
-msgstr "一览表 “%s” 已存在，要覆盖它？"
+msgstr "已经存在名为“%s”的文件。您想要替换它吗？"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:126
 #: src/Ext/FileManager/OverwriteDialog.vala:134
 #: src/Ext/FileManager/OverwriteDialog.vala:148
-#, fuzzy
-#| msgid "_Place"
 msgid "_Replace"
-msgstr "位置(_P)"
+msgstr "替换(_R)"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:143
-#, fuzzy
-#| msgid "Restricted content"
 msgid "Replace Content?"
-msgstr "受限内容"
+msgstr "替换内容吗？"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:145
-#, fuzzy, c-format
-#| msgid "The destination folder does not exist. Do you want to create it?"
+#, c-format
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
-msgstr "目标文件夹不存在。是否创建该文件夹？"
+msgstr "文件“%s”已被其它应用程序修改。您想要替换它吗？"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
-#, fuzzy
-#| msgid "Rename files"
 msgid "Rename File?"
-msgstr "重命名文件"
+msgstr "重命名文件吗？"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:158
-#, fuzzy, c-format
-#| msgid "source and destination are the same"
+#, c-format
 msgid "Source and destination are the same. Do you want to rename “%s”?"
-msgstr "源目录和目的地一样"
+msgstr "来源和目标相同。您想要重命名“%s”吗？"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:168
-#, fuzzy
-#| msgid "Check _All"
 msgid "Skip _All"
-msgstr "全部选中(_A)"
+msgstr "全部跳过(_A)"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:204
-#, fuzzy
-#| msgid "Convert to lower-case"
 msgid "Content to Replace"
-msgstr "转换为小写"
+msgstr "替换内容"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:224
-#, fuzzy
-#| msgid "Contents"
 msgid "New Content"
-msgstr "目录"
+msgstr "新的内容"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:235
 msgid "Same answer for all the files"
-msgstr ""
+msgstr "应用至所有文件"
 
 #: src/Ext/Filters/Filter.vala:108
 msgid "files"
@@ -2736,43 +2385,33 @@ msgstr "显示"
 
 #. Translators: the "Personalize filters" command.
 #. Actions
-#: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:479
+#: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:478
 msgid "Personalize…"
 msgstr "个性化…"
 
 #: src/Ext/Filters/FilterEditorPage.vala:74
 #: src/Ext/Scripts/ScriptEditorPage.vala:32
 msgid "Name is empty"
-msgstr ""
+msgstr "名称为空"
 
 #: src/Ext/Filters/Test.vala:56
-#, fuzzy
-#| msgid "is greater than"
 msgid "Greater Than"
 msgstr "大于"
 
 #: src/Ext/Filters/Test.vala:57
-#, fuzzy
-#| msgid "is greater than or equal to"
 msgid "Greater Than or Equal To"
 msgstr "大于或等于"
 
 #: src/Ext/Filters/Test.vala:58
-#, fuzzy
-#| msgid "is lower than"
 msgid "Lower Than"
 msgstr "小于"
 
 #: src/Ext/Filters/Test.vala:59
-#, fuzzy
-#| msgid "is lower than or equal to"
 msgid "Lower Than or Equal To"
 msgstr "小于或等于"
 
 #: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:109
 #: src/Ext/Filters/TestString.vala:145
-#, fuzzy
-#| msgid "Equal to"
 msgid "Equal To"
 msgstr "等于"
 
@@ -2793,49 +2432,39 @@ msgstr "GB"
 
 #: src/Ext/Filters/TestDate.vala:110 src/Ext/Filters/TestString.vala:146
 msgid "Different From"
-msgstr ""
+msgstr "不同于"
 
 #: src/Ext/Filters/TestString.vala:142
-#, fuzzy
-#| msgid "contains"
 msgid "Contains"
 msgstr "包含"
 
 #: src/Ext/Filters/TestString.vala:143
-#, fuzzy
-#| msgid "starts with"
 msgid "Starts With"
 msgstr "开始于"
 
 #: src/Ext/Filters/TestString.vala:144
-#, fuzzy
-#| msgid "ends with"
 msgid "Ends With"
 msgstr "结束于"
 
 #: src/Ext/Filters/TestString.vala:147
-#, fuzzy
-#| msgid "does not contain"
 msgid "Does not Contain"
-msgstr "不包括"
+msgstr "不包含"
 
 #: src/Ext/Filters/TestString.vala:148 src/Ext/Filters/TestStringList.vala:140
 msgid "Matches Pattern"
-msgstr ""
+msgstr "匹配模式"
 
 #: src/Ext/Filters/TestStringList.vala:137
 msgid "Includes"
-msgstr ""
+msgstr "包括"
 
 #: src/Ext/Filters/TestStringList.vala:138
-#, fuzzy
-#| msgid "I_nclude comment"
 msgid "Includes Only"
-msgstr "包含备注(_N)"
+msgstr "仅包括"
 
 #: src/Ext/Filters/TestStringList.vala:139
 msgid "Not Includes"
-msgstr ""
+msgstr "不包括"
 
 #. Ask the filename
 #: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
@@ -2843,44 +2472,35 @@ msgid "Save File"
 msgstr "保存文件"
 
 #: src/Ext/Image/ImageViewer.vala:259
-#, fuzzy, c-format
-#| msgid "Saving"
+#, c-format
 msgid "Saving %s"
-msgstr "正在保存"
+msgstr "正在保存 %s"
 
 #: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
-#: src/MainWindow.vala:1088
+#: src/MainWindow.vala:1087
 msgid "File type not supported"
 msgstr "文件类型不支持"
 
 #: src/Ext/Image/ImageViewer.vala:435 src/Ext/Shortcuts/Shortcuts.vala:257
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "Horizontal Flip"
-msgstr "水平(_H)："
+msgstr "水平翻转"
 
 #: src/Ext/Image/ImageViewer.vala:444 src/Ext/Shortcuts/Shortcuts.vala:256
-#, fuzzy
-#| msgid "_Vertical:"
 msgid "Vertical Flip"
-msgstr "垂直(_V)："
+msgstr "竖直翻转"
 
 #: src/Ext/Image/ImageViewer.vala:595 src/Ext/Video/VideoViewer.vala:648
-#, fuzzy
-#| msgid "Copy the image to the clipboard"
 msgid "Copying to the Clipboard"
-msgstr "将图像复制到剪贴板"
+msgstr "正在复制到剪贴板"
 
 #: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:665
-#, fuzzy
-#| msgid "Copy the image to the clipboard"
 msgid "Copied to the Clipboard"
-msgstr "将图像复制到剪贴板"
+msgstr "已复制到剪贴板"
 
 #: src/Ext/Import/ImportFiles.vala:230
 #, c-format
 msgid "The operation requires %s of space, but only %s are available on “%s”."
-msgstr ""
+msgstr "该操作需要 %1$s 空间，但在“%3$s”上仅 %2$s 可用。"
 
 #: src/Ext/Import/ImportFiles.vala:244
 msgid "Not enough free space"
@@ -2892,25 +2512,20 @@ msgstr "关闭"
 
 #. Overwrite the catalog content if the generic "last imported" catalog is used.
 #: src/Ext/Import/Importer.vala:130
-#, fuzzy
-#| msgid "Last imported"
 msgid "Last Imported"
 msgstr "最后导入"
 
 #. Caption
 #: src/Ext/Preferences/BrowserPreferences.vala:74
 #: src/Ext/Shortcuts/Shortcut.vala:257
-#, fuzzy
-#| msgid "Hidden Files"
 msgid "Hidden"
-msgstr "隐藏的文件"
+msgstr "隐藏"
 
 #. Translators: %s is a file format, such as JPEG
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:46
-#, fuzzy, c-format
-#| msgid "Options"
+#, c-format
 msgid "%s Options"
-msgstr "选项"
+msgstr "%s 选项"
 
 #. Translators: filter that shows all the shortcuts.
 #: src/Ext/Preferences/ShortcutsPreferences.vala:37
@@ -2925,10 +2540,8 @@ msgid "Modified"
 msgstr "已修改"
 
 #: src/Ext/Print/PrintImages.vala:60
-#, fuzzy
-#| msgid "_Continue"
 msgid "_Continue…"
-msgstr "继续(_C)"
+msgstr "继续(_C)…"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:5
 #: src/Ext/Scripts/ScriptCommandPage.vala:5
@@ -2953,47 +2566,33 @@ msgstr "文件名"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:9
 #: src/Ext/Scripts/ScriptCommandPage.vala:11
-#, fuzzy
-#| msgid "File name, no extension"
 msgid "File Name, No Extension"
-msgstr "不带扩展名的文件扩展名"
+msgstr "不带扩展名的文件名"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:10
 #: src/Ext/Scripts/ScriptCommandPage.vala:12
-#, fuzzy
-#| msgid "File extension"
 msgid "File Extension"
 msgstr "文件扩展名"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:11
-#, fuzzy
-#| msgid "Original size"
 msgid "Original Index"
-msgstr "原来大小"
+msgstr "原始索引"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:12
-#, fuzzy
-#| msgid "Create"
 msgid "Created"
-msgstr "创建"
+msgstr "创建日期"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:14
-#, fuzzy
-#| msgid "Digitalization date"
 msgid "Digitalized"
 msgstr "数字化日期"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:15
 #: src/Ext/Scripts/ScriptCommandPage.vala:14
-#, fuzzy
-#| msgid "Current date"
 msgid "Current Date"
 msgstr "当前日期"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:16
 #: src/Ext/Scripts/ScriptCommandPage.vala:16
-#, fuzzy
-#| msgid "File attribute"
 msgid "File Attribute"
 msgstr "文件属性"
 
@@ -3027,10 +2626,10 @@ msgstr "TIFF"
 msgid "WEBP"
 msgstr "WEBP"
 
-#: src/Ext/Scripts/Script.vala:233
+#: src/Ext/Scripts/Script.vala:262
 #, c-format
 msgid "Command exited abnormally with status %d"
-msgstr "命令以状态数 %d 非正常退出"
+msgstr "命令以 %d 状态异常退出"
 
 #: src/Ext/Scripts/ScriptCommandPage.vala:7
 msgid "Quoted Text"
@@ -3045,39 +2644,30 @@ msgid "Folder Path"
 msgstr "文件夹路径"
 
 #: src/Ext/Scripts/ScriptCommandPage.vala:15
-#, fuzzy
-#| msgid "Ask a value"
 msgid "Ask a Value"
 msgstr "询问值"
 
 #: src/Ext/Scripts/ScriptEditorPage.vala:36
-#, fuzzy
-#| msgid "Command Line"
 msgid "Command is empty"
-msgstr "命令行"
+msgstr "命令为空"
 
 #: src/Ext/Search/SearchEditor.vala:48
-#, fuzzy
-#| msgid "Search"
 msgid "Last Search"
-msgstr "搜索"
+msgstr "最后搜索"
 
 #. Translators: %u is replaced with a number
 #: src/Ext/Selections/Selection.vala:167
-#, fuzzy, c-format
-#| msgid "Selection %d"
+#, c-format
 msgid "Selection %u"
-msgstr "选区 %d"
+msgstr "选区 %u"
 
 #: src/Ext/Shortcuts/Shortcut.vala:259
 msgid "File Manager"
 msgstr "文件管理器"
 
 #: src/Ext/Shortcuts/Shortcut.vala:262
-#, fuzzy
-#| msgid "Audio/Video Player"
 msgid "Audio/Video"
-msgstr "音频/视频播放器"
+msgstr "音频/视频"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:134
 msgid "Close Window"
@@ -3104,26 +2694,20 @@ msgid "Parent Folder"
 msgstr "上级文件夹"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:144
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous Visited"
-msgstr "上一幅"
+msgstr "上个访问"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:145
 msgid "Next Visited"
-msgstr ""
+msgstr "下个访问"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:146
-#, fuzzy
-#| msgid "New folder"
 msgid "Next Folder"
-msgstr "新建文件夹"
+msgstr "下个文件夹"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:147
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous Folder"
-msgstr "上一幅"
+msgstr "上个文件夹"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:150
 msgid "Hidden Files"
@@ -3154,100 +2738,68 @@ msgid "Open with Gimp"
 msgstr "使用 Gimp 打开"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:182
-#, fuzzy
-#| msgid "Open with Gimp"
 msgid "Open with Inkscape"
-msgstr "使用 Gimp 打开"
+msgstr "使用 Inkscape 打开"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:194
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 1"
-msgstr "添加到选区"
+msgstr "添加到选区 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:195
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 2"
-msgstr "添加到选区"
+msgstr "添加到选区 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:196
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 3"
-msgstr "添加到选区"
+msgstr "添加到选区 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:197
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 1"
-msgstr "从选区中删除"
+msgstr "从选区 1 移除"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:198
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 2"
-msgstr "从选区中删除"
+msgstr "从选区 2 移除"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:199
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 3"
-msgstr "从选区中删除"
+msgstr "从选区 3 移除"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:200
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 1"
-msgstr "显示选区"
+msgstr "显示选区 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:201
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 2"
-msgstr "显示选区"
+msgstr "显示选区 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:202
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 3"
-msgstr "显示选区"
+msgstr "显示选区 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:204
-#, fuzzy
-#| msgid "View As Slides"
 msgid "View All"
-msgstr "以幻灯片方式查看"
+msgstr "查看全部"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:209
-#, fuzzy
-#| msgid "Edit Filter"
 msgid "First File"
-msgstr "编辑过滤器"
+msgstr "第一个文件"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:210
-#, fuzzy
-#| msgid "Last modified"
 msgid "Last File"
-msgstr "最后修改"
+msgstr "最后一个文件"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:211
-#, fuzzy
-#| msgid "View the folders"
 msgid "View Controls"
-msgstr "查看文件夹"
+msgstr "视图控制"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:219
-#, fuzzy
-#| msgid "Zoom In"
 msgid "Zoom In Fast"
-msgstr "放大"
+msgstr "快速放大"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:220
-#, fuzzy
-#| msgid "Zoom Out"
 msgid "Zoom Out Fast"
-msgstr "缩小"
+msgstr "快速缩小"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:221
 msgid "Zoom 100%"
@@ -3262,28 +2814,20 @@ msgid "Zoom 300%"
 msgstr "缩放 300%"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:224
-#, fuzzy
-#| msgid "Zoom to fit"
 msgid "Zoom to Fit"
-msgstr "缩放至合适大小"
+msgstr "缩放以适配"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:225
-#, fuzzy
-#| msgid "Zoom to fit if larger"
 msgid "Zoom to Fit if Larger"
-msgstr "若图像太大则缩放至合适大小"
+msgstr "若太大则缩放至合适大小"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:226
-#, fuzzy
-#| msgid "Zoom to fit width"
 msgid "Zoom to Fit Width"
-msgstr "缩放以适应窗口宽度"
+msgstr "缩放以适应宽度"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:227
-#, fuzzy
-#| msgid "Zoom to fit height"
 msgid "Zoom to Fit Height"
-msgstr "缩放以适应窗口高度"
+msgstr "缩放以适应高度"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:228
 msgid "Automatic Zoom"
@@ -3330,10 +2874,8 @@ msgid "Save As"
 msgstr "另存为"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:243
-#, fuzzy
-#| msgid "Revert image to saved"
 msgid "Revert to Saved"
-msgstr "将图像还原为已保存的"
+msgstr "还原为已保存的"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:267 src/Ext/Shortcuts/Shortcuts.vala:271
 msgid "Play/Pause"
@@ -3341,87 +2883,61 @@ msgstr "播放/暂停"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:272
 msgid "Screenshot"
-msgstr "屏幕快照"
+msgstr "截图"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:273
 msgid "Mute"
 msgstr "静音"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:274
-#, fuzzy
-#| msgid "Play faster"
 msgid "Play Faster"
-msgstr "更快播放"
+msgstr "快速播放"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:275
-#, fuzzy
-#| msgid "Play slower"
 msgid "Play Slower"
-msgstr "更慢播放"
+msgstr "慢速播放"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:276
-#, fuzzy
-#| msgid "No_rmal (Deflate)"
 msgid "Normal Speed"
-msgstr "正常(Deflate)(_R)"
+msgstr "正常速度"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:278
-#, fuzzy
-#| msgid "Go forward 1 second"
 msgid "Go Forward 1 Second"
 msgstr "前进 1 秒"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:279
-#, fuzzy
-#| msgid "Go forward 5 seconds"
 msgid "Go Forward 5 Seconds"
 msgstr "前进 5 秒"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:280
-#, fuzzy
-#| msgid "Go forward 10 seconds"
 msgid "Go Forward 10 Seconds"
 msgstr "前进 10 秒"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:281
-#, fuzzy
-#| msgid "Go forward 1 minute"
 msgid "Go Forward 1 Minute"
 msgstr "前进 1 分钟"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:282
-#, fuzzy
-#| msgid "Go forward 5 minutes"
 msgid "Go Forward 5 Minutes"
 msgstr "前进 5 分钟"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:283
-#, fuzzy
-#| msgid "Go back 1 second"
 msgid "Go Backward 1 Second"
 msgstr "后退 1 秒"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:284
-#, fuzzy
-#| msgid "Go back 5 seconds"
 msgid "Go Backward 5 Seconds"
 msgstr "后退 5 秒"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:285
-#, fuzzy
-#| msgid "Go back 10 seconds"
 msgid "Go Backward 10 Seconds"
 msgstr "后退 10 秒"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:286
-#, fuzzy
-#| msgid "Go back 1 minute"
 msgid "Go Backward 1 Minute"
 msgstr "后退 1 分钟"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:287
-#, fuzzy
-#| msgid "Go back 5 minutes"
 msgid "Go Backward 5 Minutes"
 msgstr "后退 5 分钟"
 
@@ -3429,18 +2945,15 @@ msgstr "后退 5 分钟"
 msgid "Select None"
 msgstr "不选"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:120
-#: src/FolderTree.vala:229 src/Viewer.vala:56 src/Viewer.vala:126
-#, fuzzy, c-format
-#| msgid "Loading “%s”"
+#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
+#: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
+#, c-format
 msgid "Loading %s"
-msgstr "正在载入“%s”"
+msgstr "正在加载 %s"
 
 #: src/Ext/Slideshow/Slideshow.vala:143
-#, fuzzy
-#| msgid "Pause"
 msgid "Paused"
-msgstr "暂停"
+msgstr "已暂停"
 
 #: src/Ext/Template/TemplatePage.vala:160
 msgid "Year"
@@ -3452,7 +2965,7 @@ msgstr "月"
 
 #: src/Ext/Template/TemplatePage.vala:162
 msgid "Day"
-msgstr ""
+msgstr "日"
 
 #: src/Ext/Template/TemplatePage.vala:163
 msgid "Hour"
@@ -3475,13 +2988,11 @@ msgstr "未知文件类型"
 #: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:118
 #: src/ImageLoader.vala:166
 msgid "No suitable loader available for this file type"
-msgstr "没有用于此文件类型的合适载入器"
+msgstr "没有用于此文件类型的加载器"
 
 #: src/Ext/Tools/Internal/ResizeImages.vala:47
-#, fuzzy
-#| msgid "Original size"
 msgid "Original"
-msgstr "原来大小"
+msgstr "原始"
 
 #: src/Ext/Video/VideoMetadata.vala:5
 msgid "Artist"
@@ -3505,28 +3016,23 @@ msgid "Encoder"
 msgstr "编码器"
 
 #: src/Ext/Video/VideoViewer.vala:615
-#, fuzzy
-#| msgid "Saving images"
 msgid "Saving File"
-msgstr "正在保存图像"
+msgstr "正在保存文件"
 
 #: src/Ext/Video/VideoViewer.vala:659
-#, fuzzy
-#| msgid "Copy the image to the clipboard"
 msgid "Could not copy the image to the clipboard"
-msgstr "将图像复制到剪贴板"
+msgstr "无法将该图像复制到剪贴板"
 
 #: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:286
+#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "无效的文件名"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
 #: src/Ext/Video/VideoViewer.vala:758
-#, fuzzy, c-format
-#| msgid "Save As…"
+#, c-format
 msgid "Saved %s"
-msgstr "另存为…"
+msgstr "已保存 %s"
 
 #: src/FilePropertyView.vala:124
 msgid "Copy Path"
@@ -3538,60 +3044,48 @@ msgstr "在 OpenStreetMap 上查看"
 
 #: src/Files.vala:239
 msgid "Computer"
-msgstr "电脑"
+msgstr "计算机"
 
 #: src/Files.vala:243
-#, fuzzy
-#| msgid "Home"
 msgid "User Home"
-msgstr "主文件夹"
+msgstr "用户主文件夹"
 
 #: src/History.vala:39
 msgid "_Delete History"
-msgstr "删除浏览记录(_D)"
+msgstr "删除历史(_D)"
 
 #: src/MainWindow.vala:39
-#, fuzzy
-#| msgid "Copy the image to the clipboard"
 msgid "Copied to Clipboard"
-msgstr "将图像复制到剪贴板"
+msgstr "已复制到剪贴板"
 
-#: src/MainWindow.vala:281
-#, fuzzy
-#| msgid "Reading files"
+#: src/MainWindow.vala:280
 msgid "Reading Clipboard"
-msgstr "正在读取文件"
+msgstr "正在读取剪贴板"
 
-#: src/MainWindow.vala:292
+#: src/MainWindow.vala:291
 msgid "Clipboard"
-msgstr ""
+msgstr "剪贴板"
 
-#: src/MainWindow.vala:554 src/MainWindow.vala:569 src/MainWindow.vala:584
-#, fuzzy
-#| msgid "Deleting files"
+#: src/MainWindow.vala:553 src/MainWindow.vala:568 src/MainWindow.vala:583
 msgid "Deleting Files"
 msgstr "正在删除文件"
 
-#: src/MainWindow.vala:599
-#, fuzzy
-#| msgid "Copying files"
+#: src/MainWindow.vala:598
 msgid "Copying Files"
 msgstr "正在复制文件"
 
-#: src/MainWindow.vala:854
+#: src/MainWindow.vala:853
 msgid "Clear EXIF Rotation"
-msgstr ""
+msgstr "清除 EXIF 旋转"
 
-#: src/MainWindow.vala:986 src/MainWindow.vala:992
-#, fuzzy
-#| msgid "No album selected"
+#: src/MainWindow.vala:985 src/MainWindow.vala:991
 msgid "No images selected"
-msgstr "未选中相册"
+msgstr "未选择图像"
 
-#: src/MainWindow.vala:1037
+#: src/MainWindow.vala:1036
 #, c-format
 msgid "Application '%s' not found"
-msgstr ""
+msgstr "未找到“%s”应用程序"
 
 #: src/Misc.vala:196
 msgid "Unknown"
@@ -3602,10 +3096,8 @@ msgid "Now"
 msgstr "现在"
 
 #: src/Viewer.vala:155
-#, fuzzy
-#| msgid "File modified date"
 msgid "File Modified"
-msgstr "文件最后修改日期"
+msgstr "文件已修改"
 
 #: src/Viewer.vala:156
 msgid "If you don’t save, changes to the file will be permanently lost."
@@ -3621,14 +3113,12 @@ msgstr "退出全屏"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
 #: src/Viewer.vala:473
-#, fuzzy
-#| msgid "[modified]"
 msgid "modified"
-msgstr "[最后修改时间]"
+msgstr "已修改"
 
 #: src/lib/exiv2-utils.cpp:20 src/lib/util.c:286
 msgid "(invalid value)"
-msgstr "(无效的值)"
+msgstr "（无效值）"
 
 #: src/lib/exiv2-utils.cpp:847 src/lib/exiv2-utils.cpp:1427
 #: src/lib/exiv2-utils.cpp:1450 src/lib/io/load-gif.c:138
@@ -3638,22 +3128,22 @@ msgstr "无效的文件格式"
 #: src/lib/exiv2-utils.cpp:948
 msgctxt "Cardinal point"
 msgid "S"
-msgstr "S"
+msgstr "南"
 
 #: src/lib/exiv2-utils.cpp:948
 msgctxt "Cardinal point"
 msgid "N"
-msgstr "N"
+msgstr "北"
 
 #: src/lib/exiv2-utils.cpp:950
 msgctxt "Cardinal point"
 msgid "W"
-msgstr "W"
+msgstr "西"
 
 #: src/lib/exiv2-utils.cpp:950
 msgctxt "Cardinal point"
 msgid "E"
-msgstr "E"
+msgstr "东"
 
 #: src/lib/gstreamer-utils.c:332
 msgid "Stereo"
@@ -4833,7 +4323,7 @@ msgstr "%d∶%02d"
 #~ msgstr "帧率"
 
 #~ msgid "Channels"
-#~ msgstr "声道"
+#~ msgstr "通道"
 
 #~ msgid "Sample rate"
 #~ msgstr "采样率"
