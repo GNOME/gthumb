@@ -190,6 +190,13 @@ public class Gth.Viewer : Gtk.Box {
 		current_file.set_is_modified (false);
 		update_title ();
 		app.events.file_added_to_disk (file_data.file);
+		if (file_data.info.get_attribute_boolean (PrivateAttribute.ASKED_FILENAME_BEFORE_SAVING)) {
+			file_data.info.set_attribute_boolean (PrivateAttribute.ASKED_FILENAME_BEFORE_SAVING, false);
+			if (!current_file.file.equal (file_data.file)) {
+				// Reload
+				view_file_async.begin (file_data, ViewFlags.DEFAULT);
+			}
+		}
 	}
 
 	public void file_changed (FileData file_data) {

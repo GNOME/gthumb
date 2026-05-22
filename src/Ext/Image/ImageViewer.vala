@@ -273,9 +273,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 
 			file_data.set_is_modified (false);
 
-			if (file_data.get_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING)
-				|| !app.savers.contains (file_data.get_content_type ()))
-			{
+			var ask_filename = file_data.get_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING)
+				|| !app.savers.contains (file_data.get_content_type ());
+			if (ask_filename) {
 				// Ask the filename
 				var read_filename = new ReadFilename (_("Save File"), _("_Save"));
 				read_filename.default_value = file_data.info.get_edit_name ();
@@ -292,6 +292,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 				}
 				app.settings.set_string (PREF_BROWSER_CLIPBOARD_TYPE, saver.get_content_type ());
 			}
+			file_data.info.set_attribute_boolean (PrivateAttribute.ASKED_FILENAME_BEFORE_SAVING, ask_filename);
 
 			// Allow to change the format options before saving
 			if (app.settings.get_boolean (PREF_GENERAL_SHOW_FORMAT_OPTIONS)) {

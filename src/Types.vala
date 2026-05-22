@@ -207,6 +207,7 @@ namespace Gth.PrivateAttribute {
 	const string LOADED_IMAGE_WAS_MODIFIED = "Loaded::Image::WasModified";
 	const string LOADED_IMAGE_COLOR_PROFILE = "Loaded::Image::ColorProfile";
 	const string ASK_FILENAME_WHEN_SAVING = "Loaded::Image::AskFilename";
+	const string ASKED_FILENAME_BEFORE_SAVING = "Loaded::Image::AskedFilename";
 	const string EMBLEMS = "Private::File::Emblems";
 	const string VOLUME = "Private::Volume";
 }
