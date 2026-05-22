@@ -275,16 +275,16 @@ public class Gth.Shortcuts {
 		register ("video.decrease-speed", N_("Play Slower"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "minus");
 		register ("video.normal-speed", N_("Normal Speed"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "equal");
 		register ("video.next-frame", N_("Next Frame"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "period");
-		register ("video.skip(1)", N_("Go Forward 1 Second"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, null);
-		register ("video.skip(5)", N_("Go Forward 5 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Shift>Right");
-		register ("video.skip(10)", N_("Go Forward 10 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>Right");
-		register ("video.skip(60)", N_("Go Forward 1 Minute"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary>Right");
-		register ("video.skip(300)", N_("Go Forward 5 Minutes"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary><Alt>Right");
-		register ("video.skip(-1)", N_("Go Backward 1 Second"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, null);
-		register ("video.skip(-5)", N_("Go Backward 5 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Shift>Left");
-		register ("video.skip(-10)", N_("Go Backward 10 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>Left");
-		register ("video.skip(-60)", N_("Go Backward 1 Minute"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary>Left");
-		register ("video.skip(-300)", N_("Go Backward 5 Minutes"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary><Alt>Left");
+		register ("video.skip(1)", N_("Go Forward 1 Second"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "Up");
+		register ("video.skip(5)", N_("Go Forward 5 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Shift>Up");
+		register ("video.skip(10)", N_("Go Forward 10 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>Up");
+		register ("video.skip(60)", N_("Go Forward 1 Minute"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary>Up");
+		register ("video.skip(300)", N_("Go Forward 5 Minutes"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary><Shift>Up");
+		register ("video.skip(-1)", N_("Go Backward 1 Second"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "Down");
+		register ("video.skip(-5)", N_("Go Backward 5 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Shift>Down");
+		register ("video.skip(-10)", N_("Go Backward 10 Seconds"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Alt>Down");
+		register ("video.skip(-60)", N_("Go Backward 1 Minute"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary>Down");
+		register ("video.skip(-300)", N_("Go Backward 5 Minutes"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Primary><Shift>Down");
 		register ("video.copy-frame", N_("Copy Frame"), ShortcutContext.MEDIA_VIEWER, ShortcutCategory.MEDIA_VIEWER, "<Ctrl><Shift>c");
 
 		// Not real actions, used for documentation only.
