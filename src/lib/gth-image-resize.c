@@ -1,6 +1,7 @@
 #include <config.h>
 #include <math.h>
 #include "lib/gth-image.h"
+#include "lib/gfixed.h"
 #include "lib/types.h"
 
 
@@ -461,4 +462,55 @@ gth_image_resize_finish (GthImage	 *self,
 			 GError		**error)
 {
 	return g_task_propagate_pointer (G_TASK (result), error);
+}
+
+
+GthImage *
+gth_image_resize_fast (GthImage *image,
+		       guint	 new_width,
+		       guint	 new_height)
+{
+	g_return_val_if_fail (image != NULL, NULL);
+	g_return_val_if_fail (new_width > 0, NULL);
+	g_return_val_if_fail (new_height > 0, NULL);
+
+	int src_rowstride, src_width, src_height;
+	guchar *p_src = gth_image_prepare_edit (image, &src_rowstride, &src_width, &src_height);
+
+	if ((new_width == src_width) && (new_height == src_height)) {
+		g_object_ref (image);
+		return image;
+	}
+
+	GthImage *scaled = gth_image_new (new_width, new_height);
+	int dest_rowstride;
+	guchar *p_dest = gth_image_prepare_edit (scaled, &dest_rowstride, NULL, NULL);
+
+	gfixed step_x = GDOUBLE_TO_FIXED ((double) src_width / new_width);
+	gfixed step_y = GDOUBLE_TO_FIXED ((double) src_height / new_height);
+
+	guchar *p_dest_row = p_dest;
+	guchar *p_src_row = p_src;
+	gfixed max_row = GINT_TO_FIXED (src_height - 1);
+	gfixed max_col = GINT_TO_FIXED (src_width - 1);
+	// Pick the pixel in the middle to avoid the shift effect.
+	gfixed y_src = gfixed_div (step_y, GFIXED_2);
+	for (int y = 0; y < new_height; y++) {
+		guchar *p_dest_col = p_dest_row;
+		guchar *p_src_col = p_src_row;
+
+		gfixed x_src = gfixed_div (step_x, GFIXED_2);
+		for (int x = 0; x < new_width; x++) {
+			p_src_col = p_src_row + (GFIXED_TO_INT (MIN (x_src, max_col)) << 2); // p_src_col = p_src_row + x_src * 4
+			memcpy (p_dest_col, p_src_col, 4);
+
+			p_dest_col += 4;
+			x_src += step_x;
+		}
+
+		p_dest_row += dest_rowstride;
+		y_src += step_y;
+		p_src_row = p_src + (GFIXED_TO_INT (MIN (y_src, max_row)) * src_rowstride);
+	}
+	return scaled;
 }

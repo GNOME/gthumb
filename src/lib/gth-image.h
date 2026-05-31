@@ -95,6 +95,7 @@ gboolean gth_image_get_is_animated (GthImage *self);
 guint gth_image_get_frames (GthImage *self);
 gboolean gth_image_get_frame_at (GthImage *self, gulong *time, guint *frame_index);
 gboolean gth_image_next_frame (GthImage *self, guint *frame_index);
+GthImage * gth_image_get_frame (GthImage *self, guint frame_index);
 
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);
@@ -127,6 +128,7 @@ void gth_image_resize_async (GthImage *self,
 	GAsyncReadyCallback callback, gpointer user_data);
 GthImage * gth_image_resize_finish (GthImage *self, GAsyncResult *result,
 	GError **error);
+GthImage * gth_image_resize_fast (GthImage *image, guint new_width, guint new_height);
 
 // Rotate
 GthImage * gth_image_rotate (GthImage *self, float degrees,

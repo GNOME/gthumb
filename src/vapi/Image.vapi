@@ -52,6 +52,7 @@ namespace Gth {
 		public uint get_frames ();
 		public bool get_frame_at (ref ulong time, out uint frame_index);
 		public bool next_frame (ref uint frame_index);
+		public Image get_frame (uint frame_index);
 
 		public void set_icc_profile (IccProfile profile);
 		public unowned IccProfile? get_icc_profile ();
@@ -66,6 +67,7 @@ namespace Gth {
 		public Image? resize (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null);
 		public Image? resize_to (uint width, uint height, ScaleFilter quality, Cancellable? cancellable = null);
 		public async Image? resize_async (uint size, ResizeFlags flags, ScaleFilter quality, Cancellable? cancellable = null) throws Error;
+		public Image? resize_fast (uint width, uint height);
 
 		public Image? rotate (float degrees, Gdk.RGBA background, RotateFilter filter, Cancellable? cancellable = null);
 		public async Image? rotate_async (float degrees, Gdk.RGBA background, RotateFilter filter, Cancellable? cancellable = null) throws Error;

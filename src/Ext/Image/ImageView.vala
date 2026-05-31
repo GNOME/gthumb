@@ -429,8 +429,28 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 					texture_box);
 			}
 		}
+		else if ((image_box.size.width > MAX_FILTERED_SIZE)
+			|| (image_box.size.height > MAX_FILTERED_SIZE))
+		{
+			// stdout.printf ("> snapshot: _image (resize_fast)\n");
+			var scaled = _image.get_frame (current_frame).get_subimage (
+				(uint) image_box.origin.x,
+				(uint) image_box.origin.y,
+				(uint) image_box.size.width,
+				(uint) image_box.size.height
+			).resize_fast (
+				(uint) texture_box.size.width,
+				(uint) texture_box.size.height
+			);
+			if (scaled != null) {
+				var texture = scaled.get_texture ();
+				snapshot.append_scaled_texture (texture,
+					Gsk.ScalingFilter.NEAREST,
+					texture_box);
+			}
+		}
 		else {
-			// stdout.printf ("> snapshot: _image\n");
+			// stdout.printf ("> snapshot: _image (texture)\n");
 			var texture = _image.get_texture_for_rect (
 				(uint) image_box.origin.x,
 				(uint) image_box.origin.y,
@@ -1306,6 +1326,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	const float MAX_ZOOM = 10.0f;
 	const uint ANIMATION_DELAY = 10;
 	public const float MAX_FILTERED_ZOOM = 2.5f;
+	public const uint MAX_FILTERED_SIZE = 3000;
 	const float DEFAULT_SVG_SIZE = 3000f;
 }
 

@@ -690,6 +690,20 @@ gboolean gth_image_next_frame (GthImage *self, guint *frame_index) {
 	return TRUE;
 }
 
+GthImage * gth_image_get_frame (GthImage *self, guint frame_index) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+	GthImagePrivate *priv = self->priv;
+	if ((priv->frames->len > 0) && (frame_index > 0) && (frame_index < priv->frames->len)) {
+		GthFrame *frame = g_ptr_array_index (priv->frames, frame_index);
+		g_object_ref (frame->image);
+		return frame->image;
+	}
+	else {
+		g_object_ref (self);
+		return self;
+	}
+}
+
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile) {
 	g_return_if_fail (GTH_IS_IMAGE (self));
 
