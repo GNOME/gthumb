@@ -2,7 +2,9 @@ public class Gth.TagEntry : Gtk.Box {
 	public signal void changed ();
 
 	public void set_list (List<string> list) {
-		foreach (unowned var text in list) {
+		var ordered_list = list.copy ();
+		ordered_list.sort (string.collate);
+		foreach (unowned var text in ordered_list) {
 			add_tag (text);
 		}
 	}
