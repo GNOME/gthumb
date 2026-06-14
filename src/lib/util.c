@@ -268,14 +268,35 @@ void get_transformation_steps (
 		*pixel_step_p = pixel_step;
 }
 
+const char *COMMON_ENCODINGS[] = {
+	"ISO-8859-1",
+	"ISO-8859-5",
+	"Windows-1250",
+	"Windows-1251",
+	"Windows-1252",
+	NULL,
+};
+
 char * _g_utf8_try_from_any (const char *str) {
-	if (str == NULL)
+	if (str == NULL) {
 		return NULL;
+	}
 	char *utf8_str;
-	if (!g_utf8_validate (str, -1, NULL))
-		utf8_str = g_locale_to_utf8 (str, -1, NULL, NULL, NULL);
-	else
+	if (g_utf8_validate (str, -1, NULL)) {
 		utf8_str = g_strdup (str);
+	}
+	else {
+		utf8_str = g_locale_to_utf8 (str, -1, NULL, NULL, NULL);
+		if (utf8_str == NULL) {
+			for (int i = 0; COMMON_ENCODINGS[i] != NULL; i++) {
+				const char *encoding = COMMON_ENCODINGS[i];
+				utf8_str = g_convert (str, -1, "UTF-8", encoding, NULL, NULL, NULL);
+				if (utf8_str != NULL) {
+					break;
+				}
+			}
+		}
+	}
 	return utf8_str;
 }
 
