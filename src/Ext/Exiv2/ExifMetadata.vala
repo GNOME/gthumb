@@ -118,6 +118,7 @@ namespace ExifMetadata {
 
 		MetadataInfo.register ("Xmp::dc::description", null, "Xmp::Embedded", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW, "XmpText");
 		MetadataInfo.register ("Xmp::dc::title", null, "Xmp::Embedded", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW, "XmpText");
+		MetadataInfo.register ("Xmp::dc::subject", null, "Xmp::Embedded", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW, "XmpBag");
 		MetadataInfo.register ("Xmp::iptc::Location", null, "Xmp::Embedded", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW, "XmpText");
 		MetadataInfo.register ("Xmp::iptc::Keywords", null, "Xmp::Embedded", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW, "XmpBag");
 		MetadataInfo.register ("Xmp::exif::DateTimeOriginal", null, "Xmp::Embedded", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW, "XmpText");

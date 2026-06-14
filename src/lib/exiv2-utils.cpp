@@ -1229,6 +1229,7 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 
 				const char *raw_value = NULL;
 				GthStringList *string_list = NULL;
+				int list_size = 0;
 
 				switch (gth_metadata_get_data_type (GTH_METADATA (metadatum))) {
 				case GTH_METADATA_TYPE_STRING:
@@ -1245,8 +1246,11 @@ static Exiv2::DataBuf exiv2_write_metadata_private (Exiv2::Image::UniquePtr imag
 						char *single_value = (char *) scan->data;
 						if ((single_value != NULL) && (strcmp (single_value, "") != 0)) {
 							value->read (single_value);
-							xd.add (xmp_key, value.get());
+							list_size++;
 						}
+					}
+					if (list_size > 0) {
+						xd.add (xmp_key, value.get());
 					}
 					break;
 
