@@ -144,6 +144,11 @@ public class Gth.Test : Object {
 		return doc.to_xml ();
 	}
 
+	public string get_action () {
+		var shortcut = create_shortcut ();
+		return shortcut.detailed_action;
+	}
+
 	public Gth.Shortcut create_shortcut () {
 		var shortcut = new Shortcut ("win.set-filter", new Variant.string (id));
 		shortcut.description = display_name;

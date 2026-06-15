@@ -113,6 +113,12 @@ public class Gth.FiltersDialog : Adw.PreferencesDialog {
 				app.filters.add (filter.duplicate ());
 			}
 			else {
+				// Update the shortcut description
+				var registered_shortcut = app.shortcuts.find_by_action (filter.get_action ());
+				if (registered_shortcut != null) {
+					registered_shortcut.description = filter.display_name;
+				}
+
 				current_filter.copy (filter);
 				app.filters.changed (filter.id);
 			}
