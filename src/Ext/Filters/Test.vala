@@ -130,6 +130,7 @@ public class Gth.Test : Object {
 		var node = this.create_element (doc);
 		doc.append_child (node);
 		new_test.load_from_element (node);
+		new_test.attributes = attributes;
 		return new_test;
 	}
 

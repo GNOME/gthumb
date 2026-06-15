@@ -73,6 +73,7 @@ public class Gth.Filter : Gth.Test {
 			switch (child.tag_name) {
 			case "tests":
 				_tests.load_from_element (child);
+				attributes = _tests.attributes;
 				break;
 
 			case "limit":
