@@ -14,7 +14,8 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 		"Metadata::Title",
 		"Metadata::Description",
 		"Metadata::Place",
-		"Metadata::Tags"
+		"Metadata::Tags",
+		"Metadata::Rating",
 	};
 
 	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {

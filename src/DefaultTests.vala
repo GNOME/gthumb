@@ -195,6 +195,7 @@ public class Gth.TestRating : Gth.TestInt {
 		id = "Metadata::Rating";
 		display_name = _("Rating");
 		attributes = "Metadata::Rating";
+		max_value = 5;
 	}
 
 	public override int get_file_value (FileData file) {
