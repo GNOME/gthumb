@@ -220,7 +220,7 @@ public class Gth.Events : Object {
 					}
 				}
 			}
-			files_added (parent, same_parent);
+			files_added_to_disk (same_parent);
 		}
 
 		if (young_events > 0) {
