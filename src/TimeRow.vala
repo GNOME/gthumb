@@ -12,7 +12,7 @@ public class Gth.TimeRow : Adw.EntryRow {
 	public string exif_date {
 		set {
 			var exif_datetime = DateTime.get_from_exif_date (value);
-			text = (exif_datetime != null) ? exif_datetime.time.to_display_string () : null;
+			text = (exif_datetime != null) ? exif_datetime.time.to_display_string () : "";
 		}
 	}
 
