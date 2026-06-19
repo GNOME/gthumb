@@ -68,6 +68,23 @@ public class Gth.ImageLoader {
 		return result;
 	}
 
+	public static void load_info (Image image, FileInfo info, string content_type, File? file, Bytes? bytes, LoadFlags flags, Cancellable cancellable) {
+		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
+		var frames = image.get_frames ();
+		if (frames > 1) {
+			var metadata = new Metadata.for_string ("%u".printf (frames));
+			info.set_attribute_object ("Animation::Frames", metadata);
+		}
+		if (!(LoadFlags.NO_METADATA in flags)) {
+			foreach (unowned var provider in app.metadata_providers) {
+				if (provider.can_read (file, info)) {
+					provider.read_with_cache (file, bytes, info, cancellable);
+				}
+			}
+		}
+		image.info = info;
+	}
+
 	class LoadStream : Work.Job {
 		public InputStream stream;
 		public File? file;
@@ -100,7 +117,6 @@ public class Gth.ImageLoader {
 				}
 			}
 
-			var load_metadata = !(LoadFlags.NO_METADATA in flags);
 			Bytes bytes = null;
 
 			var load_func = app.get_load_func (content_type);
@@ -123,22 +139,7 @@ public class Gth.ImageLoader {
 				throw new IOError.CANCELLED ("Cancelled");
 			}
 
-			info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
-			var frames = image.get_frames ();
-			if (frames > 1) {
-				var metadata = new Metadata.for_string ("%u".printf (frames));
-				info.set_attribute_object ("Animation::Frames", metadata);
-			}
-
-			if (load_metadata) {
-				foreach (unowned var provider in app.metadata_providers) {
-					if (provider.can_read (file, info)) {
-						provider.read_with_cache (file, bytes, info, cancellable);
-					}
-				}
-			}
-
-			image.info = info;
+			ImageLoader.load_info (image, info, content_type, file, bytes, flags, cancellable);
 		}
 	}
 
@@ -172,20 +173,7 @@ public class Gth.ImageLoader {
 			}
 
 			if (info != null) {
-				info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
-				var frames = image.get_frames ();
-				if (frames > 1) {
-					var metadata = new Metadata.for_string ("%u".printf (frames));
-					info.set_attribute_object ("Animation::Frames", metadata);
-				}
-				if (!(LoadFlags.NO_METADATA in flags)) {
-					foreach (unowned var provider in app.metadata_providers) {
-						if (provider.can_read (null, info)) {
-							provider.read (null, bytes, info, cancellable);
-						}
-					}
-				}
-				image.info = info;
+				ImageLoader.load_info (image, info, content_type, null, bytes, flags, cancellable);
 			}
 		}
 	}
