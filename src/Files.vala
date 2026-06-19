@@ -165,7 +165,7 @@ public class Gth.Files {
 		stream.close (cancellable);
 	}
 
-	public static void save_file (File file, Bytes bytes, SaveFileFlags flags, Cancellable? cancellable = null) throws Error {
+	public static void save_file (File file, Bytes bytes, SaveFileFlags flags = SaveFileFlags.DEFAULT, Cancellable? cancellable = null) throws Error {
 		FileInfo info = null;
 		if (SaveFileFlags.CONTENT_NOT_CHANGED in flags) {
 			try {

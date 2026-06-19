@@ -1,4 +1,23 @@
 public class Gth.Serialized : Object {
+	public const int HEADER_SIZE =
+		1 + // format
+		1 + // byte order
+		1 + // timestamp type
+		2 + // timestamp size
+		27; // timestamp data
+
+	public struct Header {
+		uint8 format;
+		ByteOrder byte_order;
+		GLib.DateTime timestamp;
+
+		public Header () {
+			format = 0;
+			byte_order = ByteOrder.HOST;
+			timestamp = null;
+		}
+	}
+
 	public Serialized.object () {
 		data_type = DataType.OBJECT;
 	}
@@ -12,28 +31,33 @@ public class Gth.Serialized : Object {
 		str = _str;
 	}
 
-	public Serialized.from_bytes (Bytes bytes) {
+	public Serialized.from_bytes (Bytes bytes, out Header header = null) {
 		try {
-			var mem = new MemoryInputStream.from_bytes (bytes);
-			var data = new DataInputStream (mem);
-			data.set_byte_order (DataStreamByteOrder.HOST_ENDIAN);
+			var data = Serialized.get_data_stream_for_bytes (bytes);
 
-			var format = data.read_byte ();
-			if (format != FORMAT) {
+			header = Serialized.read_header (data);
+			if (header.format != FORMAT) {
 				throw new IOError.FAILED ("Wrong format");
 			}
-
-			var endianness = data.read_byte ();
-			if (((endianness == EndiannessCode.LITTLE) && (BYTE_ORDER != ByteOrder.LITTLE_ENDIAN))
-				|| ((endianness == EndiannessCode.BIG) && (BYTE_ORDER != ByteOrder.BIG_ENDIAN)))
-			{
+			if (header.byte_order != BYTE_ORDER) {
 				throw new IOError.FAILED ("Wrong endianness");
 			}
 
-			set_from_data (data);
+			read (data);
 		}
 		catch (Error error) {
 			data_type = DataType.ERROR;
+			header = Header ();
+		}
+	}
+
+	public static Header get_header (Bytes bytes) {
+		try {
+			var data = Serialized.get_data_stream_for_bytes (bytes);
+			return Serialized.read_header (data);
+		}
+		catch (Error error) {
+			return Header ();
 		}
 	}
 
@@ -46,7 +70,7 @@ public class Gth.Serialized : Object {
 		}
 	}
 
-	public void set (string id, Serialized value) {
+	public new void set (string id, Serialized value) {
 		return_if_fail (data_type == DataType.OBJECT);
 		if (obj == null) {
 			obj = new HashTable<string, Serialized>(str_hash, str_equal);
@@ -66,13 +90,15 @@ public class Gth.Serialized : Object {
 		add_entry (new Serialized.string (value));
 	}
 
-	public Bytes? to_bytes () {
+	public Bytes? to_bytes (GLib.DateTime? timestamp = null) {
 		try {
 			var mem = new MemoryOutputStream.resizable ();
 			var data = new DataOutputStream (mem);
 			data.set_byte_order (DataStreamByteOrder.HOST_ENDIAN);
 			data.put_byte (FORMAT);
 			data.put_byte ((BYTE_ORDER == ByteOrder.BIG_ENDIAN) ? EndiannessCode.BIG : EndiannessCode.LITTLE);
+			var local_timestamp = (timestamp == null) ? new GLib.DateTime.now () : timestamp;
+			add_string_to_data (data, local_timestamp.format_iso8601 ());
 			add_to_data (data);
 			mem.close ();
 			return mem.steal_as_bytes ();
@@ -87,7 +113,7 @@ public class Gth.Serialized : Object {
 		return (obj != null) ? obj[id] : null;
 	}
 
-	public unowned string? get (string id) {
+	public new unowned string? get (string id) {
 		var value = get_item (id);
 		return (value != null) ? value.to_string () : null;
 	}
@@ -206,23 +232,27 @@ public class Gth.Serialized : Object {
 		data_type = DataType.ERROR;
 	}
 
+	void add_string_to_data (DataOutputStream data, string value) throws Error {
+		var size = value.length;
+		if (size <= uint16.MAX) {
+			data.put_byte (TypeCode.STRING16);
+			data.put_uint16 ((uint16) size);
+			data.put_string (value);
+		}
+		else if (size <= uint32.MAX) {
+			data.put_byte (TypeCode.STRING32);
+			data.put_uint32 ((uint32) size);
+			data.put_string (value);
+		}
+		else {
+			throw new IOError.FAILED ("String too big");
+		}
+	}
+
 	void add_to_data (DataOutputStream data) throws Error {
 		switch (data_type) {
 		case DataType.STRING:
-			var size = str.length;
-			if (size <= uint16.MAX) {
-				data.put_byte (TypeCode.STRING16);
-				data.put_uint16 ((uint16) size);
-				data.put_string (str);
-			}
-			else if (size <= uint32.MAX) {
-				data.put_byte (TypeCode.STRING32);
-				data.put_uint32 ((uint32) size);
-				data.put_string (str);
-			}
-			else {
-				throw new IOError.FAILED ("String too big");
-			}
+			add_string_to_data (data, str);
 			break;
 
 		case DataType.ARRAY:
@@ -278,26 +308,16 @@ public class Gth.Serialized : Object {
 		}
 	}
 
-	string str_from_data (DataInputStream data, size_t size) throws Error {
-		var buffer = new uint8[size + 1];
-		for (var i = 0; i < size; i++) {
-			buffer[i] = data.read_byte ();
-		}
-		buffer[size] = 0;
-		return (string) buffer;
+	static string read_string (DataInputStream data) throws Error {
+		var type_code = data.read_byte ();
+		return Serialized.read_string_with_type (data, type_code);
 	}
 
-	void set_from_data (DataInputStream data) throws Error {
-		switch (data.read_byte ()) {
-		case TypeCode.STRING16:
-			var len = (size_t) data.read_uint16 ();
-			str = str_from_data (data, len);
-			data_type = DataType.STRING;
-			break;
-
-		case TypeCode.STRING32:
-			var len = (size_t) data.read_uint32 ();
-			str = str_from_data (data, len);
+	void read (DataInputStream data) throws Error {
+		var type_code = data.read_byte ();
+		switch (type_code) {
+		case TypeCode.STRING16, TypeCode.STRING32:
+			str = Serialized.read_string_with_type (data, type_code);
 			data_type = DataType.STRING;
 			break;
 
@@ -307,7 +327,7 @@ public class Gth.Serialized : Object {
 				arr = new GenericArray<Serialized>();
 				for (var i = 0; i < len; i++) {
 					var item = new Serialized ();
-					item.set_from_data (data);
+					item.read (data);
 					arr.add (item);
 				}
 			}
@@ -323,10 +343,10 @@ public class Gth.Serialized : Object {
 				obj = new HashTable<string, Serialized>(str_hash, str_equal);
 				for (var i = 0; i < len; i++) {
 					var key_len = (size_t) data.read_uint16 ();
-					var key = str_from_data (data, key_len);
+					var key = Serialized.read_string_with_len (data, key_len);
 
 					var item = new Serialized ();
-					item.set_from_data (data);
+					item.read (data);
 
 					obj[key] = item;
 				}
@@ -340,6 +360,63 @@ public class Gth.Serialized : Object {
 		default:
 			throw new IOError.FAILED ("Unknown type");
 		}
+	}
+
+	static string read_string_with_type (DataInputStream data, TypeCode type_code) throws Error {
+		size_t len = 0;
+		switch (type_code) {
+		case TypeCode.STRING16:
+			len = (size_t) data.read_uint16 ();
+			break;
+		case TypeCode.STRING32:
+			len = (size_t) data.read_uint32 ();
+			break;
+		default:
+			throw new IOError.FAILED ("Wrong type (expected string)");
+		}
+		return Serialized.read_string_with_len (data, len);
+	}
+
+	static string read_string_with_len (DataInputStream data, size_t size) throws Error {
+		var buffer = new uint8[size + 1];
+		for (var i = 0; i < size; i++) {
+			buffer[i] = data.read_byte ();
+		}
+		buffer[size] = 0;
+		return (string) buffer;
+	}
+
+	static Header read_header (DataInputStream data) throws Error {
+		var format = data.read_byte ();
+
+		var byte_order = ByteOrder.HOST;
+		var endianness_code = data.read_byte ();
+		switch (endianness_code) {
+		case EndiannessCode.LITTLE:
+			byte_order = ByteOrder.LITTLE_ENDIAN;
+			break;
+		case EndiannessCode.BIG:
+			byte_order = ByteOrder.BIG_ENDIAN;
+			break;
+		default:
+			break;
+		}
+
+		var timestamp_s = Serialized.read_string (data);
+		var timestamp = new GLib.DateTime.from_iso8601 (timestamp_s, null);
+
+		return Header () {
+			format = format,
+			byte_order = byte_order,
+			timestamp = timestamp
+		};
+	}
+
+	static DataInputStream get_data_stream_for_bytes (Bytes bytes) {
+		var mem = new MemoryInputStream.from_bytes (bytes);
+		var data = new DataInputStream (mem);
+		data.set_byte_order (DataStreamByteOrder.HOST_ENDIAN);
+		return data;
 	}
 
 	public class Iterator {

@@ -3,8 +3,12 @@ public class Gth.MetadataCache {
 		try {
 			var metadata_file = get_cache_file (provider_id, file, FileIntent.READ);
 			// stdout.printf ("> file: %s => %s\n", file.get_uri (), metadata_file.get_uri ());
-				var bytes = Files.load_file (metadata_file, cancellable);
-			var serialized = new Serialized.from_bytes (bytes);
+			var bytes = Files.load_file (metadata_file, cancellable);
+			Serialized.Header header;
+			var serialized = new Serialized.from_bytes (bytes, out header);
+			if (!valid_timestamp (header.timestamp, info)) {
+				return false;
+			}
 			// stdout.printf ("> cached:\n%s\n", serialized.to_debug ());
 			if (deserialize_data (serialized, info)) {
 				return true;
@@ -17,6 +21,24 @@ public class Gth.MetadataCache {
 		return false;
 	}
 
+	public bool valid (string provider_id, File file, FileInfo info, Cancellable cancellable) {
+		try {
+			var metadata_file = get_cache_file (provider_id, file, FileIntent.READ);
+			var stream = metadata_file.read (cancellable);
+			uint8 buffer[Serialized.HEADER_SIZE];
+			var size = stream.read (buffer, cancellable);
+			if (size <= 0) {
+				return false;
+			}
+			var bytes = new Bytes.static (buffer);
+			var header = Serialized.get_header (bytes);
+			return valid_timestamp (header.timestamp, info);
+		}
+		catch (Error error) {
+		}
+		return false;
+	}
+
 	public void save (string provider_id, File file, FileInfo info, string[] attributes_to_save) {
 		var time_changed = Files.get_changed_date_time (info);
 		if (time_changed == null) {
@@ -24,20 +46,19 @@ public class Gth.MetadataCache {
 			return;
 		}
 
-		var serialized = new Serialized.object ();
-		serialized.set_string ("timestamp", time_changed.format_iso8601 ());
 		var metadata = new Serialized.array ();
 		foreach (unowned var attribute in info.list_attributes (null)) {
 			if (Util.attribute_match_patterns (attribute, attributes_to_save)) {
 				metadata.add_entry (serialize_attribute (info, attribute));
 			}
 		}
+		var serialized = new Serialized.object ();
 		serialized.set ("metadata", metadata);
 
 		try {
 			var metadata_file = get_cache_file (provider_id, file, FileIntent.WRITE);
 			// stdout.printf ("> save metadata: %s => %s\n", file.get_uri (), metadata_file.get_uri ());
-			Files.save_file (metadata_file, serialized.to_bytes (), SaveFileFlags.DEFAULT);
+			Files.save_file (metadata_file, serialized.to_bytes (time_changed));
 		}
 		catch (Error error) {
 			stderr.printf ("ERROR: MetadataCache.save: %s: %s\n", file.get_uri (), error.message);
@@ -365,21 +386,18 @@ public class Gth.MetadataCache {
 		return item;
 	}
 
+	bool valid_timestamp (GLib.DateTime? timestamp, FileInfo info) {
+		if (timestamp == null) {
+			return false;
+		}
+		var time_changed = Files.get_changed_date_time (info);
+		return (time_changed != null) && time_changed.equal (timestamp);
+	}
+
 	bool deserialize_data (Serialized data, FileInfo info) {
 		unowned var attributes = data.get_item ("metadata");
 		if (attributes == null) {
 			// stderr.printf ("  deserialize_data [0]\n");
-			return false;
-		}
-		unowned var timestamp = data["timestamp"];
-		if (timestamp == null) {
-			// stderr.printf ("  deserialize_data [1]\n");
-			return false;
-		}
-		var data_timestamp = new GLib.DateTime.from_iso8601 (timestamp, null);
-		var time_changed = Files.get_changed_date_time (info);
-		if (!time_changed.equal (data_timestamp)) {
-			// stderr.printf ("  deserialize_data [2]\n");
 			return false;
 		}
 		// stdout.printf ("> TIMESTAMP VALID!\n");
