@@ -1,23 +1,4 @@
 public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
-	GLib.Settings settings;
-
-	construct {
-		settings = new GLib.Settings (GTHUMB_SCHEMA);
-	}
-
-	const string[] Supported_Attributes = {
-		"Exif::*",
-		"Xmp::*",
-		"Iptc::*",
-		"Photo::*",
-		"Metadata::DateTime",
-		"Metadata::Title",
-		"Metadata::Description",
-		"Metadata::Place",
-		"Metadata::Tags",
-		"Metadata::Rating",
-	};
-
 	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {
 		unowned var content_type = Util.get_content_type (file, info);
 		if (!ContentType.is_a (content_type, "image/*")
@@ -25,10 +6,10 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 		{
 			return false;
 		}
-		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
+		return Util.attributes_match_any_pattern_v (supported_attributes, attribute_v);
 	}
 
-	public override void read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
 		try {
 			Bytes bytes = null;
 			if (buffer != null) {
@@ -39,9 +20,28 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 				bytes = Files.read_all (stream, cancellable);
 			}
 			Exiv2.read_metadata_from_buffer (bytes, info);
+			return true;
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR ExivMetadataProvider.read: %s\n", error.message);
+			return false;
 		}
+	}
+
+	construct {
+		id = "Exiv";
+		supported_attributes = {
+			"Exif::*",
+			"Xmp::*",
+			"Iptc::*",
+			"Photo::*",
+			"Metadata::DateTime",
+			"Metadata::Title",
+			"Metadata::Description",
+			"Metadata::Place",
+			"Metadata::Tags",
+			"Metadata::Rating",
+		};
+		cachable = true;
 	}
 }

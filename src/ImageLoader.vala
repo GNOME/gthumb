@@ -133,7 +133,7 @@ public class Gth.ImageLoader {
 			if (load_metadata) {
 				foreach (unowned var provider in app.metadata_providers) {
 					if (provider.can_read (file, info)) {
-						provider.read (file, bytes, info, cancellable);
+						provider.read_with_cache (file, bytes, info, cancellable);
 					}
 				}
 			}

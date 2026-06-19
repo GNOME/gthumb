@@ -11,6 +11,7 @@ public struct Gth.MetadataInfo {
 
 	public static void init ();
 	public static void register (string id, string? display_name, string category, MetadataFlags flags, string? type = null);
+	public static void register_from_metadata (Metadata metadata);
 	public static unowned MetadataInfo? get (string id);
 	public static unowned GenericArray<MetadataInfo?> get_all ();
 }
@@ -53,6 +54,7 @@ public class Gth.Metadata : Object {
 	public StringList string_list { get; set; }
 	public string formatted { get; set; }
 	public string value_type { get; set; }
+	public string category { get; set; }
 
 	public Metadata ();
 	public Metadata.typed (string value_type, string raw, string? formatted = null);
@@ -61,11 +63,6 @@ public class Gth.Metadata : Object {
 	public Metadata.for_point (double x, double y);
 	public Metadata.sRGBColorSpace ();
 	public MetadataType get_data_type ();
-	public unowned string get_id ();
-	public unowned string get_raw ();
 	public unowned StringList get_string_list ();
 	public bool get_point (out double x, out double y);
-	public unowned string get_formatted ();
-	public unowned string get_value_type ();
-	public Metadata dup ();
 }

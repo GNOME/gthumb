@@ -245,35 +245,21 @@ static GthMetadata * create_metadata (
 		formatted_value_utf8 = tmp;
 	}
 
-	if (formatted_value_utf8 == NULL)
+	if (formatted_value_utf8 == NULL) {
 		formatted_value_utf8 = g_strdup (INVALID_VALUE);
-
-	GthMetadataInfo *metadata_info = gth_metadata_info_get (attribute);
-	if ((metadata_info == NULL) && (category != NULL)) {
-		metadata_info = gth_metadata_info_register (
-			attribute,
-			description_utf8,
-			category,
-			GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
-			type_name
-		);
-		metadata_info->sort_order = 500;
 	}
-
-	if ((metadata_info != NULL) && (metadata_info->type == NULL) && (type_name != NULL))
-		metadata_info->type = g_strdup (type_name);
-
-	if ((metadata_info != NULL) && (metadata_info->display_name == NULL) && (description_utf8 != NULL))
-		metadata_info->display_name = g_strdup (description_utf8);
 
 	GthMetadata *metadata = gth_metadata_new ();
 	g_object_set (metadata,
-		"id", key,
+		"id", attribute,
 		"description", description_utf8,
 		"formatted", formatted_value_utf8,
 		"raw", raw_value,
 		"value-type", type_name,
+		"category", category,
 		NULL);
+
+	gth_metadata_info_register_from_metadata (metadata);
 
 	g_free (formatted_value_utf8);
 	g_free (description_utf8);

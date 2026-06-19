@@ -11,7 +11,8 @@ enum  {
 	GTH_METADATA_RAW,
 	GTH_METADATA_STRING_LIST,
 	GTH_METADATA_FORMATTED,
-	GTH_METADATA_VALUE_TYPE
+	GTH_METADATA_VALUE_TYPE,
+	GTH_METADATA_CATEGORY,
 };
 
 
@@ -20,11 +21,12 @@ struct _GthMetadataPrivate {
 	char            *id;
 	char            *description;
 	char            *raw;
+	char            *formatted;
+	char            *value_type;
+	char            *category;
 	GthStringList   *list;
 	double           x;
 	double           y;
-	char            *formatted;
-	char            *value_type;
 };
 
 
@@ -61,6 +63,9 @@ gth_metadata_get_property (GObject    *object,
 		break;
 	case GTH_METADATA_VALUE_TYPE:
 		g_value_set_string (value, self->priv->value_type);
+		break;
+	case GTH_METADATA_CATEGORY:
+		g_value_set_string (value, self->priv->category);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -108,6 +113,9 @@ gth_metadata_set_property (GObject      *object,
 		break;
 	case GTH_METADATA_VALUE_TYPE:
 		_g_str_set (&self->priv->value_type, g_value_get_string (value));
+		break;
+	case GTH_METADATA_CATEGORY:
+		_g_str_set (&self->priv->category, g_value_get_string (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -183,6 +191,13 @@ gth_metadata_class_init (GthMetadataClass *klass)
 					 		      "Metadata type description",
 					 		      NULL,
 					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass),
+					 GTH_METADATA_CATEGORY,
+					 g_param_spec_string ("category",
+							      "Category",
+							      "Metadata category",
+							      NULL,
+							      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 }
 
 
@@ -278,9 +293,37 @@ gth_metadata_get_id (GthMetadata *metadata)
 
 
 const char *
+gth_metadata_get_description (GthMetadata *metadata)
+{
+	return metadata->priv->description;
+}
+
+
+const char *
 gth_metadata_get_raw (GthMetadata *metadata)
 {
 	return metadata->priv->raw;
+}
+
+
+const char *
+gth_metadata_get_formatted (GthMetadata *metadata)
+{
+	return metadata->priv->formatted;
+}
+
+
+const char *
+gth_metadata_get_value_type (GthMetadata *metadata)
+{
+	return metadata->priv->value_type;
+}
+
+
+const char *
+gth_metadata_get_category (GthMetadata *metadata)
+{
+	return metadata->priv->category;
 }
 
 
@@ -317,39 +360,6 @@ gth_metadata_get_point (GthMetadata     *metadata,
 	else {
 		return FALSE;
 	}
-}
-
-
-const char *
-gth_metadata_get_formatted (GthMetadata *metadata)
-{
-	return metadata->priv->formatted;
-}
-
-
-const char *
-gth_metadata_get_value_type (GthMetadata *metadata)
-{
-	return metadata->priv->value_type;
-}
-
-
-GthMetadata *
-gth_metadata_dup (GthMetadata *metadata)
-{
-	GthMetadata *new_metadata;
-
-	new_metadata = gth_metadata_new ();
-	g_object_set (new_metadata,
-		      "id", metadata->priv->id,
-		      "description", metadata->priv->description,
-		      "raw", metadata->priv->raw,
-		      "string-list", metadata->priv->list,
-		      "formatted", metadata->priv->formatted,
-		      "value-type", metadata->priv->value_type,
-		      NULL);
-
-	return new_metadata;
 }
 
 
@@ -424,6 +434,36 @@ GthMetadataInfo * gth_metadata_info_register (const char *id, const char *displa
 
 	return info;
 }
+
+
+void gth_metadata_info_register_from_metadata (GthMetadata *metadata) {
+	GthMetadataInfo *metadata_info = gth_metadata_info_get (metadata->priv->id);
+	if ((metadata_info == NULL) && (metadata->priv->category != NULL)) {
+		metadata_info = gth_metadata_info_register (
+			metadata->priv->id,
+			metadata->priv->description,
+			metadata->priv->category,
+			GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
+			metadata->priv->value_type
+		);
+		metadata_info->sort_order = 500;
+	}
+
+	if ((metadata_info != NULL)
+		&& (metadata_info->type == NULL)
+		&& (metadata->priv->value_type != NULL))
+	{
+		metadata_info->type = g_strdup (metadata->priv->value_type);
+	}
+
+	if ((metadata_info != NULL)
+		&& (metadata_info->display_name == NULL)
+		&& (metadata->priv->description != NULL))
+	{
+		metadata_info->display_name = g_strdup (metadata->priv->description);
+	}
+}
+
 
 GthMetadataInfo * gth_metadata_info_copy (GthMetadataInfo *info) {
 	GthMetadataInfo *new_info = g_new0 (GthMetadataInfo, 1);

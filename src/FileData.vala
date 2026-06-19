@@ -181,7 +181,7 @@ public class Gth.FileData : Object {
 			embedded_otime = new Gth.DateTime ();
 			var metadata = info.get_attribute_object ("Photo::DateTimeOriginal") as Gth.Metadata;
 			if (metadata != null) {
-				var time = DateTime.get_from_exif_date (metadata.get_raw ());
+				var time = DateTime.get_from_exif_date (metadata.raw);
 				if (time != null)
 					embedded_otime.copy (time);
 				else
@@ -197,7 +197,7 @@ public class Gth.FileData : Object {
 		if (embedded_title == null) {
 			var metadata = info.get_attribute_object ("Metadata::Title") as Gth.Metadata;
 			if (metadata != null) {
-				embedded_title = metadata.get_formatted ();
+				embedded_title = metadata.formatted;
 			}
 		}
 		return embedded_title;
@@ -209,7 +209,7 @@ public class Gth.FileData : Object {
 		if (embedded_description == null) {
 			var metadata = info.get_attribute_object ("Metadata::Description") as Gth.Metadata;
 			if (metadata != null) {
-				embedded_description = metadata.get_formatted ();
+				embedded_description = metadata.formatted;
 			}
 		}
 		return embedded_description;
@@ -221,7 +221,7 @@ public class Gth.FileData : Object {
 		if (embedded_place == null) {
 			var metadata = info.get_attribute_object ("Metadata::Place") as Gth.Metadata;
 			if (metadata != null) {
-				embedded_place = metadata.get_formatted ();
+				embedded_place = metadata.formatted;
 			}
 		}
 		return embedded_place;
@@ -234,7 +234,7 @@ public class Gth.FileData : Object {
 			var metadata = info.get_attribute_object ("Metadata::Rating") as Gth.Metadata;
 			if (metadata != null) {
 				int value;
-				if (int.try_parse (metadata.get_raw (), out value, null, 10)) {
+				if (int.try_parse (metadata.raw, out value, null, 10)) {
 					embedded_rating = value;
 				}
 			}

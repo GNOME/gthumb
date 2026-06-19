@@ -95,6 +95,15 @@ namespace Gth.Util {
 		}
 	}
 
+	static bool attribute_match_patterns (string attribute, string[] pattern_v) {
+		foreach (unowned var pattern in pattern_v) {
+			if (Util.attribute_matches_pattern (attribute, pattern)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	static bool attributes_match_patterns (string[] attribute_v, string[] pattern_v) {
 		if (attribute_v.length == 0) {
 			return true;

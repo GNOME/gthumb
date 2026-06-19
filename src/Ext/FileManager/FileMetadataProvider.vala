@@ -1,20 +1,10 @@
 
 public class Gth.FileMetadataProvider : Gth.MetadataProvider {
-	const string[] Supported_Attributes = {
-		"Private::File::Size",
-		"Private::File::DisplaySize",
-		"Private::File::DisplayModified",
-		"Private::File::DisplayChanged",
-		"Private::File::DisplayCreated",
-		"Private::File::ContentType",
-		"Private::File::Location",
-	};
-
 	public override bool can_read (File? file, FileInfo info, string[]? attribute_v = null) {
-		return Util.attributes_match_any_pattern_v (Supported_Attributes, attribute_v);
+		return Util.attributes_match_any_pattern_v (supported_attributes, attribute_v);
 	}
 
-	public override void read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
 		var size = "%'lu".printf ((uint64) info.get_size ());
 		info.set_attribute_string ("Private::File::Size", size);
 
@@ -52,5 +42,20 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 
 		info.set_attribute_string ("Private::File::ContentType",
 			Util.format_content_type (Util.get_content_type (file, info)));
+		return true;
+	}
+
+	construct {
+		id = "File";
+		supported_attributes = {
+			"Private::File::Size",
+			"Private::File::DisplaySize",
+			"Private::File::DisplayModified",
+			"Private::File::DisplayChanged",
+			"Private::File::DisplayCreated",
+			"Private::File::ContentType",
+			"Private::File::Location",
+		};
+		cachable = false;
 	}
 }

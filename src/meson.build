@@ -348,4 +348,14 @@ if get_option('developer-mode')
       dependencies: dependencies,
     )
   )
+
+  test('serialized',
+    executable('test-serialized',
+      sources: [
+        'Ext/Metadata/Serialized.vala',
+        'Tests/TestSerialized.vala',
+      ],
+      dependencies: dependencies,
+    )
+  )
 endif

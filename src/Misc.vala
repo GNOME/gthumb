@@ -472,7 +472,7 @@ namespace Gth.Util {
 				case MetadataType.STRING:
 					if (id == "Metadata::Rating") {
 						int n;
-						if (int.try_parse (metadata.get_raw (), out n, null, 10)) {
+						if (int.try_parse (metadata.raw, out n, null, 10)) {
 							var str = new StringBuilder ();
 							while (n > 0) {
 								str.append ("⭐");
@@ -482,7 +482,7 @@ namespace Gth.Util {
 						}
 					}
 					if (value == null) {
-						value = metadata.get_formatted ();
+						value = metadata.formatted;
 					}
 					break;
 				case MetadataType.STRING_LIST:
@@ -490,7 +490,7 @@ namespace Gth.Util {
 					break;
 
 				case MetadataType.POINT:
-					value = metadata.get_formatted ();
+					value = metadata.formatted;
 					break;
 				}
 			}

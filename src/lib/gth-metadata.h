@@ -71,17 +71,19 @@ GthMetadata *     gth_metadata_new_for_point        (double           x,
 GthMetadata *     gth_metadata_new_sRGBColorSpace   ();
 GthMetadataType   gth_metadata_get_data_type        (GthMetadata     *metadata);
 const char *      gth_metadata_get_id               (GthMetadata     *metadata);
+const char *      gth_metadata_get_description      (GthMetadata     *metadata);
 const char *      gth_metadata_get_raw              (GthMetadata     *metadata);
+const char *      gth_metadata_get_formatted        (GthMetadata     *metadata);
+const char *      gth_metadata_get_value_type       (GthMetadata     *metadata);
+const char *      gth_metadata_get_category         (GthMetadata     *metadata);
 GthStringList *   gth_metadata_get_string_list      (GthMetadata     *metadata);
 gboolean          gth_metadata_get_point            (GthMetadata     *metadata,
 						     double          *x,
 						     double          *y);
-const char *      gth_metadata_get_formatted        (GthMetadata     *metadata);
-const char *      gth_metadata_get_value_type       (GthMetadata     *metadata);
-GthMetadata *     gth_metadata_dup                  (GthMetadata     *metadata);
 
 void gth_metadata_info_init ();
 GthMetadataInfo * gth_metadata_info_register (const char *id, const char *display_name, const char *category, GthMetadataFlags flags, const char *type);
+void gth_metadata_info_register_from_metadata (GthMetadata *metadata);
 GthMetadataInfo * gth_metadata_info_get (const char *id);
 GPtrArray * gth_metadata_info_get_all ();
 GthMetadataInfo * gth_metadata_info_copy (GthMetadataInfo *info);
