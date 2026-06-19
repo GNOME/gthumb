@@ -50,7 +50,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 		// Description
 		var metadata = common_info.get_attribute_object ("Metadata::Description") as Metadata;
 		if (metadata != null) {
-			description.buffer.text = metadata.formatted;
+			description.buffer.text = metadata.formatted ?? "";
 			Gtk.TextIter iter;
 			description.buffer.get_iter_at_line (out iter, 0);
 			description.buffer.place_cursor (iter);
@@ -152,7 +152,7 @@ class Gth.MetadataDialog : Adw.Dialog {
 	void set_entry_value (Adw.EntryRow entry, FileInfo info, string id) {
 		var metadata = info.get_attribute_object (id) as Metadata;
 		if (metadata != null) {
-			entry.text = metadata.formatted;
+			entry.text = metadata.formatted ?? "";
 		}
 		else {
 			entry.text = "";
