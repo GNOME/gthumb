@@ -417,7 +417,14 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("save-as", null);
-		action.activate.connect (() => ask_name_and_save.begin ());
+		action.activate.connect (() => {
+			if (window.viewer.current_file.get_attribute_boolean (PrivateAttribute.ASK_FILENAME_WHEN_SAVING)) {
+				save.begin ();
+			}
+			else {
+				ask_name_and_save.begin ();
+			}
+		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("save", null);
