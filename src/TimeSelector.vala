@@ -82,7 +82,11 @@ public class Gth.TimeSelector : Gtk.Box {
 		}
 		update_entry_from_data ();
 		if (selected_date.is_valid ()) {
+#if GTK_4_20
+			calendar.set_date (selected_date.to_local_gdatetime ());
+#else
 			calendar.select_day (selected_date.to_local_gdatetime ());
+#endif
 		}
 		changed ();
 	}

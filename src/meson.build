@@ -59,6 +59,9 @@ if use_libraw
   config.set('HAVE_LIBRAW', 1)
   add_project_arguments(['-D', 'HAVE_LIBRAW'], language: 'vala')
 endif
+if dependency('gtk4', version: '>= 4.20.0', required: false).found()
+  add_project_arguments(['-D', 'GTK_4_20'], language: 'vala')
+endif
 
 config_file = configure_file(
   output : 'config.h',
