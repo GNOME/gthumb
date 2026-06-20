@@ -27,7 +27,7 @@ public class Gth.MetadataCache {
 			var stream = metadata_file.read (cancellable);
 			uint8 buffer[Serialized.HEADER_SIZE];
 			var size = stream.read (buffer, cancellable);
-			if (size <= 0) {
+			if (size != Serialized.HEADER_SIZE) {
 				return false;
 			}
 			var bytes = new Bytes.static (buffer);
