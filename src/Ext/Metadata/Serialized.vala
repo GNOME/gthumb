@@ -34,20 +34,12 @@ public class Gth.Serialized : Object {
 	public Serialized.from_bytes (Bytes bytes, out Header header = null) {
 		try {
 			var data = Serialized.get_data_stream_for_bytes (bytes);
-
 			header = Serialized.read_header (data);
-			if (header.format != FORMAT) {
-				throw new IOError.FAILED ("Wrong format");
-			}
-			if (header.byte_order != BYTE_ORDER) {
-				throw new IOError.FAILED ("Wrong endianness");
-			}
-
 			read (data);
 		}
 		catch (Error error) {
-			data_type = DataType.ERROR;
 			header = Header ();
+			data_type = DataType.ERROR;
 		}
 	}
 
@@ -388,8 +380,11 @@ public class Gth.Serialized : Object {
 
 	static Header read_header (DataInputStream data) throws Error {
 		var format = data.read_byte ();
+		if (format != FORMAT) {
+			throw new IOError.FAILED ("Wrong format");
+		}
 
-		var byte_order = ByteOrder.HOST;
+		ByteOrder byte_order;
 		var endianness_code = data.read_byte ();
 		switch (endianness_code) {
 		case EndiannessCode.LITTLE:
@@ -399,11 +394,17 @@ public class Gth.Serialized : Object {
 			byte_order = ByteOrder.BIG_ENDIAN;
 			break;
 		default:
-			break;
+			throw new IOError.FAILED ("Invalid endianness code");
+		}
+		if (byte_order != BYTE_ORDER) {
+			throw new IOError.FAILED ("Wrong endianness");
 		}
 
 		var timestamp_s = Serialized.read_string (data);
 		var timestamp = new GLib.DateTime.from_iso8601 (timestamp_s, null);
+		if (timestamp == null) {
+			throw new IOError.FAILED ("Invalid timestamp");
+		}
 
 		return Header () {
 			format = format,
