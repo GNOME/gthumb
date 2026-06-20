@@ -17,7 +17,7 @@ public class Gth.ThumbLoader {
 			throw job.error;
 		}
 		if (monitor_profile != null) {
-			yield monitor_profile.apply_color_profile (job.image, file_data.info, cancellable);
+			yield monitor_profile.apply_color_profile (job.image, null, cancellable);
 		}
 		return job.image;
 	}

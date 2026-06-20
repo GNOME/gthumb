@@ -38,7 +38,7 @@ public class Gth.MonitorProfile {
 		}
 	}
 
-	public async void apply_color_profile (Gth.Image image, FileInfo info, Cancellable cancellable, bool apply_icc_profile = true) throws Error {
+	public async void apply_color_profile (Gth.Image image, FileInfo? info, Cancellable cancellable, bool apply_icc_profile = true) throws Error {
 		try {
 			if (color_profile == null) {
 				yield update_color_profile (cancellable);
@@ -52,9 +52,11 @@ public class Gth.MonitorProfile {
 			if (image.has_icc_profile ()) {
 				if (apply_icc_profile) {
 					yield image.apply_icc_profile_async (app.color_manager, color_profile, cancellable);
-					unowned var profile_name = image.get_attribute ("Private::ColorProfile");
-					if (profile_name != null) {
-						info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
+					if (info != null) {
+						unowned var profile_name = image.get_attribute ("Private::ColorProfile");
+						if (profile_name != null) {
+							info.set_attribute_string (PrivateAttribute.LOADED_IMAGE_COLOR_PROFILE, profile_name);
+						}
 					}
 				}
 			}
