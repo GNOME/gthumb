@@ -220,9 +220,11 @@ src/Ext/Import/ImportFiles.vala
 src/Ext/Import/Importer.vala
 src/Ext/Import/SelectDevice.vala
 src/Ext/Metadata/EditMetadata.vala
+src/Ext/Metadata/MetadataCache.vala
 src/Ext/Metadata/MetadataProvider.vala
 src/Ext/Metadata/MetadataReader.vala
 src/Ext/Metadata/MetadataWriter.vala
+src/Ext/Metadata/Serialized.vala
 src/Ext/Preferences/BrowserPreferences.vala
 src/Ext/Preferences/FormatPreferencesDialog.vala
 src/Ext/Preferences/GeneralPreferences.vala
@@ -333,6 +335,7 @@ src/Strings.vala
 src/TagEntry.vala
 src/TagsRow.vala
 src/Tests/TestDom.vala
+src/Tests/TestSerialized.vala
 src/Tests/TestStrings.vala
 src/Tests/TestTemplate.vala
 src/Tests/TestUtil.vala
@@ -352,6 +355,7 @@ src/Window.vala
 src/WindowState.vala
 src/lib/exiv2-utils.cpp
 src/lib/exiv2-utils.h
+src/lib/gfixed.h
 src/lib/gstreamer-utils.c
 src/lib/gstreamer-utils.h
 src/lib/gth-color-manager.c
