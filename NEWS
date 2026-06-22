@@ -1,3 +1,29 @@
+Version 4.0.beta
+~~~~~~~~~~~~~~~~~
+Released: 2026-06-22
+
+Features:
+ * Added a cache for metadata attributes
+ * Use a fast resize algorithm for big images
+ * Videos: use Up/Down to skip forward/backward
+ * TagEntry: sort the tags by name
+
+Bugfixes:
+ * Install the devel icon only when developer-mode is active
+ * Install the metainfo file as well
+ * Reload the image after renaming the file
+ * Fixed saving keywords in Xmp::dc::subject
+ * Reload files after CREATED events
+ * Reload location when the filter requires additional metadata
+ * Do not set the thumbnail color profile as the image color profile
+
+Translations:
+ * Basque (Asier Saratsua Garmendia)
+ * Chinese (China) (lumingzh)
+ * German (Christian Kirbach)
+ * Swedish (Anders Jonsson)
+ * Turkish (Emin Tufan Çetin)
+
 Version 4.0.alpha
 ~~~~~~~~~~~~~~~~~
 Released: 2026-04-26

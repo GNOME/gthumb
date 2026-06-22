@@ -69,6 +69,28 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="4.0.beta" date="2026-06-22" type="development">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Added a cache for metadata attributes</li>
+          <li>Use a fast resize algorithm for big images</li>
+          <li>Videos: use Up/Down to skip forward/backward</li>
+          <li>TagEntry: sort the tags by name</li>
+        </ul>
+        <p>This release fixes the following bugs:</p>
+        <ul>
+          <li>Install the devel icon only when developer-mode is active</li>
+          <li>Install the metainfo file as well</li>
+          <li>Reload the image after renaming the file</li>
+          <li>Fixed saving keywords in Xmp::dc::subject</li>
+          <li>Reload files after CREATED events</li>
+          <li>Reload location when the filter requires additional metadata</li>
+          <li>Do not set the thumbnail color profile as the image color profile</li>
+        </ul>
+        <p>This release updates translations.</p>
+      </description>
+    </release>
     <release version="4.0.alpha" date="2026-04-26" type="development">
       <description>
         <p>This release adds the following features:</p>
