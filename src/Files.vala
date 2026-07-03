@@ -99,19 +99,20 @@ public class Gth.Files {
 	const int BUFFER_SIZE = 256 * 1024;
 
 	public static Bytes read_all (InputStream stream, Cancellable? cancellable = null, bool add_zero = false) throws Error {
-		var buffer = new uint8[BUFFER_SIZE];
+		var buffer = new Bytes.take (new uint8[BUFFER_SIZE]);
 		return Files.read_all_with_buffer (stream, cancellable, buffer, add_zero);
 	}
 
 	const uint8[] ZERO = {0};
 
-	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable, uint8[] buffer, bool add_zero = false) throws Error {
+	public static Bytes read_all_with_buffer (InputStream stream, Cancellable? cancellable, Bytes buffer, bool add_zero = false) throws Error {
 		var result = new ByteArray ();
 		while (true) {
-			var size = stream.read (buffer, cancellable);
+			var buffer_data = buffer.get_data ();
+			var size = stream.read (buffer_data, cancellable);
 			if (size <= 0)
 				break;
-			unowned var valid_bytes = buffer[0:size];
+			unowned var valid_bytes = buffer_data[0:size];
 			result.append (valid_bytes);
 		}
 		if (add_zero) {

@@ -98,7 +98,7 @@ public class Gth.ImageLoader {
 			image = null;
 		}
 
-		public override void run (uint8[] tmp_buffer) throws Error {
+		public override void run (Bytes tmp_buffer) throws Error {
 			var content_type = Util.guess_content_type_from_stream (stream, file, cancellable);
 			if (content_type == null) {
 				throw new IOError.FAILED (_("Unknown file type"));
@@ -155,7 +155,7 @@ public class Gth.ImageLoader {
 			image = null;
 		}
 
-		public override void run (uint8[] tmp_buffer) throws Error {
+		public override void run (Bytes tmp_buffer) throws Error {
 			var buffer = bytes.get_data ();
 			var content_type = guess_content_type (buffer);
 			if (content_type == null) {

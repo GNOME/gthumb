@@ -26,7 +26,7 @@ public class Gth.MetadataWriter {
 		public Flags flags;
 		public Cancellable cancellable;
 
-		public override void run (uint8[] tmp_buffer) throws Error {
+		public override void run (Bytes tmp_buffer) throws Error {
 			var saved = false;
 			if (Flags.PREFER_EMBEDDED in flags) {
 				if (Exiv2.can_write_metadata (file_data.get_content_type ())) {

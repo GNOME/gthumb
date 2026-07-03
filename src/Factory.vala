@@ -7,7 +7,7 @@ public class Work.Factory {
 		workers = new Queue<Thread<void>>();
 		for (uint i = 0; i < n_workers; i++) {
 			ThreadFunc<void> worker_func = () => {
-				var buffer = new uint8[BUFFER_SIZE];
+				var buffer = new Bytes.take (new uint8[BUFFER_SIZE]);
 				while (true) {
 					var job = jobs.pop ();
 					if (job.action == Job.Action.EXIT) {
@@ -67,7 +67,7 @@ public class Work.Job {
 		error = null;
 	}
 
-	public void try_run (uint8[] buffer) {
+	public void try_run (Bytes buffer) {
 		try {
 			run (buffer);
 		}
@@ -77,7 +77,7 @@ public class Work.Job {
 		Idle.add ((owned) callback);
 	}
 
-	public virtual void run (uint8[] buffer) throws Error {
+	public virtual void run (Bytes buffer) throws Error {
 		// void
 	}
 }

@@ -32,7 +32,7 @@ public class Gth.ThumbLoader {
 			image = null;
 		}
 
-		public override void run (uint8[] tmp_buffer) throws Error {
+		public override void run (Bytes tmp_buffer) throws Error {
 			var stream = thumb_file.read (cancellable);
 			var bytes = Files.read_all_with_buffer (stream, cancellable, tmp_buffer);
 			if (!Thumbnailer.valid_thumbnail_for_file (bytes, file_data, cancellable)) {

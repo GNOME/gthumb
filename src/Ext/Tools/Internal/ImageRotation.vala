@@ -26,7 +26,7 @@ public class Gth.ImageRotation : Gth.FileOperation {
 		public TransformFlags flags;
 		public Cancellable cancellable;
 
-		public override void run (uint8[] tmp_buffer) throws Error {
+		public override void run (Bytes tmp_buffer) throws Error {
 			// Read the file
 
 			var input_stream = file.read (cancellable);
