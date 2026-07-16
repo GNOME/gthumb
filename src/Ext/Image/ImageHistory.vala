@@ -82,6 +82,10 @@ public class Gth.ImageHistory {
 		return (images.length > 0) ? images[images.length - 1] : null;
 	}
 
+	~ImageHistory() {
+		clear ();
+	}
+
 	GenericArray<Image> images;
 	int saved;
 	int current;

@@ -4,7 +4,14 @@ public class Gth.ImageEditor {
 	}
 
 	~ImageEditor () {
-		factory.release_resources ();
+		release_resources ();
+	}
+
+	public void release_resources () {
+		if (factory != null) {
+			factory.release_resources ();
+			factory = null;
+		}
 	}
 
 	public async Image? exec_operation (Image input, ImageOperation operation, Cancellable cancellable) throws Error {

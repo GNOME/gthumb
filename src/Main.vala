@@ -18,5 +18,6 @@ int main (string[] args) {
 			error ("%s", e.message);
 		}
 	}
+	app.release_resources ();
 	return status;
 }

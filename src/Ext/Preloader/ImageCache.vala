@@ -4,6 +4,10 @@ public class Gth.ImageCache {
 		list = new GenericArray<CacheItem?> ();
 	}
 
+	~ImageCache() {
+		clear ();
+	}
+
 	public void add (File file, Image image) {
 		if (touch (file)) {
 			return;

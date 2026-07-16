@@ -43,6 +43,17 @@ public class Gth.Application : Adw.Application {
 		);
 	}
 
+	public void release_resources () {
+		if (io_factory != null) {
+			io_factory.release_resources ();
+			io_factory = null;
+		}
+		if (image_editor != null) {
+			image_editor.release_resources ();
+			image_editor = null;
+		}
+	}
+
 	public override void startup () {
 		base.startup ();
 

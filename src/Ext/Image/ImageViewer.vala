@@ -159,6 +159,9 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		if (preloader != null) {
 			preloader.cancel ();
 		}
+		if (image_view != null) {
+			image_view.cancel ();
+		}
 		window.viewer.viewer_container.remove_css_class ("image-view");
 		window.insert_action_group ("viewer", null);
 		window.insert_action_group ("image", null);
@@ -176,8 +179,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 	}
 
 	public void release_resources () {
-		history.clear ();
+		history = null;
+		preloader = null;
 		builder = null;
+		image_view = null;
 	}
 
 	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {

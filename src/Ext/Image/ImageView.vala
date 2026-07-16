@@ -938,9 +938,16 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		});
 	}
 
+	public void cancel () {
+		before_changing_image ();
+	}
+
 	async void update_rendered_texture () {
 		if (!can_render_texture ()) {
 			return;
+		}
+		if (render_cancellable != null) {
+			render_cancellable.cancel ();
 		}
 		var local_cancellable = new Cancellable ();
 		render_cancellable = local_cancellable;
@@ -1039,6 +1046,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (render_cancellable != null) {
 			render_cancellable.cancel ();
 		}
+		_image = null;
+		rendered_image = null;
+		filtered_texture = null;
 	}
 
 	void invalidate_filtered_texture () {
