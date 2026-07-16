@@ -27,7 +27,7 @@ public class Gth.ImageEditor {
 		public Cancellable cancellable;
 		public Image output;
 
-		public override void run (Bytes tmp_buffer) {
+		public override void run (uint worker, Bytes tmp_buffer) {
 			output = operation.execute (input, cancellable);
 		}
 	}

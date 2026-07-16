@@ -20,7 +20,7 @@ public class Gth.ClearMetadata : Gth.FileOperation {
 		public File file;
 		public Cancellable cancellable;
 
-		public override void run (Bytes tmp_buffer) throws Error {
+		public override void run (uint worker, Bytes tmp_buffer) throws Error {
 			// Delete the embedded metadata.
 			var bytes = Files.load_file (file, cancellable);
 			bytes = Exiv2.clear_metadata (bytes);

@@ -60,7 +60,7 @@ public class Gth.ImageSaver {
 			image = null;
 		}
 
-		public override void run (Bytes tmp_buffer) throws Error {
+		public override void run (uint worker, Bytes tmp_buffer) throws Error {
 			var save_func = app.get_save_func (file_data.get_content_type ());
 			if (save_func == null) {
 				throw new IOError.NOT_SUPPORTED (_("Cannot save this kind of files"));

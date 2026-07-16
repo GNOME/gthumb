@@ -6,6 +6,7 @@ public class Work.Factory {
 		n_workers = _n_workers;
 		workers = new Queue<Thread<void>>();
 		for (uint i = 0; i < n_workers; i++) {
+			var worker_idx = i;
 			ThreadFunc<void> worker_func = () => {
 				var buffer = new Bytes.take (new uint8[BUFFER_SIZE]);
 				while (true) {
@@ -13,7 +14,7 @@ public class Work.Factory {
 					if (job.action == Job.Action.EXIT) {
 						break;
 					}
-					job.try_run (buffer);
+					job.try_run (worker_idx, buffer);
 				}
 			};
 			workers.push_head (new Thread<void> ("Factory::Worker%u".printf (i), (owned) worker_func));
@@ -67,9 +68,9 @@ public class Work.Job {
 		error = null;
 	}
 
-	public void try_run (Bytes buffer) {
+	public void try_run (uint worker, Bytes buffer) {
 		try {
-			run (buffer);
+			run (worker, buffer);
 		}
 		catch (Error local_error) {
 			error = local_error;
@@ -77,7 +78,5 @@ public class Work.Job {
 		Idle.add ((owned) callback);
 	}
 
-	public virtual void run (Bytes buffer) throws Error {
-		// void
-	}
+	public virtual void run (uint worker, Bytes buffer) throws Error {}
 }
