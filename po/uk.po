@@ -4,22 +4,22 @@
 #
 # Maxim Dubovoy <max@mylinux.com.ua>, 2003.
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2025, 2026.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2025, 2026 Yuri Chornoivan <yurchor@ukr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-04-19 10:16+0000\n"
-"PO-Revision-Date: 2026-04-21 22:08+0300\n"
+"POT-Creation-Date: 2026-07-16 17:45+0000\n"
+"PO-Revision-Date: 2026-07-29 20:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2"
+" && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
@@ -31,6 +31,10 @@ msgstr "Мініатюри"
 #: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
 msgid "View and organize your images"
 msgstr "Перегляд зображень та ведення альбомів"
+
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:17
+msgid "Paolo Bacchilega"
+msgstr "Paolo Bacchilega"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
@@ -210,13 +214,13 @@ msgstr "_Скасувати"
 msgid "_Select"
 msgstr "_Вибрати"
 
-#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:101
-#: src/DefaultTests.vala:233 src/Ext/Editor/AspectRatioGroup.vala:11
+#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
+#: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
 msgid "Aspect Ratio"
 msgstr "Співвідношення сторін"
 
 #: data/ui/aspect-ratio-group.ui:14 data/ui/general-preferences.ui:54
-#: src/Application.vala:113 src/Ext/Exiv2/ExifMetadata.vala:12
+#: src/Application.vala:124 src/Ext/Exiv2/ExifMetadata.vala:12
 #: src/Ext/Video/OtherPropertyView.vala:11
 msgid "Other"
 msgstr "Інше"
@@ -266,8 +270,8 @@ msgstr "З_берегти"
 #: data/ui/bookmarks-dialog.ui:51 data/ui/catalog-dialog.ui:40
 #: data/ui/entry-dialog.ui:22 data/ui/filter-editor-page.ui:33
 #: data/ui/rename-dialog.ui:44 data/ui/rename-dialog.ui:180
-#: data/ui/script-editor-page.ui:30 src/Application.vala:94
-#: src/Application.vala:117 src/DefaultTests.vala:100
+#: data/ui/script-editor-page.ui:30 src/Application.vala:105
+#: src/Application.vala:128 src/DefaultTests.vala:100
 #: src/Ext/Filters/FilterEditorPage.vala:125
 msgid "Name"
 msgstr "Назва"
@@ -341,7 +345,7 @@ msgstr "Третій рядок"
 msgid "Behavior"
 msgstr "Поведінка"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:640
+#: data/ui/browser-preferences.ui:71 src/Application.vala:651
 msgid "Open files in fullscreen mode"
 msgstr "Відкривати файли у повноекранному режимі"
 
@@ -563,13 +567,13 @@ msgstr "Альбом"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:224
-#: src/Ext/Image/ImageViewer.vala:280 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
+#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
 msgid "_Save"
 msgstr "З_берегти"
 
 #: data/ui/catalog-dialog.ui:45 data/ui/importer-dialog.ui:91
-#: data/ui/metadata-dialog.ui:89 src/Application.vala:138
+#: data/ui/metadata-dialog.ui:89 src/Application.vala:149
 msgid "Date"
 msgstr "Дата"
 
@@ -596,7 +600,7 @@ msgctxt "Position"
 msgid "Top"
 msgstr "Згори"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:413
+#: data/ui/convert-dialog.ui:4 src/Application.vala:247 src/MainWindow.vala:413
 msgid "Convert Format"
 msgstr "Перетворити формат"
 
@@ -744,7 +748,7 @@ msgid "Rotate"
 msgstr "Обертати"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:397
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:404
 msgid "Fullscreen"
 msgstr "На увесь екран"
 
@@ -993,8 +997,8 @@ msgctxt "Date"
 msgid "Original"
 msgstr "Оригінал"
 
-#: data/ui/importer-dialog.ui:127 src/Application.vala:98
-#: src/Application.vala:119 src/SelectionView.vala:41
+#: data/ui/importer-dialog.ui:127 src/Application.vala:109
+#: src/Application.vala:130 src/SelectionView.vala:41
 msgid "Bytes"
 msgstr "Байтів"
 
@@ -1036,23 +1040,23 @@ msgstr "Повільно"
 msgid "Save only cha_nged fields"
 msgstr "Зберегти ли_ше змінені поля"
 
-#: data/ui/metadata-dialog.ui:46 src/Application.vala:136
+#: data/ui/metadata-dialog.ui:46 src/Application.vala:147
 msgid "Comment"
 msgstr "Коментар"
 
-#: data/ui/metadata-dialog.ui:69 src/Application.vala:112
+#: data/ui/metadata-dialog.ui:69 src/Application.vala:123
 #: src/Ext/Tools/FileActions.vala:18
 msgid "Metadata"
 msgstr "Метадані"
 
 #: data/ui/metadata-dialog.ui:73 data/ui/template-token-row.ui:174
-#: src/Application.vala:135 src/DefaultTests.vala:172
+#: src/Application.vala:146 src/DefaultTests.vala:172
 #: src/Ext/Template/TemplateTokenRow.vala:215
 msgid "Title"
 msgstr "Заголовок"
 
-#: data/ui/metadata-dialog.ui:81 src/Application.vala:137
-#: src/DefaultTests.vala:221
+#: data/ui/metadata-dialog.ui:81 src/Application.vala:148
+#: src/DefaultTests.vala:222
 msgid "Place"
 msgstr "Місце:"
 
@@ -1060,7 +1064,7 @@ msgstr "Місце:"
 msgid "Time of Day"
 msgstr "Пора доби"
 
-#: data/ui/metadata-dialog.ui:99 src/Application.vala:140
+#: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
 msgid "Rating"
 msgstr "Рейтинг"
@@ -1070,7 +1074,7 @@ msgstr "Рейтинг"
 msgid "IPTC"
 msgstr "IPTC"
 
-#: data/ui/metadata-dialog.ui:115 src/Application.vala:142
+#: data/ui/metadata-dialog.ui:115 src/Application.vala:153
 msgid "Copyright"
 msgstr "Авторські права"
 
@@ -1285,7 +1289,7 @@ msgid "Preserve Aspect Ratio"
 msgstr "Зберігати співвідношення розмірів"
 
 #. Translators: width and height of images or videos.
-#: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
+#: data/ui/resize-image.ui:6 src/Application.vala:111 src/Application.vala:141
 msgid "Pixels"
 msgstr "Пікселі"
 
@@ -1702,7 +1706,7 @@ msgid "Copy Frame"
 msgstr "Копіювати кадр"
 
 #. Translators: the file modification time.
-#: src/Application.vala:95 src/Application.vala:121 src/DefaultTests.vala:148
+#: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
 msgctxt "Time"
@@ -1710,147 +1714,147 @@ msgid "Modified"
 msgstr "Змінено"
 
 #. Translators: the file change time.
-#: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
+#: src/Application.vala:107 src/Application.vala:136 src/DefaultTests.vala:136
 msgid "File Changed"
 msgstr "Файл було змінено"
 
 #. Translators: the file creation time.
-#: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
+#: src/Application.vala:108 src/Application.vala:134 src/DefaultTests.vala:124
 msgid "File Created"
 msgstr "Файл створено"
 
-#: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
+#: src/Application.vala:110 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
 msgstr "Шлях до файла"
 
-#: src/Application.vala:102
+#: src/Application.vala:113
 msgid "Unsorted"
 msgstr "Без певного порядку"
 
-#: src/Application.vala:110
+#: src/Application.vala:121
 msgid "File"
 msgstr "Файл"
 
-#: src/Application.vala:111 src/DefaultTests.vala:184
+#: src/Application.vala:122 src/DefaultTests.vala:184
 msgid "Description"
 msgstr "Опис:"
 
-#: src/Application.vala:118 src/DefaultTests.vala:5 src/DefaultTests.vala:16
+#: src/Application.vala:129 src/DefaultTests.vala:5 src/DefaultTests.vala:16
 msgid "Type"
 msgstr "Формат"
 
-#: src/Application.vala:126
+#: src/Application.vala:137
 msgid "Folder"
 msgstr "Тека"
 
-#: src/Application.vala:131
+#: src/Application.vala:142
 msgid "Duration"
 msgstr "Тривалість:"
 
-#: src/Application.vala:132
+#: src/Application.vala:143
 msgid "Color Profile"
 msgstr "Колірний профіль"
 
-#: src/Application.vala:133
+#: src/Application.vala:144
 msgid "Frames"
 msgstr "Кадри"
 
-#: src/Application.vala:139 src/TagEntry.vala:71
+#: src/Application.vala:150 src/TagEntry.vala:73
 msgid "Tags"
 msgstr "Теги"
 
-#: src/Application.vala:143
+#: src/Application.vala:154
 msgid "Author"
 msgstr "Автор"
 
-#: src/Application.vala:144
+#: src/Application.vala:155
 msgid "Coordinates"
 msgstr "Координати"
 
-#: src/Application.vala:146
+#: src/Application.vala:157
 msgid "Camera Model"
 msgstr "Модель фотоапарата"
 
-#: src/Application.vala:147 src/lib/exiv2-utils.cpp:696
+#: src/Application.vala:158 src/lib/exiv2-utils.cpp:686
 msgid "Exposure"
 msgstr "Експозиція"
 
-#: src/Application.vala:148
+#: src/Application.vala:159
 msgid "Aperture"
 msgstr "Діафрагма"
 
-#: src/Application.vala:149
+#: src/Application.vala:160
 msgid "ISO Speed"
 msgstr "Світлочутливість ISO"
 
-#: src/Application.vala:150
+#: src/Application.vala:161
 msgid "Exposure Time"
 msgstr "Час експозиції"
 
-#: src/Application.vala:151
+#: src/Application.vala:162
 msgid "Shutter Speed"
 msgstr "Швидкість затвора"
 
-#: src/Application.vala:152
+#: src/Application.vala:163
 msgid "Focal Length"
 msgstr "Фокусна відстань"
 
-#: src/Application.vala:153
+#: src/Application.vala:164
 msgid "Flash"
 msgstr "Спалах"
 
-#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:453
-#: src/Ext/Image/ImageViewer.vala:462 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
+#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "Обернути _праворуч"
 
-#: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
+#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259
 #: src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "Обернути _ліворуч"
 
-#: src/Application.vala:237 src/MainWindow.vala:398
+#: src/Application.vala:248 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "Змінити розмір"
 
-#: src/Application.vala:238 src/MainWindow.vala:865
+#: src/Application.vala:249 src/MainWindow.vala:865
 msgid "Clear Metadata"
 msgstr "Вилучити метадані"
 
-#: src/Application.vala:239 src/MainWindow.vala:841
+#: src/Application.vala:250 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "Обертати фізично"
 
-#: src/Application.vala:241
+#: src/Application.vala:252
 msgid "Reset EXIF Orientation"
 msgstr "Скинути орієнтацію EXIF"
 
-#: src/Application.vala:243 src/MainWindow.vala:877
+#: src/Application.vala:254 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "Оновити мініатюру"
 
-#: src/Application.vala:405 src/DefaultTests.vala:23
+#: src/Application.vala:416 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "Усі файли"
 
-#: src/Application.vala:622
+#: src/Application.vala:633
 msgid "Show the application version"
 msgstr "Показати версію програми"
 
-#: src/Application.vala:631
+#: src/Application.vala:642
 msgid "Open a new window"
 msgstr "Відкрити у новому вікні"
 
-#: src/Application.vala:650
+#: src/Application.vala:661
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[ФАЙЛ…] [КАТАЛОГ…]"
 
-#: src/Application.vala:654
+#: src/Application.vala:665
 msgid "— Image Browser and Viewer"
 msgstr "– навігація зображеннями та перегляд зображень"
 
-#: src/Application.vala:717
+#: src/Application.vala:728
 msgid "translator-credits"
 msgstr ""
 "Maxim Dubovoy <max@mylinux.com.ua>\n"
@@ -1862,7 +1866,6 @@ msgid "Path"
 msgstr "Шлях"
 
 #: src/Browser.vala:335
-#| msgid "Max Files"
 msgid "Drag Files"
 msgstr "Перетягніть файли"
 
@@ -1986,7 +1989,7 @@ msgstr "Наслідки цієї дії не можна буде скасува
 msgid "Source and destination are the same"
 msgstr "Джерело і призначення є однаковими"
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:604
+#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2018,7 +2021,7 @@ msgstr "Текстові файли"
 msgid "Created (Original)"
 msgstr "Створення (оригіналу)"
 
-#: src/DefaultTests.vala:208
+#: src/DefaultTests.vala:209
 msgid "Tag"
 msgstr "Мітка"
 
@@ -2308,8 +2311,7 @@ msgstr "EXIF"
 
 #: src/Ext/FileManager/FileManager.vala:17
 #, c-format
-msgid ""
-"This action is not reversable. Do you want to delete the selected file?"
+msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
 msgstr[0] ""
@@ -2386,7 +2388,7 @@ msgstr "Нові дані"
 msgid "Same answer for all the files"
 msgstr "Та сама відповідь для усіх файлів"
 
-#: src/Ext/Filters/Filter.vala:108
+#: src/Ext/Filters/Filter.vala:109
 msgid "files"
 msgstr "файли"
 
@@ -2479,33 +2481,33 @@ msgid "Not Includes"
 msgstr "Невключення"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
+#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
 msgid "Save File"
 msgstr "Зберегти файл"
 
-#: src/Ext/Image/ImageViewer.vala:259
+#: src/Ext/Image/ImageViewer.vala:264
 #, c-format
 msgid "Saving %s"
 msgstr "Зберігається «%s»"
 
-#: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
+#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
 #: src/MainWindow.vala:1087
 msgid "File type not supported"
 msgstr "Тип файлів не підтримується"
 
-#: src/Ext/Image/ImageViewer.vala:435 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "Віддзеркалити горизонтально"
 
-#: src/Ext/Image/ImageViewer.vala:444 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "Віддзеркалити вертикально"
 
-#: src/Ext/Image/ImageViewer.vala:595 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
 msgid "Copying to the Clipboard"
 msgstr "Копіювання до буфера"
 
-#: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
 msgid "Copied to the Clipboard"
 msgstr "Скопійовано до буфера обміну даними"
 
@@ -2992,13 +2994,13 @@ msgstr "Хвилина"
 msgid "Second"
 msgstr "Секунда"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:87
-#: src/ImageLoader.vala:96 src/ImageLoader.vala:161
+#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:104
+#: src/ImageLoader.vala:113 src/ImageLoader.vala:162
 msgid "Unknown file type"
 msgstr "Невідомий тип файла"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:118
-#: src/ImageLoader.vala:166
+#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:134
+#: src/ImageLoader.vala:167
 msgid "No suitable loader available for this file type"
 msgstr "Для цього типу немає доступного завантажувача"
 
@@ -3054,11 +3056,11 @@ msgstr "Копіювати шлях"
 msgid "View on OpenStreetMap"
 msgstr "Переглянути в OpenStreetMap"
 
-#: src/Files.vala:239
+#: src/Files.vala:240
 msgid "Computer"
 msgstr "Комп'ютер"
 
-#: src/Files.vala:243
+#: src/Files.vala:244
 msgid "User Home"
 msgstr "Домівка користувача"
 
@@ -3119,40 +3121,40 @@ msgstr "Якщо ви не збережете зміни, зміни до фай
 msgid "_Discard"
 msgstr "_Відкинути"
 
-#: src/Viewer.vala:383
+#: src/Viewer.vala:390
 msgid "Exit Fullscreen"
 msgstr "Вийти з повноекранного режиму"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:473
+#: src/Viewer.vala:480
 msgid "modified"
 msgstr "змінено"
 
-#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:286
+#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:307
 msgid "(invalid value)"
 msgstr "(некоректне значення)"
 
-#: src/lib/exiv2-utils.cpp:847 src/lib/exiv2-utils.cpp:1427
-#: src/lib/exiv2-utils.cpp:1450 src/lib/io/load-gif.c:138
+#: src/lib/exiv2-utils.cpp:837 src/lib/exiv2-utils.cpp:1421
+#: src/lib/exiv2-utils.cpp:1444 src/lib/io/load-gif.c:138
 msgid "Invalid file format"
 msgstr "Некоректний формат файлів"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "Пд"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "Пн"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "З"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "С"
@@ -3175,7 +3177,7 @@ msgstr "Недостатньо пам'яті"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: src/lib/util.c:653
+#: src/lib/util.c:674
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -3187,7 +3189,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: src/lib/util.c:662
+#: src/lib/util.c:683
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
