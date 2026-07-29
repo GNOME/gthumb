@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-03-26 08:54+0000\n"
-"PO-Revision-Date: 2026-03-26 23:23+0500\n"
+"POT-Creation-Date: 2026-07-16 17:45+0000\n"
+"PO-Revision-Date: 2026-07-29 11:35+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <Kazakh>\n"
 "Language: kk\n"
@@ -18,37 +18,26 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.9\n"
 
-#: data/app.gthumb.gthumb-devel.desktop.in:2 data/app.gthumb.gthumb.desktop.in:2
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:14 data/ui/browser.ui:23
-#: data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
+#: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
+#: data/ui/browser.ui:23 data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
 msgid "Thumbnails"
 msgstr "Нобайлар"
 
-#: data/app.gthumb.gthumb-devel.desktop.in:3 data/app.gthumb.gthumb.desktop.in:3
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:15
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:15
+#: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
 msgid "View and organize your images"
 msgstr "Суреттеріңізді көру және реттеу"
 
-#. Translators: Search terms to find this application. Do NOT translate or
-#. localize the semicolons. The list MUST also end with a semicolon.
-#: data/app.gthumb.gthumb-devel.desktop.in:5 data/app.gthumb.gthumb.desktop.in:5
-msgid "Image;Viewer;"
-msgstr "Сурет;Шолушы;"
-
-#: data/app.gthumb.gthumb-devel.desktop.in:17
-#: data/app.gthumb.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
-msgid "New Window"
-msgstr "Жаңа терезе"
-
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:20
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
 msgstr "Суреттерді қарау, түзету, шолу және ұйымдастыру құралы."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:23
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:23
 msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 msgstr "Суреттерді қарау: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:26
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
@@ -57,11 +46,11 @@ msgstr ""
 "контрастты, жарықтылықты және қанықтылықты өзгерту, сондай-ақ басқа да түстік "
 "түрлендірулер."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:29
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
 msgstr "Ендірілген метадеректерді қарау және түзету: EXIF, IPTC және XMP."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:32
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:32
 msgid ""
 "File manager operations: copy, move, rename and delete files and folders, "
 "execute scripts on the selected files."
@@ -69,31 +58,31 @@ msgstr ""
 "Файл менеджерінің әрекеттері: файлдар мен бумаларды көшіру, жылжыту, атын "
 "өзгерту және өшіру, таңдалған файлдарда скрипттерді орындау."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:35
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
 msgstr "Суреттерге арналған арнайы саймандар:"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:39
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:39
 msgid "JPEG lossless transformations"
 msgstr "JPEG сапасын жоғалтпайтын түрлендірулері"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:40
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:40
 msgid "Image resize"
 msgstr "Сурет өлшемін өзгерту"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:41
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:41
 msgid "Format conversion"
 msgstr "Пішімді түрлендіру"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:42
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:42
 msgid "Slideshow"
 msgstr "Слайдшоу"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:43
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:43
 msgid "Setting an image as desktop background"
 msgstr "Суретті жұмыс үстелінің фоны ретінде орнату"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:45
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
@@ -102,30 +91,41 @@ msgstr ""
 "каталогтарға, ал каталогтарды жинақтарға ұйымдастыру, суреттерді іздеу және "
 "нәтижені каталог ретінде сақтау."
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:60
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4 src/Ext/Preferences/PreferencesDialog.vala:6
 #: src/Ext/Shortcuts/Shortcuts.vala:163
 msgid "Browser"
 msgstr "Браузер"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:64
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:64
 #: src/Ext/Shortcuts/Shortcut.vala:260
 msgid "Viewer"
 msgstr "Қараушы"
 
-#: data/appdata/app.gthumb.gthumb.metainfo.xml.in:68
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:68
 msgid "Editor"
 msgstr "Түзеткіш"
 
-#: data/schemas/app.gthumb.gthumb.gschema.xml:23
+#. Translators: Search terms to find this application. Do NOT translate or
+#. localize the semicolons. The list MUST also end with a semicolon.
+#: data/org.gnome.gthumb-devel.desktop.in:5 data/org.gnome.gthumb.desktop.in:5
+msgid "Image;Viewer;"
+msgstr "Сурет;Шолушы;"
+
+#: data/org.gnome.gthumb-devel.desktop.in:17 data/org.gnome.gthumb.desktop.in:17
+#: src/Ext/Shortcuts/Shortcuts.vala:133
+msgid "New Window"
+msgstr "Жаңа терезе"
+
+#: data/schemas/org.gnome.gthumb.gschema.xml:23
 msgid "Open files in the active window"
 msgstr "Файлдарды белсенді терезеде ашу"
 
-#: data/schemas/app.gthumb.gthumb.savers.gschema.xml:24
+#: data/schemas/org.gnome.gthumb.savers.gschema.xml:24
 msgid "Possible values are: jpeg, jpg."
 msgstr "Мүмкін мәндер: jpeg, jpg."
 
-#: data/schemas/app.gthumb.gthumb.savers.gschema.xml:55
+#: data/schemas/org.gnome.gthumb.savers.gschema.xml:55
 msgid "Possible values are: tiff, tif."
 msgstr "Мүмкін мәндер: tiff, tif."
 
@@ -191,7 +191,7 @@ msgstr "Көмегімен ашу"
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2181 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2270 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -206,13 +206,13 @@ msgstr "_Бас тарту"
 msgid "_Select"
 msgstr "_Таңдау"
 
-#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:101
-#: src/DefaultTests.vala:233 src/Ext/Editor/AspectRatioGroup.vala:11
+#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
+#: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
 msgid "Aspect Ratio"
 msgstr "Жақтар арақатынасы"
 
 #: data/ui/aspect-ratio-group.ui:14 data/ui/general-preferences.ui:54
-#: src/Application.vala:113 src/Ext/Exiv2/ExifMetadata.vala:12
+#: src/Application.vala:124 src/Ext/Exiv2/ExifMetadata.vala:12
 #: src/Ext/Video/OtherPropertyView.vala:11
 msgid "Other"
 msgstr "Басқа"
@@ -262,8 +262,8 @@ msgstr "Сақтау"
 #: data/ui/bookmarks-dialog.ui:51 data/ui/catalog-dialog.ui:40
 #: data/ui/entry-dialog.ui:22 data/ui/filter-editor-page.ui:33
 #: data/ui/rename-dialog.ui:44 data/ui/rename-dialog.ui:180
-#: data/ui/script-editor-page.ui:30 src/Application.vala:94
-#: src/Application.vala:117 src/DefaultTests.vala:100
+#: data/ui/script-editor-page.ui:30 src/Application.vala:105
+#: src/Application.vala:128 src/DefaultTests.vala:100
 #: src/Ext/Filters/FilterEditorPage.vala:125
 msgid "Name"
 msgstr "Аты"
@@ -335,7 +335,7 @@ msgstr "Үшінші қатар"
 msgid "Behavior"
 msgstr "Мінез-құлық"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:640
+#: data/ui/browser-preferences.ui:71 src/Application.vala:651
 msgid "Open files in fullscreen mode"
 msgstr "Файлдарды толық экран режимінде ашу"
 
@@ -375,178 +375,178 @@ msgstr "Қайта жүктеу"
 msgid "Catalog Properties"
 msgstr "Каталог қасиеттері"
 
-#: data/ui/browser.ui:255
+#: data/ui/browser.ui:255 src/Browser.vala:335
 msgid "Reorder Files"
 msgstr "Файлдар ретін өзгерту"
 
 #. pages.model.append (new PageInfo ("print", _("Print")));
-#: data/ui/browser.ui:272 data/ui/slideshow-preferences.ui:4
+#: data/ui/browser.ui:271 data/ui/slideshow-preferences.ui:4
 #: src/Ext/Preferences/PreferencesDialog.vala:12
 #: src/Ext/Shortcuts/Shortcut.vala:261 src/Ext/Shortcuts/Shortcuts.vala:265
 msgid "Presentation"
 msgstr "Презентация"
 
-#: data/ui/browser.ui:279 src/Ext/Shortcuts/Shortcuts.vala:154
+#: data/ui/browser.ui:278 src/Ext/Shortcuts/Shortcuts.vala:154
 msgid "File Properties"
 msgstr "Файл қасиеттері"
 
-#: data/ui/browser.ui:286 data/ui/viewer.ui:88
+#: data/ui/browser.ui:285 data/ui/viewer.ui:88
 #: src/Ext/Shortcuts/Shortcuts.vala:156 src/Ext/Shortcuts/Shortcuts.vala:213
 msgid "Edit Image"
 msgstr "Суретті түзету"
 
-#: data/ui/browser.ui:293 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
-#: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:350
+#: data/ui/browser.ui:292 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
+#: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:349
 msgid "Edit Comment"
 msgstr "Түсініктемені түзету"
 
-#: data/ui/browser.ui:299 data/ui/scripts-dialog.ui:4
+#: data/ui/browser.ui:298 data/ui/scripts-dialog.ui:4
 #: data/ui/scripts-dialog.ui:11 data/ui/viewer.ui:101
 #: src/Ext/Tools/FileActions.vala:19
 msgid "Tools"
 msgstr "Саймандар"
 
-#: data/ui/browser.ui:397 src/Ext/Shortcuts/Shortcuts.vala:155
+#: data/ui/browser.ui:396 src/Ext/Shortcuts/Shortcuts.vala:155
 #: src/Ext/Shortcuts/Shortcuts.vala:212
 msgid "View Properties"
 msgstr "Қасиеттерін қарау"
 
-#: data/ui/browser.ui:422
+#: data/ui/browser.ui:421
 msgid "Open Fullscreen"
 msgstr "Толық экранда ашу"
 
-#: data/ui/browser.ui:426 data/ui/browser.ui:576 data/ui/browser.ui:641
-#: data/ui/browser.ui:681 data/ui/viewer.ui:221
+#: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
+#: data/ui/browser.ui:680 data/ui/viewer.ui:221
 msgid "Open in New Window"
 msgstr "Жаңа терезеде ашу"
 
-#: data/ui/browser.ui:430 data/ui/viewer.ui:225
+#: data/ui/browser.ui:429 data/ui/viewer.ui:225
 msgid "Open _With…"
 msgstr "Көмегімен _ашу…"
 
-#: data/ui/browser.ui:436
+#: data/ui/browser.ui:435
 msgid "Open Folder"
 msgstr "Буманы ашу"
 
-#: data/ui/browser.ui:441 data/ui/print-layout-dialog.ui:4
+#: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
 #: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
-#: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:429
+#: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "Басып шығару"
 
-#: data/ui/browser.ui:445 data/ui/viewer.ui:246
-#: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:334
+#: data/ui/browser.ui:444 data/ui/viewer.ui:246
+#: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "Жұмыс үстелінің фоны ретінде орнату"
 
 #. Translators: it's a verb, as in "Cut Files"
-#: data/ui/browser.ui:452 data/ui/browser.ui:597
+#: data/ui/browser.ui:451 data/ui/browser.ui:596
 #: src/Ext/Shortcuts/Shortcuts.vala:165
 msgid "Cut"
 msgstr "Қиып алу"
 
 #. Translators: it's a verb, as in "Copy Files"
-#: data/ui/browser.ui:458 data/ui/browser.ui:603 data/ui/file-property-view.ui:32
+#: data/ui/browser.ui:457 data/ui/browser.ui:602 data/ui/file-property-view.ui:32
 #: data/ui/viewer.ui:254 src/Ext/FileManager/FileManager.vala:65
 #: src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Көшіру"
 
 #. Translators: it's a verb, as in "Paste Files"
-#: data/ui/browser.ui:464 data/ui/browser.ui:564 data/ui/browser.ui:608
-#: data/ui/browser.ui:657 data/ui/browser.ui:687
+#: data/ui/browser.ui:463 data/ui/browser.ui:563 data/ui/browser.ui:607
+#: data/ui/browser.ui:656 data/ui/browser.ui:686
 #: src/Ext/Shortcuts/Shortcuts.vala:167
 msgid "Paste"
 msgstr "Кірістіру"
 
 #. Not real actions, used for documentation only.
-#: data/ui/browser.ui:469 data/ui/browser.ui:568
+#: data/ui/browser.ui:468 data/ui/browser.ui:567
 #: src/Ext/Shortcuts/Shortcuts.vala:292
 msgid "Select All"
 msgstr "Барлығын таңдау"
 
-#: data/ui/browser.ui:475 data/ui/browser.ui:614 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
 msgid "Copy To…"
 msgstr "Келесі жерге көшіру…"
 
-#: data/ui/browser.ui:479 data/ui/browser.ui:618 data/ui/browser.ui:667
+#: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
 #: data/ui/viewer.ui:274
 msgid "Move To…"
 msgstr "Келесі жерге жылжыту…"
 
 #. Translators: it's a verb, as in "Rename Files"
-#: data/ui/browser.ui:484 data/ui/browser.ui:623 data/ui/browser.ui:663
+#: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
 #: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2082 src/Browser.vala:2145
-#: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:384
+#: src/Browser.vala:2171 src/Browser.vala:2234
+#: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "Атын өзгерту"
 
 #. Translators: it's a verb, as in "Duplicate Files"
-#: data/ui/browser.ui:489 src/Ext/Shortcuts/Shortcuts.vala:173
+#: data/ui/browser.ui:488 src/Ext/Shortcuts/Shortcuts.vala:173
 msgid "Duplicate"
 msgstr "Дубликаттау"
 
-#: data/ui/browser.ui:497 data/ui/browser.ui:629 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "Қоқыс шелегіне тастау"
 
-#: data/ui/browser.ui:501 data/ui/browser.ui:633 data/ui/browser.ui:673
+#: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
 #: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
 msgid "Delete"
 msgstr "Өшіру"
 
-#: data/ui/browser.ui:508 data/ui/viewer.ui:295
+#: data/ui/browser.ui:507 data/ui/viewer.ui:295
 msgid "Add to Selection"
 msgstr "Таңдалғанға қосу"
 
-#: data/ui/browser.ui:511 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
 msgid "Selection 1"
 msgstr "1-ші таңдау"
 
-#: data/ui/browser.ui:517 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
 msgid "Selection 2"
 msgstr "2-ші таңдау"
 
-#: data/ui/browser.ui:523 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
 msgid "Selection 3"
 msgstr "3-ші таңдау"
 
-#: data/ui/browser.ui:530 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:317
 msgid "Add to Catalog…"
 msgstr "Каталогқа қосу…"
 
-#: data/ui/browser.ui:537 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:324
 msgid "Remove from Selection"
 msgstr "Таңдалғандардан өшіру"
 
-#: data/ui/browser.ui:542 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:329
 msgid "Remove from Catalog"
 msgstr "Каталогтан өшіру"
 
-#: data/ui/browser.ui:551 data/ui/browser.ui:584
+#: data/ui/browser.ui:550 data/ui/browser.ui:583
 #: src/Ext/Shortcuts/Shortcuts.vala:148
 msgid "Open with File Manager"
 msgstr "Файлдар басқарушысында ашу"
 
-#: data/ui/browser.ui:556 data/ui/browser.ui:580
+#: data/ui/browser.ui:555 data/ui/browser.ui:579
 #: src/Ext/Shortcuts/Shortcuts.vala:149
 msgid "Open in Terminal"
 msgstr "Терминалда ашу"
 
-#: data/ui/browser.ui:590
+#: data/ui/browser.ui:589
 msgid "Create Folder"
 msgstr "Бума жасау"
 
-#: data/ui/browser.ui:647 data/ui/folder-selector-dialog.ui:77
+#: data/ui/browser.ui:646 data/ui/folder-selector-dialog.ui:77
 #: src/Ext/Catalogs/NewCatalogDialog.vala:3
 msgid "New Catalog"
 msgstr "Жаңа каталог"
 
-#: data/ui/browser.ui:651 data/ui/folder-selector-dialog.ui:85
+#: data/ui/browser.ui:650 data/ui/folder-selector-dialog.ui:85
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "New Library"
 msgstr "Жаңа кітапхана"
@@ -557,13 +557,13 @@ msgstr "Каталог"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:224
-#: src/Ext/Image/ImageViewer.vala:280 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
+#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_Сақтау"
 
 #: data/ui/catalog-dialog.ui:45 data/ui/importer-dialog.ui:91
-#: data/ui/metadata-dialog.ui:89 src/Application.vala:138
+#: data/ui/metadata-dialog.ui:89 src/Application.vala:149
 msgid "Date"
 msgstr "Күні"
 
@@ -590,7 +590,7 @@ msgctxt "Position"
 msgid "Top"
 msgstr "Жоғары"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:414
+#: data/ui/convert-dialog.ui:4 src/Application.vala:247 src/MainWindow.vala:413
 msgid "Convert Format"
 msgstr "Пішімді түрлендіру"
 
@@ -738,7 +738,7 @@ msgid "Rotate"
 msgstr "Бұру"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60 src/Ext/Shortcuts/Shortcuts.vala:186
-#: src/Viewer.vala:397
+#: src/Viewer.vala:404
 msgid "Fullscreen"
 msgstr "Толық экран"
 
@@ -838,7 +838,7 @@ msgstr "Үй бумасын ашу"
 msgid "Reuse the active window to open files"
 msgstr "Файлдарды ашу үшін белсенді терезені қайта қолдану"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2434
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
 msgid "Terminal"
 msgstr "Терминал"
 
@@ -962,7 +962,7 @@ msgid "Change File"
 msgstr "Файлды өзгерту"
 
 #: data/ui/importer-dialog.ui:4 data/ui/importer-dialog.ui:24
-#: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:453
+#: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:452
 msgid "Import Files"
 msgstr "Файлдарды импорттау"
 
@@ -987,8 +987,8 @@ msgctxt "Date"
 msgid "Original"
 msgstr "Түпнұсқа"
 
-#: data/ui/importer-dialog.ui:127 src/Application.vala:98
-#: src/Application.vala:119 src/SelectionView.vala:41
+#: data/ui/importer-dialog.ui:127 src/Application.vala:109
+#: src/Application.vala:130 src/SelectionView.vala:41
 msgid "Bytes"
 msgstr "Байттар"
 
@@ -1030,23 +1030,23 @@ msgstr "Баяу"
 msgid "Save only cha_nged fields"
 msgstr "Тек өз_герген өрістерді сақтау"
 
-#: data/ui/metadata-dialog.ui:46 src/Application.vala:136
+#: data/ui/metadata-dialog.ui:46 src/Application.vala:147
 msgid "Comment"
 msgstr "Түсініктеме"
 
-#: data/ui/metadata-dialog.ui:69 src/Application.vala:112
+#: data/ui/metadata-dialog.ui:69 src/Application.vala:123
 #: src/Ext/Tools/FileActions.vala:18
 msgid "Metadata"
 msgstr "Метадеректер"
 
 #: data/ui/metadata-dialog.ui:73 data/ui/template-token-row.ui:174
-#: src/Application.vala:135 src/DefaultTests.vala:172
+#: src/Application.vala:146 src/DefaultTests.vala:172
 #: src/Ext/Template/TemplateTokenRow.vala:215
 msgid "Title"
 msgstr "Тақырыбы"
 
-#: data/ui/metadata-dialog.ui:81 src/Application.vala:137
-#: src/DefaultTests.vala:221
+#: data/ui/metadata-dialog.ui:81 src/Application.vala:148
+#: src/DefaultTests.vala:222
 msgid "Place"
 msgstr "Орын"
 
@@ -1054,7 +1054,7 @@ msgstr "Орын"
 msgid "Time of Day"
 msgstr "Күн уақыты"
 
-#: data/ui/metadata-dialog.ui:99 src/Application.vala:140
+#: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
 msgid "Rating"
 msgstr "Рейтинг"
@@ -1064,7 +1064,7 @@ msgstr "Рейтинг"
 msgid "IPTC"
 msgstr "IPTC"
 
-#: data/ui/metadata-dialog.ui:115 src/Application.vala:142
+#: data/ui/metadata-dialog.ui:115 src/Application.vala:153
 msgid "Copyright"
 msgstr "Авторлық құқық"
 
@@ -1279,7 +1279,7 @@ msgid "Preserve Aspect Ratio"
 msgstr "Жақтар арақатынасын сақтау"
 
 #. Translators: width and height of images or videos.
-#: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
+#: data/ui/resize-image.ui:6 src/Application.vala:111 src/Application.vala:141
 msgid "Pixels"
 msgstr "Пиксельдер"
 
@@ -1327,7 +1327,7 @@ msgstr "Туралауды орнату үшін суретке сызық сы�
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (),
 #. file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2374
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "Сақтау"
@@ -1426,7 +1426,7 @@ msgstr "Жарлық ретінде пайдалану үшін пернелер
 msgid "Press Esc to cancel"
 msgstr "Бас тарту үшін Esc басыңыз"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2182
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "Ө_шіру"
@@ -1696,7 +1696,7 @@ msgid "Copy Frame"
 msgstr "Кадрды көшіру"
 
 #. Translators: the file modification time.
-#: src/Application.vala:95 src/Application.vala:121 src/DefaultTests.vala:148
+#: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
 msgctxt "Time"
@@ -1704,254 +1704,258 @@ msgid "Modified"
 msgstr "Өзгертілген"
 
 #. Translators: the file change time.
-#: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
+#: src/Application.vala:107 src/Application.vala:136 src/DefaultTests.vala:136
 msgid "File Changed"
 msgstr "Файл өзгертілген"
 
 #. Translators: the file creation time.
-#: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
+#: src/Application.vala:108 src/Application.vala:134 src/DefaultTests.vala:124
 msgid "File Created"
 msgstr "Файл жасалған"
 
-#: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
+#: src/Application.vala:110 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
 msgstr "Файл жолы"
 
-#: src/Application.vala:102
+#: src/Application.vala:113
 msgid "Unsorted"
 msgstr "Сұрыпталмаған"
 
-#: src/Application.vala:110
+#: src/Application.vala:121
 msgid "File"
 msgstr "Файл"
 
-#: src/Application.vala:111 src/DefaultTests.vala:184
+#: src/Application.vala:122 src/DefaultTests.vala:184
 msgid "Description"
 msgstr "Сипаттамасы"
 
-#: src/Application.vala:118 src/DefaultTests.vala:5 src/DefaultTests.vala:16
+#: src/Application.vala:129 src/DefaultTests.vala:5 src/DefaultTests.vala:16
 msgid "Type"
 msgstr "Түрі"
 
-#: src/Application.vala:126
+#: src/Application.vala:137
 msgid "Folder"
 msgstr "Бума"
 
-#: src/Application.vala:131
+#: src/Application.vala:142
 msgid "Duration"
 msgstr "Ұзақтығы"
 
-#: src/Application.vala:132
+#: src/Application.vala:143
 msgid "Color Profile"
 msgstr "Түстік профиль"
 
-#: src/Application.vala:133
+#: src/Application.vala:144
 msgid "Frames"
 msgstr "Кадрлар"
 
-#: src/Application.vala:139 src/TagEntry.vala:71
+#: src/Application.vala:150 src/TagEntry.vala:73
 msgid "Tags"
 msgstr "Тегтер"
 
-#: src/Application.vala:143
+#: src/Application.vala:154
 msgid "Author"
 msgstr "Авторы"
 
-#: src/Application.vala:144
+#: src/Application.vala:155
 msgid "Coordinates"
 msgstr "Координаттар"
 
-#: src/Application.vala:146
+#: src/Application.vala:157
 msgid "Camera Model"
 msgstr "Камера моделі"
 
-#: src/Application.vala:147 src/lib/exiv2-utils.cpp:696
+#: src/Application.vala:158 src/lib/exiv2-utils.cpp:686
 msgid "Exposure"
 msgstr "Экспозиция"
 
-#: src/Application.vala:148
+#: src/Application.vala:159
 msgid "Aperture"
 msgstr "Диафрагма"
 
-#: src/Application.vala:149
+#: src/Application.vala:160
 msgid "ISO Speed"
 msgstr "ISO сезімталдығы"
 
-#: src/Application.vala:150
+#: src/Application.vala:161
 msgid "Exposure Time"
 msgstr "Экспозиция уақыты"
 
-#: src/Application.vala:151
+#: src/Application.vala:162
 msgid "Shutter Speed"
 msgstr "Үзілу жылдамдығы"
 
-#: src/Application.vala:152
+#: src/Application.vala:163
 msgid "Focal Length"
 msgstr "Фокустық қашықтық"
 
-#: src/Application.vala:153
+#: src/Application.vala:164
 msgid "Flash"
 msgstr "Жарқыл"
 
-#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:453
-#: src/Ext/Image/ImageViewer.vala:462 src/Ext/Shortcuts/Shortcuts.vala:258
-#: src/MainWindow.vala:830
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
+#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "Оңға бұру"
 
-#: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
-#: src/MainWindow.vala:818
+#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259
+#: src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "Солға бұру"
 
-#: src/Application.vala:237 src/MainWindow.vala:399
+#: src/Application.vala:248 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "Суреттер өлшемін өзгерту"
 
-#: src/Application.vala:238 src/MainWindow.vala:866
+#: src/Application.vala:249 src/MainWindow.vala:865
 msgid "Clear Metadata"
 msgstr "Метадеректерді тазарту"
 
-#: src/Application.vala:239 src/MainWindow.vala:842
+#: src/Application.vala:250 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "Физикалық түрде бұру"
 
-#: src/Application.vala:241
+#: src/Application.vala:252
 msgid "Reset EXIF Orientation"
 msgstr "EXIF бағдарын тастау"
 
-#: src/Application.vala:243 src/MainWindow.vala:878
+#: src/Application.vala:254 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "Нобайды жаңарту"
 
-#: src/Application.vala:405 src/DefaultTests.vala:23
+#: src/Application.vala:416 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "Барлық файлдар"
 
-#: src/Application.vala:622
+#: src/Application.vala:633
 msgid "Show the application version"
 msgstr "Бағдарлама нұсқасын көрсету"
 
-#: src/Application.vala:631
+#: src/Application.vala:642
 msgid "Open a new window"
 msgstr "Жаңа терезені ашу"
 
-#: src/Application.vala:650
+#: src/Application.vala:661
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[ФАЙЛ…] [БУМА…]"
 
-#: src/Application.vala:654
+#: src/Application.vala:665
 msgid "— Image Browser and Viewer"
 msgstr "— Суреттерді шолу және қарау құралы"
 
-#: src/Application.vala:717
+#: src/Application.vala:728
 msgid "translator-credits"
 msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
 
-#: src/Browser.vala:50
+#: src/Browser.vala:47
 msgid "Path"
 msgstr "Жолы"
 
-#: src/Browser.vala:483
+#: src/Browser.vala:335
+msgid "Drag Files"
+msgstr "Файлдарды сүйреп әкелу"
+
+#: src/Browser.vala:490
 msgid "No Matches"
 msgstr "Сәйкестіктер жоқ"
 
-#: src/Browser.vala:491
+#: src/Browser.vala:498
 msgid "No Files Found"
 msgstr "Файлдар табылмады"
 
-#: src/Browser.vala:495
+#: src/Browser.vala:502
 msgid "Empty Catalog"
 msgstr "Бос каталог"
 
-#: src/Browser.vala:499
+#: src/Browser.vala:506
 msgid "Empty Selection"
 msgstr "Бос таңдау"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or
 #. 3).
-#: src/Browser.vala:506
+#: src/Browser.vala:513
 #, c-format
 msgid "Use %s to add files to selection %u"
 msgstr "%s қолданып, %u таңдауына файлдарды қосыңыз"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or
 #. 3).
-#: src/Browser.vala:515
+#: src/Browser.vala:522
 #, c-format
 msgid "Use %s to view selection %u"
 msgstr "%s қолданып, %u таңдауын көріңіз"
 
-#: src/Browser.vala:528
+#: src/Browser.vala:535
 msgid "Empty Folder"
 msgstr "Бос бума"
 
-#: src/Browser.vala:566
+#: src/Browser.vala:573
 msgid "_Add To Bookmarks"
 msgstr "Бетбелгілерге _қосу"
 
-#: src/Browser.vala:570
+#: src/Browser.vala:577
 msgid "_Edit Bookmarks…"
 msgstr "Бетбелгілерді _түзету…"
 
-#: src/Browser.vala:964 src/Browser.vala:1141
+#: src/Browser.vala:971 src/Browser.vala:1148
 msgid "Pasting Files"
 msgstr "Файлдарды кірістіру"
 
-#: src/Browser.vala:982 src/Browser.vala:2016
+#: src/Browser.vala:989 src/Browser.vala:2105
 msgid "Cannot move files here"
 msgstr "Файлдарды бұл жерге жылжыту мүмкін емес"
 
-#: src/Browser.vala:989
+#: src/Browser.vala:996
 msgid "Duplicating Files"
 msgstr "Файлдарды қосарлау"
 
 #. Show a message on the browser.
-#: src/Browser.vala:1373 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "Файлдарды іздеу"
 
-#: src/Browser.vala:1401 src/Browser.vala:1431 src/Browser.vala:1671
-#: src/Browser.vala:1906
+#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
+#: src/Browser.vala:1995
 #, c-format
 msgid "Updating %s"
 msgstr "%s жаңартылуда"
 
-#: src/Browser.vala:1528 src/Browser.vala:1532 src/Browser.vala:2395
-#: src/Browser.vala:2405 src/MainWindow.vala:258 src/MainWindow.vala:330
-#: src/MainWindow.vala:693 src/MainWindow.vala:706 src/MainWindow.vala:814
-#: src/MainWindow.vala:826 src/MainWindow.vala:838 src/MainWindow.vala:850
-#: src/MainWindow.vala:862 src/MainWindow.vala:874 src/MainWindow.vala:886
-#: src/MainWindow.vala:897 src/MainWindow.vala:935 src/MainWindow.vala:946
-#: src/MainWindow.vala:957 src/MainWindow.vala:968
+#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
+#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
+#: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
+#: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
+#: src/MainWindow.vala:896 src/MainWindow.vala:934 src/MainWindow.vala:945
+#: src/MainWindow.vala:956 src/MainWindow.vala:967
 msgid "No files selected"
 msgstr "Файлдар таңдалмады"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1709
+#: src/Browser.vala:1797
 msgid "Updating Files"
 msgstr "Файлдарды жаңарту"
 
-#: src/Browser.vala:1972
+#: src/Browser.vala:2061
 msgid "Adding Files"
 msgstr "Файлдарды қосу"
 
-#: src/Browser.vala:1972 src/MainWindow.vala:614
+#: src/Browser.vala:2061 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "Файлдарды жылжыту"
 
-#: src/Browser.vala:2062
+#: src/Browser.vala:2151
 msgid "New Folder"
 msgstr "Жаңа бума"
 
-#: src/Browser.vala:2062 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_Жасау"
 
-#: src/Browser.vala:2145 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1961,20 +1965,20 @@ msgid "_Rename"
 msgstr "_Атын өзгерту"
 
 #. Ask confirmation
-#: src/Browser.vala:2176 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "Біржола өшіру керек пе?"
 
-#: src/Browser.vala:2178 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "Бұл әрекетті болдырмау мүмкін емес. <i>%s</i> өшіруді қалайсыз ба?"
 
-#: src/Browser.vala:2213
+#: src/Browser.vala:2302
 msgid "Source and destination are the same"
 msgstr "Дереккөз бен мақсат бірдей"
 
-#: src/Browser.vala:2246 src/Ext/Image/ImageViewer.vala:604
+#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2006,7 +2010,7 @@ msgstr "Мәтіндік файлдар"
 msgid "Created (Original)"
 msgstr "Жасалған (Түпнұсқа)"
 
-#: src/DefaultTests.vala:208
+#: src/DefaultTests.vala:209
 msgid "Tag"
 msgstr "Тег"
 
@@ -2362,7 +2366,7 @@ msgstr "Жаңа мазмұн"
 msgid "Same answer for all the files"
 msgstr "Барлық файлдар үшін бірдей жауап"
 
-#: src/Ext/Filters/Filter.vala:108
+#: src/Ext/Filters/Filter.vala:109
 msgid "files"
 msgstr "файлдар"
 
@@ -2373,7 +2377,7 @@ msgstr "Көрсету"
 
 #. Translators: the "Personalize filters" command.
 #. Actions
-#: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:479
+#: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:478
 msgid "Personalize…"
 msgstr "Жекешелендіру…"
 
@@ -2455,33 +2459,33 @@ msgid "Not Includes"
 msgstr "Қамтымайды"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
+#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
 msgid "Save File"
 msgstr "Файлды сақтау"
 
-#: src/Ext/Image/ImageViewer.vala:259
+#: src/Ext/Image/ImageViewer.vala:264
 #, c-format
 msgid "Saving %s"
 msgstr "%s сақталуда"
 
-#: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
-#: src/MainWindow.vala:1088
+#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
+#: src/MainWindow.vala:1087
 msgid "File type not supported"
 msgstr "Файл түріне қолдау жоқ"
 
-#: src/Ext/Image/ImageViewer.vala:435 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "Горизонталды айналдыру"
 
-#: src/Ext/Image/ImageViewer.vala:444 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "Вертикалды айналдыру"
 
-#: src/Ext/Image/ImageViewer.vala:595 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
 msgid "Copying to the Clipboard"
 msgstr "Алмасу буферіне көшіру"
 
-#: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
 msgid "Copied to the Clipboard"
 msgstr "Алмасу буферіне көшірілді"
 
@@ -2615,7 +2619,7 @@ msgstr "TIFF"
 msgid "WEBP"
 msgstr "WEBP"
 
-#: src/Ext/Scripts/Script.vala:233
+#: src/Ext/Scripts/Script.vala:262
 #, c-format
 msgid "Command exited abnormally with status %d"
 msgstr "Команда %d күйімен қате аяқталды"
@@ -2934,8 +2938,8 @@ msgstr "Артқа 5 минут"
 msgid "Select None"
 msgstr "Ештеңені таңдамау"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:120
-#: src/FolderTree.vala:229 src/Viewer.vala:56 src/Viewer.vala:126
+#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
+#: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
 msgid "Loading %s"
 msgstr "%s жүктелуде"
@@ -2969,13 +2973,13 @@ msgstr "Минут"
 msgid "Second"
 msgstr "Секунд"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:87
-#: src/ImageLoader.vala:96 src/ImageLoader.vala:161
+#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:104
+#: src/ImageLoader.vala:113 src/ImageLoader.vala:162
 msgid "Unknown file type"
 msgstr "Файл түрі белгісіз"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:118
-#: src/ImageLoader.vala:166
+#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:134
+#: src/ImageLoader.vala:167
 msgid "No suitable loader available for this file type"
 msgstr "Бұл файл түрі үшін жарамды жүктеуіш жоқ"
 
@@ -3014,7 +3018,7 @@ msgid "Could not copy the image to the clipboard"
 msgstr "Суретті алмасу буферіне көшіру мүмкін болмады"
 
 #: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:286
+#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "Файл аты жарамсыз"
 
@@ -3032,11 +3036,11 @@ msgstr "Жолды көшіру"
 msgid "View on OpenStreetMap"
 msgstr "OpenStreetMap ішінен қарау"
 
-#: src/Files.vala:239
+#: src/Files.vala:240
 msgid "Computer"
 msgstr "Компьютер"
 
-#: src/Files.vala:243
+#: src/Files.vala:244
 msgid "User Home"
 msgstr "Пайдаланушының үй бумасы"
 
@@ -3048,31 +3052,31 @@ msgstr "Тарихты өшір_у"
 msgid "Copied to Clipboard"
 msgstr "Алмасу буферіне көшірілді"
 
-#: src/MainWindow.vala:281
+#: src/MainWindow.vala:280
 msgid "Reading Clipboard"
 msgstr "Алмасу буферін оқу"
 
-#: src/MainWindow.vala:292
+#: src/MainWindow.vala:291
 msgid "Clipboard"
 msgstr "Алмасу буфері"
 
-#: src/MainWindow.vala:554 src/MainWindow.vala:569 src/MainWindow.vala:584
+#: src/MainWindow.vala:553 src/MainWindow.vala:568 src/MainWindow.vala:583
 msgid "Deleting Files"
 msgstr "Файлдарды өшіру"
 
-#: src/MainWindow.vala:599
+#: src/MainWindow.vala:598
 msgid "Copying Files"
 msgstr "Файлдарды көшіру"
 
-#: src/MainWindow.vala:854
+#: src/MainWindow.vala:853
 msgid "Clear EXIF Rotation"
 msgstr "EXIF бұруын тазарту"
 
-#: src/MainWindow.vala:986 src/MainWindow.vala:992
+#: src/MainWindow.vala:985 src/MainWindow.vala:991
 msgid "No images selected"
 msgstr "Суреттер таңдалмады"
 
-#: src/MainWindow.vala:1037
+#: src/MainWindow.vala:1036
 #, c-format
 msgid "Application '%s' not found"
 msgstr "«%s» бағдарламасы табылмады"
@@ -3097,41 +3101,41 @@ msgstr "Сақтамасаңыз, файлдағы өзгерістер бірж
 msgid "_Discard"
 msgstr "_Елемеу"
 
-#: src/Viewer.vala:383
+#: src/Viewer.vala:390
 msgid "Exit Fullscreen"
 msgstr "Толық экраннан шығу"
 
 #. Translators: text added to the window title when the image is modified and
 #. unsaved.
-#: src/Viewer.vala:473
+#: src/Viewer.vala:480
 msgid "modified"
 msgstr "өзгертілген"
 
-#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:286
+#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:307
 msgid "(invalid value)"
 msgstr "(жарамсыз мән)"
 
-#: src/lib/exiv2-utils.cpp:847 src/lib/exiv2-utils.cpp:1427
-#: src/lib/exiv2-utils.cpp:1450 src/lib/io/load-gif.c:138
+#: src/lib/exiv2-utils.cpp:837 src/lib/exiv2-utils.cpp:1421
+#: src/lib/exiv2-utils.cpp:1444 src/lib/io/load-gif.c:138
 msgid "Invalid file format"
 msgstr "Файл пішімі қате"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "О"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "С"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "Б"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "Ш"
@@ -3153,7 +3157,7 @@ msgstr "Жады жеткіліксіз"
 #. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
-#: src/lib/util.c:653
+#: src/lib/util.c:674
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -3164,7 +3168,7 @@ msgstr "%d∶%02d∶%02d"
 #. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
-#: src/lib/util.c:662
+#: src/lib/util.c:683
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
