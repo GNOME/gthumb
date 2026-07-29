@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-07-16 17:45+0000\n"
-"PO-Revision-Date: 2026-07-29 11:35+0500\n"
+"PO-Revision-Date: 2026-07-29 11:41+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <Kazakh>\n"
 "Language: kk\n"
@@ -29,13 +29,18 @@ msgstr "Нобайлар"
 msgid "View and organize your images"
 msgstr "Суреттеріңізді көру және реттеу"
 
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:17
+msgid "Paolo Bacchilega"
+msgstr "Paolo Bacchilega"
+
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
 msgstr "Суреттерді қарау, түзету, шолу және ұйымдастыру құралы."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:23
 msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
-msgstr "Суреттерді қарау: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
+msgstr ""
+"Суреттерді қарау: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
 msgid ""
@@ -43,8 +48,8 @@ msgid ""
 "saturation, as well as other color transformations."
 msgstr ""
 "Суреттерді түзету: суреттердің өлшемін өзгерту, бұру және қиып жіберу, "
-"контрастты, жарықтылықты және қанықтылықты өзгерту, сондай-ақ басқа да түстік "
-"түрлендірулер."
+"контрастты, жарықтылықты және қанықтылықты өзгерту, сондай-ақ басқа да "
+"түстік түрлендірулер."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
@@ -92,7 +97,8 @@ msgstr ""
 "нәтижені каталог ретінде сақтау."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
-#: data/ui/browser-preferences.ui:4 src/Ext/Preferences/PreferencesDialog.vala:6
+#: data/ui/browser-preferences.ui:4
+#: src/Ext/Preferences/PreferencesDialog.vala:6
 #: src/Ext/Shortcuts/Shortcuts.vala:163
 msgid "Browser"
 msgstr "Браузер"
@@ -106,14 +112,13 @@ msgstr "Қараушы"
 msgid "Editor"
 msgstr "Түзеткіш"
 
-#. Translators: Search terms to find this application. Do NOT translate or
-#. localize the semicolons. The list MUST also end with a semicolon.
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
 #: data/org.gnome.gthumb-devel.desktop.in:5 data/org.gnome.gthumb.desktop.in:5
 msgid "Image;Viewer;"
 msgstr "Сурет;Шолушы;"
 
-#: data/org.gnome.gthumb-devel.desktop.in:17 data/org.gnome.gthumb.desktop.in:17
-#: src/Ext/Shortcuts/Shortcuts.vala:133
+#: data/org.gnome.gthumb-devel.desktop.in:17
+#: data/org.gnome.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
 msgid "New Window"
 msgstr "Жаңа терезе"
 
@@ -272,7 +277,8 @@ msgstr "Аты"
 msgid "_New Window"
 msgstr "_Жаңа терезе"
 
-#: data/ui/browser-menu.ui:10 data/ui/editor-menu.ui:10 data/ui/viewer-menu.ui:10
+#: data/ui/browser-menu.ui:10 data/ui/editor-menu.ui:10
+#: data/ui/viewer-menu.ui:10
 msgid "_Open…"
 msgstr "_Ашу…"
 
@@ -302,12 +308,13 @@ msgstr "_Жасырын файлдар"
 msgid "Preferences"
 msgstr "Баптаулар"
 
-#: data/ui/browser-menu.ui:42 data/ui/editor-menu.ui:24 data/ui/viewer-menu.ui:28
-#: src/Ext/Shortcuts/Shortcuts.vala:137
+#: data/ui/browser-menu.ui:42 data/ui/editor-menu.ui:24
+#: data/ui/viewer-menu.ui:28 src/Ext/Shortcuts/Shortcuts.vala:137
 msgid "Keyboard Shortcuts"
 msgstr "Пернетақта жарлықтары"
 
-#: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28 data/ui/viewer-menu.ui:32
+#: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28
+#: data/ui/viewer-menu.ui:32
 msgid "About Thumbnails"
 msgstr "Үлгілер туралы"
 
@@ -447,9 +454,9 @@ msgid "Cut"
 msgstr "Қиып алу"
 
 #. Translators: it's a verb, as in "Copy Files"
-#: data/ui/browser.ui:457 data/ui/browser.ui:602 data/ui/file-property-view.ui:32
-#: data/ui/viewer.ui:254 src/Ext/FileManager/FileManager.vala:65
-#: src/Ext/Shortcuts/Shortcuts.vala:166
+#: data/ui/browser.ui:457 data/ui/browser.ui:602
+#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
+#: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Көшіру"
 
@@ -737,8 +744,8 @@ msgstr "Қиып жіберу"
 msgid "Rotate"
 msgstr "Бұру"
 
-#: data/ui/editor.ui:37 data/ui/viewer.ui:60 src/Ext/Shortcuts/Shortcuts.vala:186
-#: src/Viewer.vala:404
+#: data/ui/editor.ui:37 data/ui/viewer.ui:60
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:404
 msgid "Fullscreen"
 msgstr "Толық экран"
 
@@ -944,8 +951,8 @@ msgid "300%"
 msgstr "300%"
 
 #: data/ui/images-preferences.ui:4 src/DefaultTests.vala:35
-#: src/Ext/Preferences/PreferencesDialog.vala:7 src/Ext/Print/PrintLayout.vala:92
-#: src/Ext/Tools/FileActions.vala:17
+#: src/Ext/Preferences/PreferencesDialog.vala:7
+#: src/Ext/Print/PrintLayout.vala:92 src/Ext/Tools/FileActions.vala:17
 msgid "Images"
 msgstr "Суреттер"
 
@@ -1324,8 +1331,7 @@ msgstr "Жиектерді қиып жіберу"
 msgid "Draw a line on the image to set the alignment."
 msgstr "Туралауды орнату үшін суретке сызық сызыңыз."
 
-#. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (),
-#. file_data.get_position ());
+#. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
 #: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
 #: src/Ext/Preferences/PreferencesDialog.vala:10
@@ -1872,15 +1878,13 @@ msgstr "Бос каталог"
 msgid "Empty Selection"
 msgstr "Бос таңдау"
 
-#. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or
-#. 3).
+#. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:513
 #, c-format
 msgid "Use %s to add files to selection %u"
 msgstr "%s қолданып, %u таңдауына файлдарды қосыңыз"
 
-#. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or
-#. 3).
+#. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:522
 #, c-format
 msgid "Use %s to view selection %u"
@@ -2027,7 +2031,8 @@ msgid "No file selected"
 msgstr "Файл таңдалмады"
 
 #. Cannot copy to libraries.
-#: src/Dialogs/FolderSelector.vala:148 src/Ext/Bookmarks/BookmarksDialog.vala:67
+#: src/Dialogs/FolderSelector.vala:148
+#: src/Ext/Bookmarks/BookmarksDialog.vala:67
 msgid "Invalid location"
 msgstr "Жарамсыз орналасу"
 
@@ -2039,8 +2044,9 @@ msgstr "Автоматты файл аты"
 msgid "Enter a file extension"
 msgstr "Файл кеңейтуін енгізіңіз"
 
-#: src/Dialogs/ReadFilename.vala:31 src/Ext/Tools/Internal/ImageRotation.vala:112
-#: src/ImageSaver.vala:66 src/ImageSaver.vala:71
+#: src/Dialogs/ReadFilename.vala:31
+#: src/Ext/Tools/Internal/ImageRotation.vala:112 src/ImageSaver.vala:66
+#: src/ImageSaver.vala:71
 msgid "Cannot save this kind of files"
 msgstr "Файлдардың бұл түрін сақтау мүмкін емес"
 
@@ -2060,7 +2066,8 @@ msgstr "Орындар"
 msgid "Location already saved"
 msgstr "Орналасу қазірдің өзінде сақталған"
 
-#: src/Ext/Bookmarks/BookmarksDialog.vala:5 src/Ext/Filters/FiltersDialog.vala:30
+#: src/Ext/Bookmarks/BookmarksDialog.vala:5
+#: src/Ext/Filters/FiltersDialog.vala:30
 #: src/Ext/Filters/TestExprEditorGroup.vala:25
 #: src/Ext/Scripts/ScriptsDialog.vala:8
 #: src/Ext/Search/SearchSourceEditorGroup.vala:8
@@ -2118,7 +2125,8 @@ msgid "Gamma"
 msgstr "Гамма"
 
 #. Translators: filter that adjust the color curves.
-#: src/Ext/Editor/AdjustBrightness.vala:12 src/Ext/Editor/AdjustContrast.vala:12
+#: src/Ext/Editor/AdjustBrightness.vala:12
+#: src/Ext/Editor/AdjustContrast.vala:12
 msgid "Curves"
 msgstr "Қисықтар"
 
@@ -2228,14 +2236,12 @@ msgstr "Жылырақ"
 msgid "Cooler"
 msgstr "Суығырақ"
 
-#. Translators: this is the name of an image filter that produces darker
-#. edges.
+#. Translators: this is the name of an image filter that produces darker edges.
 #: src/Ext/Editor/SpecialEffects.vala:16
 msgid "Darker Edges"
 msgstr "Күңгірт жиектер"
 
-#. Translators: this is the name of an image filter that produces blurred
-#. edges.
+#. Translators: this is the name of an image filter that produces blurred edges.
 #: src/Ext/Editor/SpecialEffects.vala:19
 msgid "Blurred Edges"
 msgstr "Бұлдыраған жиектер"
@@ -2338,7 +2344,8 @@ msgstr "Мазмұнды алмастыру керек пе?"
 #, c-format
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
-msgstr "«%s» файлы басқа бағдарламамен өзгертілген. Оны алмастыруды қалайсыз ба?"
+msgstr ""
+"«%s» файлы басқа бағдарламамен өзгертілген. Оны алмастыруды қалайсыз ба?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
 msgid "Rename File?"
@@ -2502,8 +2509,7 @@ msgstr "Бос орын жеткіліксіз"
 msgid "Close"
 msgstr "Жабу"
 
-#. Overwrite the catalog content if the generic "last imported" catalog is
-#. used.
+#. Overwrite the catalog content if the generic "last imported" catalog is used.
 #: src/Ext/Import/Importer.vala:130
 msgid "Last Imported"
 msgstr "Соңғы импортталған"
@@ -2995,8 +3001,7 @@ msgstr "Орындаушы"
 msgid "Album"
 msgstr "Альбом"
 
-#. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata",
-#. MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
+#. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 #: src/Ext/Video/VideoMetadata.vala:8
 msgid "Video Codec"
 msgstr "Видео кодек"
@@ -3105,8 +3110,7 @@ msgstr "_Елемеу"
 msgid "Exit Fullscreen"
 msgstr "Толық экраннан шығу"
 
-#. Translators: text added to the window title when the image is modified and
-#. unsaved.
+#. Translators: text added to the window title when the image is modified and unsaved.
 #: src/Viewer.vala:480
 msgid "modified"
 msgstr "өзгертілген"
@@ -3157,6 +3161,7 @@ msgstr "Жады жеткіліксіз"
 #. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
+#.
 #: src/lib/util.c:674
 #, c-format
 msgctxt "long time format"
@@ -3168,6 +3173,7 @@ msgstr "%d∶%02d∶%02d"
 #. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
+#.
 #: src/lib/util.c:683
 #, c-format
 msgctxt "short time format"
@@ -3178,37 +3184,37 @@ msgstr "%d∶%02d"
 #~ msgstr "gThumb суреттерді шолушысы"
 
 #~ msgid ""
-#~ "gThumb is an image viewer, editor, browser and organizer. It is designed to "
-#~ "be well integrated with the GNOME 3 desktop."
+#~ "gThumb is an image viewer, editor, browser and organizer. It is designed "
+#~ "to be well integrated with the GNOME 3 desktop."
 #~ msgstr ""
-#~ "gThumb — бұл суреттерді шолушы, түзеткіш, браузер және реттеуші. Ол GNOME 3 "
-#~ "жұмыс үстелімен жақсы интеграциялануға арналған."
+#~ "gThumb — бұл суреттерді шолушы, түзеткіш, браузер және реттеуші. Ол GNOME "
+#~ "3 жұмыс үстелімен жақсы интеграциялануға арналған."
 
 #~ msgid ""
-#~ "As an image viewer gThumb allows to view common image file formats such as "
-#~ "BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. "
-#~ "It is also possible to view various metadata types embedded inside an image "
-#~ "such as EXIF, IPTC and XMP."
+#~ "As an image viewer gThumb allows to view common image file formats such "
+#~ "as BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW "
+#~ "images. It is also possible to view various metadata types embedded "
+#~ "inside an image such as EXIF, IPTC and XMP."
 #~ msgstr ""
-#~ "Суреттерді шолушы ретінде gThumb BMP, JPEG, GIF (анимацияларды қоса), PNG, "
-#~ "TIFF, TGA және RAW сияқты кең таралған сурет файлдарының пішімдерін көруге "
-#~ "мүмкіндік береді. Сондай-ақ EXIF, IPTC және XMP сияқты сурет ішіне "
+#~ "Суреттерді шолушы ретінде gThumb BMP, JPEG, GIF (анимацияларды қоса), "
+#~ "PNG, TIFF, TGA және RAW сияқты кең таралған сурет файлдарының пішімдерін "
+#~ "көруге мүмкіндік береді. Сондай-ақ EXIF, IPTC және XMP сияқты сурет ішіне "
 #~ "ендірілген метадеректердің әртүрлі түрлерін көруге болады."
 
 #~ msgid ""
-#~ "As an image browser gThumb shows the thumbnails of the images saved on your "
-#~ "disk, allows to perform the common operations of a file manager such as "
-#~ "copy, move and delete files and folders. Furthermore there is a series of "
-#~ "image specific tools such as JPEG lossless transformations; image resize; "
-#~ "format conversion; slideshow; setting an image as desktop background and "
-#~ "several others."
+#~ "As an image browser gThumb shows the thumbnails of the images saved on "
+#~ "your disk, allows to perform the common operations of a file manager such "
+#~ "as copy, move and delete files and folders. Furthermore there is a series "
+#~ "of image specific tools such as JPEG lossless transformations; image "
+#~ "resize; format conversion; slideshow; setting an image as desktop "
+#~ "background and several others."
 #~ msgstr ""
-#~ "Сурет браузері ретінде gThumb дискіңізде сақталған суреттердің таңбашаларын "
-#~ "көрсетеді, файлдар мен бумаларды көшіру, жылжыту және өшіру сияқты файл "
-#~ "менеджерінің жалпы әрекеттерін орындауға мүмкіндік береді. Сонымен қатар "
-#~ "JPEG шығынсыз түрлендірулері; сурет өлшемін өзгерту; пішімді түрлендіру; "
-#~ "слайдшоу; суретті жұмыс үстелінің фоны ретінде орнату және т.б. суретке тән "
-#~ "саймандар сериясы бар."
+#~ "Сурет браузері ретінде gThumb дискіңізде сақталған суреттердің "
+#~ "таңбашаларын көрсетеді, файлдар мен бумаларды көшіру, жылжыту және өшіру "
+#~ "сияқты файл менеджерінің жалпы әрекеттерін орындауға мүмкіндік береді. "
+#~ "Сонымен қатар JPEG шығынсыз түрлендірулері; сурет өлшемін өзгерту; "
+#~ "пішімді түрлендіру; слайдшоу; суретті жұмыс үстелінің фоны ретінде орнату "
+#~ "және т.б. суретке тән саймандар сериясы бар."
 
 #~ msgid "Browser mode"
 #~ msgstr "Браузер режимі"
@@ -3217,8 +3223,8 @@ msgstr "%d∶%02d"
 #~ msgstr "Шолушы режимі"
 
 #~ msgid ""
-#~ "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-#~ "to generate thumbnails for all images."
+#~ "Images over this size (in bytes) will not be thumbnailed. Use 0 if you "
+#~ "want to generate thumbnails for all images."
 #~ msgstr ""
 #~ "Осы өлшемнен (байтпен) асатын суреттер үшін таңбашалар жасалмайды. Егер "
 #~ "барлық суреттер үшін таңбашаларды жасағыңыз келсе, 0 мәнін пайдаланыңыз."
@@ -3650,7 +3656,8 @@ msgstr "%d∶%02d"
 #~ msgid "Contact Sheet"
 #~ msgstr "Байланыс парағы"
 
-#~ msgid "Create an index image displaying the thumbnails of the selected files."
+#~ msgid ""
+#~ "Create an index image displaying the thumbnails of the selected files."
 #~ msgstr ""
 #~ "Таңдалған файлдардың кішірейтілген суреттерін көрсететін индекс бейнесін "
 #~ "жасау."
@@ -4064,7 +4071,8 @@ msgstr "%d∶%02d"
 
 #~ msgid "Change brightness, contrast, saturation and gamma level of the image"
 #~ msgstr ""
-#~ "Суреттің жарықтылығын, контрастын, қанықтылығын және гамма деңгейін өзгерту"
+#~ "Суреттің жарықтылығын, контрастын, қанықтылығын және гамма деңгейін "
+#~ "өзгерту"
 
 #~ msgid "Stretch"
 #~ msgstr "Созу"
@@ -4914,7 +4922,8 @@ msgstr "%d∶%02d"
 
 #~ msgid "Do you want to revert all the changes and use the default shortcuts?"
 #~ msgstr ""
-#~ "Барлық өзгерістерді болдырмай, бастапқы жарлықтарды пайдалануды қалайсыз ба?"
+#~ "Барлық өзгерістерді болдырмай, бастапқы жарлықтарды пайдалануды қалайсыз "
+#~ "ба?"
 
 #, c-format
 #~ msgid "%s of %s"
@@ -4944,10 +4953,10 @@ msgstr "%d∶%02d"
 #~ msgstr "Сандық камера фотоларын автоматты түрде импорттау"
 
 #~ msgid ""
-#~ "gThumb is free software; you can redistribute it and/or modify it under the "
-#~ "terms of the GNU General Public License as published by the Free Software "
-#~ "Foundation; either version 2 of the License, or (at your option) any later "
-#~ "version."
+#~ "gThumb is free software; you can redistribute it and/or modify it under "
+#~ "the terms of the GNU General Public License as published by the Free "
+#~ "Software Foundation; either version 2 of the License, or (at your option) "
+#~ "any later version."
 #~ msgstr ""
 #~ "gThumb — еркін бағдарламалық қамтама; сіз оны Free Software Foundation "
 #~ "шығарған GNU General Public License лицензиясының (2-нұсқасы немесе одан "
@@ -5238,8 +5247,8 @@ msgstr "%d∶%02d"
 
 #, c-format
 #~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s» and cannot "
-#~ "be changed."
+#~ "The key combination «%s» is already assigned to the action «%s» and "
+#~ "cannot be changed."
 #~ msgstr ""
 #~ "«%s» пернелер комбинациясы «%s» әрекетіне тағайындалып қойған және оны "
 #~ "өзгерту мүмкін емес."
@@ -5247,7 +5256,8 @@ msgstr "%d∶%02d"
 #, c-format
 #~ msgid "The key combination «%s» is already assigned and cannot be changed."
 #~ msgstr ""
-#~ "«%s» пернелер комбинациясы тағайындалып қойған және оны өзгерту мүмкін емес."
+#~ "«%s» пернелер комбинациясы тағайындалып қойған және оны өзгерту мүмкін "
+#~ "емес."
 
 #~ msgid "Could not display help"
 #~ msgstr "Көмекті көрсету мүмкін болмады"
