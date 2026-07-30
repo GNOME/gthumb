@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-04-28 15:41+0000\n"
-"PO-Revision-Date: 2026-05-15 12:47+0800\n"
+"POT-Creation-Date: 2026-07-16 17:45+0000\n"
+"PO-Revision-Date: 2026-07-31 07:54+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -33,6 +33,10 @@ msgstr "缩略图"
 #: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
 msgid "View and organize your images"
 msgstr "查看及管理图像"
+
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:17
+msgid "Paolo Bacchilega"
+msgstr "Paolo Bacchilega"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
@@ -208,13 +212,13 @@ msgstr "取消(_C)"
 msgid "_Select"
 msgstr "选择(_S)"
 
-#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:101
-#: src/DefaultTests.vala:233 src/Ext/Editor/AspectRatioGroup.vala:11
+#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
+#: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
 msgid "Aspect Ratio"
 msgstr "宽高比"
 
 #: data/ui/aspect-ratio-group.ui:14 data/ui/general-preferences.ui:54
-#: src/Application.vala:113 src/Ext/Exiv2/ExifMetadata.vala:12
+#: src/Application.vala:124 src/Ext/Exiv2/ExifMetadata.vala:12
 #: src/Ext/Video/OtherPropertyView.vala:11
 msgid "Other"
 msgstr "其它"
@@ -264,8 +268,8 @@ msgstr "保存"
 #: data/ui/bookmarks-dialog.ui:51 data/ui/catalog-dialog.ui:40
 #: data/ui/entry-dialog.ui:22 data/ui/filter-editor-page.ui:33
 #: data/ui/rename-dialog.ui:44 data/ui/rename-dialog.ui:180
-#: data/ui/script-editor-page.ui:30 src/Application.vala:94
-#: src/Application.vala:117 src/DefaultTests.vala:100
+#: data/ui/script-editor-page.ui:30 src/Application.vala:105
+#: src/Application.vala:128 src/DefaultTests.vala:100
 #: src/Ext/Filters/FilterEditorPage.vala:125
 msgid "Name"
 msgstr "名称"
@@ -339,7 +343,7 @@ msgstr "第三行"
 msgid "Behavior"
 msgstr "行为"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:640
+#: data/ui/browser-preferences.ui:71 src/Application.vala:651
 msgid "Open files in fullscreen mode"
 msgstr "以全屏方式打开文件"
 
@@ -561,13 +565,13 @@ msgstr "类目"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:224
-#: src/Ext/Image/ImageViewer.vala:280 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
+#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
 msgid "_Save"
 msgstr "保存(_S)"
 
 #: data/ui/catalog-dialog.ui:45 data/ui/importer-dialog.ui:91
-#: data/ui/metadata-dialog.ui:89 src/Application.vala:138
+#: data/ui/metadata-dialog.ui:89 src/Application.vala:149
 msgid "Date"
 msgstr "日期"
 
@@ -594,7 +598,7 @@ msgctxt "Position"
 msgid "Top"
 msgstr "顶部"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:413
+#: data/ui/convert-dialog.ui:4 src/Application.vala:247 src/MainWindow.vala:413
 msgid "Convert Format"
 msgstr "转换格式"
 
@@ -742,7 +746,7 @@ msgid "Rotate"
 msgstr "旋转"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:397
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:404
 msgid "Fullscreen"
 msgstr "全屏"
 
@@ -991,8 +995,8 @@ msgctxt "Date"
 msgid "Original"
 msgstr "原始日期"
 
-#: data/ui/importer-dialog.ui:127 src/Application.vala:98
-#: src/Application.vala:119 src/SelectionView.vala:41
+#: data/ui/importer-dialog.ui:127 src/Application.vala:109
+#: src/Application.vala:130 src/SelectionView.vala:41
 msgid "Bytes"
 msgstr "字节"
 
@@ -1034,23 +1038,23 @@ msgstr "慢"
 msgid "Save only cha_nged fields"
 msgstr "只保存已更改区域(_N)"
 
-#: data/ui/metadata-dialog.ui:46 src/Application.vala:136
+#: data/ui/metadata-dialog.ui:46 src/Application.vala:147
 msgid "Comment"
 msgstr "备注"
 
-#: data/ui/metadata-dialog.ui:69 src/Application.vala:112
+#: data/ui/metadata-dialog.ui:69 src/Application.vala:123
 #: src/Ext/Tools/FileActions.vala:18
 msgid "Metadata"
 msgstr "元数据"
 
 #: data/ui/metadata-dialog.ui:73 data/ui/template-token-row.ui:174
-#: src/Application.vala:135 src/DefaultTests.vala:172
+#: src/Application.vala:146 src/DefaultTests.vala:172
 #: src/Ext/Template/TemplateTokenRow.vala:215
 msgid "Title"
 msgstr "标题"
 
-#: data/ui/metadata-dialog.ui:81 src/Application.vala:137
-#: src/DefaultTests.vala:221
+#: data/ui/metadata-dialog.ui:81 src/Application.vala:148
+#: src/DefaultTests.vala:222
 msgid "Place"
 msgstr "位置"
 
@@ -1058,7 +1062,7 @@ msgstr "位置"
 msgid "Time of Day"
 msgstr "时刻"
 
-#: data/ui/metadata-dialog.ui:99 src/Application.vala:140
+#: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
 msgid "Rating"
 msgstr "评分"
@@ -1068,7 +1072,7 @@ msgstr "评分"
 msgid "IPTC"
 msgstr "IPTC"
 
-#: data/ui/metadata-dialog.ui:115 src/Application.vala:142
+#: data/ui/metadata-dialog.ui:115 src/Application.vala:153
 msgid "Copyright"
 msgstr "版权"
 
@@ -1283,7 +1287,7 @@ msgid "Preserve Aspect Ratio"
 msgstr "保持长宽比"
 
 #. Translators: width and height of images or videos.
-#: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
+#: data/ui/resize-image.ui:6 src/Application.vala:111 src/Application.vala:141
 msgid "Pixels"
 msgstr "像素"
 
@@ -1699,7 +1703,7 @@ msgid "Copy Frame"
 msgstr "复制帧"
 
 #. Translators: the file modification time.
-#: src/Application.vala:95 src/Application.vala:121 src/DefaultTests.vala:148
+#: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
 msgctxt "Time"
@@ -1707,147 +1711,147 @@ msgid "Modified"
 msgstr "修改时间"
 
 #. Translators: the file change time.
-#: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
+#: src/Application.vala:107 src/Application.vala:136 src/DefaultTests.vala:136
 msgid "File Changed"
 msgstr "更改时间"
 
 #. Translators: the file creation time.
-#: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
+#: src/Application.vala:108 src/Application.vala:134 src/DefaultTests.vala:124
 msgid "File Created"
 msgstr "创建时间"
 
-#: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
+#: src/Application.vala:110 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
 msgstr "文件路径"
 
-#: src/Application.vala:102
+#: src/Application.vala:113
 msgid "Unsorted"
 msgstr "未排序"
 
-#: src/Application.vala:110
+#: src/Application.vala:121
 msgid "File"
 msgstr "文件"
 
-#: src/Application.vala:111 src/DefaultTests.vala:184
+#: src/Application.vala:122 src/DefaultTests.vala:184
 msgid "Description"
 msgstr "描述"
 
-#: src/Application.vala:118 src/DefaultTests.vala:5 src/DefaultTests.vala:16
+#: src/Application.vala:129 src/DefaultTests.vala:5 src/DefaultTests.vala:16
 msgid "Type"
 msgstr "类型"
 
-#: src/Application.vala:126
+#: src/Application.vala:137
 msgid "Folder"
 msgstr "文件夹"
 
-#: src/Application.vala:131
+#: src/Application.vala:142
 msgid "Duration"
 msgstr "时长"
 
-#: src/Application.vala:132
+#: src/Application.vala:143
 msgid "Color Profile"
 msgstr "特性文件"
 
-#: src/Application.vala:133
+#: src/Application.vala:144
 msgid "Frames"
 msgstr "帧"
 
-#: src/Application.vala:139 src/TagEntry.vala:71
+#: src/Application.vala:150 src/TagEntry.vala:73
 msgid "Tags"
 msgstr "标签"
 
-#: src/Application.vala:143
+#: src/Application.vala:154
 msgid "Author"
 msgstr "作者"
 
-#: src/Application.vala:144
+#: src/Application.vala:155
 msgid "Coordinates"
 msgstr "坐标"
 
-#: src/Application.vala:146
+#: src/Application.vala:157
 msgid "Camera Model"
 msgstr "相机型号"
 
-#: src/Application.vala:147 src/lib/exiv2-utils.cpp:696
+#: src/Application.vala:158 src/lib/exiv2-utils.cpp:686
 msgid "Exposure"
 msgstr "曝光"
 
-#: src/Application.vala:148
+#: src/Application.vala:159
 msgid "Aperture"
 msgstr "光圈"
 
-#: src/Application.vala:149
+#: src/Application.vala:160
 msgid "ISO Speed"
 msgstr "ISO 速度"
 
-#: src/Application.vala:150
+#: src/Application.vala:161
 msgid "Exposure Time"
 msgstr "曝光时间"
 
-#: src/Application.vala:151
+#: src/Application.vala:162
 msgid "Shutter Speed"
 msgstr "快门速度"
 
-#: src/Application.vala:152
+#: src/Application.vala:163
 msgid "Focal Length"
 msgstr "焦距"
 
-#: src/Application.vala:153
+#: src/Application.vala:164
 msgid "Flash"
 msgstr "闪光"
 
-#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:453
-#: src/Ext/Image/ImageViewer.vala:462 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
+#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "向右旋转"
 
-#: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
+#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259
 #: src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "向左旋转"
 
-#: src/Application.vala:237 src/MainWindow.vala:398
+#: src/Application.vala:248 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "调整图像大小"
 
-#: src/Application.vala:238 src/MainWindow.vala:865
+#: src/Application.vala:249 src/MainWindow.vala:865
 msgid "Clear Metadata"
 msgstr "清除元数据"
 
-#: src/Application.vala:239 src/MainWindow.vala:841
+#: src/Application.vala:250 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "物理旋转"
 
-#: src/Application.vala:241
+#: src/Application.vala:252
 msgid "Reset EXIF Orientation"
 msgstr "重置 EXIF 方向"
 
-#: src/Application.vala:243 src/MainWindow.vala:877
+#: src/Application.vala:254 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "更新缩略图"
 
-#: src/Application.vala:405 src/DefaultTests.vala:23
+#: src/Application.vala:416 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "所有文件"
 
-#: src/Application.vala:622
+#: src/Application.vala:633
 msgid "Show the application version"
 msgstr "显示应用程序版本"
 
-#: src/Application.vala:631
+#: src/Application.vala:642
 msgid "Open a new window"
 msgstr "打开新窗口"
 
-#: src/Application.vala:650
+#: src/Application.vala:661
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[文件…] [目录…]"
 
-#: src/Application.vala:654
+#: src/Application.vala:665
 msgid "— Image Browser and Viewer"
 msgstr "— 图像浏览器和查看器"
 
-#: src/Application.vala:717
+#: src/Application.vala:728
 msgid "translator-credits"
 msgstr ""
 "开源软件国际化简体中文组(http://i18n.linux.net.cn)\n"
@@ -1985,7 +1989,7 @@ msgstr "此操作不可逆。您想要删除 <i>%s</i> 吗？"
 msgid "Source and destination are the same"
 msgstr "来源和目标相同"
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:604
+#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2017,7 +2021,7 @@ msgstr "文本文件"
 msgid "Created (Original)"
 msgstr "创建日期（原始）"
 
-#: src/DefaultTests.vala:208
+#: src/DefaultTests.vala:209
 msgid "Tag"
 msgstr "标签"
 
@@ -2374,7 +2378,7 @@ msgstr "新的内容"
 msgid "Same answer for all the files"
 msgstr "应用至所有文件"
 
-#: src/Ext/Filters/Filter.vala:108
+#: src/Ext/Filters/Filter.vala:109
 msgid "files"
 msgstr "文件"
 
@@ -2467,33 +2471,33 @@ msgid "Not Includes"
 msgstr "不包括"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
+#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
 msgid "Save File"
 msgstr "保存文件"
 
-#: src/Ext/Image/ImageViewer.vala:259
+#: src/Ext/Image/ImageViewer.vala:264
 #, c-format
 msgid "Saving %s"
 msgstr "正在保存 %s"
 
-#: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
+#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
 #: src/MainWindow.vala:1087
 msgid "File type not supported"
 msgstr "文件类型不支持"
 
-#: src/Ext/Image/ImageViewer.vala:435 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "水平翻转"
 
-#: src/Ext/Image/ImageViewer.vala:444 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "竖直翻转"
 
-#: src/Ext/Image/ImageViewer.vala:595 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
 msgid "Copying to the Clipboard"
 msgstr "正在复制到剪贴板"
 
-#: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
 msgid "Copied to the Clipboard"
 msgstr "已复制到剪贴板"
 
@@ -2980,13 +2984,13 @@ msgstr "分"
 msgid "Second"
 msgstr "秒"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:87
-#: src/ImageLoader.vala:96 src/ImageLoader.vala:161
+#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:104
+#: src/ImageLoader.vala:113 src/ImageLoader.vala:162
 msgid "Unknown file type"
 msgstr "未知文件类型"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:118
-#: src/ImageLoader.vala:166
+#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:134
+#: src/ImageLoader.vala:167
 msgid "No suitable loader available for this file type"
 msgstr "没有用于此文件类型的加载器"
 
@@ -3042,11 +3046,11 @@ msgstr "复制路径"
 msgid "View on OpenStreetMap"
 msgstr "在 OpenStreetMap 上查看"
 
-#: src/Files.vala:239
+#: src/Files.vala:240
 msgid "Computer"
 msgstr "计算机"
 
-#: src/Files.vala:243
+#: src/Files.vala:244
 msgid "User Home"
 msgstr "用户主文件夹"
 
@@ -3107,40 +3111,40 @@ msgstr "如果您不保存，对文件的更改将永久丢失。"
 msgid "_Discard"
 msgstr "丢弃(_D)"
 
-#: src/Viewer.vala:383
+#: src/Viewer.vala:390
 msgid "Exit Fullscreen"
 msgstr "退出全屏"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:473
+#: src/Viewer.vala:480
 msgid "modified"
 msgstr "已修改"
 
-#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:286
+#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:307
 msgid "(invalid value)"
 msgstr "（无效值）"
 
-#: src/lib/exiv2-utils.cpp:847 src/lib/exiv2-utils.cpp:1427
-#: src/lib/exiv2-utils.cpp:1450 src/lib/io/load-gif.c:138
+#: src/lib/exiv2-utils.cpp:837 src/lib/exiv2-utils.cpp:1421
+#: src/lib/exiv2-utils.cpp:1444 src/lib/io/load-gif.c:138
 msgid "Invalid file format"
 msgstr "无效的文件格式"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "南"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "北"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "西"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "东"
@@ -3163,7 +3167,7 @@ msgstr "内存不足"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: src/lib/util.c:653
+#: src/lib/util.c:674
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -3175,7 +3179,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: src/lib/util.c:662
+#: src/lib/util.c:683
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
