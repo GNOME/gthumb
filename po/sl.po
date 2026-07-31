@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-07-16 17:45+0000\n"
-"PO-Revision-Date: 2026-07-29 11:30+0200\n"
+"POT-Creation-Date: 2026-07-31 08:08+0000\n"
+"PO-Revision-Date: 2026-07-31 22:32+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -1231,11 +1231,11 @@ msgstr "Velike črke"
 msgid "Sort"
 msgstr "Razvrsti"
 
-#: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:107
+#: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:109
 msgid "Before"
 msgstr "Pred"
 
-#: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:108
+#: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:110
 msgid "After"
 msgstr "Po"
 
@@ -2139,13 +2139,13 @@ msgid "Image"
 msgstr "Slika"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:65 src/Ext/Editor/AspectRatioGroup.vala:66
-#: src/Ext/Filters/TestAspectRatio.vala:168
+#: src/Ext/Filters/TestAspectRatio.vala:169
 msgctxt "Aspect Ratio"
 msgid "Square"
 msgstr "Kvadrat"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:79 src/Ext/Editor/AspectRatioGroup.vala:81
-#: src/Ext/Filters/TestAspectRatio.vala:179
+#: src/Ext/Filters/TestAspectRatio.vala:180
 msgctxt "Aspect Ratio"
 msgid "A4"
 msgstr "A4"
@@ -2386,8 +2386,8 @@ msgstr "je manjše kot"
 msgid "Lower Than or Equal To"
 msgstr "je manjše ali enako"
 
-#: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:109
-#: src/Ext/Filters/TestString.vala:145
+#: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:111
+#: src/Ext/Filters/TestString.vala:147
 msgid "Equal To"
 msgstr "je enako"
 
@@ -2406,39 +2406,47 @@ msgstr "MB"
 msgid "GB"
 msgstr "GB"
 
-#: src/Ext/Filters/TestDate.vala:110 src/Ext/Filters/TestString.vala:146
+#: src/Ext/Filters/TestAspectRatio.vala:124 src/Ext/Filters/TestDate.vala:93
+#: src/Ext/Filters/TestDate.vala:100 src/Ext/Filters/TestInt.vala:84
+#: src/Ext/Filters/TestSize.vala:105 src/Ext/Filters/TestString.vala:128
+#: src/Ext/Filters/TestString.vala:135 src/Ext/Filters/TestStringList.vala:123
+#: src/Ext/Filters/TestStringList.vala:130
+msgid "The test definition is incomplete"
+msgstr "Preizkusno določilo je nepopolno"
+
+#: src/Ext/Filters/TestDate.vala:112 src/Ext/Filters/TestString.vala:148
 msgid "Different From"
 msgstr "Se razlikuje od"
 
-#: src/Ext/Filters/TestString.vala:142
+#: src/Ext/Filters/TestString.vala:144
 msgid "Contains"
 msgstr "vsebuje"
 
-#: src/Ext/Filters/TestString.vala:143
+#: src/Ext/Filters/TestString.vala:145
 msgid "Starts With"
 msgstr "se začne z"
 
-#: src/Ext/Filters/TestString.vala:144
+#: src/Ext/Filters/TestString.vala:146
 msgid "Ends With"
 msgstr "se konča z"
 
-#: src/Ext/Filters/TestString.vala:147
+#: src/Ext/Filters/TestString.vala:149
 msgid "Does not Contain"
 msgstr "ne vsebuje"
 
-#: src/Ext/Filters/TestString.vala:148 src/Ext/Filters/TestStringList.vala:140
+#: src/Ext/Filters/TestString.vala:150 src/Ext/Filters/TestStringList.vala:142
 msgid "Matches Pattern"
 msgstr "Se ujema z vzorcem"
 
-#: src/Ext/Filters/TestStringList.vala:137
+#: src/Ext/Filters/TestStringList.vala:139
 msgid "Includes"
 msgstr "Vključuje"
 
-#: src/Ext/Filters/TestStringList.vala:138
+#: src/Ext/Filters/TestStringList.vala:140
 msgid "Includes Only"
 msgstr "Vključuje samo"
 
-#: src/Ext/Filters/TestStringList.vala:139
+#: src/Ext/Filters/TestStringList.vala:141
 msgid "Not Includes"
 msgstr "Ne vključuje"
 
