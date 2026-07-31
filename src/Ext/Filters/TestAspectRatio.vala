@@ -120,8 +120,9 @@ public class Gth.TestAspectRatio : Gth.Test {
 
 	public override void update_from_options () throws Error {
 		var selected = operation_selector.get_selected ();
-		if (selected >= Int_Operations.length)
-			throw new IOError.FAILED ("The test definition is incomplete");
+		if (selected >= Int_Operations.length) {
+			throw new IOError.FAILED (_("The test definition is incomplete"));
+		}
 		unowned var op_info = Int_Operations[selected];
 		op = op_info.op;
 		negative = op_info.negative;

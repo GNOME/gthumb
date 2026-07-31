@@ -89,14 +89,16 @@ public class Gth.TestDate : Gth.Test {
 
 	public override void update_from_options () throws Error {
 		var selected_operation = operation.get_selected ();
-		if (selected_operation >= DateOperations.length)
-			throw new IOError.FAILED ("The test definition is incomplete");
+		if (selected_operation >= DateOperations.length) {
+			throw new IOError.FAILED (_("The test definition is incomplete"));
+		}
 		unowned var op_info = DateOperations[selected_operation];
 		op = op_info.op;
 		negative = op_info.negative;
 		date = time_selector.get_time ();
-		if (date == null)
-			throw new IOError.FAILED ("The test definition is incomplete");
+		if (date == null) {
+			throw new IOError.FAILED (_("The test definition is incomplete"));
+		}
 	}
 
 	public override void focus_options () {

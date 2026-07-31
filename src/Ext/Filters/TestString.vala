@@ -124,14 +124,16 @@ public class Gth.TestString : Gth.Test {
 
 	public override void update_from_options () throws Error {
 		var selected = operation.get_selected ();
-		if (selected >= Operations.length)
-			throw new IOError.FAILED ("The test definition is incomplete");
+		if (selected >= Operations.length) {
+			throw new IOError.FAILED (_("The test definition is incomplete"));
+		}
 		unowned var op_info = Operations[selected];
 		op = op_info.op;
 		negative = op_info.negative;
 		text = entry.get_text ();
-		if (Strings.empty (text))
-			throw new IOError.FAILED ("The test definition is incomplete");
+		if (Strings.empty (text)) {
+			throw new IOError.FAILED (_("The test definition is incomplete"));
+		}
 	}
 
 	public override void focus_options () {
