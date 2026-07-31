@@ -61,7 +61,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 				try {
 					var selection = app.selections.get_selection (number);
 					if (selection == null) {
-						throw new IOError.FAILED ("Wrong Selection");
+						throw new IOError.FAILED ("Wrong selection");
 					}
 					uint position = 0;
 					var local_files = selection.get_files ();
@@ -114,7 +114,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 	public override async void add_files (MainWindow window, File destination, GenericList<File> files, Job job) throws Error {
 		var selection = app.selections.get_selection_from_file (destination);
 		if (selection == null) {
-			throw new IOError.FAILED ("Wrong Destination");
+			throw new IOError.FAILED ("Wrong destination");
 		}
 		selection.add_files (files);
 	}
@@ -122,7 +122,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 	public override async void remove_files (MainWindow window, File location, GenericList<File> files, Job job) throws Error {
 		var selection = app.selections.get_selection_from_file (location);
 		if (selection == null) {
-			throw new IOError.FAILED ("Wrong Destination");
+			throw new IOError.FAILED ("Wrong destination");
 		}
 		selection.remove_files (files);
 	}
@@ -130,7 +130,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 	public override async void save_order (MainWindow window, File location, GenericList<File> files, Job job) throws Error {
 		var selection = app.selections.get_selection_from_file (location);
 		if (selection == null) {
-			throw new IOError.FAILED ("Wrong Destination");
+			throw new IOError.FAILED ("Wrong destination");
 		}
 		selection.set_files (files);
 	}
@@ -142,7 +142,7 @@ public class Gth.FileSourceSelections : Gth.FileSource {
 	public override async void files_renamed (MainWindow window, File location, GenericList<RenamedFile> renamed_files, Job job) throws Error {
 		var selection = app.selections.get_selection_from_file (location);
 		if (selection == null) {
-			throw new IOError.FAILED ("Wrong Destination");
+			throw new IOError.FAILED ("Wrong destination");
 		}
 		selection.files_renamed (renamed_files);
 	}

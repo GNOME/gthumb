@@ -106,7 +106,7 @@ public class Gth.EntryDialog : Adw.Dialog {
 	void on_generator_clicked (Gtk.Button button) {
 		try {
 			if (_generator == null) {
-				throw new IOError.FAILED ("No Generator");
+				throw new IOError.FAILED ("No generator");
 			}
 			entry.text = _generator.generate (entry.text);
 			entry.grab_focus ();

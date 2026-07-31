@@ -51,7 +51,7 @@ public class Gth.Filters {
 		try {
 			var file = Gth.UserDir.get_config_file (Gth.FileIntent.READ, FILTERS_FILE);
 			if (file == null) {
-				throw new IOError.NOT_FOUND ("Not Found");
+				throw new IOError.NOT_FOUND ("Not found");
 			}
 			var doc = new Dom.Document ();
 			doc.load_file (file);
