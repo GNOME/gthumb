@@ -14,7 +14,7 @@
   <name>Thumbnails</name>
   <summary>View and organize your images</summary>
   <developer id="org.gnome">
-    <name translatable="no">Paolo Bacchilega</name>
+    <name translate="no">Paolo Bacchilega</name>
   </developer>
   <description>
     <p>
