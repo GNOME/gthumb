@@ -11,18 +11,18 @@
 # Henrique Machado Campos <henriquecamposrj@gmail.com>, 2020.
 # Henrique Roberto Gattermann Mittelstaedt <henrique.roberto97@gmail.com>, 2020.
 # Enrico Nicoletto <hiko@duck.com>, 2013, 2020-2022.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2013-2021.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
 # Álvaro Burns <>, 2025.
 # Renan de Jesus Melo <renanjmelo@gmail.com>, 2026.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2013-2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-06-21 06:07+0000\n"
-"PO-Revision-Date: 2026-06-13 12:19-0300\n"
-"Last-Translator: Renan de Jesus Melo <renanjmelo@gmail.com>\n"
+"POT-Creation-Date: 2026-08-06 18:44+0000\n"
+"PO-Revision-Date: 2026-08-14 18:11-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Gtranslator 50.0\n"
 "X-Project-Style: gnome\n"
+"X-DL-Lang: pt_BR\n"
+"X-DL-Module: gthumb\n"
+"X-DL-Branch: master\n"
+"X-DL-Domain: ui\n"
+"X-DL-VCS-Web: https://gitlab.gnome.org/GNOME/gthumb\n"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
@@ -98,18 +103,13 @@ msgid "Setting an image as desktop background"
 msgstr "Define a imagem como plano de fundo da área de trabalho"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
-#, fuzzy
-#| msgid ""
-#| "As an image organizer gThumb allows to add comments and other metadata to "
-#| "images; organize images in catalogs and catalogs in libraries; search for "
-#| "images and save the result as a catalog."
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
 msgstr ""
-"Como um organizador de imagens o gThumb permite adicionar comentários e "
-"outros metadados nas imagens; organiza imagens em catálogos e catálogos em "
-"bibliotecas; pesquisa por imagens e salva o resultado como um catálogo."
+"Adiciona comentários e outros metadados a imagens, organiza imagens em "
+"catálogos e catálogos em bibliotecas, pesquisa por imagens e salva o "
+"resultado como um catálogo."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4
@@ -124,10 +124,8 @@ msgid "Viewer"
 msgstr "Visualizador"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:68
-#, fuzzy
-#| msgid "Edit"
 msgid "Editor"
-msgstr "Editar"
+msgstr "Editor"
 
 # já estava traduzido anteriormente. Acatarei a mensagem do desenvolvedor, e não alterarei esta entrada.
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
@@ -153,10 +151,8 @@ msgid "Possible values are: tiff, tif."
 msgstr "Valores possíveis são: tiff, tif."
 
 #: data/ui/add-rule-dialog.ui:4 data/ui/test-expr-editor-group.ui:62
-#, fuzzy
-#| msgid "Add a new rule"
 msgid "Add Rule"
-msgstr "Adiciona uma nova regra"
+msgstr "Adicionar regra"
 
 #: data/ui/adjust-brightness.ui:38 data/ui/adjust-colors.ui:139
 #: data/ui/adjust-contrast.ui:38 data/ui/adjust-saturation.ui:49
@@ -231,24 +227,20 @@ msgstr "_Cancelar"
 msgid "_Select"
 msgstr "_Selecionar"
 
-#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:101
+#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
 #: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
-#, fuzzy
-#| msgid "Aspect ratio"
 msgid "Aspect Ratio"
 msgstr "Proporção"
 
 #: data/ui/aspect-ratio-group.ui:14 data/ui/general-preferences.ui:54
-#: src/Application.vala:113 src/Ext/Exiv2/ExifMetadata.vala:12
+#: src/Application.vala:124 src/Ext/Exiv2/ExifMetadata.vala:12
 #: src/Ext/Video/OtherPropertyView.vala:11
 msgid "Other"
 msgstr "Outros"
 
 #: data/ui/aspect-ratio-group.ui:39
-#, fuzzy
-#| msgid "Rotate"
 msgid "Rotated"
-msgstr "Girar"
+msgstr "Girado"
 
 #: data/ui/avif-preferences.ui:8 data/ui/jxl-preferences.ui:8
 #: data/ui/webp-preferences.ui:8
@@ -291,8 +283,8 @@ msgstr "Salvar"
 #: data/ui/bookmarks-dialog.ui:51 data/ui/catalog-dialog.ui:40
 #: data/ui/entry-dialog.ui:22 data/ui/filter-editor-page.ui:33
 #: data/ui/rename-dialog.ui:44 data/ui/rename-dialog.ui:180
-#: data/ui/script-editor-page.ui:30 src/Application.vala:94
-#: src/Application.vala:117 src/DefaultTests.vala:100
+#: data/ui/script-editor-page.ui:30 src/Application.vala:105
+#: src/Application.vala:128 src/DefaultTests.vala:100
 #: src/Ext/Filters/FilterEditorPage.vala:125
 msgid "Name"
 msgstr "Nome"
@@ -324,10 +316,8 @@ msgid "_Sort Folders"
 msgstr "Ordenar pastas"
 
 #: data/ui/browser-menu.ui:32
-#, fuzzy
-#| msgid "Hidden Files"
 msgid "_Hidden Files"
-msgstr "Arquivos ocultos"
+msgstr "Arquivos _ocultos"
 
 #: data/ui/browser-menu.ui:38 data/ui/editor-menu.ui:20
 #: data/ui/preferences-dialog.ui:4 data/ui/preferences-dialog.ui:19
@@ -369,7 +359,7 @@ msgstr "Terceira linha"
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:640
+#: data/ui/browser-preferences.ui:71 src/Application.vala:651
 msgid "Open files in fullscreen mode"
 msgstr "Abrir arquivos em modo tela cheia"
 
@@ -452,7 +442,7 @@ msgstr "Abrir em tela cheia"
 #: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
 #: data/ui/browser.ui:680 data/ui/viewer.ui:221
 msgid "Open in New Window"
-msgstr "Abre em nova janela"
+msgstr "Abrir em nova janela"
 
 #: data/ui/browser.ui:429 data/ui/viewer.ui:225
 msgid "Open _With…"
@@ -467,7 +457,7 @@ msgstr "Abrir pasta"
 #: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
 #: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
-msgstr "Imprime"
+msgstr "Imprimir"
 
 #: data/ui/browser.ui:444 data/ui/viewer.ui:246
 #: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
@@ -478,14 +468,14 @@ msgstr "Definir como plano de fundo"
 #: data/ui/browser.ui:451 data/ui/browser.ui:596
 #: src/Ext/Shortcuts/Shortcuts.vala:165
 msgid "Cut"
-msgstr "Corta"
+msgstr "Cortar"
 
 #. Translators: it's a verb, as in "Copy Files"
 #: data/ui/browser.ui:457 data/ui/browser.ui:602
 #: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
 #: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
-msgstr "Copia"
+msgstr "Copiar"
 
 #. Translators: it's a verb, as in "Paste Files"
 #: data/ui/browser.ui:463 data/ui/browser.ui:563 data/ui/browser.ui:607
@@ -515,27 +505,27 @@ msgstr "Mover para…"
 #: src/Browser.vala:2171 src/Browser.vala:2234
 #: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
-msgstr "Renomeia"
+msgstr "Renomear"
 
 #. Translators: it's a verb, as in "Duplicate Files"
 #: data/ui/browser.ui:488 src/Ext/Shortcuts/Shortcuts.vala:173
 msgid "Duplicate"
-msgstr "Duplica"
+msgstr "Duplicar"
 
 #: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
-msgstr "Move para a lixeira"
+msgstr "Mover para a lixeira"
 
 #: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
 #: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
 msgid "Delete"
-msgstr "Exclui"
+msgstr "Excluir"
 
 #: data/ui/browser.ui:507 data/ui/viewer.ui:295
 msgid "Add to Selection"
-msgstr "Adiciona à seleção"
+msgstr "Adicionar à seleção"
 
 #: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
 msgid "Selection 1"
@@ -591,13 +581,13 @@ msgstr "Catálogo"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:224
-#: src/Ext/Image/ImageViewer.vala:280 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
+#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_Salvar"
 
 #: data/ui/catalog-dialog.ui:45 data/ui/importer-dialog.ui:91
-#: data/ui/metadata-dialog.ui:89 src/Application.vala:138
+#: data/ui/metadata-dialog.ui:89 src/Application.vala:149
 msgid "Date"
 msgstr "Data"
 
@@ -624,9 +614,9 @@ msgctxt "Position"
 msgid "Top"
 msgstr "Topo"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:413
+#: data/ui/convert-dialog.ui:4 src/Application.vala:247 src/MainWindow.vala:413
 msgid "Convert Format"
-msgstr "Converter Formato"
+msgstr "Converter formato"
 
 #: data/ui/convert-dialog.ui:21 data/ui/resize-dialog.ui:21
 msgid "E_xecute"
@@ -644,10 +634,10 @@ msgstr "Destino"
 msgid "Format"
 msgstr "Formato"
 
-# Não encontrei essa mensagem na aplicação para entender o contexto: Step de Passo ou de Degrau?
+# No gThumb, step é um incremento usado para ajustar/encaixar a área de recorte (crop).
 #: data/ui/crop.ui:12
 msgid "Step"
-msgstr ""
+msgstr "Incremento"
 
 #: data/ui/crop.ui:22 data/ui/importer-dialog.ui:115 src/SelectionView.vala:8
 #: src/SelectionView.vala:84
@@ -699,10 +689,8 @@ msgid "Files"
 msgstr "Arquivos"
 
 #: data/ui/device-dialog.ui:117
-#, fuzzy
-#| msgid "_Delete the imported files from the source"
 msgid "Delete imported files from source"
-msgstr "E_xcluir da fonte os arquivos importados"
+msgstr "Excluir arquivos importados da fonte"
 
 #: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
 msgid "Save As…"
@@ -767,7 +755,7 @@ msgstr "Redimensiona"
 #: data/ui/editor-palette.ui:284 src/Ext/Editor/Crop.vala:146
 #: src/Ext/Shortcuts/Shortcuts.vala:251
 msgid "Crop"
-msgstr "Recorta"
+msgstr "Recortar"
 
 #: data/ui/editor-palette.ui:295 src/Ext/Editor/RotateImage.vala:123
 #: src/Ext/Shortcuts/Shortcuts.vala:261
@@ -798,10 +786,8 @@ msgid "Filter"
 msgstr "Filtrar"
 
 #: data/ui/filter-editor-page.ui:50
-#, fuzzy
-#| msgid "Restricted content"
 msgid "Limited Content"
-msgstr "Conteúdo restrito"
+msgstr "Conteúdo limitado"
 
 #: data/ui/filter-editor-page.ui:54
 msgid "Max Files"
@@ -812,10 +798,8 @@ msgid "Total Size"
 msgstr "Tamanho total"
 
 #: data/ui/filter-editor-page.ui:102
-#, fuzzy
-#| msgid "selected by"
 msgid "Selected By"
-msgstr "selecionado(s) por"
+msgstr "Seleção por"
 
 #: data/ui/filter-editor-page.ui:107 data/ui/rename-dialog.ui:117
 msgid "Direction"
@@ -835,10 +819,8 @@ msgid "Filters"
 msgstr "Filtros"
 
 #: data/ui/filters-dialog.ui:15
-#, fuzzy
-#| msgid "_General filter:"
 msgid "General Filter"
-msgstr "Filtro _geral:"
+msgstr "Filtro geral"
 
 #: data/ui/filters-dialog.ui:34 data/ui/scripts-dialog.ui:33
 #: data/ui/search-source-editor-group.ui:13 data/ui/template-page.ui:49
@@ -847,16 +829,12 @@ msgid "_Add"
 msgstr "_Adicionar"
 
 #: data/ui/folder-selector-dialog.ui:64
-#, fuzzy
-#| msgid "Hidden Files"
 msgid "Show _Hidden Files"
-msgstr "Arquivos ocultos"
+msgstr "Mostrar arquivos _ocultos"
 
 #: data/ui/folder-selector-dialog.ui:70
-#, fuzzy
-#| msgid "Destination"
 msgid "Show Destination"
-msgstr "Destino"
+msgstr "Mostrar destino"
 
 #: data/ui/format-dialog.ui:22 data/ui/metadata-dialog.ui:21
 msgctxt "Verb"
@@ -874,27 +852,22 @@ msgid "At Startup"
 msgstr "Ao iniciar"
 
 #: data/ui/general-preferences.ui:18
-#, fuzzy
-#| msgid "Go to last _visited location"
 msgid "Open the last visited location"
-msgstr "_Vai para a última localização visitada"
+msgstr "Abrir o local visitado mais recentemente"
 
 #: data/ui/general-preferences.ui:30
 msgid "Open the home folder"
-msgstr "Abrir a Pasta pessoal"
+msgstr "Abrir a pasta pessoal"
 
 #: data/ui/general-preferences.ui:46
-#, fuzzy
-#| msgid "_Reuse the active window to open files"
 msgid "Reuse the active window to open files"
-msgstr "_Usar a janela ativa para abrir arquivos"
+msgstr "Reusar a janela ativa para abrir arquivos"
 
 #: data/ui/general-preferences.ui:64 src/Browser.vala:2521
 msgid "Terminal"
 msgstr "Terminal"
 
 #: data/ui/grid-group.ui:4
-#, fuzzy
 msgid "Grid"
 msgstr "Grade"
 
@@ -911,22 +884,16 @@ msgid "Histogram"
 msgstr "Histograma"
 
 #: data/ui/histogram-view.ui:42
-#, fuzzy
-#| msgid "Logarithmic scale"
 msgid "Logarithmic"
-msgstr "Escala logarítmica"
+msgstr "Logarítmica"
 
 #: data/ui/image-viewer.ui:25 src/Ext/Shortcuts/Shortcuts.vala:218
-#, fuzzy
-#| msgid "Zoom out"
 msgid "Zoom Out"
-msgstr "Menos ampliação"
+msgstr "Reduzir ampliação"
 
 #: data/ui/image-viewer.ui:35 src/Ext/Shortcuts/Shortcuts.vala:217
-#, fuzzy
-#| msgid "Zoom in"
 msgid "Zoom In"
-msgstr "Mais ampliação"
+msgstr "Aumentar ampliação"
 
 #: data/ui/image-viewer.ui:59 data/ui/image-viewer.ui:229
 msgid "100%"
@@ -934,13 +901,11 @@ msgstr "100%"
 
 #: data/ui/image-viewer.ui:69 data/ui/image-viewer.ui:197
 msgid "Full Image"
-msgstr "Imagem completa"
+msgstr "Toda a imagem"
 
 #: data/ui/image-viewer.ui:104
-#, fuzzy
-#| msgid "Color Profile"
 msgid "Apply Color Profile"
-msgstr "Perfil de cor"
+msgstr "Aplicar perfil de cor"
 
 #: data/ui/image-viewer.ui:109
 msgid "Transparency"
@@ -1010,7 +975,6 @@ msgid "Images"
 msgstr "Imagens"
 
 #: data/ui/images-preferences.ui:17 data/ui/videos-preferences.ui:17
-#, fuzzy
 msgid "Scroll Action"
 msgstr "Ação de rolar"
 
@@ -1044,14 +1008,12 @@ msgid "Modified"
 msgstr "Modificado"
 
 #: data/ui/importer-dialog.ui:97
-#, fuzzy
-#| msgid "Original size"
 msgctxt "Date"
 msgid "Original"
-msgstr "Tamanho original"
+msgstr "Original"
 
-#: data/ui/importer-dialog.ui:127 src/Application.vala:98
-#: src/Application.vala:119 src/SelectionView.vala:41
+#: data/ui/importer-dialog.ui:127 src/Application.vala:109
+#: src/Application.vala:130 src/SelectionView.vala:41
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -1068,58 +1030,48 @@ msgid "Smoothing"
 msgstr "Suavização"
 
 #: data/ui/jpeg-preferences.ui:46
-#, fuzzy
-#| msgid "Opti_mize"
 msgid "Optimize"
-msgstr "Oti_mizar"
+msgstr "Otimizar"
 
 #: data/ui/jpeg-preferences.ui:51
-#, fuzzy
-#| msgid "_Progressive"
 msgid "Progressive"
-msgstr "_Progressiva"
+msgstr "Progressiva"
 
 #: data/ui/jpeg-preferences.ui:60 data/ui/tiff-preferences.ui:52
-#, fuzzy
-#| msgid "_Default extension:"
 msgid "Default Extension"
-msgstr "_Extensão padrão:"
+msgstr "Extensão padrão"
 
 #: data/ui/jxl-preferences.ui:43 data/ui/webp-preferences.ui:43
-#, fuzzy
-#| msgid "Faster"
 msgctxt "Method"
 msgid "Fast"
-msgstr "Mais rápido"
+msgstr "Rápido"
 
 #: data/ui/jxl-preferences.ui:45 data/ui/webp-preferences.ui:45
-#, fuzzy
-#| msgid "Slower"
 msgctxt "Method"
 msgid "Slow"
-msgstr "Mais lento"
+msgstr "Lento"
 
 #: data/ui/metadata-dialog.ui:38
 msgid "Save only cha_nged fields"
 msgstr "Salvar so_mente campos alterados"
 
-#: data/ui/metadata-dialog.ui:46 src/Application.vala:136
+#: data/ui/metadata-dialog.ui:46 src/Application.vala:147
 msgid "Comment"
 msgstr "Comentário"
 
 # Referente a extensões
-#: data/ui/metadata-dialog.ui:69 src/Application.vala:112
+#: data/ui/metadata-dialog.ui:69 src/Application.vala:123
 #: src/Ext/Tools/FileActions.vala:18
 msgid "Metadata"
 msgstr "Metadados"
 
 #: data/ui/metadata-dialog.ui:73 data/ui/template-token-row.ui:174
-#: src/Application.vala:135 src/DefaultTests.vala:172
+#: src/Application.vala:146 src/DefaultTests.vala:172
 #: src/Ext/Template/TemplateTokenRow.vala:215
 msgid "Title"
 msgstr "Título"
 
-#: data/ui/metadata-dialog.ui:81 src/Application.vala:137
+#: data/ui/metadata-dialog.ui:81 src/Application.vala:148
 #: src/DefaultTests.vala:222
 msgid "Place"
 msgstr "Lugar"
@@ -1128,7 +1080,7 @@ msgstr "Lugar"
 msgid "Time of Day"
 msgstr "Hora do dia"
 
-#: data/ui/metadata-dialog.ui:99 src/Application.vala:140
+#: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
 msgid "Rating"
 msgstr "Classificação"
@@ -1139,87 +1091,65 @@ msgid "IPTC"
 msgstr "IPTC"
 
 # Mantive Copyright porque é mais usado no Brasil do que Direito Autoral.
-#: data/ui/metadata-dialog.ui:115 src/Application.vala:142
+#: data/ui/metadata-dialog.ui:115 src/Application.vala:153
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "Direito autorial"
 
 #: data/ui/metadata-dialog.ui:123
-#, fuzzy
-#| msgid "Cr_edit:"
 msgid "Credit"
-msgstr "C_réditos:"
+msgstr "Crédito"
 
+# Linha de texto em uma obra que identifica o autor no padrão IPTC
 #: data/ui/metadata-dialog.ui:131
-#, fuzzy
-#| msgid "_Byline:"
 msgid "Byline"
-msgstr "_Autor:"
+msgstr "Autoria"
 
+# Cargo ou título profissional do autor em uma obra no padrão IPTC
 #: data/ui/metadata-dialog.ui:139
-#, fuzzy
-#| msgid "Byline _Title:"
 msgid "Byline Title"
-msgstr "_Título do autor:"
+msgstr "Cargo ou título profissional do(a) autor(a)"
 
 #: data/ui/metadata-dialog.ui:147
-#, fuzzy
-#| msgid "Co_untry:"
 msgid "Country"
-msgstr "_País:"
+msgstr "País"
 
 #: data/ui/metadata-dialog.ui:155
 msgid "Country Code"
-msgstr "Código do País"
+msgstr "Código do país"
 
 #: data/ui/metadata-dialog.ui:163
-#, fuzzy
-#| msgid "State/Province:"
 msgid "State or Province"
-msgstr "Estado/Província:"
+msgstr "Estado ou província"
 
 #: data/ui/metadata-dialog.ui:171
-#, fuzzy
-#| msgid "_City:"
 msgid "City"
-msgstr "Ci_dade:"
+msgstr "Cidade"
 
 #: data/ui/metadata-dialog.ui:179
-#, fuzzy
-#| msgid "_Language:"
 msgid "Language"
-msgstr "_Idioma:"
+msgstr "Idioma"
 
 #: data/ui/metadata-dialog.ui:187
-#, fuzzy
-#| msgid "_Object Name:"
 msgid "Object Name"
-msgstr "_Nome do objeto:"
+msgstr "Nome do objeto"
 
 #: data/ui/metadata-dialog.ui:211
-#, fuzzy
-#| msgid "_Urgency:"
 msgid "Urgency"
-msgstr "Ur_gência:"
+msgstr "Urgência"
 
 #: data/ui/png-preferences.ui:8 data/ui/tiff-preferences.ui:8
 msgid "Compression"
 msgstr "Compressão"
 
 #: data/ui/png-preferences.ui:18
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "_Low"
 msgctxt "Compression"
 msgid "Low"
-msgstr "_Baixa"
+msgstr "Baixa"
 
 #: data/ui/png-preferences.ui:20
-#, fuzzy
-#| msgctxt "zoom quality"
-#| msgid "_High"
 msgctxt "Compression"
 msgid "High"
-msgstr "_Alta"
+msgstr "Alta"
 
 #: data/ui/print-layout-dialog.ui:48 src/Ext/Print/PrintLayout.vala:92
 msgid "Image"
@@ -1260,7 +1190,6 @@ msgstr "milímetros"
 
 #. Translators: inches as length unit
 #: data/ui/print-layout-dialog.ui:179 data/ui/print-layout-dialog.ui:267
-#, fuzzy
 msgctxt "Length Unit"
 msgid "in"
 msgstr "pol"
@@ -1279,59 +1208,45 @@ msgid "Margins"
 msgstr "Margens"
 
 #: data/ui/print-layout-dialog.ui:223 data/ui/rotate-image.ui:192
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "Horizontal"
-msgstr "_Horizontal:"
+msgstr "Horizontal"
 
 #: data/ui/print-layout-dialog.ui:237 data/ui/rotate-image.ui:180
-#, fuzzy
-#| msgid "_Vertical:"
 msgid "Vertical"
-msgstr "_Vertical:"
+msgstr "Vertical"
 
 #: data/ui/print-layout-dialog.ui:282
 msgid "Layout"
 msgstr "Disposição"
 
 #: data/ui/print-layout-dialog.ui:285
-#, fuzzy
-#| msgid "_Rows:"
 msgid "Rows"
-msgstr "_Linhas:"
+msgstr "Linhas"
 
 #: data/ui/print-layout-dialog.ui:300
-#, fuzzy
-#| msgid "Columns:"
 msgid "Columns"
-msgstr "Colunas:"
+msgstr "Colunas"
 
 #: data/ui/print-layout-dialog.ui:387 src/ProgressDialog.vala:170
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: data/ui/progress-dialog.ui:13
-#, fuzzy
 msgid "Cancel All"
 msgstr "Cancelar tudo"
 
 #: data/ui/property-sidebar.ui:32
-#, fuzzy
 msgid "search property"
 msgstr "pesquisar propriedade"
 
 #: data/ui/rename-dialog.ui:50 data/ui/rename-dialog.ui:60
 #: src/Ext/Rename/RenameTemplatePage.vala:3
-#, fuzzy
-#| msgid "_Template:"
 msgid "Template"
-msgstr "Mo_delo:"
+msgstr "Modelo"
 
 #: data/ui/rename-dialog.ui:80
-#, fuzzy
-#| msgid "Index"
 msgid "First Index"
-msgstr "Índice"
+msgstr "Primeiro índice"
 
 #: data/ui/rename-dialog.ui:98 src/Ext/Editor/GridGroup.vala:26
 msgid "None"
@@ -1346,53 +1261,39 @@ msgid "Uppercase"
 msgstr "Maiúsculas"
 
 #: data/ui/rename-dialog.ui:112
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort"
-msgstr "Ordenar por"
+msgstr "Ordenar"
 
-#: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:107
-#, fuzzy
-#| msgid "is before"
+#: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:109
 msgid "Before"
-msgstr "é anterior a"
+msgstr "Antes"
 
-#: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:108
-#, fuzzy
-#| msgid "is after"
+#: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:110
 msgid "After"
-msgstr "é posterior a"
+msgstr "Após"
 
 #: data/ui/rename-dialog.ui:196
 msgid "Edit Template"
 msgstr "Editar modelo"
 
 #: data/ui/rename-dialog.ui:212
-#, fuzzy
-#| msgid "_Rename"
 msgctxt "Verb"
 msgid "_Rename"
 msgstr "_Renomear"
 
 #. Translators: pixels as length unit
 #: data/ui/resize-dialog.ui:69 data/ui/resize-image.ui:43
-#, fuzzy
-#| msgid "px"
 msgctxt "Length Unit"
 msgid "px"
 msgstr "px"
 
 #: data/ui/resize-dialog.ui:70 data/ui/resize-image.ui:44
-#, fuzzy
-#| msgid "pixels"
 msgctxt "Length Unit"
 msgid "pixels"
-msgstr "pixeis"
+msgstr "pixels"
 
 #. Translators: percentage as length unit
 #: data/ui/resize-dialog.ui:76 data/ui/resize-image.ui:51
-#, fuzzy
-#| msgid "%"
 msgctxt "Length Unit"
 msgid "%"
 msgstr "%"
@@ -1403,32 +1304,25 @@ msgid "percentage"
 msgstr "porcentagem"
 
 #: data/ui/resize-dialog.ui:87
-#, fuzzy
-#| msgid "_Preserve original aspect ratios"
 msgid "Preserve Aspect Ratio"
-msgstr "_Preservar as proporções originais"
+msgstr "Preservar proporção"
 
 #. Translators: width and height of images or videos.
-#: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
-#, fuzzy
-#| msgid "Pixels:"
+#: data/ui/resize-image.ui:6 src/Application.vala:111 src/Application.vala:141
 msgid "Pixels"
-msgstr "Pixeis:"
+msgstr "Pixels"
 
-# Não encontrei na aplicação para entender o contexto.
 #: data/ui/resize-image.ui:72
 msgid "Scaled"
-msgstr ""
+msgstr "Em escala"
 
 #: data/ui/resize-image.ui:85
 msgid "Repeated"
 msgstr "Repetida"
 
 #: data/ui/resize-image.ui:120
-#, fuzzy
-#| msgid "High _quality"
 msgid "High Quality"
-msgstr "_Alta qualidade"
+msgstr "Alta qualidade"
 
 #: data/ui/rotate-image.ui:6
 msgid "Angle"
@@ -1440,38 +1334,24 @@ msgid "Align"
 msgstr "Alinhar"
 
 #: data/ui/rotate-image.ui:63
-#, fuzzy
-#| msgid "Image size"
 msgid "Image Size"
 msgstr "Tamanho da imagem"
 
 #: data/ui/rotate-image.ui:66
-#, fuzzy
-#| msgid "Original size"
 msgid "Original Size"
 msgstr "Tamanho original"
 
 #: data/ui/rotate-image.ui:79
-#, fuzzy
-#| msgid "Bounding box"
 msgid "Bounding Box"
 msgstr "Caixa delimitadora"
 
 #: data/ui/rotate-image.ui:92
-#, fuzzy
-#| msgid "Crop borders"
 msgid "Crop Borders"
 msgstr "Recortar bordas"
 
 #: data/ui/rotate-image.ui:176
-#, fuzzy
-#| msgid ""
-#| "Draw a line on the image \n"
-#| "to set the alignment."
 msgid "Draw a line on the image to set the alignment."
-msgstr ""
-"Desenhe uma linha na imagem \n"
-"para definir o alinhamento."
+msgstr "Desenhe uma linha na imagem para definir o alinhamento."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
@@ -1481,10 +1361,8 @@ msgid "Saving"
 msgstr "Salvar"
 
 #: data/ui/savers-preferences.ui:17
-#, fuzzy
-#| msgid "_Store metadata inside files if possible"
 msgid "Store metadata inside files if possible"
-msgstr "Arma_zenar metadados dentro de arquivos, se possível"
+msgstr "Armazenar metadados dentro de arquivos, se possível"
 
 #: data/ui/savers-preferences.ui:23
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:48
@@ -1498,10 +1376,8 @@ msgstr "Formatos"
 
 #: data/ui/script-command-page.ui:4 data/ui/script-editor-page.ui:42
 #: src/Ext/Scripts/ScriptCommandPage.vala:3
-#, fuzzy
-#| msgid "Commands"
 msgid "Command"
-msgstr "Comandos"
+msgstr "Comando"
 
 #: data/ui/script-editor-page.ui:4
 msgid "Script"
@@ -1512,16 +1388,12 @@ msgid "Execute as a shell script"
 msgstr "Execute como shell script"
 
 #: data/ui/script-editor-page.ui:76
-#, fuzzy
-#| msgid "E_xecute command once for every file"
 msgid "Execute for every file"
-msgstr "E_xecutar comando uma vez para todos arquivos"
+msgstr "Executar para todo arquivo"
 
 #: data/ui/script-editor-page.ui:81
-#, fuzzy
-#| msgid "_Wait for the command to finish"
 msgid "Wait for the command to finish"
-msgstr "_Esperar até o comando concluir"
+msgstr "Esperar até o comando concluir"
 
 #: data/ui/script-parameters-dialog.ui:85
 #: src/Ext/FileManager/OverwriteDialog.vala:133
@@ -1540,24 +1412,18 @@ msgstr "Scripts"
 
 #. Translators: noun (not verb)
 #: data/ui/search-dialog.ui:4 src/Ext/Catalogs/CatalogEditor.vala:104
-#, fuzzy
-#| msgid "Search"
 msgctxt "Noun"
 msgid "Search"
 msgstr "Pesquisar"
 
 #: data/ui/search-dialog.ui:38
-#, fuzzy
-#| msgid "Search"
 msgctxt "Verb"
 msgid "_Search"
-msgstr "Pesquisar"
+msgstr "_Pesquisar"
 
 #: data/ui/search-source-row.ui:34
-#, fuzzy
-#| msgid "_Include sub-folders"
 msgid "Include Sub-Folders"
-msgstr "Incluir _subpastas"
+msgstr "Incluir subpastas"
 
 #: data/ui/search-source-row.ui:40 src/Ext/Shortcuts/Shortcuts.vala:174
 msgid "Remove"
@@ -1569,10 +1435,8 @@ msgid "Adjust blurred images."
 msgstr "Ajustar imagens borradas."
 
 #: data/ui/sharpen-image.ui:41
-#, fuzzy
-#| msgid "Radius:"
 msgid "Radius"
-msgstr "Raio:"
+msgstr "Raio"
 
 # Limiar é uma palavra pouco usada. Optei por "Limite inferior" para maior clareza.
 #: data/ui/sharpen-image.ui:63
@@ -1603,14 +1467,12 @@ msgid "Shortcuts"
 msgstr "Atalhos"
 
 #: data/ui/slideshow-preferences.ui:17
-#, fuzzy
-#| msgid "R_andom order"
 msgid "Random Order"
-msgstr "_Ordem aleatória"
+msgstr "Ordem aleatória"
 
 #: data/ui/slideshow-preferences.ui:23 data/ui/video-viewer.ui:431
 msgid "Repeat"
-msgstr "Repita"
+msgstr "Repetir"
 
 #: data/ui/slideshow-preferences.ui:38
 msgid "Delay in seconds"
@@ -1621,10 +1483,8 @@ msgid "Sort Files"
 msgstr "Ordenar arquivos"
 
 #: data/ui/sort-files-dialog.ui:17 data/ui/sort-folders-dialog.ui:17
-#, fuzzy
-#| msgid "Re_verse Order"
 msgid "Reverse Order"
-msgstr "In_verter ordem"
+msgstr "Inverter ordem"
 
 #: data/ui/sort-folders-dialog.ui:4 src/Ext/Shortcuts/Shortcuts.vala:152
 msgid "Sort Folders"
@@ -1653,20 +1513,16 @@ msgstr "Espaço livre:"
 
 #: data/ui/template-code-chooser.ui:4 data/ui/template-token-row.ui:215
 #: src/TagsRow.vala:19
-#, fuzzy
-#| msgid "_Add"
 msgid "Add"
-msgstr "_Adicionar"
+msgstr "Adicionar"
 
 #: data/ui/template-page.ui:13 src/Ext/Template/TemplatePage.vala:118
 msgid "_Apply"
 msgstr "_Aplica"
 
 #: data/ui/template-page.ui:27
-#, fuzzy
-#| msgid "Example:"
 msgid "Example"
-msgstr "Exemplo:"
+msgstr "Exemplo"
 
 #: data/ui/template-token-row.ui:103
 msgid "digits"
@@ -1677,7 +1533,6 @@ msgid "Default Value"
 msgstr "Valor padrão"
 
 #: data/ui/test-expr-editor-group.ui:4
-#, fuzzy
 msgid "Rules"
 msgstr "Regras"
 
@@ -1804,7 +1659,6 @@ msgid "Go forward 5 minutes"
 msgstr "Avançar 5 minutos"
 
 #: data/ui/video-viewer.ui:279
-#, fuzzy
 msgid "Copy Current Time"
 msgstr "Copiar tempo atual"
 
@@ -1826,7 +1680,6 @@ msgid "Change Time"
 msgstr "Alterar tempo"
 
 #: data/ui/videos-preferences.ui:23
-#, fuzzy
 msgid "Change Volume"
 msgstr "Alterar volume"
 
@@ -1853,7 +1706,6 @@ msgid "Next File"
 msgstr "Próximo arquivo"
 
 #: data/ui/viewer.ui:44 src/Ext/Shortcuts/Shortcuts.vala:214
-#, fuzzy
 msgid "View Thumbnails"
 msgstr "Ver miniaturas"
 
@@ -1874,7 +1726,7 @@ msgid "Copy Frame"
 msgstr "Copiar quadro"
 
 #. Translators: the file modification time.
-#: src/Application.vala:95 src/Application.vala:121 src/DefaultTests.vala:148
+#: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
 msgctxt "Time"
@@ -1882,151 +1734,147 @@ msgid "Modified"
 msgstr "Modificado"
 
 #. Translators: the file change time.
-#: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
+#: src/Application.vala:107 src/Application.vala:136 src/DefaultTests.vala:136
 msgid "File Changed"
-msgstr "Arquivo modificado"
+msgstr "Modificação do arquivo"
 
 #. Translators: the file creation time.
-#: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
-#, fuzzy
-#| msgid "File date"
+#: src/Application.vala:108 src/Application.vala:134 src/DefaultTests.vala:124
 msgid "File Created"
-msgstr "Data do arquivo"
+msgstr "Criação do arquivo"
 
-#: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
-#, fuzzy
-#| msgid "File path"
+#: src/Application.vala:110 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
 msgstr "Caminho do arquivo"
 
-#: src/Application.vala:102
+#: src/Application.vala:113
 msgid "Unsorted"
 msgstr "Desordenado"
 
-#: src/Application.vala:110
+#: src/Application.vala:121
 msgid "File"
 msgstr "Arquivo"
 
-#: src/Application.vala:111 src/DefaultTests.vala:184
+#: src/Application.vala:122 src/DefaultTests.vala:184
 msgid "Description"
 msgstr "Descrição"
 
-#: src/Application.vala:118 src/DefaultTests.vala:5 src/DefaultTests.vala:16
+#: src/Application.vala:129 src/DefaultTests.vala:5 src/DefaultTests.vala:16
 msgid "Type"
 msgstr "Tipo"
 
-#: src/Application.vala:126
+#: src/Application.vala:137
 msgid "Folder"
 msgstr "Pastas"
 
-#: src/Application.vala:131
+#: src/Application.vala:142
 msgid "Duration"
 msgstr "Duração"
 
-#: src/Application.vala:132
+#: src/Application.vala:143
 msgid "Color Profile"
 msgstr "Perfil de cor"
 
-#: src/Application.vala:133
+#: src/Application.vala:144
 msgid "Frames"
 msgstr "Quadros"
 
-#: src/Application.vala:139 src/TagEntry.vala:73
+#: src/Application.vala:150 src/TagEntry.vala:73
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: src/Application.vala:143
+#: src/Application.vala:154
 msgid "Author"
 msgstr "Autor"
 
-#: src/Application.vala:144
+#: src/Application.vala:155
 msgid "Coordinates"
 msgstr "Coordenadas"
 
-#: src/Application.vala:146
+#: src/Application.vala:157
 msgid "Camera Model"
 msgstr "Modelo da câmera"
 
-#: src/Application.vala:147 src/lib/exiv2-utils.cpp:686
+#: src/Application.vala:158 src/lib/exiv2-utils.cpp:686
 msgid "Exposure"
 msgstr "Exposição"
 
-#: src/Application.vala:148
+#: src/Application.vala:159
 msgid "Aperture"
 msgstr "Abertura"
 
-#: src/Application.vala:149
+#: src/Application.vala:160
 msgid "ISO Speed"
 msgstr "Velocidade da ISO"
 
-#: src/Application.vala:150
+#: src/Application.vala:161
 msgid "Exposure Time"
 msgstr "Tempo de exposição"
 
-#: src/Application.vala:151
+#: src/Application.vala:162
 msgid "Shutter Speed"
 msgstr "Velocidade do obturador"
 
-#: src/Application.vala:152
+#: src/Application.vala:163
 msgid "Focal Length"
 msgstr "Distância focal"
 
-#: src/Application.vala:153
+#: src/Application.vala:164
 msgid "Flash"
 msgstr "Flash"
 
-#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:461
-#: src/Ext/Image/ImageViewer.vala:470 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
+#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
-msgstr "Gira para direita"
+msgstr "Girar para direita"
 
-#: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
+#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259
 #: src/MainWindow.vala:817
 msgid "Rotate Left"
-msgstr "Gira para esquerda"
+msgstr "Girar para esquerda"
 
-#: src/Application.vala:237 src/MainWindow.vala:398
+#: src/Application.vala:248 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "Redimensionar imagens"
 
-#: src/Application.vala:238 src/MainWindow.vala:865
+#: src/Application.vala:249 src/MainWindow.vala:865
 msgid "Clear Metadata"
 msgstr "Limpar metadados"
 
-#: src/Application.vala:239 src/MainWindow.vala:841
+#: src/Application.vala:250 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "Girar fisicamente"
 
-#: src/Application.vala:241
+#: src/Application.vala:252
 msgid "Reset EXIF Orientation"
 msgstr "Restaurar a orientação EXIF"
 
-#: src/Application.vala:243 src/MainWindow.vala:877
+#: src/Application.vala:254 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "Atualizar miniatura"
 
-#: src/Application.vala:405 src/DefaultTests.vala:23
+#: src/Application.vala:416 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "Todos arquivos"
 
-#: src/Application.vala:622
+#: src/Application.vala:633
 msgid "Show the application version"
 msgstr "Mostrar versão da aplicação"
 
-#: src/Application.vala:631
+#: src/Application.vala:642
 msgid "Open a new window"
 msgstr "Abre uma nova janela"
 
-#: src/Application.vala:650
+#: src/Application.vala:661
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[ARQUIVO…] [DIRETÓRIO…]"
 
-#: src/Application.vala:654
+#: src/Application.vala:665
 msgid "— Image Browser and Viewer"
 msgstr "— Visualizador e navegador de imagens"
 
-#: src/Application.vala:717
+#: src/Application.vala:728
 msgid "translator-credits"
 msgstr ""
 "Enrico Nicoletto <hiko@duck.com>\n"
@@ -2037,8 +1885,8 @@ msgstr ""
 "Raphael Higino <phhigino@gmail.com>\n"
 "Viviani Ap. dos Santos <vivi_olivetti@brfree.com.br>\n"
 "Matheus Barbosa <mdpb.matheus@gmail.com>\n"
-"Álvaro Burns <>, 2025.\n"
-"Renan de Jesus Melo <renanjmelo@gmail.com>, 2026."
+"Álvaro Burns\n"
+"Renan de Jesus Melo <renanjmelo@gmail.com>"
 
 #: src/Browser.vala:47
 msgid "Path"
@@ -2057,7 +1905,6 @@ msgid "No Files Found"
 msgstr "Nenhum arquivo encontrado"
 
 #: src/Browser.vala:502
-#, fuzzy
 msgid "Empty Catalog"
 msgstr "Catálogo vazio"
 
@@ -2067,69 +1914,51 @@ msgstr "Seleção vazia"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:513
-#, fuzzy, c-format
-#| msgid ""
-#| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
+#, c-format
 msgid "Use %s to add files to selection %u"
-msgstr ""
-"Use Alt-%d para adicionar arquivos a esta seleção, Ctrl-%d para ver esta "
-"seleção."
+msgstr "Usar %s para adicionar arquivos à seleção %u"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:522
-#, fuzzy, c-format
-#| msgid "Show selection %d"
+#, c-format
 msgid "Use %s to view selection %u"
-msgstr "Mostrar seleção %d"
+msgstr "Usar %s para ver a seleção %u"
 
 #: src/Browser.vala:535
-#, fuzzy
-#| msgid "Open Folder"
 msgid "Empty Folder"
-msgstr "Abrir pasta"
+msgstr "Pasta vazia"
 
 #: src/Browser.vala:573
-#, fuzzy
-#| msgid "_Add Bookmark"
 msgid "_Add To Bookmarks"
-msgstr "_Adicionar marcador"
+msgstr "_Adicionar aos marcadores"
 
 #: src/Browser.vala:577
 msgid "_Edit Bookmarks…"
 msgstr "_Editar marcadores…"
 
 #: src/Browser.vala:971 src/Browser.vala:1148
-#, fuzzy
-#| msgid "Writing files"
 msgid "Pasting Files"
-msgstr "Escrevendo arquivos"
+msgstr "Colando arquivos"
 
 #: src/Browser.vala:989 src/Browser.vala:2105
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot move files here"
-msgstr "Não foi possível mover os arquivos"
+msgstr "Não foi possível mover arquivos para cá"
 
 #: src/Browser.vala:996
-#, fuzzy
-#| msgid "Duplicates"
 msgid "Duplicating Files"
-msgstr "Duplicados"
+msgstr "Duplicando arquivos"
 
 #. Show a message on the browser.
 #: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
-#, fuzzy
-#| msgid "Reading files"
 msgid "Searching Files"
-msgstr "Lendo arquivos"
+msgstr "Buscando arquivos"
 
 #: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
 #: src/Browser.vala:1995
-#, fuzzy, c-format
-#| msgid "Uploading “%s”"
+#, c-format
 msgid "Updating %s"
-msgstr "Enviando “%s”"
+msgstr "Atualizando %s"
 
 #: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
 #: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
@@ -2152,23 +1981,17 @@ msgid "Adding Files"
 msgstr "Adicionando arquivos"
 
 #: src/Browser.vala:2061 src/MainWindow.vala:613
-#, fuzzy
-#| msgid "Moving files"
 msgid "Moving Files"
 msgstr "Movendo arquivos"
 
 #: src/Browser.vala:2151
-#, fuzzy
-#| msgid "New folder"
 msgid "New Folder"
 msgstr "Nova pasta"
 
 #: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
-#, fuzzy
-#| msgid "Create"
 msgid "_Create"
-msgstr "Criar"
+msgstr "_Criar"
 
 #: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
@@ -2193,7 +2016,7 @@ msgstr "Esta ação não é reversível. Você quer apagar <i>%s</i>?"
 msgid "Source and destination are the same"
 msgstr "Fonte e destino são os mesmos"
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:612
+#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
 #: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2223,7 +2046,7 @@ msgstr "Arquivos de texto"
 
 #: src/DefaultTests.vala:160
 msgid "Created (Original)"
-msgstr "Criado (Original)"
+msgstr "Criação (Original)"
 
 #: src/DefaultTests.vala:209
 msgid "Tag"
@@ -2234,64 +2057,48 @@ msgid "No application registered for this file type"
 msgstr "Nenhuma aplicação disponível para esse tipo de arquivo"
 
 #: src/Dialogs/FolderSelector.vala:98
-#, fuzzy
-#| msgid "Move"
 msgid "_Move"
-msgstr "Mover"
+msgstr "_Mover"
 
 #: src/Dialogs/FolderSelector.vala:143
-#, fuzzy
-#| msgid "No valid file selected."
 msgid "No file selected"
-msgstr "Nenhum arquivo válido selecionado."
+msgstr "Nenhum arquivo selecionado"
 
 #. Cannot copy to libraries.
 #: src/Dialogs/FolderSelector.vala:148
 #: src/Ext/Bookmarks/BookmarksDialog.vala:67
-#, fuzzy
-#| msgid "Invalid Destination"
 msgid "Invalid location"
-msgstr "Destino inválido"
+msgstr "Local inválido"
 
 #: src/Dialogs/ReadFilename.vala:17
-#, fuzzy
-#| msgid "Automatic"
 msgid "Automatic Filename"
-msgstr "Automático"
+msgstr "Nome de arquivo automático"
 
 #: src/Dialogs/ReadFilename.vala:27
-#, fuzzy
-#| msgid "File extension"
 msgid "Enter a file extension"
-msgstr "Extensão do arquivo"
+msgstr "Digite uma extensão de arquivo"
 
 #: src/Dialogs/ReadFilename.vala:31
 #: src/Ext/Tools/Internal/ImageRotation.vala:112 src/ImageSaver.vala:66
 #: src/ImageSaver.vala:71
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot save this kind of files"
-msgstr "Não foi possível mover os arquivos"
+msgstr "Não foi possível salvar este tipo de arquivo"
 
 #: src/Dialogs/ReadFilename.vala:37
 msgid "Name already used"
 msgstr "Nome já usado"
 
 #: src/Dialogs/ReadText.vala:125
-#, fuzzy
-#| msgid "Enter a value:"
 msgid "Enter a value"
-msgstr "Digite um valor:"
+msgstr "Digite um valor"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:10
 msgid "Locations"
 msgstr "Locais"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:149
-#, fuzzy
-#| msgid "Name already used"
 msgid "Location already saved"
-msgstr "Nome já usado"
+msgstr "Local já usado"
 
 #: src/Ext/Bookmarks/BookmarksDialog.vala:5
 #: src/Ext/Filters/FiltersDialog.vala:30
@@ -2315,10 +2122,8 @@ msgid "Reset Original Color"
 msgstr "Restaurar cor original"
 
 #: src/Ext/Color/ColorSelector.vala:142
-#, fuzzy
-#| msgid "C_olor:"
 msgid "_Color:"
-msgstr "C_or:"
+msgstr "_Cor:"
 
 #: src/Ext/Color/ColorSelector.vala:151
 msgid "_Red:"
@@ -2339,7 +2144,7 @@ msgstr "_Transparência:"
 # Não sei a tradução no contexto de tratamento de imagens.
 #: src/Ext/Color/ColorSelector.vala:169
 msgid "_Hue:"
-msgstr ""
+msgstr "_Matiz:"
 
 #: src/Ext/Color/ColorSelector.vala:172
 msgid "_Saturation:"
@@ -2357,10 +2162,8 @@ msgstr "Gamma"
 #. Translators: filter that adjust the color curves.
 #: src/Ext/Editor/AdjustBrightness.vala:12
 #: src/Ext/Editor/AdjustContrast.vala:12
-#, fuzzy
-#| msgid "Color Curves"
 msgid "Curves"
-msgstr "Curvas de cor"
+msgstr "Curvas"
 
 #. Translators: filter that adjust the contrast balancing the white component.
 #: src/Ext/Editor/AdjustContrast.vala:9
@@ -2381,30 +2184,26 @@ msgstr "Desabilitadas"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:52
 #: src/Ext/Editor/AspectRatioGroup.vala:54
-#, fuzzy
-#| msgid "Screenshot"
 msgctxt "Aspect Ratio"
 msgid "Screen"
-msgstr "Captura de tela"
+msgstr "Tela"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:59
 #: src/Ext/Editor/AspectRatioGroup.vala:60
-#, fuzzy
-#| msgid "Image"
 msgctxt "Aspect Ratio"
 msgid "Image"
 msgstr "Imagem"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:65
 #: src/Ext/Editor/AspectRatioGroup.vala:66
-#: src/Ext/Filters/TestAspectRatio.vala:168
+#: src/Ext/Filters/TestAspectRatio.vala:169
 msgctxt "Aspect Ratio"
 msgid "Square"
 msgstr "Quadrado"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:79
 #: src/Ext/Editor/AspectRatioGroup.vala:81
-#: src/Ext/Filters/TestAspectRatio.vala:179
+#: src/Ext/Filters/TestAspectRatio.vala:180
 msgctxt "Aspect Ratio"
 msgid "A4"
 msgstr "A4"
@@ -2448,10 +2247,8 @@ msgid "Uniform"
 msgstr "Uniformizar"
 
 #: src/Ext/Editor/ResizeImage.vala:68
-#, fuzzy
-#| msgid "Screenshot"
 msgid "Screen"
-msgstr "Captura de tela"
+msgstr "Tela"
 
 #: src/Ext/Editor/ResizeImage.vala:95
 msgid "4K"
@@ -2506,15 +2303,12 @@ msgid "Negative"
 msgstr "Negativo"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:6
-#, fuzzy
 msgid "Conditions"
-msgstr "Condições Exif"
+msgstr "Condições"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:7
-#, fuzzy
-#| msgid "Exif Structure"
 msgid "Structure"
-msgstr "Estrutura Exif"
+msgstr "Estrutura"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:8
 msgid "Thumbnail"
@@ -2525,26 +2319,20 @@ msgid "GPS"
 msgstr "GPS"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:10
-#, fuzzy
-#| msgid "Exif Maker Notes"
 msgid "Maker Notes"
-msgstr "Editor de notas Exif"
+msgstr "Criador de notas"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:11
-#, fuzzy
-#| msgid "Exif Versions"
 msgid "Versions"
-msgstr "Versões Exif"
+msgstr "Versões"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:14 src/Ext/Exiv2/XmpPropertyView.vala:11
 msgid "XMP"
 msgstr "XMP"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:15
-#, fuzzy
-#| msgid "XMP Attached"
 msgid "Attached"
-msgstr "XMP anexado"
+msgstr "Anexado"
 
 #: src/Ext/Exiv2/ExifPropertyView.vala:11
 msgid "EXIF"
@@ -2557,9 +2345,11 @@ msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
 msgstr[0] ""
-"Esta ação é irreversível. Deseja excluir permanentemente o arquivo selecionado?"
+"Esta ação é irreversível. Deseja excluir permanentemente o arquivo "
+"selecionado?"
 msgstr[1] ""
-"Esta ação é irreversível. Deseja excluir permanentemente os %'d arquivos selecionados?"
+"Esta ação é irreversível. Deseja excluir permanentemente os %'d arquivos "
+"selecionados?"
 
 #: src/Ext/FileManager/FileManager.vala:86
 msgid "Move"
@@ -2583,7 +2373,6 @@ msgstr "Um arquivo chamado “%s” já existe. Você deseja sobrescrevê-lo?"
 #: src/Ext/FileManager/OverwriteDialog.vala:126
 #: src/Ext/FileManager/OverwriteDialog.vala:134
 #: src/Ext/FileManager/OverwriteDialog.vala:148
-#, fuzzy
 msgid "_Replace"
 msgstr "Substitui_r"
 
@@ -2596,7 +2385,8 @@ msgstr "Substituir conteúdo?"
 #, c-format
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
-msgstr "O arquivo “%s” foi modificado por outra aplicação. Deseja substituí-lo?"
+msgstr ""
+"O arquivo “%s” foi modificado por outra aplicação. Deseja substituí-lo?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
 msgid "Rename File?"
@@ -2613,7 +2403,6 @@ msgid "Skip _All"
 msgstr "Ignorar _tudo"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:204
-#, fuzzy
 msgid "Content to Replace"
 msgstr "Conteúdo a ser substituído"
 
@@ -2646,29 +2435,23 @@ msgid "Name is empty"
 msgstr "Nome está vazio"
 
 #: src/Ext/Filters/Test.vala:56
-#, fuzzy
 msgid "Greater Than"
 msgstr "é maior que"
 
 #: src/Ext/Filters/Test.vala:57
-#, fuzzy
 msgid "Greater Than or Equal To"
 msgstr "é maior que ou igual a"
 
 #: src/Ext/Filters/Test.vala:58
-#, fuzzy
 msgid "Lower Than"
 msgstr "é menor que"
 
 #: src/Ext/Filters/Test.vala:59
-#, fuzzy
 msgid "Lower Than or Equal To"
 msgstr "é menor que ou igual a"
 
-#: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:109
-#: src/Ext/Filters/TestString.vala:145
-#, fuzzy
-#| msgid "is equal to"
+#: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:111
+#: src/Ext/Filters/TestString.vala:147
 msgid "Equal To"
 msgstr "é igual a"
 
@@ -2687,78 +2470,78 @@ msgstr "MB"
 msgid "GB"
 msgstr "GB"
 
-#: src/Ext/Filters/TestDate.vala:110 src/Ext/Filters/TestString.vala:146
-msgid "Different From"
-msgstr "Diferente de"
+#: src/Ext/Filters/TestAspectRatio.vala:124 src/Ext/Filters/TestDate.vala:93
+#: src/Ext/Filters/TestDate.vala:100 src/Ext/Filters/TestInt.vala:84
+#: src/Ext/Filters/TestSize.vala:105 src/Ext/Filters/TestString.vala:128
+#: src/Ext/Filters/TestString.vala:135 src/Ext/Filters/TestStringList.vala:123
+#: src/Ext/Filters/TestStringList.vala:130
+msgid "The test definition is incomplete"
+msgstr "A definição de teste está incompleta"
 
-#: src/Ext/Filters/TestString.vala:142
-#, fuzzy
-#| msgid "contains"
+#: src/Ext/Filters/TestDate.vala:112 src/Ext/Filters/TestString.vala:148
+msgid "Different From"
+msgstr "diferente de"
+
+#: src/Ext/Filters/TestString.vala:144
 msgid "Contains"
 msgstr "contém"
 
-#: src/Ext/Filters/TestString.vala:143
-#, fuzzy
-#| msgid "starts with"
+#: src/Ext/Filters/TestString.vala:145
 msgid "Starts With"
 msgstr "começa com"
 
-#: src/Ext/Filters/TestString.vala:144
-#, fuzzy
-#| msgid "ends with"
+#: src/Ext/Filters/TestString.vala:146
 msgid "Ends With"
 msgstr "termina com"
 
-#: src/Ext/Filters/TestString.vala:147
-#, fuzzy
-#| msgid "does not contain"
+#: src/Ext/Filters/TestString.vala:149
 msgid "Does not Contain"
 msgstr "não contém"
 
-#: src/Ext/Filters/TestString.vala:148 src/Ext/Filters/TestStringList.vala:140
+#: src/Ext/Filters/TestString.vala:150 src/Ext/Filters/TestStringList.vala:142
 msgid "Matches Pattern"
-msgstr "Corresponde padrão"
-
-#: src/Ext/Filters/TestStringList.vala:137
-msgid "Includes"
-msgstr "Inclui"
-
-#: src/Ext/Filters/TestStringList.vala:138
-msgid "Includes Only"
-msgstr "Apenas inclui"
+msgstr "corresponde ao padrão"
 
 #: src/Ext/Filters/TestStringList.vala:139
+msgid "Includes"
+msgstr "inclui"
+
+#: src/Ext/Filters/TestStringList.vala:140
+msgid "Includes Only"
+msgstr "inclui apenas"
+
+#: src/Ext/Filters/TestStringList.vala:141
 msgid "Not Includes"
-msgstr "Não Inclui"
+msgstr "não inclui"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
+#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
 msgid "Save File"
 msgstr "Salvar arquivo"
 
-#: src/Ext/Image/ImageViewer.vala:259
+#: src/Ext/Image/ImageViewer.vala:264
 #, c-format
 msgid "Saving %s"
 msgstr "Salvando %s"
 
-#: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
+#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
 #: src/MainWindow.vala:1087
 msgid "File type not supported"
 msgstr "Não há suporte ao tipo de arquivo"
 
-#: src/Ext/Image/ImageViewer.vala:443 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "Espelhar horizontalmente"
 
-#: src/Ext/Image/ImageViewer.vala:452 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "Espelhar verticalmente"
 
-#: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
 msgid "Copying to the Clipboard"
 msgstr "Copiando para a área de transferência"
 
-#: src/Ext/Image/ImageViewer.vala:611 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
 msgid "Copied to the Clipboard"
 msgstr "Copiado para a área de transferência"
 
@@ -2773,22 +2556,17 @@ msgid "Not enough free space"
 msgstr "O espaço disponível é insuficiente"
 
 #: src/Ext/Import/ImportFiles.vala:247 src/Ext/Shortcuts/Shortcuts.vala:206
-#, fuzzy
-#| msgid "_Close"
 msgid "Close"
-msgstr "_Fechar"
+msgstr "Fechar"
 
 #. Overwrite the catalog content if the generic "last imported" catalog is used.
 #: src/Ext/Import/Importer.vala:130
-#, fuzzy
-#| msgid "Last imported"
 msgid "Last Imported"
 msgstr "Última importação"
 
 #. Caption
 #: src/Ext/Preferences/BrowserPreferences.vala:74
 #: src/Ext/Shortcuts/Shortcut.vala:257
-#, fuzzy
 msgid "Hidden"
 msgstr "Oculto"
 
@@ -2846,20 +2624,16 @@ msgid "File Extension"
 msgstr "Extensão do arquivo"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:11
-#, fuzzy
-#| msgid "Original size"
 msgid "Original Index"
-msgstr "Tamanho original"
+msgstr "Índice original"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:12
 msgid "Created"
 msgstr "Criado"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:14
-#, fuzzy
-#| msgid "Digitalization date"
 msgid "Digitalized"
-msgstr "Data de digitalização"
+msgstr "Digitalizado"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:15
 #: src/Ext/Scripts/ScriptCommandPage.vala:14
@@ -2941,16 +2715,12 @@ msgid "File Manager"
 msgstr "Gerenciador de arquivos"
 
 #: src/Ext/Shortcuts/Shortcut.vala:262
-#, fuzzy
-#| msgid "Audio/Video Player"
 msgid "Audio/Video"
-msgstr "Reprodutor de áudio/vídeo"
+msgstr "Áudio/Vídeo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:134
-#, fuzzy
-#| msgid "Close window"
 msgid "Close Window"
-msgstr "Fecha a janela"
+msgstr "Fechar janela"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:135 src/Ext/Shortcuts/Shortcuts.vala:266
 msgid "Quit"
@@ -2958,29 +2728,23 @@ msgstr "Sair"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:138
 msgid "Main Menu"
-msgstr "Menu Principal"
+msgstr "Menu principal"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:140
-#, fuzzy
-#| msgid "Open location"
 msgid "Open Location"
-msgstr "Abre a localização"
+msgstr "Abrir local"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:141
 msgid "Home"
-msgstr ""
+msgstr "Pasta pessoal"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:142
-#, fuzzy
-#| msgid "Paste Into Folder"
 msgid "Parent Folder"
-msgstr "Cola para a pasta"
+msgstr "Voltar uma pasta"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:144
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous Visited"
-msgstr "Anterior"
+msgstr "Visitado anterior"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:145
 msgid "Next Visited"
@@ -2988,7 +2752,7 @@ msgstr "Próximo visitado"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:146
 msgid "Next Folder"
-msgstr "Pasta seguinte"
+msgstr "Próxima pasta"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:147
 msgid "Previous Folder"
@@ -3003,95 +2767,69 @@ msgid "Sidebar"
 msgstr "Barra lateral"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:169
-#, fuzzy
-#| msgid "Find files"
 msgid "Find Files"
-msgstr "Localiza arquivos"
+msgstr "Localizar arquivos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:171
-#, fuzzy
-#| msgid "Copying files"
 msgid "Copy Files"
-msgstr "Copiando arquivos"
+msgstr "Copiar arquivos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:172
-#, fuzzy
-#| msgid "Moving files"
 msgid "Move Files"
-msgstr "Movendo arquivos"
+msgstr "Mover arquivos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:176
-#, fuzzy
-#| msgid "Deleting files"
 msgid "Delete Files"
-msgstr "Excluindo arquivos"
+msgstr "Excluir arquivos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:181
 msgid "Open with Gimp"
-msgstr "Abre com Gimp"
+msgstr "Abrir com Gimp"
 
 # Valor anterior: Abre com Gimp
 #: src/Ext/Shortcuts/Shortcuts.vala:182
 msgid "Open with Inkscape"
-msgstr "Abre com Inkscape"
+msgstr "Abrir com Inkscape"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:194
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 1"
-msgstr "Adiciona à seleção"
+msgstr "Adicionar à seleção 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:195
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 2"
-msgstr "Adiciona à seleção"
+msgstr "Adicionar à seleção 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:196
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 3"
-msgstr "Adiciona à seleção"
+msgstr "Adicionar à seleção 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:197
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 1"
-msgstr "Remover da seleção"
+msgstr "Remover da seleção 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:198
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 2"
-msgstr "Remover da seleção"
+msgstr "Remover da seleção 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:199
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 3"
-msgstr "Remover da seleção"
+msgstr "Remover da seleção 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:200
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 1"
-msgstr "Mostra a seleção"
+msgstr "Mostrar a seleção 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:201
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 2"
-msgstr "Mostra a seleção"
+msgstr "Mostrar a seleção 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:202
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 3"
-msgstr "Mostra a seleção"
+msgstr "Mostrar a seleção 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:204
 msgid "View All"
-msgstr "Ver todos"
+msgstr "Ver tudo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:209
 msgid "First File"
@@ -3107,11 +2845,11 @@ msgstr "Ver controles"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:219
 msgid "Zoom In Fast"
-msgstr "Amplia rapidamente"
+msgstr "Ampliar rapidamente"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:220
 msgid "Zoom Out Fast"
-msgstr "Reduz rapidamente"
+msgstr "Reduzir rapidamente"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:221
 msgid "Zoom 100%"
@@ -3127,92 +2865,71 @@ msgstr "Ampliação de 300%"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:224
 msgid "Zoom to Fit"
-msgstr "Amplia para caber"
+msgstr "Ampliar para caber"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:225
 msgid "Zoom to Fit if Larger"
-msgstr "Amplia para ajustar se for maior"
+msgstr "Ampliar para ajustar se for maior"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:226
 msgid "Zoom to Fit Width"
-msgstr "Amplia para ajustar à largura"
+msgstr "Ampliar para ajustar à largura"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:227
 msgid "Zoom to Fit Height"
-msgstr "Amplia para ajustar à altura"
+msgstr "Ampliar para ajustar à altura"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:228
 msgid "Automatic Zoom"
 msgstr "Ampliar automaticamente"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:231
-#, fuzzy
-#| msgid "Scroll left"
 msgid "Scroll Left"
-msgstr "Rola para esquerda"
+msgstr "Rolar para esquerda"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:232
-#, fuzzy
-#| msgid "Scroll right"
 msgid "Scroll Right"
-msgstr "Rola para direita"
+msgstr "Rolar para direita"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:233
-#, fuzzy
-#| msgid "Scroll up"
 msgid "Scroll Up"
-msgstr "Rola para cima"
+msgstr "Rolar para cima"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:234
-#, fuzzy
-#| msgid "Scroll down"
 msgid "Scroll Down"
-msgstr "Rola para baixo"
+msgstr "Rolar para baixo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:235
-#, fuzzy
-#| msgid "Scroll left fast"
 msgid "Scroll Left Fast"
-msgstr "Rola rápido para esquerda"
+msgstr "Rolar rápido para esquerda"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:236
-#, fuzzy
-#| msgid "Scroll right fast"
 msgid "Scroll Right Fast"
-msgstr "Rola rápido para direita"
+msgstr "Rolar rápido para direita"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:237
-#, fuzzy
-#| msgid "Scroll up fast"
 msgid "Scroll Up Fast"
-msgstr "Rola rápido para cima"
+msgstr "Rolar rápido para cima"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:238
-#, fuzzy
-#| msgid "Scroll down fast"
 msgid "Scroll Down Fast"
-msgstr "Rola rápido para baixo"
+msgstr "Rolar rápido para baixo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:239
-#, fuzzy
-#| msgid "Scroll to center"
 msgid "Scroll to Center"
-msgstr "Rola para centro"
+msgstr "Rolar para centro"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:242
-#, fuzzy
 msgid "Save As"
 msgstr "Salvar como"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:243
-#, fuzzy
-#| msgid "Revert image to saved"
 msgid "Revert to Saved"
-msgstr "Reverte para a imagem salva"
+msgstr "Reverter para o salvo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:267 src/Ext/Shortcuts/Shortcuts.vala:271
 msgid "Play/Pause"
-msgstr "Reproduz/Pausa"
+msgstr "Reproduzir/Pausar"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:272
 msgid "Screenshot"
@@ -3224,73 +2941,53 @@ msgstr "Silenciar"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:274
 msgid "Play Faster"
-msgstr "Rápido"
+msgstr "Apresentar mais rápido"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:275
 msgid "Play Slower"
-msgstr "Lento"
+msgstr "Apresentar mais lento"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:276
 msgid "Normal Speed"
-msgstr "Normal"
+msgstr "Velocidade normal"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:278
-#, fuzzy
-#| msgid "Go forward 1 second"
 msgid "Go Forward 1 Second"
 msgstr "Avançar 1 segundo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:279
-#, fuzzy
-#| msgid "Go forward 5 seconds"
 msgid "Go Forward 5 Seconds"
 msgstr "Avançar 5 segundos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:280
-#, fuzzy
-#| msgid "Go forward 10 seconds"
 msgid "Go Forward 10 Seconds"
 msgstr "Avançar 10 segundos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:281
-#, fuzzy
-#| msgid "Go forward 1 minute"
 msgid "Go Forward 1 Minute"
 msgstr "Avançar 1 minuto"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:282
-#, fuzzy
-#| msgid "Go forward 5 minutes"
 msgid "Go Forward 5 Minutes"
 msgstr "Avançar 5 minutos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:283
-#, fuzzy
-#| msgid "Go back 1 second"
 msgid "Go Backward 1 Second"
 msgstr "Voltar 1 segundo"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:284
-#, fuzzy
-#| msgid "Go back 5 seconds"
 msgid "Go Backward 5 Seconds"
 msgstr "Voltar 5 segundos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:285
-#, fuzzy
-#| msgid "Go back 10 seconds"
 msgid "Go Backward 10 Seconds"
 msgstr "Voltar 10 segundos"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:286
-#, fuzzy
-#| msgid "Go back 1 minute"
 msgid "Go Backward 1 Minute"
 msgstr "Voltar 1 minuto"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:287
-#, fuzzy
-#| msgid "Go back 5 minutes"
 msgid "Go Backward 5 Minutes"
 msgstr "Voltar 5 minutos"
 
@@ -3305,10 +3002,8 @@ msgid "Loading %s"
 msgstr "Carregando %s"
 
 #: src/Ext/Slideshow/Slideshow.vala:143
-#, fuzzy
-#| msgid "Pause"
 msgid "Paused"
-msgstr "Pausar"
+msgstr "Pausada"
 
 #: src/Ext/Template/TemplatePage.vala:160
 msgid "Year"
@@ -3347,10 +3042,8 @@ msgid "No suitable loader available for this file type"
 msgstr "Nenhum carregador adequado para esse tipo de arquivo"
 
 #: src/Ext/Tools/Internal/ResizeImages.vala:47
-#, fuzzy
-#| msgid "Original size"
 msgid "Original"
-msgstr "Tamanho original"
+msgstr "Original"
 
 #: src/Ext/Video/VideoMetadata.vala:5
 msgid "Artist"
@@ -3363,11 +3056,11 @@ msgstr "Álbum"
 #. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 #: src/Ext/Video/VideoMetadata.vala:8
 msgid "Video Codec"
-msgstr "Vídeo codec"
+msgstr "Codec de vídeo"
 
 #: src/Ext/Video/VideoMetadata.vala:9
 msgid "Audio Codec"
-msgstr "Áudio codec"
+msgstr "Codec de áudio"
 
 #: src/Ext/Video/VideoMetadata.vala:10
 msgid "Encoder"
@@ -3400,11 +3093,11 @@ msgstr "Copiar caminho"
 msgid "View on OpenStreetMap"
 msgstr "Veja no OpenStreetMap"
 
-#: src/Files.vala:239
+#: src/Files.vala:240
 msgid "Computer"
 msgstr "Computador"
 
-#: src/Files.vala:243
+#: src/Files.vala:244
 msgid "User Home"
 msgstr "Pasta pessoal"
 
@@ -3425,14 +3118,10 @@ msgid "Clipboard"
 msgstr "Área de transferência"
 
 #: src/MainWindow.vala:553 src/MainWindow.vala:568 src/MainWindow.vala:583
-#, fuzzy
-#| msgid "Deleting files"
 msgid "Deleting Files"
 msgstr "Excluindo arquivos"
 
 #: src/MainWindow.vala:598
-#, fuzzy
-#| msgid "Copying files"
 msgid "Copying Files"
 msgstr "Copiando arquivos"
 
@@ -3458,10 +3147,8 @@ msgid "Now"
 msgstr "Agora"
 
 #: src/Viewer.vala:155
-#, fuzzy
-#| msgid "File modified date"
 msgid "File Modified"
-msgstr "Data de modificação do arquivo"
+msgstr "Arquivo modificado"
 
 #: src/Viewer.vala:156
 msgid "If you don’t save, changes to the file will be permanently lost."
@@ -3477,10 +3164,8 @@ msgstr "Sair da tela cheia"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
 #: src/Viewer.vala:480
-#, fuzzy
-#| msgid "[modified]"
 msgid "modified"
-msgstr "[modificado]"
+msgstr "modificado"
 
 #: src/lib/exiv2-utils.cpp:20 src/lib/util.c:307
 msgid "(invalid value)"
@@ -5671,10 +5356,6 @@ msgstr "%d∶%02d"
 
 #~ msgid "Day of the month"
 #~ msgstr "Dia do mês"
-
-#, c-format
-#~ msgid "The test definition is incomplete"
-#~ msgstr "A definição de teste está incompleta"
 
 #~ msgid "is"
 #~ msgstr "é"
