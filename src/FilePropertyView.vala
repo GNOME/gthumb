@@ -106,8 +106,8 @@ public class Gth.FilePropertyView : Gtk.Box, Gth.PropertyView {
 					double lat, long;
 					if ((metadata != null) && metadata.get_point (out lat, out long)) {
 						try {
-							var lat_s = Lib.format_double (lat, 6);
-							var long_s = Lib.format_double (long, 6);
+							var lat_s = Util.format_double (lat, "%0.6f");
+							var long_s = Util.format_double (long, "%0.6f");
 							var uri = "https://www.openstreetmap.org/?mlat=%s&mlon=%s&zoom=6".printf (lat_s, long_s);
 							AppInfo.launch_default_for_uri (uri, null);
 						}

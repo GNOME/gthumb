@@ -75,7 +75,6 @@ char * _g_date_time_to_xmp_date (GDateTime *date_time);
 const char * guess_content_type (const guchar* buffer, gsize buffer_size);
 char * _g_format_duration_for_display (gint64 msecs, int *hours, int *minutes);
 char * _g_format_duration_not_localized (gint64 msecs);
-char * _g_format_double (double value, int max_decimal_digits);
 void _g_file_info_swap_attributes (GFileInfo *info, const char *attr1, const char *attr2);
 void _g_file_info_backup_attribute (GFileInfo *info, const char *attr);
 void _g_file_info_restore_original_attribute (GFileInfo *info, const char *attr);
