@@ -324,6 +324,7 @@ public class Gth.Viewer : Gtk.Box {
 		viewer_signals.add (click_events, click_id);
 
 		click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_PRIMARY);
 		click_id = click_events.pressed.connect (() => focus_viewer ());
 		widget.add_controller (click_events);
 		viewer_signals.add (click_events, click_id);

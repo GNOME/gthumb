@@ -521,6 +521,7 @@ class Gth.ColorRange : Gtk.Widget {
 			add_controller (focus_events);
 
 			var click_events = new Gtk.GestureClick ();
+			click_events.set_button (Gdk.BUTTON_PRIMARY);
 			click_events.pressed.connect (on_button_pressed);
 			click_events.released.connect (on_button_released);
 			add_controller (click_events);

@@ -67,6 +67,7 @@ public class Gth.RatingEntry : Gtk.Box {
 		star_container.add_controller (motion_events);
 
 		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_PRIMARY);
 		click_events.pressed.connect ((n_press, x, y) => {
 			value = calc_preview (x);
 		});

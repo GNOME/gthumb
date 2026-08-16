@@ -18,6 +18,7 @@ public class Gth.SidebarResizer : Gtk.Box {
 			prepend (handle);
 
 		var click_events = new Gtk.GestureClick ();
+		click_events.set_button (Gdk.BUTTON_PRIMARY);
 		click_events.pressed.connect ((n_press, x, y) => {
 			dragging = true;
 			after_click = true;

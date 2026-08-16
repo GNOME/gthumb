@@ -29,6 +29,7 @@ public class Gth.FolderTreeItem : Gtk.Box {
 		box.append (label);
 
 		var controller = new Gtk.GestureClick ();
+		controller.set_button (Gdk.BUTTON_PRIMARY);
 		controller.released.connect ((n_press, x, y) => {
 			var row = expander.get_list_row ();
 			if (row != null) {
