@@ -203,6 +203,24 @@ public class Gth.Browser : Gtk.Box {
 		open_location (home);
 	}
 
+	public void load_previous () {
+		if (history.can_load_previous ()) {
+			history.load_previous ();
+		}
+		else {
+			window.edge_reached ();
+		}
+	}
+
+	public void load_next () {
+		if (history.can_load_next ()) {
+			history.load_next ();
+		}
+		else {
+			window.edge_reached ();
+		}
+	}
+
 	public async void first_load () {
 		never_loaded = false;
 		if (app.one_window ()) {
@@ -845,11 +863,11 @@ public class Gth.Browser : Gtk.Box {
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-previous", null);
-		action.activate.connect (() => history.load_previous ());
+		action.activate.connect (() => load_previous ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-next", null);
-		action.activate.connect (() => history.load_next ());
+		action.activate.connect (() => load_next ());
 		action_group.add_action (action);
 
 		action = new SimpleAction ("load-parent", null);

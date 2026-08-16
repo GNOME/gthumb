@@ -407,3 +407,6 @@ public enum Gth.DropSide {
 	LEFT,
 	RIGHT;
 }
+
+const uint _GDK_BUTTON_BACKWARD = 8;
+const uint _GDK_BUTTON_FORWARD = 9;

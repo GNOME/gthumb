@@ -182,6 +182,14 @@ class Gth.History {
 		}
 	}
 
+	public bool can_load_previous () {
+		return (files.length > 0) && (current < files.length - 1);
+	}
+
+	public  bool can_load_next () {
+		return (files.length > 0) && (current > 0);
+	}
+
 	bool set_current (int idx) {
 		if ((idx < 0) || (idx >= files.length))
 			return false;
@@ -208,14 +216,6 @@ class Gth.History {
 		if (action != null) {
 			action.set_enabled (can_load_previous ());
 		}
-	}
-
-	bool can_load_previous () {
-		return (files.length > 0) && (current < files.length - 1);
-	}
-
-	bool can_load_next () {
-		return (files.length > 0) && (current > 0);
 	}
 
 	ActionCategory locations_category;

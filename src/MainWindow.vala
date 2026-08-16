@@ -1169,6 +1169,44 @@ public class Gth.MainWindow : Gth.Window {
 		});
 		child.add_controller (motion_events);
 
+		var click_events = new Gtk.GestureClick ();
+		click_events.button = _GDK_BUTTON_BACKWARD;
+		click_events.pressed.connect ((n_press, x, y) => {
+			switch (current_page) {
+			case Page.BROWSER:
+				browser.load_previous ();
+				break;
+
+			case Page.VIEWER:
+				browser.view_previous_file ();
+				break;
+
+			default:
+				edge_reached ();
+				break;
+			}
+		});
+		child.add_controller (click_events);
+
+		click_events = new Gtk.GestureClick ();
+		click_events.button = _GDK_BUTTON_FORWARD;
+		click_events.pressed.connect ((n_press, x, y) => {
+			switch (current_page) {
+			case Page.BROWSER:
+				browser.load_next ();
+				break;
+
+			case Page.VIEWER:
+				browser.view_next_file ();
+				break;
+
+			default:
+				edge_reached ();
+				break;
+			}
+		});
+		child.add_controller (click_events);
+
 		unowned var clipboard = get_clipboard ();
 		clipboard_event = clipboard.changed.connect (() => {
 			update_sensitivity_for_clipboard ();
