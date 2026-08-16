@@ -203,6 +203,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public void add_drag_controller () {
 		var drag_events = new Gtk.GestureDrag ();
 		drag_events.drag_begin.connect ((x, y) => {
+			if (!scroll_on_drag) {
+				return;
+			}
 			prev_cursor = cursor;
 			cursor = new Gdk.Cursor.from_name ("grabbing", null);
 			drag_start = PointUtil.point_from_click (x, y);
@@ -211,6 +214,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			cursor = prev_cursor;
 		});
 		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
+			if (!scroll_on_drag) {
+				return;
+			}
 			double start_x, start_y;
 			local_drag_events.get_start_point (out start_x, out start_y);
 			double x = start_x + ofs_x;
@@ -349,6 +355,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		if (_controller != null) {
 			_controller.on_size_allocated ();
 		}
+		scroll_on_drag = can_scroll ();
 		resized ();
 	}
 
@@ -550,6 +557,20 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		update_texture_box ();
 		update_image_box ();
 		queue_draw ();
+	}
+
+	public bool can_scroll () {
+		if (_vadjustment != null) {
+			if (_vadjustment.upper - _vadjustment.lower > _vadjustment.page_size) {
+				return true;
+			}
+		}
+		if (_hadjustment != null) {
+			if (_hadjustment.upper - _hadjustment.lower > _hadjustment.page_size) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public float get_zoom_for_type (ZoomType type) {
@@ -1287,6 +1308,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		min_zoom = MIN_ZOOM;
 		max_zoom = MAX_ZOOM;
 		boundless_zoom = false;
+		scroll_on_drag = false;
 		_zoom_limit = ZoomLimit.NONE;
 		first_allocation_state = null;
 		_filter_operation = null;
@@ -1331,6 +1353,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	float rendered_zoom;
 	Cancellable render_cancellable;
 	uint render_id;
+	bool scroll_on_drag;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
