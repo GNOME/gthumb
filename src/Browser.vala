@@ -1342,31 +1342,8 @@ public class Gth.Browser : Gtk.Box {
 					file_grid.select_file (file_data.file);
 				}
 			}
-			var providers = new Gdk.ContentProvider[] {};
 			var selected = file_grid.get_selected_files ();
-			if (selected.length () > 0) {
-				var text = new StringBuilder ();
-				var uri_list = new StringBuilder ();
-				foreach (unowned var file in selected) {
-					if (text.len > 0) {
-						text.append ("\n");
-					}
-					if (file.get_uri_scheme () == "file") {
-						text.append (file.get_path ());
-					}
-					else {
-						text.append (file.get_uri ());
-					}
-					if (uri_list.len > 0) {
-						uri_list.append ("\n");
-					}
-					uri_list.append (file.get_uri ());
-				}
-				var text_provider = new Gdk.ContentProvider.for_value (text.str);
-				var uri_provider = new Gdk.ContentProvider.for_bytes ("text/uri-list", new Bytes (uri_list.str.data));
-				providers += text_provider;
-				providers += uri_provider;
-			}
+			var providers = FileUtil.get_content_providers_for_files (selected);
 			if (file_grid.reordering && file_grid.is_reorderable) {
 				var item_provider = new Gdk.ContentProvider.for_value (file_grid);
 				providers += item_provider;
