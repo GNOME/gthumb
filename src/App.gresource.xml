@@ -91,11 +91,9 @@
     <file preprocess="xml-stripblanks">org.gnome.gthumb.svg</file>
     <file preprocess="xml-stripblanks">org.gnome.gthumb-devel.svg</file>
   </gresource>
-  <gresource prefix="/org/gnome/gthumb/icons/">
-    <file>filmholes.png</file>
-  </gresource>
-  <gresource prefix="/org/gnome/gthumb/css">
-    <file>style.css</file>
+  <gresource prefix="/org/gnome/gthumb">
+    <file>icons/private/filmholes.png</file>
+    <file>css/style.css</file>
   </gresource>
   <gresource prefix="/org/gnome/gthumb/ui">
     <file preprocess="xml-stripblanks">add-rule-dialog.ui</file>

@@ -72,11 +72,10 @@ resources_files = gnome.compile_resources('resources',
   'App.gresource.xml',
   c_name: 'resources',
   source_dir: [
-    '../data/icons/private/',
     '../data/icons/private/actions',
-    '../data/icons/',
-    '../data/css',
+    '../data/icons',
     '../data/ui',
+    '../data',
   ]
 )
 
