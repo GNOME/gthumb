@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-02-10 06:43+0000\n"
-"PO-Revision-Date: 2026-03-14 22:33+0500\n"
+"PO-Revision-Date: 2026-08-16 08:04+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <Kazakh>\n"
 "Language: kk\n"
@@ -38,8 +38,8 @@ msgstr ""
 #: data/appdata/org.gnome.gThumb.metainfo.xml.in:15
 msgid ""
 "As an image viewer gThumb allows to view common image file formats such as "
-"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. "
-"It is also possible to view various metadata types embedded inside an image "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
 "Суреттерді шолушы ретінде gThumb BMP, JPEG, GIF (анимацияларды қоса), PNG, "
@@ -91,6 +91,12 @@ msgstr "Браузер режимі"
 #: data/appdata/org.gnome.gThumb.metainfo.xml.in:55
 msgid "Viewer mode"
 msgstr "Шолушы режимі"
+
+#. developer_name tag deprecated with Appstream 1.0
+#: data/appdata/org.gnome.gThumb.metainfo.xml.in:59
+#: data/appdata/org.gnome.gThumb.metainfo.xml.in:61
+msgid "Paolo Bacchilega"
+msgstr "Paolo Bacchilega"
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
@@ -152,14 +158,13 @@ msgstr "gThumb"
 msgid "Image Viewer"
 msgstr "Суреттерді шолушы"
 
-#. Translators: Search terms to find this application. Do NOT translate or
-#. localize the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gThumb.desktop.in:7
 msgid "Image;Viewer;"
 msgstr "Сурет;Шолушы;"
 
-#: data/org.gnome.gThumb.desktop.in:20
-#: gthumb/gth-browser-actions-entries.h:100 gthumb/resources/gears-menu.ui:7
+#: data/org.gnome.gThumb.desktop.in:20 gthumb/gth-browser-actions-entries.h:100
+#: gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Жаңа терезе"
 
@@ -259,8 +264,7 @@ msgid "Rules:"
 msgstr "Ережелер:"
 
 #. limit label
-#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:271
-#: gthumb/gth-filter.c:339
+#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:271 gthumb/gth-filter.c:339
 msgid "_Limit to"
 msgstr "_Шектеу:"
 
@@ -272,8 +276,7 @@ msgstr "таңдалған:"
 msgid "Mean:"
 msgstr "Орташа:"
 
-#. Short for "Standard deviation".  Try to keep it under the 12 characters in
-#. the translation or it will be ellipsized at the end.
+#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.
 #: data/ui/histogram-info.ui:41
 msgid "Std dev:"
 msgstr "Стандартты ауытқу:"
@@ -451,8 +454,7 @@ msgstr "Файл аты"
 
 #: data/ui/sort-order-folder-tree.ui:35
 #: extensions/catalogs/dlg-organize-files.c:145
-#: gthumb/gth-main-default-sort-types.c:187
-#: gthumb/gth-main-default-tests.c:359
+#: gthumb/gth-main-default-sort-types.c:187 gthumb/gth-main-default-tests.c:359
 msgid "File modified date"
 msgstr "Файлдың өзгертілген күні"
 
@@ -1413,8 +1415,8 @@ msgid "Total number of pages"
 msgstr "Беттердің жалпы саны"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:43
-#: extensions/webalbums/dlg-web-exporter.c:37
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:47
+#: extensions/webalbums/dlg-web-exporter.c:37 gthumb/gth-location-chooser.c:274
+#: gthumb/gth-main-default-metadata.c:47
 msgid "Location"
 msgstr "Орналасуы"
 
@@ -1789,8 +1791,8 @@ msgstr "Файлдарды жылжыту мүмкін емес"
 #: extensions/file_manager/actions.c:424
 #: extensions/file_manager/callbacks.c:281
 msgid ""
-"Files cannot be moved to the current location, as alternative you can "
-"choose to copy them."
+"Files cannot be moved to the current location, as alternative you can choose "
+"to copy them."
 msgstr ""
 "Файлдарды ағымдағы орынға жылжыту мүмкін емес, балама ретінде оларды "
 "көшіруді таңдауға болады."
@@ -2059,8 +2061,7 @@ msgstr "Ортасы"
 
 #: extensions/file_tools/data/ui/crop-options.ui:418
 #: extensions/file_tools/data/ui/resize-options.ui:375
-#: gthumb/gth-main-default-sort-types.c:191
-#: gthumb/gth-main-default-tests.c:406
+#: gthumb/gth-main-default-sort-types.c:191 gthumb/gth-main-default-tests.c:406
 msgid "Aspect ratio"
 msgstr "Пропорция"
 
@@ -2212,38 +2213,31 @@ msgstr "Мөлшері:"
 msgid "%d → %d"
 msgstr "%d → %d"
 
-#: extensions/file_tools/gth-curve-editor.c:894
-#: gthumb/gth-histogram-view.c:838
+#: extensions/file_tools/gth-curve-editor.c:894 gthumb/gth-histogram-view.c:838
 msgid "Linear scale"
 msgstr "Сызықтық масштаб"
 
-#: extensions/file_tools/gth-curve-editor.c:906
-#: gthumb/gth-histogram-view.c:850
+#: extensions/file_tools/gth-curve-editor.c:906 gthumb/gth-histogram-view.c:850
 msgid "Logarithmic scale"
 msgstr "Логарифмдік масштаб"
 
-#: extensions/file_tools/gth-curve-editor.c:926
-#: gthumb/gth-histogram-view.c:870
+#: extensions/file_tools/gth-curve-editor.c:926 gthumb/gth-histogram-view.c:870
 msgid "Channel:"
 msgstr "Арна:"
 
-#: extensions/file_tools/gth-curve-editor.c:948
-#: gthumb/gth-histogram-view.c:891
+#: extensions/file_tools/gth-curve-editor.c:948 gthumb/gth-histogram-view.c:891
 msgid "Value"
 msgstr "Мән"
 
-#: extensions/file_tools/gth-curve-editor.c:953
-#: gthumb/gth-histogram-view.c:896
+#: extensions/file_tools/gth-curve-editor.c:953 gthumb/gth-histogram-view.c:896
 msgid "Red"
 msgstr "Қызыл"
 
-#: extensions/file_tools/gth-curve-editor.c:958
-#: gthumb/gth-histogram-view.c:901
+#: extensions/file_tools/gth-curve-editor.c:958 gthumb/gth-histogram-view.c:901
 msgid "Green"
 msgstr "Жасыл"
 
-#: extensions/file_tools/gth-curve-editor.c:963
-#: gthumb/gth-histogram-view.c:906
+#: extensions/file_tools/gth-curve-editor.c:963 gthumb/gth-histogram-view.c:906
 msgid "Blue"
 msgstr "Көк"
 
@@ -3164,8 +3158,7 @@ msgstr "Суретті басып шығару"
 
 #: extensions/image_print/image_print.extension.desktop.in.in:3
 msgid "Allow to print images choosing the page layout."
-msgstr ""
-"Бет жаймасын таңдау арқылы суреттерді басып шығаруға мүмкіндік береді."
+msgstr "Бет жаймасын таңдау арқылы суреттерді басып шығаруға мүмкіндік береді."
 
 #: extensions/image_rotation/callbacks.c:59
 msgid "Rotate Physically"
@@ -3427,8 +3420,8 @@ msgstr "Суретті айналдыру"
 msgid "Image Editor"
 msgstr "Сурет түзеткіші"
 
-#: extensions/image_viewer/preferences.c:171
-#: gthumb/gth-main-default-types.c:42 gthumb/gth-shortcuts-window.c:40
+#: extensions/image_viewer/preferences.c:171 gthumb/gth-main-default-types.c:42
+#: gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Қараушы"
 
@@ -3483,9 +3476,7 @@ msgstr "Соңғы импортталған"
 msgid "No file specified."
 msgstr "Файл көрсетілмеген."
 
-#. Translators: For example: Not enough free space in
-#. “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is
-#. available.
+#. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
 #: extensions/importer/gth-import-task.c:820
 #, c-format
 msgid ""
@@ -4021,13 +4012,11 @@ msgstr "Презентацияны аяқтау"
 msgid "Pause/Resume presentation"
 msgstr "Презентацияны аялдату/жалғастыру"
 
-#: extensions/slideshow/callbacks.c:43
-#: gthumb/gth-browser-actions-entries.h:127
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:127
 msgid "Show next file"
 msgstr "Келесі файлды көрсету"
 
-#: extensions/slideshow/callbacks.c:44
-#: gthumb/gth-browser-actions-entries.h:126
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:126
 msgid "Show previous file"
 msgstr "Алдыңғы файлды көрсету"
 
@@ -4047,8 +4036,7 @@ msgstr "_Жекешелендіру"
 msgid "_Transition effect:"
 msgstr "Өт_у әсері:"
 
-#. This is the first part of the phrase "change automatically, every x
-#. seconds", where x is an input control that let the user choose a value.
+#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:126
 msgid "_Change automatically, every"
 msgstr "Автоматты түрде өзг_ерту, әр"
@@ -4398,8 +4386,7 @@ msgstr "Қайта іске қосу қажет"
 
 #: gthumb/dlg-preferences-extensions.c:719
 msgid "You need to restart gthumb for these changes to take effect"
-msgstr ""
-"Өзгерістер күшіне енуі үшін gThumb бағдарламасын қайта іске қосу керек"
+msgstr "Өзгерістер күшіне енуі үшін gThumb бағдарламасын қайта іске қосу керек"
 
 #: gthumb/dlg-preferences-extensions.c:721
 msgid "_Restart"
@@ -4434,8 +4421,7 @@ msgstr "Жарлықтар"
 msgid "Sort By"
 msgstr "Келесі бойынша сұрыптау"
 
-#. For translators: This is a progress size indicator, for example: 230.4 MB
-#. of 512.8 MB
+#. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
 #: gthumb/gio-utils.c:1060
 #, c-format
 msgid "%s of %s"
@@ -4476,6 +4462,7 @@ msgstr "Файлдарды қоқыс шелегіне жылжыту"
 #. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
+#.
 #: gthumb/glib-utils.c:2163
 #, c-format
 msgctxt "long time format"
@@ -4487,6 +4474,7 @@ msgstr "%d∶%02d∶%02d"
 #. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
+#.
 #: gthumb/glib-utils.c:2172
 #, c-format
 msgctxt "short time format"
@@ -4555,8 +4543,8 @@ msgstr ""
 
 #: gthumb/gth-browser-actions-callbacks.c:110
 msgid ""
-"You should have received a copy of the GNU General Public License along "
-"with gThumb.  If not, see http://www.gnu.org/licenses/."
+"You should have received a copy of the GNU General Public License along with "
+"gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
 "Сіз gThumb бағдарламасымен бірге GNU General Public License лицензиясының "
 "көшірмесін алуыңыз керек еді. Олай болмаса, http://www.gnu.org/licenses/ "
@@ -4797,8 +4785,8 @@ msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"Файлдарды қоқыс шелегіне тастау мүмкін емес. Оларды біржола өшіруді "
-"қалайсыз ба?"
+"Файлдарды қоқыс шелегіне тастау мүмкін емес. Оларды біржола өшіруді қалайсыз "
+"ба?"
 
 #: gthumb/gth-file-source-vfs.c:891
 msgid "Could not move the files to the Trash"
