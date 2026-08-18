@@ -1315,6 +1315,15 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		rendered_image = null;
 		render_cancellable = null;
 		render_id = 0;
+
+		var zoom_controller = new Gtk.GestureZoom ();
+		zoom_controller.begin.connect ((controller, seq) => {
+			initial_gesture_zoom = zoom;
+		});
+		zoom_controller.scale_changed.connect ((controller, scale) => {
+			zoom = initial_gesture_zoom * (float) scale;
+		});
+		add_controller (zoom_controller);
 	}
 
 	Gth.Image _image;
@@ -1354,6 +1363,8 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	Cancellable render_cancellable;
 	uint render_id;
 	bool scroll_on_drag;
+	float initial_gesture_zoom;
+	Gtk.GestureDrag drag_gesture = null;
 
 	const float MIN_ZOOM = 0.05f;
 	const float MAX_ZOOM = 10.0f;
