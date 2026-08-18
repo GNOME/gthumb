@@ -45,7 +45,7 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		});
 
 		image_view.resized.connect (() => update_zoom_info ());
-		image_view.add_drag_controller ();
+		image_view.add_drag_gesture ();
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		scroll_events.scroll.connect ((controller, dx, dy) => {

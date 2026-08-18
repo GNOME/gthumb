@@ -51,7 +51,7 @@ public class Gth.ImageTool : Object {
 	}
 
 	public void add_default_controllers (ImageView _image_view) {
-		image_view.add_drag_controller ();
+		image_view.add_drag_gesture ();
 		image_view.add_scroll_controller ();
 
 		var key_events = new Gtk.EventControllerKey ();

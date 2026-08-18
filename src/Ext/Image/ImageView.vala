@@ -193,44 +193,47 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	}
 
 	public void add_scroll_controller () {
-		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
-		scroll_events.scroll.connect ((events, dx, dy) => {
-			return on_scroll (dx, dy, events.get_current_event_state ());
+		var scroll_controller = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		scroll_controller.scroll.connect ((controller, dx, dy) => {
+			return on_scroll (dx, dy, controller.get_current_event_state ());
 		});
-		add_controller (scroll_events);
+		add_controller (scroll_controller);
 	}
 
-	public void add_drag_controller () {
-		var drag_events = new Gtk.GestureDrag ();
-		drag_events.drag_begin.connect ((x, y) => {
+	public void add_drag_gesture () {
+		drag_gesture = new Gtk.GestureDrag ();
+		drag_gesture.drag_begin.connect ((controller, start_x, start_y) => {
 			if (!scroll_on_drag) {
+				controller.set_state (Gtk.EventSequenceState.DENIED);
+				return;
+			}
+			var state = controller.get_current_event_state ();
+			if ((state & Gdk.ModifierType.CONTROL_MASK) != 0) {
+				controller.set_state (Gtk.EventSequenceState.DENIED);
 				return;
 			}
 			prev_cursor = cursor;
 			cursor = new Gdk.Cursor.from_name ("grabbing", null);
-			drag_start = PointUtil.point_from_click (x, y);
+			drag_start = PointUtil.point_from_click (start_x, start_y);
 		});
-		drag_events.drag_end.connect ((x, y) => {
+		drag_gesture.drag_end.connect ((ofs_x, ofs_y) => {
 			cursor = prev_cursor;
 		});
-		drag_events.drag_update.connect ((local_drag_events, ofs_x, ofs_y) => {
-			if (!scroll_on_drag) {
-				return;
-			}
+		drag_gesture.drag_update.connect ((controller, ofs_x, ofs_y) => {
 			double start_x, start_y;
-			local_drag_events.get_start_point (out start_x, out start_y);
+			controller.get_start_point (out start_x, out start_y);
 			double x = start_x + ofs_x;
 			double y = start_y + ofs_y;
 			scroll_by (drag_start.x - x, drag_start.y - y);
 			drag_start = PointUtil.point_from_click (x, y);
 		});
-		add_controller (drag_events);
+		add_controller (drag_gesture);
 
-		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect ((x, y) => {
+		var motion_controller = new Gtk.EventControllerMotion ();
+		motion_controller.motion.connect ((x, y) => {
 			last_position = PointUtil.point_from_click (x, y);
 		});
-		add_controller (motion_events);
+		add_controller (motion_controller);
 	}
 
 	public bool get_border (out Gtk.Border border)  {
