@@ -1351,7 +1351,7 @@ public class Gth.Browser : Gtk.Box {
 				controller.set_icon (icon, hot_x, hot_y);
 			}
 			var providers = FileUtil.get_content_providers_for_files (selected);
-			if (file_grid.reordering && file_grid.is_reorderable) {
+			if (file_grid.is_reorderable) {
 				var item_provider = new Gdk.ContentProvider.for_value (file_grid);
 				providers += item_provider;
 			}
