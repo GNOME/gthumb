@@ -816,6 +816,7 @@ public class Gth.Application : Adw.Application {
 		typeof (Gth.ShortcutsPreferences).ensure ();
 		typeof (Gth.SlideshowPreferences).ensure ();
 		typeof (Gth.FolderRow).ensure ();
+		typeof (Gth.SwipeableView).ensure ();
 	}
 
 	const int MAX_IO_WORKERS = 4;

@@ -223,4 +223,20 @@ namespace Gth.Util {
 		//	uri, base_uri, destination_base_uri, destination_uri);
 		return File.new_for_uri (destination_uri);
 	}
+
+	public static bool smooth_scroll_from_touchpad (Gtk.EventController controller) {
+		var event = controller.get_current_event ();
+		var device = event.get_device ();
+		if ((device == null) || (device.source != Gdk.InputSource.TOUCHPAD)) {
+			return false;
+		}
+		if (!(event is Gdk.ScrollEvent)) {
+			return false;
+		}
+		var scroll_event = (Gdk.ScrollEvent) event;
+		if (scroll_event.get_direction () != Gdk.ScrollDirection.SMOOTH) {
+			return false;
+		}
+		return true;
+	}
 }

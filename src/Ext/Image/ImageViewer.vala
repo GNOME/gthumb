@@ -703,6 +703,8 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		SignalHandler.block (adj, zoom_adj_changed_id);
 		adj.set_value (ZoomScale.get_adj_value (image_view.zoom, image_view.min_zoom, image_view.max_zoom));
 		SignalHandler.unblock (adj, zoom_adj_changed_id);
+
+		window.viewer.set_scrollable (image_view.can_scroll ());
 	}
 
 	void update_sensitivity () {

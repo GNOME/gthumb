@@ -1335,6 +1335,7 @@ public class Gth.Browser : Gtk.Box {
 			if (!file_grid.reordering) {
 				return null;
 			}
+			controller.set_state (Gtk.EventSequenceState.CLAIMED);
 			var item = file_grid.get_item_at (x, y, null);
 			if (item != null) {
 				var file_data = item.item as FileData;

@@ -153,9 +153,13 @@
                   <object class="GtkBox">
                     <property name="halign">fill</property>
                     <child>
-                      <object class="GtkOverlay" id="viewer_container">
+                      <object class="GtkOverlay" id="viewer_overlay">
                         <property name="hexpand">true</property>
                         <property name="vexpand">true</property>
+                        <child>
+                          <object class="GthSwipeableView" id="viewer_container">
+                          </object>
+                        </child>
                         <child type="overlay">
                           <object class="GtkRevealer" id="fullscreen_toolbar_revealer">
                             <property name="halign">fill</property>

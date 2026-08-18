@@ -410,3 +410,12 @@ public enum Gth.DropSide {
 
 const uint _GDK_BUTTON_BACKWARD = 8;
 const uint _GDK_BUTTON_FORWARD = 9;
+
+public enum Gth.NavigationDirection {
+	BACK,
+	FORWARD;
+
+	public static NavigationDirection from_sign (double sign) {
+		return (sign > 0) ? BACK : FORWARD;
+	}
+}

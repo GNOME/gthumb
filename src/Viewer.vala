@@ -304,15 +304,20 @@ public class Gth.Viewer : Gtk.Box {
 			return;
 		}
 
-		var motion_events = new Gtk.EventControllerMotion ();
-		var motion_id = motion_events.motion.connect (on_motion);
-		widget.add_controller (motion_events);
-		viewer_signals.add (motion_events, motion_id);
+		// Scroll events
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
-		var scroll_id = scroll_events.scroll.connect (on_scroll);
+		var scroll_id = scroll_events.scroll.connect ((controller, dx, dy) => {
+			if (current_viewer == null) {
+				return false;
+			}
+			var state = controller.get_current_event_state ();
+			return current_viewer.on_scroll (dx, dy, state);
+		});
 		widget.add_controller (scroll_events);
 		viewer_signals.add (scroll_events, scroll_id);
+
+		// Secondary click -> context menu
 
 		var click_events = new Gtk.GestureClick ();
 		click_events.set_button (Gdk.BUTTON_SECONDARY);
@@ -323,15 +328,66 @@ public class Gth.Viewer : Gtk.Box {
 		widget.add_controller (click_events);
 		viewer_signals.add (click_events, click_id);
 
+		// Primary click -> focus viewer
+
 		click_events = new Gtk.GestureClick ();
-		click_events.set_button (Gdk.BUTTON_PRIMARY);
-		click_id = click_events.pressed.connect (() => focus_viewer ());
+		click_events.button = Gdk.BUTTON_PRIMARY;
+		click_events.propagation_phase = Gtk.PropagationPhase.CAPTURE;
+		var pressed_id = click_events.pressed.connect ((controller, n_press, x, y) => {
+			focus_viewer ();
+		});
 		widget.add_controller (click_events);
-		viewer_signals.add (click_events, click_id);
+		viewer_signals.add (click_events, pressed_id);
+
+		// Motion -> reveal controls
+
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.propagation_phase = Gtk.PropagationPhase.CAPTURE;
+		var motion_id = motion_events.motion.connect ((x, y) => {
+			if (((last_position.x - x).abs () >= MOTION_THRESHOLD)
+				|| ((last_position.y - y).abs () >= MOTION_THRESHOLD))
+			{
+				last_position = Gth.Point (x, y);
+				reveal_overlay_controls ();
+			}
+		});
+		widget.add_controller (motion_events);
+		viewer_signals.add (motion_events, motion_id);
+
+		// Drag as file
+
+		var drag_source = new Gtk.DragSource ();
+		drag_source.set_actions (Gdk.DragAction.COPY | Gdk.DragAction.MOVE);
+		drag_source.propagation_phase = Gtk.PropagationPhase.BUBBLE;
+		var prepare_id = drag_source.prepare.connect ((controller, x, y) => {
+			var state = controller.get_current_event_state ();
+			if (scrollable && !(Gdk.ModifierType.CONTROL_MASK in state)) {
+				controller.set_state (Gtk.EventSequenceState.DENIED);
+				return null;
+			}
+			if (current_file == null) {
+				controller.set_state (Gtk.EventSequenceState.DENIED);
+				return null;
+			}
+			controller.set_state (Gtk.EventSequenceState.CLAIMED);
+			var files = new GenericList<File>();
+			files.model.append (current_file.file);
+			var providers = FileUtil.get_content_providers_for_files (files);
+			return new Gdk.ContentProvider.union (providers);
+		});
+		widget.add_controller (drag_source);
+		viewer_signals.add (drag_source, prepare_id);
+
+		set_scrollable (false);
+	}
+
+	public void set_scrollable (bool _scrollable) {
+		scrollable = _scrollable;
+		viewer_container.enabled = !scrollable;
 	}
 
 	public void add_viewer_overlay (Gtk.Revealer revealer) {
-		viewer_container.add_overlay (revealer);
+		viewer_overlay.add_overlay (revealer);
 		overlay_controls.append (revealer);
 		add_overlay_motion_controller (revealer);
 	}
@@ -367,7 +423,7 @@ public class Gth.Viewer : Gtk.Box {
 		set_mediabar (null);
 
 		foreach (unowned var revealer in overlay_controls) {
-			viewer_container.remove_overlay (revealer);
+			viewer_overlay.remove_overlay (revealer);
 		}
 		overlay_controls = null;
 
@@ -423,25 +479,6 @@ public class Gth.Viewer : Gtk.Box {
 		if (current_viewer != null) {
 			current_viewer.save_preferences ();
 		}
-	}
-
-	void on_motion (double x, double y) {
-		if (((last_x - x).abs () < MOTION_THRESHOLD)
-				|| ((last_y - y).abs () < MOTION_THRESHOLD))
-		{
-			return;
-		}
-		last_x = x;
-		last_y = y;
-		reveal_overlay_controls ();
-	}
-
-	bool on_scroll (Gtk.EventController controller, double dx, double dy) {
-		if (current_viewer == null) {
-			return false;
-		}
-		var state = controller.get_current_event_state ();
-		return current_viewer.on_scroll (dx, dy, state);
 	}
 
 	public bool on_scroll_change_file (double dx, double dy) {
@@ -763,12 +800,29 @@ public class Gth.Viewer : Gtk.Box {
 				file_grid.start_thumbnailer ();
 			}
 		});
+		viewer_container.change_content.connect ((direction) => {
+			if (direction == NavigationDirection.FORWARD) {
+				window.browser.view_next_file ();
+			}
+			else {
+				window.browser.view_previous_file ();
+			}
+		});
+		viewer_container.can_change_content.connect_after ((direction, out can_change) => {
+			if (direction == NavigationDirection.FORWARD) {
+				can_change = window.viewer.position < window.browser.total_files - 1;
+			}
+			else {
+				can_change = window.viewer.position > 0;
+			}
+		});
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
 	[GtkChild] public unowned Gtk.MenuButton app_menu_button;
 	[GtkChild] public unowned Gtk.MenuButton scripts_menu_button;
-	[GtkChild] public unowned Gtk.Overlay viewer_container;
+	[GtkChild] public unowned Gtk.Overlay viewer_overlay;
+	[GtkChild] public unowned Gth.SwipeableView viewer_container;
 	[GtkChild] unowned Gtk.Box left_toolbar;
 	[GtkChild] unowned Gtk.Box right_toolbar;
 	[GtkChild] public unowned Gth.PropertySidebar property_sidebar;
@@ -794,14 +848,14 @@ public class Gth.Viewer : Gtk.Box {
 	bool active_popup = false;
 	bool on_overlay = false;
 	uint hide_mediabar_id = 0;
-	double last_x = 0.0;
-	double last_y = 0.0;
+	Gth.Point last_position = Gth.Point (0, 0);
 	List<weak Gtk.Revealer> overlay_controls = null;
 	RegisteredSignals viewer_signals;
 	RegisteredSignals fixed_signals;
 	FullscreenState fullscreen_state;
+	bool scrollable;
 
-	const double MOTION_THRESHOLD = 1.0;
+	const double MOTION_THRESHOLD = 10;
 }
 
 
