@@ -236,6 +236,21 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		add_controller (motion_controller);
 	}
 
+	public Gth.Image? get_current_frame () {
+		if (filtered_texture != null) {
+			return new Image.from_texture (filtered_texture);
+		}
+		else if (rendered_image != null) {
+			return rendered_image;
+		}
+		else if (_image != null) {
+			return _image.get_frame (current_frame);
+		}
+		else {
+			return null;
+		}
+	}
+
 	public bool get_border (out Gtk.Border border)  {
 		border = Gtk.Border();
 		return false;

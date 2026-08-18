@@ -1336,14 +1336,20 @@ public class Gth.Browser : Gtk.Box {
 				return null;
 			}
 			controller.set_state (Gtk.EventSequenceState.CLAIMED);
+			FileData file_data = null;
 			var item = file_grid.get_item_at (x, y, null);
 			if (item != null) {
-				var file_data = item.item as FileData;
+				file_data = item.item as FileData;
 				if (!file_grid.is_selected (file_data.file)) {
 					file_grid.select_file (file_data.file);
 				}
 			}
 			var selected = file_grid.get_selected_files ();
+			if ((file_data != null) && (file_data.thumbnail_image != null)) {
+				int hot_x, hot_y;
+				var icon = ImageUtil.get_drag_icon (this, file_data.thumbnail_image, out hot_x, out hot_y, selected.length ());
+				controller.set_icon (icon, hot_x, hot_y);
+			}
 			var providers = FileUtil.get_content_providers_for_files (selected);
 			if (file_grid.reordering && file_grid.is_reorderable) {
 				var item_provider = new Gdk.ContentProvider.for_value (file_grid);

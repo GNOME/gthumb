@@ -215,6 +215,10 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		image_view.zoom_type = ZoomType.MAXIMIZE;
 	}
 
+	public override Gth.Image? get_current_frame () {
+		return image_view.get_current_frame ();
+	}
+
 	public async void ask_name_and_save () {
 		File new_file = null;
 		var local_job = window.new_job ("Ask Name");

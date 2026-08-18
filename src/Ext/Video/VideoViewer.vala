@@ -661,7 +661,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			if (was_playing) {
 				playing = false;
 			}
-			var frame = get_current_frame ();
+			var frame = get_current_video_frame ();
 			var bytes = save_png (frame, null, local_job.cancellable);
 			unowned var clipboard = window.get_clipboard ();
 			var content_provider = new Gdk.ContentProvider.for_bytes ("image/png", bytes);
@@ -712,7 +712,7 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			playing = false;
 		}
 
-		var screenshot = get_current_frame ();
+		var screenshot = get_current_video_frame ();
 
 		// Basename
 		var basename = Util.remove_extension (window.viewer.current_file.info.get_display_name ());
@@ -843,7 +843,16 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		has_video = false;
 	}
 
-	Gth.Image? get_current_frame () throws Error {
+	public override Gth.Image? get_current_frame () {
+		try {
+			return get_current_video_frame ();
+		}
+		catch (Error error) {
+			return null;
+		}
+	}
+
+	public Gth.Image? get_current_video_frame () throws Error {
 		// Copied from Showtime
 		// https://gitlab.gnome.org/GNOME/showtime/-/blob/1c03149187ab1e20317d8e3dfcf456402090b577/showtime/utils.py
 		if (video_view.paintable == null) {

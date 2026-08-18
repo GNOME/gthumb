@@ -16,4 +16,7 @@ public interface Gth.FileViewer : Object {
 	}
 	public virtual void preload_some_files () {}
 	public virtual void remove_from_cache (File file) {}
+	public virtual Gth.Image? get_current_frame () {
+		return null;
+	}
 }

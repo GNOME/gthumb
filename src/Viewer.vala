@@ -370,6 +370,16 @@ public class Gth.Viewer : Gtk.Box {
 				return null;
 			}
 			controller.set_state (Gtk.EventSequenceState.CLAIMED);
+			if (current_viewer != null) {
+				var frame = current_viewer.get_current_frame ();
+				if (frame != null) {
+					int hot_x, hot_y;
+					var icon = ImageUtil.get_drag_icon (this, frame, out hot_x, out hot_y);
+					if (icon != null) {
+						controller.set_icon (icon, hot_x, hot_y);
+					}
+				}
+			}
 			var files = new GenericList<File>();
 			files.model.append (current_file.file);
 			var providers = FileUtil.get_content_providers_for_files (files);
