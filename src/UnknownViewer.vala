@@ -25,6 +25,7 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 	}
 
 	public void save_preferences () {}
+
 	public void release_resources () {}
 
 	public bool on_scroll (double dx, double dy, Gdk.ModifierType state) {

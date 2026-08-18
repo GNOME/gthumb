@@ -1,4 +1,8 @@
 public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
+	public signal void resized ();
+
+	public signal void scrolled ();
+
 	public Gth.Image image {
 		get { return _image; }
 		set {
@@ -255,9 +259,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 		border = Gtk.Border();
 		return false;
 	}
-
-	public signal void resized ();
-	public signal void scrolled ();
 
 	public override Gtk.SizeRequestMode get_request_mode () {
 		return Gtk.SizeRequestMode.HEIGHT_FOR_WIDTH;

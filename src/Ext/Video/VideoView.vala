@@ -1,7 +1,10 @@
 public class Gth.VideoView : Gtk.Widget {
 	public float zoom { get { return _zoom; } }
+
 	public Gth.ZoomType zoom_type {
-		get { return _zoom_type; }
+		get {
+			return _zoom_type;
+		}
 		set {
 			_zoom_type = value;
 			queue_resize ();
@@ -56,8 +59,9 @@ public class Gth.VideoView : Gtk.Widget {
 	}
 
 	public override void snapshot (Gtk.Snapshot snapshot) {
-		if (_paintable == null)
+		if (_paintable == null) {
 			return;
+		}
 		//Util.print_rectangle ("> texture_box:", texture_box);
 		snapshot.save ();
 		snapshot.translate (texture_box.origin);
