@@ -56,21 +56,17 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		mediabar = builder.get_object ("mediabar") as Gtk.Widget;
 		window.viewer.set_mediabar (mediabar, Gtk.Align.FILL);
 
-		var click_events = new Gtk.GestureClick ();
-		click_events.button = Gdk.BUTTON_PRIMARY;
-		click_events.pressed.connect ((n_press, x, y) => {
-			playing = !playing;
-			focus ();
-		});
-		video_view.add_controller (click_events);
+		var click_gesture = new Gtk.GestureClick ();
+		click_gesture.button = Gdk.BUTTON_PRIMARY;
+		click_gesture.pressed.connect (on_button_pressed);
+		click_gesture.released.connect (on_button_released);
+		video_view.add_controller (click_gesture);
 
-		click_events = new Gtk.GestureClick ();
-		click_events.button = Gdk.BUTTON_PRIMARY;
-		click_events.pressed.connect ((n_press, x, y) => {
-			playing = !playing;
-			focus ();
-		});
-		audio_view.add_controller (click_events);
+		click_gesture = new Gtk.GestureClick ();
+		click_gesture.button = Gdk.BUTTON_PRIMARY;
+		click_gesture.pressed.connect (on_button_pressed);
+		click_gesture.released.connect (on_button_released);
+		audio_view.add_controller (click_gesture);
 
 		unowned var menu_button = builder.get_object ("position_button") as Gtk.MenuButton;
 		menu_button.notify["active"].connect ((obj, spec) => {
@@ -197,6 +193,20 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 			break;
 		}
 		return false;
+	}
+
+	void on_button_pressed (int n_press, double x, double y) {
+		first_x = x;
+		first_y = y;
+	}
+
+	void on_button_released (int n_press, double x, double y) {
+		if (((x - first_x).abs () <= CLICK_THRESHOLD)
+			&& ((y - first_y).abs () <= CLICK_THRESHOLD))
+		{
+			playing = !playing;
+			focus ();
+		}
 	}
 
 	public bool get_pixel_size (out uint width, out uint height) {
@@ -900,6 +910,8 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 	bool has_video;
 	ScrollAction scroll_action;
 	SimpleActionGroup action_group;
+	double first_x = 0.0;
+	double first_y = 0.0;
 
 	const double[] Rates = {
 		0.25, 0.33, 0.5, 0.75,
@@ -914,4 +926,5 @@ public class Gth.VideoViewer : Object, Gth.FileViewer {
 		"audio-volume-medium-symbolic",
 		"audio-volume-high-symbolic",
 	};
+	const double CLICK_THRESHOLD = 10;
 }
