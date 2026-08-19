@@ -204,10 +204,10 @@ public class Gth.Shortcuts {
 		register ("win.reset-filter", N_("View All"), ShortcutContext.BROWSER, ShortcutCategory.FILTERS);
 
 		register ("win.pop-page", N_("Close"), SHORTCUT_CONTEXT_VIEWERS | ShortcutContext.EDITOR | ShortcutContext.FIXED, ShortcutCategory.VIEWER, "Escape");
-		register ("win.view-next", N_("Next File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Down");
-		register ("win.view-previous", N_("Previous File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Page_Up");
-		register ("win.view-first", N_("First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Home");
-		register ("win.view-last", N_("Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "End");
+		register ("win.view-next", N_("Next File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Right");
+		register ("win.view-previous", N_("Previous File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Left");
+		register ("win.view-first", N_("First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Shift>Right");
+		register ("win.view-last", N_("Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Shift>Left");
 		register ("win.viewer-controls", N_("View Controls"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F7");
 		register ("win.viewer-properties", N_("View Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "i");
 		register ("win.editor-tools", N_("Edit Image"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "e");
@@ -228,15 +228,15 @@ public class Gth.Shortcuts {
 		register ("image.set-zoom('best-fit')", N_("Automatic Zoom"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "0");
 		register ("image.set-zoom('fill-space')", N_("Fill Space"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "9");
 
-		register ("image.scroll-left", N_("Scroll Left"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "Left");
-		register ("image.scroll-right", N_("Scroll Right"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "Right");
-		register ("image.scroll-up", N_("Scroll Up"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "Up");
-		register ("image.scroll-down", N_("Scroll Down"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "Down");
-		register ("image.scroll-page-left", N_("Scroll Left Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Shift>Left");
-		register ("image.scroll-page-right", N_("Scroll Right Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Shift>Right");
-		register ("image.scroll-page-up", N_("Scroll Up Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Shift>Up");
-		register ("image.scroll-page-down", N_("Scroll Down Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Shift>Down");
-		register ("image.recenter", N_("Scroll to Center"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>Down");
+		register ("image.scroll-left", N_("Scroll Left"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>Left");
+		register ("image.scroll-right", N_("Scroll Right"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>Right");
+		register ("image.scroll-up", N_("Scroll Up"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>Up");
+		register ("image.scroll-down", N_("Scroll Down"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>Down");
+		register ("image.scroll-page-left", N_("Scroll Left Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt><Shift>Left");
+		register ("image.scroll-page-right", N_("Scroll Right Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt><Shift>Right");
+		register ("image.scroll-page-up", N_("Scroll Up Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt><Shift>Up");
+		register ("image.scroll-page-down", N_("Scroll Down Fast"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt><Shift>Down");
+		register ("image.recenter", N_("Scroll to Center"), SHORTCUT_CONTEXT_IMAGE, ShortcutCategory.VIEWER, "<Alt>0");
 
 		register ("viewer.save", N_("Save"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary>s");
 		register ("viewer.save-as", N_("Save As"), ShortcutContext.IMAGE_VIEWER, ShortcutCategory.VIEWER, "<Primary><Shift>s");
