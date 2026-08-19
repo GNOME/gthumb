@@ -46,15 +46,15 @@ public class Gth.Migration {
 		metadata.add ("Embedded::Photo::Coordinates", "Metadata::Coordinates");
 		metadata.add ("audio-video::general::artist", "Media::Artist");
 		metadata.add ("audio-video::general::album", "Media::Album");
-		metadata.add ("audio-video::general::bitrate", "Media::Bitrate");
+		metadata.add ("audio-video::general::bitrate", "Audio::Bitrate");
 		metadata.add ("audio-video::general::encoder", "Media::Encoder");
 		metadata.add ("audio-video::video::codec", "Video::Codec");
-		metadata.add ("audio-video::video::framerate", "Video::Framerate");
+		metadata.add ("audio-video::video::framerate", "Video::FrameRate");
 		metadata.add ("audio-video::video::width", "Video::Width");
 		metadata.add ("audio-video::video::height", "Video::Height");
 		metadata.add ("audio-video::audio::codec", "Audio::Codec");
 		metadata.add ("audio-video::audio::channels", "Audio::Channels");
-		metadata.add ("audio-video::audio::samplerate", "Audio::Samplerate");
+		metadata.add ("audio-video::audio::samplerate", "Audio::SampleRate");
 
 		test = new MigrationMap ();
 		test.add ("file::is_visible", "Permission::Visible");

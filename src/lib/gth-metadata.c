@@ -438,11 +438,11 @@ GthMetadataInfo * gth_metadata_info_register (const char *id, const char *displa
 
 void gth_metadata_info_register_from_metadata (GthMetadata *metadata) {
 	GthMetadataInfo *metadata_info = gth_metadata_info_get (metadata->priv->id);
-	if ((metadata_info == NULL) && (metadata->priv->category != NULL)) {
+	if (metadata_info == NULL) {
 		metadata_info = gth_metadata_info_register (
 			metadata->priv->id,
 			metadata->priv->description,
-			metadata->priv->category,
+			(metadata->priv->category != NULL) ? metadata->priv->category : "Other",
 			GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
 			metadata->priv->value_type
 		);
