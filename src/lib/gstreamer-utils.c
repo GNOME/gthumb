@@ -47,8 +47,15 @@ typedef struct {
 	gint audio_samplerate;
 	gint audio_bitrate;
 	char *audio_codec;
+	gboolean rotated;
 	GCancellable *cancellable;
 } MetadataExtractor;
+
+
+typedef struct {
+	MetadataExtractor *extractor;
+	GFileInfo *info;
+} TagIterateContext;
 
 
 static void reset_extractor_data (MetadataExtractor *extractor) {
@@ -73,6 +80,7 @@ static void reset_extractor_data (MetadataExtractor *extractor) {
 	extractor->audio_channels = -1;
 	extractor->audio_samplerate = -1;
 	extractor->audio_bitrate = -1;
+	extractor->rotated = FALSE;
 
 	extractor->cancellable = NULL;
 }
@@ -160,9 +168,16 @@ static void add_metadata (GFileInfo *info, const char *key, const char *descript
 }
 
 
-static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, const char *tag, const char *tag_key, char *tag_description) {
+static void add_metadata_from_tag (TagIterateContext *ctx, const GstTagList *list,
+	const char *tag, const char *tag_key, char *tag_description)
+{
+	GFileInfo *info = ctx->info;
 	GType tag_type = gst_tag_get_type (tag);
+
+	// g_print ("> TAG: '%s'\n", tag);
+
 	if (tag_type == G_TYPE_BOOLEAN) {
+		// g_print ("  BOOLEAN\n");
 		gboolean ret;
 		if (gst_tag_list_get_boolean (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, ret ? g_strdup ("TRUE") : g_strdup ("FALSE"), NULL);
@@ -170,13 +185,20 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_STRING) {
+		// g_print ("  STRING\n");
 		char *ret = NULL;
 		if (gst_tag_list_get_string (list, tag, &ret)) {
+			if (strcmp (tag, "image-orientation") == 0) {
+				if ((strcmp (ret, "rotate-90") == 0) || (strcmp (ret, "rotate-270") == 0)) {
+					ctx->extractor->rotated = true;
+				}
+			}
 			add_metadata (info, tag_key, tag_description, ret, NULL);
 		}
 	}
 
 	if (tag_type == G_TYPE_UCHAR) {
+		// g_print ("  UCHAR\n");
 		guint ret = 0;
 		if (gst_tag_list_get_uint (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%u", ret), NULL);
@@ -184,6 +206,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_CHAR) {
+		// g_print ("  CHAR\n");
 		int ret = 0;
 		if (gst_tag_list_get_int (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%d", ret), NULL);
@@ -191,6 +214,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_UINT) {
+		// g_print ("  UINT\n");
 		guint ret = 0;
 		if (gst_tag_list_get_uint (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%u", ret), NULL);
@@ -198,6 +222,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_INT) {
+		// g_print ("  INT\n");
 		gint ret = 0;
 		if (gst_tag_list_get_int (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%d", ret), NULL);
@@ -205,6 +230,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_ULONG) {
+		// g_print ("  ULONG\n");
 		guint64 ret = 0;
 		if (gst_tag_list_get_uint64 (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%" G_GUINT64_FORMAT, ret), NULL);
@@ -212,6 +238,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_LONG) {
+		// g_print ("  LONG\n");
 		gint64 ret = 0;
 		if (gst_tag_list_get_int64 (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%" G_GINT64_FORMAT, ret), NULL);
@@ -219,6 +246,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_INT64) {
+		// g_print ("  INT64\n");
 		gint64 ret = 0;
 		if (gst_tag_list_get_int64 (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%" G_GINT64_FORMAT, ret), NULL);
@@ -226,6 +254,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_UINT64) {
+		// g_print ("  UINT64\n");
 		guint64 ret = 0;
 		if (gst_tag_list_get_uint64 (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%" G_GUINT64_FORMAT, ret), NULL);
@@ -233,6 +262,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_DOUBLE) {
+		// g_print ("  DOUBLE\n");
 		gdouble ret = 0;
 		if (gst_tag_list_get_double (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%f", ret), NULL);
@@ -240,6 +270,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_FLOAT) {
+		// g_print ("  FLOAT\n");
 		gfloat ret = 0;
 		if (gst_tag_list_get_float (list, tag, &ret)) {
 			add_metadata (info, tag_key, tag_description, g_strdup_printf ("%f", ret), NULL);
@@ -247,6 +278,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 	}
 
 	if (tag_type == G_TYPE_DATE) {
+		// g_print ("  DATE\n");
 		GDate *ret = NULL;
 		if (gst_tag_list_get_date (list, tag, &ret)) {
 			if (ret != NULL) {
@@ -267,7 +299,7 @@ static void add_metadata_from_tag (GFileInfo *info, const GstTagList *list, cons
 }
 
 
-static void tag_iterate (const GstTagList *list, const char *tag, GFileInfo *info) {
+static void tag_iterate (const GstTagList *list, const char *tag, TagIterateContext *ctx) {
 	const char *tag_key = NULL;
 
 	if (strcmp (tag, "container-format") == 0) {
@@ -275,11 +307,11 @@ static void tag_iterate (const GstTagList *list, const char *tag, GFileInfo *inf
 	}
 	else if (strcmp (tag, "title") == 0) {
 		tag_key = "Metadata::Title";
-		g_file_info_set_attribute_boolean (info, "Embedded::UpdatedGeneralAttributes", TRUE);
+		g_file_info_set_attribute_boolean (ctx->info, "Embedded::UpdatedGeneralAttributes", TRUE);
 	}
 	else if (strcmp (tag, "description") == 0) {
 		tag_key = "Metadata::Description";
-		g_file_info_set_attribute_boolean (info, "Embedded::UpdatedGeneralAttributes", TRUE);
+		g_file_info_set_attribute_boolean (ctx->info, "Embedded::UpdatedGeneralAttributes", TRUE);
 	}
 	else if (strcmp (tag, "artist") == 0) {
 		tag_key = "Media::Artist";
@@ -315,7 +347,7 @@ static void tag_iterate (const GstTagList *list, const char *tag, GFileInfo *inf
 		tag_key = attribute;
 	}
 
-	add_metadata_from_tag (info, list, tag, tag_key, gst_tag_get_nick (tag));
+	add_metadata_from_tag (ctx, list, tag, tag_key, gst_tag_get_nick (tag));
 
 	g_free (attribute);
 }
@@ -337,6 +369,20 @@ static gint64 get_media_duration (MetadataExtractor *extractor) {
 
 
 static void extract_metadata (MetadataExtractor *extractor, GFileInfo *info) {
+	if (extractor->tagcache != NULL) {
+		TagIterateContext ctx = {
+			extractor: extractor,
+			info: info,
+		};
+		gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, &ctx);
+	}
+
+	if (extractor->rotated) {
+		gint tmp = extractor->video_height;
+		extractor->video_height = extractor->video_width;
+		extractor->video_width = tmp;
+	}
+
 	if (extractor->audio_channels >= 0) {
 		add_metadata (info, "Audio::Channels", NULL,
 			g_strdup_printf ("%d", (guint) extractor->audio_channels),
@@ -388,10 +434,6 @@ static void extract_metadata (MetadataExtractor *extractor, GFileInfo *info) {
 		add_metadata (info, "Metadata::Duration", NULL,
 			g_strdup_printf ("%" G_GINT64_FORMAT, duration),
 			g_strdup_printf ("%" G_GINT64_FORMAT " sec", duration));
-	}
-
-	if (extractor->tagcache != NULL) {
-		gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, info);
 	}
 }
 
