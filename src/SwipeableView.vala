@@ -86,13 +86,14 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 		var max_x = child.get_width () / 2;
 		var x = (dx.abs () / max_x) * 10;
 		double y;
-		if (((NavigationDirection.from_sign (sign) == NavigationDirection.FORWARD) && can_change_next)
-			|| ((NavigationDirection.from_sign (sign) == NavigationDirection.BACK) && can_change_previous))
-		{
-			// Linear from 0 to 4, then logarithmic reaching 6 when x is 10.
+		var can_navigate = ((NavigationDirection.from_sign (sign) == NavigationDirection.FORWARD) && can_change_next)
+			|| ((NavigationDirection.from_sign (sign) == NavigationDirection.BACK) && can_change_previous);
+		if (can_navigate) {
+			// Less resistence: linear from 0 to 4 then logarithmic, reaching 6 when x is 10.
 			y = (x <= 4) ? x : Math.log (x / 1.42 + 1) * 3;
 		}
 		else {
+			// More resistence: always logarithmic, reaching 1 when x is 10.
 			y = Math.log (x + 1) * 0.5;
 		}
 		dx = (y / 10) * max_x;
