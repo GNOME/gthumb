@@ -476,5 +476,5 @@ public class Gth.Serialized : Object {
 		OBJECT = 3,
 	}
 
-	const uint8 FORMAT = 1;
+	const uint8 FORMAT = 2;
 }
