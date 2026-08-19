@@ -921,19 +921,82 @@ public class Gth.Browser : Gtk.Box {
 
 		action = new SimpleAction ("find", null);
 		action.activate.connect ((_action, param) => {
-			new_search.begin ();
+			if (search_job != null) {
+				search_job.cancel ();
+			}
+			var local_job = window.new_job (_("Searching Files"),
+				JobFlags.FOREGROUND,
+				"gth-search-symbolic");
+			search_job = local_job;
+			new_search.begin (local_job, (_obj, res) => {
+				try {
+					new_search.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+					if (local_job == search_job) {
+						search_job = null;
+					}
+				}
+			});
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("edit-catalog", null);
 		action.activate.connect ((_action, param) => {
-			edit_catalog.begin (folder_tree.current_folder);
+			if (search_job != null) {
+				search_job.cancel ();
+			}
+			var catalog = folder_tree.current_folder;
+			var local_job = window.new_job (_("Updating %s").printf (catalog.get_display_name ()),
+				JobFlags.FOREGROUND,
+				"gth-search-symbolic");
+			search_job = local_job;
+			edit_catalog.begin (catalog, local_job, (_obj, res) => {
+				try {
+					edit_catalog.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+					if (local_job == search_job) {
+						search_job = null;
+					}
+				}
+			});
 		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("update-search", null);
 		action.activate.connect ((_action, param) => {
-			update_search.begin ();
+			if (search_job != null) {
+				search_job.cancel ();
+			}
+			var file_data = folder_tree.current_folder;
+			var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
+				JobFlags.FOREGROUND,
+				"gth-search-symbolic");
+			search_job = local_job;
+			var search = new UpdateSearch ();
+			search.update_file.begin (this, file_data.file, local_job, (_obj, res) => {
+				try {
+					search.update_file.end (res);
+				}
+				catch (Error error) {
+					window.show_error (error);
+				}
+				finally {
+					local_job.done ();
+					if (search_job == local_job) {
+						search_job = null;
+					}
+				}
+			});
 		});
 		action_group.add_action (action);
 
@@ -1427,84 +1490,24 @@ public class Gth.Browser : Gtk.Box {
 
 	Job search_job = null;
 
-	async void new_search () {
-		if (search_job != null) {
-			search_job.cancel ();
-		}
-		var local_job = window.new_job (_("Searching Files"),
-			JobFlags.FOREGROUND,
-			"gth-search-symbolic");
-		search_job = local_job;
-		try {
-			var editor = new Gth.SearchEditor ();
-			var catalog = yield editor.new_search (window,
-				folder_tree.current_folder.file,
-				local_job);
-			yield catalog.save_async (local_job.cancellable);
+	async void new_search (Gth.Job local_job) throws Error {
+		var editor = new Gth.SearchEditor ();
+		var catalog = yield editor.new_search (window,
+			folder_tree.current_folder.file,
+			local_job);
+		yield catalog.save_async (local_job.cancellable);
+		var search = new UpdateSearch ();
+		yield search.update_file (this, catalog.file, local_job);
+	}
+
+	async void edit_catalog (FileData file_data, Gth.Job local_job) throws Error {
+		var editor = new Gth.CatalogEditor ();
+		var catalog = yield editor.edit_catalog (window, file_data.file, local_job);
+		yield catalog.save_async (local_job.cancellable);
+		if (editor.search_parameters_changed ()) {
+			// Start searching if the search parameters changed.
 			var search = new UpdateSearch ();
 			yield search.update_file (this, catalog.file, local_job);
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
-			if (local_job == search_job) {
-				search_job = null;
-			}
-		}
-	}
-
-	async void edit_catalog (FileData file_data) {
-		if (search_job != null) {
-			search_job.cancel ();
-		}
-		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
-			JobFlags.FOREGROUND,
-			"gth-search-symbolic");
-		search_job = local_job;
-		try {
-			var editor = new Gth.CatalogEditor ();
-			var catalog = yield editor.edit_catalog (window, file_data.file, local_job);
-			yield catalog.save_async (local_job.cancellable);
-			if (editor.search_parameters_changed ()) {
-				// Start searching if the search parameters changed.
-				var search = new UpdateSearch ();
-				yield search.update_file (this, catalog.file, local_job);
-			}
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
-			if (local_job == search_job) {
-				search_job = null;
-			}
-		}
-	}
-
-	async void update_search () {
-		if (search_job != null) {
-			search_job.cancel ();
-		}
-		var file_data = folder_tree.current_folder;
-		var local_job = window.new_job (_("Updating %s").printf (file_data.get_display_name ()),
-			JobFlags.FOREGROUND,
-			"gth-search-symbolic");
-		search_job = local_job;
-		try {
-			var search = new UpdateSearch ();
-			yield search.update_file (this, file_data.file, local_job);
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
-			if (search_job == local_job) {
-				search_job = null;
-			}
 		}
 	}
 
