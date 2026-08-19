@@ -301,6 +301,7 @@ src/FileGridItem.vala
 src/FilePropertyView.vala
 src/FileSet.vala
 src/FileSource.vala
+src/FileUtil.vala
 src/FileViewer.vala
 src/Files.vala
 src/FolderRow.vala
@@ -313,6 +314,7 @@ src/ImageEditor.vala
 src/ImageLoader.vala
 src/ImageOperation.vala
 src/ImageSaver.vala
+src/ImageUtil.vala
 src/Job.vala
 src/JobStatus.vala
 src/Main.vala
@@ -332,6 +334,7 @@ src/Settings.vala
 src/SidebarResizer.vala
 src/Status.vala
 src/Strings.vala
+src/SwipeableView.vala
 src/TagEntry.vala
 src/TagsRow.vala
 src/Tests/TestDom.vala
