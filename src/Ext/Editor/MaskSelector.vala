@@ -90,6 +90,8 @@ public class Gth.MaskSelector : ImageSelector {
 			(uint) filtered_box.size.width,
 			(uint) filtered_box.size.height);
 		if (texture != null) {
+			// Same as .image-view background (#111)
+			snapshot.append_color ({ 0.066f, 0.066f, 0.066f, 1 }, filtered_texture_box);
 			snapshot.append_scaled_texture (texture,
 				Gsk.ScalingFilter.NEAREST,
 				filtered_texture_box);
