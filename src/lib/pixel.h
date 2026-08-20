@@ -5,7 +5,7 @@
 #include <glib.h>
 
 #define PIXEL_BYTES 4
-#define CLAMP_TEMP(x, min, max) (temp = (x), CLAMP (temp, min, max))
+#define CLAMP_TEMP(x, min, max) (temp = ((guint)(x)), CLAMP (temp, min, max))
 #define PIXEL_CLAMP(x) CLAMP_TEMP (x, 0, 255)
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN

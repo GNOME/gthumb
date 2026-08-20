@@ -21,12 +21,15 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 	double k2 = -1.0 / (2 * sigma * sigma);
 	int idx = 0;
 	// g_print ("> kernel (radius: %d, sigma: %f): ", radius, sigma);
+	// double sum = 0;
 	for (int i = -radius; i <= radius; i++) {
 		weights[idx] = k1 * exp (k2 * (i * i));
 		// g_print ("  %f, ", weights[idx]);
+		// sum += weights[idx];
 		idx++;
 	}
 	// g_print ("\n");
+	// g_print ("> sum: %f\n", sum);
 
 	guchar *d_pixel;
 	guchar red, green, blue, alpha;
@@ -36,6 +39,7 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 	int max_x = width - 1;
 	int max_y = height - 1;
 	guchar *pixel;
+	double weight;
 
 	// Horizontal blur
 
@@ -48,10 +52,11 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 			for (int i = x - radius; i <= x + radius; i++) {
 				pixel = p_src_row + (CLAMP (i, 0, max_x) * 4);
 				PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
-				w_red += weights[w_idx] * red;
-				w_green += weights[w_idx] * green;
-				w_blue += weights[w_idx] * blue;
-				w_alpha += weights[w_idx] * alpha;
+				weight = weights[w_idx];
+				w_red += weight * red;
+				w_green += weight * green;
+				w_blue += weight * blue;
+				w_alpha += weight * alpha;
 				w_idx++;
 			}
 
@@ -93,10 +98,11 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 			for (int j = y - radius; j <= y + radius; j++) {
 				pixel = p_src_row + (CLAMP (j, 0, max_y) * rowstride);
 				PIXEL_TO_RGBA (pixel, red, green, blue, alpha);
-				w_red += weights[w_idx] * red;
-				w_green += weights[w_idx] * green;
-				w_blue += weights[w_idx] * blue;
-				w_alpha += weights[w_idx] * alpha;
+				weight = weights[w_idx];
+				w_red += weight * red;
+				w_green += weight * green;
+				w_blue += weight * blue;
+				w_alpha += weight * alpha;
 				w_idx++;
 			}
 
@@ -145,7 +151,7 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 	guchar red, green, blue, alpha = 255;
 	guchar r, g, b; // used in RGBA_TO_PIXEL
 	guint temp; // used in RGBA_TO_PIXEL
-	double w_red, w_green, w_blue;
+	double w_red, w_green, w_blue, w_alpha;
 	int max_x = width - 1;
 	int max_y = height - 1;
 	guchar *pixel;
@@ -201,7 +207,7 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 			k1 = 1.0 / sqrt (2 * M_PI * sigma * sigma);
 			k2 = -1.0 / (2 * sigma * sigma);
 
-			w_red = w_green = w_blue = 0.0;
+			w_red = w_green = w_blue = w_alpha = 0.0;
 			distance = - radius;
 			for (int i = x - radius; i <= x + radius; i++) {
 				pixel = p_src_row + (CLAMP (i, 0, max_x) * 4);
@@ -210,16 +216,19 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 				w_red += weight * red;
 				w_green += weight * green;
 				w_blue += weight * blue;
+				w_alpha += weight * alpha;
 				distance += 1;
 			}
 
 			w_red = round (w_red);
 			w_green = round (w_green);
 			w_blue = round (w_blue);
+			w_alpha = round (w_alpha);
 
 			red = PIXEL_CLAMP (w_red);
 			green = PIXEL_CLAMP (w_green);
 			blue = PIXEL_CLAMP (w_blue);
+			alpha = PIXEL_CLAMP (w_alpha);
 			RGBA_TO_PIXEL (d_pixel, red, green, blue, alpha);
 
 			d_pixel += 4;
@@ -269,7 +278,7 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 			k1 = 1.0 / sqrt (2 * M_PI * sigma * sigma);
 			k2 = -1.0 / (2 * sigma * sigma);
 
-			w_red = w_green = w_blue = 0.0;
+			w_red = w_green = w_blue = w_alpha = 0.0;
 			distance = - radius;
 			for (int j = y - radius; j <= y + radius; j++) {
 				pixel = p_src_row + (CLAMP (j, 0, max_y) * rowstride);
@@ -278,16 +287,19 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 				w_red += weight * red;
 				w_green += weight * green;
 				w_blue += weight * blue;
+				w_alpha += weight * alpha;
 				distance += 1;
 			}
 
 			w_red = round (w_red);
 			w_green = round (w_green);
 			w_blue = round (w_blue);
+			w_alpha = round (w_alpha);
 
 			red = PIXEL_CLAMP (w_red);
 			green = PIXEL_CLAMP (w_green);
 			blue = PIXEL_CLAMP (w_blue);
+			alpha = PIXEL_CLAMP (w_alpha);
 
 			d_pixel = p_dest_row + (y * rowstride);
 			RGBA_TO_PIXEL (d_pixel, red, green, blue, alpha);
@@ -315,9 +327,11 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 	guchar *p_dest = gth_image_prepare_edit (destination, &dest_rowstride, NULL, NULL);
 
 	int radius_plus_1 = radius + 1;
-	int r, g, b, a;
+	int ri, gi, bi, ai;
 	guchar *c1, *c2;
 	int x, y, i, i1, i2;
+	guchar r, g, b, a; // used in RGBA_TO_PIXEL
+	guint temp; // used in RGBA_TO_PIXEL
 
 	// Horizontal blur
 
@@ -326,24 +340,22 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 	for (y = 0; y < height; y++) {
 		// Calculate the initial sums of the kernel.
 
-		r = g = b = a = 0;
+		ri = gi = bi = ai = 0;
 
 		for (i = -radius; i <= radius; i++) {
 			c1 = p_src + (CLAMP (i, 0, width_minus_1) * 4);
-			r += c1[PIXEL_RED];
-			g += c1[PIXEL_GREEN];
-			b += c1[PIXEL_BLUE];
-			a += c1[PIXEL_ALPHA];
+			PIXEL_TO_RGBA (c1, r, g, b, a);
+			ri += r;
+			gi += g;
+			bi += b;
+			ai += a;
 		}
 
 		p_dest_row = p_dest;
 		for (x = 0; x < width; x++) {
 			// Set as the mean of the kernel.
 
-			p_dest_row[PIXEL_RED] = div_kernel_size[r];
-			p_dest_row[PIXEL_GREEN] = div_kernel_size[g];
-			p_dest_row[PIXEL_BLUE] = div_kernel_size[b];
-			p_dest_row[PIXEL_ALPHA] = div_kernel_size[a];
+			RGBA_TO_PIXEL (p_dest_row, div_kernel_size[ri], div_kernel_size[gi], div_kernel_size[bi], div_kernel_size[ai]);
 			p_dest_row += 4;
 
 			// The pixel to add to the kernel.
@@ -364,10 +376,17 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 
 			// Calculate the new sums of the kernel.
 
-			r += c1[PIXEL_RED] - c2[PIXEL_RED];
-			g += c1[PIXEL_GREEN] - c2[PIXEL_GREEN];
-			b += c1[PIXEL_BLUE] - c2[PIXEL_BLUE];
-			a += c1[PIXEL_ALPHA] - c2[PIXEL_ALPHA];
+			PIXEL_TO_RGBA (c1, r, g, b, a);
+			ri += r;
+			gi += g;
+			bi += b;
+			ai += a;
+
+			PIXEL_TO_RGBA (c2, r, g, b, a);
+			ri -= r;
+			gi -= g;
+			bi -= b;
+			ai -= a;
 		}
 
 		p_src += src_rowstride;
@@ -388,24 +407,22 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 	for (x = 0; x < width; x++) {
 		// Calculate the initial sums of the kernel
 
-		r = g = b = a = 0;
+		ri = gi = bi = ai = 0;
 
 		for (i = -radius; i <= radius; i++) {
 			c1 = p_src + (CLAMP (i, 0, height_minus_1) * src_rowstride);
-			r += c1[PIXEL_RED];
-			g += c1[PIXEL_GREEN];
-			b += c1[PIXEL_BLUE];
-			a += c1[PIXEL_ALPHA];
+			PIXEL_TO_RGBA (c1, r, g, b, a);
+			ri += r;
+			gi += g;
+			bi += b;
+			ai += a;
 		}
 
 		p_dest_col = p_dest;
 		for (y = 0; y < height; y++) {
 			// Set as the mean of the kernel
 
-			p_dest_col[PIXEL_RED] = div_kernel_size[r];
-			p_dest_col[PIXEL_GREEN] = div_kernel_size[g];
-			p_dest_col[PIXEL_BLUE] = div_kernel_size[b];
-			p_dest_col[PIXEL_ALPHA] = div_kernel_size[a];
+			RGBA_TO_PIXEL (p_dest_col, div_kernel_size[ri], div_kernel_size[gi], div_kernel_size[bi], div_kernel_size[ai]);
 			p_dest_col += dest_rowstride;
 
 			// The pixel to add to the kernel.
@@ -426,10 +443,17 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 
 			// Calculate the new sums of the kernel.
 
-			r += c1[PIXEL_RED] - c2[PIXEL_RED];
-			g += c1[PIXEL_GREEN] - c2[PIXEL_GREEN];
-			b += c1[PIXEL_BLUE] - c2[PIXEL_BLUE];
-			a += c1[PIXEL_ALPHA] - c2[PIXEL_ALPHA];
+			PIXEL_TO_RGBA (c1, r, g, b, a);
+			ri += r;
+			gi += g;
+			bi += b;
+			ai += a;
+
+			PIXEL_TO_RGBA (c2, r, g, b, a);
+			ri -= r;
+			gi -= g;
+			bi -= b;
+			ai -= a;
 		}
 
 		p_src += 4;
@@ -473,6 +497,7 @@ static GthImage * _box_blur_iterated (GthImage *image, int radius, int iteration
 
 GthImage * gth_image_blur (GthImage *self, int radius, GCancellable *cancellable) {
 	return _box_blur_iterated (self, radius, 3, cancellable);
+	// return gth_image_gaussian_blur (self, radius, cancellable);
 }
 
 gboolean gth_image_sharpen (GthImage *source, double amount, int radius, double threshold, GCancellable *cancellable) {
