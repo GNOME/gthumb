@@ -77,7 +77,7 @@ public class Gth.Slideshow : Gth.Window {
 			current_position = position;
 			image_view.image = image;
 			preload_some_files ();
-			if (automatic) {
+			if (automatic && !paused) {
 				queue_next ();
 			}
 		}
@@ -144,24 +144,31 @@ public class Gth.Slideshow : Gth.Window {
 	}
 
 	void pause () {
-		automatic = false;
+		paused = true;
 		if (load_job != null) {
 			load_job.cancel ();
 		}
 		cancel_next ();
 	}
 
-	void toggle_play () {
+	void resume () {
+		paused = false;
 		if (automatic) {
+			if (!next ()) {
+				restart ();
+			}
+		}
+	}
+
+	void toggle_play () {
+		if (automatic && !paused) {
 			show_message (_("Paused"));
 			pause ();
 		}
 		else {
 			toast_overlay.dismiss_all ();
 			automatic = true;
-			if (!next ()) {
-				restart ();
-			}
+			resume ();
 		}
 	}
 
@@ -179,6 +186,9 @@ public class Gth.Slideshow : Gth.Window {
 		if (files.length () == 1) {
 			automatic = false;
 		}
+		set_cursor_visible (false);
+		last_x = -1;
+		last_y = -1;
 		load_position.begin (0);
 	}
 
@@ -260,6 +270,7 @@ public class Gth.Slideshow : Gth.Window {
 		load_job = null;
 		current_position = 0;
 		next_id = 0;
+		paused = false;
 		map.connect (() => start ());
 		fullscreened = true;
 
@@ -284,39 +295,51 @@ public class Gth.Slideshow : Gth.Window {
 		swipeable_view.scroll_begin.connect (() => pause ());
 
 		swipeable_view.scroll_end.connect (() => {
-			if (!automatic) {
-				automatic = true;
-				if (load_job == null) {
+			if (paused) {
+				paused = false;
+				if (automatic) {
 					queue_next ();
 				}
 			}
 		});
-
-		// image_view.cursor = new Gdk.Cursor.from_name ("none", null);
 
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (on_key_pressed);
 		swipeable_view.add_controller (key_events);
 
 		var motion_events = new Gtk.EventControllerMotion ();
-		motion_events.motion.connect (() => {
-			set_cursor_visible (true);
-			hide_cursor_after_timeout ();
+		motion_events.motion.connect ((x, y) => {
+			if (last_x == -1) {
+				last_x = x;
+			}
+			if (last_y == -1) {
+				last_y = y;
+			}
+			if ((x != last_x) || (y != last_y)) {
+				last_x = x;
+				last_y = y;
+				set_cursor_visible (true);
+				hide_cursor_after_timeout ();
+			}
 		});
 		swipeable_view.add_controller (motion_events);
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		scroll_events.scroll.connect ((controller, dx, dy) => {
+			if (Util.device_is_touchpad (controller)) {
+				return false;
+			}
 			if (dy > 0) {
 				if (!next ()) {
 					edge_reached ();
 				}
 			}
-			else {
+			else if (dy < 0) {
 				if (!previous ()) {
 					edge_reached ();
 				}
 			}
+			return true;
 		});
 		swipeable_view.add_controller (scroll_events);
 
@@ -340,4 +363,7 @@ public class Gth.Slideshow : Gth.Window {
 	uint next_id;
 	GLib.Settings settings;
 	uint hide_cursor_id = 0;
+	bool paused;
+	double last_x;
+	double last_y;
 }
