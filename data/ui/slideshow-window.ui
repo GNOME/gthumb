@@ -7,12 +7,20 @@
     <property name="content">
       <object class="AdwToastOverlay" id="toast_overlay">
         <child>
-          <object class="GthImageView" id="image_view">
+          <object class="GthSwipeableView" id="swipeable_view">
+            <property name="enabled">true</property>
+            <property name="allow-mouse-drag">true</property>
             <style>
               <class name="slideshow-view"/>
             </style>
-            <property name="default-zoom-type">maximize</property>
-            <property name="transparency">gray</property>
+            <child>
+              <object class="GthImageView" id="image_view">
+                <property name="halign">fill</property>
+                <property name="hexpand">true</property>
+                <property name="default-zoom-type">maximize</property>
+                <property name="transparency">gray</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>

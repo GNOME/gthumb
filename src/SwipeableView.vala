@@ -5,6 +5,10 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 		can_change = true;
 	}
 
+	public signal void scroll_begin ();
+
+	public signal void scroll_end ();
+
 	public Gtk.Widget child {
 		get { return _child; }
 		set {
@@ -128,11 +132,12 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 		// Touchpad Swipe
 
 		touchpad_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.HORIZONTAL | Gtk.EventControllerScrollFlags.KINETIC);
-		var touchpad_scroll_begin_id = touchpad_events.scroll_begin.connect ((controller) => {
+		touchpad_events.scroll_begin.connect ((controller) => {
 			touchpad_offset = 0;
 			init_can_change_content ();
+			scroll_begin ();
 		});
-		var touchpad_scroll_id = touchpad_events.scroll.connect ((controller, dx, dy) => {
+		touchpad_events.scroll.connect ((controller, dx, dy) => {
 			if (!Util.smooth_scroll_from_touchpad (controller)) {
 				return false;
 			}
@@ -140,7 +145,7 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 			swipe_offset = resistence (touchpad_offset);
 			return true;
 		});
-		var touchpad_decelerate_id = touchpad_events.decelerate.connect ((controller, vel_x, vel_y) => {
+		touchpad_events.decelerate.connect ((controller, vel_x, vel_y) => {
 			// stdout.printf ("> touchpad_offset: %f", touchpad_offset);
 			// stdout.printf ("  vel_x: %f", vel_x);
 			if ((touchpad_offset.abs () >= OFFSET_THRESHOLD)
@@ -150,6 +155,7 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 			}
 			touchpad_offset = 0;
 			swipe_offset = 0;
+			scroll_end ();
 		});
 		add_controller (touchpad_events);
 
@@ -164,6 +170,7 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 				return;
 			}
 			init_can_change_content ();
+			scroll_begin ();
 		});
 		var drag_update_id = drag_gesture.drag_update.connect ((controller, offset_x, offset_y) => {
 			swipe_offset = resistence (offset_x);
@@ -174,6 +181,7 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 			if (offset_x.abs () < OFFSET_THRESHOLD) {
 				swipe_gesture.set_state (Gtk.EventSequenceState.DENIED);
 			}
+			scroll_end ();
 		});
 		add_controller (drag_gesture);
 
@@ -183,6 +191,7 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 		var swipe_id = swipe_gesture.swipe.connect ((vel_x, vel_y) => {
 			// stdout.printf ("> swipe: vel_x: %f\n", vel_x.abs ());
 			if (vel_x.abs () >= VELOCITY_THRESHOLD) {
+				scroll_end ();
 				change_content ((vel_x > 0) ? NavigationDirection.BACK : NavigationDirection.FORWARD);
 			}
 		});
@@ -204,6 +213,6 @@ public class Gth.SwipeableView : Gtk.Widget, Gtk.Buildable {
 	bool can_change_next;
 	bool can_change_previous;
 
-	const double VELOCITY_THRESHOLD = 180;
-	const double OFFSET_THRESHOLD = 120;
+	const double VELOCITY_THRESHOLD = 100;
+	const double OFFSET_THRESHOLD = 100;
 }

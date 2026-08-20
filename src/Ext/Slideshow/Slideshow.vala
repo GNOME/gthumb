@@ -1,16 +1,6 @@
 [GtkTemplate (ui = "/org/gnome/gthumb/ui/slideshow-window.ui")]
 public class Gth.Slideshow : Gth.Window {
-	public GenericList<FileData> files {
-		get {
-			return _files;
-		}
-		set {
-			var iter = value.iterator ();
-			_files = iter.filter ((file_data) => {
-				return Util.content_type_is_image (file_data.get_content_type ());
-			});
-		}
-	}
+	public GenericList<FileData> files;
 
 	public override void add_toast (Adw.Toast toast) {
 		toast_overlay.dismiss_all ();
@@ -18,7 +8,8 @@ public class Gth.Slideshow : Gth.Window {
 	}
 
 	public override void before_closing () {
-		cancel_automatic ();
+		cancel_next ();
+		cancel_hide_cursor ();
 		preloader.cancel ();
 		if (load_job != null) {
 			load_job.cancel ();
@@ -29,11 +20,19 @@ public class Gth.Slideshow : Gth.Window {
 		base.init_actions ();
 
 		var action = new SimpleAction ("next-image", null);
-		action.activate.connect (() => next ());
+		action.activate.connect (() => {
+			if (!next ()) {
+				edge_reached ();
+			}
+		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("previous-image", null);
-		action.activate.connect (() => previous ());
+		action.activate.connect (() => {
+			if (!previous ()) {
+				edge_reached ();
+			}
+		});
 		action_group.add_action (action);
 
 		action = new SimpleAction ("toggle-play", null);
@@ -45,10 +44,9 @@ public class Gth.Slideshow : Gth.Window {
 		if (load_job != null) {
 			load_job.cancel ();
 		}
-		cancel_automatic ();
-		var file_data = _files[(int) position];
+		cancel_next ();
+		var file_data = files[(int) position];
 		if (file_data == null) {
-			restart ();
 			return;
 		}
 		var local_job = new_job (_("Loading %s").printf (file_data.get_display_name ()),
@@ -78,10 +76,9 @@ public class Gth.Slideshow : Gth.Window {
 			current_file = file_data;
 			current_position = position;
 			image_view.image = image;
-			image_view.grab_focus ();
 			preload_some_files ();
 			if (automatic) {
-				next_id = Timeout.add_seconds_once (delay, () => next ());
+				queue_next ();
 			}
 		}
 		catch (Error error) {
@@ -100,7 +97,7 @@ public class Gth.Slideshow : Gth.Window {
 		var queue = new Queue<File>();
 
 		void add_to_queue (uint pos) {
-			var file_data = _files.model.get_item (pos) as FileData;
+			var file_data = files.model.get_item (pos) as FileData;
 			if (file_data == null) {
 				return;
 			}
@@ -112,7 +109,7 @@ public class Gth.Slideshow : Gth.Window {
 		}
 
 		add_to_queue (current_position + 1);
-		add_to_queue (current_position + 2);
+		add_to_queue (current_position - 1);
 		if (queue.is_empty ()) {
 			return;
 		}
@@ -138,19 +135,37 @@ public class Gth.Slideshow : Gth.Window {
 		return (uint) int.max (width, height);
 	}
 
+	void queue_next () {
+		next_id = Timeout.add_seconds_once (delay, () => {
+			if (!next ()) {
+				restart ();
+			}
+		});
+	}
+
+	void pause () {
+		automatic = false;
+		if (load_job != null) {
+			load_job.cancel ();
+		}
+		cancel_next ();
+	}
+
 	void toggle_play () {
 		if (automatic) {
 			show_message (_("Paused"));
-			automatic = false;
-			cancel_automatic ();
+			pause ();
 		}
 		else {
+			toast_overlay.dismiss_all ();
 			automatic = true;
-			next ();
+			if (!next ()) {
+				restart ();
+			}
 		}
 	}
 
-	void cancel_automatic () {
+	void cancel_next () {
 		if (next_id != 0) {
 			Source.remove (next_id);
 			next_id = 0;
@@ -158,30 +173,42 @@ public class Gth.Slideshow : Gth.Window {
 	}
 
 	void start () {
-		if (_files.length () == 1) {
-			automatic = false;
+		if (random_order) {
+			files.sort ((a, b) => GLib.Random.int_range (-1, 2));
 		}
-		else {
-			if (random_order) {
-				_files.sort ((a, b) => GLib.Random.int_range (-1, 2));
-			}
+		if (files.length () == 1) {
+			automatic = false;
 		}
 		load_position.begin (0);
 	}
 
-	void next () {
-		load_position.begin (current_position + 1);
+	bool can_load_next () {
+		return current_position < files.length () - 1;
 	}
 
-	void previous () {
-		if (current_position > 0) {
-			load_position.begin (current_position - 1);
+	bool next () {
+		if (!can_load_next ()) {
+			return false;
 		}
+		load_position.begin (current_position + 1);
+		return true;
+	}
+
+	bool can_load_previous () {
+		return current_position > 0;
+	}
+
+	bool previous () {
+		if (!can_load_previous ()) {
+			return false;
+		}
+		load_position.begin (current_position - 1);
+		return true;
 	}
 
 	void restart () {
 		if (loop) {
-			if (_files.length () > 1) {
+			if (files.length () > 1) {
 				start ();
 			}
 		}
@@ -202,6 +229,26 @@ public class Gth.Slideshow : Gth.Window {
 		return true;
 	}
 
+	void hide_cursor_after_timeout () {
+		cancel_hide_cursor ();
+		hide_cursor_id = Timeout.add_seconds (1, () => {
+			hide_cursor_id = 0;
+			set_cursor_visible (false);
+			return Source.REMOVE;
+		});
+	}
+
+	void cancel_hide_cursor () {
+		if (hide_cursor_id != 0) {
+			Source.remove (hide_cursor_id);
+			hide_cursor_id = 0;
+		}
+	}
+
+	void set_cursor_visible (bool visible) {
+		swipeable_view.cursor = visible ? null : new Gdk.Cursor.from_name ("none", null);
+	}
+
 	construct {
 		settings = new GLib.Settings (GTHUMB_SLIDESHOW_SCHEMA);
 		automatic = settings.get_boolean (PREF_SLIDESHOW_AUTOMATIC);
@@ -214,25 +261,74 @@ public class Gth.Slideshow : Gth.Window {
 		current_position = 0;
 		next_id = 0;
 		map.connect (() => start ());
+		fullscreened = true;
+
+		swipeable_view.change_content.connect ((direction) => {
+			if (direction == NavigationDirection.FORWARD) {
+				next ();
+			}
+			else {
+				previous ();
+			}
+		});
+
+		swipeable_view.can_change_content.connect_after ((direction, out can_change) => {
+			if (direction == NavigationDirection.FORWARD) {
+				can_change = can_load_next ();
+			}
+			else {
+				can_change = can_load_previous ();
+			}
+		});
+
+		swipeable_view.scroll_begin.connect (() => pause ());
+
+		swipeable_view.scroll_end.connect (() => {
+			if (!automatic) {
+				automatic = true;
+				if (load_job == null) {
+					queue_next ();
+				}
+			}
+		});
+
+		// image_view.cursor = new Gdk.Cursor.from_name ("none", null);
+
 		var key_events = new Gtk.EventControllerKey ();
 		key_events.key_pressed.connect (on_key_pressed);
-		image_view.add_controller (key_events);
-		image_view.cursor = new Gdk.Cursor.from_name ("none", null);
+		swipeable_view.add_controller (key_events);
 
-		var click_events = new Gtk.GestureClick ();
-		click_events.set_button (Gdk.BUTTON_PRIMARY);
-		click_events.pressed.connect ((n_press, x, y) => next ());
-		image_view.add_controller (click_events);
+		var motion_events = new Gtk.EventControllerMotion ();
+		motion_events.motion.connect (() => {
+			set_cursor_visible (true);
+			hide_cursor_after_timeout ();
+		});
+		swipeable_view.add_controller (motion_events);
+
+		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+		scroll_events.scroll.connect ((controller, dx, dy) => {
+			if (dy > 0) {
+				if (!next ()) {
+					edge_reached ();
+				}
+			}
+			else {
+				if (!previous ()) {
+					edge_reached ();
+				}
+			}
+		});
+		swipeable_view.add_controller (scroll_events);
 
 		var seconday_click_events = new Gtk.GestureClick ();
 		seconday_click_events.set_button (Gdk.BUTTON_SECONDARY);
 		seconday_click_events.pressed.connect ((n_press, x, y) => close ());
-		image_view.add_controller (seconday_click_events);
+		swipeable_view.add_controller (seconday_click_events);
 	}
 
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
+	[GtkChild] unowned Gth.SwipeableView swipeable_view;
 	[GtkChild] unowned Gth.ImageView image_view;
-	GenericList<FileData> _files;
 	bool automatic;
 	uint delay;
 	bool loop;
@@ -243,4 +339,5 @@ public class Gth.Slideshow : Gth.Window {
 	uint current_position;
 	uint next_id;
 	GLib.Settings settings;
+	uint hide_cursor_id = 0;
 }

@@ -981,17 +981,16 @@ public class Gth.MainWindow : Gth.Window {
 			if (files.length () <= 1) {
 				files = browser.file_grid.get_file_data_list ();
 			}
-			if (files.is_empty ()) {
+			var iter = files.iterator ();
+			var images = iter.filter ((file_data) => {
+				return Util.content_type_is_image (file_data.get_content_type ());
+			});
+			if (images.is_empty ()) {
 				show_message (_("No images selected"));
 				return;
 			}
 			var slideshow = new Gth.Slideshow ();
-			slideshow.files = files;
-			if (slideshow.files.is_empty ()) {
-				show_message (_("No images selected"));
-				return;
-			}
-			slideshow.fullscreened = true;
+			slideshow.files = images;
 			slideshow.present ();
 		});
 		action_group.add_action (action);
