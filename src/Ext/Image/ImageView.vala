@@ -207,6 +207,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 	public void add_drag_gesture () {
 		drag_gesture = new Gtk.GestureDrag ();
 		drag_gesture.drag_begin.connect ((controller, start_x, start_y) => {
+			drag_start = { -1, -1 };
 			if (!scroll_on_drag) {
 				controller.set_state (Gtk.EventSequenceState.DENIED);
 				return;
@@ -221,7 +222,9 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			drag_start = PointUtil.point_from_click (start_x, start_y);
 		});
 		drag_gesture.drag_end.connect ((ofs_x, ofs_y) => {
-			cursor = prev_cursor;
+			if ((drag_start.x != -1) && (drag_start.y != -1)) {
+				cursor = prev_cursor;
+			}
 		});
 		drag_gesture.drag_update.connect ((controller, ofs_x, ofs_y) => {
 			double start_x, start_y;
