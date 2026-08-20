@@ -239,7 +239,7 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 	raw_data->params.half_size = (requested_size > 0);
 
 	result = libraw_open_buffer (raw_data, buffer, size);
-	if (LIBRAW_FATAL_ERROR (result)) {
+	if (result != LIBRAW_SUCCESS) {
 		_libraw_set_gerror (error, result);
 		goto fatal_error;
 	}
@@ -305,7 +305,7 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 				goto fatal_error;
 
 			result = libraw_open_buffer (raw_data, buffer, size);
-			if (LIBRAW_FATAL_ERROR (result))
+			if (result != LIBRAW_SUCCESS)
 				goto fatal_error;
 
 			result = libraw_unpack (raw_data);
