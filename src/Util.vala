@@ -224,6 +224,12 @@ namespace Gth.Util {
 		return File.new_for_uri (destination_uri);
 	}
 
+	public static bool device_is_touchpad (Gtk.EventController controller) {
+		var event = controller.get_current_event ();
+		var device = event.get_device ();
+		return ((device != null) && (device.source == Gdk.InputSource.TOUCHPAD));
+	}
+
 	public static bool smooth_scroll_from_touchpad (Gtk.EventController controller) {
 		var event = controller.get_current_event ();
 		var device = event.get_device ();
