@@ -164,7 +164,7 @@ gth_image_task_get_destination (GthImageTask *self)
 cairo_surface_t *
 gth_image_task_get_destination_surface (GthImageTask *self)
 {
-	return gth_image_get_cairo_surface (self->priv->destination);
+	return (self->priv->destination != NULL) ? gth_image_get_cairo_surface (self->priv->destination) : NULL;
 }
 
 
