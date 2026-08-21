@@ -109,27 +109,16 @@ transform_to_argb32_format_func (png_structp   png,
 				 png_row_infop row_info,
 				 png_bytep     data)
 {
-	guint   i;
-	guint32 pixel;
-
-	for (i = 0; i < row_info->rowbytes; i += 4) {
-		guchar *p_iter = data + i;
-		guchar  r, g, b, a;
-
-		a = p_iter[3];
-		if (a == 0xff) {
-			pixel = CAIRO_RGBA_TO_UINT32 (p_iter[0], p_iter[1], p_iter[2], 0xff);
-		}
-		else if (a == 0) {
-			pixel = 0;
-		}
-		else {
-			r = _cairo_multiply_alpha (p_iter[0], a);
-			g = _cairo_multiply_alpha (p_iter[1], a);
-			b = _cairo_multiply_alpha (p_iter[2], a);
-			pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
-		}
-		memcpy (p_iter, &pixel, sizeof (guint32));
+	int temp;
+	int width = row_info->rowbytes / 4;
+	guchar *pixel = data;
+	for (int i = 0; i < width; i++) {
+		guchar r = pixel[0];
+		guchar g = pixel[1];
+		guchar b = pixel[2];
+		guchar a = pixel[3];
+		CAIRO_SET_RGBA (pixel, r, g, b, a);
+		pixel += 4;
 	}
 }
 
