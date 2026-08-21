@@ -188,16 +188,19 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 				green = value_map[GTH_HISTOGRAM_CHANNEL_GREEN][image_green];
 				blue  = value_map[GTH_HISTOGRAM_CHANNEL_BLUE][image_blue];
 
-				if (d <= max_d)
-					alpha = 255 * ((d - min_d) / (max_d - min_d));
-				else
+				// d <= min_d -> alpha = 0 -> show original image
+				// d >= max_d -> alpha = 255 -> show new image
+				if (d >= max_d) {
 					alpha = 255;
-				alpha = ADD_ALPHA (alpha, vignette_alpha);
+				}
+				else {
+					alpha = CLAMP_PIXEL (255 * ((d - min_d) / (max_d - min_d)));
+				}
 
-				p_source[CAIRO_RED] = GIMP_OP_NORMAL (red, image_red, alpha);
-				p_source[CAIRO_GREEN] = GIMP_OP_NORMAL (green, image_green, alpha);
-				p_source[CAIRO_BLUE] = GIMP_OP_NORMAL (blue, image_blue, alpha);
-				p_source[CAIRO_ALPHA] = GIMP_OP_NORMAL (255, image_alpha, alpha);
+				red = GIMP_OP_NORMAL (red, image_red, alpha);
+				green = GIMP_OP_NORMAL (green, image_green, alpha);
+				blue = GIMP_OP_NORMAL (blue, image_blue, alpha);
+				CAIRO_SET_RGBA (p_source, red, green, blue, image_alpha);
 			}
 
 			p_source += 4;
