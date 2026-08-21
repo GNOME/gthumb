@@ -520,7 +520,7 @@ desert_exec (GthAsyncTask *task,
 	    && cairo_image_surface_apply_bcs (source, 0, 0, 20.0 / 100, task)
 	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
 	{
-			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
+		gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
 	}
 
 	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_BLUE]);
