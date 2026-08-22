@@ -144,8 +144,6 @@ static GthImage * _libraw_read_bitmap_data (int width, int height, int colors,
 	guchar *row = gth_image_prepare_edit (image, &row_stride, NULL, NULL);
 	guchar *pixel;
 	guchar *buffer_p = buffer;
-	guchar r, g, b; // used in RGBA_TO_PIXEL
-	guint temp; // used in RGBA_TO_PIXEL
 	switch (colors) {
 	case 4:
 		for (int i = 0; i < height; i++) {

@@ -256,6 +256,7 @@ public class Gth.Application : Adw.Application {
 		shortcuts = new Shortcuts ();
 		shortcuts.register_all ();
 
+		Pixel.init_tables ();
 		register_types ();
 		init_settings ();
 		init_actions ();

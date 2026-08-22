@@ -5,7 +5,7 @@
 #include <glib.h>
 
 #define PIXEL_BYTES 4
-#define CLAMP_TEMP(x, min, max) (temp = ((guint)(x)), CLAMP (temp, min, max))
+#define CLAMP_TEMP(x, min, max) (temp = (x), (guchar) CLAMP (temp, min, max))
 #define PIXEL_CLAMP(x) CLAMP_TEMP (x, 0, 255)
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
@@ -52,6 +52,15 @@
 #define PIXEL_SOFT_LIGHT(a, b) \
 	PIXEL_CLAMP ((((double) a * a) / 255) + (2 * (b * (((double) a * (255 - a)) / 255) / 255)))
 
+extern guchar add_alpha_table[256][256];
+extern guchar remove_alpha_table[256][256];
+
+#define PIXEL_ADD_ALPHA(value, alpha) \
+	add_alpha_table[value][alpha]
+
+#define PIXEL_REMOVE_ALPHA(value, alpha) \
+	remove_alpha_table[value][alpha]
+
 #define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
 		if (alpha == 0xFF) { \
@@ -61,30 +70,22 @@
 			*(guint32*) pixel = 0; \
 		} \
 		else { \
-			PIXEL_MULTIPLY_ALPHA (r, red, alpha); \
-			PIXEL_MULTIPLY_ALPHA (g, green, alpha); \
-			PIXEL_MULTIPLY_ALPHA (b, blue, alpha); \
-			*(guint32*) pixel = PACK_RGBA (r, g, b, alpha); \
+			pixel[PIXEL_ALPHA] = (alpha); \
+			pixel[PIXEL_RED] = PIXEL_ADD_ALPHA (red, alpha); \
+			pixel[PIXEL_GREEN] = PIXEL_ADD_ALPHA (green, alpha); \
+			pixel[PIXEL_BLUE] = PIXEL_ADD_ALPHA (blue, alpha); \
 		} \
 	} G_STMT_END
 
 #define PIXEL_TO_RGBA(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
 		alpha = pixel[PIXEL_ALPHA]; \
-		if (alpha == 0xff) { \
-			red = pixel[PIXEL_RED]; \
-			green = pixel[PIXEL_GREEN]; \
-			blue = pixel[PIXEL_BLUE]; \
-		} \
-		else { \
-			double factor = (double) 0xff / alpha; \
-			red = PIXEL_CLAMP (factor * pixel[PIXEL_RED]); \
-			green = PIXEL_CLAMP (factor * pixel[PIXEL_GREEN]); \
-			blue = PIXEL_CLAMP (factor * pixel[PIXEL_BLUE]); \
-		} \
+		red = PIXEL_REMOVE_ALPHA (pixel[PIXEL_RED], alpha); \
+		green = PIXEL_REMOVE_ALPHA (pixel[PIXEL_GREEN], alpha);	\
+		blue = PIXEL_REMOVE_ALPHA (pixel[PIXEL_BLUE], alpha); \
 	} G_STMT_END
 
-guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a);
+void pixel_init_tables ();
 void pixel_line_to_rgb_big_endian (guchar *dest, const guchar *src, guint width);
 void pixel_line_to_rgba_big_endian (guchar *dest, const guchar *src, guint width);
 void rgba_big_endian_line_to_pixel (guchar *dest, const guchar *src, guint width);

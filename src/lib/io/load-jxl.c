@@ -8,11 +8,14 @@
 
 static void premultiply_alpha (int width, int height, guchar *buffer) {
 	guchar *p = buffer;
-	guchar r, g, b; // used in RGBA_TO_PIXEL
-	guint temp; // used in RGBA_TO_PIXEL
+	guchar r, g, b, a;
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
-			RGBA_TO_PIXEL (p, p[0], p[1], p[2], p[3]);
+			r = p[0];
+			g = p[1];
+			b = p[2];
+			a = p[3];
+			RGBA_TO_PIXEL (p, r, g, b, a);
 			p += 4;
 		}
 	}

@@ -149,6 +149,7 @@ vapi_files = files(
   'vapi/Loaders.vapi',
   'vapi/Metadata.vapi',
   'vapi/Option.vapi',
+  'vapi/Pixel.vapi',
   'vapi/Point.vapi',
   'vapi/Points.vapi',
   'vapi/Savers.vapi',

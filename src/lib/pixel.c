@@ -1,46 +1,68 @@
 #include "lib/pixel.h"
 
+static GOnce pixel_init_table = G_ONCE_INIT;
+guchar add_alpha_table[256][256];
+guchar remove_alpha_table[256][256];
 
-guint32 pixel_from_rgba_multiply_alpha (guchar r, guchar g, guchar b, guchar a) {
-	guint temp;
-	PIXEL_MULTIPLY_ALPHA (r, r, a);
-	PIXEL_MULTIPLY_ALPHA (g, g, a);
-	PIXEL_MULTIPLY_ALPHA (b, b, a);
-	return PACK_RGBA (r, g, b, a);
+
+static gpointer _init_tables (gpointer data) {
+	// add_alpha_table[v][a] = v * a / 255
+	// remove_alpha_table[v][a] = v * 255 / a
+	for (int v = 0; v <= 255; v++) {
+		add_alpha_table[v][0] = 0;
+		add_alpha_table[v][255] = v;
+		remove_alpha_table[v][0] = 0;
+		remove_alpha_table[v][255] = v;
+		for (int a = 1; a < 255; a++) {
+			remove_alpha_table[v][a] = (guchar) round ((double) (v) * 255.0 / a);
+			add_alpha_table[v][a] = (guchar) round ((double) (v) * a / 255.0);
+		}
+	}
+	return NULL;
+}
+
+
+void pixel_init_tables () {
+	g_once (&pixel_init_table, _init_tables, NULL);
 }
 
 
 void pixel_line_to_rgba_big_endian (guchar *dest, const guchar *src, guint width) {
-	int temp;
+	guchar r, g, b, a;
 	for (guint x = 0; x < width; x++) {
-		PIXEL_TO_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
+		PIXEL_TO_RGBA (src, r, g, b, a);
+		dest[0] = r;
+		dest[1] = g;
+		dest[2] = b;
+		dest[3] = a;
 		src += 4;
 		dest += 4;
 	}
 }
 
 
-#define PIXEL_TO_RGB(pixel, red, green, blue) \
-	G_STMT_START { \
-		red = pixel[PIXEL_RED]; \
-		green = pixel[PIXEL_GREEN]; \
-		blue = pixel[PIXEL_BLUE]; \
-	} G_STMT_END
-
-
 void pixel_line_to_rgb_big_endian (guchar *dest, const guchar *src, guint width) {
+	guchar r, g, b;
 	for (guint x = 0; x < width; x++) {
-		PIXEL_TO_RGB (src, dest[0], dest[1], dest[2]);
+		r = src[PIXEL_RED];
+		g = src[PIXEL_GREEN];
+		b = src[PIXEL_BLUE];
+		dest[0] = r;
+		dest[1] = g;
+		dest[2] = b;
 		src += 4;
 		dest += 3;
 	}
 }
 
 static void non_premultiplied_line_to_pixel_line (int r_idx, int g_idx, int b_idx, int a_idx, guchar *dest, const guchar *src, guint width) {
-	guchar r, g, b; // used in RGBA_TO_PIXEL
-	guint temp; // used in RGBA_TO_PIXEL
+	guchar r, g, b, a;
 	for (guint x = 0; x < width; x++) {
-		RGBA_TO_PIXEL (dest, src[r_idx], src[g_idx], src[b_idx], src[a_idx]);
+		r = src[r_idx];
+		g = src[g_idx];
+		b = src[b_idx];
+		a = src[a_idx];
+		RGBA_TO_PIXEL (dest, r, g, b, a);
 		src += 4;
 		dest += 4;
 	}
@@ -65,5 +87,3 @@ void rgb_big_endian_line_to_pixel (guchar *dest, const guchar *src, guint width)
 		dest += 4;
 	}
 }
-
-#undef PIXEL_TO_RGB
