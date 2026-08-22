@@ -85,8 +85,7 @@ void gth_image_fill_color (GthImage *self, GdkRGBA *color) {
 	guchar green = color->green * 255;
 	guchar blue = color->blue * 255;
 	guchar alpha = color->alpha * 255;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
+
 	RGBA_TO_PIXEL (pixel_p, red, green, blue, alpha);
 
 	for (int y = 0; y < height; y++) {
@@ -107,8 +106,6 @@ void gth_image_negative_colors (GthImage *self) {
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 
 	for (int y = 0; y < height; y++) {
 		pixel = row;
@@ -220,8 +217,6 @@ gboolean gth_image_grayscale (GthImage *self, double red_weight, double green_we
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	int value, itemp;
 	for (guint y = 0; y < height; y++) {
 		pixel = row;
@@ -260,8 +255,6 @@ gboolean gth_image_grayscale_saturation (GthImage *self, double amount, GCancell
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha, min, max;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	int value, itemp;
 	for (int y = 0; y < height; y++) {
 		pixel = row;
@@ -302,8 +295,6 @@ gboolean gth_image_gamma_correction (GthImage *self, double gamma, GCancellable 
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	double value;
 	for (int y = 0; y < height; y++) {
 		pixel = row;
@@ -341,8 +332,6 @@ gboolean gth_image_adjust_brightness (GthImage *self, double amount, GCancellabl
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	double dtemp;
 	for (int y = 0; y < height; y++) {
 		pixel = row;
@@ -395,8 +384,6 @@ gboolean gth_image_adjust_contrast (GthImage *self, double amount, GCancellable 
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	double dtemp;
 	for (int y = 0; y < height; y++) {
 		pixel = row;
@@ -503,9 +490,8 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 	guchar *pixel;
 	guchar red, green, blue, alpha;
 	guchar new_red, new_green, new_blue;
-	guchar r, g, b;
 	double new_alpha;
-	int temp; // used in RGBA_TO_PIXEL
+	int temp;
 	GthPoint f1, f2;
 	double min_d;
 	double max_d;
@@ -580,8 +566,7 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 
 	guchar b_red, b_green, b_blue, b_alpha;
 	guchar f_red, f_green, f_blue, f_alpha;
-	int temp; // used in RGBA_TO_PIXEL
-	guchar r, g, b;
+	int temp;
 	GthPoint f1, f2;
 	double min_d, max_d, alpha;
 	calc_radial_mask (b_width, b_height, amount, &f1, &f2, &min_d, &max_d);
@@ -644,8 +629,6 @@ gboolean gth_image_apply_value_map (GthImage *self, guchar *value_map, GCancella
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	guchar *red_map = value_map + (GTH_CHANNEL_RED * VALUE_MAP_COLUMNS);
 	guchar *green_map = value_map + (GTH_CHANNEL_GREEN * VALUE_MAP_COLUMNS);
 	guchar *blue_map = value_map + (GTH_CHANNEL_BLUE * VALUE_MAP_COLUMNS);
@@ -707,8 +690,7 @@ gboolean gth_image_soft_light_with_radial_gradient (GthImage *self, GCancellable
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
+	int temp;
 
 	double center_x = width / 2.0;
 	double center_y = height / 2.0;
@@ -749,8 +731,6 @@ gboolean gth_image_pixelize (GthImage *self, guint tile_size, GCancellable *canc
 	guchar *source_row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red = 0, green = 0, blue = 0, alpha = 0xFF;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	int tile_row, tile_column, last_row = -1, last_column = -1;
 	guchar *row = source_row;
 	guint max_x = width - 1;

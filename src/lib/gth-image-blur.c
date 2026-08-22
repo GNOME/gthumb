@@ -33,9 +33,8 @@ GthImage * gth_image_gaussian_blur (GthImage *source, int radius, GCancellable *
 
 	guchar *d_pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	double w_red, w_green, w_blue, w_alpha;
+	int temp;
 	int max_x = width - 1;
 	int max_y = height - 1;
 	guchar *pixel;
@@ -149,9 +148,8 @@ gboolean gth_image_progressive_blur (GthImage *source, int max_radius, GCancella
 
 	guchar *d_pixel;
 	guchar red, green, blue, alpha = 255;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	double w_red, w_green, w_blue, w_alpha;
+	int temp;
 	int max_x = width - 1;
 	int max_y = height - 1;
 	guchar *pixel;
@@ -331,7 +329,6 @@ static gboolean _box_blur (GthImage *source, GthImage *destination, int radius,
 	guchar *c1, *c2;
 	int x, y, i, i1, i2;
 	guchar r, g, b, a;
-	int temp; // used in RGBA_TO_PIXEL
 	// Horizontal blur
 
 	int width_minus_1 = width - 1;

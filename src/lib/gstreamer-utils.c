@@ -169,7 +169,7 @@ static void add_metadata (GFileInfo *info, const char *key, const char *descript
 
 
 static void add_metadata_from_tag (TagIterateContext *ctx, const GstTagList *list,
-	const char *tag, const char *tag_key, char *tag_description)
+	const char *tag, const char *tag_key, const char *tag_description)
 {
 	GFileInfo *info = ctx->info;
 	GType tag_type = gst_tag_get_type (tag);

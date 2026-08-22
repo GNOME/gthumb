@@ -191,7 +191,7 @@ GthImage * gth_image_new_from_cairo_surface (cairo_surface_t* surface) {
 
 	gth_image_init_pixels (image, width, height);
 
-	int dest_stride;
+	int dest_stride = 0;
 	guchar *dest_pixels = gth_image_prepare_edit (image, &dest_stride, NULL, NULL);
 	const guchar *src_row = src_pixels;
 	guchar *dest_row = dest_pixels;
@@ -244,9 +244,9 @@ void gth_image_copy_pixels_with_mask (GthImage *src, GthImage *dest, guint x, gu
 	g_return_if_fail (src->priv->width == dest->priv->width);
 	g_return_if_fail (src->priv->height == dest->priv->height);
 
-	int src_stride;
+	int src_stride = 0;
 	guchar *src_pixels = gth_image_prepare_edit (src, &src_stride, NULL, NULL);
-	int dest_stride;
+	int dest_stride = 0;
 	guchar *dest_pixels = gth_image_prepare_edit (dest, &dest_stride, NULL, NULL);
 	const guchar *src_row = src_pixels + (y * src_stride) + (x * PIXEL_BYTES);
 	guchar *dest_row = dest_pixels + (y * dest_stride) + (x * PIXEL_BYTES);
@@ -466,7 +466,6 @@ gboolean gth_image_get_rgba (GthImage *self, guint x, guint y, guchar *red, guch
 	}
 	const guchar *buffer = g_bytes_get_data (self->priv->bytes, NULL);
 	const guchar *pixel_p = buffer + (y * self->priv->row_stride) + (x * PIXEL_BYTES);
-	int temp;
 	PIXEL_TO_RGBA (pixel_p, *red, *green, *blue, *alpha);
 	return TRUE;
 }

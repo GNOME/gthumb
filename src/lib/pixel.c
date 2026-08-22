@@ -1,3 +1,4 @@
+#include <math.h>
 #include "lib/pixel.h"
 
 static GOnce pixel_init_table = G_ONCE_INIT;

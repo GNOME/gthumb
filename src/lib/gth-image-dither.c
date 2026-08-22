@@ -33,8 +33,6 @@ gboolean gth_image_dither_ordered (GthImage *self, GCancellable *cancellable) {
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	int map_row;
 
 	int map_size = 8;
@@ -100,8 +98,6 @@ gboolean gth_image_dither_error_diffusion (GthImage *self, GCancellable *cancell
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar r, g, b;
-	int temp; // used in RGBA_TO_PIXEL
 	double value;
 	guchar new_value;
 

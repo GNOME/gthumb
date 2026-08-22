@@ -26,7 +26,6 @@ static gboolean import_image (WebPPicture *const picture, GthImage *image) {
 	int src_stride, width, height;
 	guchar *src_row = gth_image_prepare_edit (image, &src_stride, &width, &height);
 	uint32_t *dest_row = picture->argb;
-	int temp;
 	guchar r, g, b, a;
 	for (guint y = 0; y < height; y++) {
 		guchar *src_pixel = src_row;

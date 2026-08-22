@@ -217,6 +217,6 @@ _g_hash_table_from_string_list (GthStringList *list)
 gboolean
 gth_string_list_is_empty (GthStringList  *list)
 {
-	g_return_if_fail (GTH_IS_STRING_LIST (list));
+	g_return_val_if_fail (GTH_IS_STRING_LIST (list), TRUE);
 	return list->priv->list == NULL;
 }

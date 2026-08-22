@@ -57,8 +57,6 @@ static GthImage* rotate_nearest (GthImage *source, double degrees,
 
 	guint src_width = gth_image_get_width (source);
 	guint src_height = gth_image_get_height (source);
-	guchar r, g, b;
-	int temp;
 
 	// Create the rotated image
 
@@ -123,7 +121,6 @@ static GthImage* rotate_bilinear (GthImage *source, double degrees,
 	guint src_width = gth_image_get_width (source);
 	guint src_height = gth_image_get_height (source);
 	guchar r, g, b, a;
-	int temp;
 	float f_temp;
 
 	// Create the rotated image

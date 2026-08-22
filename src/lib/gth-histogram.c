@@ -107,7 +107,6 @@ void gth_histogram_update (GthHistogram *self, GthImage *image) {
 	guchar *min_value = self->priv->min_value;
 	guchar *max_value = self->priv->max_value;
 	guchar *pixel;
-	int temp;
 	guchar red, green, blue, alpha, value;
 	for (int i = 0; i < height; i++) {
 		pixel = line;
