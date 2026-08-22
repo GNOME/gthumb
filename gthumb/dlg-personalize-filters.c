@@ -500,7 +500,7 @@ dlg_personalize_filters (GthBrowser *browser)
 	DialogData *data;
 	GList      *tests, *scan;
 	char       *general_filter;
-	int         i, active_filter;
+	int         active_filter;
 	int         i_general;
 
 	if (gth_browser_get_dialog (browser, "personalize_filters") != NULL) {
@@ -538,7 +538,7 @@ dlg_personalize_filters (GthBrowser *browser)
 	active_filter = 0;
 
 	data->general_filter_combobox = gtk_combo_box_text_new ();
-	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
+	for (i_general = -1, scan = tests; scan; scan = scan->next) {
 		const char *registered_test_id = scan->data;
 		GthTest    *test;
 

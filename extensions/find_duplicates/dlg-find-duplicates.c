@@ -77,7 +77,6 @@ dlg_find_duplicates (GthBrowser *browser)
 	GList      *tests;
 	char       *general_filter;
 	int         active_filter;
-	int         i;
 	int         i_general;
 	GList      *scan;
 
@@ -126,7 +125,7 @@ dlg_find_duplicates (GthBrowser *browser)
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = g_settings_get_string (settings, PREF_BROWSER_GENERAL_FILTER);
 	active_filter = 0;
-	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
+	for (i_general = -1, scan = tests; scan; scan = scan->next) {
 		const char  *registered_test_id = scan->data;
 		GthTest     *test;
 		GtkTreeIter  iter;

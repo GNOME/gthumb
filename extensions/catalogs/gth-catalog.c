@@ -837,12 +837,12 @@ get_tag_value (const char *buffer,
 	       const char *tag_end)
 {
 	char *value;
-	char *begin_tag;
+	const char *begin_tag;
 
 	value = NULL;
 	begin_tag = strstr (buffer, tag_start);
 	if (begin_tag != NULL) {
-		char        *end_tag;
+		const char  *end_tag;
 		char        *xml;
 		DomDocument *doc;
 

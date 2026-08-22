@@ -338,12 +338,11 @@ clear_items_from_separator (GthLocationChooser *self,
 			    gboolean            stop_at_next_separator)
 {
 	int first_position;
-	int i;
 
 	if (! get_nth_separator_pos (self, nth_separator, &first_position))
 		return;
 
-	for (i = first_position + 1; TRUE; i++) {
+	while (TRUE) {
 		GtkTreePath *path;
 		GtkTreeIter  iter;
 

@@ -541,7 +541,7 @@ dlg_photo_importer (GthBrowser            *browser,
 	GthFileDataSort  *sort_type;
 	GList            *tests, *scan;
 	char             *default_filter;
-	int               i, active_filter;
+	int               active_filter;
 	int               i_general;
 
 	if (gth_browser_get_dialog (browser, "photo_importer") != NULL) {
@@ -639,7 +639,7 @@ dlg_photo_importer (GthBrowser            *browser,
 	active_filter = 0;
 
 	data->filter_combobox = gtk_combo_box_text_new ();
-	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
+	for (i_general = -1, scan = tests; scan; scan = scan->next) {
 		const char *registered_test_id = scan->data;
 		GthTest    *test;
 

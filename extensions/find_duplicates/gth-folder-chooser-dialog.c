@@ -125,11 +125,10 @@ gth_folder_chooser_dialog_construct (GthFolderChooserDialog *self,
 {
 	GtkTreeIter  iter;
 	GList       *scan;
-	int          idx;
 
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("folders_liststore")));
 
-	for (scan = folders, idx = 0; scan; scan = scan->next, idx++) {
+	for (scan = folders; scan; scan = scan->next) {
 		GFile *folder = scan->data;
 		char  *display_name;
 

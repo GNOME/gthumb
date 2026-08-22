@@ -858,7 +858,6 @@ dlg_rename_series (GthBrowser *browser,
 	DialogData        *data;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	int                i;
 	GList             *sort_types;
 	GList             *scan;
 	int                change_case;
@@ -963,7 +962,7 @@ dlg_rename_series (GthBrowser *browser,
 	found = FALSE;
 
 	sort_types = gth_main_get_all_sort_types ();
-	for (i = 0, scan = sort_types; scan; scan = scan->next, i++) {
+	for (scan = sort_types; scan; scan = scan->next) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
 
