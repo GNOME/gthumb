@@ -119,10 +119,10 @@ adjust_colors_exec (GthAsyncTask *task,
 	unsigned char   *p_destination;
 	gboolean         cancelled;
 	double           progress;
-	int              values[4];
 	int              x, y;
+	unsigned char    values[4];
 	int              channel;
-	int              value;
+	unsigned char    value;
 	double           saturation;
 	cairo_surface_t *destination;
 

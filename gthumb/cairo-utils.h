@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 
 #define CAIRO_MAX_IMAGE_SIZE    32767
 #define CLAMP_TEMP(x, min, max) (temp = (x), CLAMP (temp, min, max))
-#define CLAMP_PIXEL(x)          CLAMP_TEMP (x, 0, 255)
+#define CLAMP_PIXEL(x)          ((unsigned char) CLAMP_TEMP (x, 0, 255))
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
 

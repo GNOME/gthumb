@@ -30,7 +30,7 @@ cairo_image_surface_apply_curves (cairo_surface_t  *source,
 				  GthCurve        **curve,
 				  GthAsyncTask     *task)
 {
-	long		*value_map[GTH_HISTOGRAM_N_CHANNELS];
+	unsigned char   *value_map[GTH_HISTOGRAM_N_CHANNELS];
 	int		 c, v;
 	int              width;
 	int              height;
@@ -43,11 +43,13 @@ cairo_image_surface_apply_curves (cairo_surface_t  *source,
 	unsigned char    image_red, image_green, image_blue, image_alpha;
 
 	for (c = GTH_HISTOGRAM_CHANNEL_VALUE; c <= GTH_HISTOGRAM_CHANNEL_BLUE; c++) {
-		value_map[c] = g_new (long, 256);
+		value_map[c] = g_new (unsigned char, 256);
 		for (v = 0; v <= 255; v++) {
-			double u = gth_curve_eval (curve[c], v);
-			if (c > GTH_HISTOGRAM_CHANNEL_VALUE)
-				u = value_map[GTH_HISTOGRAM_CHANNEL_VALUE][(int)u];
+			double curve_value = gth_curve_eval (curve[c], v);
+			unsigned char u = (unsigned char) CLAMP (curve_value, 0, 255);
+			if (c > GTH_HISTOGRAM_CHANNEL_VALUE) {
+				u = value_map[GTH_HISTOGRAM_CHANNEL_VALUE][(int) u];
+			}
 			value_map[c][v] = u;
 		}
 	}
