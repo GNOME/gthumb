@@ -47,6 +47,32 @@ surface_metadata_free (void *data)
 }
 
 
+guchar add_alpha_table[256][256];
+guchar remove_alpha_table[256][256];
+static GOnce cairo_init_table = G_ONCE_INIT;
+
+static gpointer _init_tables (gpointer data) {
+	// add_alpha_table[v][a] = v * a / 255
+	// remove_alpha_table[v][a] = v * 255 / a
+	for (int v = 0; v <= 255; v++) {
+		add_alpha_table[v][0] = 0;
+		add_alpha_table[v][255] = v;
+		remove_alpha_table[v][0] = 0;
+		remove_alpha_table[v][255] = v;
+		for (int a = 1; a < 255; a++) {
+			remove_alpha_table[v][a] = (guchar) (v * 255 / a);
+			add_alpha_table[v][a] = (guchar) (v * a / 255);
+		}
+	}
+	return NULL;
+}
+
+
+void _cairo_init_tables () {
+	g_once (&cairo_init_table, _init_tables, NULL);
+}
+
+
 inline int
 _cairo_multiply_alpha (int color,
 		       int alpha)

@@ -57,6 +57,9 @@ G_BEGIN_DECLS
 
 #endif
 
+extern guchar add_alpha_table[256][256];
+extern guchar remove_alpha_table[256][256];
+
 #define CAIRO_SET_RGB(pixel, red, green, blue)					\
 	G_STMT_START {								\
 		pixel[CAIRO_RED] = (red);					\
@@ -65,20 +68,18 @@ G_BEGIN_DECLS
 		pixel[CAIRO_ALPHA] = 0xff;					\
 	} G_STMT_END
 
+#define CAIRO_ADD_ALPHA(value, alpha)						\
+	add_alpha_table[value][alpha]
+
+#define CAIRO_REMOVE_ALPHA(value, alpha)					\
+	remove_alpha_table[value][alpha]
+
 #define CAIRO_SET_RGBA(pixel, red, green, blue, alpha)				\
 	G_STMT_START {								\
 		pixel[CAIRO_ALPHA] = (alpha);					\
-		if (pixel[CAIRO_ALPHA] == 0xff) {				\
-			pixel[CAIRO_RED] = (red);				\
-			pixel[CAIRO_GREEN] = (green);				\
-			pixel[CAIRO_BLUE] = (blue);				\
-		}								\
-		else {								\
-			double factor = (double) pixel[CAIRO_ALPHA] / 0xff;	\
-			pixel[CAIRO_RED] = CLAMP_PIXEL (factor * (red));	\
-			pixel[CAIRO_GREEN] = CLAMP_PIXEL (factor * (green));	\
-			pixel[CAIRO_BLUE] = CLAMP_PIXEL (factor * (blue));	\
-		}								\
+		pixel[CAIRO_RED] = CAIRO_ADD_ALPHA (red, alpha);		\
+		pixel[CAIRO_GREEN] = CAIRO_ADD_ALPHA (green, alpha);		\
+		pixel[CAIRO_BLUE] = CAIRO_ADD_ALPHA (blue, alpha);		\
 	} G_STMT_END
 
 #define CAIRO_GET_RGB(pixel, red, green, blue)					\
@@ -91,17 +92,9 @@ G_BEGIN_DECLS
 #define CAIRO_GET_RGBA(pixel, red, green, blue, alpha)				\
 	G_STMT_START {								\
 		alpha = pixel[CAIRO_ALPHA];					\
-		if (alpha == 0xff) {						\
-			red = pixel[CAIRO_RED];					\
-			green = pixel[CAIRO_GREEN];				\
-			blue = pixel[CAIRO_BLUE];				\
-		}								\
-		else {								\
-			double factor = (double) 0xff / alpha;			\
-			red = CLAMP_PIXEL (factor * pixel[CAIRO_RED]);		\
-			green = CLAMP_PIXEL (factor * pixel[CAIRO_GREEN]);	\
-			blue = CLAMP_PIXEL (factor * pixel[CAIRO_BLUE]);	\
-		}								\
+		red = CAIRO_REMOVE_ALPHA (pixel[CAIRO_RED], alpha);		\
+		green = CAIRO_REMOVE_ALPHA (pixel[CAIRO_GREEN], alpha);		\
+		blue = CAIRO_REMOVE_ALPHA (pixel[CAIRO_BLUE], alpha);		\
 	} G_STMT_END
 
 #define CAIRO_COPY_RGBA(pixel, red, green, blue, alpha)	\
@@ -163,6 +156,7 @@ typedef enum {
 
 /* math */
 
+void               _cairo_init_tables                       ();
 int                _cairo_multiply_alpha                    (int                    color,
 							     int                    alpha);
 gboolean           _cairo_rectangle_contains_point          (cairo_rectangle_int_t *rect,

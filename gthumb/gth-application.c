@@ -31,6 +31,7 @@
 #  include <clutter-gtk/clutter-gtk.h>
 #endif
 #include "glib-utils.h"
+#include "cairo-utils.h"
 #include "gth-application.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
@@ -149,6 +150,7 @@ gth_application_startup (GApplication *application)
 
 	g_object_set (gtk_settings_get_default (), "gtk-application-prefer-dark-theme", TRUE, NULL);
 
+	_cairo_init_tables ();
 	gth_pref_initialize ();
 	migrate_data ();
 	gth_main_initialize ();
