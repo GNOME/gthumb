@@ -60,8 +60,8 @@ static gpointer _init_tables (gpointer data) {
 		remove_alpha_table[v][0] = 0;
 		remove_alpha_table[v][255] = v;
 		for (int a = 1; a < 255; a++) {
-			remove_alpha_table[v][a] = (guchar) (v * 255 / a);
-			add_alpha_table[v][a] = (guchar) (v * a / 255);
+			remove_alpha_table[v][a] = (guchar) round ((double) (v) * 255.0 / a);
+			add_alpha_table[v][a] = (guchar) round ((double) (v) * a / 255.0);
 		}
 	}
 	return NULL;
