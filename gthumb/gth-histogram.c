@@ -96,11 +96,9 @@ gth_histogram_class_init (GthHistogramClass *klass)
 static void
 gth_histogram_init (GthHistogram *self)
 {
-	int i;
-
 	self->priv = gth_histogram_get_instance_private (self);
 	self->priv->values = g_new0 (int *, GTH_HISTOGRAM_N_CHANNELS + 1);
-	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
+	for (int i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		self->priv->values[i] = g_new0 (int, 256);
 	self->priv->values_max = g_new0 (int, GTH_HISTOGRAM_N_CHANNELS + 1);
 	self->priv->min_value = g_new0 (guchar, GTH_HISTOGRAM_N_CHANNELS + 1);
@@ -181,8 +179,9 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 			values[GTH_HISTOGRAM_CHANNEL_RED][red] += 1;
 			values[GTH_HISTOGRAM_CHANNEL_GREEN][green] += 1;
 			values[GTH_HISTOGRAM_CHANNEL_BLUE][blue] += 1;
-			if (has_alpha)
+			if (has_alpha) {
 				values[GTH_HISTOGRAM_CHANNEL_ALPHA][alpha] += 1;
+			}
 
 			/* count value for Value channel */
 
