@@ -181,7 +181,6 @@ source_files = files(
   'dlg-sort-order.c',
   'dlg-sort-order-folder-tree.c',
   'dom.c',
-  'gimp-op.c',
   'gio-utils.c',
   'glib-utils.c',
   'gsignature.c',

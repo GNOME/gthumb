@@ -816,8 +816,6 @@ blurred_edges_exec (GthAsyncTask *task,
 	unsigned char    layer_red, layer_green, layer_blue, layer_alpha;
 	gboolean         cancelled = FALSE;
 
-	gimp_op_init ();
-
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	source = _cairo_image_surface_copy (original);
 

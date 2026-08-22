@@ -111,8 +111,6 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 	int              temp;
 	GthPoint         f1, f2, p;
 
-	gimp_op_init ();
-
 	local_curves = (curve == NULL);
 	if (local_curves) {
 		curve = g_new (GthCurve *, GTH_HISTOGRAM_N_CHANNELS);
@@ -239,7 +237,6 @@ cairo_image_surface_apply_bcs (cairo_surface_t  *source,
 	unsigned char    values[4];
 	unsigned char    value;
 
-	gimp_op_init ();
 	cache = pixbuf_cache_new ();
 
 	if (saturation < 0)
@@ -346,7 +343,6 @@ cairo_image_surface_colorize (cairo_surface_t  *source,
 	int              red, green, blue, alpha;
 	int              temp, min, max, lightness;
 
-	gimp_op_init ();
 	for (i = 0; i < 256; i++)
 		midtone_distance[i] = 0.667 * (1 - SQR (((double) i - 127.0) / 127.0));
 
@@ -378,7 +374,7 @@ cairo_image_surface_colorize (cairo_surface_t  *source,
 			red = lightness + color_red * midtone_distance[lightness];
 			green = lightness + color_green * midtone_distance[lightness];
 			blue = lightness + color_blue * midtone_distance[lightness];
-			alpha = ADD_ALPHA (image_alpha, color_alpha);
+			alpha = CAIRO_ADD_ALPHA (image_alpha, color_alpha);
 
 			p_source[CAIRO_RED] = GIMP_OP_NORMAL (red, image_red, alpha);
 			p_source[CAIRO_GREEN] = GIMP_OP_NORMAL (green, image_green, alpha);
@@ -414,8 +410,6 @@ cairo_image_surface_add_color (cairo_surface_t  *source,
 	int              image_red, image_green, image_blue, image_alpha;
 	int              temp, alpha;
 
-	gimp_op_init ();
-
 	width = cairo_image_surface_get_width (source);
 	height = cairo_image_surface_get_height (source);
 	source_stride = cairo_image_surface_get_stride (source);
@@ -433,7 +427,7 @@ cairo_image_surface_add_color (cairo_surface_t  *source,
 		for (x = 0; x < width; x++) {
 			CAIRO_GET_RGBA (p_source, image_red, image_green, image_blue, image_alpha);
 
-			alpha = ADD_ALPHA (image_alpha, color_alpha);
+			alpha = CAIRO_ADD_ALPHA (image_alpha, color_alpha);
 
 			p_source[CAIRO_RED] = GIMP_OP_NORMAL (color_red, image_red, alpha);
 			p_source[CAIRO_GREEN] = GIMP_OP_NORMAL (color_green, image_green, alpha);

@@ -28,14 +28,6 @@
 #include "gth-file-tool-lomo.h"
 
 
-static void
-lomo_init (GthAsyncTask *task,
-	   gpointer      user_data)
-{
-	gimp_op_init ();
-}
-
-
 static gpointer
 lomo_exec (GthAsyncTask *task,
 	   gpointer      user_data)
@@ -142,7 +134,7 @@ lomo_exec (GthAsyncTask *task,
 			red = GIMP_OP_SOFT_LIGHT (layer_red, image_red);
 			green = GIMP_OP_SOFT_LIGHT (layer_green, image_green);
 			blue = GIMP_OP_SOFT_LIGHT (layer_blue, image_blue);
-			alpha = ADD_ALPHA (image_alpha, layer_alpha);
+			alpha = CAIRO_ADD_ALPHA (image_alpha, layer_alpha);
 
 			p_destination[CAIRO_RED] = GIMP_OP_NORMAL (red, image_red, alpha);
 			p_destination[CAIRO_GREEN] = GIMP_OP_NORMAL (green, image_green, alpha);
@@ -179,7 +171,7 @@ lomo_add_to_special_effects (GthFilterGrid *grid)
 {
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
-				    gth_image_task_new (_("Applying changes"), lomo_init, lomo_exec, NULL, NULL, NULL),
+				    gth_image_task_new (_("Applying changes"), NULL, lomo_exec, NULL, NULL, NULL),
 				    _("Lomo"),
 				    NULL);
 }

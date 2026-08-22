@@ -353,9 +353,9 @@ _cairo_image_surface_paint_layer (cairo_surface_t *image,
 		for (j = 0; j < width; j++) {
 			a = ((layer->bpp == 2) || (layer->bpp == 4)) ? layer_pixel[CAIRO_ALPHA] : 255;
 
-			a = ADD_ALPHA (a, layer->opacity);
+			a = CAIRO_ADD_ALPHA (a, layer->opacity);
 			if (layer->alpha_mask && (layer->alpha_mask != NULL))
-				a = ADD_ALPHA (a, mask_pixel[0]);
+				a = CAIRO_ADD_ALPHA (a, mask_pixel[0]);
 
 			if (a == 0)
 				goto next_pixel;
@@ -948,8 +948,6 @@ _cairo_image_surface_create_from_xcf (GInputStream  *istream,
 	int                i;
 
 	performance (DEBUG_INFO, "start loading");
-
-	gimp_op_init ();
 
 	performance (DEBUG_INFO, "end init");
 

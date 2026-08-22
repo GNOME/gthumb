@@ -614,7 +614,6 @@ gthumb/dlg-sort-order.h
 gthumb/dom.c
 gthumb/dom.h
 gthumb/gfixed.h
-gthumb/gimp-op.c
 gthumb/gimp-op.h
 gthumb/gio-utils.c
 gthumb/gio-utils.h
