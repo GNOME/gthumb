@@ -54,14 +54,18 @@ static GOnce cairo_init_table = G_ONCE_INIT;
 static gpointer _init_tables (gpointer data) {
 	// add_alpha_table[v][a] = v * a / 255
 	// remove_alpha_table[v][a] = v * 255 / a
+	int temp;
 	for (int v = 0; v <= 255; v++) {
 		add_alpha_table[v][0] = 0;
 		add_alpha_table[v][255] = v;
 		remove_alpha_table[v][0] = 0;
 		remove_alpha_table[v][255] = v;
 		for (int a = 1; a < 255; a++) {
-			remove_alpha_table[v][a] = (guchar) round ((double) (v) * 255.0 / a);
-			add_alpha_table[v][a] = (guchar) round ((double) (v) * a / 255.0);
+			temp = (int) round ((double) (v) * 255.0 / a);
+			remove_alpha_table[v][a] = (guchar) CLAMP (temp, 0, 255);
+
+			temp = (int) round ((double) (v) * a / 255.0);
+			add_alpha_table[v][a] = (guchar) CLAMP (temp, 0, 255);
 		}
 	}
 	return NULL;
