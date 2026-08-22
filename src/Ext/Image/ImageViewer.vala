@@ -449,7 +449,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			if (image_view.image == null) {
 				return;
 			}
-			edit_image.begin (_("Horizontal Flip"), new ImageTransform (Transform.FLIP_H));
+			edit_image.begin (
+				get_image_for_editing (),
+				new ImageTransform (Transform.FLIP_H),
+				_("Horizontal Flip")
+			);
 		});
 		action_group.add_action (action);
 
@@ -458,7 +462,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			if (image_view.image == null) {
 				return;
 			}
-			edit_image.begin (_("Vertical Flip"), new ImageTransform (Transform.FLIP_V));
+			edit_image.begin (
+				get_image_for_editing (),
+				new ImageTransform (Transform.FLIP_V),
+				_("Vertical Flip")
+			);
 		});
 		action_group.add_action (action);
 
@@ -467,7 +475,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			if (image_view.image == null) {
 				return;
 			}
-			edit_image.begin (_("Rotate Right"), new ImageTransform (Transform.ROTATE_90));
+			edit_image.begin (
+				get_image_for_editing (),
+				new ImageTransform (Transform.ROTATE_90),
+				_("Rotate Right")
+			);
 		});
 		action_group.add_action (action);
 
@@ -476,7 +488,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 			if (image_view.image == null) {
 				return;
 			}
-			edit_image.begin (_("Rotate Right"), new ImageTransform (Transform.ROTATE_270));
+			edit_image.begin (
+				get_image_for_editing (),
+				new ImageTransform (Transform.ROTATE_270),
+				_("Rotate Right")
+			);
 		});
 		action_group.add_action (action);
 
@@ -580,7 +596,11 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		action_group.add_action (action);
 	}
 
-	public async bool edit_image (string title, ImageOperation operation, string? icon_name = null) {
+	public Image get_image_for_editing () {
+		return image_view.image.get_frame (0);
+	}
+
+	public async bool edit_image (Image original, ImageOperation operation, string title, string? icon_name = null) {
 		if (edit_job != null) {
 			edit_job.cancel ();
 		}
@@ -588,12 +608,13 @@ public class Gth.ImageViewer : Object, Gth.FileViewer {
 		var local_job = window.new_job (title, JobFlags.FOREGROUND, icon_name);
 		edit_job = local_job;
 		try {
-			var image = yield app.image_editor.exec_operation (
-				image_view.image,
+			var modified = yield app.image_editor.exec_operation (
+				original,
 				operation,
-				local_job.cancellable);
-			history.add (image, true);
-			set_other_version (image, true);
+				local_job.cancellable
+			);
+			history.add (modified, true);
+			set_other_version (modified, true);
 			edited = true;
 		}
 		catch (Error error) {

@@ -65,7 +65,7 @@ public class Gth.AdjustContrast : ImageTool {
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		add_default_controllers (image_view);
-		image_view.image = viewer.image_view.image;
+		image_view.image = original;
 		image_view.set_first_state_from_view (viewer.image_view);
 
 		window.editor.set_content (image_view);
@@ -136,7 +136,7 @@ public class Gth.AdjustContrast : ImageTool {
 		var job = window.new_job ("Update Thumbnails");
 		thumbnails_job = job;
 		try {
-			var sample = viewer.image_view.image.resize (THUMBNAIL_SIZE,
+			var sample = original.resize (THUMBNAIL_SIZE,
 				ResizeFlags.SQUARED, ScaleFilter.BOX, job.cancellable);
 			filter_grid.update_previews (sample, job.cancellable);
 		}

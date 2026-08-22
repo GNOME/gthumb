@@ -692,10 +692,15 @@ gboolean gth_image_next_frame (GthImage *self, guint *frame_index) {
 GthImage * gth_image_get_frame (GthImage *self, guint frame_index) {
 	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
 	GthImagePrivate *priv = self->priv;
-	if ((priv->frames->len > 0) && (frame_index > 0) && (frame_index < priv->frames->len)) {
-		GthFrame *frame = g_ptr_array_index (priv->frames, frame_index);
-		g_object_ref (frame->image);
-		return frame->image;
+	if ((priv->frames->len > 0) && (frame_index >= 0) && (frame_index < priv->frames->len)) {
+		if (frame_index == 0) {
+			return gth_image_new_as_frame (self);
+		}
+		else {
+			GthFrame *frame = g_ptr_array_index (priv->frames, frame_index);
+			g_object_ref (frame->image);
+			return frame->image;
+		}
 	}
 	else {
 		g_object_ref (self);

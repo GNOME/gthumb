@@ -5,7 +5,7 @@ public class Gth.Censor : ImageTool {
 
 		filter_grid = builder.get_object ("filter_grid") as Gth.FilterGrid;
 
-		var image_size = uint.max (viewer.image_view.image.width, viewer.image_view.image.height);
+		var image_size = uint.max (original.width, original.height);
 		var default_pixels = (int) ((double) image_size * 0.75 / 100);
 
 		// Translators: this is the name of an image filter.
@@ -59,7 +59,7 @@ public class Gth.Censor : ImageTool {
 
 		image_view = builder.get_object ("image_view") as Gth.ImageView;
 		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-		image_view.image = viewer.image_view.image;
+		image_view.image = original;
 
 		window.editor.set_content (image_view);
 
@@ -131,7 +131,7 @@ public class Gth.Censor : ImageTool {
 		var job = window.new_job ("Update Thumbnails");
 		thumbnails_job = job;
 		try {
-			var sample = viewer.image_view.image.resize (THUMBNAIL_SIZE,
+			var sample = original.resize (THUMBNAIL_SIZE,
 				ResizeFlags.SQUARED, ScaleFilter.BOX, job.cancellable);
 			filter_grid.update_previews (sample, job.cancellable);
 		}

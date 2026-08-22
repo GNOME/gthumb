@@ -29,7 +29,7 @@ public class Gth.ImageTool : Object {
 	public void activate (MainWindow _window) {
 		window = _window;
 		viewer = window.viewer.current_viewer as ImageViewer;
-		original = viewer.image_view.image;
+		original = viewer.get_image_for_editing ();
 		after_activate ();
 		if (image_view != null) {
 			window.insert_action_group ("image", image_view.action_group);
@@ -47,7 +47,7 @@ public class Gth.ImageTool : Object {
 		if (operation == null) {
 			return false;
 		}
-		return yield viewer.edit_image (title, operation, icon_name);
+		return yield viewer.edit_image (original, operation, title, icon_name);
 	}
 
 	public void add_default_controllers (ImageView _image_view) {

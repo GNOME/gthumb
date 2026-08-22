@@ -49,7 +49,7 @@ public class Gth.SpecialEffects : ImageTool {
 		add_default_controllers (image_view);
 		image_view.zoom_limit = ZoomLimit.MAXIMIZE;
 		image_view.default_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
-		image_view.image = viewer.image_view.image;
+		image_view.image = original;
 
 		window.editor.set_content (image_view);
 
@@ -95,7 +95,7 @@ public class Gth.SpecialEffects : ImageTool {
 		var job = window.new_job ("Update Thumbnails");
 		thumbnails_job = job;
 		try {
-			var sample = viewer.image_view.image.resize (THUMBNAIL_SIZE,
+			var sample = original.resize (THUMBNAIL_SIZE,
 				ResizeFlags.SQUARED, ScaleFilter.BOX, job.cancellable);
 			filter_grid.update_previews (sample, job.cancellable);
 		}
