@@ -206,8 +206,8 @@ public class Gth.Shortcuts {
 		register ("win.pop-page", N_("Close"), SHORTCUT_CONTEXT_VIEWERS | ShortcutContext.EDITOR | ShortcutContext.FIXED, ShortcutCategory.VIEWER, "Escape");
 		register ("win.view-next", N_("Next File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Right");
 		register ("win.view-previous", N_("Previous File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "Left");
-		register ("win.view-first", N_("First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Shift>Right");
-		register ("win.view-last", N_("Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Shift>Left");
+		register ("win.view-first", N_("First File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Shift>Left");
+		register ("win.view-last", N_("Last File"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "<Shift>Right");
 		register ("win.viewer-controls", N_("View Controls"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "F7");
 		register ("win.viewer-properties", N_("View Properties"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "i");
 		register ("win.editor-tools", N_("Edit Image"), SHORTCUT_CONTEXT_VIEWERS, ShortcutCategory.VIEWER, "e");
