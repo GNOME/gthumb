@@ -109,7 +109,6 @@ transform_to_argb32_format_func (png_structp   png,
 				 png_row_infop row_info,
 				 png_bytep     data)
 {
-	int temp;
 	int width = row_info->rowbytes / 4;
 	guchar *pixel = data;
 	for (int i = 0; i < width; i++) {

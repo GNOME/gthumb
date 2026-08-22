@@ -36,7 +36,7 @@ cairo_image_surface_apply_curves (cairo_surface_t  *source,
 	int              height;
 	int              source_stride;
 	unsigned char   *p_source_line;
-	int              x, y, temp;
+	int              x, y;
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;
@@ -237,7 +237,7 @@ cairo_image_surface_apply_bcs (cairo_surface_t  *source,
 	double           progress;
 	unsigned char   *p_source;
 	unsigned char    values[4];
-	int              temp, value;
+	unsigned char    value;
 
 	gimp_op_init ();
 	cache = pixbuf_cache_new ();

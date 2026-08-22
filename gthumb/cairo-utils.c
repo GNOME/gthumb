@@ -706,7 +706,7 @@ _cairo_image_surface_color_shift (cairo_surface_t *image,
 	int              width, height, src_stride, dest_stride;
 	guchar          *src_pixels, *src_row, *src_pixel;
 	guchar          *dest_pixels, *dest_row, *dest_pixel;
-	int              val, temp;
+	int              val;
 	guchar           r, g, b, a;
 
 	shifted = _cairo_image_surface_create_compatible (image);
@@ -761,8 +761,6 @@ _cairo_copy_line_as_rgba_big_endian (guchar *dest,
 	guint x;
 
 	if (alpha) {
-		int temp;
-
 		for (x = 0; x < width; x++) {
 			CAIRO_GET_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
 
@@ -790,7 +788,7 @@ _cairo_copy_line_as_rgba_little_endian (guchar *dest,
 	guint x;
 
 	if (alpha) {
-		int r, g, b, a, temp;
+		int r, g, b, a;
 
 		for (x = 0; x < width; x++) {
 			CAIRO_GET_RGBA (src, r, g, b, a);

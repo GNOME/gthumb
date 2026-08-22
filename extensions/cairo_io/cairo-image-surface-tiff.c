@@ -310,7 +310,7 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 	if (TIFFReadRGBAImageOriented (tif, image_width, image_height, raster, orientation, 0)) {
 		guchar   *surface_row;
 		int       line_step;
-		int       x, y, temp;
+		int       x, y;
 		guchar    r, g, b, a;
 		uint32_t *src_pixel;
 

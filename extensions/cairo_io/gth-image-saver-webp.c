@@ -129,7 +129,7 @@ _WebPPictureImportCairoSurface (WebPPicture     *const picture,
 	int       stride;
 	guchar   *src_row;
 	uint32_t *dest_row;
-	int       y, x, temp;
+	int       y, x;
 	guchar    r, g, b, a;
 
 	if (_cairo_image_surface_get_has_alpha (image))

@@ -49,7 +49,6 @@ _gth_file_tool_color_picker_show_color (GthFileToolColorPicker *self,
 {
 	cairo_surface_t *source;
 	unsigned char   *p_source;
-	int              temp;
 	guchar           r, g, b, a;
 	double           h, s, l;
 	double           r100, g100, b100;
