@@ -8,16 +8,10 @@
 
 static void premultiply_alpha (int width, int height, guchar *buffer) {
 	guchar *p = buffer;
-	guchar r, g, b, a;
+	int row_stride = width * 4;
 	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			r = p[0];
-			g = p[1];
-			b = p[2];
-			a = p[3];
-			RGBA_TO_PIXEL (p, r, g, b, a);
-			p += 4;
-		}
+		rgba_big_endian_line_to_pixel (p, p, width);
+		p += row_stride;
 	}
 }
 
