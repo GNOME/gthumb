@@ -5,7 +5,7 @@
 #include <glib.h>
 
 #define PIXEL_BYTES 4
-#define CLAMP_TEMP(x, min, max) (temp = (x), (guchar) CLAMP (temp, min, max))
+#define CLAMP_TEMP(x, min, max) (temp = (int) (x), (guchar) CLAMP (temp, min, max))
 #define PIXEL_CLAMP(x) CLAMP_TEMP (x, 0, 255)
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
@@ -40,14 +40,6 @@
 
 #define PACK_RGBA(red, green, blue, alpha) \
 	((guint32) (((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue)))
-
-#define PIXEL_MULTIPLY_ALPHA(result, pixel, alpha) \
-	temp = ((alpha) * (pixel)) + 0x80; \
-	result = ((temp + (temp >> 8)) >> 8);
-
-// Pegtop's formula https://en.wikipedia.org/wiki/Blend_modes#Soft_Light
-#define PIXEL_SOFT_LIGHT(a, b) \
-	PIXEL_CLAMP ((((double) a * a) / 255) + (2 * (b * (((double) a * (255 - a)) / 255) / 255)))
 
 extern guchar add_alpha_table[256][256];
 extern guchar remove_alpha_table[256][256];
@@ -89,12 +81,15 @@ extern guchar remove_alpha_table[256][256];
 		} \
 	} G_STMT_END
 
+// Pegtop's formula https://en.wikipedia.org/wiki/Blend_modes#Soft_Light
+#define PIXEL_SOFT_LIGHT(a, b) \
+	PIXEL_CLAMP ((((double) a * a) / 255) + (2 * (b * (((double) a * (255 - a)) / 255) / 255)))
+
 void pixel_init_tables ();
 void pixel_line_to_rgb_big_endian (guchar *dest, const guchar *src, guint width);
 void pixel_line_to_rgba_big_endian (guchar *dest, const guchar *src, guint width);
 void rgba_big_endian_line_to_pixel (guchar *dest, const guchar *src, guint width);
 void abgr_line_to_pixel (guchar *dest, const guchar *src, guint width);
 void rgb_big_endian_line_to_pixel (guchar *dest, const guchar *src, guint width);
-void pixel_over (uint8_t* background, uint8_t* foreground);
 
 #endif /* LIB_PIXEL_H */

@@ -392,13 +392,13 @@ GthImage * gth_image_rotate (GthImage *image, float degrees,
 	if (image != NULL) {
 		GthImage *image_with_background = NULL;
 		int temp;
-		guchar bg_red = background_color->red * 255;
-		guchar bg_green = background_color->green * 255;
-		guchar bg_blue = background_color->blue * 255;
-		guchar bg_alpha = background_color->alpha * 255;
-		PIXEL_MULTIPLY_ALPHA (bg_red, bg_red, bg_alpha);
-		PIXEL_MULTIPLY_ALPHA (bg_green, bg_green, bg_alpha);
-		PIXEL_MULTIPLY_ALPHA (bg_blue, bg_blue, bg_alpha);
+		guchar bg_red = PIXEL_CLAMP (round (background_color->red * 255));
+		guchar bg_green = PIXEL_CLAMP (round (background_color->green * 255));
+		guchar bg_blue = PIXEL_CLAMP (round (background_color->blue * 255));
+		guchar bg_alpha = PIXEL_CLAMP (round (background_color->alpha * 255));
+		bg_red = PIXEL_ADD_ALPHA (bg_red, bg_alpha);
+		bg_green = PIXEL_ADD_ALPHA (bg_green, bg_alpha);
+		bg_blue = PIXEL_ADD_ALPHA (bg_blue, bg_alpha);
 		if (gth_image_get_has_alpha_if_valid (image)) {
 			image_with_background = premultiply_background (image,
 				bg_red, bg_green, bg_blue, bg_alpha);
