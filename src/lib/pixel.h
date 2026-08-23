@@ -63,11 +63,8 @@ extern guchar remove_alpha_table[256][256];
 
 #define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
-		if (alpha == 0xFF) { \
+		if G_LIKELY (alpha == 0xFF) { \
 			*(guint32*) pixel = PACK_RGBA (red, green, blue, 0xFF); \
-		} \
-		else if (alpha == 0) { \
-			*(guint32*) pixel = 0; \
 		} \
 		else { \
 			pixel[PIXEL_ALPHA] = (alpha); \
@@ -80,9 +77,16 @@ extern guchar remove_alpha_table[256][256];
 #define PIXEL_TO_RGBA(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
 		alpha = pixel[PIXEL_ALPHA]; \
-		red = PIXEL_REMOVE_ALPHA (pixel[PIXEL_RED], alpha); \
-		green = PIXEL_REMOVE_ALPHA (pixel[PIXEL_GREEN], alpha);	\
-		blue = PIXEL_REMOVE_ALPHA (pixel[PIXEL_BLUE], alpha); \
+		if G_LIKELY (alpha == 0xFF) { \
+			red = pixel[PIXEL_RED]; \
+			green = pixel[PIXEL_GREEN]; \
+			blue = pixel[PIXEL_BLUE]; \
+		} \
+		else { \
+			red = PIXEL_REMOVE_ALPHA (pixel[PIXEL_RED], alpha); \
+			green = PIXEL_REMOVE_ALPHA (pixel[PIXEL_GREEN], alpha);	\
+			blue = PIXEL_REMOVE_ALPHA (pixel[PIXEL_BLUE], alpha); \
+		} \
 	} G_STMT_END
 
 void pixel_init_tables ();
