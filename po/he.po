@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-08-22 15:54+0000\n"
-"PO-Revision-Date: 2026-08-23 10:16+0300\n"
+"PO-Revision-Date: 2026-08-23 10:29+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
 #: data/ui/browser.ui:23 data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
 msgid "Thumbnails"
-msgstr "_תמונות ממוזערות"
+msgstr "Thumbnails"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:15
 #: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
@@ -85,17 +85,12 @@ msgid "Setting an image as desktop background"
 msgstr "הגדרת תמונה כרקע שולחן העבודה"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
-#, fuzzy
-#| msgid ""
-#| "As an image organizer gThumb allows to add comments and other metadata to "
-#| "images; organize images in catalogs and catalogs in libraries; search for "
-#| "images and save the result as a catalog."
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
 msgstr ""
-"כמארגן תמונות, gThumb מאפשר להוסיף הערות ונתוני על נוספים לתמונות; ארגון "
-"תמונות בקטלוגים וקיטלוג בספריות; חיפוש תמונות ושמירת התוצאות בקטלוג."
+"הוספת הערות ונתוני על נוספים לתמונות, ארגון תמונות בקטלוגים וקיטלוג בספריות, "
+"חיפוש תמונות ושמירת התוצאות בקטלוג."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4
@@ -317,7 +312,7 @@ msgstr "קיצורי מקלדת"
 #: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28
 #: data/ui/viewer-menu.ui:32
 msgid "About Thumbnails"
-msgstr "על אודות תמונות ממוזערות"
+msgstr "על אודות Thumbnails"
 
 #: data/ui/browser-preferences.ui:17
 msgid "Thumbnail Size"
