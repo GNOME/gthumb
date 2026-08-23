@@ -26,18 +26,16 @@ static GthImage *premultiply_background (GthImage *image, guchar r0, guchar g0, 
 	guint src_height = gth_image_get_height (image);
 	guchar r, g, b, a;
 	int temp;
-	double alpha;
 
 	for (guint yi = 0; yi < src_height; yi++) {
 		src_pixel = p_src_row;
 		new_pixel = p_new_row;
 		for (guint xi = 0; xi < src_width; xi++) {
 			PIXEL_TO_RGBA (src_pixel, r, g, b, a);
-			alpha = (double) a / 255;
-			r = PIXEL_OVER (r0, r, alpha);
-			g = PIXEL_OVER (g0, g, alpha);
-			b = PIXEL_OVER (b0, b, alpha);
-			a = PIXEL_OVER (a0, a, alpha);
+			r = PIXEL_OVER (r0, r, a);
+			g = PIXEL_OVER (g0, g, a);
+			b = PIXEL_OVER (b0, b, a);
+			a = PIXEL_OVER (a0, a, a);
 			RGBA_TO_PIXEL (new_pixel, r, g, b, a);
 
 			src_pixel += 4;

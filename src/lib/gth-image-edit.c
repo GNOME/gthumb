@@ -489,8 +489,7 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 	guchar *row = gth_image_prepare_edit (self, &row_stride, &width, &height);
 	guchar *pixel;
 	guchar red, green, blue, alpha;
-	guchar new_red, new_green, new_blue;
-	double new_alpha;
+	guchar new_red, new_green, new_blue, new_alpha;
 	int temp;
 	GthPoint f1, f2;
 	double min_d;
@@ -512,12 +511,12 @@ gboolean gth_image_apply_vignette (GthImage *self, double amount, GCancellable *
 				new_blue = blue_map[blue];
 
 				// d <= min_d -> alpha = 0 -> show original image
-				// d >= max_d -> alpha = 1 -> show new image
+				// d >= max_d -> alpha = 255 -> show new image
 				if (d >= max_d) {
-					new_alpha = 1.0;
+					new_alpha = 255;
 				}
 				else {
-					new_alpha = (d - min_d) / (max_d - min_d);
+					new_alpha = PIXEL_CLAMP ((d - min_d) / (max_d - min_d) * 255);
 				}
 
 				red = PIXEL_OVER (red, new_red, new_alpha);
@@ -568,7 +567,8 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 	guchar f_red, f_green, f_blue, f_alpha;
 	int temp;
 	GthPoint f1, f2;
-	double min_d, max_d, alpha;
+	double min_d, max_d;
+	guchar alpha;
 	calc_radial_mask (b_width, b_height, amount, &f1, &f2, &min_d, &max_d);
 
 	gboolean cancelled = FALSE;
@@ -585,12 +585,12 @@ gboolean gth_image_apply_radial_mask (GthImage *background, GthImage *foreground
 				PIXEL_TO_RGBA (f_pixel, f_red, f_green, f_blue, f_alpha);
 
 				// d <= min_d -> alpha = 0 -> show background
-				// d >= max_d -> alpha = 1 -> show foreground
+				// d >= max_d -> alpha = 255 -> show foreground
 				if (d >= max_d) {
-					alpha = 1.0;
+					alpha = 255;
 				}
 				else {
-					alpha = (d - min_d) / (max_d - min_d);
+					alpha = PIXEL_CLAMP ((d - min_d) / (max_d - min_d) * 255);
 				}
 
 				b_red = PIXEL_OVER (b_red, f_red, alpha);

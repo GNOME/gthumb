@@ -45,9 +45,6 @@
 	temp = ((alpha) * (pixel)) + 0x80; \
 	result = ((temp + (temp >> 8)) >> 8);
 
-#define PIXEL_OVER(bg, fg, alpha) \
-	PIXEL_CLAMP (bg * (1 - alpha) + fg * alpha);
-
 // Pegtop's formula https://en.wikipedia.org/wiki/Blend_modes#Soft_Light
 #define PIXEL_SOFT_LIGHT(a, b) \
 	PIXEL_CLAMP ((((double) a * a) / 255) + (2 * (b * (((double) a * (255 - a)) / 255) / 255)))
@@ -60,6 +57,9 @@ extern guchar remove_alpha_table[256][256];
 
 #define PIXEL_REMOVE_ALPHA(value, alpha) \
 	remove_alpha_table[value][alpha]
+
+#define PIXEL_OVER(bg, fg, alpha) \
+	PIXEL_CLAMP (PIXEL_ADD_ALPHA (bg, 255 - (alpha)) + PIXEL_ADD_ALPHA (fg, alpha));
 
 #define RGBA_TO_PIXEL(pixel, red, green, blue, alpha) \
 	G_STMT_START { \
