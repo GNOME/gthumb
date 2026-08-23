@@ -11,6 +11,9 @@ public class Gth.UnknownViewer : Object, Gth.FileViewer {
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		scroll_events.scroll.connect ((controller, dx, dy) => {
+			if (Util.device_is_touchpad (controller)) {
+				return false;
+			}
 			return on_scroll (dx, dy, controller.get_current_event_state ());
 		});
 		main_view.add_controller (scroll_events);

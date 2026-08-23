@@ -308,7 +308,7 @@ public class Gth.Viewer : Gtk.Box {
 
 		var scroll_events = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
 		var scroll_id = scroll_events.scroll.connect ((controller, dx, dy) => {
-			if (current_viewer == null) {
+			if ((current_viewer == null) || Util.device_is_touchpad (controller)) {
 				return false;
 			}
 			var state = controller.get_current_event_state ();
