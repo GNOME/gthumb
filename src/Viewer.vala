@@ -26,7 +26,7 @@ public class Gth.Viewer : Gtk.Box {
 		// Do not update the sidebar when loading images
 		// the file info is already updated by the ImageLoader.
 		if (!(loaded && (current_viewer is ImageViewer))) {
-			update_sidebar ();
+			update_sidebar.begin ();
 		}
 		if (loaded && (ViewFlags.FULLSCREEN in flags)) {
 			window.fullscreened = true;
@@ -113,7 +113,7 @@ public class Gth.Viewer : Gtk.Box {
 	public void file_renamed (FileData file_data) {
 		current_file = file_data;
 		property_sidebar.current_file = current_file;
-		update_sidebar ();
+		update_sidebar.begin ();
 		update_title ();
 		update_sensitivity ();
 		update_current_file_position ();
@@ -232,11 +232,12 @@ public class Gth.Viewer : Gtk.Box {
 		file_grid.select_position (pos, SelectFile.SCROLL_TO_FILE);
 	}
 
-	public void metadata_changed (File file) {
-		if ((current_file != null) && current_file.file.equal (file)) {
-			// stdout.printf ("> VIEWER: RELOAD METADATA %s\n", file.get_uri ());
-			update_sidebar ();
+	public async void metadata_changed (File file) {
+		if ((current_file == null) || !current_file.file.equal (file)) {
+			return;
 		}
+		// stdout.printf ("> VIEWER: RELOAD METADATA %s\n", file.get_uri ());
+		yield update_sidebar ();
 	}
 
 	void activate_viewer_for_file (FileData file) {
@@ -251,7 +252,7 @@ public class Gth.Viewer : Gtk.Box {
 
 	Gth.Job sidebar_job = null;
 
-	void update_sidebar () {
+	async void update_sidebar () {
 		if (sidebar_job != null) {
 			sidebar_job.cancel ();
 		}
@@ -259,20 +260,18 @@ public class Gth.Viewer : Gtk.Box {
 			JobFlags.DEFAULT,
 			"gth-note-symbolic");
 		sidebar_job = local_job;
-		property_sidebar.load.begin (current_file, local_job.cancellable, (_obj, res) => {
-			try {
-				property_sidebar.load.end (res);
+		try {
+			yield property_sidebar.load (current_file, local_job.cancellable);
+		}
+		catch (Error error) {
+			stdout.printf ("ERROR: Viewer.update_sidebar: %s\n", error.message);
+		}
+		finally {
+			local_job.done ();
+			if (sidebar_job == local_job) {
+				sidebar_job = null;
 			}
-			catch (Error error) {
-				stdout.printf ("ERROR: Viewer.update_sidebar: %s\n", error.message);
-			}
-			finally {
-				local_job.done ();
-				if (sidebar_job == local_job) {
-					sidebar_job = null;
-				}
-			}
-		});
+		}
 	}
 
 	public bool is_loading () {

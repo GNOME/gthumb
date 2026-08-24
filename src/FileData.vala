@@ -39,7 +39,7 @@ public class Gth.FileData : Object {
 	}
 
 	public static bool equal (FileData file1, FileData file2) {
-		return file1.file.equal (file2.file);
+		return (file1 == file2) || file1.file.equal (file2.file);
 	}
 
 	public void set_file (File _file) {

@@ -20,7 +20,7 @@ public class Gth.Events : Object {
 	}
 
 	public void metadata_changed (File file) {
-		app.foreach_main_window ((win) => win.browser.metadata_changed (file));
+		app.foreach_main_window ((win) => win.browser.metadata_changed.begin (file));
 	}
 
 	public signal void file_changed (File file) {

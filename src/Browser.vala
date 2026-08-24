@@ -2116,20 +2116,18 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	public void metadata_changed (File changed_file) {
+	public async void metadata_changed (File changed_file) {
 		// stdout.printf ("> BROWSER: METADATA CHANGED: %s\n", changed_file.get_uri ());
 		var iter = folder_tree.current_children.iterator ();
 		var file_data = iter.find_first_item ((file_data) => file_data.file.equal (changed_file));
 		if (file_data == null) {
 			return;
 		}
+		if (window.current_page == MainWindow.Page.VIEWER) {
+			yield window.viewer.metadata_changed (file_data.file);
+		}
 		// stdout.printf ("> BROWSER: UPDATE FILE METADATA\n");
-		update_file.begin (file_data, (_obj, res) => {
-			update_file.end (res);
-			if (window.current_page == MainWindow.Page.VIEWER) {
-				window.viewer.metadata_changed (file_data.file);
-			}
-		});
+		yield update_file (file_data);
 	}
 
 	public void files_reordered (File location, GenericList<File> new_order) {
