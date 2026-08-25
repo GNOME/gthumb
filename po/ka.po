@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-04-19 10:16+0000\n"
-"PO-Revision-Date: 2026-04-24 04:37+0200\n"
+"POT-Creation-Date: 2026-08-24 17:09+0000\n"
+"PO-Revision-Date: 2026-08-25 06:44+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
@@ -183,7 +183,7 @@ msgstr "გახსნა პროგრამით"
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2270 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2273 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -198,13 +198,13 @@ msgstr "&გაუქმება"
 msgid "_Select"
 msgstr "_მონიშვნა"
 
-#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:101
-#: src/DefaultTests.vala:233 src/Ext/Editor/AspectRatioGroup.vala:11
+#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
+#: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
 msgid "Aspect Ratio"
 msgstr "თანაფარდობა"
 
 #: data/ui/aspect-ratio-group.ui:14 data/ui/general-preferences.ui:54
-#: src/Application.vala:113 src/Ext/Exiv2/ExifMetadata.vala:12
+#: src/Application.vala:124 src/Ext/Exiv2/ExifMetadata.vala:12
 #: src/Ext/Video/OtherPropertyView.vala:11
 msgid "Other"
 msgstr "სხვა"
@@ -247,15 +247,15 @@ msgid "Location"
 msgstr "მდებარეობა"
 
 #: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24
-#: data/ui/viewer.ui:229 src/Ext/Shortcuts/Shortcuts.vala:241
+#: data/ui/viewer.ui:233 src/Ext/Shortcuts/Shortcuts.vala:241
 msgid "Save"
 msgstr "save"
 
 #: data/ui/bookmarks-dialog.ui:51 data/ui/catalog-dialog.ui:40
 #: data/ui/entry-dialog.ui:22 data/ui/filter-editor-page.ui:33
 #: data/ui/rename-dialog.ui:44 data/ui/rename-dialog.ui:180
-#: data/ui/script-editor-page.ui:30 src/Application.vala:94
-#: src/Application.vala:117 src/DefaultTests.vala:100
+#: data/ui/script-editor-page.ui:30 src/Application.vala:105
+#: src/Application.vala:128 src/DefaultTests.vala:100
 #: src/Ext/Filters/FilterEditorPage.vala:125
 msgid "Name"
 msgstr "სახელი"
@@ -329,7 +329,7 @@ msgstr "მესამე მწკრივი"
 msgid "Behavior"
 msgstr "ქცევა"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:640
+#: data/ui/browser-preferences.ui:71 src/Application.vala:652
 msgid "Open files in fullscreen mode"
 msgstr "ფაილების გახსნა სრულ ეკრანზე გაშვება"
 
@@ -369,7 +369,7 @@ msgstr "თავიდან ჩატვირთვა"
 msgid "Catalog Properties"
 msgstr "კატალოგის თვისებები"
 
-#: data/ui/browser.ui:255 src/Browser.vala:335
+#: data/ui/browser.ui:255 src/Browser.vala:353
 msgid "Reorder Files"
 msgstr "ფაილების თავიდან დალაგება"
 
@@ -410,11 +410,11 @@ msgid "Open Fullscreen"
 msgstr "გახსნა სრულ ეკრანზე"
 
 #: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
-#: data/ui/browser.ui:680 data/ui/viewer.ui:221
+#: data/ui/browser.ui:680 data/ui/viewer.ui:225
 msgid "Open in New Window"
 msgstr "ახალ ფანჯარაში გახსნა"
 
-#: data/ui/browser.ui:429 data/ui/viewer.ui:225
+#: data/ui/browser.ui:429 data/ui/viewer.ui:229
 msgid "Open _With…"
 msgstr "გამხსნელი პროგრამა…"
 
@@ -424,12 +424,12 @@ msgstr "საქაღალდის გახსნა"
 
 #: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
-#: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
+#: data/ui/viewer.ui:245 src/Ext/Print/PrintImages.vala:61
 #: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "ამობეჭდვა"
 
-#: data/ui/browser.ui:444 data/ui/viewer.ui:246
+#: data/ui/browser.ui:444 data/ui/viewer.ui:250
 #: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "სამუშაო მაგიდის ფონად დაყენება"
@@ -442,7 +442,7 @@ msgstr "ამოჭრა"
 
 #. Translators: it's a verb, as in "Copy Files"
 #: data/ui/browser.ui:457 data/ui/browser.ui:602
-#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
+#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:258
 #: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "კოპირება"
@@ -460,19 +460,19 @@ msgstr "ჩასმა"
 msgid "Select All"
 msgstr "ყველას მონიშვნა"
 
-#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:274
 msgid "Copy To…"
 msgstr "კოპირება სად…"
 
 #: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
-#: data/ui/viewer.ui:274
+#: data/ui/viewer.ui:278
 msgid "Move To…"
 msgstr "გადატანა სად…"
 
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
-#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2171 src/Browser.vala:2234
+#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:283
+#: src/Browser.vala:2174 src/Browser.vala:2237
 #: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "სახელის გადარქმევა"
@@ -482,42 +482,42 @@ msgstr "სახელის გადარქმევა"
 msgid "Duplicate"
 msgstr "დუბლირება"
 
-#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:288
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "ფაილის ნაგავში გადატანა"
 
 #: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
-#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
+#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:292
 msgid "Delete"
 msgstr "წაშლა"
 
-#: data/ui/browser.ui:507 data/ui/viewer.ui:295
+#: data/ui/browser.ui:507 data/ui/viewer.ui:299
 msgid "Add to Selection"
 msgstr "მონიშნულს მიმატება"
 
-#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:302
 msgid "Selection 1"
 msgstr "მონიშნული 1"
 
-#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:308
 msgid "Selection 2"
 msgstr "მონიშნული 2"
 
-#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:314
 msgid "Selection 3"
 msgstr "მონიშნული 3"
 
-#: data/ui/browser.ui:529 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:321
 msgid "Add to Catalog…"
 msgstr "კატალოგში დამატება…"
 
-#: data/ui/browser.ui:536 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:328
 msgid "Remove from Selection"
-msgstr ""
+msgstr "წაშლა მონიშნულიდან"
 
-#: data/ui/browser.ui:541 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:333
 msgid "Remove from Catalog"
 msgstr "კატალოგიდან წაშლა"
 
@@ -551,13 +551,13 @@ msgstr "კატალოგი"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:224
-#: src/Ext/Image/ImageViewer.vala:280 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:236
+#: src/Ext/Image/ImageViewer.vala:292 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_შენახვა"
 
 #: data/ui/catalog-dialog.ui:45 data/ui/importer-dialog.ui:91
-#: data/ui/metadata-dialog.ui:89 src/Application.vala:138
+#: data/ui/metadata-dialog.ui:89 src/Application.vala:149
 msgid "Date"
 msgstr "თარიღი"
 
@@ -584,7 +584,7 @@ msgctxt "Position"
 msgid "Top"
 msgstr "ზედა"
 
-#: data/ui/convert-dialog.ui:4 src/Application.vala:236 src/MainWindow.vala:413
+#: data/ui/convert-dialog.ui:4 src/Application.vala:247 src/MainWindow.vala:413
 msgid "Convert Format"
 msgstr "ფორმატის გადაყვანა"
 
@@ -661,7 +661,7 @@ msgstr "ფაილები"
 msgid "Delete imported files from source"
 msgstr ""
 
-#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
+#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:238
 msgid "Save As…"
 msgstr "შენახვა, როგორც…"
 
@@ -732,7 +732,7 @@ msgid "Rotate"
 msgstr "შემობრუნება"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:397
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:470
 msgid "Fullscreen"
 msgstr "მთელ ეკრანზე"
 
@@ -832,7 +832,7 @@ msgstr "საწყისი საქაღალდის გახსნა"
 msgid "Reuse the active window to open files"
 msgstr ""
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2524
 msgid "Terminal"
 msgstr "ტერმინალი"
 
@@ -896,7 +896,7 @@ msgstr "თეთრი"
 msgid "Black"
 msgstr "შავი"
 
-#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:332
+#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:342
 msgid "Pause"
 msgstr "პაუზა"
 
@@ -981,8 +981,8 @@ msgctxt "Date"
 msgid "Original"
 msgstr "ორიგინალი"
 
-#: data/ui/importer-dialog.ui:127 src/Application.vala:98
-#: src/Application.vala:119 src/SelectionView.vala:41
+#: data/ui/importer-dialog.ui:127 src/Application.vala:109
+#: src/Application.vala:130 src/SelectionView.vala:41
 msgid "Bytes"
 msgstr "ბაიტი"
 
@@ -1024,23 +1024,23 @@ msgstr "ნელი"
 msgid "Save only cha_nged fields"
 msgstr ""
 
-#: data/ui/metadata-dialog.ui:46 src/Application.vala:136
+#: data/ui/metadata-dialog.ui:46 src/Application.vala:147
 msgid "Comment"
 msgstr "შენიშვნა"
 
-#: data/ui/metadata-dialog.ui:69 src/Application.vala:112
+#: data/ui/metadata-dialog.ui:69 src/Application.vala:123
 #: src/Ext/Tools/FileActions.vala:18
 msgid "Metadata"
 msgstr "მეტამონაცემები"
 
 #: data/ui/metadata-dialog.ui:73 data/ui/template-token-row.ui:174
-#: src/Application.vala:135 src/DefaultTests.vala:172
+#: src/Application.vala:146 src/DefaultTests.vala:172
 #: src/Ext/Template/TemplateTokenRow.vala:215
 msgid "Title"
 msgstr "სათაური"
 
-#: data/ui/metadata-dialog.ui:81 src/Application.vala:137
-#: src/DefaultTests.vala:221
+#: data/ui/metadata-dialog.ui:81 src/Application.vala:148
+#: src/DefaultTests.vala:222
 msgid "Place"
 msgstr "ადგილი"
 
@@ -1048,7 +1048,7 @@ msgstr "ადგილი"
 msgid "Time of Day"
 msgstr ""
 
-#: data/ui/metadata-dialog.ui:99 src/Application.vala:140
+#: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
 msgid "Rating"
 msgstr "რეიტინგი"
@@ -1058,7 +1058,7 @@ msgstr "რეიტინგი"
 msgid "IPTC"
 msgstr "IPTC"
 
-#: data/ui/metadata-dialog.ui:115 src/Application.vala:142
+#: data/ui/metadata-dialog.ui:115 src/Application.vala:153
 msgid "Copyright"
 msgstr "საავტორო უფლებები"
 
@@ -1229,11 +1229,11 @@ msgstr "მაღალირეგისტრი"
 msgid "Sort"
 msgstr "დალაგება"
 
-#: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:107
+#: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:109
 msgid "Before"
 msgstr "სანამდე"
 
-#: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:108
+#: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:110
 msgid "After"
 msgstr "შემდეგ"
 
@@ -1273,7 +1273,7 @@ msgid "Preserve Aspect Ratio"
 msgstr "პროპორციების შენარჩუნება"
 
 #. Translators: width and height of images or videos.
-#: data/ui/resize-image.ui:6 src/Application.vala:100 src/Application.vala:130
+#: data/ui/resize-image.ui:6 src/Application.vala:111 src/Application.vala:141
 msgid "Pixels"
 msgstr "პიქსელი"
 
@@ -1320,7 +1320,7 @@ msgstr ""
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2464
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "შენახვა"
@@ -1419,7 +1419,7 @@ msgstr ""
 msgid "Press Esc to cancel"
 msgstr "Esc გასაუქმებლად"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2274
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "წაშლა"
@@ -1527,7 +1527,7 @@ msgstr "ვერტიკალური გარჩევადობა"
 msgid "Cannot view this kind of files"
 msgstr ""
 
-#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:346
+#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:356
 msgid "Play"
 msgstr "დაკვრა"
 
@@ -1680,16 +1680,16 @@ msgstr ""
 msgid "Properties"
 msgstr "თვისებები"
 
-#: data/ui/viewer.ui:258
+#: data/ui/viewer.ui:262
 msgid "Copy Image"
 msgstr "გამოსახულების კოპირება"
 
-#: data/ui/viewer.ui:263 src/Ext/Shortcuts/Shortcuts.vala:288
+#: data/ui/viewer.ui:267 src/Ext/Shortcuts/Shortcuts.vala:288
 msgid "Copy Frame"
 msgstr "კადრის კოპირება"
 
 #. Translators: the file modification time.
-#: src/Application.vala:95 src/Application.vala:121 src/DefaultTests.vala:148
+#: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
 msgctxt "Time"
@@ -1697,147 +1697,147 @@ msgid "Modified"
 msgstr "შეიცვალა"
 
 #. Translators: the file change time.
-#: src/Application.vala:96 src/Application.vala:125 src/DefaultTests.vala:136
+#: src/Application.vala:107 src/Application.vala:136 src/DefaultTests.vala:136
 msgid "File Changed"
 msgstr "ფაილი შეცვლილია"
 
 #. Translators: the file creation time.
-#: src/Application.vala:97 src/Application.vala:123 src/DefaultTests.vala:124
+#: src/Application.vala:108 src/Application.vala:134 src/DefaultTests.vala:124
 msgid "File Created"
 msgstr "ფაილი შეიქმნა"
 
-#: src/Application.vala:99 src/Ext/Scripts/ScriptCommandPage.vala:9
+#: src/Application.vala:110 src/Ext/Scripts/ScriptCommandPage.vala:9
 msgid "File Path"
 msgstr "ფაილის ბილიკი"
 
-#: src/Application.vala:102
+#: src/Application.vala:113
 msgid "Unsorted"
 msgstr "დაულაგებელი"
 
-#: src/Application.vala:110
+#: src/Application.vala:121
 msgid "File"
 msgstr "ფაილი"
 
-#: src/Application.vala:111 src/DefaultTests.vala:184
+#: src/Application.vala:122 src/DefaultTests.vala:184
 msgid "Description"
 msgstr "აღწერა"
 
-#: src/Application.vala:118 src/DefaultTests.vala:5 src/DefaultTests.vala:16
+#: src/Application.vala:129 src/DefaultTests.vala:5 src/DefaultTests.vala:16
 msgid "Type"
 msgstr "ტიპი"
 
-#: src/Application.vala:126
+#: src/Application.vala:137
 msgid "Folder"
 msgstr "საქაღალდე"
 
-#: src/Application.vala:131
+#: src/Application.vala:142
 msgid "Duration"
 msgstr "ხანგრძლივობა"
 
-#: src/Application.vala:132
+#: src/Application.vala:143
 msgid "Color Profile"
 msgstr "ფერის პროფილი"
 
-#: src/Application.vala:133
+#: src/Application.vala:144
 msgid "Frames"
 msgstr "კადრები"
 
-#: src/Application.vala:139 src/TagEntry.vala:71
+#: src/Application.vala:150 src/TagEntry.vala:73
 msgid "Tags"
 msgstr "ჭდეები"
 
-#: src/Application.vala:143
+#: src/Application.vala:154
 msgid "Author"
 msgstr "ავტორი"
 
-#: src/Application.vala:144
+#: src/Application.vala:155
 msgid "Coordinates"
 msgstr "კოორდინატები"
 
-#: src/Application.vala:146
+#: src/Application.vala:157
 msgid "Camera Model"
 msgstr "კამერის მოდელი"
 
-#: src/Application.vala:147 src/lib/exiv2-utils.cpp:696
+#: src/Application.vala:158 src/lib/exiv2-utils.cpp:686
 msgid "Exposure"
 msgstr "ექსპოზიცია"
 
-#: src/Application.vala:148
+#: src/Application.vala:159
 msgid "Aperture"
 msgstr "დიაფრაგმა"
 
-#: src/Application.vala:149
+#: src/Application.vala:160
 msgid "ISO Speed"
 msgstr "ISO მაჩვენებელი"
 
-#: src/Application.vala:150
+#: src/Application.vala:161
 msgid "Exposure Time"
 msgstr "ექსპოზიციის დრო"
 
-#: src/Application.vala:151
+#: src/Application.vala:162
 msgid "Shutter Speed"
 msgstr "შატერის სიჩქარე"
 
-#: src/Application.vala:152
+#: src/Application.vala:163
 msgid "Focal Length"
 msgstr "ფოკუსური მანძილი"
 
-#: src/Application.vala:153
+#: src/Application.vala:164
 msgid "Flash"
 msgstr "განათება"
 
-#: src/Application.vala:234 src/Ext/Image/ImageViewer.vala:453
-#: src/Ext/Image/ImageViewer.vala:462 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:484
+#: src/Ext/Image/ImageViewer.vala:497 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "მარჯვნივ შებრუნება"
 
-#: src/Application.vala:235 src/Ext/Shortcuts/Shortcuts.vala:259
+#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259
 #: src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "მარცხნივ შებრუნება"
 
-#: src/Application.vala:237 src/MainWindow.vala:398
+#: src/Application.vala:248 src/MainWindow.vala:398
 msgid "Resize Images"
 msgstr "სურათების ზომის შეცვლა"
 
-#: src/Application.vala:238 src/MainWindow.vala:865
+#: src/Application.vala:249 src/MainWindow.vala:865
 msgid "Clear Metadata"
 msgstr "მეტამონაცემების გასუფთავება"
 
-#: src/Application.vala:239 src/MainWindow.vala:841
+#: src/Application.vala:250 src/MainWindow.vala:841
 msgid "Rotate Physically"
 msgstr "ფიზიკური შემობრუნება"
 
-#: src/Application.vala:241
+#: src/Application.vala:252
 msgid "Reset EXIF Orientation"
 msgstr "Exif-ის ორიენტაციის ჩამოყრა"
 
-#: src/Application.vala:243 src/MainWindow.vala:877
+#: src/Application.vala:254 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "მინიატურის განახლება"
 
-#: src/Application.vala:405 src/DefaultTests.vala:23
+#: src/Application.vala:417 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "ყველა ფაილი"
 
-#: src/Application.vala:622
+#: src/Application.vala:634
 msgid "Show the application version"
 msgstr "აპლიკაციის ვერსიის ჩვენება"
 
-#: src/Application.vala:631
+#: src/Application.vala:643
 msgid "Open a new window"
 msgstr "ახალ ფანჯრის გახსნა"
 
-#: src/Application.vala:650
+#: src/Application.vala:662
 msgid "[FILE…] [DIRECTORY…]"
 msgstr ""
 
-#: src/Application.vala:654
+#: src/Application.vala:666
 msgid "— Image Browser and Viewer"
 msgstr "— სურათების პოვნა და დათვალიერება"
 
-#: src/Application.vala:717
+#: src/Application.vala:729
 msgid "translator-credits"
 msgstr "თემური დოღონაძე"
 
@@ -1845,76 +1845,76 @@ msgstr "თემური დოღონაძე"
 msgid "Path"
 msgstr "ბილიკი"
 
-#: src/Browser.vala:335
+#: src/Browser.vala:353
 msgid "Drag Files"
 msgstr "ფაილების გადათრევა"
 
-#: src/Browser.vala:490
+#: src/Browser.vala:508
 msgid "No Matches"
 msgstr "დამთხვევის გარეშე"
 
-#: src/Browser.vala:498
+#: src/Browser.vala:516
 msgid "No Files Found"
 msgstr ""
 
-#: src/Browser.vala:502
+#: src/Browser.vala:520
 msgid "Empty Catalog"
 msgstr "ცარიელი კატალოგი"
 
-#: src/Browser.vala:506
+#: src/Browser.vala:524
 msgid "Empty Selection"
 msgstr "ცარიელი მონიშნული"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:513
+#: src/Browser.vala:531
 #, c-format
 msgid "Use %s to add files to selection %u"
 msgstr ""
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:522
+#: src/Browser.vala:540
 #, c-format
 msgid "Use %s to view selection %u"
 msgstr "%s-ის გამოყენება %u მონიშნულის სანახავად"
 
-#: src/Browser.vala:535
+#: src/Browser.vala:553
 msgid "Empty Folder"
 msgstr "ცარიელი საქაღალდე"
 
-#: src/Browser.vala:573
+#: src/Browser.vala:591
 msgid "_Add To Bookmarks"
 msgstr "სანიშნეებში დამატებ_ა"
 
-#: src/Browser.vala:577
+#: src/Browser.vala:595
 msgid "_Edit Bookmarks…"
 msgstr "სანიშნეების &ჩასწორება…"
 
-#: src/Browser.vala:971 src/Browser.vala:1148
-msgid "Pasting Files"
-msgstr "ფაილების ჩასმა"
-
-#: src/Browser.vala:989 src/Browser.vala:2105
-msgid "Cannot move files here"
-msgstr ""
-
-#: src/Browser.vala:996
-msgid "Duplicating Files"
-msgstr "ფაილების დუბლირება"
-
 #. Show a message on the browser.
-#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:927 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "ფაილების ძებნა"
 
-#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
-#: src/Browser.vala:1995
+#: src/Browser.vala:954 src/Browser.vala:981 src/Browser.vala:1764
+#: src/Browser.vala:2000
 #, c-format
 msgid "Updating %s"
 msgstr "%s-ის განახლება"
 
-#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
-#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1052 src/Browser.vala:1229
+msgid "Pasting Files"
+msgstr "ფაილების ჩასმა"
+
+#: src/Browser.vala:1070 src/Browser.vala:2110
+msgid "Cannot move files here"
+msgstr ""
+
+#: src/Browser.vala:1077
+msgid "Duplicating Files"
+msgstr "ფაილების დუბლირება"
+
+#: src/Browser.vala:1592 src/Browser.vala:1596 src/Browser.vala:2485
+#: src/Browser.vala:2495 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -1925,28 +1925,28 @@ msgstr "ფაილები მონიშნული არაა"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1797
+#: src/Browser.vala:1802
 msgid "Updating Files"
 msgstr "ფაილების განახლება"
 
-#: src/Browser.vala:2061
+#: src/Browser.vala:2066
 msgid "Adding Files"
 msgstr "ფაილების დამატება"
 
-#: src/Browser.vala:2061 src/MainWindow.vala:613
+#: src/Browser.vala:2066 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "ფაილების გადატანა"
 
-#: src/Browser.vala:2151
+#: src/Browser.vala:2154
 msgid "New Folder"
 msgstr "ახალი საქაღალდე"
 
-#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2154 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "შე_ქმნა"
 
-#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2237 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1956,21 +1956,21 @@ msgid "_Rename"
 msgstr "_სახელის გადარქმევა"
 
 #. Ask confirmation
-#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2268 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "წაიშალოს სამუდამოდ?"
 
-#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr ""
 
-#: src/Browser.vala:2302
+#: src/Browser.vala:2305
 msgid "Source and destination are the same"
 msgstr ""
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:604
-#: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
+#: src/Browser.vala:2338 src/Ext/Image/ImageViewer.vala:645
+#: src/Ext/Video/VideoViewer.vala:676 src/Ext/Video/VideoViewer.vala:769
 #: src/FilePropertyView.vala:125
 msgid "Open"
 msgstr "გახსნა"
@@ -2001,7 +2001,7 @@ msgstr "ტექსტური ფაილები"
 msgid "Created (Original)"
 msgstr ""
 
-#: src/DefaultTests.vala:208
+#: src/DefaultTests.vala:209
 msgid "Tag"
 msgstr "ჭდე"
 
@@ -2147,14 +2147,14 @@ msgstr "გამოსახულება"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:65
 #: src/Ext/Editor/AspectRatioGroup.vala:66
-#: src/Ext/Filters/TestAspectRatio.vala:168
+#: src/Ext/Filters/TestAspectRatio.vala:169
 msgctxt "Aspect Ratio"
 msgid "Square"
 msgstr "კვადრატი"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:79
 #: src/Ext/Editor/AspectRatioGroup.vala:81
-#: src/Ext/Filters/TestAspectRatio.vala:179
+#: src/Ext/Filters/TestAspectRatio.vala:180
 msgctxt "Aspect Ratio"
 msgid "A4"
 msgstr "A4"
@@ -2358,7 +2358,7 @@ msgstr "ახალი შემცველობა"
 msgid "Same answer for all the files"
 msgstr ""
 
-#: src/Ext/Filters/Filter.vala:108
+#: src/Ext/Filters/Filter.vala:109
 msgid "files"
 msgstr "ფაილი"
 
@@ -2394,8 +2394,8 @@ msgstr "ნაკლები, ვიდრე"
 msgid "Lower Than or Equal To"
 msgstr "ნაკლებია ან ტოლია"
 
-#: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:109
-#: src/Ext/Filters/TestString.vala:145
+#: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:111
+#: src/Ext/Filters/TestString.vala:147
 msgid "Equal To"
 msgstr "უდრის"
 
@@ -2414,70 +2414,78 @@ msgstr "მბ"
 msgid "GB"
 msgstr "გბ"
 
-#: src/Ext/Filters/TestDate.vala:110 src/Ext/Filters/TestString.vala:146
+#: src/Ext/Filters/TestAspectRatio.vala:124 src/Ext/Filters/TestDate.vala:93
+#: src/Ext/Filters/TestDate.vala:100 src/Ext/Filters/TestInt.vala:84
+#: src/Ext/Filters/TestSize.vala:105 src/Ext/Filters/TestString.vala:128
+#: src/Ext/Filters/TestString.vala:135 src/Ext/Filters/TestStringList.vala:123
+#: src/Ext/Filters/TestStringList.vala:130
+msgid "The test definition is incomplete"
+msgstr "საცდელი აღწერა დაუსრულებელია"
+
+#: src/Ext/Filters/TestDate.vala:112 src/Ext/Filters/TestString.vala:148
 msgid "Different From"
 msgstr ""
 
-#: src/Ext/Filters/TestString.vala:142
+#: src/Ext/Filters/TestString.vala:144
 msgid "Contains"
 msgstr "შეიცავს"
 
-#: src/Ext/Filters/TestString.vala:143
+#: src/Ext/Filters/TestString.vala:145
 msgid "Starts With"
 msgstr "იწყება"
 
-#: src/Ext/Filters/TestString.vala:144
+#: src/Ext/Filters/TestString.vala:146
 msgid "Ends With"
 msgstr "მთავრდება"
 
-#: src/Ext/Filters/TestString.vala:147
+#: src/Ext/Filters/TestString.vala:149
 msgid "Does not Contain"
 msgstr "არ შეიცავს"
 
-#: src/Ext/Filters/TestString.vala:148 src/Ext/Filters/TestStringList.vala:140
+#: src/Ext/Filters/TestString.vala:150 src/Ext/Filters/TestStringList.vala:142
 msgid "Matches Pattern"
 msgstr "ემთხვევა ნიმუშს"
 
-#: src/Ext/Filters/TestStringList.vala:137
+#: src/Ext/Filters/TestStringList.vala:139
 msgid "Includes"
 msgstr "შეიცავს"
 
-#: src/Ext/Filters/TestStringList.vala:138
+#: src/Ext/Filters/TestStringList.vala:140
 msgid "Includes Only"
 msgstr ""
 
-#: src/Ext/Filters/TestStringList.vala:139
+#: src/Ext/Filters/TestStringList.vala:141
 msgid "Not Includes"
 msgstr ""
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:224 src/Ext/Image/ImageViewer.vala:280
+#: src/Ext/Image/ImageViewer.vala:236 src/Ext/Image/ImageViewer.vala:292
 msgid "Save File"
 msgstr "ფაილის შენახვა"
 
-#: src/Ext/Image/ImageViewer.vala:259
+#: src/Ext/Image/ImageViewer.vala:271
 #, c-format
 msgid "Saving %s"
 msgstr "'%s'-ის შენახვა"
 
-#: src/Ext/Image/ImageViewer.vala:291 src/FolderTree.vala:81
-#: src/MainWindow.vala:1087
+#: src/Ext/Image/ImageViewer.vala:303 src/FolderTree.vala:81
+#: src/MainWindow.vala:1086
 msgid "File type not supported"
 msgstr "ფაილის ტიპი მხარდაჭერილი არაა"
 
-#: src/Ext/Image/ImageViewer.vala:435 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "ჰორიზონტალური გადაბრუნება"
 
-#: src/Ext/Image/ImageViewer.vala:444 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "ვერტიკალური გადაბრუნება"
 
-#: src/Ext/Image/ImageViewer.vala:595 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:636 src/Ext/Video/VideoViewer.vala:658
 msgid "Copying to the Clipboard"
 msgstr ""
 
-#: src/Ext/Image/ImageViewer.vala:603 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:644 src/Ext/Video/VideoViewer.vala:675
 msgid "Copied to the Clipboard"
 msgstr ""
 
@@ -2929,13 +2937,13 @@ msgstr "უკან გადახვევა თ წუთით"
 msgid "Select None"
 msgstr "მონიშვნის მოხსნა"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
+#: src/Ext/Slideshow/Slideshow.vala:52 src/FolderTree.vala:123
 #: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
 msgid "Loading %s"
 msgstr "%s-ის ჩატვირთვა"
 
-#: src/Ext/Slideshow/Slideshow.vala:143
+#: src/Ext/Slideshow/Slideshow.vala:165
 msgid "Paused"
 msgstr "შეჩერებულია"
 
@@ -2964,13 +2972,13 @@ msgstr "წუთი"
 msgid "Second"
 msgstr "წამი"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:87
-#: src/ImageLoader.vala:96 src/ImageLoader.vala:161
+#: src/Ext/Tools/Internal/ImageRotation.vala:35 src/ImageLoader.vala:104
+#: src/ImageLoader.vala:113 src/ImageLoader.vala:162
 msgid "Unknown file type"
 msgstr "ფაილის უცნობი ტიპი"
 
-#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:118
-#: src/ImageLoader.vala:166
+#: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:134
+#: src/ImageLoader.vala:167
 msgid "No suitable loader available for this file type"
 msgstr ""
 
@@ -2986,34 +2994,45 @@ msgstr "შემსრულებელი"
 msgid "Album"
 msgstr "ალბომი"
 
-#. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-#: src/Ext/Video/VideoMetadata.vala:8
+#: src/Ext/Video/VideoMetadata.vala:7
 msgid "Video Codec"
 msgstr "ვიდეოკოდეკი"
 
-#: src/Ext/Video/VideoMetadata.vala:9
+#: src/Ext/Video/VideoMetadata.vala:8
 msgid "Audio Codec"
 msgstr "აუდიოკოდეკი"
 
-#: src/Ext/Video/VideoMetadata.vala:10
+#: src/Ext/Video/VideoMetadata.vala:9
 msgid "Encoder"
 msgstr "ეკოდერი"
 
-#: src/Ext/Video/VideoViewer.vala:615
+#: src/Ext/Video/VideoMetadata.vala:10
+msgid "Framerate"
+msgstr "კადრების სიჩქარე"
+
+#: src/Ext/Video/VideoMetadata.vala:11
+msgid "Channels"
+msgstr "არხები"
+
+#: src/Ext/Video/VideoMetadata.vala:12
+msgid "Sample Rate"
+msgstr "დისკრეტიზაციის სიხშირე"
+
+#: src/Ext/Video/VideoViewer.vala:625
 msgid "Saving File"
 msgstr "მიმდინარეობს ფაილის შენახვა"
 
-#: src/Ext/Video/VideoViewer.vala:659
+#: src/Ext/Video/VideoViewer.vala:669
 msgid "Could not copy the image to the clipboard"
 msgstr "გამოსახულების ბუფერში კოპირება შეუძლებელია"
 
-#: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
+#: src/Ext/Video/VideoViewer.vala:720 src/Ext/Video/VideoViewer.vala:727
+#: src/Ext/Video/VideoViewer.vala:757 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "ფაილის არასწორი სახელი"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
-#: src/Ext/Video/VideoViewer.vala:758
+#: src/Ext/Video/VideoViewer.vala:768
 #, c-format
 msgid "Saved %s"
 msgstr "შენახულია %s"
@@ -3026,11 +3045,11 @@ msgstr "ბილიკის კოპირება"
 msgid "View on OpenStreetMap"
 msgstr "ნახვა OpenStreetMap-ზე"
 
-#: src/Files.vala:239
+#: src/Files.vala:240
 msgid "Computer"
 msgstr "კომპიუტერი"
 
-#: src/Files.vala:243
+#: src/Files.vala:244
 msgid "User Home"
 msgstr "მომხმარებლის საწყისის საქაღალდე"
 
@@ -3062,11 +3081,11 @@ msgstr "ფაილების კოპირება"
 msgid "Clear EXIF Rotation"
 msgstr ""
 
-#: src/MainWindow.vala:985 src/MainWindow.vala:991
+#: src/MainWindow.vala:989
 msgid "No images selected"
 msgstr "სურათები არჩეული არ არის"
 
-#: src/MainWindow.vala:1036
+#: src/MainWindow.vala:1035
 #, c-format
 msgid "Application '%s' not found"
 msgstr ""
@@ -3091,49 +3110,49 @@ msgstr "თუ არ შეინახავთ, ფაილის ცვლ�
 msgid "_Discard"
 msgstr "_მოცილება"
 
-#: src/Viewer.vala:383
+#: src/Viewer.vala:456
 msgid "Exit Fullscreen"
 msgstr "სრული ეკრანიდან გასვლა"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:473
+#: src/Viewer.vala:527
 msgid "modified"
 msgstr "შეიცვალა"
 
-#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:286
+#: src/lib/exiv2-utils.cpp:20 src/lib/util.c:307
 msgid "(invalid value)"
 msgstr "(არასწორი მნიშვნელობა)"
 
-#: src/lib/exiv2-utils.cpp:847 src/lib/exiv2-utils.cpp:1427
-#: src/lib/exiv2-utils.cpp:1450 src/lib/io/load-gif.c:138
+#: src/lib/exiv2-utils.cpp:837 src/lib/exiv2-utils.cpp:1421
+#: src/lib/exiv2-utils.cpp:1444 src/lib/io/load-gif.c:138
 msgid "Invalid file format"
 msgstr "არასწორი ფაილის ფორმატი"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "სამხ"
 
-#: src/lib/exiv2-utils.cpp:948
+#: src/lib/exiv2-utils.cpp:938
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "N"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "სიგ"
 
-#: src/lib/exiv2-utils.cpp:950
+#: src/lib/exiv2-utils.cpp:940
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "E"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Stereo"
 msgstr "სტერეო"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Mono"
 msgstr "მონო"
 
@@ -3147,7 +3166,7 @@ msgstr "არასაკმარისი მეხსიერება"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: src/lib/util.c:653
+#: src/lib/util.c:674
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -3159,7 +3178,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: src/lib/util.c:662
+#: src/lib/util.c:683
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -3448,15 +3467,6 @@ msgstr "%d∶%02d"
 
 #~ msgid "Codec"
 #~ msgstr "კოდეკი"
-
-#~ msgid "Framerate"
-#~ msgstr "კადრების სიჩქარე"
-
-#~ msgid "Channels"
-#~ msgstr "არხები"
-
-#~ msgid "Sample rate"
-#~ msgstr "სემპლის სიხშირე"
 
 #~ msgid "Centered"
 #~ msgstr "შუაზე გასწორებული"
