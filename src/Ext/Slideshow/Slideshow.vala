@@ -9,6 +9,7 @@ public class Gth.Slideshow : Gth.Window {
 
 	public override void before_closing () {
 		cancel_next ();
+		fade_out.reset ();
 		cancel_hide_cursor ();
 		preloader.cancel ();
 		if (load_job != null) {
@@ -21,7 +22,7 @@ public class Gth.Slideshow : Gth.Window {
 
 		var action = new SimpleAction ("next-image", null);
 		action.activate.connect (() => {
-			if (!next ()) {
+			if (!next (false)) {
 				edge_reached ();
 			}
 		});
@@ -29,7 +30,7 @@ public class Gth.Slideshow : Gth.Window {
 
 		action = new SimpleAction ("previous-image", null);
 		action.activate.connect (() => {
-			if (!previous ()) {
+			if (!previous (false)) {
 				edge_reached ();
 			}
 		});
@@ -179,7 +180,7 @@ public class Gth.Slideshow : Gth.Window {
 		}
 	}
 
-	void start () {
+	void start (bool animated) {
 		if (random_order) {
 			files.sort ((a, b) => GLib.Random.int_range (-1, 2));
 		}
@@ -189,18 +190,42 @@ public class Gth.Slideshow : Gth.Window {
 		set_cursor_visible (false);
 		last_x = -1;
 		last_y = -1;
-		load_position.begin (0);
+		load_position_after_animation (0, animated);
 	}
 
 	bool can_load_next () {
 		return current_position < files.length () - 1;
 	}
 
-	bool next () {
+	uint next_position = 0;
+
+	void after_animation () {
+		load_position.begin (next_position, (_obj, res) => {
+			load_position.end (res);
+			fade_out.pause ();
+			fade_in.play ();
+		});
+	}
+
+	const bool WITH_FADE_OUT_ANIMATION = false;
+
+	void load_position_after_animation (uint position, bool animated = true) {
+		next_position = position;
+		fade_in.pause ();
+		if (WITH_FADE_OUT_ANIMATION && animated) {
+			fade_out.play ();
+		}
+		else {
+			fade_out.reset ();
+			fade_out.skip ();
+		}
+	}
+
+	bool next (bool animated = true) {
 		if (!can_load_next ()) {
 			return false;
 		}
-		load_position.begin (current_position + 1);
+		load_position_after_animation (current_position + 1, animated);
 		return true;
 	}
 
@@ -208,18 +233,18 @@ public class Gth.Slideshow : Gth.Window {
 		return current_position > 0;
 	}
 
-	bool previous () {
+	bool previous (bool animated = true) {
 		if (!can_load_previous ()) {
 			return false;
 		}
-		load_position.begin (current_position - 1);
+		load_position_after_animation (current_position - 1, animated);
 		return true;
 	}
 
 	void restart () {
 		if (loop) {
 			if (files.length () > 1) {
-				start ();
+				start (true);
 			}
 		}
 		else {
@@ -271,7 +296,7 @@ public class Gth.Slideshow : Gth.Window {
 		current_position = 0;
 		next_id = 0;
 		paused = false;
-		map.connect (() => start ());
+		map.connect (() => start (false));
 		fullscreened = true;
 
 		swipeable_view.change_content.connect ((direction) => {
@@ -347,6 +372,16 @@ public class Gth.Slideshow : Gth.Window {
 		seconday_click_events.set_button (Gdk.BUTTON_SECONDARY);
 		seconday_click_events.pressed.connect ((n_press, x, y) => close ());
 		swipeable_view.add_controller (seconday_click_events);
+
+		fade_out = new Adw.TimedAnimation (
+			swipeable_view, 0.8, 0, 600,
+			new Adw.PropertyAnimationTarget (image_view, "opacity")
+		);
+		fade_out.done.connect (() => after_animation ());
+		fade_in = new Adw.TimedAnimation (
+			swipeable_view, 0.2, 1, 600,
+			new Adw.PropertyAnimationTarget (image_view, "opacity")
+		);
 	}
 
 	[GtkChild] unowned Adw.ToastOverlay toast_overlay;
@@ -366,4 +401,6 @@ public class Gth.Slideshow : Gth.Window {
 	bool paused;
 	double last_x;
 	double last_y;
+	Adw.Animation fade_out;
+	Adw.Animation fade_in;
 }
