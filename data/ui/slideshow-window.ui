@@ -17,7 +17,7 @@
               <object class="GthImageView" id="image_view">
                 <property name="halign">fill</property>
                 <property name="hexpand">true</property>
-                <property name="default-zoom-type">maximize</property>
+                <property name="default-zoom-type">fill-space</property>
                 <property name="transparency">gray</property>
               </object>
             </child>
