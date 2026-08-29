@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-08-22 15:54+0000\n"
-"PO-Revision-Date: 2026-08-23 10:29+0300\n"
+"POT-Creation-Date: 2026-08-29 10:50+0000\n"
+"PO-Revision-Date: 2026-08-29 21:29+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
@@ -66,7 +66,7 @@ msgstr "כלי תמונה מסוימים:"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:39
 msgid "JPEG lossless transformations"
-msgstr ""
+msgstr "המרת JSPEG ללא איבוד מידע"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:40
 msgid "Image resize"
@@ -192,7 +192,7 @@ msgstr "פתיחה באמצעות"
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2275 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2273 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -481,7 +481,7 @@ msgstr "העברה אל…"
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
 #: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:283
-#: src/Browser.vala:2176 src/Browser.vala:2239
+#: src/Browser.vala:2174 src/Browser.vala:2237
 #: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "שינוי שם"
@@ -560,8 +560,8 @@ msgstr "קטלוג"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:233
-#: src/Ext/Image/ImageViewer.vala:289 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:236
+#: src/Ext/Image/ImageViewer.vala:292 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_שמירה"
 
@@ -714,7 +714,7 @@ msgstr "תוצאים מיוחדים"
 
 #: data/ui/editor-palette.ui:170 src/Ext/Editor/Censor.vala:166
 msgid "Censor"
-msgstr ""
+msgstr "צנזור"
 
 #: data/ui/editor-palette.ui:181 src/Ext/Editor/ColorPicker.vala:191
 #: src/Ext/Shortcuts/Shortcuts.vala:255
@@ -722,10 +722,8 @@ msgid "Color Picker"
 msgstr "בוחר צבעים"
 
 #: data/ui/editor-palette.ui:196 data/ui/rename-dialog.ui:94
-#, fuzzy
-#| msgid "_Transform"
 msgid "Transform"
-msgstr "_שינוי"
+msgstr "המרה"
 
 #: data/ui/editor-palette.ui:273 data/ui/resize-dialog.ui:4
 #: src/Ext/Editor/ResizeImage.vala:160 src/Ext/Shortcuts/Shortcuts.vala:260
@@ -743,7 +741,7 @@ msgid "Rotate"
 msgstr "סיבוב"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:471
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:470
 msgid "Fullscreen"
 msgstr "מסך מלא"
 
@@ -770,16 +768,12 @@ msgid "Limited Content"
 msgstr "תוכן מוגבל"
 
 #: data/ui/filter-editor-page.ui:54
-#, fuzzy
-#| msgid "Text Files"
 msgid "Max Files"
-msgstr "טקסט בלבד"
+msgstr "מספר קבצים מרבי"
 
 #: data/ui/filter-editor-page.ui:74
-#, fuzzy
-#| msgid "Actual Size"
 msgid "Total Size"
-msgstr "גודל ממשי"
+msgstr "גודל כולל"
 
 #: data/ui/filter-editor-page.ui:102
 msgid "Selected By"
@@ -847,7 +841,7 @@ msgstr "פתיחת תיקיית הבית"
 msgid "Reuse the active window to open files"
 msgstr "שימוש חוזר בחלון הפעיל לפתית קבצים"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2526
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2524
 msgid "Terminal"
 msgstr "מסוף"
 
@@ -1079,21 +1073,16 @@ msgid "Copyright"
 msgstr "זכויות יוצרים"
 
 #: data/ui/metadata-dialog.ui:123
-#, fuzzy
 msgid "Credit"
-msgstr "תודות"
+msgstr ""
 
 #: data/ui/metadata-dialog.ui:131
-#, fuzzy
-#| msgid "_Byline:"
 msgid "Byline"
-msgstr "_חתימה:"
+msgstr "חתימה"
 
 #: data/ui/metadata-dialog.ui:139
-#, fuzzy
-#| msgid "Byline _Title:"
 msgid "Byline Title"
-msgstr "_כותרת חתימה:"
+msgstr "כותרת חתימה"
 
 #: data/ui/metadata-dialog.ui:147
 msgid "Country"
@@ -1280,8 +1269,6 @@ msgstr "פיקסלים"
 
 #. Translators: percentage as length unit
 #: data/ui/resize-dialog.ui:76 data/ui/resize-image.ui:51
-#, fuzzy
-#| msgid "%"
 msgctxt "Length Unit"
 msgid "%"
 msgstr "%"
@@ -1343,7 +1330,7 @@ msgstr "ציור שורה על התמונה להגדרת היישור."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2466
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2464
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "שמירה"
@@ -1442,7 +1429,7 @@ msgstr "ללחוץ על צירוף מקשים שישמשו כקיצור דרך."
 msgid "Press Esc to cancel"
 msgstr "‫Esc לביטול"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2276
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2274
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "_מחיקה"
@@ -1809,8 +1796,8 @@ msgstr "אורך מוקד"
 msgid "Flash"
 msgstr "הבזק"
 
-#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:470
-#: src/Ext/Image/ImageViewer.vala:479 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:484
+#: src/Ext/Image/ImageViewer.vala:497 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "סיבוב ימינה"
@@ -1939,8 +1926,8 @@ msgstr "לא ניתן להעביר את הקבצים לכאן"
 msgid "Duplicating Files"
 msgstr "קבצים כפולים"
 
-#: src/Browser.vala:1592 src/Browser.vala:1596 src/Browser.vala:2487
-#: src/Browser.vala:2497 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1592 src/Browser.vala:1596 src/Browser.vala:2485
+#: src/Browser.vala:2495 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -1963,16 +1950,16 @@ msgstr "מוסיף קבצים"
 msgid "Moving Files"
 msgstr "מעביר קבצים"
 
-#: src/Browser.vala:2156
+#: src/Browser.vala:2154
 msgid "New Folder"
 msgstr "תיקייה חדשה"
 
-#: src/Browser.vala:2156 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2154 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_יצירה"
 
-#: src/Browser.vala:2239 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2237 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1982,20 +1969,20 @@ msgid "_Rename"
 msgstr "_שינוי שם"
 
 #. Ask confirmation
-#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2268 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "למחוק לצמיתות?"
 
-#: src/Browser.vala:2272 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "פעולה זו לא ניתנת לביטול. האם אכן ברצונך למחוק את <i>%s</i>?"
 
-#: src/Browser.vala:2307
+#: src/Browser.vala:2305
 msgid "Source and destination are the same"
 msgstr "המקור והיעד זהים"
 
-#: src/Browser.vala:2340 src/Ext/Image/ImageViewer.vala:621
+#: src/Browser.vala:2338 src/Ext/Image/ImageViewer.vala:645
 #: src/Ext/Video/VideoViewer.vala:676 src/Ext/Video/VideoViewer.vala:769
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2200,7 +2187,7 @@ msgstr "‏%s (סיבוב)"
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/Censor.vala:12
 msgid "Mosaic"
-msgstr ""
+msgstr "פסיפס"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/Censor.vala:15
@@ -2495,33 +2482,33 @@ msgid "Not Includes"
 msgstr "לא כולל"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:233 src/Ext/Image/ImageViewer.vala:289
+#: src/Ext/Image/ImageViewer.vala:236 src/Ext/Image/ImageViewer.vala:292
 msgid "Save File"
 msgstr "שמירת קובץ"
 
-#: src/Ext/Image/ImageViewer.vala:268
+#: src/Ext/Image/ImageViewer.vala:271
 #, c-format
 msgid "Saving %s"
 msgstr "שומר %s"
 
-#: src/Ext/Image/ImageViewer.vala:300 src/FolderTree.vala:81
+#: src/Ext/Image/ImageViewer.vala:303 src/FolderTree.vala:81
 #: src/MainWindow.vala:1086
 msgid "File type not supported"
 msgstr "סוג הקובץ אינו נתמך"
 
-#: src/Ext/Image/ImageViewer.vala:452 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "היפוך אופקי"
 
-#: src/Ext/Image/ImageViewer.vala:461 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "היפוך אנכי"
 
-#: src/Ext/Image/ImageViewer.vala:612 src/Ext/Video/VideoViewer.vala:658
+#: src/Ext/Image/ImageViewer.vala:636 src/Ext/Video/VideoViewer.vala:658
 msgid "Copying to the Clipboard"
 msgstr "מעתיק ללוח הגזירים"
 
-#: src/Ext/Image/ImageViewer.vala:620 src/Ext/Video/VideoViewer.vala:675
+#: src/Ext/Image/ImageViewer.vala:644 src/Ext/Video/VideoViewer.vala:675
 msgid "Copied to the Clipboard"
 msgstr "הועתק ללוח הגזירים"
 
@@ -3000,14 +2987,14 @@ msgstr "לקפוץ 5 דקות אחורה"
 msgid "Select None"
 msgstr "ביטול הבחירה"
 
-#: src/Ext/Slideshow/Slideshow.vala:52 src/FolderTree.vala:123
+#: src/Ext/Slideshow/Slideshow.vala:53 src/FolderTree.vala:123
 #: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, fuzzy, c-format
 #| msgid "Loading “%s”"
 msgid "Loading %s"
 msgstr "‫„%s” בטעינה"
 
-#: src/Ext/Slideshow/Slideshow.vala:165
+#: src/Ext/Slideshow/Slideshow.vala:166
 #, fuzzy
 #| msgid "Pause"
 msgid "Paused"
@@ -3176,12 +3163,12 @@ msgstr "ללא שמירה, השינויים בקובץ זה יאבדו לצמי�
 msgid "_Discard"
 msgstr "הת_עלמות"
 
-#: src/Viewer.vala:457
+#: src/Viewer.vala:456
 msgid "Exit Fullscreen"
 msgstr "יציאה ממסך מלא"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:528
+#: src/Viewer.vala:527
 msgid "modified"
 msgstr "השתנתה"
 
