@@ -69,6 +69,29 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="4.0.rc" date="2026-08-30" type="development">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Viewer: use Left/Right to show previous/next file</li>
+          <li>Viewer: allow to change file swiping on the touchpad</li>
+          <li>Image Viewer: added pinch-to-zoom gesture</li>
+          <li>Slideshow: use Left/Right to change file</li>
+          <li>Slideshow: allow to change file swiping on the touchpad</li>
+          <li>Slideshow: added a simple fade-in animation</li>
+          <li>Editor: use the first frame if the image is an animation</li>
+          <li>Video Metadata: added framerate, channels and sample rate</li>
+          <li>Drag Source: create an icon using the thumbnail</li>
+          <li>Added actions to back and forward mouse buttons</li>
+        </ul>
+        <p>This release fixes the following bugs:</p>
+        <ul>
+          <li>Video Metadata: swap dimensions for rotated videos</li>
+          <li>Fixed memory leak in image viewer</li>
+        </ul>
+        <p>This release updates translations.</p>
+      </description>
+    </release>
     <release version="4.0.beta" date="2026-06-22" type="development">
       <description>
         <p>This release adds the following features:</p>

@@ -1,3 +1,43 @@
+Version 4.0.rc
+~~~~~~~~~~~~~~~~~
+Released: 2026-08-30
+
+Features:
+ * Viewer: use Left/Right to show previous/next file
+ * Viewer: allow to change file swiping on the touchpad
+ * Image Viewer: added pinch-to-zoom gesture
+ * Slideshow: use Left/Right to change file
+ * Slideshow: allow to change file swiping on the touchpad
+ * Slideshow: added a simple fade-in animation
+ * Editor: use the first frame if the image is an animation
+ * Video Metadata: added framerate, channels and sample rate
+ * Drag Source: create an icon using the thumbnail
+ * Added actions to back and forward mouse buttons
+
+Bugfixes:
+ * Video Metadata: swap dimensions for rotated videos
+ * Fixed memory leak in image viewer
+
+Translations:
+ * Brazilian Portuguese (Rafael Fontenelle)
+ * Chinese (China) (lumingzh)
+ * Czech (Patrik Sivek)
+ * Georgian (Ekaterine Papava)
+ * Hebrew (Yosef Or Boczko)
+ * Kazakh (Baurzhan Muftakhidinov)
+ * Slovenian (Martin Srebotnjak)
+ * Ukrainian (Yuri Chornoivan)
+
+Help translations:
+ * Brazilian Portuguese (Rafael Fontenelle)
+ * Chinese (China) (lumingzh)
+ * Czech (Patrik Sivek)
+ * Georgian (Ekaterine Papava)
+ * Hebrew (Yosef Or Boczko)
+ * Kazakh (Baurzhan Muftakhidinov)
+ * Slovenian (Martin Srebotnjak)
+ * Ukrainian (Yuri Chornoivan)
+
 Version 4.0.beta
 ~~~~~~~~~~~~~~~~~
 Released: 2026-06-22
