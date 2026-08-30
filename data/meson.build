@@ -22,7 +22,7 @@ endif
 
 desktop_utils = find_program('desktop-file-validate', required: false)
 if desktop_utils.found()
-  test('Validate desktop file', desktop_utils, args: [desktop_file])
+  test('validate-desktop-file', desktop_utils, args: [desktop_file])
 endif
 
 subdir('schemas')
