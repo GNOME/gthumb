@@ -68,7 +68,7 @@
       <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">Method</property>
         <child>
-          <object class="AdwSpinRow" id="restore_session">
+          <object class="AdwSpinRow">
             <property name="title" translatable="yes">Scaled</property>
             <property name="activatable">true</property>
             <property name="activatable_widget">method_scaled_check</property>
