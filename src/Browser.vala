@@ -702,9 +702,11 @@ public class Gth.Browser : Gtk.Box {
 
 		var can_open_container = (total_files == 1) && !(folder_tree.current_source is FileSourceVfs);
 		Util.enable_action (window.action_group, "open-container", can_open_container);
-		Util.enable_action (window.action_group, "set-desktop-background", (total_files == 1) && only_images);
 		Util.enable_action (window.action_group, "edit-file", (total_files == 1) && only_images);
-		Util.enable_action (window.action_group, "print", (total_files > 0) && only_images);
+		if (window.current_page == MainWindow.Page.BROWSER) {
+			Util.enable_action (window.action_group, "set-desktop-background", (total_files == 1) && only_images);
+			Util.enable_action (window.action_group, "print", (total_files > 0) && only_images);
+		}
 	}
 
 	void init_actions () {
