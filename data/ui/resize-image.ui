@@ -73,6 +73,7 @@
             <property name="activatable">true</property>
             <property name="activatable_widget">method_scaled_check</property>
             <property name="adjustment">zoom_adjustment</property>
+            <property name="digits">1</property>
             <child type="prefix">
               <object class="GtkCheckButton" id="method_scaled_check">
                 <property name="active">true</property>
