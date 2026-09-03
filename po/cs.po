@@ -14,16 +14,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-08-16 05:34+0000\n"
-"PO-Revision-Date: 2026-08-20 15:45+0200\n"
-"Last-Translator: Patrik Sivek <patriksivek@gnome.org>\n"
+"POT-Creation-Date: 2026-09-02 19:40+0000\n"
+"PO-Revision-Date: 2026-09-03 13:34+0200\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Gtranslator 50.0\n"
+"X-Generator: Poedit 3.9\n"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
@@ -42,16 +42,15 @@ msgstr "Prohlížeč obrázků, editor a organizér"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:23
 msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
-msgstr ""
-"Zobrazujte obrázky: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF a RAW."
+msgstr "Zobrazujte obrázky: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF a RAW."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
 msgstr ""
-"Upravujte obrázky: změna velikosti, jejich otáčení a ořezávání, změna "
-"kontrastu, jasu, sytosti a provádění dalších transformací barev."
+"Upravujte obrázky: změna velikosti, jejich otáčení a ořezávání, změna kontrastu, "
+"jasu, sytosti a provádění dalších transformací barev."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
@@ -59,11 +58,11 @@ msgstr "Zobrazujte a upravujte vložená metadata: EXIF, IPTC a XMP."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:32
 msgid ""
-"File manager operations: copy, move, rename and delete files and folders, "
-"execute scripts on the selected files."
+"File manager operations: copy, move, rename and delete files and folders, execute "
+"scripts on the selected files."
 msgstr ""
-"Spravujte obrázky: kopírování, přesouvání, přejmenování a mazání souborů a "
-"složek, spouštění skriptů na vybraných souborech."
+"Spravujte obrázky: kopírování, přesouvání, přejmenování a mazání souborů a složek, "
+"spouštění skriptů na vybraných souborech."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
@@ -91,22 +90,18 @@ msgstr "Nastavení obrázku jako pozadí pracovní plochy"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
 msgid ""
-"Add comments and other metadata to images, organize images in catalogs and "
-"catalogs in libraries, search for images and save the result as a catalog."
+"Add comments and other metadata to images, organize images in catalogs and catalogs "
+"in libraries, search for images and save the result as a catalog."
 msgstr ""
-"Přidávejte komentáře a další metadata k obrázkům, uspořádávejte obrázky do "
-"katalogů a katalogy do knihoven, hledejte obrázky a ukládejte výsledky jako "
-"katalogy."
+"Přidávejte komentáře a další metadata k obrázkům, uspořádávejte obrázky do katalogů a "
+"katalogy do knihoven, hledejte obrázky a ukládejte výsledky jako katalogy."
 
-#: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
-#: data/ui/browser-preferences.ui:4
-#: src/Ext/Preferences/PreferencesDialog.vala:6
-#: src/Ext/Shortcuts/Shortcuts.vala:163
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:60 data/ui/browser-preferences.ui:4
+#: src/Ext/Preferences/PreferencesDialog.vala:6 src/Ext/Shortcuts/Shortcuts.vala:163
 msgid "Browser"
 msgstr "Prohlížeč"
 
-#: data/appdata/org.gnome.gthumb.metainfo.xml.in:64
-#: src/Ext/Shortcuts/Shortcut.vala:260
+#: data/appdata/org.gnome.gthumb.metainfo.xml.in:64 src/Ext/Shortcuts/Shortcut.vala:260
 msgid "Viewer"
 msgstr "Zobrazovač"
 
@@ -119,8 +114,8 @@ msgstr "Editor"
 msgid "Image;Viewer;"
 msgstr "obrázek;fotka;fotografie;prohlížeč;"
 
-#: data/org.gnome.gthumb-devel.desktop.in:17
-#: data/org.gnome.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
+#: data/org.gnome.gthumb-devel.desktop.in:17 data/org.gnome.gthumb.desktop.in:17
+#: src/Ext/Shortcuts/Shortcuts.vala:133
 msgid "New Window"
 msgstr "Nové okno"
 
@@ -142,9 +137,8 @@ msgstr "Přidat pravidlo"
 
 #: data/ui/adjust-brightness.ui:38 data/ui/adjust-colors.ui:139
 #: data/ui/adjust-contrast.ui:38 data/ui/adjust-saturation.ui:49
-#: data/ui/censor-image.ui:38 data/ui/resize-image.ui:22
-#: data/ui/rotate-image.ui:40 data/ui/sharpen-image.ui:85
-#: data/ui/shortcut-row.ui:47 data/ui/special-effects.ui:38
+#: data/ui/censor-image.ui:38 data/ui/resize-image.ui:22 data/ui/rotate-image.ui:40
+#: data/ui/sharpen-image.ui:85 data/ui/shortcut-row.ui:47 data/ui/special-effects.ui:38
 msgid "_Reset"
 msgstr "V_rátit výchozí"
 
@@ -197,9 +191,8 @@ msgstr "Otevřít pomocí"
 #: data/ui/app-selector-dialog.ui:14 data/ui/catalog-dialog.ui:16
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
-#: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2270 src/Ext/Color/ColorSelector.vala:64
-#: src/Ext/FileManager/FileManager.vala:23
+#: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14 src/Browser.vala:2275
+#: src/Ext/Color/ColorSelector.vala:64 src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
 #: src/Ext/FileManager/OverwriteDialog.vala:147
@@ -213,8 +206,8 @@ msgstr "_Zrušit"
 msgid "_Select"
 msgstr "_Vybrat"
 
-#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
-#: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
+#: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112 src/DefaultTests.vala:234
+#: src/Ext/Editor/AspectRatioGroup.vala:11
 msgid "Aspect Ratio"
 msgstr "Poměr stran"
 
@@ -250,9 +243,8 @@ msgctxt "Quality"
 msgid "High"
 msgstr "Vysoká"
 
-#: data/ui/bookmarks-dialog.ui:4 data/ui/browser.ui:101
-#: data/ui/device-dialog.ui:38 src/Ext/Bookmarks/Bookmarks.vala:11
-#: src/Ext/Shortcuts/Shortcuts.vala:157
+#: data/ui/bookmarks-dialog.ui:4 data/ui/browser.ui:101 data/ui/device-dialog.ui:38
+#: src/Ext/Bookmarks/Bookmarks.vala:11 src/Ext/Shortcuts/Shortcuts.vala:157
 msgid "Bookmarks"
 msgstr "Záložky"
 
@@ -261,17 +253,16 @@ msgstr "Záložky"
 msgid "Location"
 msgstr "Umístění"
 
-#: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24
-#: data/ui/viewer.ui:229 src/Ext/Shortcuts/Shortcuts.vala:241
+#: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24 data/ui/viewer.ui:233
+#: src/Ext/Shortcuts/Shortcuts.vala:241
 msgid "Save"
 msgstr "Uložit"
 
 #: data/ui/bookmarks-dialog.ui:51 data/ui/catalog-dialog.ui:40
 #: data/ui/entry-dialog.ui:22 data/ui/filter-editor-page.ui:33
 #: data/ui/rename-dialog.ui:44 data/ui/rename-dialog.ui:180
-#: data/ui/script-editor-page.ui:30 src/Application.vala:105
-#: src/Application.vala:128 src/DefaultTests.vala:100
-#: src/Ext/Filters/FilterEditorPage.vala:125
+#: data/ui/script-editor-page.ui:30 src/Application.vala:105 src/Application.vala:128
+#: src/DefaultTests.vala:100 src/Ext/Filters/FilterEditorPage.vala:125
 msgid "Name"
 msgstr "Název"
 
@@ -279,8 +270,7 @@ msgstr "Název"
 msgid "_New Window"
 msgstr "_Nové okno"
 
-#: data/ui/browser-menu.ui:10 data/ui/editor-menu.ui:10
-#: data/ui/viewer-menu.ui:10
+#: data/ui/browser-menu.ui:10 data/ui/editor-menu.ui:10 data/ui/viewer-menu.ui:10
 msgid "_Open…"
 msgstr "_Otevřít…"
 
@@ -304,19 +294,18 @@ msgstr "Řadit _složky"
 msgid "_Hidden Files"
 msgstr "Skryté so_ubory"
 
-#: data/ui/browser-menu.ui:38 data/ui/editor-menu.ui:20
-#: data/ui/preferences-dialog.ui:4 data/ui/preferences-dialog.ui:19
-#: data/ui/viewer-menu.ui:24 src/Ext/Shortcuts/Shortcuts.vala:136
+#: data/ui/browser-menu.ui:38 data/ui/editor-menu.ui:20 data/ui/preferences-dialog.ui:4
+#: data/ui/preferences-dialog.ui:19 data/ui/viewer-menu.ui:24
+#: src/Ext/Shortcuts/Shortcuts.vala:136
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: data/ui/browser-menu.ui:42 data/ui/editor-menu.ui:24
-#: data/ui/viewer-menu.ui:28 src/Ext/Shortcuts/Shortcuts.vala:137
+#: data/ui/browser-menu.ui:42 data/ui/editor-menu.ui:24 data/ui/viewer-menu.ui:28
+#: src/Ext/Shortcuts/Shortcuts.vala:137
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28
-#: data/ui/viewer-menu.ui:32
+#: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28 data/ui/viewer-menu.ui:32
 msgid "About Thumbnails"
 msgstr "O aplikaci Náhledy"
 
@@ -344,7 +333,7 @@ msgstr "Třetí řádek"
 msgid "Behavior"
 msgstr "Chování"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:651
+#: data/ui/browser-preferences.ui:71 src/Application.vala:652
 msgid "Open files in fullscreen mode"
 msgstr "Otevírat soubory v režimu celé obrazovky"
 
@@ -367,8 +356,7 @@ msgstr "Výběry"
 msgid "Home Folder"
 msgstr "Domovská složka"
 
-#: data/ui/browser.ui:115 src/Ext/Shortcuts/Shortcuts.vala:158
-#: src/History.vala:14
+#: data/ui/browser.ui:115 src/Ext/Shortcuts/Shortcuts.vala:158 src/History.vala:14
 msgid "History"
 msgstr "Historie"
 
@@ -384,14 +372,14 @@ msgstr "Znovu načíst"
 msgid "Catalog Properties"
 msgstr "Vlastnosti katalogu"
 
-#: data/ui/browser.ui:255 src/Browser.vala:335
+#: data/ui/browser.ui:255 src/Browser.vala:353
 msgid "Reorder Files"
 msgstr "Změnit pořadí souborů"
 
 #. pages.model.append (new PageInfo ("print", _("Print")));
 #: data/ui/browser.ui:271 data/ui/slideshow-preferences.ui:4
-#: src/Ext/Preferences/PreferencesDialog.vala:12
-#: src/Ext/Shortcuts/Shortcut.vala:261 src/Ext/Shortcuts/Shortcuts.vala:265
+#: src/Ext/Preferences/PreferencesDialog.vala:12 src/Ext/Shortcuts/Shortcut.vala:261
+#: src/Ext/Shortcuts/Shortcuts.vala:265
 msgid "Presentation"
 msgstr "Prezentace"
 
@@ -399,8 +387,8 @@ msgstr "Prezentace"
 msgid "File Properties"
 msgstr "Vlastnosti souboru"
 
-#: data/ui/browser.ui:285 data/ui/viewer.ui:88
-#: src/Ext/Shortcuts/Shortcuts.vala:156 src/Ext/Shortcuts/Shortcuts.vala:213
+#: data/ui/browser.ui:285 data/ui/viewer.ui:88 src/Ext/Shortcuts/Shortcuts.vala:156
+#: src/Ext/Shortcuts/Shortcuts.vala:213
 msgid "Edit Image"
 msgstr "Upravit obrázek"
 
@@ -409,9 +397,8 @@ msgstr "Upravit obrázek"
 msgid "Edit Comment"
 msgstr "Upravit komentář"
 
-#: data/ui/browser.ui:298 data/ui/scripts-dialog.ui:4
-#: data/ui/scripts-dialog.ui:11 data/ui/viewer.ui:101
-#: src/Ext/Tools/FileActions.vala:19
+#: data/ui/browser.ui:298 data/ui/scripts-dialog.ui:4 data/ui/scripts-dialog.ui:11
+#: data/ui/viewer.ui:101 src/Ext/Tools/FileActions.vala:19
 msgid "Tools"
 msgstr "Nástroje"
 
@@ -425,11 +412,11 @@ msgid "Open Fullscreen"
 msgstr "Otevřít na celou obrazovku"
 
 #: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
-#: data/ui/browser.ui:680 data/ui/viewer.ui:221
+#: data/ui/browser.ui:680 data/ui/viewer.ui:225
 msgid "Open in New Window"
 msgstr "Otevřít v novém okně"
 
-#: data/ui/browser.ui:429 data/ui/viewer.ui:225
+#: data/ui/browser.ui:429 data/ui/viewer.ui:229
 msgid "Open _With…"
 msgstr "Otevřít _pomocí…"
 
@@ -439,56 +426,53 @@ msgstr "Otevřít složku"
 
 #: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
-#: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
+#: data/ui/viewer.ui:245 src/Ext/Print/PrintImages.vala:61
 #: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "Tisk"
 
-#: data/ui/browser.ui:444 data/ui/viewer.ui:246
-#: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
+#: data/ui/browser.ui:444 data/ui/viewer.ui:250 src/Ext/Shortcuts/Shortcuts.vala:183
+#: src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "Nastavit jako pozadí plochy"
 
 #. Translators: it's a verb, as in "Cut Files"
-#: data/ui/browser.ui:451 data/ui/browser.ui:596
-#: src/Ext/Shortcuts/Shortcuts.vala:165
+#: data/ui/browser.ui:451 data/ui/browser.ui:596 src/Ext/Shortcuts/Shortcuts.vala:165
 msgid "Cut"
 msgstr "Vyjmout"
 
 #. Translators: it's a verb, as in "Copy Files"
-#: data/ui/browser.ui:457 data/ui/browser.ui:602
-#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
-#: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
+#: data/ui/browser.ui:457 data/ui/browser.ui:602 data/ui/file-property-view.ui:32
+#: data/ui/viewer.ui:258 src/Ext/FileManager/FileManager.vala:65
+#: src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Kopírovat"
 
 #. Translators: it's a verb, as in "Paste Files"
 #: data/ui/browser.ui:463 data/ui/browser.ui:563 data/ui/browser.ui:607
-#: data/ui/browser.ui:656 data/ui/browser.ui:686
-#: src/Ext/Shortcuts/Shortcuts.vala:167
+#: data/ui/browser.ui:656 data/ui/browser.ui:686 src/Ext/Shortcuts/Shortcuts.vala:167
 msgid "Paste"
 msgstr "Vložit"
 
 #. Not real actions, used for documentation only.
-#: data/ui/browser.ui:468 data/ui/browser.ui:567
-#: src/Ext/Shortcuts/Shortcuts.vala:292
+#: data/ui/browser.ui:468 data/ui/browser.ui:567 src/Ext/Shortcuts/Shortcuts.vala:292
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:274
 msgid "Copy To…"
 msgstr "Kopírovat do…"
 
 #: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
-#: data/ui/viewer.ui:274
+#: data/ui/viewer.ui:278
 msgid "Move To…"
 msgstr "Přesunout do…"
 
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
-#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2171 src/Browser.vala:2234
-#: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
+#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:283
+#: src/Browser.vala:2176 src/Browser.vala:2239 src/Ext/Shortcuts/Shortcuts.vala:170
+#: src/MainWindow.vala:383
 msgid "Rename"
 msgstr "Přejmenovat"
 
@@ -497,52 +481,50 @@ msgstr "Přejmenovat"
 msgid "Duplicate"
 msgstr "Duplikovat"
 
-#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:288
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "Přesunout do koše"
 
 #: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
-#: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
-#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
+#: data/ui/filter-row.ui:63 data/ui/script-row.ui:40 data/ui/template-token-row.ui:219
+#: data/ui/viewer.ui:292
 msgid "Delete"
 msgstr "Smazat"
 
-#: data/ui/browser.ui:507 data/ui/viewer.ui:295
+#: data/ui/browser.ui:507 data/ui/viewer.ui:299
 msgid "Add to Selection"
 msgstr "Přidat do výběru"
 
-#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:302
 msgid "Selection 1"
 msgstr "Výběr 1"
 
-#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:308
 msgid "Selection 2"
 msgstr "Výběr 2"
 
-#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:314
 msgid "Selection 3"
 msgstr "Výběr 3"
 
-#: data/ui/browser.ui:529 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:321
 msgid "Add to Catalog…"
 msgstr "Přidat do katalogu…"
 
-#: data/ui/browser.ui:536 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:328
 msgid "Remove from Selection"
 msgstr "Odstranit z výběru"
 
-#: data/ui/browser.ui:541 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:333
 msgid "Remove from Catalog"
 msgstr "Odstranit z katalogu"
 
-#: data/ui/browser.ui:550 data/ui/browser.ui:583
-#: src/Ext/Shortcuts/Shortcuts.vala:148
+#: data/ui/browser.ui:550 data/ui/browser.ui:583 src/Ext/Shortcuts/Shortcuts.vala:148
 msgid "Open with File Manager"
 msgstr "Otevřít ve správci souborů"
 
-#: data/ui/browser.ui:555 data/ui/browser.ui:579
-#: src/Ext/Shortcuts/Shortcuts.vala:149
+#: data/ui/browser.ui:555 data/ui/browser.ui:579 src/Ext/Shortcuts/Shortcuts.vala:149
 msgid "Open in Terminal"
 msgstr "Otevřít v Terminálu"
 
@@ -566,8 +548,8 @@ msgstr "Katalog"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
-#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:236
+#: src/Ext/Image/ImageViewer.vala:292 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_Uložit"
 
@@ -587,14 +569,12 @@ msgstr "Barva"
 msgid "Position"
 msgstr "Pozice"
 
-#: data/ui/color-picker.ui:96 data/ui/crop.ui:25
-#: data/ui/print-layout-dialog.ui:139
+#: data/ui/color-picker.ui:96 data/ui/crop.ui:25 data/ui/print-layout-dialog.ui:139
 msgctxt "Position"
 msgid "Left"
 msgstr "Vlevo"
 
-#: data/ui/color-picker.ui:101 data/ui/crop.ui:30
-#: data/ui/print-layout-dialog.ui:145
+#: data/ui/color-picker.ui:101 data/ui/crop.ui:30 data/ui/print-layout-dialog.ui:145
 msgctxt "Position"
 msgid "Top"
 msgstr "Nahoru"
@@ -628,13 +608,13 @@ msgstr "Krok"
 msgid "Selection"
 msgstr "Výběr"
 
-#: data/ui/crop.ui:35 data/ui/print-layout-dialog.ui:151
-#: data/ui/resize-dialog.ui:37 data/ui/resize-image.ui:9
+#: data/ui/crop.ui:35 data/ui/print-layout-dialog.ui:151 data/ui/resize-dialog.ui:37
+#: data/ui/resize-image.ui:9
 msgid "Width"
 msgstr "Šířka"
 
-#: data/ui/crop.ui:40 data/ui/print-layout-dialog.ui:157
-#: data/ui/resize-dialog.ui:50 data/ui/resize-image.ui:14
+#: data/ui/crop.ui:40 data/ui/print-layout-dialog.ui:157 data/ui/resize-dialog.ui:50
+#: data/ui/resize-image.ui:14
 msgid "Height"
 msgstr "Výška"
 
@@ -648,14 +628,13 @@ msgid "Center"
 msgstr "Vycentrovat"
 
 #: data/ui/crop.ui:78 data/ui/crop.ui:104 data/ui/print-layout-dialog.ui:23
-#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:101
-#: data/ui/resize-image.ui:146
+#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:102
+#: data/ui/resize-image.ui:147
 msgid "Options"
 msgstr "Volby"
 
-#: data/ui/device-dialog.ui:4 data/ui/device-dialog.ui:23
-#: data/ui/device-dialog.ui:54 data/ui/importer-dialog.ui:40
-#: data/ui/importer-dialog.ui:59
+#: data/ui/device-dialog.ui:4 data/ui/device-dialog.ui:23 data/ui/device-dialog.ui:54
+#: data/ui/importer-dialog.ui:40 data/ui/importer-dialog.ui:59
 msgid "Import"
 msgstr "Import"
 
@@ -667,8 +646,7 @@ msgstr "Zdroj"
 msgid "System Bookmarks"
 msgstr "Systémové záložky"
 
-#: data/ui/device-dialog.ui:74 data/ui/importer-dialog.ui:118
-#: src/SelectionView.vala:33
+#: data/ui/device-dialog.ui:74 data/ui/importer-dialog.ui:118 src/SelectionView.vala:33
 msgid "Files"
 msgstr "Soubory"
 
@@ -676,7 +654,7 @@ msgstr "Soubory"
 msgid "Delete imported files from source"
 msgstr "Smazat naimportované soubory z původního místa"
 
-#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
+#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:238
 msgid "Save As…"
 msgstr "Uložit jako…"
 
@@ -746,18 +724,18 @@ msgstr "Oříznout"
 msgid "Rotate"
 msgstr "Otočení"
 
-#: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:404
+#: data/ui/editor.ui:37 data/ui/viewer.ui:60 src/Ext/Shortcuts/Shortcuts.vala:186
+#: src/Viewer.vala:470
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: data/ui/file-action-row.ui:36 data/ui/filter-row.ui:53
-#: data/ui/script-row.ui:30 data/ui/template-token-row.ui:225
+#: data/ui/file-action-row.ui:36 data/ui/filter-row.ui:53 data/ui/script-row.ui:30
+#: data/ui/template-token-row.ui:225
 msgid "Move to Top"
 msgstr "Přesunout nejvýše"
 
-#: data/ui/file-action-row.ui:40 data/ui/filter-row.ui:57
-#: data/ui/script-row.ui:34 data/ui/template-token-row.ui:229
+#: data/ui/file-action-row.ui:40 data/ui/filter-row.ui:57 data/ui/script-row.ui:34
+#: data/ui/template-token-row.ui:229
 msgid "Move to Bottom"
 msgstr "Přesunout nejníže"
 
@@ -826,8 +804,7 @@ msgid "_Save"
 msgstr "_Uložit"
 
 #: data/ui/general-preferences.ui:4 src/Ext/Exiv2/ExifMetadata.vala:5
-#: src/Ext/Preferences/PreferencesDialog.vala:5
-#: src/Ext/Shortcuts/Shortcut.vala:258
+#: src/Ext/Preferences/PreferencesDialog.vala:5 src/Ext/Shortcuts/Shortcut.vala:258
 msgid "General"
 msgstr "Obecné"
 
@@ -847,7 +824,7 @@ msgstr "Otevřít domovskou složku"
 msgid "Reuse the active window to open files"
 msgstr "Znovu použít aktivní okno k otevření souborů"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2526
 msgid "Terminal"
 msgstr "Terminál"
 
@@ -911,7 +888,7 @@ msgstr "bílá"
 msgid "Black"
 msgstr "černá"
 
-#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:332
+#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:342
 msgid "Pause"
 msgstr "Pozastavit"
 
@@ -953,8 +930,8 @@ msgid "300%"
 msgstr "300%"
 
 #: data/ui/images-preferences.ui:4 src/DefaultTests.vala:35
-#: src/Ext/Preferences/PreferencesDialog.vala:7
-#: src/Ext/Print/PrintLayout.vala:92 src/Ext/Tools/FileActions.vala:17
+#: src/Ext/Preferences/PreferencesDialog.vala:7 src/Ext/Print/PrintLayout.vala:92
+#: src/Ext/Tools/FileActions.vala:17
 msgid "Images"
 msgstr "Obrázky"
 
@@ -996,8 +973,8 @@ msgctxt "Date"
 msgid "Original"
 msgstr "Původní"
 
-#: data/ui/importer-dialog.ui:127 src/Application.vala:109
-#: src/Application.vala:130 src/SelectionView.vala:41
+#: data/ui/importer-dialog.ui:127 src/Application.vala:109 src/Application.vala:130
+#: src/SelectionView.vala:41
 msgid "Bytes"
 msgstr "Bajtů"
 
@@ -1054,8 +1031,7 @@ msgstr "Metadata"
 msgid "Title"
 msgstr "Název"
 
-#: data/ui/metadata-dialog.ui:81 src/Application.vala:148
-#: src/DefaultTests.vala:222
+#: data/ui/metadata-dialog.ui:81 src/Application.vala:148 src/DefaultTests.vala:222
 msgid "Place"
 msgstr "Umístění"
 
@@ -1063,8 +1039,7 @@ msgstr "Umístění"
 msgid "Time of Day"
 msgstr "Denní doba"
 
-#: data/ui/metadata-dialog.ui:99 src/Application.vala:151
-#: src/DefaultTests.vala:196
+#: data/ui/metadata-dialog.ui:99 src/Application.vala:151 src/DefaultTests.vala:196
 msgid "Rating"
 msgstr "Hodnocení"
 
@@ -1302,11 +1277,11 @@ msgstr "Pixelů"
 msgid "Scaled"
 msgstr "Škálovat"
 
-#: data/ui/resize-image.ui:85
+#: data/ui/resize-image.ui:86
 msgid "Repeated"
 msgstr "Opakovat"
 
-#: data/ui/resize-image.ui:120
+#: data/ui/resize-image.ui:121
 msgid "High Quality"
 msgstr "Vysoká kvalita"
 
@@ -1314,8 +1289,7 @@ msgstr "Vysoká kvalita"
 msgid "Angle"
 msgstr "Úhel"
 
-#: data/ui/rotate-image.ui:55 data/ui/rotate-image.ui:159
-#: data/ui/rotate-image.ui:209
+#: data/ui/rotate-image.ui:55 data/ui/rotate-image.ui:159 data/ui/rotate-image.ui:209
 msgid "Align"
 msgstr "Vyrovnat"
 
@@ -1341,7 +1315,7 @@ msgstr "Nakreslete v obrázku čáru, vůči které jej chcete vyrovnat."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2466
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "Ukládání"
@@ -1350,8 +1324,7 @@ msgstr "Ukládání"
 msgid "Store metadata inside files if possible"
 msgstr "Pokud je to možné, uchovávat metadata v souborech"
 
-#: data/ui/savers-preferences.ui:23
-#: src/Ext/Preferences/FormatPreferencesDialog.vala:48
+#: data/ui/savers-preferences.ui:23 src/Ext/Preferences/FormatPreferencesDialog.vala:48
 msgid "Show the options before saving"
 msgstr "Zobrazit možnosti před uložením"
 
@@ -1381,8 +1354,7 @@ msgstr "Spustit pro každý soubor"
 msgid "Wait for the command to finish"
 msgstr "Čekat na dokončení příkazu"
 
-#: data/ui/script-parameters-dialog.ui:85
-#: src/Ext/FileManager/OverwriteDialog.vala:133
+#: data/ui/script-parameters-dialog.ui:85 src/Ext/FileManager/OverwriteDialog.vala:133
 #: src/Ext/FileManager/OverwriteDialog.vala:169
 msgid "_Skip"
 msgstr "Pře_skočit"
@@ -1440,13 +1412,12 @@ msgstr "Zmáčkněte kombinaci kláves, kterou chcete jako zkratku."
 msgid "Press Esc to cancel"
 msgstr "Zmáčknutím Esc se vrátíte"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2276
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "_Smazat"
 
-#: data/ui/shortcuts-preferences.ui:4
-#: src/Ext/Preferences/PreferencesDialog.vala:13
+#: data/ui/shortcuts-preferences.ui:4 src/Ext/Preferences/PreferencesDialog.vala:13
 msgid "Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -1548,7 +1519,7 @@ msgstr "Svislé rozlišení"
 msgid "Cannot view this kind of files"
 msgstr "Tento typ souboru není podporován"
 
-#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:346
+#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:356
 msgid "Play"
 msgstr "Přehrát"
 
@@ -1701,18 +1672,17 @@ msgstr "Přizpůsobit okno obsahu"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: data/ui/viewer.ui:258
+#: data/ui/viewer.ui:262
 msgid "Copy Image"
 msgstr "Kopírovat obrázek"
 
-#: data/ui/viewer.ui:263 src/Ext/Shortcuts/Shortcuts.vala:288
+#: data/ui/viewer.ui:267 src/Ext/Shortcuts/Shortcuts.vala:288
 msgid "Copy Frame"
 msgstr "Kopírovat snímek"
 
 #. Translators: the file modification time.
 #: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
-#: src/Ext/Filters/FilterEditorPage.vala:127
-#: src/Ext/Rename/RenameTemplatePage.vala:13
+#: src/Ext/Filters/FilterEditorPage.vala:127 src/Ext/Rename/RenameTemplatePage.vala:13
 msgctxt "Time"
 msgid "Modified"
 msgstr "Změněno"
@@ -1807,14 +1777,13 @@ msgstr "Ohnisková vzdálenost"
 msgid "Flash"
 msgstr "Blesk"
 
-#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
-#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:484
+#: src/Ext/Image/ImageViewer.vala:497 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "Otočit doprava"
 
-#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259
-#: src/MainWindow.vala:817
+#: src/Application.vala:246 src/Ext/Shortcuts/Shortcuts.vala:259 src/MainWindow.vala:817
 msgid "Rotate Left"
 msgstr "Otočit doleva"
 
@@ -1838,27 +1807,27 @@ msgstr "Vynulovat údaj EXIF o orientaci"
 msgid "Update Thumbnail"
 msgstr "Aktualizovat náhled"
 
-#: src/Application.vala:416 src/DefaultTests.vala:23
+#: src/Application.vala:417 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: src/Application.vala:633
+#: src/Application.vala:634
 msgid "Show the application version"
 msgstr "Zobrazit verzi aplikace"
 
-#: src/Application.vala:642
+#: src/Application.vala:643
 msgid "Open a new window"
 msgstr "Otevřít nové okno"
 
-#: src/Application.vala:661
+#: src/Application.vala:662
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[SOUBOR…] [SLOŽKA…]"
 
-#: src/Application.vala:665
+#: src/Application.vala:666
 msgid "— Image Browser and Viewer"
 msgstr "– prohlížeč obrázků"
 
-#: src/Application.vala:728
+#: src/Application.vala:729
 msgid "translator-credits"
 msgstr ""
 "Michal Bukovjan <bukm@centrum.cz>\n"
@@ -1871,76 +1840,75 @@ msgstr ""
 msgid "Path"
 msgstr "Cesta"
 
-#: src/Browser.vala:335
+#: src/Browser.vala:353
 msgid "Drag Files"
 msgstr "Přetáhněte soubory"
 
-#: src/Browser.vala:490
+#: src/Browser.vala:508
 msgid "No Matches"
 msgstr "Žádná shoda"
 
-#: src/Browser.vala:498
+#: src/Browser.vala:516
 msgid "No Files Found"
 msgstr "Nenalezeny žádné soubory"
 
-#: src/Browser.vala:502
+#: src/Browser.vala:520
 msgid "Empty Catalog"
 msgstr "Prázdný katalog"
 
-#: src/Browser.vala:506
+#: src/Browser.vala:524
 msgid "Empty Selection"
 msgstr "Prázdný výběr"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:513
+#: src/Browser.vala:531
 #, c-format
 msgid "Use %s to add files to selection %u"
 msgstr "Použijte %s pro přidání souborů do výběru %u"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:522
+#: src/Browser.vala:540
 #, c-format
 msgid "Use %s to view selection %u"
 msgstr "Použijte %s pro zobrazení výběru %u"
 
-#: src/Browser.vala:535
+#: src/Browser.vala:553
 msgid "Empty Folder"
 msgstr "Prázdná složka"
 
-#: src/Browser.vala:573
+#: src/Browser.vala:591
 msgid "_Add To Bookmarks"
 msgstr "Přid_at do záložek"
 
-#: src/Browser.vala:577
+#: src/Browser.vala:595
 msgid "_Edit Bookmarks…"
 msgstr "_Upravit záložky…"
 
-#: src/Browser.vala:971 src/Browser.vala:1148
-msgid "Pasting Files"
-msgstr "Vkládají se soubory"
-
-#: src/Browser.vala:989 src/Browser.vala:2105
-msgid "Cannot move files here"
-msgstr "Nelze sem přesunout soubory"
-
-#: src/Browser.vala:996
-msgid "Duplicating Files"
-msgstr "Duplikují se soubory"
-
 #. Show a message on the browser.
-#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:929 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "Hledají se soubory"
 
-#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
-#: src/Browser.vala:1995
+#: src/Browser.vala:956 src/Browser.vala:983 src/Browser.vala:1766 src/Browser.vala:2002
 #, c-format
 msgid "Updating %s"
 msgstr "Aktualizuje se %s"
 
-#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
-#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1054 src/Browser.vala:1231
+msgid "Pasting Files"
+msgstr "Vkládají se soubory"
+
+#: src/Browser.vala:1072 src/Browser.vala:2112
+msgid "Cannot move files here"
+msgstr "Nelze sem přesunout soubory"
+
+#: src/Browser.vala:1079
+msgid "Duplicating Files"
+msgstr "Duplikují se soubory"
+
+#: src/Browser.vala:1594 src/Browser.vala:1598 src/Browser.vala:2487
+#: src/Browser.vala:2497 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -1951,28 +1919,28 @@ msgstr "Nevybrány žádné soubory"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1797
+#: src/Browser.vala:1804
 msgid "Updating Files"
 msgstr "Aktualizují se soubory"
 
-#: src/Browser.vala:2061
+#: src/Browser.vala:2068
 msgid "Adding Files"
 msgstr "Přidávají se soubory"
 
-#: src/Browser.vala:2061 src/MainWindow.vala:613
+#: src/Browser.vala:2068 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "Přesouvají se soubory"
 
-#: src/Browser.vala:2151
+#: src/Browser.vala:2156
 msgid "New Folder"
 msgstr "Nová složka"
 
-#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2156 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "V_ytvořit"
 
-#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2239 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1982,21 +1950,21 @@ msgid "_Rename"
 msgstr "_Přejmenovat"
 
 #. Ask confirmation
-#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "Trvale smazat?"
 
-#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2272 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "Tuto akci nelze vrátit. Chcete smazat <i>%s</i>?"
 
-#: src/Browser.vala:2302
+#: src/Browser.vala:2307
 msgid "Source and destination are the same"
 msgstr "Zdroj a cíl jsou stejné"
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
-#: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
+#: src/Browser.vala:2340 src/Ext/Image/ImageViewer.vala:645
+#: src/Ext/Video/VideoViewer.vala:676 src/Ext/Video/VideoViewer.vala:769
 #: src/FilePropertyView.vala:125
 msgid "Open"
 msgstr "Otevřít"
@@ -2044,8 +2012,7 @@ msgid "No file selected"
 msgstr "Není vybrán žádný soubor"
 
 #. Cannot copy to libraries.
-#: src/Dialogs/FolderSelector.vala:148
-#: src/Ext/Bookmarks/BookmarksDialog.vala:67
+#: src/Dialogs/FolderSelector.vala:148 src/Ext/Bookmarks/BookmarksDialog.vala:67
 msgid "Invalid location"
 msgstr "Neplatný cíl"
 
@@ -2057,9 +2024,8 @@ msgstr "Automatický název souboru"
 msgid "Enter a file extension"
 msgstr "Zadejte příponu souboru"
 
-#: src/Dialogs/ReadFilename.vala:31
-#: src/Ext/Tools/Internal/ImageRotation.vala:112 src/ImageSaver.vala:66
-#: src/ImageSaver.vala:71
+#: src/Dialogs/ReadFilename.vala:31 src/Ext/Tools/Internal/ImageRotation.vala:112
+#: src/ImageSaver.vala:66 src/ImageSaver.vala:71
 msgid "Cannot save this kind of files"
 msgstr "Tento typ souborů nelze uložit"
 
@@ -2079,12 +2045,9 @@ msgstr "Umístění"
 msgid "Location already saved"
 msgstr "Umístění je již uloženo"
 
-#: src/Ext/Bookmarks/BookmarksDialog.vala:5
-#: src/Ext/Filters/FiltersDialog.vala:30
-#: src/Ext/Filters/TestExprEditorGroup.vala:25
-#: src/Ext/Scripts/ScriptsDialog.vala:8
-#: src/Ext/Search/SearchSourceEditorGroup.vala:8
-#: src/Ext/Template/TemplatePage.vala:172
+#: src/Ext/Bookmarks/BookmarksDialog.vala:5 src/Ext/Filters/FiltersDialog.vala:30
+#: src/Ext/Filters/TestExprEditorGroup.vala:25 src/Ext/Scripts/ScriptsDialog.vala:8
+#: src/Ext/Search/SearchSourceEditorGroup.vala:8 src/Ext/Template/TemplatePage.vala:172
 msgid "Empty"
 msgstr "Prázdné"
 
@@ -2138,8 +2101,7 @@ msgid "Gamma"
 msgstr "Gama"
 
 #. Translators: filter that adjust the color curves.
-#: src/Ext/Editor/AdjustBrightness.vala:12
-#: src/Ext/Editor/AdjustContrast.vala:12
+#: src/Ext/Editor/AdjustBrightness.vala:12 src/Ext/Editor/AdjustContrast.vala:12
 msgid "Curves"
 msgstr "Křivky"
 
@@ -2153,41 +2115,35 @@ msgstr "Rovnováha"
 msgid "Equalize"
 msgstr "Vyrovnat"
 
-#: src/Ext/Editor/AspectRatioGroup.vala:41
-#: src/Ext/Editor/AspectRatioGroup.vala:42
+#: src/Ext/Editor/AspectRatioGroup.vala:41 src/Ext/Editor/AspectRatioGroup.vala:42
 msgctxt "Aspect Ratio"
 msgid "Disabled"
 msgstr "Vypnuto"
 
-#: src/Ext/Editor/AspectRatioGroup.vala:52
-#: src/Ext/Editor/AspectRatioGroup.vala:54
+#: src/Ext/Editor/AspectRatioGroup.vala:52 src/Ext/Editor/AspectRatioGroup.vala:54
 msgctxt "Aspect Ratio"
 msgid "Screen"
 msgstr "Obrazovka"
 
-#: src/Ext/Editor/AspectRatioGroup.vala:59
-#: src/Ext/Editor/AspectRatioGroup.vala:60
+#: src/Ext/Editor/AspectRatioGroup.vala:59 src/Ext/Editor/AspectRatioGroup.vala:60
 msgctxt "Aspect Ratio"
 msgid "Image"
 msgstr "Obrázek"
 
-#: src/Ext/Editor/AspectRatioGroup.vala:65
-#: src/Ext/Editor/AspectRatioGroup.vala:66
+#: src/Ext/Editor/AspectRatioGroup.vala:65 src/Ext/Editor/AspectRatioGroup.vala:66
 #: src/Ext/Filters/TestAspectRatio.vala:169
 msgctxt "Aspect Ratio"
 msgid "Square"
 msgstr "Čtverec"
 
-#: src/Ext/Editor/AspectRatioGroup.vala:79
-#: src/Ext/Editor/AspectRatioGroup.vala:81
+#: src/Ext/Editor/AspectRatioGroup.vala:79 src/Ext/Editor/AspectRatioGroup.vala:81
 #: src/Ext/Filters/TestAspectRatio.vala:180
 msgctxt "Aspect Ratio"
 msgid "A4"
 msgstr "A4"
 
 #. Translators: choose another value
-#: src/Ext/Editor/AspectRatioGroup.vala:83
-#: src/Ext/Filters/TestAspectRatio.vala:89
+#: src/Ext/Editor/AspectRatioGroup.vala:83 src/Ext/Filters/TestAspectRatio.vala:89
 #: src/Ext/Template/TemplateTokenRow.vala:57
 msgid "Other…"
 msgstr "Jiné…"
@@ -2356,8 +2312,7 @@ msgstr "Nahradit obsah?"
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:145
 #, c-format
-msgid ""
-"The file “%s” was modified by another application. Do you want to replace it?"
+msgid "The file “%s” was modified by another application. Do you want to replace it?"
 msgstr "Soubor „%s“ byl upraven jinou aplikací. Chcete jej nahradit?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
@@ -2401,8 +2356,7 @@ msgstr "Zobrazit"
 msgid "Personalize…"
 msgstr "Přizpůsobit…"
 
-#: src/Ext/Filters/FilterEditorPage.vala:74
-#: src/Ext/Scripts/ScriptEditorPage.vala:32
+#: src/Ext/Filters/FilterEditorPage.vala:74 src/Ext/Scripts/ScriptEditorPage.vala:32
 msgid "Name is empty"
 msgstr "Název je prázdný"
 
@@ -2487,33 +2441,32 @@ msgid "Not Includes"
 msgstr "Neobsahuje"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
+#: src/Ext/Image/ImageViewer.vala:236 src/Ext/Image/ImageViewer.vala:292
 msgid "Save File"
 msgstr "Uložit soubor"
 
-#: src/Ext/Image/ImageViewer.vala:264
+#: src/Ext/Image/ImageViewer.vala:271
 #, c-format
 msgid "Saving %s"
 msgstr "Ukládá se %s"
 
-#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
-#: src/MainWindow.vala:1087
+#: src/Ext/Image/ImageViewer.vala:303 src/FolderTree.vala:81 src/MainWindow.vala:1086
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "Překlopit vodorovně"
 
-#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "Překlopit svisle"
 
-#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:636 src/Ext/Video/VideoViewer.vala:658
 msgid "Copying to the Clipboard"
 msgstr "Kopíruje se do schránky"
 
-#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:644 src/Ext/Video/VideoViewer.vala:675
 msgid "Copied to the Clipboard"
 msgstr "Zkopírováno do schránky"
 
@@ -2536,8 +2489,7 @@ msgid "Last Imported"
 msgstr "Naposledy importováno"
 
 #. Caption
-#: src/Ext/Preferences/BrowserPreferences.vala:74
-#: src/Ext/Shortcuts/Shortcut.vala:257
+#: src/Ext/Preferences/BrowserPreferences.vala:74 src/Ext/Shortcuts/Shortcut.vala:257
 msgid "Hidden"
 msgstr "Skryté"
 
@@ -2563,14 +2515,12 @@ msgstr "Změněné"
 msgid "_Continue…"
 msgstr "_Pokračovat…"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:5
-#: src/Ext/Scripts/ScriptCommandPage.vala:5
+#: src/Ext/Rename/RenameTemplatePage.vala:5 src/Ext/Scripts/ScriptCommandPage.vala:5
 #: src/Ext/Template/TemplatePage.vala:158
 msgid "Text"
 msgstr "Text"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:6
-#: src/Ext/Scripts/ScriptCommandPage.vala:6
+#: src/Ext/Rename/RenameTemplatePage.vala:6 src/Ext/Scripts/ScriptCommandPage.vala:6
 #: src/Ext/Template/TemplatePage.vala:159
 msgid "Space"
 msgstr "Mezera"
@@ -2579,18 +2529,15 @@ msgstr "Mezera"
 msgid "Index"
 msgstr "Index"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:8
-#: src/Ext/Scripts/ScriptCommandPage.vala:10
+#: src/Ext/Rename/RenameTemplatePage.vala:8 src/Ext/Scripts/ScriptCommandPage.vala:10
 msgid "File Name"
 msgstr "Název souboru"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:9
-#: src/Ext/Scripts/ScriptCommandPage.vala:11
+#: src/Ext/Rename/RenameTemplatePage.vala:9 src/Ext/Scripts/ScriptCommandPage.vala:11
 msgid "File Name, No Extension"
 msgstr "Název souboru bez přípony"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:10
-#: src/Ext/Scripts/ScriptCommandPage.vala:12
+#: src/Ext/Rename/RenameTemplatePage.vala:10 src/Ext/Scripts/ScriptCommandPage.vala:12
 msgid "File Extension"
 msgstr "Přípona souboru"
 
@@ -2606,13 +2553,11 @@ msgstr "Vytvořeno"
 msgid "Digitalized"
 msgstr "Digitalizováno"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:15
-#: src/Ext/Scripts/ScriptCommandPage.vala:14
+#: src/Ext/Rename/RenameTemplatePage.vala:15 src/Ext/Scripts/ScriptCommandPage.vala:14
 msgid "Current Date"
 msgstr "Dnešní datum"
 
-#: src/Ext/Rename/RenameTemplatePage.vala:16
-#: src/Ext/Scripts/ScriptCommandPage.vala:16
+#: src/Ext/Rename/RenameTemplatePage.vala:16 src/Ext/Scripts/ScriptCommandPage.vala:16
 msgid "File Attribute"
 msgstr "Atribut souboru"
 
@@ -2965,13 +2910,13 @@ msgstr "Zpět o 5 minut"
 msgid "Select None"
 msgstr "Nic nevybrat"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
-#: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
+#: src/Ext/Slideshow/Slideshow.vala:53 src/FolderTree.vala:123 src/FolderTree.vala:254
+#: src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
 msgid "Loading %s"
 msgstr "Načítá se %s"
 
-#: src/Ext/Slideshow/Slideshow.vala:143
+#: src/Ext/Slideshow/Slideshow.vala:166
 msgid "Paused"
 msgstr "Pozastaveno"
 
@@ -3008,9 +2953,7 @@ msgstr "Neznámý typ souboru"
 #: src/Ext/Tools/Internal/ImageRotation.vala:95 src/ImageLoader.vala:134
 #: src/ImageLoader.vala:167
 msgid "No suitable loader available for this file type"
-msgstr ""
-"Pro tento typ souboru není k dispozici žádný vhodný modul, který by jej "
-"načetl"
+msgstr "Pro tento typ souboru není k dispozici žádný vhodný modul, který by jej načetl"
 
 #: src/Ext/Tools/Internal/ResizeImages.vala:47
 msgid "Original"
@@ -3024,34 +2967,45 @@ msgstr "Umělec"
 msgid "Album"
 msgstr "Album"
 
-#. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-#: src/Ext/Video/VideoMetadata.vala:8
+#: src/Ext/Video/VideoMetadata.vala:7
 msgid "Video Codec"
 msgstr "Video kodek"
 
-#: src/Ext/Video/VideoMetadata.vala:9
+#: src/Ext/Video/VideoMetadata.vala:8
 msgid "Audio Codec"
 msgstr "Zvukový kodek"
 
-#: src/Ext/Video/VideoMetadata.vala:10
+#: src/Ext/Video/VideoMetadata.vala:9
 msgid "Encoder"
 msgstr "Kodér"
 
-#: src/Ext/Video/VideoViewer.vala:615
+#: src/Ext/Video/VideoMetadata.vala:10
+msgid "Framerate"
+msgstr "Snímková rychlost"
+
+#: src/Ext/Video/VideoMetadata.vala:11
+msgid "Channels"
+msgstr "Počet kanálů"
+
+#: src/Ext/Video/VideoMetadata.vala:12
+msgid "Sample Rate"
+msgstr "Vzorkovací frekvence"
+
+#: src/Ext/Video/VideoViewer.vala:625
 msgid "Saving File"
 msgstr "Ukládání souboru"
 
-#: src/Ext/Video/VideoViewer.vala:659
+#: src/Ext/Video/VideoViewer.vala:669
 msgid "Could not copy the image to the clipboard"
 msgstr "Nelze zkopírovat obrázek do schránky"
 
-#: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
+#: src/Ext/Video/VideoViewer.vala:720 src/Ext/Video/VideoViewer.vala:727
+#: src/Ext/Video/VideoViewer.vala:757 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "Neplatný název souboru"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
-#: src/Ext/Video/VideoViewer.vala:758
+#: src/Ext/Video/VideoViewer.vala:768
 #, c-format
 msgid "Saved %s"
 msgstr "Uloženo %s"
@@ -3100,11 +3054,11 @@ msgstr "Kopírují se soubory"
 msgid "Clear EXIF Rotation"
 msgstr "Vymazat otočení EXIF"
 
-#: src/MainWindow.vala:985 src/MainWindow.vala:991
+#: src/MainWindow.vala:989
 msgid "No images selected"
 msgstr "Nejsou vybrány žádné obrázky"
 
-#: src/MainWindow.vala:1036
+#: src/MainWindow.vala:1035
 #, c-format
 msgid "Application '%s' not found"
 msgstr "Aplikace „%s“ nebyla nalezena"
@@ -3129,12 +3083,12 @@ msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 msgid "_Discard"
 msgstr "Zaho_dit"
 
-#: src/Viewer.vala:390
+#: src/Viewer.vala:456
 msgid "Exit Fullscreen"
 msgstr "Opustit celou obrazovku"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:480
+#: src/Viewer.vala:527
 msgid "modified"
 msgstr "změněno"
 
@@ -3142,8 +3096,8 @@ msgstr "změněno"
 msgid "(invalid value)"
 msgstr "(neplatná hodnota)"
 
-#: src/lib/exiv2-utils.cpp:837 src/lib/exiv2-utils.cpp:1421
-#: src/lib/exiv2-utils.cpp:1444 src/lib/io/load-gif.c:138
+#: src/lib/exiv2-utils.cpp:837 src/lib/exiv2-utils.cpp:1421 src/lib/exiv2-utils.cpp:1444
+#: src/lib/io/load-gif.c:138
 msgid "Invalid file format"
 msgstr "Neplatný formát souboru"
 
@@ -3167,11 +3121,11 @@ msgctxt "Cardinal point"
 msgid "E"
 msgstr "V"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Stereo"
 msgstr "Stereo"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Mono"
 msgstr "Mono"
 
@@ -3210,37 +3164,35 @@ msgstr "%d∶%02d"
 #~ msgstr "Prohlížeč obrázků gThumb"
 
 #~ msgid ""
-#~ "gThumb is an image viewer, editor, browser and organizer. It is designed "
-#~ "to be well integrated with the GNOME 3 desktop."
+#~ "gThumb is an image viewer, editor, browser and organizer. It is designed to be "
+#~ "well integrated with the GNOME 3 desktop."
 #~ msgstr ""
-#~ "gThumb je zobrazovač, editor, prohlížeč a organizátor obrázků. Je navržen "
-#~ "tak, aby dobře zapadl do pracovního prostředí GNOME 3."
+#~ "gThumb je zobrazovač, editor, prohlížeč a organizátor obrázků. Je navržen tak, aby "
+#~ "dobře zapadl do pracovního prostředí GNOME 3."
 
 #~ msgid ""
-#~ "As an image viewer gThumb allows to view common image file formats such "
-#~ "as BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW "
-#~ "images. It is also possible to view various metadata types embedded "
-#~ "inside an image such as EXIF, IPTC and XMP."
+#~ "As an image viewer gThumb allows to view common image file formats such as BMP, "
+#~ "JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It is also "
+#~ "possible to view various metadata types embedded inside an image such as EXIF, "
+#~ "IPTC and XMP."
 #~ msgstr ""
-#~ "Jako zobrazovač obrázků umožňuje gThumb zobrazovat běžné soubory s "
-#~ "obrázky, jako jsou BMP, JPEG, GIF (včetně animovaných), PNG, TIFF, TGA a "
-#~ "RAW. Můžete si také zobrazit rozličné typy metadat, jako EXIF, IPTC a "
-#~ "XMP, vložené v obrázcích."
+#~ "Jako zobrazovač obrázků umožňuje gThumb zobrazovat běžné soubory s obrázky, jako "
+#~ "jsou BMP, JPEG, GIF (včetně animovaných), PNG, TIFF, TGA a RAW. Můžete si také "
+#~ "zobrazit rozličné typy metadat, jako EXIF, IPTC a XMP, vložené v obrázcích."
 
 #~ msgid ""
-#~ "As an image browser gThumb shows the thumbnails of the images saved on "
-#~ "your disk, allows to perform the common operations of a file manager such "
-#~ "as copy, move and delete files and folders. Furthermore there is a series "
-#~ "of image specific tools such as JPEG lossless transformations; image "
-#~ "resize; format conversion; slideshow; setting an image as desktop "
-#~ "background and several others."
+#~ "As an image browser gThumb shows the thumbnails of the images saved on your disk, "
+#~ "allows to perform the common operations of a file manager such as copy, move and "
+#~ "delete files and folders. Furthermore there is a series of image specific tools "
+#~ "such as JPEG lossless transformations; image resize; format conversion; slideshow; "
+#~ "setting an image as desktop background and several others."
 #~ msgstr ""
-#~ "Jako prohlížeč obrázků umožňuje gThumb zobrazovat náhledy obrázků "
-#~ "uložených na vašem disku a provádět běžné operace očekávané od správce "
-#~ "souborů, jako je kopírování, přesun a mazání souborů a složek. Navíc je "
-#~ "zde řada nástrojů určených pro obrázky, jako jsou bezeztrátové "
-#~ "transformace JPEG, změna velikosti, převod formátů, promítání snímků, "
-#~ "nastavení obrázku jako pozadí pracovní plochy a řada dalších."
+#~ "Jako prohlížeč obrázků umožňuje gThumb zobrazovat náhledy obrázků uložených na "
+#~ "vašem disku a provádět běžné operace očekávané od správce souborů, jako je "
+#~ "kopírování, přesun a mazání souborů a složek. Navíc je zde řada nástrojů určených "
+#~ "pro obrázky, jako jsou bezeztrátové transformace JPEG, změna velikosti, převod "
+#~ "formátů, promítání snímků, nastavení obrázku jako pozadí pracovní plochy a řada "
+#~ "dalších."
 
 #~ msgid "Browser mode"
 #~ msgstr "Režim procházení"
@@ -3249,11 +3201,11 @@ msgstr "%d∶%02d"
 #~ msgstr "Režim prohlížení"
 
 #~ msgid ""
-#~ "Images over this size (in bytes) will not be thumbnailed. Use 0 if you "
-#~ "want to generate thumbnails for all images."
+#~ "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to "
+#~ "generate thumbnails for all images."
 #~ msgstr ""
-#~ "Pro obrázky překračující tuto velikost (v bajtech) nebudou tvořeny "
-#~ "náhledy. Použijte 0, pokud chcete generovat náhledy všech obrázků."
+#~ "Pro obrázky překračující tuto velikost (v bajtech) nebudou tvořeny náhledy. "
+#~ "Použijte 0, pokud chcete generovat náhledy všech obrázků."
 
 #~ msgid "Whether to reset the scrollbars position after changing image"
 #~ msgstr "Zda po změně obrázku nastavit pozice posuvníků na začátek"
@@ -3262,13 +3214,12 @@ msgstr "%d∶%02d"
 #~ msgstr "Zobrazit obrázky uvnitř rámečku"
 
 #~ msgid ""
-#~ "Possible values include: general::unsorted, file::name, file::size, "
-#~ "file::mtime, exif::photo::datetimeoriginal"
+#~ "Possible values include: general::unsorted, file::name, file::size, file::mtime, "
+#~ "exif::photo::datetimeoriginal"
 #~ msgstr ""
-#~ "Možné hodnoty zahrnují: general::unsorted (obecné, neseřazené), "
-#~ "file::name (název souboru), file::size (velikost souboru), file::mtime "
-#~ "(čas souboru), exif::photo::datetimeoriginal (čas pořízení fotografie "
-#~ "podle exif)"
+#~ "Možné hodnoty zahrnují: general::unsorted (obecné, neseřazené), file::name (název "
+#~ "souboru), file::size (velikost souboru), file::mtime (čas souboru), "
+#~ "exif::photo::datetimeoriginal (čas pořízení fotografie podle exif)"
 
 #~ msgid "Import with gThumb"
 #~ msgstr "Import pomocí gThumb"
@@ -3583,8 +3534,7 @@ msgstr "%d∶%02d"
 
 #~ msgid "Files will be organized in catalogs. No file will be moved on disk."
 #~ msgstr ""
-#~ "Soubory budou uspořádány v katalogu. Na disku žádné soubory přesouvány "
-#~ "nebudou."
+#~ "Soubory budou uspořádány v katalogu. Na disku žádné soubory přesouvány nebudou."
 
 #~ msgid "Date photo was taken"
 #~ msgstr "Datum pořízení fotografie"
@@ -3688,8 +3638,7 @@ msgstr "%d∶%02d"
 #~ msgid "Contact Sheet"
 #~ msgstr "Náhledový list"
 
-#~ msgid ""
-#~ "Create an index image displaying the thumbnails of the selected files."
+#~ msgid "Create an index image displaying the thumbnails of the selected files."
 #~ msgstr "Vytvářejte indexy zobrazující náhledy vybraných souborů"
 
 #~ msgid "Simple"
@@ -3852,8 +3801,7 @@ msgstr "%d∶%02d"
 #~ msgstr "Pozadí pracovní plochy"
 
 #~ msgid ""
-#~ "Are you sure you want to permanently delete the metadata of the selected "
-#~ "files?"
+#~ "Are you sure you want to permanently delete the metadata of the selected files?"
 #~ msgstr "Opravdu chcete trvale smazat metadata vybraných souborů?"
 
 #~ msgid "If you delete the metadata, it will be permanently lost."
@@ -3953,11 +3901,11 @@ msgstr "%d∶%02d"
 #~ msgstr "Nelze přesunout soubory"
 
 #~ msgid ""
-#~ "Files cannot be moved to the current location, as alternative you can "
-#~ "choose to copy them."
+#~ "Files cannot be moved to the current location, as alternative you can choose to "
+#~ "copy them."
 #~ msgstr ""
-#~ "Soubor nelze přesunout do současného umístění, můžete jej místo toho "
-#~ "nechat zkopírovat."
+#~ "Soubor nelze přesunout do současného umístění, můžete jej místo toho nechat "
+#~ "zkopírovat."
 
 #~ msgid "Copy To"
 #~ msgstr "Kopírování do"
@@ -4329,15 +4277,6 @@ msgstr "%d∶%02d"
 #~ msgid "Codec"
 #~ msgstr "Kodek"
 
-#~ msgid "Framerate"
-#~ msgstr "Snímková rychlost"
-
-#~ msgid "Channels"
-#~ msgstr "Počet kanálů"
-
-#~ msgid "Sample rate"
-#~ msgstr "Vzorkovací rychlost"
-
 #, c-format
 #~ msgid "%d × %d"
 #~ msgstr "%d × %d"
@@ -4423,26 +4362,24 @@ msgstr "%d∶%02d"
 #~ msgstr "Problém při transformaci obrázku: %s"
 
 #~ msgid ""
-#~ "This transformation may introduce small image distortions along one or "
-#~ "more edges, because the image dimensions are not multiples of 8.\n"
+#~ "This transformation may introduce small image distortions along one or more edges, "
+#~ "because the image dimensions are not multiples of 8.\n"
 #~ "\n"
-#~ "The distortion is reversible, however. If the resulting image is "
-#~ "unacceptable, simply apply the reverse transformation to return to the "
-#~ "original image.\n"
+#~ "The distortion is reversible, however. If the resulting image is unacceptable, "
+#~ "simply apply the reverse transformation to return to the original image.\n"
 #~ "\n"
-#~ "You can also choose to discard (or trim) any untransformable edge pixels. "
-#~ "For practical use, this mode gives the best looking results, but the "
-#~ "transformation is not strictly lossless anymore."
+#~ "You can also choose to discard (or trim) any untransformable edge pixels. For "
+#~ "practical use, this mode gives the best looking results, but the transformation is "
+#~ "not strictly lossless anymore."
 #~ msgstr ""
-#~ "Tato transformace může vést k drobnému zkreslení obrazu podél jedné nebo "
-#~ "více stran obrázku. Důvodem je skutečnost, že rozměry obrázku nejsou "
-#~ "násobkem osmi.\n"
+#~ "Tato transformace může vést k drobnému zkreslení obrazu podél jedné nebo více "
+#~ "stran obrázku. Důvodem je skutečnost, že rozměry obrázku nejsou násobkem osmi.\n"
 #~ "\n"
-#~ "Nicméně, zkreslení je vratné. Je-li výsledek nepřijatelný, stačí provést "
-#~ "opačnou transformaci a získat tak původní obrázek.\n"
+#~ "Nicméně, zkreslení je vratné. Je-li výsledek nepřijatelný, stačí provést opačnou "
+#~ "transformaci a získat tak původní obrázek.\n"
 #~ "\n"
-#~ "Můžete také odstranit problematické okrajové pixely. Tento režim dává v "
-#~ "praxi nejlepší výsledky, transformace již ale není bezeztrátová."
+#~ "Můžete také odstranit problematické okrajové pixely. Tento režim dává v praxi "
+#~ "nejlepší výsledky, transformace již ale není bezeztrátová."
 
 #~ msgid "_Trim"
 #~ msgstr "Oříznou_t"
@@ -4997,8 +4934,7 @@ msgstr "%d∶%02d"
 #~ msgstr "Vrátit zpět"
 
 #~ msgid "Do you want to revert all the changes and use the default shortcuts?"
-#~ msgstr ""
-#~ "Chcete vrátit zpět všechny změny a použít výchozí klávesové zkratky?"
+#~ msgstr "Chcete vrátit zpět všechny změny a použít výchozí klávesové zkratky?"
 
 #, c-format
 #~ msgid "%s of %s"
@@ -5028,33 +4964,30 @@ msgstr "%d∶%02d"
 #~ msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 
 #~ msgid ""
-#~ "gThumb is free software; you can redistribute it and/or modify it under "
-#~ "the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 2 of the License, or (at your option) "
-#~ "any later version."
+#~ "gThumb is free software; you can redistribute it and/or modify it under the terms "
+#~ "of the GNU General Public License as published by the Free Software Foundation; "
+#~ "either version 2 of the License, or (at your option) any later version."
 #~ msgstr ""
-#~ "gThumb je svobodný software. Můžete jej dále šířit i upravovat, a to za "
-#~ "podmínek licence GNU General Public License v podobě, v jaké ji vydala "
-#~ "Free Software Foundation, a to buď ve verzi 2 této licence nebo (dle vaší "
-#~ "volby) v libovolné novější verzi."
+#~ "gThumb je svobodný software. Můžete jej dále šířit i upravovat, a to za podmínek "
+#~ "licence GNU General Public License v podobě, v jaké ji vydala Free Software "
+#~ "Foundation, a to buď ve verzi 2 této licence nebo (dle vaší volby) v libovolné "
+#~ "novější verzi."
 
 #~ msgid ""
 #~ "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
-#~ "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-#~ "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-#~ "details."
+#~ "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+#~ "PARTICULAR PURPOSE.  See the GNU General Public License for more details."
 #~ msgstr ""
-#~ "gThumb je šířen ve víře, že bude užitečný, ale BEZ JAKÝCHKOLIV ZÁRUK, a "
-#~ "to i bez předpokládané záruky na PRODEJNOST nebo VHODNOST PRO KONKRÉTNÍ "
-#~ "ÚČEL. Více podrobností najdete přímo v licenci GNU General Public License."
+#~ "gThumb je šířen ve víře, že bude užitečný, ale BEZ JAKÝCHKOLIV ZÁRUK, a to i bez "
+#~ "předpokládané záruky na PRODEJNOST nebo VHODNOST PRO KONKRÉTNÍ ÚČEL. Více "
+#~ "podrobností najdete přímo v licenci GNU General Public License."
 
 #~ msgid ""
-#~ "You should have received a copy of the GNU General Public License along "
-#~ "with gThumb.  If not, see http://www.gnu.org/licenses/."
+#~ "You should have received a copy of the GNU General Public License along with "
+#~ "gThumb.  If not, see http://www.gnu.org/licenses/."
 #~ msgstr ""
-#~ "Spolu s aplikací gThumb byste měli obdržet kopii licence GNU General "
-#~ "Public License. Pokud se tak nestalo, podívejte se na <http://www.gnu.org/"
-#~ "licenses/>."
+#~ "Spolu s aplikací gThumb byste měli obdržet kopii licence GNU General Public "
+#~ "License. Pokud se tak nestalo, podívejte se na <http://www.gnu.org/licenses/>."
 
 #~ msgid "Show browser"
 #~ msgstr "Zobrazit prohlížeč"
@@ -5174,8 +5107,7 @@ msgstr "%d∶%02d"
 
 #, c-format
 #~ msgid "Are you sure you want to permanently delete the %'d selected file?"
-#~ msgid_plural ""
-#~ "Are you sure you want to permanently delete the %'d selected files?"
+#~ msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
 #~ msgstr[0] "Opravdu chcete trvale smazat %'d vybraný soubor?"
 #~ msgstr[1] "Opravdu chcete trvale smazat %'d vybrané soubory?"
 #~ msgstr[2] "Opravdu chcete trvale smazat %'d vybraných souborů?"
@@ -5321,21 +5253,20 @@ msgstr "%d∶%02d"
 
 #, c-format
 #~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s».  Do you "
-#~ "want to reassign it to this action instead?"
+#~ "The key combination «%s» is already assigned to the action «%s».  Do you want to "
+#~ "reassign it to this action instead?"
 #~ msgstr ""
-#~ "Kombinace kláves „%s“ je již přiřazena činnosti „%s“. Chcete ji místo "
-#~ "toho přiřadit této činnosti?"
+#~ "Kombinace kláves „%s“ je již přiřazena činnosti „%s“. Chcete ji místo toho "
+#~ "přiřadit této činnosti?"
 
 #~ msgid "Reassign"
 #~ msgstr "Změnit přiřazení"
 
 #, c-format
 #~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s» and "
-#~ "cannot be changed."
-#~ msgstr ""
-#~ "Kombinace kláves „%s“ je již přiřazena činnosti „%s“ a nelze to změnit."
+#~ "The key combination «%s» is already assigned to the action «%s» and cannot be "
+#~ "changed."
+#~ msgstr "Kombinace kláves „%s“ je již přiřazena činnosti „%s“ a nelze to změnit."
 
 #, c-format
 #~ msgid "The key combination «%s» is already assigned and cannot be changed."
@@ -5458,9 +5389,7 @@ msgstr "%d∶%02d"
 #~ msgstr "Importovat z %s"
 
 #, c-format
-#~ msgid ""
-#~ "Return to this window when you have finished the authorization process on "
-#~ "%s"
+#~ msgid "Return to this window when you have finished the authorization process on %s"
 #~ msgstr "Až dokončíte proces ověření pro %s, tak se vraťte do tohoto okna"
 
 #~ msgid "Once you’re done, click the “Continue” button below."
@@ -5478,13 +5407,12 @@ msgstr "%d∶%02d"
 
 #, c-format
 #~ msgid ""
-#~ "Click “Authorize” to open your web browser and authorize gthumb to upload "
-#~ "photos to %s. When you’re finished, return to this window to complete the "
-#~ "authorization."
+#~ "Click “Authorize” to open your web browser and authorize gthumb to upload photos "
+#~ "to %s. When you’re finished, return to this window to complete the authorization."
 #~ msgstr ""
-#~ "Kliknutím na „Ověřit“ otevřete svůj webový prohlížeč, ve kterém proveďte "
-#~ "ověření pro aplikaci gthumb pro nahrání fotografií na %s. Až budete "
-#~ "hotovi, tak se vraťte do tohoto okna, kde se ověření dokončí."
+#~ "Kliknutím na „Ověřit“ otevřete svůj webový prohlížeč, ve kterém proveďte ověření "
+#~ "pro aplikaci gthumb pro nahrání fotografií na %s. Až budete hotovi, tak se vraťte "
+#~ "do tohoto okna, kde se ověření dokončí."
 
 #~ msgid "Getting the album list"
 #~ msgstr "Získává se seznam alb"
