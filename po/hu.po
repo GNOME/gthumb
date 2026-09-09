@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-09-02 19:40+0000\n"
-"PO-Revision-Date: 2026-09-09 10:41+0200\n"
+"PO-Revision-Date: 2026-09-09 13:00+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -33,7 +33,6 @@ msgid "View and organize your images"
 msgstr "Képek megtekintése és rendszerezése"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
-#| msgid "An image viewer and browser for GNOME."
 msgid "Image viewer, editor, browser and organizer."
 msgstr "Képmegjelenítő, képszerkesztő, képböngésző és képrendszerező."
 
@@ -43,16 +42,13 @@ msgstr ""
 "Képek megtekintése: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
-#| msgid ""
-#| "As an image editor gThumb allows to scale, rotate and crop the images; "
-#| "change the saturation, lightness, contrast as well as other color "
-#| "transformations."
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
 msgstr ""
-"Képek szerkesztése: képek méretezése, forgatása és levágása, a kontraszt, a fé"
-"nyerősség és a telítettség megváltoztatása, valamint egyéb színátalakítások."
+"Képek szerkesztése: képek méretezése, forgatása és levágása, a kontraszt, a "
+"fényerősség és a telítettség megváltoztatása, valamint egyéb "
+"színátalakítások."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
@@ -63,11 +59,10 @@ msgid ""
 "File manager operations: copy, move, rename and delete files and folders, "
 "execute scripts on the selected files."
 msgstr ""
-"Fájlkezelési műveletek: fájlok és mappák másolása, áthelyezése, átnevezése és "
-"törlése, parancsfájlok végrehajtása a kiválasztott fájlokon."
+"Fájlkezelési műveletek: fájlok és mappák másolása, áthelyezése, átnevezése "
+"és törlése, parancsfájlok végrehajtása a kiválasztott fájlokon."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
-#| msgid "Image tools"
 msgid "Image specific tools:"
 msgstr "Képre jellemző eszközök:"
 
@@ -76,37 +71,29 @@ msgid "JPEG lossless transformations"
 msgstr "Veszteségmentes JPEG-átalakítások"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:40
-#| msgid "Image size"
 msgid "Image resize"
 msgstr "Kép átméretezése"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:41
-#| msgid "Show version"
 msgid "Format conversion"
 msgstr "Formátum átalakítása"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:42
-#| msgid "Slide"
 msgid "Slideshow"
 msgstr "Diavetítés"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:43
-#| msgid "Set the image as desktop background"
 msgid "Setting an image as desktop background"
 msgstr "Kép beállítása az asztal háttereként"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
-#| msgid ""
-#| "As an image organizer gThumb allows to add comments and other metadata to "
-#| "images; organize images in catalogs and catalogs in libraries; search for "
-#| "images and save the result as a catalog."
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
 msgstr ""
-"Megjegyzések és egyéb metaadatok hozzáadása a képekhez, képek rendezése kataló"
-"gusokba és katalógusok "
-"rendezése könyvtárakba, képek keresése és az eredmény mentése katalógusként."
+"Megjegyzések és egyéb metaadatok hozzáadása a képekhez, képek rendezése "
+"katalógusokba és katalógusok rendezése könyvtárakba, képek keresése és az "
+"eredmény mentése katalógusként."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4
@@ -121,7 +108,6 @@ msgid "Viewer"
 msgstr "Megjelenítő"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:68
-#| msgid "Edit"
 msgid "Editor"
 msgstr "Szerkesztő"
 
@@ -148,7 +134,6 @@ msgid "Possible values are: tiff, tif."
 msgstr "Lehetséges értékek: tiff, tif."
 
 #: data/ui/add-rule-dialog.ui:4 data/ui/test-expr-editor-group.ui:62
-#| msgid "Add a new rule"
 msgid "Add Rule"
 msgstr "Szabály hozzáadása"
 
@@ -157,7 +142,6 @@ msgstr "Szabály hozzáadása"
 #: data/ui/censor-image.ui:38 data/ui/resize-image.ui:22
 #: data/ui/rotate-image.ui:40 data/ui/sharpen-image.ui:85
 #: data/ui/shortcut-row.ui:47 data/ui/special-effects.ui:38
-#| msgid "Reset"
 msgid "_Reset"
 msgstr "_Visszaállítás"
 
@@ -176,7 +160,6 @@ msgstr "Kék"
 #: data/ui/adjust-colors.ui:119 data/ui/adjust-saturation.ui:69
 #: data/ui/editor-palette.ui:104 src/Ext/Editor/AdjustBrightness.vala:133
 #: src/Ext/Editor/Grayscale.vala:7 src/Ext/Shortcuts/Shortcuts.vala:248
-#| msgid "_Brightness"
 msgid "Brightness"
 msgstr "Fényerősség"
 
@@ -188,28 +171,23 @@ msgstr "Előnézet"
 #. Translators: filter that makes a linear transformation of the colors.
 #: data/ui/adjust-contrast.ui:54 src/Ext/Editor/AdjustBrightness.vala:15
 #: src/Ext/Editor/AdjustContrast.vala:15
-#| msgid "Linear scale"
 msgid "Linear"
 msgstr "Lineáris"
 
 #: data/ui/adjust-saturation.ui:66 data/ui/jxl-preferences.ui:33
 #: data/ui/resize-image.ui:69 data/ui/webp-preferences.ui:33
-#| msgid "_Method:"
 msgid "Method"
 msgstr "Módszer"
 
 #: data/ui/adjust-saturation.ui:82 src/Ext/Editor/Grayscale.vala:8
-#| msgid "_Brightness"
 msgid "Lightness"
 msgstr "Fényesség"
 
 #: data/ui/adjust-saturation.ui:95 src/Ext/Editor/Grayscale.vala:9
-#| msgid "_Average"
 msgid "Average"
 msgstr "Átlag"
 
 #: data/ui/app-selector-dialog.ui:4
-#| msgid "Open _With"
 msgid "Open With"
 msgstr "Megnyitás ezzel"
 
@@ -229,13 +207,11 @@ msgstr "_Mégse"
 
 #: data/ui/app-selector-dialog.ui:21 data/ui/folder-selector-dialog.ui:35
 #: src/Ext/Color/ColorSelector.vala:69
-#| msgid "Select"
 msgid "_Select"
 msgstr "_Kiválasztás"
 
 #: data/ui/aspect-ratio-group.ui:4 src/Application.vala:112
 #: src/DefaultTests.vala:234 src/Ext/Editor/AspectRatioGroup.vala:11
-#| msgid "Aspect ratio"
 msgid "Aspect Ratio"
 msgstr "Méretarány"
 
@@ -246,34 +222,27 @@ msgid "Other"
 msgstr "Egyéb"
 
 #: data/ui/aspect-ratio-group.ui:39
-#| msgid "Rotate"
 msgid "Rotated"
 msgstr "Elforgatott"
 
 #: data/ui/avif-preferences.ui:8 data/ui/jxl-preferences.ui:8
 #: data/ui/webp-preferences.ui:8
-#| msgid "_Lossless"
 msgid "Lossless"
 msgstr "Veszteségmentes"
 
 #: data/ui/avif-preferences.ui:13 data/ui/jpeg-preferences.ui:8
 #: data/ui/jxl-preferences.ui:13 data/ui/webp-preferences.ui:13
-#| msgid "_Quality:"
 msgid "Quality"
 msgstr "Minőség"
 
 #: data/ui/avif-preferences.ui:23 data/ui/jpeg-preferences.ui:18
 #: data/ui/jxl-preferences.ui:25 data/ui/webp-preferences.ui:23
-#| msgctxt "zoom quality"
-#| msgid "_Low"
 msgctxt "Quality"
 msgid "Low"
 msgstr "Alacsony"
 
 #: data/ui/avif-preferences.ui:25 data/ui/jpeg-preferences.ui:20
 #: data/ui/jxl-preferences.ui:23 data/ui/webp-preferences.ui:25
-#| msgctxt "zoom quality"
-#| msgid "_High"
 msgctxt "Quality"
 msgid "High"
 msgstr "Magas"
@@ -304,13 +273,11 @@ msgid "Name"
 msgstr "Név"
 
 #: data/ui/browser-menu.ui:6 data/ui/editor-menu.ui:6 data/ui/viewer-menu.ui:6
-#| msgid "New Window"
 msgid "_New Window"
 msgstr "Ú_j ablak"
 
 #: data/ui/browser-menu.ui:10 data/ui/editor-menu.ui:10
 #: data/ui/viewer-menu.ui:10
-#| msgid "Open"
 msgid "_Open…"
 msgstr "_Megnyitás…"
 
@@ -319,22 +286,18 @@ msgid "Open _Clipboard"
 msgstr "_Vágólap megnyitása"
 
 #: data/ui/browser-menu.ui:18 data/ui/viewer-menu.ui:18
-#| msgid "Importing files"
 msgid "_Import Files…"
 msgstr "Fájlok _importálása…"
 
 #: data/ui/browser-menu.ui:24
-#| msgid "Text Files"
 msgid "_Sort Files"
 msgstr "Fájlok _rendezése"
 
 #: data/ui/browser-menu.ui:28
-#| msgid "_Folders:"
 msgid "_Sort Folders"
 msgstr "Mappák _rendezése"
 
 #: data/ui/browser-menu.ui:32
-#| msgid "Hidden Files"
 msgid "_Hidden Files"
 msgstr "_Rejtett fájlok"
 
@@ -351,12 +314,10 @@ msgstr "Gyorsbillentyűk"
 
 #: data/ui/browser-menu.ui:46 data/ui/editor-menu.ui:28
 #: data/ui/viewer-menu.ui:32
-#| msgid "Thumbnails"
 msgid "About Thumbnails"
 msgstr "A Bélyegképek névjegye"
 
 #: data/ui/browser-preferences.ui:17
-#| msgid "Thumbnail _size:"
 msgid "Thumbnail Size"
 msgstr "Bélyegkép mérete"
 
@@ -369,7 +330,6 @@ msgid "First Row"
 msgstr "Első sor"
 
 #: data/ui/browser-preferences.ui:52
-#| msgid "Second"
 msgid "Second Row"
 msgstr "Második sor"
 
@@ -382,13 +342,11 @@ msgid "Behavior"
 msgstr "Viselkedés"
 
 #: data/ui/browser-preferences.ui:71 src/Application.vala:652
-#| msgid "_Open files in fullscreen mode"
 msgid "Open files in fullscreen mode"
 msgstr "Fájlok megnyitása teljes képernyős módban"
 
 #: data/ui/browser.ui:53 data/ui/search-source-editor-group.ui:4
 #: src/Ext/Shortcuts/Shortcuts.vala:160
-#| msgid "_Folders:"
 msgid "Folders"
 msgstr "Mappák"
 
@@ -412,12 +370,10 @@ msgid "History"
 msgstr "Előzmények"
 
 #: data/ui/browser.ui:211
-#| msgid "Search again"
 msgid "Search Again"
 msgstr "Keresés újra"
 
 #: data/ui/browser.ui:222 src/Ext/Shortcuts/Shortcuts.vala:143
-#| msgid "_Upload"
 msgid "Reload"
 msgstr "Újratöltés"
 
@@ -426,7 +382,6 @@ msgid "Catalog Properties"
 msgstr "Katalógus tulajdonságai"
 
 #: data/ui/browser.ui:255 src/Browser.vala:353
-#| msgid "Hidden Files"
 msgid "Reorder Files"
 msgstr "Fájlok átrendezése"
 
@@ -438,19 +393,16 @@ msgid "Presentation"
 msgstr "Bemutató"
 
 #: data/ui/browser.ui:278 src/Ext/Shortcuts/Shortcuts.vala:154
-#| msgid "File properties"
 msgid "File Properties"
 msgstr "Fájltulajdonságok"
 
 #: data/ui/browser.ui:285 data/ui/viewer.ui:88
 #: src/Ext/Shortcuts/Shortcuts.vala:156 src/Ext/Shortcuts/Shortcuts.vala:213
-#| msgid "Edit tags"
 msgid "Edit Image"
 msgstr "Kép szerkesztése"
 
 #: data/ui/browser.ui:292 data/ui/metadata-dialog.ui:4 data/ui/viewer.ui:95
 #: src/Ext/Shortcuts/Shortcuts.vala:177 src/MainWindow.vala:349
-#| msgid "Edit comment"
 msgid "Edit Comment"
 msgstr "Megjegyzés szerkesztése"
 
@@ -462,12 +414,10 @@ msgstr "Eszközök"
 
 #: data/ui/browser.ui:396 src/Ext/Shortcuts/Shortcuts.vala:155
 #: src/Ext/Shortcuts/Shortcuts.vala:212
-#| msgid "Properties"
 msgid "View Properties"
 msgstr "Tulajdonságok megtekintése"
 
 #: data/ui/browser.ui:421
-#| msgid "Fullscreen"
 msgid "Open Fullscreen"
 msgstr "Teljes képernyő megnyitása"
 
@@ -477,7 +427,6 @@ msgid "Open in New Window"
 msgstr "Megnyitás új ablakban"
 
 #: data/ui/browser.ui:429 data/ui/viewer.ui:229
-#| msgid "Open _With"
 msgid "Open _With…"
 msgstr "Megnyitás _ezzel…"
 
@@ -494,7 +443,6 @@ msgstr "Nyomtatás"
 
 #: data/ui/browser.ui:444 data/ui/viewer.ui:250
 #: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
-#| msgid "Set as Background"
 msgid "Set as Desktop Background"
 msgstr "Beállítás asztalháttérként"
 
@@ -525,13 +473,11 @@ msgid "Select All"
 msgstr "Összes kiválasztása"
 
 #: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:274
-#| msgid "Copy to…"
 msgid "Copy To…"
 msgstr "Másolás ide…"
 
 #: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
 #: data/ui/viewer.ui:278
-#| msgid "Move to…"
 msgid "Move To…"
 msgstr "Áthelyezés ide…"
 
@@ -560,22 +506,18 @@ msgid "Delete"
 msgstr "Törlés"
 
 #: data/ui/browser.ui:507 data/ui/viewer.ui:299
-#| msgid "Add to selection"
 msgid "Add to Selection"
 msgstr "Hozzáadás a kiválasztáshoz"
 
 #: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:302
-#| msgid "Selection"
 msgid "Selection 1"
 msgstr "1. kiválasztás"
 
 #: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:308
-#| msgid "Selection"
 msgid "Selection 2"
 msgstr "2. kiválasztás"
 
 #: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:314
-#| msgid "Selection"
 msgid "Selection 3"
 msgstr "3. kiválasztás"
 
@@ -593,7 +535,6 @@ msgstr "Eltávolítás a katalógusból"
 
 #: data/ui/browser.ui:550 data/ui/browser.ui:583
 #: src/Ext/Shortcuts/Shortcuts.vala:148
-#| msgid "Open with the File Manager"
 msgid "Open with File Manager"
 msgstr "Megnyitás fájlkezelővel"
 
@@ -629,7 +570,6 @@ msgstr "M_entés"
 
 #: data/ui/catalog-dialog.ui:45 data/ui/importer-dialog.ui:91
 #: data/ui/metadata-dialog.ui:89 src/Application.vala:149
-#| msgid "_Date:"
 msgid "Date"
 msgstr "Dátum"
 
@@ -646,14 +586,12 @@ msgstr "Helyzet"
 
 #: data/ui/color-picker.ui:96 data/ui/crop.ui:25
 #: data/ui/print-layout-dialog.ui:139
-#| msgid "Left"
 msgctxt "Position"
 msgid "Left"
 msgstr "Balra"
 
 #: data/ui/color-picker.ui:101 data/ui/crop.ui:30
 #: data/ui/print-layout-dialog.ui:145
-#| msgid "Top"
 msgctxt "Position"
 msgid "Top"
 msgstr "Fent"
@@ -702,7 +640,6 @@ msgid "Expand"
 msgstr "Kinyitás"
 
 #: data/ui/crop.ui:57
-#| msgid "Center"
 msgctxt "Verb"
 msgid "Center"
 msgstr "Középre"
@@ -724,7 +661,6 @@ msgid "Source"
 msgstr "Forrás"
 
 #: data/ui/device-dialog.ui:43 src/Ext/Bookmarks/Bookmarks.vala:12
-#| msgid "_System Bookmarks"
 msgid "System Bookmarks"
 msgstr "Rendszerkönyvjelzők"
 
@@ -734,7 +670,6 @@ msgid "Files"
 msgstr "Fájlok"
 
 #: data/ui/device-dialog.ui:117
-#| msgid "_Delete the imported files from the source"
 msgid "Delete imported files from source"
 msgstr "Importált fájlok törlése a forrásból"
 
@@ -757,13 +692,11 @@ msgstr "Színek"
 
 #: data/ui/editor-palette.ui:93 src/Ext/Editor/AdjustContrast.vala:163
 #: src/Ext/Shortcuts/Shortcuts.vala:247
-#| msgid "Con_trast:"
 msgid "Contrast"
 msgstr "Kontraszt"
 
 #: data/ui/editor-palette.ui:115 src/Ext/Editor/AdjustSaturation.vala:116
 #: src/Ext/Shortcuts/Shortcuts.vala:249
-#| msgid "_Saturation"
 msgid "Saturation"
 msgstr "Telítettség"
 
@@ -784,7 +717,7 @@ msgstr "Különleges hatások"
 
 #: data/ui/editor-palette.ui:170 src/Ext/Editor/Censor.vala:166
 msgid "Censor"
-msgstr "Cenzor"
+msgstr "Cenzúrázás"
 
 #: data/ui/editor-palette.ui:181 src/Ext/Editor/ColorPicker.vala:191
 #: src/Ext/Shortcuts/Shortcuts.vala:255
@@ -792,7 +725,6 @@ msgid "Color Picker"
 msgstr "Színválasztó"
 
 #: data/ui/editor-palette.ui:196 data/ui/rename-dialog.ui:94
-#| msgid "Uniform"
 msgid "Transform"
 msgstr "Átalakítás"
 
@@ -818,13 +750,11 @@ msgstr "Teljes képernyő"
 
 #: data/ui/file-action-row.ui:36 data/ui/filter-row.ui:53
 #: data/ui/script-row.ui:30 data/ui/template-token-row.ui:225
-#| msgid "Move To"
 msgid "Move to Top"
 msgstr "Áthelyezés felülre"
 
 #: data/ui/file-action-row.ui:40 data/ui/filter-row.ui:57
 #: data/ui/script-row.ui:34 data/ui/template-token-row.ui:229
-#| msgid "on the bottom"
 msgid "Move to Bottom"
 msgstr "Áthelyezés alulra"
 
@@ -841,7 +771,6 @@ msgid "Limited Content"
 msgstr "Korlátozott tartalom"
 
 #: data/ui/filter-editor-page.ui:54
-#| msgid "Text Files"
 msgid "Max Files"
 msgstr "Legtöbb fájl"
 
@@ -850,22 +779,18 @@ msgid "Total Size"
 msgstr "Teljes méret"
 
 #: data/ui/filter-editor-page.ui:102
-#| msgid "selected by"
 msgid "Selected By"
 msgstr "Kiválasztotta"
 
 #: data/ui/filter-editor-page.ui:107 data/ui/rename-dialog.ui:117
-#| msgid "Duration"
 msgid "Direction"
 msgstr "Irány"
 
 #: data/ui/filter-editor-page.ui:111 data/ui/rename-dialog.ui:121
-#| msgid "ascending"
 msgid "Ascending"
 msgstr "Növekvő"
 
 #: data/ui/filter-editor-page.ui:112 data/ui/rename-dialog.ui:122
-#| msgid "descending"
 msgid "Descending"
 msgstr "Csökkenő"
 
@@ -875,7 +800,6 @@ msgid "Filters"
 msgstr "Szűrők"
 
 #: data/ui/filters-dialog.ui:15
-#| msgid "_General filter:"
 msgid "General Filter"
 msgstr "Általános szűrő"
 
@@ -886,17 +810,14 @@ msgid "_Add"
 msgstr "_Hozzáadás"
 
 #: data/ui/folder-selector-dialog.ui:64
-#| msgid "Hidden Files"
 msgid "Show _Hidden Files"
 msgstr "_Rejtett fájlok megjelenítése"
 
 #: data/ui/folder-selector-dialog.ui:70
-#| msgid "Destination"
 msgid "Show Destination"
 msgstr "Cél megjelenítése"
 
 #: data/ui/format-dialog.ui:22 data/ui/metadata-dialog.ui:21
-#| msgid "_Save"
 msgctxt "Verb"
 msgid "_Save"
 msgstr "M_entés"
@@ -908,22 +829,18 @@ msgid "General"
 msgstr "Általános"
 
 #: data/ui/general-preferences.ui:15
-#| msgid "On startup:"
 msgid "At Startup"
 msgstr "Induláskor"
 
 #: data/ui/general-preferences.ui:18
-#| msgid "Go to last _visited location"
 msgid "Open the last visited location"
 msgstr "Az utoljára meglátogatott hely megnyitása"
 
 #: data/ui/general-preferences.ui:30
-#| msgid "View the folders"
 msgid "Open the home folder"
 msgstr "A saját mappa megnyitása"
 
 #: data/ui/general-preferences.ui:46
-#| msgid "_Reuse the active window to open files"
 msgid "Reuse the active window to open files"
 msgstr "Az aktív ablak újrahasználata fájlok megnyitásához"
 
@@ -932,7 +849,6 @@ msgid "Terminal"
 msgstr "Terminál"
 
 #: data/ui/grid-group.ui:4
-#| msgid "Grid:"
 msgid "Grid"
 msgstr "Rács"
 
@@ -949,17 +865,14 @@ msgid "Histogram"
 msgstr "Hisztogram"
 
 #: data/ui/histogram-view.ui:42
-#| msgid "Logarithmic scale"
 msgid "Logarithmic"
 msgstr "Logaritmikus"
 
 #: data/ui/image-viewer.ui:25 src/Ext/Shortcuts/Shortcuts.vala:218
-#| msgid "Zoom out"
 msgid "Zoom Out"
 msgstr "Kicsinyítés"
 
 #: data/ui/image-viewer.ui:35 src/Ext/Shortcuts/Shortcuts.vala:217
-#| msgid "Zoom in"
 msgid "Zoom In"
 msgstr "Nagyítás"
 
@@ -968,12 +881,10 @@ msgid "100%"
 msgstr "100%"
 
 #: data/ui/image-viewer.ui:69 data/ui/image-viewer.ui:197
-#| msgid "All Images"
 msgid "Full Image"
 msgstr "Teljes kép"
 
 #: data/ui/image-viewer.ui:104
-#| msgid "Color Profile"
 msgid "Apply Color Profile"
 msgstr "Színprofil alkalmazása"
 
@@ -1003,7 +914,6 @@ msgstr "Szüneteltetés"
 
 #: data/ui/image-viewer.ui:174 data/ui/video-viewer.ui:294
 #: src/Ext/Shortcuts/Shortcuts.vala:277
-#| msgid "Next frame"
 msgid "Next Frame"
 msgstr "Következő képkocka"
 
@@ -1012,22 +922,18 @@ msgid "Automatic"
 msgstr "Automatikus"
 
 #: data/ui/image-viewer.ui:202 data/ui/video-viewer.ui:435
-#| msgid "Maximize"
 msgid "Maximize Size"
 msgstr "Méret maximalizálása"
 
 #: data/ui/image-viewer.ui:207 src/Ext/Shortcuts/Shortcuts.vala:229
-#| msgid "Space"
 msgid "Fill Space"
 msgstr "Hely kitöltése"
 
 #: data/ui/image-viewer.ui:212
-#| msgid "Maximize"
 msgid "Maximize Width"
 msgstr "Szélesség maximalizálása"
 
 #: data/ui/image-viewer.ui:217
-#| msgid "Maximize"
 msgid "Maximize Height"
 msgstr "Magasság maximalizálása"
 
@@ -1050,34 +956,27 @@ msgid "Images"
 msgstr "Képek"
 
 #: data/ui/images-preferences.ui:17 data/ui/videos-preferences.ui:17
-#| msgid "Scroll down"
 msgid "Scroll Action"
 msgstr "Görgetési művelet"
 
 #: data/ui/images-preferences.ui:22
-#| msgid "Change to:"
 msgid "Change Zoom"
 msgstr "Nagyítás megváltoztatása"
 
 #: data/ui/images-preferences.ui:23 data/ui/videos-preferences.ui:24
-#| msgctxt "zoom quality"
-#| msgid "Change image"
 msgid "Change File"
 msgstr "Fájl megváltoztatása"
 
 #: data/ui/importer-dialog.ui:4 data/ui/importer-dialog.ui:24
 #: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:452
-#| msgid "Importing files"
 msgid "Import Files"
 msgstr "Fájlok importálása"
 
 #: data/ui/importer-dialog.ui:79
-#| msgid "by folder…"
 msgid "Subfolder"
 msgstr "Almappa"
 
 #: data/ui/importer-dialog.ui:85
-#| msgid "_Automatic subfolder"
 msgid "Automatic Subfolder"
 msgstr "Automatikus almappa"
 
@@ -1090,7 +989,6 @@ msgid "Modified"
 msgstr "Módosítva"
 
 #: data/ui/importer-dialog.ui:97
-#| msgid "Original size"
 msgctxt "Date"
 msgid "Original"
 msgstr "Eredeti"
@@ -1101,7 +999,6 @@ msgid "Bytes"
 msgstr "Bájt"
 
 #: data/ui/importer-dialog.ui:140
-#| msgid "_Delete History"
 msgid "Delete from source"
 msgstr "Törlés a forrásból"
 
@@ -1110,33 +1007,27 @@ msgid "Operations"
 msgstr "Műveletek"
 
 #: data/ui/jpeg-preferences.ui:28
-#| msgid "_Smoothing:"
 msgid "Smoothing"
 msgstr "Simítás"
 
 #: data/ui/jpeg-preferences.ui:46
-#| msgid "Opti_mize"
 msgid "Optimize"
 msgstr "Optimalizálás"
 
 #: data/ui/jpeg-preferences.ui:51
-#| msgid "_Progressive"
 msgid "Progressive"
 msgstr "Progresszív"
 
 #: data/ui/jpeg-preferences.ui:60 data/ui/tiff-preferences.ui:52
-#| msgid "_Default extension:"
 msgid "Default Extension"
 msgstr "Alapértelmezett kiterjesztés"
 
 #: data/ui/jxl-preferences.ui:43 data/ui/webp-preferences.ui:43
-#| msgid "Faster"
 msgctxt "Method"
 msgid "Fast"
 msgstr "Gyors"
 
 #: data/ui/jxl-preferences.ui:45 data/ui/webp-preferences.ui:45
-#| msgid "Slower"
 msgctxt "Method"
 msgid "Slow"
 msgstr "Lassú"
@@ -1184,52 +1075,42 @@ msgid "Copyright"
 msgstr "Szerzői jog"
 
 #: data/ui/metadata-dialog.ui:123
-#| msgid "Cr_edit:"
 msgid "Credit"
 msgstr "Köszönet"
 
 #: data/ui/metadata-dialog.ui:131
-#| msgid "_Byline:"
 msgid "Byline"
 msgstr "Képaláírás"
 
 #: data/ui/metadata-dialog.ui:139
-#| msgid "Byline _Title:"
 msgid "Byline Title"
 msgstr "Képaláírás címe"
 
 #: data/ui/metadata-dialog.ui:147
-#| msgid "Co_untry:"
 msgid "Country"
 msgstr "Ország"
 
 #: data/ui/metadata-dialog.ui:155
-#| msgid "Co_untry:"
 msgid "Country Code"
 msgstr "Országkód"
 
 #: data/ui/metadata-dialog.ui:163
-#| msgid "State/Province:"
 msgid "State or Province"
 msgstr "Állam vagy tartomány"
 
 #: data/ui/metadata-dialog.ui:171
-#| msgid "_City:"
 msgid "City"
 msgstr "Város"
 
 #: data/ui/metadata-dialog.ui:179
-#| msgid "_Language:"
 msgid "Language"
 msgstr "Nyelv"
 
 #: data/ui/metadata-dialog.ui:187
-#| msgid "_Object Name:"
 msgid "Object Name"
 msgstr "Objektum neve"
 
 #: data/ui/metadata-dialog.ui:211
-#| msgid "_Urgency:"
 msgid "Urgency"
 msgstr "Sürgősség"
 
@@ -1238,15 +1119,11 @@ msgid "Compression"
 msgstr "Tömörítés"
 
 #: data/ui/png-preferences.ui:18
-#| msgctxt "zoom quality"
-#| msgid "_Low"
 msgctxt "Compression"
 msgid "Low"
 msgstr "Alacsony"
 
 #: data/ui/png-preferences.ui:20
-#| msgctxt "zoom quality"
-#| msgid "_High"
 msgctxt "Compression"
 msgid "High"
 msgstr "Magas"
@@ -1256,7 +1133,6 @@ msgid "Image"
 msgstr "Kép"
 
 #: data/ui/print-layout-dialog.ui:52 data/ui/print-layout-dialog.ui:197
-#| msgid "Presentation"
 msgid "Orientation"
 msgstr "Tájolás"
 
@@ -1266,7 +1142,6 @@ msgid "Size"
 msgstr "Méret"
 
 #: data/ui/print-layout-dialog.ui:117
-#| msgid "_Horizontal:"
 msgid "Center Horizontally"
 msgstr "Vízszintesen középre"
 
@@ -1276,7 +1151,6 @@ msgstr "Függőlegesen középre"
 
 #: data/ui/print-layout-dialog.ui:163 data/ui/print-layout-dialog.ui:251
 #: data/ui/resize-dialog.ui:63 data/ui/resize-image.ui:35
-#| msgid "Unit:"
 msgid "Unit"
 msgstr "Mértékegység"
 
@@ -1287,20 +1161,17 @@ msgid "mm"
 msgstr "mm"
 
 #: data/ui/print-layout-dialog.ui:172 data/ui/print-layout-dialog.ui:260
-#| msgid "millimeters"
 msgctxt "Length Unit"
 msgid "millimiters"
 msgstr "milliméter"
 
 #. Translators: inches as length unit
 #: data/ui/print-layout-dialog.ui:179 data/ui/print-layout-dialog.ui:267
-#| msgid "Find"
 msgctxt "Length Unit"
 msgid "in"
 msgstr "in"
 
 #: data/ui/print-layout-dialog.ui:180 data/ui/print-layout-dialog.ui:268
-#| msgid "inches"
 msgctxt "Length Unit"
 msgid "inches"
 msgstr "hüvelyk"
@@ -1314,12 +1185,10 @@ msgid "Margins"
 msgstr "Margók"
 
 #: data/ui/print-layout-dialog.ui:223 data/ui/rotate-image.ui:192
-#| msgid "_Horizontal:"
 msgid "Horizontal"
 msgstr "Vízszintes"
 
 #: data/ui/print-layout-dialog.ui:237 data/ui/rotate-image.ui:180
-#| msgid "_Vertical:"
 msgid "Vertical"
 msgstr "Függőleges"
 
@@ -1328,12 +1197,10 @@ msgid "Layout"
 msgstr "Elrendezés"
 
 #: data/ui/print-layout-dialog.ui:285
-#| msgid "_Rows:"
 msgid "Rows"
 msgstr "Sorok"
 
 #: data/ui/print-layout-dialog.ui:300
-#| msgid "Columns:"
 msgid "Columns"
 msgstr "Oszlopok"
 
@@ -1342,23 +1209,19 @@ msgid "Cancel"
 msgstr "Mégse"
 
 #: data/ui/progress-dialog.ui:13
-#| msgid "Cancel"
 msgid "Cancel All"
 msgstr "Összes megszakítása"
 
 #: data/ui/property-sidebar.ui:32
-#| msgid "Search completed"
 msgid "search property"
 msgstr "tulajdonság keresése"
 
 #: data/ui/rename-dialog.ui:50 data/ui/rename-dialog.ui:60
 #: src/Ext/Rename/RenameTemplatePage.vala:3
-#| msgid "_Template:"
 msgid "Template"
 msgstr "Sablon"
 
 #: data/ui/rename-dialog.ui:80
-#| msgid "Index"
 msgid "First Index"
 msgstr "Első index"
 
@@ -1375,17 +1238,14 @@ msgid "Uppercase"
 msgstr "Nagybetű"
 
 #: data/ui/rename-dialog.ui:112
-#| msgid "Sort By"
 msgid "Sort"
 msgstr "Rendezés"
 
 #: data/ui/rename-dialog.ui:152 src/Ext/Filters/TestDate.vala:109
-#| msgid "is before"
 msgid "Before"
 msgstr "Előtte"
 
 #: data/ui/rename-dialog.ui:162 src/Ext/Filters/TestDate.vala:110
-#| msgid "is after"
 msgid "After"
 msgstr "Utána"
 
@@ -1394,27 +1254,23 @@ msgid "Edit Template"
 msgstr "Sablon szerkesztése"
 
 #: data/ui/rename-dialog.ui:212
-#| msgid "_Rename"
 msgctxt "Verb"
 msgid "_Rename"
 msgstr "Át_nevezés"
 
 #. Translators: pixels as length unit
 #: data/ui/resize-dialog.ui:69 data/ui/resize-image.ui:43
-#| msgid "px"
 msgctxt "Length Unit"
 msgid "px"
 msgstr "px"
 
 #: data/ui/resize-dialog.ui:70 data/ui/resize-image.ui:44
-#| msgid "pixels"
 msgctxt "Length Unit"
 msgid "pixels"
 msgstr "képpont"
 
 #. Translators: percentage as length unit
 #: data/ui/resize-dialog.ui:76 data/ui/resize-image.ui:51
-#| msgid "%"
 msgctxt "Length Unit"
 msgid "%"
 msgstr "%"
@@ -1425,13 +1281,11 @@ msgid "percentage"
 msgstr "százalék"
 
 #: data/ui/resize-dialog.ui:87
-#| msgid "_Preserve original aspect ratios"
 msgid "Preserve Aspect Ratio"
 msgstr "Méretarány megtartása"
 
 #. Translators: width and height of images or videos.
 #: data/ui/resize-image.ui:6 src/Application.vala:111 src/Application.vala:141
-#| msgid "Pixels:"
 msgid "Pixels"
 msgstr "Képpontok"
 
@@ -1444,7 +1298,6 @@ msgid "Repeated"
 msgstr "Ismételt"
 
 #: data/ui/resize-image.ui:121
-#| msgid "High _quality"
 msgid "High Quality"
 msgstr "Magas minőség"
 
@@ -1458,29 +1311,22 @@ msgid "Align"
 msgstr "Igazítás"
 
 #: data/ui/rotate-image.ui:63
-#| msgid "Image size"
 msgid "Image Size"
 msgstr "Képméret"
 
 #: data/ui/rotate-image.ui:66
-#| msgid "Original size"
 msgid "Original Size"
 msgstr "Eredeti méret"
 
 #: data/ui/rotate-image.ui:79
-#| msgid "Bounding box"
 msgid "Bounding Box"
 msgstr "Határoló doboz"
 
 #: data/ui/rotate-image.ui:92
-#| msgid "Crop borders"
 msgid "Crop Borders"
 msgstr "Szegélyek levágása"
 
 #: data/ui/rotate-image.ui:176
-#| msgid ""
-#| "Draw a line on the image \n"
-#| "to set the alignment."
 msgid "Draw a line on the image to set the alignment."
 msgstr "Rajzoljon egy vonalat a képre az igazítás beállításához."
 
@@ -1492,25 +1338,21 @@ msgid "Saving"
 msgstr "Mentés"
 
 #: data/ui/savers-preferences.ui:17
-#| msgid "_Store metadata inside files if possible"
 msgid "Store metadata inside files if possible"
 msgstr "Metaadatok tárolása a fájlokon belül, ha lehetséges"
 
 #: data/ui/savers-preferences.ui:23
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:48
-#| msgid "Show the description, if available"
 msgid "Show the options before saving"
 msgstr "Beállítások megjelenítése a mentés előtt"
 
 #. Translators: File Formats
 #: data/ui/savers-preferences.ui:32
-#| msgid "Format"
 msgid "Formats"
 msgstr "Formátumok"
 
 #: data/ui/script-command-page.ui:4 data/ui/script-editor-page.ui:42
 #: src/Ext/Scripts/ScriptCommandPage.vala:3
-#| msgid "Commands"
 msgid "Command"
 msgstr "Parancs"
 
@@ -1519,17 +1361,14 @@ msgid "Script"
 msgstr "Parancsfájl"
 
 #: data/ui/script-editor-page.ui:71
-#| msgid "Could not save the script"
 msgid "Execute as a shell script"
 msgstr "Végrehajtás parancsértelmező parancsfájlt"
 
 #: data/ui/script-editor-page.ui:76
-#| msgid "E_xecute command once for every file"
 msgid "Execute for every file"
 msgstr "Végrehajtás minden fájlon"
 
 #: data/ui/script-editor-page.ui:81
-#| msgid "_Wait for the command to finish"
 msgid "Wait for the command to finish"
 msgstr "Várakozás a parancs befejezéséig"
 
@@ -1545,25 +1384,21 @@ msgstr "_Futtatás"
 
 #: data/ui/scripts-dialog.ui:24 src/Ext/Shortcuts/Shortcut.vala:264
 #: src/Ext/Shortcuts/Shortcuts.vala:180 src/Ext/Tools/FileActions.vala:20
-#| msgid "Script"
 msgid "Scripts"
 msgstr "Parancsfájlok"
 
 #. Translators: noun (not verb)
 #: data/ui/search-dialog.ui:4 src/Ext/Catalogs/CatalogEditor.vala:104
-#| msgid "Search"
 msgctxt "Noun"
 msgid "Search"
 msgstr "Keresés"
 
 #: data/ui/search-dialog.ui:38
-#| msgid "Search"
 msgctxt "Verb"
 msgid "_Search"
 msgstr "_Keresés"
 
 #: data/ui/search-source-row.ui:34
-#| msgid "_Include sub-folders"
 msgid "Include Sub-Folders"
 msgstr "Almappák felvétele"
 
@@ -1576,12 +1411,10 @@ msgid "Adjust blurred images."
 msgstr "Elmosódott képek javítása."
 
 #: data/ui/sharpen-image.ui:41
-#| msgid "Radius:"
 msgid "Radius"
 msgstr "Sugár"
 
 #: data/ui/sharpen-image.ui:63
-#| msgid "Threshold:"
 msgid "Threshold"
 msgstr "Küszöbszint"
 
@@ -1609,7 +1442,6 @@ msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
 #: data/ui/slideshow-preferences.ui:17
-#| msgid "R_andom order"
 msgid "Random Order"
 msgstr "Véletlen sorrend"
 
@@ -1618,22 +1450,18 @@ msgid "Repeat"
 msgstr "Ismétlés"
 
 #: data/ui/slideshow-preferences.ui:38
-#| msgid "seconds"
 msgid "Delay in seconds"
 msgstr "Késleltetés másodpercben"
 
 #: data/ui/sort-files-dialog.ui:4 src/Ext/Shortcuts/Shortcuts.vala:151
-#| msgid "Text Files"
 msgid "Sort Files"
 msgstr "Fájlok rendezése"
 
 #: data/ui/sort-files-dialog.ui:17 data/ui/sort-folders-dialog.ui:17
-#| msgid "Re_verse Order"
 msgid "Reverse Order"
 msgstr "Fordított sorrend"
 
 #: data/ui/sort-folders-dialog.ui:4 src/Ext/Shortcuts/Shortcuts.vala:152
-#| msgid "Create Folder"
 msgid "Sort Folders"
 msgstr "Mappák rendezése"
 
@@ -1646,8 +1474,6 @@ msgid "Dots"
 msgstr "Pontok"
 
 #: data/ui/status.ui:16
-#| msgctxt "Pixels"
-#| msgid "Selected:"
 msgid "Selected:"
 msgstr "Kiválasztva:"
 
@@ -1662,7 +1488,6 @@ msgstr "Szabad:"
 
 #: data/ui/template-code-chooser.ui:4 data/ui/template-token-row.ui:215
 #: src/TagsRow.vala:19
-#| msgid "_Add"
 msgid "Add"
 msgstr "Hozzáadás"
 
@@ -1671,7 +1496,6 @@ msgid "_Apply"
 msgstr "_Alkalmaz"
 
 #: data/ui/template-page.ui:27
-#| msgid "Example:"
 msgid "Example"
 msgstr "Példa"
 
@@ -1680,12 +1504,10 @@ msgid "digits"
 msgstr "számjegy"
 
 #: data/ui/template-token-row.ui:195 src/Ext/Template/TemplateTokenRow.vala:219
-#| msgid "Default value"
 msgid "Default Value"
 msgstr "Alapértelmezett érték"
 
 #: data/ui/test-expr-editor-group.ui:4
-#| msgid "Rules:"
 msgid "Rules"
 msgstr "Szabályok"
 
@@ -1698,7 +1520,6 @@ msgid "Match Any Rule"
 msgstr "Megfelelés bármely szabálynak"
 
 #: data/ui/test-expr-editor-group.ui:72
-#| msgid "Could not save the filter"
 msgid "Choose a rule to add to the filter."
 msgstr "Szabály kiválasztás a szűrőhöz való hozzáadáshoz."
 
@@ -1707,17 +1528,14 @@ msgid "Details"
 msgstr "Részletek"
 
 #: data/ui/tiff-preferences.ui:22
-#| msgid "Resolution"
 msgid "Horizontal Resolution"
 msgstr "Vízszintes felbontás"
 
 #: data/ui/tiff-preferences.ui:35
-#| msgid "Resolution"
 msgid "Vertical Resolution"
 msgstr "Függőleges felbontás"
 
 #: data/ui/unknown-viewer.ui:4 src/Viewer.vala:134
-#| msgid "Cannot move the files"
 msgid "Cannot view this kind of files"
 msgstr "Nem lehet megtekinteni az ilyen típusú fájlokat"
 
@@ -1816,7 +1634,6 @@ msgid "Go forward 5 minutes"
 msgstr "Ugrás előre 5 perccel"
 
 #: data/ui/video-viewer.ui:279
-#| msgid "Current date"
 msgid "Copy Current Time"
 msgstr "Jelenlegi idő másolása"
 
@@ -1830,24 +1647,18 @@ msgstr "Lejátszási sebesség"
 
 #: data/ui/videos-preferences.ui:4 src/DefaultTests.vala:47
 #: src/Ext/Preferences/PreferencesDialog.vala:8
-#| msgid "Video"
 msgid "Videos"
 msgstr "Videók"
 
 #: data/ui/videos-preferences.ui:22
-#| msgctxt "zoom quality"
-#| msgid "Change image"
 msgid "Change Time"
 msgstr "Idő megváltoztatása"
 
 #: data/ui/videos-preferences.ui:23
-#| msgctxt "zoom quality"
-#| msgid "Change image"
 msgid "Change Volume"
 msgstr "Hangerő megváltoztatása"
 
 #: data/ui/videos-preferences.ui:32
-#| msgid "Reset the EXIF Orientation"
 msgid "Respect Orientation"
 msgstr "Tájolás figyelembe vétele"
 
@@ -1861,18 +1672,15 @@ msgstr "Vágólap megnyitása"
 
 #: data/ui/viewer-status.ui:45 src/Ext/Shortcuts/Shortcuts.vala:208
 #: src/Ext/Shortcuts/Shortcuts.vala:269
-#| msgid "Previous"
 msgid "Previous File"
 msgstr "Előző fájl"
 
 #: data/ui/viewer-status.ui:55 src/Ext/Shortcuts/Shortcuts.vala:207
 #: src/Ext/Shortcuts/Shortcuts.vala:268
-#| msgid "Text Files"
 msgid "Next File"
 msgstr "Következő fájl"
 
 #: data/ui/viewer.ui:44 src/Ext/Shortcuts/Shortcuts.vala:214
-#| msgid "Thumbnails"
 msgid "View Thumbnails"
 msgstr "Bélyegképek megtekintése"
 
@@ -1889,7 +1697,6 @@ msgid "Copy Image"
 msgstr "Kép másolása"
 
 #: data/ui/viewer.ui:267 src/Ext/Shortcuts/Shortcuts.vala:288
-#| msgid "Copy _From"
 msgid "Copy Frame"
 msgstr "Képkocka másolása"
 
@@ -1897,25 +1704,21 @@ msgstr "Képkocka másolása"
 #: src/Application.vala:106 src/Application.vala:132 src/DefaultTests.vala:148
 #: src/Ext/Filters/FilterEditorPage.vala:127
 #: src/Ext/Rename/RenameTemplatePage.vala:13
-#| msgid "Modified"
 msgctxt "Time"
 msgid "Modified"
 msgstr "Módosítva"
 
 #. Translators: the file change time.
 #: src/Application.vala:107 src/Application.vala:136 src/DefaultTests.vala:136
-#| msgid "File manager"
 msgid "File Changed"
 msgstr "Fájl megváltoztatva"
 
 #. Translators: the file creation time.
 #: src/Application.vala:108 src/Application.vala:134 src/DefaultTests.vala:124
-#| msgid "File date"
 msgid "File Created"
 msgstr "Fájl létrehozva"
 
 #: src/Application.vala:110 src/Ext/Scripts/ScriptCommandPage.vala:9
-#| msgid "File path"
 msgid "File Path"
 msgstr "Fájl útvonala"
 
@@ -1936,7 +1739,6 @@ msgid "Type"
 msgstr "Típus"
 
 #: src/Application.vala:137
-#| msgid "_Folders:"
 msgid "Folder"
 msgstr "Mappa"
 
@@ -1949,7 +1751,6 @@ msgid "Color Profile"
 msgstr "Színprofil"
 
 #: src/Application.vala:144
-#| msgid "Frame"
 msgid "Frames"
 msgstr "Képkockák"
 
@@ -2013,7 +1814,6 @@ msgid "Resize Images"
 msgstr "Képek átméretezése"
 
 #: src/Application.vala:249 src/MainWindow.vala:865
-#| msgid "Delete Metadata"
 msgid "Clear Metadata"
 msgstr "Metaadatok törlése"
 
@@ -2022,12 +1822,10 @@ msgid "Rotate Physically"
 msgstr "Forgatás fizikailag"
 
 #: src/Application.vala:252
-#| msgid "Reset the EXIF Orientation"
 msgid "Reset EXIF Orientation"
 msgstr "EXIF-tájolás visszaállítása"
 
 #: src/Application.vala:254 src/MainWindow.vala:877
-#| msgid "Thumbnails"
 msgid "Update Thumbnail"
 msgstr "Bélyegkép frissítése"
 
@@ -2036,7 +1834,6 @@ msgid "All Files"
 msgstr "Összes fájl"
 
 #: src/Application.vala:634
-#| msgid "Show version"
 msgid "Show the application version"
 msgstr "Az alkalmazás verziójának megjelenítése"
 
@@ -2049,7 +1846,6 @@ msgid "[FILE…] [DIRECTORY…]"
 msgstr "[FÁJL…] [KÖNYVTÁR…]"
 
 #: src/Application.vala:666
-#| msgid "— Image browser and viewer"
 msgid "— Image Browser and Viewer"
 msgstr "– Képböngésző és képmegjelenítő"
 
@@ -2066,52 +1862,42 @@ msgid "Path"
 msgstr "Útvonal"
 
 #: src/Browser.vala:353
-#| msgid "Organize Files"
 msgid "Drag Files"
 msgstr "Fájlok húzása"
 
 #: src/Browser.vala:508
-#| msgid "matches"
 msgid "No Matches"
 msgstr "Nincs találat"
 
 #: src/Browser.vala:516
-#| msgid "No file found"
 msgid "No Files Found"
 msgstr "Nem találhatók fájlok"
 
 #: src/Browser.vala:520
-#| msgid "Catalog"
 msgid "Empty Catalog"
 msgstr "Üres katalógus"
 
 #: src/Browser.vala:524
-#| msgid "Selection"
 msgid "Empty Selection"
 msgstr "Üres kiválasztás"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:531
 #, c-format
-#| msgid ""
-#| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
 msgid "Use %s to add files to selection %u"
 msgstr "%s használata a(z) %u. kiválasztáshoz való fájlhozzáadáshoz"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:540
 #, c-format
-#| msgid "Show selection %d"
 msgid "Use %s to view selection %u"
 msgstr "%s használata a(z) %u. kiválasztás megtekintéséhez"
 
 #: src/Browser.vala:553
-#| msgid "Open Folder"
 msgid "Empty Folder"
 msgstr "Üres mappa"
 
 #: src/Browser.vala:591
-#| msgid "_Add Bookmark"
 msgid "_Add To Bookmarks"
 msgstr "Hozzá_adás a könyvjelzőkhöz"
 
@@ -2122,7 +1908,6 @@ msgstr "Könyvjelzők s_zerkesztése…"
 #. Show a message on the browser.
 #: src/Browser.vala:929 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
-#| msgid "Reading files"
 msgid "Searching Files"
 msgstr "Fájlok keresése"
 
@@ -2133,17 +1918,14 @@ msgid "Updating %s"
 msgstr "%s frissítése"
 
 #: src/Browser.vala:1054 src/Browser.vala:1231
-#| msgid "Writing files"
 msgid "Pasting Files"
 msgstr "Fájlok beillesztése"
 
 #: src/Browser.vala:1072 src/Browser.vala:2112
-#| msgid "Cannot move the files"
 msgid "Cannot move files here"
 msgstr "Nem lehet fájlokat áthelyezni ide"
 
 #: src/Browser.vala:1079
-#| msgid "Duplicates"
 msgid "Duplicating Files"
 msgstr "Fájlok kettőzése"
 
@@ -2154,35 +1936,29 @@ msgstr "Fájlok kettőzése"
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
 #: src/MainWindow.vala:896 src/MainWindow.vala:934 src/MainWindow.vala:945
 #: src/MainWindow.vala:956 src/MainWindow.vala:967
-#| msgid "No valid file selected."
 msgid "No files selected"
 msgstr "Nincsenek fájlok kiválasztva"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
 #: src/Browser.vala:1804
-#| msgid "Importing files"
 msgid "Updating Files"
 msgstr "Fájlok frissítése"
 
 #: src/Browser.vala:2068
-#| msgid "Hidden Files"
 msgid "Adding Files"
 msgstr "Fájlok hozzáadása"
 
 #: src/Browser.vala:2068 src/MainWindow.vala:613
-#| msgid "Moving files"
 msgid "Moving Files"
 msgstr "Fájlok áthelyezése"
 
 #: src/Browser.vala:2156
-#| msgid "New folder"
 msgid "New Folder"
 msgstr "Új mappa"
 
 #: src/Browser.vala:2156 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
-#| msgid "Create"
 msgid "_Create"
 msgstr "_Létrehozás"
 
@@ -2197,7 +1973,6 @@ msgstr "Át_nevezés"
 
 #. Ask confirmation
 #: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:8
-#| msgid "Delete permanently"
 msgid "Delete Permanently?"
 msgstr "Véglegesen törli?"
 
@@ -2217,12 +1992,10 @@ msgid "Open"
 msgstr "Megnyitás"
 
 #: src/DateRow.vala:32
-#| msgid "Select all"
 msgid "Select a day"
 msgstr "Nap kiválasztása"
 
 #: src/DefaultTests.vala:4
-#| msgid "Hidden Files"
 msgid "Visible Files"
 msgstr "Látható fájlok"
 
@@ -2249,41 +2022,34 @@ msgid "Tag"
 msgstr "Címke"
 
 #: src/Dialogs/AppSelector.vala:6
-#| msgid "No options available for this file type"
 msgid "No application registered for this file type"
 msgstr "Nincs alkalmazás regisztrálva ehhez a fájltípushoz"
 
 #: src/Dialogs/FolderSelector.vala:98
-#| msgid "Move"
 msgid "_Move"
 msgstr "Át_helyezés"
 
 #: src/Dialogs/FolderSelector.vala:143
-#| msgid "No valid file selected."
 msgid "No file selected"
 msgstr "Nincs fájl kiválasztva"
 
 #. Cannot copy to libraries.
 #: src/Dialogs/FolderSelector.vala:148
 #: src/Ext/Bookmarks/BookmarksDialog.vala:67
-#| msgid "Invalid Destination"
 msgid "Invalid location"
 msgstr "Érvénytelen hely"
 
 #: src/Dialogs/ReadFilename.vala:17
-#| msgid "Automatic"
 msgid "Automatic Filename"
 msgstr "Automatikus fájlnév"
 
 #: src/Dialogs/ReadFilename.vala:27
-#| msgid "File extension"
 msgid "Enter a file extension"
 msgstr "Fájlkiterjesztés megadása"
 
 #: src/Dialogs/ReadFilename.vala:31
 #: src/Ext/Tools/Internal/ImageRotation.vala:112 src/ImageSaver.vala:66
 #: src/ImageSaver.vala:71
-#| msgid "Cannot move the files"
 msgid "Cannot save this kind of files"
 msgstr "Nem lehet elmenteni az ilyen típusú fájlokat"
 
@@ -2292,7 +2058,6 @@ msgid "Name already used"
 msgstr "A név már használatban van"
 
 #: src/Dialogs/ReadText.vala:125
-#| msgid "Enter a value:"
 msgid "Enter a value"
 msgstr "Érték megadása"
 
@@ -2301,7 +2066,6 @@ msgid "Locations"
 msgstr "Helyek"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:149
-#| msgid "Name already used"
 msgid "Location already saved"
 msgstr "A hely már el van mentve"
 
@@ -2315,42 +2079,34 @@ msgid "Empty"
 msgstr "Üres"
 
 #: src/Ext/Bookmarks/BookmarksDialog.vala:70
-#| msgid "(invalid value)"
 msgid "Invalid name"
 msgstr "Érvénytelen név"
 
 #: src/Ext/Color/ColorSelector.vala:123
-#| msgid "Select a color"
 msgid "Selected Color"
 msgstr "Kiválasztott színt"
 
 #: src/Ext/Color/ColorSelector.vala:130
-#| msgid "Keep the original format"
 msgid "Reset Original Color"
 msgstr "Eredeti szín visszaállítása"
 
 #: src/Ext/Color/ColorSelector.vala:142
-#| msgid "C_olor:"
 msgid "_Color:"
 msgstr "_Szín:"
 
 #: src/Ext/Color/ColorSelector.vala:151
-#| msgid "Cyan-_Red:"
 msgid "_Red:"
 msgstr "_Vörös:"
 
 #: src/Ext/Color/ColorSelector.vala:154
-#| msgid "Green"
 msgid "_Green:"
 msgstr "_Zöld:"
 
 #: src/Ext/Color/ColorSelector.vala:157
-#| msgid "Blue"
 msgid "_Blue:"
 msgstr "_Kék:"
 
 #: src/Ext/Color/ColorSelector.vala:160
-#| msgid "Transparency:"
 msgid "_Transparency:"
 msgstr "Át_látszóság:"
 
@@ -2363,20 +2119,17 @@ msgid "_Saturation:"
 msgstr "_Telítettség:"
 
 #: src/Ext/Color/ColorSelector.vala:175
-#| msgid "_Brightness"
 msgid "_Brightness:"
 msgstr "_Fényerősség:"
 
 #. Translators: filter that executes a gamma correction.
 #: src/Ext/Editor/AdjustBrightness.vala:9
-#| msgid "G_amma:"
 msgid "Gamma"
 msgstr "Gamma"
 
 #. Translators: filter that adjust the color curves.
 #: src/Ext/Editor/AdjustBrightness.vala:12
 #: src/Ext/Editor/AdjustContrast.vala:12
-#| msgid "Color Curves"
 msgid "Curves"
 msgstr "Görbék"
 
@@ -2392,22 +2145,18 @@ msgstr "Kiegyenlítés"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:41
 #: src/Ext/Editor/AspectRatioGroup.vala:42
-#| msgctxt "Extensions"
-#| msgid "Disabled"
 msgctxt "Aspect Ratio"
 msgid "Disabled"
 msgstr "Letiltva"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:52
 #: src/Ext/Editor/AspectRatioGroup.vala:54
-#| msgid "Screenshot"
 msgctxt "Aspect Ratio"
 msgid "Screen"
 msgstr "Képernyő"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:59
 #: src/Ext/Editor/AspectRatioGroup.vala:60
-#| msgid "Image"
 msgctxt "Aspect Ratio"
 msgid "Image"
 msgstr "Kép"
@@ -2415,7 +2164,6 @@ msgstr "Kép"
 #: src/Ext/Editor/AspectRatioGroup.vala:65
 #: src/Ext/Editor/AspectRatioGroup.vala:66
 #: src/Ext/Filters/TestAspectRatio.vala:169
-#| msgid "Square"
 msgctxt "Aspect Ratio"
 msgid "Square"
 msgstr "Négyzet"
@@ -2436,7 +2184,6 @@ msgstr "Egyéb…"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:193
 #, c-format
-#| msgid "Rotate"
 msgid "%s (Rotated)"
 msgstr "%s (elforgatva)"
 
@@ -2455,7 +2202,6 @@ msgid "Rule of Thirds"
 msgstr "Harmadoló rács"
 
 #: src/Ext/Editor/GridGroup.vala:28
-#| msgid "Golden Sections"
 msgid "Golden Ratio"
 msgstr "Aranymetszés"
 
@@ -2468,7 +2214,6 @@ msgid "Uniform"
 msgstr "Egyforma"
 
 #: src/Ext/Editor/ResizeImage.vala:68
-#| msgid "Screenshot"
 msgid "Screen"
 msgstr "Képernyő"
 
@@ -2496,7 +2241,6 @@ msgstr "Hidegebb"
 
 #. Translators: this is the name of an image filter that produces darker edges.
 #: src/Ext/Editor/SpecialEffects.vala:16
-#| msgid "Blurred Edges"
 msgid "Darker Edges"
 msgstr "Sötétebb élek"
 
@@ -2517,7 +2261,6 @@ msgstr "Lomográfia"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:28
-#| msgid "Colors"
 msgid "8 Colors"
 msgstr "8 szín"
 
@@ -2527,17 +2270,14 @@ msgid "Negative"
 msgstr "Negatív"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:6
-#| msgid "Exif Conditions"
 msgid "Conditions"
 msgstr "Feltételek"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:7
-#| msgid "Exif Structure"
 msgid "Structure"
 msgstr "Szerkezet"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:8
-#| msgid "Thumbnails"
 msgid "Thumbnail"
 msgstr "Bélyegkép"
 
@@ -2546,12 +2286,10 @@ msgid "GPS"
 msgstr "GPS"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:10
-#| msgid "Exif Maker Notes"
 msgid "Maker Notes"
 msgstr "Készítői megjegyzések"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:11
-#| msgid "Exif Versions"
 msgid "Versions"
 msgstr "Verziók"
 
@@ -2560,7 +2298,6 @@ msgid "XMP"
 msgstr "XMP"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:15
-#| msgid "XMP Attached"
 msgid "Attached"
 msgstr "Csatolt"
 
@@ -2570,9 +2307,6 @@ msgstr "EXIF"
 
 #: src/Ext/FileManager/FileManager.vala:17
 #, c-format
-#| msgid ""
-#| "The files cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
@@ -2587,7 +2321,6 @@ msgstr "Áthelyezés"
 
 #. Rename
 #: src/Ext/FileManager/OverwriteDialog.vala:94
-#| msgid "Rename files"
 msgid "Rename File"
 msgstr "Fájl átnevezése"
 
@@ -2598,14 +2331,12 @@ msgstr "Lecseréli a fájlt?"
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:122
 #, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgid "A file named “%s” already exists. Do you want to replace it?"
 msgstr "Egy „%s” nevű fájl már létezik. Szeretné lecserélni?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:126
 #: src/Ext/FileManager/OverwriteDialog.vala:134
 #: src/Ext/FileManager/OverwriteDialog.vala:148
-#| msgid "_Place:"
 msgid "_Replace"
 msgstr "_Csere"
 
@@ -2616,20 +2347,17 @@ msgstr "Lecseréli a tartalmat?"
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:145
 #, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
 msgstr "A(z) „%s” fájlt egy másik alkalmazás módosította. Szeretné lecserélni?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
-#| msgid "Rename files"
 msgid "Rename File?"
 msgstr "Átnevezi a fájlt?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:158
 #, c-format
-#| msgid "Are you sure you want to remove “%s”?"
 msgid "Source and destination are the same. Do you want to rename “%s”?"
 msgstr "A forrás és a cél megegyezik. Szeretné a(z) „%s” átnevezését?"
 
@@ -2638,12 +2366,10 @@ msgid "Skip _All"
 msgstr "Összes _kihagyása"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:204
-#| msgid "Convert to lower-case"
 msgid "Content to Replace"
 msgstr "Cserélendő tartalom"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:224
-#| msgid "New Command"
 msgid "New Content"
 msgstr "Új tartalom"
 
@@ -2672,28 +2398,23 @@ msgid "Name is empty"
 msgstr "A név üres"
 
 #: src/Ext/Filters/Test.vala:56
-#| msgid "is greater than"
 msgid "Greater Than"
 msgstr "Nagyobb mint"
 
 #: src/Ext/Filters/Test.vala:57
-#| msgid "is greater than or equal to"
 msgid "Greater Than or Equal To"
 msgstr "Nagyobb mint vagy egyenlő"
 
 #: src/Ext/Filters/Test.vala:58
-#| msgid "is lower than"
 msgid "Lower Than"
 msgstr "Kisebb mint"
 
 #: src/Ext/Filters/Test.vala:59
-#| msgid "is lower than or equal to"
 msgid "Lower Than or Equal To"
 msgstr "Kisebb mint vagy egyenlő"
 
 #: src/Ext/Filters/Test.vala:60 src/Ext/Filters/TestDate.vala:111
 #: src/Ext/Filters/TestString.vala:147
-#| msgid "is equal to"
 msgid "Equal To"
 msgstr "Egyenlő"
 
@@ -2725,22 +2446,18 @@ msgid "Different From"
 msgstr "Eltérő ettől"
 
 #: src/Ext/Filters/TestString.vala:144
-#| msgid "contains"
 msgid "Contains"
 msgstr "Tartalmazza"
 
 #: src/Ext/Filters/TestString.vala:145
-#| msgid "starts with"
 msgid "Starts With"
 msgstr "Ezzel kezdődik"
 
 #: src/Ext/Filters/TestString.vala:146
-#| msgid "ends with"
 msgid "Ends With"
 msgstr "Ezzel végződik"
 
 #: src/Ext/Filters/TestString.vala:149
-#| msgid "does not contain"
 msgid "Does not Contain"
 msgstr "Nem tartalmazza"
 
@@ -2762,13 +2479,11 @@ msgstr "Nem tartalmazza"
 
 #. Ask the filename
 #: src/Ext/Image/ImageViewer.vala:236 src/Ext/Image/ImageViewer.vala:292
-#| msgid "Save image"
 msgid "Save File"
 msgstr "Fájl mentése"
 
 #: src/Ext/Image/ImageViewer.vala:271
 #, c-format
-#| msgid "Saving"
 msgid "Saving %s"
 msgstr "%s mentése"
 
@@ -2778,12 +2493,10 @@ msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
 #: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
-#| msgid "_Horizontal:"
 msgid "Horizontal Flip"
 msgstr "Vízszintes tükrözés"
 
 #: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
-#| msgid "_Vertical:"
 msgid "Vertical Flip"
 msgstr "Függőleges tükrözés"
 
@@ -2801,32 +2514,27 @@ msgid "The operation requires %s of space, but only %s are available on “%s”
 msgstr "A művelet %s helyet igényel, de csak %s érhető el ezen: „%s”."
 
 #: src/Ext/Import/ImportFiles.vala:244
-#| msgid "%s of free space"
 msgid "Not enough free space"
 msgstr "Nincs elég szabad hely"
 
 #: src/Ext/Import/ImportFiles.vala:247 src/Ext/Shortcuts/Shortcuts.vala:206
-#| msgid "_Close"
 msgid "Close"
 msgstr "Bezárás"
 
 #. Overwrite the catalog content if the generic "last imported" catalog is used.
 #: src/Ext/Import/Importer.vala:130
-#| msgid "Last imported"
 msgid "Last Imported"
 msgstr "Utoljára importálva"
 
 #. Caption
 #: src/Ext/Preferences/BrowserPreferences.vala:74
 #: src/Ext/Shortcuts/Shortcut.vala:257
-#| msgid "Hidden Files"
 msgid "Hidden"
 msgstr "Rejtett"
 
 #. Translators: %s is a file format, such as JPEG
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:46
 #, c-format
-#| msgid "Options"
 msgid "%s Options"
 msgstr "%s beállítások"
 
@@ -2843,7 +2551,6 @@ msgid "Modified"
 msgstr "Módosítva"
 
 #: src/Ext/Print/PrintImages.vala:60
-#| msgid "_Continue"
 msgid "_Continue…"
 msgstr "_Folytatás…"
 
@@ -2865,46 +2572,38 @@ msgstr "Index"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:8
 #: src/Ext/Scripts/ScriptCommandPage.vala:10
-#| msgid "File name"
 msgid "File Name"
 msgstr "Fájlnév"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:9
 #: src/Ext/Scripts/ScriptCommandPage.vala:11
-#| msgid "File name, no extension"
 msgid "File Name, No Extension"
 msgstr "Fájlnév, kiterjesztés nélkül"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:10
 #: src/Ext/Scripts/ScriptCommandPage.vala:12
-#| msgid "File extension"
 msgid "File Extension"
 msgstr "Fájlkiterjesztés"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:11
-#| msgid "Original size"
 msgid "Original Index"
 msgstr "Eredeti index"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:12
-#| msgid "Create"
 msgid "Created"
 msgstr "Létrehozva"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:14
-#| msgid "Digitalization date"
 msgid "Digitalized"
 msgstr "Digitalizálva"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:15
 #: src/Ext/Scripts/ScriptCommandPage.vala:14
-#| msgid "Current date"
 msgid "Current Date"
 msgstr "Jelenlegi dátum"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:16
 #: src/Ext/Scripts/ScriptCommandPage.vala:16
-#| msgid "File attribute"
 msgid "File Attribute"
 msgstr "Fájlattribútum"
 
@@ -2920,7 +2619,6 @@ msgstr "JPEG"
 
 #. Translators: file type
 #: src/Ext/Savers/JxlPreferences.vala:8
-#| msgid "JPEG XL"
 msgid "JXL"
 msgstr "JXL"
 
@@ -2945,7 +2643,6 @@ msgid "Command exited abnormally with status %d"
 msgstr "A parancs abnormálisan lépett ki %d állapottal"
 
 #: src/Ext/Scripts/ScriptCommandPage.vala:7
-#| msgid "Quoted text"
 msgid "Quoted Text"
 msgstr "Idézett szöveg"
 
@@ -2954,29 +2651,24 @@ msgid "File URI"
 msgstr "Fájl URI-ja"
 
 #: src/Ext/Scripts/ScriptCommandPage.vala:13
-#| msgid "Folder path"
 msgid "Folder Path"
 msgstr "Mappa útvonala"
 
 #: src/Ext/Scripts/ScriptCommandPage.vala:15
-#| msgid "Ask a value"
 msgid "Ask a Value"
 msgstr "Érték bekérése"
 
 #: src/Ext/Scripts/ScriptEditorPage.vala:36
-#| msgid "Command Line"
 msgid "Command is empty"
 msgstr "A parancs üres"
 
 #: src/Ext/Search/SearchEditor.vala:48
-#| msgid "Search"
 msgid "Last Search"
 msgstr "Utolsó keresés"
 
 #. Translators: %u is replaced with a number
 #: src/Ext/Selections/Selection.vala:167
 #, c-format
-#| msgid "Selection %d"
 msgid "Selection %u"
 msgstr "%u. kiválasztás"
 
@@ -2985,12 +2677,10 @@ msgid "File Manager"
 msgstr "Fájlkezelő"
 
 #: src/Ext/Shortcuts/Shortcut.vala:262
-#| msgid "Audio/Video Player"
 msgid "Audio/Video"
 msgstr "Hang vagy videó"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:134
-#| msgid "Close window"
 msgid "Close Window"
 msgstr "Ablak bezárása"
 
@@ -3003,7 +2693,6 @@ msgid "Main Menu"
 msgstr "Főmenü"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:140
-#| msgid "Open location"
 msgid "Open Location"
 msgstr "Hely megnyitása"
 
@@ -3012,12 +2701,10 @@ msgid "Home"
 msgstr "Saját mappa"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:142
-#| msgid "Paste Into Folder"
 msgid "Parent Folder"
 msgstr "Szülőmappa"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:144
-#| msgid "Previous"
 msgid "Previous Visited"
 msgstr "Előző meglátogatott"
 
@@ -3026,12 +2713,10 @@ msgid "Next Visited"
 msgstr "Következő meglátogatott"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:146
-#| msgid "New folder"
 msgid "Next Folder"
 msgstr "Következő mappa"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:147
-#| msgid "Previous"
 msgid "Previous Folder"
 msgstr "Előző mappa"
 
@@ -3044,22 +2729,18 @@ msgid "Sidebar"
 msgstr "Oldalsáv"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:169
-#| msgid "Find files"
 msgid "Find Files"
 msgstr "Fájlok keresése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:171
-#| msgid "Copying files"
 msgid "Copy Files"
 msgstr "Fájlok másolása"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:172
-#| msgid "Moving files"
 msgid "Move Files"
 msgstr "Fájlok áthelyezése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:176
-#| msgid "Deleting files"
 msgid "Delete Files"
 msgstr "Fájlok törlése"
 
@@ -3068,82 +2749,66 @@ msgid "Open with Gimp"
 msgstr "Megnyitás a Gimp képszerkesztővel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:182
-#| msgid "Open with Gimp"
 msgid "Open with Inkscape"
 msgstr "Megnyitás az Inkscape képszerkesztővel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:194
-#| msgid "Add to selection"
 msgid "Add to Selection 1"
 msgstr "Hozzáadás az 1. kiválasztáshoz"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:195
-#| msgid "Add to selection"
 msgid "Add to Selection 2"
 msgstr "Hozzáadás a 2. kiválasztáshoz"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:196
-#| msgid "Add to selection"
 msgid "Add to Selection 3"
 msgstr "Hozzáadás a 3. kiválasztáshoz"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:197
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 1"
 msgstr "Eltávolítás az 1. kiválasztásból"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:198
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 2"
 msgstr "Eltávolítás a 2. kiválasztásból"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:199
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 3"
 msgstr "Eltávolítás a 3. kiválasztásból"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:200
-#| msgid "Show selection"
 msgid "Show Selection 1"
 msgstr "1. kiválasztás megjelenítése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:201
-#| msgid "Show selection"
 msgid "Show Selection 2"
 msgstr "2. kiválasztás megjelenítése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:202
-#| msgid "Show selection"
 msgid "Show Selection 3"
 msgstr "3. kiválasztás megjelenítése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:204
-#| msgid "_View"
 msgid "View All"
 msgstr "Összes megtekintése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:209
-#| msgid "Edit Filter"
 msgid "First File"
 msgstr "Első fájl"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:210
-#| msgid "Last modified"
 msgid "Last File"
 msgstr "Utolsó fájl"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:211
-#| msgid "View the folders"
 msgid "View Controls"
 msgstr "Vezérlők megtekintése"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:219
-#| msgid "Zoom in"
 msgid "Zoom In Fast"
 msgstr "Nagyítás gyorsan"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:220
-#| msgid "Zoom out"
 msgid "Zoom Out Fast"
 msgstr "Kicsinyítés gyorsan"
 
@@ -3160,82 +2825,66 @@ msgid "Zoom 300%"
 msgstr "Nagyítás 300%-ra"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:224
-#| msgid "Zoom to fit"
 msgid "Zoom to Fit"
 msgstr "Ablakméretű nagyítás"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:225
-#| msgid "Zoom to fit if larger"
 msgid "Zoom to Fit if Larger"
 msgstr "Ablakméretű nagyítás, ha nagyobb"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:226
-#| msgid "Zoom to fit width"
 msgid "Zoom to Fit Width"
 msgstr "Nagyítás az ablak szélességéhez"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:227
-#| msgid "Zoom to fit height"
 msgid "Zoom to Fit Height"
 msgstr "Nagyítás az ablak magasságához"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:228
-#| msgid "Automatic"
 msgid "Automatic Zoom"
 msgstr "Automatikus nagyítás"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:231
-#| msgid "Scroll left"
 msgid "Scroll Left"
 msgstr "Görgetés balra"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:232
-#| msgid "Scroll right"
 msgid "Scroll Right"
 msgstr "Görgetés jobbra"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:233
-#| msgid "Scroll up"
 msgid "Scroll Up"
 msgstr "Görgetés fel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:234
-#| msgid "Scroll down"
 msgid "Scroll Down"
 msgstr "Görgetés le"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:235
-#| msgid "Scroll left fast"
 msgid "Scroll Left Fast"
 msgstr "Görgetés balra gyorsan"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:236
-#| msgid "Scroll right fast"
 msgid "Scroll Right Fast"
 msgstr "Görgetés jobbra gyorsan"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:237
-#| msgid "Scroll up fast"
 msgid "Scroll Up Fast"
 msgstr "Görgetés fel gyorsan"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:238
-#| msgid "Scroll down fast"
 msgid "Scroll Down Fast"
 msgstr "Görgetés le gyorsan"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:239
-#| msgid "Scroll to center"
 msgid "Scroll to Center"
 msgstr "Görgetés középre"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:242
-#| msgid "Save As…"
 msgid "Save As"
 msgstr "Mentés másként"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:243
-#| msgid "Revert image to saved"
 msgid "Revert to Saved"
 msgstr "Visszaállítás a mentettre"
 
@@ -3252,67 +2901,54 @@ msgid "Mute"
 msgstr "Némítás"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:274
-#| msgid "Play faster"
 msgid "Play Faster"
 msgstr "Lejátszás gyorsabban"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:275
-#| msgid "Play slower"
 msgid "Play Slower"
 msgstr "Lejátszás lassabban"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:276
-#| msgid "No_rmal (Deflate)"
 msgid "Normal Speed"
 msgstr "Normál sebesség"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:278
-#| msgid "Go forward 1 second"
 msgid "Go Forward 1 Second"
 msgstr "Ugrás előre 1 másodperccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:279
-#| msgid "Go forward 5 seconds"
 msgid "Go Forward 5 Seconds"
 msgstr "Ugrás előre 5 másodperccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:280
-#| msgid "Go forward 10 seconds"
 msgid "Go Forward 10 Seconds"
 msgstr "Ugrás előre 10 másodperccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:281
-#| msgid "Go forward 1 minute"
 msgid "Go Forward 1 Minute"
 msgstr "Ugrás előre 1 perccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:282
-#| msgid "Go forward 5 minutes"
 msgid "Go Forward 5 Minutes"
 msgstr "Ugrás előre 5 perccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:283
-#| msgid "Go back 1 second"
 msgid "Go Backward 1 Second"
 msgstr "Ugrás vissza 1 másodperccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:284
-#| msgid "Go back 5 seconds"
 msgid "Go Backward 5 Seconds"
 msgstr "Ugrás vissza 5 másodperccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:285
-#| msgid "Go back 10 seconds"
 msgid "Go Backward 10 Seconds"
 msgstr "Ugrás vissza 10 másodperccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:286
-#| msgid "Go back 1 minute"
 msgid "Go Backward 1 Minute"
 msgstr "Ugrás vissza 1 perccel"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:287
-#| msgid "Go back 5 minutes"
 msgid "Go Backward 5 Minutes"
 msgstr "Ugrás vissza 5 perccel"
 
@@ -3323,12 +2959,10 @@ msgstr "Kiválasztás megszüntetése"
 #: src/Ext/Slideshow/Slideshow.vala:53 src/FolderTree.vala:123
 #: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
-#| msgid "Loading “%s”"
 msgid "Loading %s"
 msgstr "%s betöltése"
 
 #: src/Ext/Slideshow/Slideshow.vala:166
-#| msgid "Pause"
 msgid "Paused"
 msgstr "Szüneteltetve"
 
@@ -3368,7 +3002,6 @@ msgid "No suitable loader available for this file type"
 msgstr "Nem érhető el megfelelő betöltő ehhez a fájltípushoz"
 
 #: src/Ext/Tools/Internal/ResizeImages.vala:47
-#| msgid "Original size"
 msgid "Original"
 msgstr "Eredeti"
 
@@ -3381,12 +3014,10 @@ msgid "Album"
 msgstr "Album"
 
 #: src/Ext/Video/VideoMetadata.vala:7
-#| msgid "Video"
 msgid "Video Codec"
 msgstr "Videokodek"
 
 #: src/Ext/Video/VideoMetadata.vala:8
-#| msgid "Audio files"
 msgid "Audio Codec"
 msgstr "Hangkodek"
 
@@ -3403,40 +3034,33 @@ msgid "Channels"
 msgstr "Csatornák"
 
 #: src/Ext/Video/VideoMetadata.vala:12
-#| msgid "Sample rate"
 msgid "Sample Rate"
 msgstr "Mintavételezési gyakoriság"
 
 #: src/Ext/Video/VideoViewer.vala:625
-#| msgid "Saving images"
 msgid "Saving File"
 msgstr "Fájl mentése"
 
 #: src/Ext/Video/VideoViewer.vala:669
-#| msgid "Could not add the files to the catalog"
 msgid "Could not copy the image to the clipboard"
 msgstr "Nem sikerült a kép másolása a vágólapra"
 
 #: src/Ext/Video/VideoViewer.vala:720 src/Ext/Video/VideoViewer.vala:727
 #: src/Ext/Video/VideoViewer.vala:757 src/MainWindow.vala:285
-#| msgid "Invalid file format"
 msgid "Invalid filename"
 msgstr "Érvénytelen fájlnév"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
 #: src/Ext/Video/VideoViewer.vala:768
 #, c-format
-#| msgid "Save As…"
 msgid "Saved %s"
 msgstr "%s mentve"
 
 #: src/FilePropertyView.vala:124
-#| msgid "Copy to…"
 msgid "Copy Path"
 msgstr "Útvonal másolása"
 
 #: src/FilePropertyView.vala:126
-#| msgid "View the photo location on OpenStreetMap"
 msgid "View on OpenStreetMap"
 msgstr "Megtekintés az OpenStreetMap-térképen"
 
@@ -3457,7 +3081,6 @@ msgid "Copied to Clipboard"
 msgstr "Vágólapra másolva"
 
 #: src/MainWindow.vala:280
-#| msgid "Reading files"
 msgid "Reading Clipboard"
 msgstr "Vágólap olvasása"
 
@@ -3466,12 +3089,10 @@ msgid "Clipboard"
 msgstr "Vágólap"
 
 #: src/MainWindow.vala:553 src/MainWindow.vala:568 src/MainWindow.vala:583
-#| msgid "Deleting files"
 msgid "Deleting Files"
 msgstr "Fájlok törlése"
 
 #: src/MainWindow.vala:598
-#| msgid "Copying files"
 msgid "Copying Files"
 msgstr "Fájlok másolása"
 
@@ -3480,7 +3101,6 @@ msgid "Clear EXIF Rotation"
 msgstr "EXIF-forgatás törlése"
 
 #: src/MainWindow.vala:989
-#| msgid "No valid file selected."
 msgid "No images selected"
 msgstr "Nincsenek képek kiválasztva"
 
@@ -3498,7 +3118,6 @@ msgid "Now"
 msgstr "Most"
 
 #: src/Viewer.vala:155
-#| msgid "File modified date"
 msgid "File Modified"
 msgstr "A fájl módosítva"
 
@@ -3511,13 +3130,11 @@ msgid "_Discard"
 msgstr "El_dobás"
 
 #: src/Viewer.vala:456
-#| msgid "Fullscreen"
 msgid "Exit Fullscreen"
 msgstr "Kilépés a teljes képernyőből"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
 #: src/Viewer.vala:527
-#| msgid "[modified]"
 msgid "modified"
 msgstr "módosítva"
 
