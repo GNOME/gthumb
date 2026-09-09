@@ -15,14 +15,15 @@
 # Álvaro Burns <>, 2025.
 # Renan de Jesus Melo <renanjmelo@gmail.com>, 2026.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2013-2026.
+# Juliano de Souza Camargo <julianosc@pm.me>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-08-06 18:44+0000\n"
-"PO-Revision-Date: 2026-08-14 18:11-0300\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"POT-Creation-Date: 2026-09-02 19:40+0000\n"
+"PO-Revision-Date: 2026-09-07 16:17-0300\n"
+"Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -212,7 +213,7 @@ msgstr "Abrir com"
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2270 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2275 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -276,7 +277,7 @@ msgid "Location"
 msgstr "Local"
 
 #: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24
-#: data/ui/viewer.ui:229 src/Ext/Shortcuts/Shortcuts.vala:241
+#: data/ui/viewer.ui:233 src/Ext/Shortcuts/Shortcuts.vala:241
 msgid "Save"
 msgstr "Salvar"
 
@@ -359,7 +360,7 @@ msgstr "Terceira linha"
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:651
+#: data/ui/browser-preferences.ui:71 src/Application.vala:652
 msgid "Open files in fullscreen mode"
 msgstr "Abrir arquivos em modo tela cheia"
 
@@ -399,7 +400,7 @@ msgstr "Recarregar"
 msgid "Catalog Properties"
 msgstr "Propriedades do catálogo"
 
-#: data/ui/browser.ui:255 src/Browser.vala:335
+#: data/ui/browser.ui:255 src/Browser.vala:353
 msgid "Reorder Files"
 msgstr "Reordenar arquivos"
 
@@ -440,11 +441,11 @@ msgid "Open Fullscreen"
 msgstr "Abrir em tela cheia"
 
 #: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
-#: data/ui/browser.ui:680 data/ui/viewer.ui:221
+#: data/ui/browser.ui:680 data/ui/viewer.ui:225
 msgid "Open in New Window"
 msgstr "Abrir em nova janela"
 
-#: data/ui/browser.ui:429 data/ui/viewer.ui:225
+#: data/ui/browser.ui:429 data/ui/viewer.ui:229
 msgid "Open _With…"
 msgstr "Abrir com…"
 
@@ -454,12 +455,12 @@ msgstr "Abrir pasta"
 
 #: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
-#: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
+#: data/ui/viewer.ui:245 src/Ext/Print/PrintImages.vala:61
 #: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "Imprimir"
 
-#: data/ui/browser.ui:444 data/ui/viewer.ui:246
+#: data/ui/browser.ui:444 data/ui/viewer.ui:250
 #: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "Definir como plano de fundo"
@@ -472,7 +473,7 @@ msgstr "Cortar"
 
 #. Translators: it's a verb, as in "Copy Files"
 #: data/ui/browser.ui:457 data/ui/browser.ui:602
-#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
+#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:258
 #: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Copiar"
@@ -490,19 +491,19 @@ msgstr "Colar"
 msgid "Select All"
 msgstr "Selecionar tudo"
 
-#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:274
 msgid "Copy To…"
 msgstr "Copiar para…"
 
 #: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
-#: data/ui/viewer.ui:274
+#: data/ui/viewer.ui:278
 msgid "Move To…"
 msgstr "Mover para…"
 
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
-#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2171 src/Browser.vala:2234
+#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:283
+#: src/Browser.vala:2176 src/Browser.vala:2239
 #: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "Renomear"
@@ -512,42 +513,42 @@ msgstr "Renomear"
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:288
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "Mover para a lixeira"
 
 #: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
-#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
+#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:292
 msgid "Delete"
 msgstr "Excluir"
 
-#: data/ui/browser.ui:507 data/ui/viewer.ui:295
+#: data/ui/browser.ui:507 data/ui/viewer.ui:299
 msgid "Add to Selection"
 msgstr "Adicionar à seleção"
 
-#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:302
 msgid "Selection 1"
 msgstr "Seleção 1"
 
-#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:308
 msgid "Selection 2"
 msgstr "Seleção 2"
 
-#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:314
 msgid "Selection 3"
 msgstr "Seleção 3"
 
-#: data/ui/browser.ui:529 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:321
 msgid "Add to Catalog…"
 msgstr "Adicionar ao catálogo…"
 
-#: data/ui/browser.ui:536 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:328
 msgid "Remove from Selection"
 msgstr "Remover da seleção"
 
-#: data/ui/browser.ui:541 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:333
 msgid "Remove from Catalog"
 msgstr "Remover do catálogo"
 
@@ -581,8 +582,8 @@ msgstr "Catálogo"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
-#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:236
+#: src/Ext/Image/ImageViewer.vala:292 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_Salvar"
 
@@ -664,8 +665,8 @@ msgid "Center"
 msgstr "Centro"
 
 #: data/ui/crop.ui:78 data/ui/crop.ui:104 data/ui/print-layout-dialog.ui:23
-#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:101
-#: data/ui/resize-image.ui:146
+#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:102
+#: data/ui/resize-image.ui:147
 msgid "Options"
 msgstr "Opções"
 
@@ -692,7 +693,7 @@ msgstr "Arquivos"
 msgid "Delete imported files from source"
 msgstr "Excluir arquivos importados da fonte"
 
-#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
+#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:238
 msgid "Save As…"
 msgstr "Salvar como…"
 
@@ -763,7 +764,7 @@ msgid "Rotate"
 msgstr "Girar"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:404
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:470
 msgid "Fullscreen"
 msgstr "Tela cheia"
 
@@ -863,7 +864,7 @@ msgstr "Abrir a pasta pessoal"
 msgid "Reuse the active window to open files"
 msgstr "Reusar a janela ativa para abrir arquivos"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2526
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -927,7 +928,7 @@ msgstr "Branco"
 msgid "Black"
 msgstr "Preto"
 
-#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:332
+#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:342
 msgid "Pause"
 msgstr "Pausar"
 
@@ -1316,11 +1317,11 @@ msgstr "Pixels"
 msgid "Scaled"
 msgstr "Em escala"
 
-#: data/ui/resize-image.ui:85
+#: data/ui/resize-image.ui:86
 msgid "Repeated"
 msgstr "Repetida"
 
-#: data/ui/resize-image.ui:120
+#: data/ui/resize-image.ui:121
 msgid "High Quality"
 msgstr "Alta qualidade"
 
@@ -1355,7 +1356,7 @@ msgstr "Desenhe uma linha na imagem para definir o alinhamento."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2466
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "Salvar"
@@ -1456,7 +1457,7 @@ msgstr "Pressione uma combinação de teclas a usar como atalho."
 msgid "Press Esc to cancel"
 msgstr "Pressione Esc para cancelar"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2276
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "E_xcluir"
@@ -1564,7 +1565,7 @@ msgstr "Resolução vertical"
 msgid "Cannot view this kind of files"
 msgstr "Não é possível visualizar esse tipo de arquivo"
 
-#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:346
+#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:356
 msgid "Play"
 msgstr "Reproduzir"
 
@@ -1717,11 +1718,11 @@ msgstr "Adaptar a janela ao conteúdo"
 msgid "Properties"
 msgstr "Propriedades"
 
-#: data/ui/viewer.ui:258
+#: data/ui/viewer.ui:262
 msgid "Copy Image"
 msgstr "Copiar imagem"
 
-#: data/ui/viewer.ui:263 src/Ext/Shortcuts/Shortcuts.vala:288
+#: data/ui/viewer.ui:267 src/Ext/Shortcuts/Shortcuts.vala:288
 msgid "Copy Frame"
 msgstr "Copiar quadro"
 
@@ -1823,8 +1824,8 @@ msgstr "Distância focal"
 msgid "Flash"
 msgstr "Flash"
 
-#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
-#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:484
+#: src/Ext/Image/ImageViewer.vala:497 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "Girar para direita"
@@ -1854,27 +1855,27 @@ msgstr "Restaurar a orientação EXIF"
 msgid "Update Thumbnail"
 msgstr "Atualizar miniatura"
 
-#: src/Application.vala:416 src/DefaultTests.vala:23
+#: src/Application.vala:417 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "Todos arquivos"
 
-#: src/Application.vala:633
+#: src/Application.vala:634
 msgid "Show the application version"
 msgstr "Mostrar versão da aplicação"
 
-#: src/Application.vala:642
+#: src/Application.vala:643
 msgid "Open a new window"
 msgstr "Abre uma nova janela"
 
-#: src/Application.vala:661
+#: src/Application.vala:662
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[ARQUIVO…] [DIRETÓRIO…]"
 
-#: src/Application.vala:665
+#: src/Application.vala:666
 msgid "— Image Browser and Viewer"
 msgstr "— Visualizador e navegador de imagens"
 
-#: src/Application.vala:728
+#: src/Application.vala:729
 msgid "translator-credits"
 msgstr ""
 "Enrico Nicoletto <hiko@duck.com>\n"
@@ -1892,76 +1893,76 @@ msgstr ""
 msgid "Path"
 msgstr "Caminho"
 
-#: src/Browser.vala:335
+#: src/Browser.vala:353
 msgid "Drag Files"
 msgstr "Arrastar arquivos"
 
-#: src/Browser.vala:490
+#: src/Browser.vala:508
 msgid "No Matches"
 msgstr "Sem correspondências"
 
-#: src/Browser.vala:498
+#: src/Browser.vala:516
 msgid "No Files Found"
 msgstr "Nenhum arquivo encontrado"
 
-#: src/Browser.vala:502
+#: src/Browser.vala:520
 msgid "Empty Catalog"
 msgstr "Catálogo vazio"
 
-#: src/Browser.vala:506
+#: src/Browser.vala:524
 msgid "Empty Selection"
 msgstr "Seleção vazia"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:513
+#: src/Browser.vala:531
 #, c-format
 msgid "Use %s to add files to selection %u"
 msgstr "Usar %s para adicionar arquivos à seleção %u"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:522
+#: src/Browser.vala:540
 #, c-format
 msgid "Use %s to view selection %u"
 msgstr "Usar %s para ver a seleção %u"
 
-#: src/Browser.vala:535
+#: src/Browser.vala:553
 msgid "Empty Folder"
 msgstr "Pasta vazia"
 
-#: src/Browser.vala:573
+#: src/Browser.vala:591
 msgid "_Add To Bookmarks"
 msgstr "_Adicionar aos marcadores"
 
-#: src/Browser.vala:577
+#: src/Browser.vala:595
 msgid "_Edit Bookmarks…"
 msgstr "_Editar marcadores…"
 
-#: src/Browser.vala:971 src/Browser.vala:1148
-msgid "Pasting Files"
-msgstr "Colando arquivos"
-
-#: src/Browser.vala:989 src/Browser.vala:2105
-msgid "Cannot move files here"
-msgstr "Não foi possível mover arquivos para cá"
-
-#: src/Browser.vala:996
-msgid "Duplicating Files"
-msgstr "Duplicando arquivos"
-
 #. Show a message on the browser.
-#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:929 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "Buscando arquivos"
 
-#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
-#: src/Browser.vala:1995
+#: src/Browser.vala:956 src/Browser.vala:983 src/Browser.vala:1766
+#: src/Browser.vala:2002
 #, c-format
 msgid "Updating %s"
 msgstr "Atualizando %s"
 
-#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
-#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1054 src/Browser.vala:1231
+msgid "Pasting Files"
+msgstr "Colando arquivos"
+
+#: src/Browser.vala:1072 src/Browser.vala:2112
+msgid "Cannot move files here"
+msgstr "Não foi possível mover arquivos para cá"
+
+#: src/Browser.vala:1079
+msgid "Duplicating Files"
+msgstr "Duplicando arquivos"
+
+#: src/Browser.vala:1594 src/Browser.vala:1598 src/Browser.vala:2487
+#: src/Browser.vala:2497 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -1972,28 +1973,28 @@ msgstr "Nenhum arquivo selecionado"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1797
+#: src/Browser.vala:1804
 msgid "Updating Files"
 msgstr "Atualizando arquivos"
 
-#: src/Browser.vala:2061
+#: src/Browser.vala:2068
 msgid "Adding Files"
 msgstr "Adicionando arquivos"
 
-#: src/Browser.vala:2061 src/MainWindow.vala:613
+#: src/Browser.vala:2068 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "Movendo arquivos"
 
-#: src/Browser.vala:2151
+#: src/Browser.vala:2156
 msgid "New Folder"
 msgstr "Nova pasta"
 
-#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2156 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_Criar"
 
-#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2239 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -2003,21 +2004,21 @@ msgid "_Rename"
 msgstr "_Renomear"
 
 #. Ask confirmation
-#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "Excluir permanentemente?"
 
-#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2272 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "Esta ação não é reversível. Você quer apagar <i>%s</i>?"
 
-#: src/Browser.vala:2302
+#: src/Browser.vala:2307
 msgid "Source and destination are the same"
 msgstr "Fonte e destino são os mesmos"
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
-#: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
+#: src/Browser.vala:2340 src/Ext/Image/ImageViewer.vala:645
+#: src/Ext/Video/VideoViewer.vala:676 src/Ext/Video/VideoViewer.vala:769
 #: src/FilePropertyView.vala:125
 msgid "Open"
 msgstr "Abrir"
@@ -2515,33 +2516,33 @@ msgid "Not Includes"
 msgstr "não inclui"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
+#: src/Ext/Image/ImageViewer.vala:236 src/Ext/Image/ImageViewer.vala:292
 msgid "Save File"
 msgstr "Salvar arquivo"
 
-#: src/Ext/Image/ImageViewer.vala:264
+#: src/Ext/Image/ImageViewer.vala:271
 #, c-format
 msgid "Saving %s"
 msgstr "Salvando %s"
 
-#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
-#: src/MainWindow.vala:1087
+#: src/Ext/Image/ImageViewer.vala:303 src/FolderTree.vala:81
+#: src/MainWindow.vala:1086
 msgid "File type not supported"
 msgstr "Não há suporte ao tipo de arquivo"
 
-#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
 msgid "Horizontal Flip"
 msgstr "Espelhar horizontalmente"
 
-#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
 msgid "Vertical Flip"
 msgstr "Espelhar verticalmente"
 
-#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:636 src/Ext/Video/VideoViewer.vala:658
 msgid "Copying to the Clipboard"
 msgstr "Copiando para a área de transferência"
 
-#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:644 src/Ext/Video/VideoViewer.vala:675
 msgid "Copied to the Clipboard"
 msgstr "Copiado para a área de transferência"
 
@@ -2995,13 +2996,13 @@ msgstr "Voltar 5 minutos"
 msgid "Select None"
 msgstr "Selecionar nenhum"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
+#: src/Ext/Slideshow/Slideshow.vala:53 src/FolderTree.vala:123
 #: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
 msgid "Loading %s"
 msgstr "Carregando %s"
 
-#: src/Ext/Slideshow/Slideshow.vala:143
+#: src/Ext/Slideshow/Slideshow.vala:166
 msgid "Paused"
 msgstr "Pausada"
 
@@ -3053,34 +3054,45 @@ msgstr "Artista"
 msgid "Album"
 msgstr "Álbum"
 
-#. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-#: src/Ext/Video/VideoMetadata.vala:8
+#: src/Ext/Video/VideoMetadata.vala:7
 msgid "Video Codec"
 msgstr "Codec de vídeo"
 
-#: src/Ext/Video/VideoMetadata.vala:9
+#: src/Ext/Video/VideoMetadata.vala:8
 msgid "Audio Codec"
 msgstr "Codec de áudio"
 
-#: src/Ext/Video/VideoMetadata.vala:10
+#: src/Ext/Video/VideoMetadata.vala:9
 msgid "Encoder"
 msgstr "Codificador"
 
-#: src/Ext/Video/VideoViewer.vala:615
+#: src/Ext/Video/VideoMetadata.vala:10
+msgid "Framerate"
+msgstr "Taxa de quadros"
+
+#: src/Ext/Video/VideoMetadata.vala:11
+msgid "Channels"
+msgstr "Canais"
+
+#: src/Ext/Video/VideoMetadata.vala:12
+msgid "Sample Rate"
+msgstr "Taxa de amostragem"
+
+#: src/Ext/Video/VideoViewer.vala:625
 msgid "Saving File"
 msgstr "Salvando arquivo"
 
-#: src/Ext/Video/VideoViewer.vala:659
+#: src/Ext/Video/VideoViewer.vala:669
 msgid "Could not copy the image to the clipboard"
 msgstr "Não foi possível adicionar as imagens à área de transferência"
 
-#: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
+#: src/Ext/Video/VideoViewer.vala:720 src/Ext/Video/VideoViewer.vala:727
+#: src/Ext/Video/VideoViewer.vala:757 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "Nome inválido"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
-#: src/Ext/Video/VideoViewer.vala:758
+#: src/Ext/Video/VideoViewer.vala:768
 #, c-format
 msgid "Saved %s"
 msgstr "Salvo %s"
@@ -3129,11 +3141,11 @@ msgstr "Copiando arquivos"
 msgid "Clear EXIF Rotation"
 msgstr "Limpar rotação EXIF"
 
-#: src/MainWindow.vala:985 src/MainWindow.vala:991
+#: src/MainWindow.vala:989
 msgid "No images selected"
 msgstr "Nenhuma imagem selecionada"
 
-#: src/MainWindow.vala:1036
+#: src/MainWindow.vala:1035
 #, c-format
 msgid "Application '%s' not found"
 msgstr "Aplicação '%s' não encontrada"
@@ -3158,12 +3170,12 @@ msgstr "Se você não salvar, as alterações serão permanentemente perdidas."
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/Viewer.vala:390
+#: src/Viewer.vala:456
 msgid "Exit Fullscreen"
 msgstr "Sair da tela cheia"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:480
+#: src/Viewer.vala:527
 msgid "modified"
 msgstr "modificado"
 
@@ -3196,11 +3208,11 @@ msgctxt "Cardinal point"
 msgid "E"
 msgstr "L"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Stereo"
 msgstr "Estéreo"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Mono"
 msgstr "Mono"
 
@@ -4365,15 +4377,6 @@ msgstr "%d∶%02d"
 
 #~ msgid "Codec"
 #~ msgstr "Codec"
-
-#~ msgid "Framerate"
-#~ msgstr "Taxa de quadros"
-
-#~ msgid "Channels"
-#~ msgstr "Canais"
-
-#~ msgid "Sample rate"
-#~ msgstr "Taxa de amostragem"
 
 #, c-format
 #~ msgid "%d × %d"
