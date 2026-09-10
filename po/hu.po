@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
 "POT-Creation-Date: 2026-09-02 19:40+0000\n"
-"PO-Revision-Date: 2026-09-09 13:00+0200\n"
+"PO-Revision-Date: 2026-09-10 08:31+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
-msgstr "Képre jellemző eszközök:"
+msgstr "Képpel kapcsolatos eszközök:"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:39
 msgid "JPEG lossless transformations"
@@ -114,7 +114,7 @@ msgstr "Szerkesztő"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons. The list MUST also end with a semicolon.
 #: data/org.gnome.gthumb-devel.desktop.in:5 data/org.gnome.gthumb.desktop.in:5
 msgid "Image;Viewer;"
-msgstr "Kép;Megjelenítő;"
+msgstr "Kép;Megjelenítő;Néző;Fotó;Fénykép;"
 
 #: data/org.gnome.gthumb-devel.desktop.in:17
 #: data/org.gnome.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
@@ -291,11 +291,11 @@ msgstr "Fájlok _importálása…"
 
 #: data/ui/browser-menu.ui:24
 msgid "_Sort Files"
-msgstr "Fájlok _rendezése"
+msgstr "_Fájlok rendezése"
 
 #: data/ui/browser-menu.ui:28
 msgid "_Sort Folders"
-msgstr "Mappák _rendezése"
+msgstr "Ma_ppák rendezése"
 
 #: data/ui/browser-menu.ui:32
 msgid "_Hidden Files"
@@ -419,7 +419,7 @@ msgstr "Tulajdonságok megtekintése"
 
 #: data/ui/browser.ui:421
 msgid "Open Fullscreen"
-msgstr "Teljes képernyő megnyitása"
+msgstr "Megnyitás teljes képernyőn"
 
 #: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
 #: data/ui/browser.ui:680 data/ui/viewer.ui:225
@@ -671,7 +671,7 @@ msgstr "Fájlok"
 
 #: data/ui/device-dialog.ui:117
 msgid "Delete imported files from source"
-msgstr "Importált fájlok törlése a forrásból"
+msgstr "Importált fájlok törlése a forrásról"
 
 #: data/ui/editor-palette.ui:38 data/ui/viewer.ui:238
 msgid "Save As…"
@@ -722,7 +722,7 @@ msgstr "Cenzúrázás"
 #: data/ui/editor-palette.ui:181 src/Ext/Editor/ColorPicker.vala:191
 #: src/Ext/Shortcuts/Shortcuts.vala:255
 msgid "Color Picker"
-msgstr "Színválasztó"
+msgstr "Színmintavevő"
 
 #: data/ui/editor-palette.ui:196 data/ui/rename-dialog.ui:94
 msgid "Transform"
@@ -768,11 +768,11 @@ msgstr "Szűrő"
 
 #: data/ui/filter-editor-page.ui:50
 msgid "Limited Content"
-msgstr "Korlátozott tartalom"
+msgstr "Korlátozás tartalom alapján"
 
 #: data/ui/filter-editor-page.ui:54
 msgid "Max Files"
-msgstr "Legtöbb fájl"
+msgstr "Legfeljebb ennyi fájl"
 
 #: data/ui/filter-editor-page.ui:74
 msgid "Total Size"
@@ -780,7 +780,7 @@ msgstr "Teljes méret"
 
 #: data/ui/filter-editor-page.ui:102
 msgid "Selected By"
-msgstr "Kiválasztotta"
+msgstr "Kiválasztás eszerint"
 
 #: data/ui/filter-editor-page.ui:107 data/ui/rename-dialog.ui:117
 msgid "Direction"
@@ -965,7 +965,7 @@ msgstr "Nagyítás megváltoztatása"
 
 #: data/ui/images-preferences.ui:23 data/ui/videos-preferences.ui:24
 msgid "Change File"
-msgstr "Fájl megváltoztatása"
+msgstr "Fájl váltása"
 
 #: data/ui/importer-dialog.ui:4 data/ui/importer-dialog.ui:24
 #: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:452
@@ -1291,11 +1291,11 @@ msgstr "Képpontok"
 
 #: data/ui/resize-image.ui:72
 msgid "Scaled"
-msgstr "Méretezett"
+msgstr "Átméretezés"
 
 #: data/ui/resize-image.ui:86
 msgid "Repeated"
-msgstr "Ismételt"
+msgstr "Ismétlés"
 
 #: data/ui/resize-image.ui:121
 msgid "High Quality"
@@ -1362,7 +1362,7 @@ msgstr "Parancsfájl"
 
 #: data/ui/script-editor-page.ui:71
 msgid "Execute as a shell script"
-msgstr "Végrehajtás parancsértelmező parancsfájlt"
+msgstr "Végrehajtás parancsértelmező parancsfájlként"
 
 #: data/ui/script-editor-page.ui:76
 msgid "Execute for every file"
@@ -1521,7 +1521,7 @@ msgstr "Megfelelés bármely szabálynak"
 
 #: data/ui/test-expr-editor-group.ui:72
 msgid "Choose a rule to add to the filter."
-msgstr "Szabály kiválasztás a szűrőhöz való hozzáadáshoz."
+msgstr "Válassza ki a szűrőhöz hozzáadandó szabályt."
 
 #: data/ui/text-viewer-dialog.ui:4 src/Ext/Scripts/Script.vala:106
 msgid "Details"
@@ -1652,7 +1652,7 @@ msgstr "Videók"
 
 #: data/ui/videos-preferences.ui:22
 msgid "Change Time"
-msgstr "Idő megváltoztatása"
+msgstr "Ugrás az időben"
 
 #: data/ui/videos-preferences.ui:23
 msgid "Change Volume"
@@ -1776,11 +1776,11 @@ msgstr "Expozíció"
 
 #: src/Application.vala:159
 msgid "Aperture"
-msgstr "Apertúra"
+msgstr "Rekeszérték"
 
 #: src/Application.vala:160
 msgid "ISO Speed"
-msgstr "ISO sebesség"
+msgstr "ISO-sebesség"
 
 #: src/Application.vala:161
 msgid "Exposure Time"
@@ -1885,13 +1885,13 @@ msgstr "Üres kiválasztás"
 #: src/Browser.vala:531
 #, c-format
 msgid "Use %s to add files to selection %u"
-msgstr "%s használata a(z) %u. kiválasztáshoz való fájlhozzáadáshoz"
+msgstr "%s használatával adhat hozzá fájlokat a(z) %u. kiválasztáshoz"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:540
 #, c-format
 msgid "Use %s to view selection %u"
-msgstr "%s használata a(z) %u. kiválasztás megtekintéséhez"
+msgstr "%s használatával tekintheti meg a(z) %u. kiválasztást"
 
 #: src/Browser.vala:553
 msgid "Empty Folder"
@@ -2084,7 +2084,7 @@ msgstr "Érvénytelen név"
 
 #: src/Ext/Color/ColorSelector.vala:123
 msgid "Selected Color"
-msgstr "Kiválasztott színt"
+msgstr "Kiválasztott szín"
 
 #: src/Ext/Color/ColorSelector.vala:130
 msgid "Reset Original Color"
@@ -2252,7 +2252,7 @@ msgstr "Homályos élek"
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:22
 msgid "Vintage"
-msgstr "Klasszikus"
+msgstr "Régies"
 
 #. Translators: this is the name of an image filter.
 #: src/Ext/Editor/SpecialEffects.vala:25
@@ -2271,7 +2271,7 @@ msgstr "Negatív"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:6
 msgid "Conditions"
-msgstr "Feltételek"
+msgstr "Körülmények"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:7
 msgid "Structure"
@@ -2379,7 +2379,7 @@ msgstr "Ugyanaz a válasz az összes fájlnál"
 
 #: src/Ext/Filters/Filter.vala:109
 msgid "files"
-msgstr "fájlok"
+msgstr "fájl"
 
 #. Translators: this is a verb. For example: Show Images.
 #: src/Ext/Filters/FilterBar.vala:38
