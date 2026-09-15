@@ -1,3 +1,21 @@
+Version 3.12.11
+~~~~~~~~~~~~~~~
+Released: 2026-09-15
+
+Bugfixes:
+ * Fixed potential crash when compiled with optimization level 3
+
+Translations:
+ * Brazilian Portuguese (Rafael Fontenelle)
+ * Hungarian (Balázs Úr)
+ * Kazakh (Baurzhan Muftakhidinov)
+ * Slovenian (Martin Srebotnjak)
+ * Swedish (Anders Jonsson)
+ * Ukrainian (Yuri Chornoivan)
+
+Help translations:
+ * Kazakh (Baurzhan Muftakhidinov)
+
 Version 3.12.10
 ~~~~~~~~~~~~~~~
 Released: 2026-02-10
