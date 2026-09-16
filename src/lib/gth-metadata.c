@@ -399,7 +399,8 @@ void gth_metadata_info_init () {
 
 
 GthMetadataInfo * gth_metadata_info_get (const char *id) {
-	return (id != NULL) ? g_hash_table_lookup (metadata_info_hash, id) : NULL;
+	g_return_val_if_fail (id != NULL, NULL);
+	return g_hash_table_lookup (metadata_info_hash, id);
 }
 
 
@@ -409,59 +410,45 @@ GPtrArray * gth_metadata_info_get_all () {
 
 
 GthMetadataInfo * gth_metadata_info_register (const char *id, const char *display_name, const char *category, GthMetadataFlags flags, const char *type) {
-	if ((display_name != NULL) && (strstr (display_name, "0x") != NULL))
-		flags = GTH_METADATA_HIDDEN;
-
+	g_return_val_if_fail (id != NULL, NULL);
 	g_mutex_lock (&metadata_info_mutex);
-
-	GthMetadataInfo *info = g_new0 (GthMetadataInfo, 1);
-	if (id != NULL)
+	GthMetadataInfo *info = g_hash_table_lookup (metadata_info_hash, id);
+	if (info == NULL) {
+		info = g_new0 (GthMetadataInfo, 1);
+		info->flags = flags;
 		info->id = g_strdup (id);
-	if (display_name != NULL)
+		info->sort_order = metadata_info_last_sort_order++;
+
+		g_ptr_array_add (metadata_info_array, info);
+		g_hash_table_insert (metadata_info_hash, (gpointer) info->id, info);
+
+		metadata_info_sorted = FALSE;
+	}
+	if ((info->display_name == NULL) && (display_name != NULL)) {
 		info->display_name = g_strdup (display_name);
-	if (category != NULL)
-		info->category = g_strdup (category);
-	info->flags = flags;
-	if (type != NULL)
+		if (strstr (info->display_name, "0x") != NULL) {
+			info->flags |= GTH_METADATA_HIDDEN;
+		}
+	}
+	if ((info->type == NULL) && (type != NULL)) {
 		info->type = g_strdup (type);
-	info->sort_order = metadata_info_last_sort_order++;
-
-	g_ptr_array_add (metadata_info_array, info);
-	g_hash_table_insert (metadata_info_hash, (gpointer) info->id, info);
-	metadata_info_sorted = FALSE;
-
+	}
+	if ((info->category == NULL) && (category != NULL)) {
+		info->category = g_strdup (category);
+	}
 	g_mutex_unlock (&metadata_info_mutex);
-
 	return info;
 }
 
 
 void gth_metadata_info_register_from_metadata (GthMetadata *metadata) {
-	GthMetadataInfo *metadata_info = gth_metadata_info_get (metadata->priv->id);
-	if (metadata_info == NULL) {
-		metadata_info = gth_metadata_info_register (
-			metadata->priv->id,
-			metadata->priv->description,
-			(metadata->priv->category != NULL) ? metadata->priv->category : "Other",
-			GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
-			metadata->priv->value_type
-		);
-		metadata_info->sort_order = 500;
-	}
-
-	if ((metadata_info != NULL)
-		&& (metadata_info->type == NULL)
-		&& (metadata->priv->value_type != NULL))
-	{
-		metadata_info->type = g_strdup (metadata->priv->value_type);
-	}
-
-	if ((metadata_info != NULL)
-		&& (metadata_info->display_name == NULL)
-		&& (metadata->priv->description != NULL))
-	{
-		metadata_info->display_name = g_strdup (metadata->priv->description);
-	}
+	gth_metadata_info_register (
+		metadata->priv->id,
+		metadata->priv->description,
+		(metadata->priv->category != NULL) ? metadata->priv->category : "Other",
+		GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
+		metadata->priv->value_type
+	);
 }
 
 

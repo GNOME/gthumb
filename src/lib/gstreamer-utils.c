@@ -333,17 +333,17 @@ static void tag_iterate (const GstTagList *list, const char *tag, TagIterateCont
 	if (tag_key == NULL) {
 		attribute = g_strconcat ("Media::", tag, NULL);
 
-		GthMetadataInfo *metadata_info = gth_metadata_info_get (attribute);
-		if (metadata_info == NULL) {
-			metadata_info = gth_metadata_info_register (
-				attribute,
-				gst_tag_get_nick (tag),
-				"Other",
-				GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
-				NULL
-			);
+		GthMetadataInfo * metadata_info = gth_metadata_info_register (
+			attribute,
+			gst_tag_get_nick (tag),
+			"Other",
+			GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW,
+			NULL
+		);
+		if (metadata_info != NULL) {
 			metadata_info->sort_order = 500;
 		}
+
 		tag_key = attribute;
 	}
 
