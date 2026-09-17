@@ -9,7 +9,7 @@ public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 		return Util.attributes_match_any_pattern_v (supported_attributes, attribute_v);
 	}
 
-	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) throws Error {
 		try {
 			if (file != null) {
 				Video.read_metadata (file, info, cancellable);
@@ -17,6 +17,9 @@ public class Gth.VideoMetadataProvider : Gth.MetadataProvider {
 			}
 		}
 		catch (Error error) {
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
 		}
 		return false;
 	}

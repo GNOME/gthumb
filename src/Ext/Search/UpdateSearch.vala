@@ -81,7 +81,7 @@ public class Gth.UpdateSearch {
 			error = _error;
 		}
 
-		// Save the catalog.
+		// Save the catalog (even when the operation was cancelled).
 		var local_cancellable = new Cancellable ();
 		yield search.save_async (local_cancellable);
 		app.events.file_added_to_disk (search.file);

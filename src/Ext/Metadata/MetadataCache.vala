@@ -1,5 +1,5 @@
 public class Gth.MetadataCache {
-	public bool load (string provider_id, File file, FileInfo info, Cancellable cancellable) {
+	public bool load (string provider_id, File file, FileInfo info, Cancellable cancellable) throws Error {
 		try {
 			var metadata_file = get_cache_file (provider_id, file, FileIntent.READ);
 			// stdout.printf ("> file: %s => %s\n", file.get_uri (), metadata_file.get_uri ());
@@ -10,18 +10,17 @@ public class Gth.MetadataCache {
 				return false;
 			}
 			// stdout.printf ("> cached:\n%s\n", serialized.to_debug ());
-			if (deserialize_data (serialized, info)) {
-				return true;
-			}
+			return deserialize_data (serialized, info);
 		}
 		catch (Error error) {
-			// stderr.printf ("ERROR: MetadataCache.load: %s\n", error.message);
-			return false;
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
 		}
 		return false;
 	}
 
-	public bool valid (string provider_id, File file, FileInfo info, Cancellable cancellable) {
+	public bool valid (string provider_id, File file, FileInfo info, Cancellable cancellable) throws Error {
 		try {
 			var metadata_file = get_cache_file (provider_id, file, FileIntent.READ);
 			var stream = metadata_file.read (cancellable);
@@ -35,6 +34,9 @@ public class Gth.MetadataCache {
 			return valid_timestamp (header.timestamp, info);
 		}
 		catch (Error error) {
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
 		}
 		return false;
 	}

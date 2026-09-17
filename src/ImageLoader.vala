@@ -68,7 +68,7 @@ public class Gth.ImageLoader {
 		return result;
 	}
 
-	public static void load_info (Image image, FileInfo info, string content_type, File? file, Bytes? bytes, LoadFlags flags, Cancellable cancellable) {
+	public static void load_info (Image image, FileInfo info, string content_type, File? file, Bytes? bytes, LoadFlags flags, Cancellable cancellable) throws Error {
 		info.set_attribute_string (FileAttribute.STANDARD_CONTENT_TYPE, content_type);
 		var frames = image.get_frames ();
 		if (frames > 1) {

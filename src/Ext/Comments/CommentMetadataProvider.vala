@@ -6,7 +6,7 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 		return Util.attributes_match_any_pattern_v (supported_attributes, attribute_v);
 	}
 
-	public override bool read (File? file, Bytes? buffer, FileInfo file_info, Cancellable cancellable) {
+	public override bool read (File? file, Bytes? buffer, FileInfo file_info, Cancellable cancellable) throws Error {
 		if (file == null) {
 			return false;
 		}
@@ -36,6 +36,9 @@ public class Gth.CommentMetadataProvider : Gth.MetadataProvider {
 		}
 		catch (Error error) {
 			//stdout.printf ("ERROR: %s\n", error.message);
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
 		}
 		return false;
 	}

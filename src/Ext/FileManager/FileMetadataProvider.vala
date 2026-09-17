@@ -4,7 +4,7 @@ public class Gth.FileMetadataProvider : Gth.MetadataProvider {
 		return Util.attributes_match_any_pattern_v (supported_attributes, attribute_v);
 	}
 
-	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) throws Error {
 		var size = "%'lu".printf ((uint64) info.get_size ());
 		info.set_attribute_string ("Private::File::Size", size);
 

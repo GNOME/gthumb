@@ -7,9 +7,9 @@ public abstract class Gth.MetadataProvider : Object {
 
 	public abstract bool can_read (File? file, FileInfo info, string[]? attribute_v = null);
 
-	public abstract bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable);
+	public abstract bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) throws Error;
 
-	public bool read_with_cache (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+	public bool read_with_cache (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) throws Error {
 		var use_cache = cachable && (file != null);
 		// stdout.printf ("> read_with_cache: %s\n", (file != null) ? file.get_uri () : "(null)");
 		// stdout.printf ("  provider: %s\n", id);

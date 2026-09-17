@@ -9,7 +9,7 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 		return Util.attributes_match_any_pattern_v (supported_attributes, attribute_v);
 	}
 
-	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) {
+	public override bool read (File? file, Bytes? buffer, FileInfo info, Cancellable cancellable) throws Error {
 		try {
 			Bytes bytes = null;
 			if (buffer != null) {
@@ -24,6 +24,9 @@ public class Gth.ExivMetadataProvider : Gth.MetadataProvider {
 		}
 		catch (Error error) {
 			stdout.printf ("ERROR ExivMetadataProvider.read: %s\n", error.message);
+			if (error is IOError.CANCELLED) {
+				throw error;
+			}
 			return false;
 		}
 	}
