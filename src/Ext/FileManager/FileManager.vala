@@ -267,6 +267,7 @@ public class Gth.FileManager {
 							catch (Error _error) {
 								error = _error;
 								action = ForEachAction.STOP;
+								break;
 							}
 						}
 					}
