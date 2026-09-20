@@ -80,13 +80,12 @@ public class Gth.Window : Adw.ApplicationWindow {
 
 	public virtual void on_jobs_changed () {
 		if (closing && (jobs.size () == 0)) {
-			Util.next_tick (() => {
-				before_closing ();
-				close ();
-			});
-			return;
+			before_closing ();
+			close ();
 		}
-		ensure_progress_dialog ();
+		else if (progress_dialog == null) {
+			ensure_progress_dialog ();
+		}
 	}
 
 	void ensure_progress_dialog () {
@@ -119,7 +118,9 @@ public class Gth.Window : Adw.ApplicationWindow {
 	construct {
 		monitor_profile = new MonitorProfile (this);
 		jobs = new Gth.JobQueue ();
-		jobs.size_changed.connect (() => on_jobs_changed ());
+		jobs.size_changed.connect (() => {
+			Util.next_tick (() => on_jobs_changed ());
+		});
 		close_request.connect (() => on_close ());
 		closing = false;
 		action_group = new SimpleActionGroup ();
