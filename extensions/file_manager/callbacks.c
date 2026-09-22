@@ -633,12 +633,15 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 		GAppInfo  *appinfo = scan->data;
 		GIcon     *icon;
 		GMenuItem *item;
+		const char *app_id = g_app_info_get_id (appinfo);
 
-		if (strstr (g_app_info_get_executable (appinfo), "gthumb") != NULL)
+		if (app_id == NULL)
 			continue;
-		if (g_hash_table_lookup (used_apps, g_app_info_get_id (appinfo)) != NULL)
+		if (g_strcmp0 (app_id, "org.gnome.gThumb.desktop") == 0)
 			continue;
-		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
+		if (g_hash_table_lookup (used_apps, app_id) != NULL)
+			continue;
+		g_hash_table_insert (used_apps, (gpointer) app_id, GINT_TO_POINTER (1));
 
 		item = g_menu_item_new (g_app_info_get_display_name (appinfo), NULL);
 		g_menu_item_set_action_and_target (item, "win.open-with-application", "i", n);
