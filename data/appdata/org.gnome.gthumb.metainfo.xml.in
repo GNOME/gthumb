@@ -69,7 +69,21 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="4.0.rc" date="2026-08-30" type="development">
+    <release version="4.0" date="2026-09-27" type="stable">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Resize Image: added a digit to the zoom spin button</li>
+        </ul>
+        <p>This release fixes the following bugs:</p>
+        <ul>
+          <li>Fixed “Print” action not visible in viewer mode</li>
+          <li>Fixed progress dialog not visible while searching</li>
+        </ul>
+        <p>This release updates translations.</p>
+      </description>
+    </release>
+    <release version="4.0~rc" date="2026-08-30" type="development">
       <description>
         <p>This release adds the following features:</p>
         <ul>
@@ -92,7 +106,7 @@
         <p>This release updates translations.</p>
       </description>
     </release>
-    <release version="4.0.beta" date="2026-06-22" type="development">
+    <release version="4.0~beta" date="2026-06-22" type="development">
       <description>
         <p>This release adds the following features:</p>
         <ul>
@@ -114,7 +128,7 @@
         <p>This release updates translations.</p>
       </description>
     </release>
-    <release version="4.0.alpha" date="2026-04-26" type="development">
+    <release version="4.0~alpha" date="2026-04-26" type="development">
       <description>
         <p>This release adds the following features:</p>
         <ul>

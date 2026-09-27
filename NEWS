@@ -1,3 +1,23 @@
+Version 4.0
+~~~~~~~~~~~~~~~~~
+Released: 2026-09-27
+
+Features:
+ * Resize Image: added a digit to the zoom spin button
+
+Bugfixes:
+ * Fixed “Print” action not visible in viewer mode
+ * Fixed progress dialog not visible while searching
+
+Translations:
+ * Belarusian (Yuras Shumovich)
+ * Brazilian Portuguese (Juliano de Souza Camargo)
+ * Czech (Daniel Rusek)
+ * Danish (Alan Mortensen)
+ * Hungarian (Balázs Úr)
+ * Swedish (Anders Jonsson)
+ * Turkish (Muhammet Kara)
+
 Version 4.0.rc
 ~~~~~~~~~~~~~~~~~
 Released: 2026-08-30
