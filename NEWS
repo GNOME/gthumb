@@ -1,3 +1,11 @@
+Version 3.12.12
+~~~~~~~~~~~~~~~
+Released: 2026-09-27
+
+Bugfixes:
+ * Open With: only hide gThumb, not any app containing “gthumb”
+ * Fixed release notes in metainfo file
+
 Version 3.12.11
 ~~~~~~~~~~~~~~~
 Released: 2026-09-15
