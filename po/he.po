@@ -8,18 +8,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-08-29 10:50+0000\n"
-"PO-Revision-Date: 2026-08-29 21:29+0300\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2026-09-27 20:03+0000\n"
+"PO-Revision-Date: 2026-09-30 09:06+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? 2 : "
+"3);\n"
 "X-Launchpad-Export-Date: 2007-10-11 05:52+0000\n"
-"X-Generator: Gtranslator 50.0\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
-"2 : 3)\n"
+"X-Generator: Poedit 3.9\n"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
@@ -57,8 +57,8 @@ msgid ""
 "File manager operations: copy, move, rename and delete files and folders, "
 "execute scripts on the selected files."
 msgstr ""
-"פעולות ניהול קבצים: העתקה, העברה, שינוי שם ומחיקת קבצים ותיקיות, הרצת "
-"תסריטים על קבצים נבחרים."
+"פעולות ניהול קבצים: העתקה, העברה, שינוי שם ומחיקת קבצים ותיקיות, הרצת תסריטים "
+"על קבצים נבחרים."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
@@ -93,8 +93,7 @@ msgstr ""
 "חיפוש תמונות ושמירת התוצאות בקטלוג."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
-#: data/ui/browser-preferences.ui:4
-#: src/Ext/Preferences/PreferencesDialog.vala:6
+#: data/ui/browser-preferences.ui:4 src/Ext/Preferences/PreferencesDialog.vala:6
 #: src/Ext/Shortcuts/Shortcuts.vala:163
 msgid "Browser"
 msgstr "דפדפן"
@@ -113,8 +112,8 @@ msgstr "עורך"
 msgid "Image;Viewer;"
 msgstr "תמונה;מציג;מציג תמונות;"
 
-#: data/org.gnome.gthumb-devel.desktop.in:17
-#: data/org.gnome.gthumb.desktop.in:17 src/Ext/Shortcuts/Shortcuts.vala:133
+#: data/org.gnome.gthumb-devel.desktop.in:17 data/org.gnome.gthumb.desktop.in:17
+#: src/Ext/Shortcuts/Shortcuts.vala:133
 msgid "New Window"
 msgstr "חלון חדש"
 
@@ -192,7 +191,7 @@ msgstr "פתיחה באמצעות"
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2273 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2275 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -481,7 +480,7 @@ msgstr "העברה אל…"
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
 #: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:283
-#: src/Browser.vala:2174 src/Browser.vala:2237
+#: src/Browser.vala:2176 src/Browser.vala:2239
 #: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "שינוי שם"
@@ -642,8 +641,8 @@ msgid "Center"
 msgstr "מרכוז"
 
 #: data/ui/crop.ui:78 data/ui/crop.ui:104 data/ui/print-layout-dialog.ui:23
-#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:101
-#: data/ui/resize-image.ui:146
+#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:102
+#: data/ui/resize-image.ui:147
 msgid "Options"
 msgstr "אפשרויות"
 
@@ -841,7 +840,7 @@ msgstr "פתיחת תיקיית הבית"
 msgid "Reuse the active window to open files"
 msgstr "שימוש חוזר בחלון הפעיל לפתית קבצים"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2524
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2526
 msgid "Terminal"
 msgstr "מסוף"
 
@@ -1012,7 +1011,6 @@ msgid "Optimize"
 msgstr "ייעול"
 
 #: data/ui/jpeg-preferences.ui:51
-#, fuzzy
 msgid "Progressive"
 msgstr "מתקדם"
 
@@ -1056,7 +1054,7 @@ msgstr "מיקום"
 
 #: data/ui/metadata-dialog.ui:94
 msgid "Time of Day"
-msgstr ""
+msgstr "השעה ביום"
 
 #: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
@@ -1074,7 +1072,7 @@ msgstr "זכויות יוצרים"
 
 #: data/ui/metadata-dialog.ui:123
 msgid "Credit"
-msgstr ""
+msgstr "הוקרה"
 
 #: data/ui/metadata-dialog.ui:131
 msgid "Byline"
@@ -1291,11 +1289,11 @@ msgstr "פיקסלים"
 msgid "Scaled"
 msgstr "מותאם"
 
-#: data/ui/resize-image.ui:85
+#: data/ui/resize-image.ui:86
 msgid "Repeated"
 msgstr "חזרה"
 
-#: data/ui/resize-image.ui:120
+#: data/ui/resize-image.ui:121
 msgid "High Quality"
 msgstr "איכות גבוהה"
 
@@ -1330,7 +1328,7 @@ msgstr "ציור שורה על התמונה להגדרת היישור."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2464
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2466
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "שמירה"
@@ -1429,7 +1427,7 @@ msgstr "ללחוץ על צירוף מקשים שישמשו כקיצור דרך."
 msgid "Press Esc to cancel"
 msgstr "‫Esc לביטול"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2274
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2276
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "_מחיקה"
@@ -1903,31 +1901,31 @@ msgid "_Edit Bookmarks…"
 msgstr "_עריכת סימניות…"
 
 #. Show a message on the browser.
-#: src/Browser.vala:927 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:929 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "מחפש קבצים"
 
-#: src/Browser.vala:954 src/Browser.vala:981 src/Browser.vala:1764
-#: src/Browser.vala:2000
+#: src/Browser.vala:956 src/Browser.vala:983 src/Browser.vala:1766
+#: src/Browser.vala:2002
 #, c-format
 msgid "Updating %s"
 msgstr "‏%s מתעדכן"
 
-#: src/Browser.vala:1052 src/Browser.vala:1229
+#: src/Browser.vala:1054 src/Browser.vala:1231
 msgid "Pasting Files"
 msgstr "מדביק קבצים"
 
-#: src/Browser.vala:1070 src/Browser.vala:2110
+#: src/Browser.vala:1072 src/Browser.vala:2112
 msgid "Cannot move files here"
 msgstr "לא ניתן להעביר את הקבצים לכאן"
 
-#: src/Browser.vala:1077
+#: src/Browser.vala:1079
 msgid "Duplicating Files"
 msgstr "קבצים כפולים"
 
-#: src/Browser.vala:1592 src/Browser.vala:1596 src/Browser.vala:2485
-#: src/Browser.vala:2495 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1594 src/Browser.vala:1598 src/Browser.vala:2487
+#: src/Browser.vala:2497 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -1938,28 +1936,28 @@ msgstr "לא נבחרו קבצים"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1802
+#: src/Browser.vala:1804
 msgid "Updating Files"
 msgstr "מעדכן קבצים"
 
-#: src/Browser.vala:2066
+#: src/Browser.vala:2068
 msgid "Adding Files"
 msgstr "מוסיף קבצים"
 
-#: src/Browser.vala:2066 src/MainWindow.vala:613
+#: src/Browser.vala:2068 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "מעביר קבצים"
 
-#: src/Browser.vala:2154
+#: src/Browser.vala:2156
 msgid "New Folder"
 msgstr "תיקייה חדשה"
 
-#: src/Browser.vala:2154 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2156 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_יצירה"
 
-#: src/Browser.vala:2237 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2239 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -1969,20 +1967,20 @@ msgid "_Rename"
 msgstr "_שינוי שם"
 
 #. Ask confirmation
-#: src/Browser.vala:2268 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "למחוק לצמיתות?"
 
-#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2272 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
 msgstr "פעולה זו לא ניתנת לביטול. האם אכן ברצונך למחוק את <i>%s</i>?"
 
-#: src/Browser.vala:2305
+#: src/Browser.vala:2307
 msgid "Source and destination are the same"
 msgstr "המקור והיעד זהים"
 
-#: src/Browser.vala:2338 src/Ext/Image/ImageViewer.vala:645
+#: src/Browser.vala:2340 src/Ext/Image/ImageViewer.vala:645
 #: src/Ext/Video/VideoViewer.vala:676 src/Ext/Video/VideoViewer.vala:769
 #: src/FilePropertyView.vala:125
 msgid "Open"
@@ -2031,8 +2029,7 @@ msgid "No file selected"
 msgstr "לא נבחר קובץ"
 
 #. Cannot copy to libraries.
-#: src/Dialogs/FolderSelector.vala:148
-#: src/Ext/Bookmarks/BookmarksDialog.vala:67
+#: src/Dialogs/FolderSelector.vala:148 src/Ext/Bookmarks/BookmarksDialog.vala:67
 msgid "Invalid location"
 msgstr "יעד לא חוקי"
 
@@ -2125,8 +2122,7 @@ msgid "Gamma"
 msgstr "גמא"
 
 #. Translators: filter that adjust the color curves.
-#: src/Ext/Editor/AdjustBrightness.vala:12
-#: src/Ext/Editor/AdjustContrast.vala:12
+#: src/Ext/Editor/AdjustBrightness.vala:12 src/Ext/Editor/AdjustContrast.vala:12
 msgid "Curves"
 msgstr "עקומות"
 
@@ -2303,17 +2299,14 @@ msgid "EXIF"
 msgstr "EXIF"
 
 #: src/Ext/FileManager/FileManager.vala:17
-#, fuzzy, c-format
-#| msgid ""
-#| "The files cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
+#, c-format
 msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
-msgstr[0] "לא ניתן להעביר את הקבצים לאשפה. האם ברצונך למחוק אותם למציתות?"
-msgstr[1] "לא ניתן להעביר את הקבצים לאשפה. האם ברצונך למחוק אותם למציתות?"
-msgstr[2] "לא ניתן להעביר את הקבצים לאשפה. האם ברצונך למחוק אותם למציתות?"
-msgstr[3] "לא ניתן להעביר את הקבצים לאשפה. האם ברצונך למחוק אותם למציתות?"
+msgstr[0] "זאת פעולה בלתי הפיכה. למחוק את הקובץ הנבחר?"
+msgstr[1] "זאת פעולה בלתי הפיכה. למחוק את שני הקבצים הנבחרים?"
+msgstr[2] "זאת פעולה בלתי הפיכה. למחוק את %'d הקבצים הנבחרים?"
+msgstr[3] "זאת פעולה בלתי הפיכה. למחוק את %'d הקבצים הנבחרים?"
 
 #: src/Ext/FileManager/FileManager.vala:86
 msgid "Move"
@@ -2330,10 +2323,10 @@ msgstr "להחליף את הקובץ?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:122
-#, fuzzy, c-format
+#, c-format
 #| msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgid "A file named “%s” already exists. Do you want to replace it?"
-msgstr "הקטלוג „%s” כבר קיים, לדרוס אותו?"
+msgstr "כבר קיים קובץ בשם „%s”. להחליף אותו?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:126
 #: src/Ext/FileManager/OverwriteDialog.vala:134
@@ -2347,23 +2340,20 @@ msgstr "להחליף את התוכן?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:145
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
-msgstr "לשנות שם לקובץ?"
+msgstr "הקובץ „%s” נערך ביישום אחר. להחליף אותו?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
-#, fuzzy
-#| msgid "Rename files"
 msgid "Rename File?"
-msgstr "שינוי שמות קבצים"
+msgstr "לשנות את שם הקובץ?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:158
-#, fuzzy, c-format
-#| msgid "source and destination are the same"
+#, c-format
 msgid "Source and destination are the same. Do you want to rename “%s”?"
-msgstr "המקור ותיקיית היעד זהים"
+msgstr "המקור והיעד זהים. לשנות את השם של „%s”?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:168
 msgid "Skip _All"
@@ -2447,7 +2437,7 @@ msgstr "בדיקת המזהה איננה שלמה"
 
 #: src/Ext/Filters/TestDate.vala:112 src/Ext/Filters/TestString.vala:148
 msgid "Different From"
-msgstr ""
+msgstr "שונה מ־"
 
 #: src/Ext/Filters/TestString.vala:144
 msgid "Contains"
@@ -2515,7 +2505,7 @@ msgstr "הועתק ללוח הגזירים"
 #: src/Ext/Import/ImportFiles.vala:230
 #, c-format
 msgid "The operation requires %s of space, but only %s are available on “%s”."
-msgstr ""
+msgstr "הפעולה דורשת %s מקום פנוי, אך רק %s פנויים ב־„%s”."
 
 #: src/Ext/Import/ImportFiles.vala:244
 msgid "Not enough free space"
@@ -2590,9 +2580,8 @@ msgid "File Extension"
 msgstr "סיומת הקובץ"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:11
-#, fuzzy
 msgid "Original Index"
-msgstr "גודל מקורי"
+msgstr "מפתח מקורי"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:12
 msgid "Created"
@@ -2624,10 +2613,9 @@ msgstr "JPEG"
 
 #. Translators: file type
 #: src/Ext/Savers/JxlPreferences.vala:8
-#, fuzzy
 #| msgid "JPEG XL"
 msgid "JXL"
-msgstr "JPEG XL"
+msgstr "JXL"
 
 #. Translators: file type
 #: src/Ext/Savers/PngPreferences.vala:8
@@ -2712,14 +2700,12 @@ msgid "Parent Folder"
 msgstr "תיקייה מכילה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:144
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous Visited"
-msgstr "הקודם"
+msgstr "הקודם שביקרת בו"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:145
 msgid "Next Visited"
-msgstr ""
+msgstr "הבא שביקרת בו"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:146
 msgid "Next Folder"
@@ -2894,10 +2880,8 @@ msgid "Save As"
 msgstr "שמירה בשם"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:243
-#, fuzzy
-#| msgid "Revert image to saved"
 msgid "Revert to Saved"
-msgstr "להחזיר לתמונה שנשמרה"
+msgstr "החזרה לשמירה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:267 src/Ext/Shortcuts/Shortcuts.vala:271
 msgid "Play/Pause"
@@ -2924,64 +2908,44 @@ msgid "Normal Speed"
 msgstr "נגינה רגילה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:278
-#, fuzzy
-#| msgid "Go forward 1 second"
 msgid "Go Forward 1 Second"
-msgstr "לקפוץ שנייה קדימה"
+msgstr "התקדמות בשנייה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:279
-#, fuzzy
-#| msgid "Go forward 5 seconds"
 msgid "Go Forward 5 Seconds"
-msgstr "לקפוץ 5 שניות קדימה"
+msgstr "התקדמות ב־5 שניות"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:280
-#, fuzzy
-#| msgid "Go forward 10 seconds"
 msgid "Go Forward 10 Seconds"
-msgstr "לקפוץ 10 שניות קדימה"
+msgstr "התקדמות ב־10 שניות"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:281
-#, fuzzy
-#| msgid "Go forward 1 minute"
 msgid "Go Forward 1 Minute"
-msgstr "לקפוץ דקה קדימה"
+msgstr "התקדמות בדקה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:282
-#, fuzzy
-#| msgid "Go forward 5 minutes"
 msgid "Go Forward 5 Minutes"
-msgstr "לקפוץ 5 דקות קדימה"
+msgstr "התקדמות ב־5 דקות"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:283
-#, fuzzy
-#| msgid "Go back 1 second"
 msgid "Go Backward 1 Second"
-msgstr "לקפוץ שנייה אחורה"
+msgstr "חזרה בשנייה אחורה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:284
-#, fuzzy
-#| msgid "Go back 5 seconds"
 msgid "Go Backward 5 Seconds"
-msgstr "לקפוץ 5 שניות אחורה"
+msgstr "חזרה ב־5 שניות אחורה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:285
-#, fuzzy
-#| msgid "Go back 10 seconds"
 msgid "Go Backward 10 Seconds"
-msgstr "לקפוץ 10 שניות אחורה"
+msgstr "חזרה ב־10 שניות אחורה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:286
-#, fuzzy
-#| msgid "Go back 1 minute"
 msgid "Go Backward 1 Minute"
-msgstr "לקפוץ דקה אחורה"
+msgstr "חזרה בדקה אחורה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:287
-#, fuzzy
-#| msgid "Go back 5 minutes"
 msgid "Go Backward 5 Minutes"
-msgstr "לקפוץ 5 דקות אחורה"
+msgstr "חזרה ב־5 דקות אחורה"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:293
 msgid "Select None"
@@ -2989,16 +2953,13 @@ msgstr "ביטול הבחירה"
 
 #: src/Ext/Slideshow/Slideshow.vala:53 src/FolderTree.vala:123
 #: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
-#, fuzzy, c-format
-#| msgid "Loading “%s”"
+#, c-format
 msgid "Loading %s"
-msgstr "‫„%s” בטעינה"
+msgstr "%s בטעינה"
 
 #: src/Ext/Slideshow/Slideshow.vala:166
-#, fuzzy
-#| msgid "Pause"
 msgid "Paused"
-msgstr "עצירה"
+msgstr "מושהה"
 
 #: src/Ext/Template/TemplatePage.vala:160
 msgid "Year"
@@ -3248,10 +3209,10 @@ msgstr "%d∶%02d"
 #~ "העבודה GNOME 3."
 
 #~ msgid ""
-#~ "As an image viewer gThumb allows to view common image file formats such "
-#~ "as BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW "
-#~ "images. It is also possible to view various metadata types embedded "
-#~ "inside an image such as EXIF, IPTC and XMP."
+#~ "As an image viewer gThumb allows to view common image file formats such as "
+#~ "BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. "
+#~ "It is also possible to view various metadata types embedded inside an "
+#~ "image such as EXIF, IPTC and XMP."
 #~ msgstr ""
 #~ "כמציג תמונות, gThumb מאפשר הצגת תבניות קבצי תמונה נפוצים כמו BMP, JPEG, "
 #~ "GIF (כולל הנפשות), PNG, TIFF, TGA ותמונות RAW. הוא גם מאפשר להציג סוגי "
@@ -3268,8 +3229,8 @@ msgstr "%d∶%02d"
 #~ "כדפדפן תמונות, gThumb מציג תמונות ממוזערות של התמונות השמורות על הכונן "
 #~ "שלך, מאפשר לבצע פעולות נפוצות של מנהל קבצים כמו העתקה, הזזה, ומחיקת קבצים "
 #~ "ותיקיות. יתרה מזאת, יש סדרת כלים מגדרת תמונות כגון שינוי JPEG ללא איבוד "
-#~ "נתונים; שינוי גודל תמונה; המרת תבניות; מצגת; הגדרת תמונה כרקע שולחן "
-#~ "העבודה ועוד."
+#~ "נתונים; שינוי גודל תמונה; המרת תבניות; מצגת; הגדרת תמונה כרקע שולחן העבודה "
+#~ "ועוד."
 
 #~ msgid "Browser mode"
 #~ msgstr "מצב דפדוף"
@@ -5046,8 +5007,8 @@ msgstr "%d∶%02d"
 #~ "any later version."
 #~ msgstr ""
 #~ "‏gThumb היא תכנה חופשית; ניתן להפיצה מחדש ו/או לשנות אותה לפי תנאי הרישיון "
-#~ "הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם גרסה 2 "
-#~ "של הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר."
+#~ "הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם גרסה 2 של "
+#~ "הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר."
 
 #~ msgid ""
 #~ "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
@@ -5063,8 +5024,8 @@ msgstr "%d∶%02d"
 #~ "You should have received a copy of the GNU General Public License along "
 #~ "with gThumb.  If not, see http://www.gnu.org/licenses/."
 #~ msgstr ""
-#~ "לתכנית זו אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; "
-#~ "במידה שלא, ניתן לראותה בקישור http://www.gnu.org/licenses/."
+#~ "לתכנית זו אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; במידה "
+#~ "שלא, ניתן לראותה בקישור http://www.gnu.org/licenses/."
 
 #~ msgid "Show browser"
 #~ msgstr "להציג דפדפן"
@@ -5359,8 +5320,8 @@ msgstr "%d∶%02d"
 
 #, c-format
 #~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s» and "
-#~ "cannot be changed."
+#~ "The key combination «%s» is already assigned to the action «%s» and cannot "
+#~ "be changed."
 #~ msgstr "‫צירוף המקשים „%s” כבר הוקצה לפעולה „%s” ולא ניתן לשנות אותו."
 
 #, c-format
@@ -5549,8 +5510,8 @@ msgstr "%d∶%02d"
 #~ "For practical use, this mode gives the best looking results, but the "
 #~ "transformation is not strictly lossless anymore."
 #~ msgstr ""
-#~ "שינוי זה עשוי להציג עיוותים קטנים בתמונה לאורך קצה אחד או יותר, היות "
-#~ "וממדי התמונה אינם מכפלה של 8.\n"
+#~ "שינוי זה עשוי להציג עיוותים קטנים בתמונה לאורך קצה אחד או יותר, היות וממדי "
+#~ "התמונה אינם מכפלה של 8.\n"
 #~ "\n"
 #~ "אמנם, העיוות הפיך. אם התמונה המתקבלת אינה רצויה, ניתן בפשטות להחיל את "
 #~ "השינוי ההפוך ולשוב לתמונה המקורית.\n"
@@ -5997,8 +5958,7 @@ msgstr "%d∶%02d"
 #~ msgstr "מציג תמונות בסיסי."
 
 #~ msgid "Are you sure you want to move to trash the %'d selected file?"
-#~ msgid_plural ""
-#~ "Are you sure you want to move to trash the %'d selected files?"
+#~ msgid_plural "Are you sure you want to move to trash the %'d selected files?"
 #~ msgstr[0] "האם ברצונך להעביר לאשפה את הקובץ הנבחר?"
 #~ msgstr[1] "האם ברצונך להעביר לאשפה את %d הקבצים הנבחרים?"
 
@@ -6598,8 +6558,7 @@ msgstr "%d∶%02d"
 #~ msgid "Possible values are: none, deflate, jpeg."
 #~ msgstr "Possible values are: none, deflate, jpeg."
 
-#~ msgid ""
-#~ "Possible values are: none, name, path, size, time, exifdate, comment."
+#~ msgid "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 
@@ -6810,8 +6769,7 @@ msgstr "%d∶%02d"
 #~ "Please use a different name."
 #~ msgstr "השם \"%s\" לא תקין בגלל שהוא כולל את התו \",\". נא להשתמש בשם אחר."
 
-#~| msgid ""
-#~| "The category \"%s\" is already present. Please use a different name."
+#~| msgid "The category \"%s\" is already present. Please use a different name."
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "התווית \"%s\" כבר קיימת. נא לבחור בשם אחר."
 
