@@ -11,9 +11,7 @@
         <child>
           <object class="AdwPreferencesGroup">
             <child>
-              <object class="AdwComboRow" id="general_filter_row">
-                <property name="title" translatable="yes">General Filter</property>
-                <signal name="notify::selected" handler="on_general_filter_selected"/>
+              <object class="GthGeneralFilterRow" id="general_filter_row">
               </object>
             </child>
           </object>

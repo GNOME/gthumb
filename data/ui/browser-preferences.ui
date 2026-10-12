@@ -13,6 +13,10 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <child>
+                  <object class="GthGeneralFilterRow" id="general_filter_row">
+                  </object>
+                </child>
+                <child>
                   <object class="AdwActionRow" id="thumbnail_size">
                     <property name="title" translatable="yes">Thumbnail Size</property>
                     <child type="suffix">
