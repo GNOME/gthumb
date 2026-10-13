@@ -197,6 +197,7 @@ src/Ext/Filters/FilterEditorPage.vala
 src/Ext/Filters/FilterRow.vala
 src/Ext/Filters/Filters.vala
 src/Ext/Filters/FiltersDialog.vala
+src/Ext/Filters/GeneralFilterRow.vala
 src/Ext/Filters/Test.vala
 src/Ext/Filters/TestAspectRatio.vala
 src/Ext/Filters/TestDate.vala
