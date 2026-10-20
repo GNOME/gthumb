@@ -1,4 +1,5 @@
 #include <config.h>
+#include <string.h>
 #include <lcms2.h>
 #include <tiff.h>
 #include <tiffio.h>
@@ -191,10 +192,30 @@ GthImage * load_tiff (GBytes *bytes, guint requested_size, GCancellable *cancell
 	if (TIFFGetField (tif, TIFFTAG_EXIFIFD, &exif_offset) == 1) {
 		//g_print ("EXIF %ld\n", exif_offset);
 		if (TIFFReadEXIFDirectory (tif, exif_offset)) {
-			uint16_t exif_orientation;
-			if (TIFFGetField (tif, TIFFTAG_ORIENTATION, &exif_orientation) == 1) {
-				//g_print ("> exif_orientation: %u\n", exif_orientation);
-				orientation = exif_orientation;
+			// Orientation is in the TIFF tag table but not in the
+			// EXIF one; handle the passcount layout if the file
+			// stores it in the latter.
+			const TIFFField *orientation_field = TIFFFieldWithTag (tif, TIFFTAG_ORIENTATION);
+			if ((orientation_field != NULL)
+			    && (TIFFFieldDataType (orientation_field) == TIFF_SHORT))
+			{
+				uint16_t exif_orientation;
+
+				if (TIFFFieldPassCount (orientation_field)) {
+					uint32_t values_count = 0;
+					uint16_t *values = NULL;
+
+					if ((TIFFGetField (tif, TIFFTAG_ORIENTATION, &values_count, &values) == 1)
+					    && (values_count >= 1)
+					    && (values != NULL))
+					{
+						memcpy (&exif_orientation, values, sizeof (uint16_t));
+						orientation = exif_orientation;
+					}
+				}
+				else if (TIFFGetField (tif, TIFFTAG_ORIENTATION, &exif_orientation) == 1) {
+					orientation = exif_orientation;
+				}
 			}
 
 			uint16_t colorspace;
