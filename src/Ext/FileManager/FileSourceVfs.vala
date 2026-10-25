@@ -142,7 +142,7 @@ public class Gth.FileSourceVfs : FileSource {
 		FileAttribute.STANDARD_SYMBOLIC_ICON + "," +
 		ACCESS_ATTRIBUTES;
 
-	async void add_root (GenericList<FileData> roots, File file, Cancellable cancellable) {
+	async void add_root (GenericList<FileData> roots, File? file, Cancellable cancellable) {
 		if ((file == null) || file_is_present (roots, file)) {
 			return;
 		}
