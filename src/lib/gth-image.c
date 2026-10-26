@@ -732,8 +732,8 @@ GthIccProfile * gth_image_get_icc_profile (GthImage *self) {
 	return self->priv->icc_profile;
 }
 
-bool gth_image_has_icc_profile (GthImage *self) {
-	g_return_val_if_fail (GTH_IS_IMAGE (self), NULL);
+gboolean gth_image_has_icc_profile (GthImage *self) {
+	g_return_val_if_fail (GTH_IS_IMAGE (self), FALSE);
 	return self->priv->icc_profile != NULL;
 }
 

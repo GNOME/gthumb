@@ -265,7 +265,7 @@ unsigned long crc(unsigned char *buf, int len) {
 	}
 }*/
 
-static bool _compose_animation (LoaderData *loader_data, GCancellable *cancellable, GError **error) {
+static gboolean _compose_animation (LoaderData *loader_data, GCancellable *cancellable, GError **error) {
 	Animation *animation = &loader_data->animation;
 
 	//g_print (">> ANI FRAMES: %u <=> %d\n",

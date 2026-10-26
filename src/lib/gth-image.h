@@ -100,7 +100,7 @@ GthImage * gth_image_get_frame (GthImage *self, guint frame_index);
 // ICC profile
 void gth_image_set_icc_profile (GthImage *self, GthIccProfile *profile);
 GthIccProfile * gth_image_get_icc_profile (GthImage *self);
-bool gth_image_has_icc_profile (GthImage *self);
+gboolean gth_image_has_icc_profile (GthImage *self);
 void gth_image_apply_icc_profile (GthImage *self,
 	GthColorManager	*color_manager,
 	GthIccProfile *out_profile,

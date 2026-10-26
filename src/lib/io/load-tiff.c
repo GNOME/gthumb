@@ -319,12 +319,12 @@ typedef struct {
 } Reader;
 
 
-static bool _read_byte (Reader *reader, guchar *value) {
+static gboolean _read_byte (Reader *reader, guchar *value) {
 	return g_input_stream_read (reader->stream, value, 1, reader->cancellable, NULL) == 1;
 }
 
 
-static bool _read_uint16_t (Reader *reader, guint16 *value) {
+static gboolean _read_uint16_t (Reader *reader, guint16 *value) {
 	guchar byte1, byte2;
 	if (!_read_byte (reader, &byte1)) {
 		return FALSE;
@@ -342,7 +342,7 @@ static bool _read_uint16_t (Reader *reader, guint16 *value) {
 }
 
 
-static bool _read_uint32 (Reader *reader, guint32 *value) {
+static gboolean _read_uint32 (Reader *reader, guint32 *value) {
 	guchar byte1, byte2, byte3, byte4;
 	if (!_read_byte (reader, &byte1)) {
 		return FALSE;
@@ -366,7 +366,7 @@ static bool _read_uint32 (Reader *reader, guint32 *value) {
 }
 
 
-static bool _seek (Reader *reader, guint32 offset) {
+static gboolean _seek (Reader *reader, guint32 offset) {
 	return g_seekable_seek (G_SEEKABLE (reader->stream),
 		(goffset) offset,
 		G_SEEK_SET,
@@ -375,7 +375,7 @@ static bool _seek (Reader *reader, guint32 offset) {
 }
 
 
-static bool _skip (Reader *reader, guint32 offset) {
+static gboolean _skip (Reader *reader, guint32 offset) {
 	return g_seekable_seek (G_SEEKABLE (reader->stream),
 		(goffset) offset,
 		G_SEEK_CUR,

@@ -65,7 +65,7 @@ void _g_object_unref (gpointer object);
 void _g_str_set (char **str, const char *value);
 const char * _g_utf8_after_ascii_space (const char *str);
 char * _g_utf8_remove_string_properties (const char *str);
-bool _g_parse_exif_date (const char *exif_date,
+gboolean _g_parse_exif_date (const char *exif_date,
 	int *out_year, int *out_month, int *out_day,
 	int *out_hour, int *out_minute, int *out_second,
 	double *out_usecond);

@@ -411,7 +411,7 @@ static int try_parse_int (const char *chars, int *idx, int expected_digits) {
 	return (digits == expected_digits) ? result : -1;
 }
 
-bool _g_parse_exif_date (const char *exif_date,
+gboolean _g_parse_exif_date (const char *exif_date,
 	int *out_year, int *out_month, int *out_day,
 	int *out_hour, int *out_minute, int *out_second,
 	double *out_usecond)
