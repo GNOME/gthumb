@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-08-06 18:44+0000\n"
-"PO-Revision-Date: 2026-09-04 05:59+0300\n"
+"POT-Creation-Date: 2026-10-26 07:47+0000\n"
+"PO-Revision-Date: 2026-10-27 23:22+0300\n"
 "Last-Translator: Yuras Shumovich <shumovichy@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
@@ -186,7 +186,7 @@ msgstr "Адкрыць праз"
 #: data/ui/convert-dialog.ui:14 data/ui/folder-selector-dialog.ui:28
 #: data/ui/format-dialog.ui:15 data/ui/importer-dialog.ui:33
 #: data/ui/metadata-dialog.ui:14 data/ui/resize-dialog.ui:14
-#: src/Browser.vala:2270 src/Ext/Color/ColorSelector.vala:64
+#: src/Browser.vala:2275 src/Ext/Color/ColorSelector.vala:64
 #: src/Ext/FileManager/FileManager.vala:23
 #: src/Ext/FileManager/OverwriteDialog.vala:125
 #: src/Ext/FileManager/OverwriteDialog.vala:132
@@ -250,7 +250,7 @@ msgid "Location"
 msgstr "Размяшчэнне"
 
 #: data/ui/bookmarks-dialog.ui:35 data/ui/editor-palette.ui:24
-#: data/ui/viewer.ui:229 src/Ext/Shortcuts/Shortcuts.vala:241
+#: data/ui/viewer.ui:233 src/Ext/Shortcuts/Shortcuts.vala:241
 msgid "Save"
 msgstr "Захаваць"
 
@@ -308,31 +308,31 @@ msgstr "Спалучэнні клавіш"
 msgid "About Thumbnails"
 msgstr "Аб праграме"
 
-#: data/ui/browser-preferences.ui:17
+#: data/ui/browser-preferences.ui:21
 msgid "Thumbnail Size"
 msgstr "Памер мініяцюр"
 
-#: data/ui/browser-preferences.ui:42
+#: data/ui/browser-preferences.ui:46
 msgid "Caption"
 msgstr "Подпіс"
 
-#: data/ui/browser-preferences.ui:45
+#: data/ui/browser-preferences.ui:49
 msgid "First Row"
 msgstr "Першы радок"
 
-#: data/ui/browser-preferences.ui:52
+#: data/ui/browser-preferences.ui:56
 msgid "Second Row"
 msgstr "Другі радок"
 
-#: data/ui/browser-preferences.ui:59
+#: data/ui/browser-preferences.ui:63
 msgid "Third Row"
 msgstr "Трэці радок"
 
-#: data/ui/browser-preferences.ui:68
+#: data/ui/browser-preferences.ui:72
 msgid "Behavior"
 msgstr "Паводзіны"
 
-#: data/ui/browser-preferences.ui:71 src/Application.vala:651
+#: data/ui/browser-preferences.ui:75 src/Application.vala:652
 msgid "Open files in fullscreen mode"
 msgstr "Адкрываць файлы ў поўнаэкранным рэжыме"
 
@@ -372,7 +372,7 @@ msgstr "Абнавіць"
 msgid "Catalog Properties"
 msgstr "Уласцівасці каталога"
 
-#: data/ui/browser.ui:255 src/Browser.vala:335
+#: data/ui/browser.ui:255 src/Browser.vala:353
 msgid "Reorder Files"
 msgstr "Пераўпарадкаваць файлы"
 
@@ -405,23 +405,19 @@ msgstr "Інструменты"
 
 #: data/ui/browser.ui:396 src/Ext/Shortcuts/Shortcuts.vala:155
 #: src/Ext/Shortcuts/Shortcuts.vala:212
-#, fuzzy
-#| msgid "Properties"
 msgid "View Properties"
-msgstr "Уласцівасці"
+msgstr "Прагляд уласцівасцей"
 
 #: data/ui/browser.ui:421
-#, fuzzy
-#| msgid "Fullscreen"
 msgid "Open Fullscreen"
-msgstr "Поўнаэкранны рэжым"
+msgstr "Адкрыць у поўнаэкранным рэжыме"
 
 #: data/ui/browser.ui:425 data/ui/browser.ui:575 data/ui/browser.ui:640
-#: data/ui/browser.ui:680 data/ui/viewer.ui:221
+#: data/ui/browser.ui:680 data/ui/viewer.ui:225
 msgid "Open in New Window"
 msgstr "Адкрыць у новым акне"
 
-#: data/ui/browser.ui:429 data/ui/viewer.ui:225
+#: data/ui/browser.ui:429 data/ui/viewer.ui:229
 msgid "Open _With…"
 msgstr "Адкрыць _праз…"
 
@@ -431,12 +427,12 @@ msgstr "Адкрыць папку"
 
 #: data/ui/browser.ui:440 data/ui/print-layout-dialog.ui:4
 #: data/ui/print-layout-dialog.ui:339 data/ui/print-layout-dialog.ui:393
-#: data/ui/viewer.ui:241 src/Ext/Print/PrintImages.vala:61
+#: data/ui/viewer.ui:245 src/Ext/Print/PrintImages.vala:61
 #: src/Ext/Shortcuts/Shortcuts.vala:178 src/MainWindow.vala:428
 msgid "Print"
 msgstr "Друк"
 
-#: data/ui/browser.ui:444 data/ui/viewer.ui:246
+#: data/ui/browser.ui:444 data/ui/viewer.ui:250
 #: src/Ext/Shortcuts/Shortcuts.vala:183 src/MainWindow.vala:333
 msgid "Set as Desktop Background"
 msgstr "Зрабіць фонам працоўнага стала"
@@ -449,7 +445,7 @@ msgstr "Выразаць"
 
 #. Translators: it's a verb, as in "Copy Files"
 #: data/ui/browser.ui:457 data/ui/browser.ui:602
-#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:254
+#: data/ui/file-property-view.ui:32 data/ui/viewer.ui:258
 #: src/Ext/FileManager/FileManager.vala:65 src/Ext/Shortcuts/Shortcuts.vala:166
 msgid "Copy"
 msgstr "Скапіяваць"
@@ -467,19 +463,19 @@ msgstr "Уставіць"
 msgid "Select All"
 msgstr "Выбраць усе"
 
-#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:270
+#: data/ui/browser.ui:474 data/ui/browser.ui:613 data/ui/viewer.ui:274
 msgid "Copy To…"
 msgstr "Скапіяваць у…"
 
 #: data/ui/browser.ui:478 data/ui/browser.ui:617 data/ui/browser.ui:666
-#: data/ui/viewer.ui:274
+#: data/ui/viewer.ui:278
 msgid "Move To…"
 msgstr "Перамясціць у…"
 
 #. Translators: it's a verb, as in "Rename Files"
 #: data/ui/browser.ui:483 data/ui/browser.ui:622 data/ui/browser.ui:662
-#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:279
-#: src/Browser.vala:2171 src/Browser.vala:2234
+#: data/ui/rename-dialog.ui:4 data/ui/rename-dialog.ui:24 data/ui/viewer.ui:283
+#: src/Browser.vala:2176 src/Browser.vala:2239
 #: src/Ext/Shortcuts/Shortcuts.vala:170 src/MainWindow.vala:383
 msgid "Rename"
 msgstr "Перайменаваць"
@@ -489,50 +485,50 @@ msgstr "Перайменаваць"
 msgid "Duplicate"
 msgstr "Стварыць копію"
 
-#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:284
+#: data/ui/browser.ui:496 data/ui/browser.ui:628 data/ui/viewer.ui:288
 #: src/Ext/Shortcuts/Shortcuts.vala:175
 msgid "Move to Trash"
 msgstr "Перамясціць у сметніцу"
 
 #: data/ui/browser.ui:500 data/ui/browser.ui:632 data/ui/browser.ui:672
 #: data/ui/filter-row.ui:63 data/ui/script-row.ui:40
-#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:288
+#: data/ui/template-token-row.ui:219 data/ui/viewer.ui:292
 msgid "Delete"
 msgstr "Выдаліць"
 
-#: data/ui/browser.ui:507 data/ui/viewer.ui:295
+#: data/ui/browser.ui:507 data/ui/viewer.ui:299
 #, fuzzy
 #| msgid "Add to selection"
 msgid "Add to Selection"
 msgstr "Дадаць у выбранае"
 
-#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:298
+#: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:302
 #, fuzzy
 #| msgid "Selection"
 msgid "Selection 1"
 msgstr "Вылучэнне"
 
-#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:304
+#: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:308
 #, fuzzy
 #| msgid "Selection"
 msgid "Selection 2"
 msgstr "Вылучэнне"
 
-#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:310
+#: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:314
 #, fuzzy
 #| msgid "Selection"
 msgid "Selection 3"
 msgstr "Вылучэнне"
 
-#: data/ui/browser.ui:529 data/ui/viewer.ui:317
+#: data/ui/browser.ui:529 data/ui/viewer.ui:321
 msgid "Add to Catalog…"
 msgstr "Дадаць у каталог…"
 
-#: data/ui/browser.ui:536 data/ui/viewer.ui:324
+#: data/ui/browser.ui:536 data/ui/viewer.ui:328
 msgid "Remove from Selection"
 msgstr "Выдаліць з выбранага"
 
-#: data/ui/browser.ui:541 data/ui/viewer.ui:329
+#: data/ui/browser.ui:541 data/ui/viewer.ui:333
 msgid "Remove from Catalog"
 msgstr "Выдаліць з каталога"
 
@@ -566,8 +562,8 @@ msgstr "Каталог"
 
 #: data/ui/catalog-dialog.ui:23 data/ui/entry-dialog.ui:60
 #: data/ui/filter-editor-page.ui:14 data/ui/script-command-page.ui:14
-#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:229
-#: src/Ext/Image/ImageViewer.vala:285 src/Viewer.vala:161
+#: data/ui/script-editor-page.ui:14 src/Ext/Image/ImageViewer.vala:236
+#: src/Ext/Image/ImageViewer.vala:292 src/Viewer.vala:161
 msgid "_Save"
 msgstr "_Захаваць"
 
@@ -648,8 +644,8 @@ msgid "Center"
 msgstr "Адцэнтраваць"
 
 #: data/ui/crop.ui:78 data/ui/crop.ui:104 data/ui/print-layout-dialog.ui:23
-#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:101
-#: data/ui/resize-image.ui:146
+#: data/ui/print-layout-dialog.ui:36 data/ui/resize-image.ui:102
+#: data/ui/resize-image.ui:147
 msgid "Options"
 msgstr "Параметры"
 
@@ -673,12 +669,10 @@ msgid "Files"
 msgstr "Файлы"
 
 #: data/ui/device-dialog.ui:117
-#, fuzzy
-#| msgid "_Delete the imported files from the source"
 msgid "Delete imported files from source"
-msgstr "_Выдаляць імпартаваныя файлы з першакрыніцы"
+msgstr "Выдаліць імпартаваныя файлы з першакрыніцы"
 
-#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:234
+#: data/ui/editor-palette.ui:38 data/ui/viewer.ui:238
 msgid "Save As…"
 msgstr "Захаваць як…"
 
@@ -749,7 +743,7 @@ msgid "Rotate"
 msgstr "Павярнуць"
 
 #: data/ui/editor.ui:37 data/ui/viewer.ui:60
-#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:404
+#: src/Ext/Shortcuts/Shortcuts.vala:186 src/Viewer.vala:470
 msgid "Fullscreen"
 msgstr "Поўнаэкранны рэжым"
 
@@ -806,16 +800,12 @@ msgstr "Па ўзрастанні"
 msgid "Descending"
 msgstr "Па ўбыванні"
 
-#: data/ui/filters-dialog.ui:4 data/ui/filters-dialog.ui:25
+#: data/ui/filters-dialog.ui:4 data/ui/filters-dialog.ui:23
 #: src/Ext/Shortcuts/Shortcut.vala:263 src/Ext/Shortcuts/Shortcuts.vala:161
 msgid "Filters"
 msgstr "Фільтры"
 
-#: data/ui/filters-dialog.ui:15
-msgid "General Filter"
-msgstr "Асноўны фільтр"
-
-#: data/ui/filters-dialog.ui:34 data/ui/scripts-dialog.ui:33
+#: data/ui/filters-dialog.ui:32 data/ui/scripts-dialog.ui:33
 #: data/ui/search-source-editor-group.ui:13 data/ui/template-page.ui:49
 #: data/ui/test-expr-editor-group.ui:13 src/Dialogs/FolderSelector.vala:95
 msgid "_Add"
@@ -856,7 +846,7 @@ msgstr "Адкрыць хатнюю папку"
 msgid "Reuse the active window to open files"
 msgstr "Выкарыстоўваць ужо актыўнае акно, каб адкрываць файлы"
 
-#: data/ui/general-preferences.ui:64 src/Browser.vala:2521
+#: data/ui/general-preferences.ui:64 src/Browser.vala:2526
 msgid "Terminal"
 msgstr "Тэрмінал"
 
@@ -922,7 +912,7 @@ msgstr "Белы"
 msgid "Black"
 msgstr "Чорны"
 
-#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:332
+#: data/ui/image-viewer.ui:167 src/Ext/Video/VideoViewer.vala:342
 msgid "Pause"
 msgstr "Паўза"
 
@@ -985,10 +975,8 @@ msgstr "Змяніць файл"
 
 #: data/ui/importer-dialog.ui:4 data/ui/importer-dialog.ui:24
 #: src/Ext/Shortcuts/Shortcuts.vala:184 src/MainWindow.vala:452
-#, fuzzy
-#| msgid "Importing files"
 msgid "Import Files"
-msgstr "Імпартаванне файлаў"
+msgstr "Імпарт файлаў"
 
 #: data/ui/importer-dialog.ui:79
 msgid "Subfolder"
@@ -1019,10 +1007,8 @@ msgid "Bytes"
 msgstr "Байт"
 
 #: data/ui/importer-dialog.ui:140
-#, fuzzy
-#| msgid "_Delete History"
 msgid "Delete from source"
-msgstr "_Выдаліць Гісторыю"
+msgstr "Выдаліць з першакрыніцы"
 
 #: data/ui/job-status.ui:5 data/ui/progress-dialog.ui:6
 msgid "Operations"
@@ -1193,7 +1179,6 @@ msgstr "міліметры"
 
 #. Translators: inches as length unit
 #: data/ui/print-layout-dialog.ui:179 data/ui/print-layout-dialog.ui:267
-#| msgid "Find"
 msgctxt "Length Unit"
 msgid "in"
 msgstr "in"
@@ -1209,19 +1194,15 @@ msgstr "Старонка"
 
 #: data/ui/print-layout-dialog.ui:220
 msgid "Margins"
-msgstr ""
+msgstr "Водступы"
 
 #: data/ui/print-layout-dialog.ui:223 data/ui/rotate-image.ui:192
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "Horizontal"
-msgstr "_Гарызантальны:"
+msgstr "Гарызантальны"
 
 #: data/ui/print-layout-dialog.ui:237 data/ui/rotate-image.ui:180
-#, fuzzy
-#| msgid "_Vertical:"
 msgid "Vertical"
-msgstr "_Вертыкальны:"
+msgstr "Вертыкальны"
 
 #: data/ui/print-layout-dialog.ui:282
 msgid "Layout"
@@ -1304,7 +1285,6 @@ msgstr "пікселі"
 
 #. Translators: percentage as length unit
 #: data/ui/resize-dialog.ui:76 data/ui/resize-image.ui:51
-#| msgid "%"
 msgctxt "Length Unit"
 msgid "%"
 msgstr "%"
@@ -1327,11 +1307,11 @@ msgstr "Пікселяў"
 msgid "Scaled"
 msgstr ""
 
-#: data/ui/resize-image.ui:85
+#: data/ui/resize-image.ui:86
 msgid "Repeated"
 msgstr ""
 
-#: data/ui/resize-image.ui:120
+#: data/ui/resize-image.ui:121
 msgid "High Quality"
 msgstr "Высокая якасць"
 
@@ -1368,7 +1348,7 @@ msgstr ""
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
-#: data/ui/savers-preferences.ui:4 src/Browser.vala:2461
+#: data/ui/savers-preferences.ui:4 src/Browser.vala:2466
 #: src/Ext/Preferences/PreferencesDialog.vala:10
 msgid "Saving"
 msgstr "Захаванне"
@@ -1457,10 +1437,8 @@ msgid "Radius"
 msgstr "Радыус"
 
 #: data/ui/sharpen-image.ui:63
-#, fuzzy
-#| msgid "Threshold:"
 msgid "Threshold"
-msgstr "Парог:"
+msgstr "Парог"
 
 #: data/ui/shortcut-dialog.ui:4 src/Ext/Scripts/ScriptEditorPage.vala:26
 #: src/Ext/Shortcuts/ShortcutRow.vala:33
@@ -1475,7 +1453,7 @@ msgstr "Націсніце патрэбнае спалучэнне клавіш.
 msgid "Press Esc to cancel"
 msgstr "Націсніце Esc, каб скасаваць"
 
-#: data/ui/shortcut-row.ui:52 src/Browser.vala:2271
+#: data/ui/shortcut-row.ui:52 src/Browser.vala:2276
 #: src/Ext/FileManager/FileManager.vala:24
 msgid "_Delete"
 msgstr "_Выдаліць"
@@ -1574,16 +1552,12 @@ msgid "Details"
 msgstr "Падрабязнасці"
 
 #: data/ui/tiff-preferences.ui:22
-#, fuzzy
-#| msgid "Resolution"
 msgid "Horizontal Resolution"
-msgstr "Раздзяляльнасць"
+msgstr "Раздзяляльнасць па гарызанталі"
 
 #: data/ui/tiff-preferences.ui:35
-#, fuzzy
-#| msgid "Resolution"
 msgid "Vertical Resolution"
-msgstr "Раздзяляльнасць"
+msgstr "Раздзяляльнасць па вертыкалі"
 
 #: data/ui/unknown-viewer.ui:4 src/Viewer.vala:134
 #, fuzzy
@@ -1591,7 +1565,7 @@ msgstr "Раздзяляльнасць"
 msgid "Cannot view this kind of files"
 msgstr "Немагчыма перамясціць файлы"
 
-#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:346
+#: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:356
 msgid "Play"
 msgstr "Прайграваць"
 
@@ -1722,7 +1696,7 @@ msgstr "Здымкі экрана"
 
 #: data/ui/viewer-menu.ui:14 src/Ext/Shortcuts/Shortcuts.vala:179
 msgid "Open Clipboard"
-msgstr ""
+msgstr "Адкрыць буфер абмену"
 
 #: data/ui/viewer-status.ui:45 src/Ext/Shortcuts/Shortcuts.vala:208
 #: src/Ext/Shortcuts/Shortcuts.vala:269
@@ -1748,11 +1722,11 @@ msgstr "Змяняць памер акна пад кантэнт"
 msgid "Properties"
 msgstr "Уласцівасці"
 
-#: data/ui/viewer.ui:258
+#: data/ui/viewer.ui:262
 msgid "Copy Image"
 msgstr "Скапіяваць відарыс"
 
-#: data/ui/viewer.ui:263 src/Ext/Shortcuts/Shortcuts.vala:288
+#: data/ui/viewer.ui:267 src/Ext/Shortcuts/Shortcuts.vala:288
 msgid "Copy Frame"
 msgstr "Скапіяваць кадр"
 
@@ -1854,8 +1828,8 @@ msgstr "Фокусная адлегласць"
 msgid "Flash"
 msgstr "Успышка"
 
-#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:466
-#: src/Ext/Image/ImageViewer.vala:475 src/Ext/Shortcuts/Shortcuts.vala:258
+#: src/Application.vala:245 src/Ext/Image/ImageViewer.vala:484
+#: src/Ext/Image/ImageViewer.vala:497 src/Ext/Shortcuts/Shortcuts.vala:258
 #: src/MainWindow.vala:829
 msgid "Rotate Right"
 msgstr "Павярнуць управа"
@@ -1878,36 +1852,34 @@ msgid "Rotate Physically"
 msgstr "Павярнуць фізічна"
 
 #: src/Application.vala:252
-#, fuzzy
-#| msgid "Destination"
 msgid "Reset EXIF Orientation"
-msgstr "Месца прызначэння"
+msgstr "Скінуць арыентацыю EXIF"
 
 #: src/Application.vala:254 src/MainWindow.vala:877
 msgid "Update Thumbnail"
 msgstr "Абнавіць мініяцюры"
 
-#: src/Application.vala:416 src/DefaultTests.vala:23
+#: src/Application.vala:417 src/DefaultTests.vala:23
 msgid "All Files"
 msgstr "Усе файлы"
 
-#: src/Application.vala:633
+#: src/Application.vala:634
 msgid "Show the application version"
 msgstr "Паказаць версію праграмы"
 
-#: src/Application.vala:642
+#: src/Application.vala:643
 msgid "Open a new window"
 msgstr "Адкрыць новае акно"
 
-#: src/Application.vala:661
+#: src/Application.vala:662
 msgid "[FILE…] [DIRECTORY…]"
 msgstr "[ФАЙЛ…] [КАТАЛОГ…]"
 
-#: src/Application.vala:665
+#: src/Application.vala:666
 msgid "— Image Browser and Viewer"
 msgstr "— праглядальнік і аглядальнік відарысаў"
 
-#: src/Application.vala:728
+#: src/Application.vala:729
 msgid "translator-credits"
 msgstr "Юрась Шумовіч <shumovichy@gmail.com>"
 
@@ -1915,30 +1887,28 @@ msgstr "Юрась Шумовіч <shumovichy@gmail.com>"
 msgid "Path"
 msgstr "Шлях"
 
-#: src/Browser.vala:335
-#, fuzzy
-#| msgid "Organize Files"
+#: src/Browser.vala:353
 msgid "Drag Files"
-msgstr "Упарадкаванне файлаў"
+msgstr "Перацягніце файлы"
 
-#: src/Browser.vala:490
+#: src/Browser.vala:508
 msgid "No Matches"
 msgstr "Няма супадзенняў"
 
-#: src/Browser.vala:498
+#: src/Browser.vala:516
 msgid "No Files Found"
 msgstr "Файлы не знойдзены"
 
-#: src/Browser.vala:502
+#: src/Browser.vala:520
 msgid "Empty Catalog"
 msgstr "Пусты каталог"
 
-#: src/Browser.vala:506
+#: src/Browser.vala:524
 msgid "Empty Selection"
 msgstr "Пустое вылучэнне"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:513
+#: src/Browser.vala:531
 #, fuzzy, c-format
 #| msgid ""
 #| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -1948,51 +1918,50 @@ msgstr ""
 "каб яе праглядзець."
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
-#: src/Browser.vala:522
+#: src/Browser.vala:540
 #, fuzzy, c-format
 #| msgid "Show selection %d"
 msgid "Use %s to view selection %u"
 msgstr "Паказаць выбранае %d"
 
-#: src/Browser.vala:535
+#: src/Browser.vala:553
 msgid "Empty Folder"
 msgstr "Пустая папка"
 
-#: src/Browser.vala:573
+#: src/Browser.vala:591
 msgid "_Add To Bookmarks"
 msgstr "Дадаць у _закладкі"
 
-#: src/Browser.vala:577
+#: src/Browser.vala:595
 msgid "_Edit Bookmarks…"
 msgstr "_Рэдагаваць закладкі…"
 
-#: src/Browser.vala:971 src/Browser.vala:1148
-msgid "Pasting Files"
-msgstr "Устаўка файлаў"
-
-#: src/Browser.vala:989 src/Browser.vala:2105
-msgid "Cannot move files here"
-msgstr "Немагчыма перамясціць файлы"
-
-#: src/Browser.vala:996
-msgid "Duplicating Files"
-msgstr "Стварэнне копій файлаў"
-
 #. Show a message on the browser.
-#: src/Browser.vala:1432 src/Ext/Import/ImportFiles.vala:63
+#: src/Browser.vala:929 src/Ext/Import/ImportFiles.vala:63
 #: src/Ext/Search/UpdateSearch.vala:34
 msgid "Searching Files"
 msgstr "Пошук файлаў"
 
-#: src/Browser.vala:1460 src/Browser.vala:1490 src/Browser.vala:1759
-#: src/Browser.vala:1995
+#: src/Browser.vala:956 src/Browser.vala:983 src/Browser.vala:1766
+#: src/Browser.vala:2002
 #, c-format
-#| msgid "Uploading “%s”"
 msgid "Updating %s"
 msgstr "Абнаўленне %s"
 
-#: src/Browser.vala:1587 src/Browser.vala:1591 src/Browser.vala:2482
-#: src/Browser.vala:2492 src/MainWindow.vala:257 src/MainWindow.vala:329
+#: src/Browser.vala:1054 src/Browser.vala:1231
+msgid "Pasting Files"
+msgstr "Устаўка файлаў"
+
+#: src/Browser.vala:1072 src/Browser.vala:2112
+msgid "Cannot move files here"
+msgstr "Немагчыма перамясціць файлы"
+
+#: src/Browser.vala:1079
+msgid "Duplicating Files"
+msgstr "Стварэнне копій файлаў"
+
+#: src/Browser.vala:1594 src/Browser.vala:1598 src/Browser.vala:2487
+#: src/Browser.vala:2497 src/MainWindow.vala:257 src/MainWindow.vala:329
 #: src/MainWindow.vala:692 src/MainWindow.vala:705 src/MainWindow.vala:813
 #: src/MainWindow.vala:825 src/MainWindow.vala:837 src/MainWindow.vala:849
 #: src/MainWindow.vala:861 src/MainWindow.vala:873 src/MainWindow.vala:885
@@ -2003,28 +1972,28 @@ msgstr "Файлы не выбраны"
 
 #. Note: changed_files are in folder_tree.current_children as well.
 #. Get the etag as well to avoid to reload an image saved by the editor.
-#: src/Browser.vala:1797
+#: src/Browser.vala:1804
 msgid "Updating Files"
 msgstr "Абнаўленне файлаў"
 
-#: src/Browser.vala:2061
+#: src/Browser.vala:2068
 msgid "Adding Files"
 msgstr "Дадаванне файлаў"
 
-#: src/Browser.vala:2061 src/MainWindow.vala:613
+#: src/Browser.vala:2068 src/MainWindow.vala:613
 msgid "Moving Files"
 msgstr "Перамяшчэнне файлаў"
 
-#: src/Browser.vala:2151
+#: src/Browser.vala:2156
 msgid "New Folder"
 msgstr "Новая папка"
 
-#: src/Browser.vala:2151 src/Ext/Catalogs/NewCatalogDialog.vala:3
+#: src/Browser.vala:2156 src/Ext/Catalogs/NewCatalogDialog.vala:3
 #: src/Ext/Catalogs/NewCatalogDialog.vala:13
 msgid "_Create"
 msgstr "_Стварыць"
 
-#: src/Browser.vala:2234 src/Ext/FileManager/OverwriteDialog.vala:94
+#: src/Browser.vala:2239 src/Ext/FileManager/OverwriteDialog.vala:94
 #: src/Ext/FileManager/OverwriteDialog.vala:127
 #: src/Ext/FileManager/OverwriteDialog.vala:135
 #: src/Ext/FileManager/OverwriteDialog.vala:149
@@ -2034,21 +2003,21 @@ msgid "_Rename"
 msgstr "_Перайменаваць"
 
 #. Ask confirmation
-#: src/Browser.vala:2265 src/Ext/FileManager/FileManager.vala:8
+#: src/Browser.vala:2270 src/Ext/FileManager/FileManager.vala:8
 msgid "Delete Permanently?"
 msgstr "Выдаліць незваротна?"
 
-#: src/Browser.vala:2267 src/Ext/FileManager/FileManager.vala:12
+#: src/Browser.vala:2272 src/Ext/FileManager/FileManager.vala:12
 #, c-format
 msgid "This action is not reversable. Do you want to delete <i>%s</i>?"
-msgstr ""
+msgstr "Гэта дзеянне незваротнае. Сапраўды выдаліць <i>%s</i>?"
 
-#: src/Browser.vala:2302
+#: src/Browser.vala:2307
 msgid "Source and destination are the same"
-msgstr ""
+msgstr "Зыходная і мэтавая папка аднолькавыя"
 
-#: src/Browser.vala:2335 src/Ext/Image/ImageViewer.vala:617
-#: src/Ext/Video/VideoViewer.vala:666 src/Ext/Video/VideoViewer.vala:759
+#: src/Browser.vala:2340 src/Ext/Image/ImageViewer.vala:645
+#: src/Ext/Video/VideoViewer.vala:676 src/Ext/Video/VideoViewer.vala:769
 #: src/FilePropertyView.vala:125
 msgid "Open"
 msgstr "Адкрыць"
@@ -2084,10 +2053,8 @@ msgid "Tag"
 msgstr "Тэг"
 
 #: src/Dialogs/AppSelector.vala:6
-#, fuzzy
-#| msgid "No options available for this file type"
 msgid "No application registered for this file type"
-msgstr "Для гэтага тыпу файла няма даступных параметраў"
+msgstr "Няма праграм, зарэгістраваных для гэтага тыпу файлаў"
 
 #: src/Dialogs/FolderSelector.vala:98
 msgid "_Move"
@@ -2132,13 +2099,11 @@ msgid "Locations"
 msgstr "Размяшчэнні"
 
 #: src/Ext/Bookmarks/Bookmarks.vala:149
-#, fuzzy
-#| msgid "Name already used"
 msgid "Location already saved"
-msgstr "Назва ўжо выкарыстоўваецца"
+msgstr "Размяшчэнне ўжо захавана"
 
 #: src/Ext/Bookmarks/BookmarksDialog.vala:5
-#: src/Ext/Filters/FiltersDialog.vala:30
+#: src/Ext/Filters/FiltersDialog.vala:11
 #: src/Ext/Filters/TestExprEditorGroup.vala:25
 #: src/Ext/Scripts/ScriptsDialog.vala:8
 #: src/Ext/Search/SearchSourceEditorGroup.vala:8
@@ -2309,10 +2274,8 @@ msgstr "Холад"
 
 #. Translators: this is the name of an image filter that produces darker edges.
 #: src/Ext/Editor/SpecialEffects.vala:16
-#, fuzzy
-#| msgid "Blurred Edges"
 msgid "Darker Edges"
-msgstr "Размыванне па краях"
+msgstr "Зацямненне па краях"
 
 #. Translators: this is the name of an image filter that produces blurred edges.
 #: src/Ext/Editor/SpecialEffects.vala:19
@@ -2356,10 +2319,8 @@ msgid "GPS"
 msgstr "GPS"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:10
-#, fuzzy
-#| msgid "Exif Maker Notes"
 msgid "Maker Notes"
-msgstr "Нататкі аўтара Exif"
+msgstr "Нататкі аўтара"
 
 #: src/Ext/Exiv2/ExifMetadata.vala:11
 msgid "Versions"
@@ -2404,10 +2365,9 @@ msgstr "Замяніць файл?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:122
-#, fuzzy, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
+#, c-format
 msgid "A file named “%s” already exists. Do you want to replace it?"
-msgstr "Каталог «%s» ужо існуе. Перазапісаць яго?"
+msgstr "Файл з назвай «%s» ужо існуе. Замяніць яго?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:126
 #: src/Ext/FileManager/OverwriteDialog.vala:134
@@ -2421,11 +2381,10 @@ msgstr "Замяніць змесціва?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:145
-#, fuzzy, c-format
-#| msgid "The catalog “%s” already exists, do you want to overwrite it?"
+#, c-format
 msgid ""
 "The file “%s” was modified by another application. Do you want to replace it?"
-msgstr "Каталог «%s» ужо існуе. Перазапісаць яго?"
+msgstr "Файл «%s» зменены іншай праграмай. Замяніць яго?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:156
 msgid "Rename File?"
@@ -2456,7 +2415,7 @@ msgstr "Бяспечнае змесціва"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:235
 msgid "Same answer for all the files"
-msgstr ""
+msgstr "Ужыць для усіх файлаў"
 
 #: src/Ext/Filters/Filter.vala:109
 msgid "files"
@@ -2471,12 +2430,16 @@ msgstr "Паказваць"
 #. Actions
 #: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:478
 msgid "Personalize…"
-msgstr ""
+msgstr "Персаналізацыя…"
 
 #: src/Ext/Filters/FilterEditorPage.vala:74
 #: src/Ext/Scripts/ScriptEditorPage.vala:32
 msgid "Name is empty"
 msgstr "Назва пустая"
+
+#: src/Ext/Filters/GeneralFilterRow.vala:3
+msgid "General Filter"
+msgstr "Асноўны фільтр"
 
 #: src/Ext/Filters/Test.vala:56
 msgid "Greater Than"
@@ -2556,42 +2519,40 @@ msgstr "Уключае толькі"
 
 #: src/Ext/Filters/TestStringList.vala:141
 msgid "Not Includes"
-msgstr ""
+msgstr "Не ўключае"
 
 #. Ask the filename
-#: src/Ext/Image/ImageViewer.vala:229 src/Ext/Image/ImageViewer.vala:285
-#, fuzzy
-#| msgid "Save image"
+#: src/Ext/Image/ImageViewer.vala:236 src/Ext/Image/ImageViewer.vala:292
 msgid "Save File"
-msgstr "Захаваць выяву"
+msgstr "Захаваць файл"
 
-#: src/Ext/Image/ImageViewer.vala:264
+#: src/Ext/Image/ImageViewer.vala:271
 #, c-format
 msgid "Saving %s"
 msgstr "Захаванне %s"
 
-#: src/Ext/Image/ImageViewer.vala:296 src/FolderTree.vala:81
-#: src/MainWindow.vala:1087
+#: src/Ext/Image/ImageViewer.vala:303 src/FolderTree.vala:81
+#: src/MainWindow.vala:1086
 msgid "File type not supported"
 msgstr "Тып файла не падтрымліваецца"
 
-#: src/Ext/Image/ImageViewer.vala:448 src/Ext/Shortcuts/Shortcuts.vala:257
+#: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
 #, fuzzy
 #| msgid "_Horizontal:"
 msgid "Horizontal Flip"
 msgstr "_Гарызантальны:"
 
-#: src/Ext/Image/ImageViewer.vala:457 src/Ext/Shortcuts/Shortcuts.vala:256
+#: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
 #, fuzzy
 #| msgid "_Vertical:"
 msgid "Vertical Flip"
 msgstr "_Вертыкальны:"
 
-#: src/Ext/Image/ImageViewer.vala:608 src/Ext/Video/VideoViewer.vala:648
+#: src/Ext/Image/ImageViewer.vala:636 src/Ext/Video/VideoViewer.vala:658
 msgid "Copying to the Clipboard"
-msgstr ""
+msgstr "Капіяванне ў буфер абмену"
 
-#: src/Ext/Image/ImageViewer.vala:616 src/Ext/Video/VideoViewer.vala:665
+#: src/Ext/Image/ImageViewer.vala:644 src/Ext/Video/VideoViewer.vala:675
 msgid "Copied to the Clipboard"
 msgstr "Скапіявана ў буфер абмену"
 
@@ -2601,10 +2562,8 @@ msgid "The operation requires %s of space, but only %s are available on “%s”
 msgstr ""
 
 #: src/Ext/Import/ImportFiles.vala:244
-#, fuzzy
-#| msgid "%s of free space"
 msgid "Not enough free space"
-msgstr "%s вольнай прасторы"
+msgstr "Недастаткова вольнага месца"
 
 #: src/Ext/Import/ImportFiles.vala:247 src/Ext/Shortcuts/Shortcuts.vala:206
 msgid "Close"
@@ -2712,7 +2671,6 @@ msgstr "JPEG"
 
 #. Translators: file type
 #: src/Ext/Savers/JxlPreferences.vala:8
-#| msgid "JPEG XL"
 msgid "JXL"
 msgstr "JXL"
 
@@ -2753,10 +2711,8 @@ msgid "Ask a Value"
 msgstr "Запытаць значэнне"
 
 #: src/Ext/Scripts/ScriptEditorPage.vala:36
-#, fuzzy
-#| msgid "Command Line"
 msgid "Command is empty"
-msgstr "Камандны радок"
+msgstr "Каманда пустая"
 
 #: src/Ext/Search/SearchEditor.vala:48
 #, fuzzy
@@ -3079,13 +3035,13 @@ msgstr "Назад на 5 хвілін"
 msgid "Select None"
 msgstr "Зняць вылучэнне"
 
-#: src/Ext/Slideshow/Slideshow.vala:54 src/FolderTree.vala:123
+#: src/Ext/Slideshow/Slideshow.vala:53 src/FolderTree.vala:123
 #: src/FolderTree.vala:254 src/Viewer.vala:56 src/Viewer.vala:126
 #, c-format
 msgid "Loading %s"
 msgstr "Загрузка %s"
 
-#: src/Ext/Slideshow/Slideshow.vala:143
+#: src/Ext/Slideshow/Slideshow.vala:166
 msgid "Paused"
 msgstr "Паўза"
 
@@ -3138,36 +3094,49 @@ msgstr "Выканаўца"
 msgid "Album"
 msgstr "Альбом"
 
-#. MetadataInfo.register ("Media::Bitrate", N_("Bitrate"), "Metadata", MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
-#: src/Ext/Video/VideoMetadata.vala:8
+#: src/Ext/Video/VideoMetadata.vala:7
 msgid "Video Codec"
 msgstr "Відэакодэк"
 
-#: src/Ext/Video/VideoMetadata.vala:9
+#: src/Ext/Video/VideoMetadata.vala:8
 msgid "Audio Codec"
 msgstr "Аўдыякодэк"
 
-#: src/Ext/Video/VideoMetadata.vala:10
+#: src/Ext/Video/VideoMetadata.vala:9
 msgid "Encoder"
 msgstr "Кадавальнік"
 
-#: src/Ext/Video/VideoViewer.vala:615
+#: src/Ext/Video/VideoMetadata.vala:10
+msgid "Framerate"
+msgstr "Частата кадраў"
+
+#: src/Ext/Video/VideoMetadata.vala:11
+msgid "Channels"
+msgstr "Каналы"
+
+#: src/Ext/Video/VideoMetadata.vala:12
+#, fuzzy
+#| msgid "Sample rate"
+msgid "Sample Rate"
+msgstr "Частата дыскрэтызацыі"
+
+#: src/Ext/Video/VideoViewer.vala:625
 msgid "Saving File"
 msgstr "Захаванне файла"
 
-#: src/Ext/Video/VideoViewer.vala:659
+#: src/Ext/Video/VideoViewer.vala:669
 #, fuzzy
 #| msgid "Could not add the files to the catalog"
 msgid "Could not copy the image to the clipboard"
 msgstr "Не ўдалося дадаць файлы ў каталог"
 
-#: src/Ext/Video/VideoViewer.vala:710 src/Ext/Video/VideoViewer.vala:717
-#: src/Ext/Video/VideoViewer.vala:747 src/MainWindow.vala:285
+#: src/Ext/Video/VideoViewer.vala:720 src/Ext/Video/VideoViewer.vala:727
+#: src/Ext/Video/VideoViewer.vala:757 src/MainWindow.vala:285
 msgid "Invalid filename"
 msgstr "Недапушчальная назва файла"
 
 #. Translators: '%s' is replaced with a filename (do not change it).
-#: src/Ext/Video/VideoViewer.vala:758
+#: src/Ext/Video/VideoViewer.vala:768
 #, c-format
 msgid "Saved %s"
 msgstr "Захавана %s"
@@ -3214,13 +3183,13 @@ msgstr "Капіяванне файлаў"
 
 #: src/MainWindow.vala:853
 msgid "Clear EXIF Rotation"
-msgstr ""
+msgstr "Ачысціць вугал павароту ў EXIF"
 
-#: src/MainWindow.vala:985 src/MainWindow.vala:991
+#: src/MainWindow.vala:989
 msgid "No images selected"
 msgstr "Відарысы не выбраны"
 
-#: src/MainWindow.vala:1036
+#: src/MainWindow.vala:1035
 #, c-format
 msgid "Application '%s' not found"
 msgstr "Праграма %s не знойдзена"
@@ -3245,12 +3214,12 @@ msgstr "Калі вы не захаваеце файл, змены будуць 
 msgid "_Discard"
 msgstr ""
 
-#: src/Viewer.vala:390
+#: src/Viewer.vala:456
 msgid "Exit Fullscreen"
 msgstr "Выйсці з поўнаэкраннага рэжыму"
 
 #. Translators: text added to the window title when the image is modified and unsaved.
-#: src/Viewer.vala:480
+#: src/Viewer.vala:527
 msgid "modified"
 msgstr "зменены"
 
@@ -3283,11 +3252,11 @@ msgctxt "Cardinal point"
 msgid "E"
 msgstr "У"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Stereo"
 msgstr "Стэрэа"
 
-#: src/lib/gstreamer-utils.c:332
+#: src/lib/gstreamer-utils.c:389
 msgid "Mono"
 msgstr "Мона"
 
@@ -4439,15 +4408,6 @@ msgstr "%d∶%02d"
 
 #~ msgid "Codec"
 #~ msgstr "Кодэк"
-
-#~ msgid "Framerate"
-#~ msgstr "Частата кадраў"
-
-#~ msgid "Channels"
-#~ msgstr "Каналы"
-
-#~ msgid "Sample rate"
-#~ msgstr "Частата дыскрэтызацыі"
 
 #, c-format
 #~ msgid "%d × %d"
