@@ -1070,8 +1070,8 @@ public class Gth.MainWindow : Gth.Window {
 		var local_job = new_job ("Open");
 		try {
 			var source = app.get_source_for_file (file);
-			var type_info = source.get_display_info (file);
-			switch (type_info.get_file_type ()) {
+			var file_data = yield source.read_metadata (file, FileAttribute.STANDARD_TYPE, local_job.cancellable);
+			switch (file_data.info.get_file_type ()) {
 			case FileType.DIRECTORY:
 				yield browser.open_location_async (file, LoadAction.OPEN, local_job);
 				break;
