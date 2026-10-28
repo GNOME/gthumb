@@ -326,6 +326,21 @@ _cd_client_find_device_for_task (CdClient *cd_client,
 				 GTask    *task)
 {
 	ProfilesData *data = g_task_get_task_data (task);
+
+	if (data->monitor_name == NULL) {
+		// Gdk.Monitor.description can be NULL (e.g. under some
+		// sandboxed / non-standard display setups); colord's
+		// property-based lookup requires a non-NULL value, so fall
+		// back to a generic display-kind lookup instead of passing
+		// NULL into libcolord.
+		cd_client_get_devices_by_kind (cd_client,
+					       CD_DEVICE_KIND_DISPLAY,
+					       g_task_get_cancellable (task),
+					       find_device_by_kind_cb,
+					       task);
+		return;
+	}
+
 	cd_client_find_device_by_property (cd_client,
 					   CD_DEVICE_PROPERTY_MODEL,
 					   data->monitor_name,
@@ -377,13 +392,13 @@ gth_color_manager_get_profile_async (GthColorManager		*self,
 {
 	GTask *task = g_task_new (self, cancellable, callback, user_data);
 
-	char *id = g_strdup_printf ("monitor://%s", monitor_name);
-	GthIccProfile *profile = _gth_color_manager_get_profile (self, id);
+	char *cache_id = g_strdup_printf ("monitor://%s", (monitor_name != NULL) ? monitor_name : "unknown");
+	GthIccProfile *profile = _gth_color_manager_get_profile (self, cache_id);
 	if (profile != NULL) {
 		g_task_return_pointer (task, g_object_ref (profile), g_object_unref);
 		g_object_unref (task);
 		g_object_unref (profile);
-		g_free (id);
+		g_free (cache_id);
 		return;
 	}
 
@@ -393,7 +408,7 @@ gth_color_manager_get_profile_async (GthColorManager		*self,
 		ProfilesData *data = g_slice_new (ProfilesData);
 		data->color_manager = g_object_ref (self);
 		data->monitor_name = g_strdup (monitor_name);
-		data->cache_id = g_strdup (id);
+		data->cache_id = g_strdup (cache_id);
 		data->icc_file = NULL;
 		g_task_set_task_data (task, data, (GDestroyNotify) profiles_data_free);
 
@@ -410,13 +425,13 @@ gth_color_manager_get_profile_async (GthColorManager		*self,
 			_cd_client_find_device_for_task (self->priv->cd_client, task);
 		}
 
-		g_free (id);
+		g_free (cache_id);
 		return;
 	}
 
 #endif /* HAVE_COLORD */
 
-	g_free (id);
+	g_free (cache_id);
 	g_task_return_pointer (task, NULL, NULL);
 	g_object_unref (task);
 }
