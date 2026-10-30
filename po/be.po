@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues/\n"
-"POT-Creation-Date: 2026-10-26 07:47+0000\n"
-"PO-Revision-Date: 2026-10-27 23:22+0300\n"
+"POT-Creation-Date: 2026-10-28 13:56+0000\n"
+"PO-Revision-Date: 2026-10-30 18:16+0300\n"
 "Last-Translator: Yuras Shumovich <shumovichy@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
@@ -22,47 +22,50 @@ msgstr ""
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:14
 #: data/org.gnome.gthumb-devel.desktop.in:2 data/org.gnome.gthumb.desktop.in:2
 #: data/ui/browser.ui:23 data/ui/main-window.ui:4 data/ui/slideshow-window.ui:4
-#, fuzzy
 msgid "Thumbnails"
 msgstr "Мініяцюры"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:15
 #: data/org.gnome.gthumb-devel.desktop.in:3 data/org.gnome.gthumb.desktop.in:3
 msgid "View and organize your images"
-msgstr ""
+msgstr "Прагляд і ўпарадкаванне відарысаў"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:20
 msgid "Image viewer, editor, browser and organizer."
-msgstr ""
+msgstr "Сродак прагляду, змянення, агляду і ўпарадкавання відарысаў."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:23
 msgid "View images: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 msgstr ""
+"Прагляд фарматаў: PNG, JPEG, WEBP, SVG, JXL, HEIF, AVIF, TIFF, GIF, RAW."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:26
 msgid ""
 "Edit images: scale, rotate and crop images, change contrast, brightness and "
 "saturation, as well as other color transformations."
 msgstr ""
+"Рэдагаванне відарысаў: маштабаванне, паварот і абрэзка, змяненне "
+"кантраснасці, яркасці і насычанасць, а таксама пераўтварэнне колера."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:29
 msgid "View and edit embedded metadata: EXIF, IPTC and XMP."
-msgstr ""
+msgstr "Прагляд і рэдагаванне ўбудаваных метаданых: EXIF, IPTC і XMP."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:32
 msgid ""
 "File manager operations: copy, move, rename and delete files and folders, "
 "execute scripts on the selected files."
 msgstr ""
+"Аперацыі ў файлавым менеджары: капіяванне, перамяшчэнне, перайменаванне і "
+"выдаленне файлаў і папак, выкананне сцэнарыяў для выбраных файлаў."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:35
 msgid "Image specific tools:"
-msgstr ""
+msgstr "Асобныя інструменты для відарысаў:"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:39
-#, fuzzy
 msgid "JPEG lossless transformations"
-msgstr "JPEG lossless transformations"
+msgstr "Пераўтварэнне JPEG lossless"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:40
 msgid "Image resize"
@@ -78,13 +81,16 @@ msgstr "Слайдшоу"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:43
 msgid "Setting an image as desktop background"
-msgstr "Зрабіць відарыс фонам працоўнага стала"
+msgstr "Выбар відарыса ў якасці фона працоўнага стала"
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:45
 msgid ""
 "Add comments and other metadata to images, organize images in catalogs and "
 "catalogs in libraries, search for images and save the result as a catalog."
 msgstr ""
+"Дадаванне ў відарысы каментарыяў і іншых метаданых, упарадкаванне відарысаў "
+"у каталогі, а каталогаў — у бібліятэкі, пошук відарысаў і захаванне вынікаў "
+"у якасці каталога."
 
 #: data/appdata/org.gnome.gthumb.metainfo.xml.in:60
 #: data/ui/browser-preferences.ui:4
@@ -349,7 +355,7 @@ msgstr "Каталогі"
 #: data/ui/browser.ui:75 src/Ext/Selections/Selection.vala:177
 #: src/Ext/Shortcuts/Shortcut.vala:265
 msgid "Selections"
-msgstr "Выбранае"
+msgstr "Выбраныя"
 
 #: data/ui/browser.ui:91 data/ui/general-preferences.ui:58
 msgid "Home Folder"
@@ -406,7 +412,7 @@ msgstr "Інструменты"
 #: data/ui/browser.ui:396 src/Ext/Shortcuts/Shortcuts.vala:155
 #: src/Ext/Shortcuts/Shortcuts.vala:212
 msgid "View Properties"
-msgstr "Прагляд уласцівасцей"
+msgstr "Паказаць уласцівасці"
 
 #: data/ui/browser.ui:421
 msgid "Open Fullscreen"
@@ -497,28 +503,20 @@ msgid "Delete"
 msgstr "Выдаліць"
 
 #: data/ui/browser.ui:507 data/ui/viewer.ui:299
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection"
-msgstr "Дадаць у выбранае"
+msgstr "Дадаць у выбраныя"
 
 #: data/ui/browser.ui:510 data/ui/selections-status.ui:12 data/ui/viewer.ui:302
-#, fuzzy
-#| msgid "Selection"
 msgid "Selection 1"
-msgstr "Вылучэнне"
+msgstr "Выбраныя 1"
 
 #: data/ui/browser.ui:516 data/ui/selections-status.ui:24 data/ui/viewer.ui:308
-#, fuzzy
-#| msgid "Selection"
 msgid "Selection 2"
-msgstr "Вылучэнне"
+msgstr "Выбраныя 2"
 
 #: data/ui/browser.ui:522 data/ui/selections-status.ui:36 data/ui/viewer.ui:314
-#, fuzzy
-#| msgid "Selection"
 msgid "Selection 3"
-msgstr "Вылучэнне"
+msgstr "Выбраныя 3"
 
 #: data/ui/browser.ui:529 data/ui/viewer.ui:321
 msgid "Add to Catalog…"
@@ -526,7 +524,7 @@ msgstr "Дадаць у каталог…"
 
 #: data/ui/browser.ui:536 data/ui/viewer.ui:328
 msgid "Remove from Selection"
-msgstr "Выдаліць з выбранага"
+msgstr "Выдаліць з выбраных"
 
 #: data/ui/browser.ui:541 data/ui/viewer.ui:333
 msgid "Remove from Catalog"
@@ -707,7 +705,7 @@ msgstr "Градацыі шэрага"
 #: data/ui/editor-palette.ui:148 src/Ext/Editor/SharpenImage.vala:84
 #: src/Ext/Shortcuts/Shortcuts.vala:254
 msgid "Focus"
-msgstr ""
+msgstr "Фокус"
 
 #: data/ui/editor-palette.ui:159 src/Ext/Editor/SpecialEffects.vala:135
 #: src/Ext/Shortcuts/Shortcuts.vala:253
@@ -716,7 +714,7 @@ msgstr "Спецыяльныя эфекты"
 
 #: data/ui/editor-palette.ui:170 src/Ext/Editor/Censor.vala:166
 msgid "Censor"
-msgstr ""
+msgstr "Цэнзура"
 
 #: data/ui/editor-palette.ui:181 src/Ext/Editor/ColorPicker.vala:191
 #: src/Ext/Shortcuts/Shortcuts.vala:255
@@ -759,7 +757,7 @@ msgstr "Перамясціць у самы ніз"
 
 #: data/ui/file-property-view.ui:36
 msgid "Copy Raw Value"
-msgstr ""
+msgstr "Скапіяваць зыходнае значэнне"
 
 #: data/ui/filter-editor-page.ui:4
 msgid "Filter"
@@ -773,20 +771,16 @@ msgstr "Абмежаванае змесціва"
 
 #: data/ui/filter-editor-page.ui:54
 #, fuzzy
-#| msgid "Text Files"
 msgid "Max Files"
-msgstr "Тэкставыя файлы"
+msgstr "Максімум файлаў"
 
 #: data/ui/filter-editor-page.ui:74
 msgid "Total Size"
 msgstr "Агульны памер"
 
 #: data/ui/filter-editor-page.ui:102
-#, fuzzy
-#| msgctxt "Pixels"
-#| msgid "Selected:"
 msgid "Selected By"
-msgstr "Вылучана:"
+msgstr ""
 
 #: data/ui/filter-editor-page.ui:107 data/ui/rename-dialog.ui:117
 msgid "Direction"
@@ -815,9 +809,10 @@ msgstr "_Дадаць"
 msgid "Show _Hidden Files"
 msgstr "Паказваць с_хаваныя файлы"
 
+# Каталогі. Размяшчэнне?
 #: data/ui/folder-selector-dialog.ui:70
 msgid "Show Destination"
-msgstr "Паказаць месца прызначэння"
+msgstr "Паказваць месца прызначэння"
 
 #: data/ui/format-dialog.ui:22 data/ui/metadata-dialog.ui:21
 msgctxt "Verb"
@@ -926,10 +921,8 @@ msgid "Automatic"
 msgstr "Аўтаматычна"
 
 #: data/ui/image-viewer.ui:202 data/ui/video-viewer.ui:435
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Size"
-msgstr "Разгарнуць"
+msgstr "Пад памеры акна"
 
 #: data/ui/image-viewer.ui:207 src/Ext/Shortcuts/Shortcuts.vala:229
 msgid "Fill Space"
@@ -937,11 +930,11 @@ msgstr "Запаўненне прасторы"
 
 #: data/ui/image-viewer.ui:212
 msgid "Maximize Width"
-msgstr "Разгарнуць па шырыні"
+msgstr "Па шырыні"
 
 #: data/ui/image-viewer.ui:217
 msgid "Maximize Height"
-msgstr "Разгарнуць па вышыні"
+msgstr "Па вышыні"
 
 #: data/ui/image-viewer.ui:224
 msgid "50%"
@@ -996,10 +989,9 @@ msgstr "Зменена"
 
 #: data/ui/importer-dialog.ui:97
 #, fuzzy
-#| msgid "Original size"
 msgctxt "Date"
 msgid "Original"
-msgstr "Зыходны памер"
+msgstr "Зыходная"
 
 #: data/ui/importer-dialog.ui:127 src/Application.vala:109
 #: src/Application.vala:130 src/SelectionView.vala:41
@@ -1016,17 +1008,15 @@ msgstr "Аперацыі"
 
 #: data/ui/jpeg-preferences.ui:28
 msgid "Smoothing"
-msgstr ""
+msgstr "Размыццё"
 
 #: data/ui/jpeg-preferences.ui:46
-#, fuzzy
-#| msgid "Maximize"
 msgid "Optimize"
-msgstr "Разгарнуць"
+msgstr "Аптымізацыя"
 
 #: data/ui/jpeg-preferences.ui:51
 msgid "Progressive"
-msgstr ""
+msgstr "Прагрэсіўны"
 
 #: data/ui/jpeg-preferences.ui:60 data/ui/tiff-preferences.ui:52
 msgid "Default Extension"
@@ -1068,7 +1058,7 @@ msgstr "Месца"
 
 #: data/ui/metadata-dialog.ui:94
 msgid "Time of Day"
-msgstr ""
+msgstr "Час дня"
 
 #: data/ui/metadata-dialog.ui:99 src/Application.vala:151
 #: src/DefaultTests.vala:196
@@ -1117,10 +1107,8 @@ msgid "Language"
 msgstr "Мова"
 
 #: data/ui/metadata-dialog.ui:187
-#, fuzzy
-#| msgid "Old Name"
 msgid "Object Name"
-msgstr "Старая назва"
+msgstr "Назва аб'екта"
 
 #: data/ui/metadata-dialog.ui:211
 msgid "Urgency"
@@ -1198,11 +1186,11 @@ msgstr "Водступы"
 
 #: data/ui/print-layout-dialog.ui:223 data/ui/rotate-image.ui:192
 msgid "Horizontal"
-msgstr "Гарызантальны"
+msgstr "Па гарызанталі"
 
 #: data/ui/print-layout-dialog.ui:237 data/ui/rotate-image.ui:180
 msgid "Vertical"
-msgstr "Вертыкальны"
+msgstr "Па вертыкалі"
 
 #: data/ui/print-layout-dialog.ui:282
 msgid "Layout"
@@ -1225,10 +1213,8 @@ msgid "Cancel All"
 msgstr "Скасаваць усе"
 
 #: data/ui/property-sidebar.ui:32
-#, fuzzy
-#| msgid "Search completed"
 msgid "search property"
-msgstr "Пошук завершаны"
+msgstr "уласцівасць пошуку"
 
 #: data/ui/rename-dialog.ui:50 data/ui/rename-dialog.ui:60
 #: src/Ext/Rename/RenameTemplatePage.vala:3
@@ -1237,7 +1223,7 @@ msgstr "Шаблон"
 
 #: data/ui/rename-dialog.ui:80
 msgid "First Index"
-msgstr ""
+msgstr "Першы лік"
 
 #: data/ui/rename-dialog.ui:98 src/Ext/Editor/GridGroup.vala:26
 msgid "None"
@@ -1292,7 +1278,7 @@ msgstr "%"
 #: data/ui/resize-dialog.ui:77 data/ui/resize-image.ui:52
 msgctxt "Length Unit"
 msgid "percentage"
-msgstr ""
+msgstr "працэнты"
 
 #: data/ui/resize-dialog.ui:87
 msgid "Preserve Aspect Ratio"
@@ -1305,11 +1291,11 @@ msgstr "Пікселяў"
 
 #: data/ui/resize-image.ui:72
 msgid "Scaled"
-msgstr ""
+msgstr "Маштабаванне"
 
 #: data/ui/resize-image.ui:86
 msgid "Repeated"
-msgstr ""
+msgstr "Паўтарэнне"
 
 #: data/ui/resize-image.ui:121
 msgid "High Quality"
@@ -1322,7 +1308,7 @@ msgstr "Вугал"
 #: data/ui/rotate-image.ui:55 data/ui/rotate-image.ui:159
 #: data/ui/rotate-image.ui:209
 msgid "Align"
-msgstr "Выраўноўванне"
+msgstr "Выраўняць"
 
 #: data/ui/rotate-image.ui:63
 msgid "Image Size"
@@ -1342,9 +1328,7 @@ msgstr "Абрэзаць межы"
 
 #: data/ui/rotate-image.ui:176
 msgid "Draw a line on the image to set the alignment."
-msgstr ""
-"Правядзіце лінію на відарысе, \n"
-"каб наладзіць выраўноўванне."
+msgstr "Правядзіце лінію на відарысе па якой адбудзецца выраўноўвання."
 
 #. stdout.printf ("> %s (pos: %u)\n", file_data.get_display_name (), file_data.get_position ());
 #. Translators: section for the file saving options in the preferences dialog.
@@ -1354,15 +1338,13 @@ msgid "Saving"
 msgstr "Захаванне"
 
 #: data/ui/savers-preferences.ui:17
-#, fuzzy
-#| msgid "_Store metadata inside files if possible"
 msgid "Store metadata inside files if possible"
-msgstr "_Калі магчыма, захоўваць метаданыя ўнутры файла"
+msgstr "Калі магчыма, захоўваць метаданыя ўнутры файла"
 
 #: data/ui/savers-preferences.ui:23
 #: src/Ext/Preferences/FormatPreferencesDialog.vala:48
 msgid "Show the options before saving"
-msgstr ""
+msgstr "Паказваць параметры пры захаванні"
 
 #. Translators: File Formats
 #: data/ui/savers-preferences.ui:32
@@ -1379,16 +1361,12 @@ msgid "Script"
 msgstr "Сцэнарый"
 
 #: data/ui/script-editor-page.ui:71
-#, fuzzy
-#| msgid "Could not save the script"
 msgid "Execute as a shell script"
-msgstr "Не ўдалося захаваць сцэнарый"
+msgstr "Выконваць як сцэнарый абалонкі"
 
 #: data/ui/script-editor-page.ui:76
-#, fuzzy
-#| msgid "E_xecute command once for every file"
 msgid "Execute for every file"
-msgstr "_Выканаць каманду аднойчы для кожнага файла"
+msgstr "Выконваць для кожнага файла"
 
 #: data/ui/script-editor-page.ui:81
 msgid "Wait for the command to finish"
@@ -1430,7 +1408,7 @@ msgstr "Выдаліць"
 
 #: data/ui/sharpen-image.ui:6
 msgid "Adjust blurred images."
-msgstr ""
+msgstr "Карэкцыя размытых відарысаў."
 
 #: data/ui/sharpen-image.ui:41
 msgid "Radius"
@@ -1497,7 +1475,7 @@ msgstr "Кропкі"
 
 #: data/ui/status.ui:16
 msgid "Selected:"
-msgstr "Выбранае:"
+msgstr "Выбрана:"
 
 #: data/ui/status.ui:39
 msgid "Files:"
@@ -1535,17 +1513,15 @@ msgstr "Правілы"
 
 #: data/ui/test-expr-editor-group.ui:37
 msgid "Match All the Rules"
-msgstr ""
+msgstr "Адпавядае ўсім правілам"
 
 #: data/ui/test-expr-editor-group.ui:48
 msgid "Match Any Rule"
-msgstr ""
+msgstr "Адпавядае любому з правіл"
 
 #: data/ui/test-expr-editor-group.ui:72
-#, fuzzy
-#| msgid "Could not save the filter"
 msgid "Choose a rule to add to the filter."
-msgstr "Не ўдалося захаваць фільтр"
+msgstr "Выберыце правила, каб дадаць у фільтр."
 
 #: data/ui/text-viewer-dialog.ui:4 src/Ext/Scripts/Script.vala:106
 msgid "Details"
@@ -1560,10 +1536,8 @@ msgid "Vertical Resolution"
 msgstr "Раздзяляльнасць па вертыкалі"
 
 #: data/ui/unknown-viewer.ui:4 src/Viewer.vala:134
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot view this kind of files"
-msgstr "Немагчыма перамясціць файлы"
+msgstr "Немагчыма праглядзець гэты тып файла"
 
 #: data/ui/video-viewer.ui:36 src/Ext/Video/VideoViewer.vala:356
 msgid "Play"
@@ -1685,10 +1659,8 @@ msgid "Change Volume"
 msgstr "Змяніць гучнасць"
 
 #: data/ui/videos-preferences.ui:32
-#, fuzzy
-#| msgid "Aspect ratio"
 msgid "Respect Orientation"
-msgstr "Суадносіны бакоў"
+msgstr "Улічваць арыентацыю"
 
 #: data/ui/videos-preferences.ui:40
 msgid "Screenshots"
@@ -1709,14 +1681,12 @@ msgid "Next File"
 msgstr "Наступны файл"
 
 #: data/ui/viewer.ui:44 src/Ext/Shortcuts/Shortcuts.vala:214
-#, fuzzy
-#| msgid "Thumbnails"
 msgid "View Thumbnails"
-msgstr "Мініяцюры"
+msgstr "Паказаць мініяцюры"
 
 #: data/ui/viewer.ui:51 src/Ext/Shortcuts/Shortcuts.vala:215
 msgid "Adapt Window to Content"
-msgstr "Змяняць памер акна пад кантэнт"
+msgstr "Змяняць памер акна пад змесціва"
 
 #: data/ui/viewer.ui:81 src/FilePropertyView.vala:216
 msgid "Properties"
@@ -1754,7 +1724,7 @@ msgstr "Шлях файла"
 
 #: src/Application.vala:113
 msgid "Unsorted"
-msgstr ""
+msgstr "Без сартавання"
 
 #: src/Application.vala:121
 msgid "File"
@@ -1841,7 +1811,7 @@ msgstr "Павярнуць улева"
 
 #: src/Application.vala:248 src/MainWindow.vala:398
 msgid "Resize Images"
-msgstr "Змяніць памер выяў"
+msgstr "Змяніць памер видарыса"
 
 #: src/Application.vala:249 src/MainWindow.vala:865
 msgid "Clear Metadata"
@@ -1905,24 +1875,19 @@ msgstr "Пусты каталог"
 
 #: src/Browser.vala:524
 msgid "Empty Selection"
-msgstr "Пустое вылучэнне"
+msgstr "Пустая група выбраных"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:531
-#, fuzzy, c-format
-#| msgid ""
-#| "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
+#, c-format
 msgid "Use %s to add files to selection %u"
-msgstr ""
-"Выкарыстоўвайце Alt-%d, каб дадаць файлы ў гэтую групу выбранага, Ctrl-%d, "
-"каб яе праглядзець."
+msgstr "Выкарыстоўвайце %s, каб дадаць файлы выбраныя %u"
 
 #. Translators: %s is replaced by a keyword shortcut, %u is a number (1 2 or 3).
 #: src/Browser.vala:540
-#, fuzzy, c-format
-#| msgid "Show selection %d"
+#, c-format
 msgid "Use %s to view selection %u"
-msgstr "Паказаць выбранае %d"
+msgstr "Выкарыстоўвайце %s, каб праглядзець выбраныя %u"
 
 #: src/Browser.vala:553
 msgid "Empty Folder"
@@ -2044,9 +2009,10 @@ msgstr "Мультымедыя"
 msgid "Text Files"
 msgstr "Тэкставыя файлы"
 
+# ?
 #: src/DefaultTests.vala:160
 msgid "Created (Original)"
-msgstr ""
+msgstr "Створаны (зыходны)"
 
 #: src/DefaultTests.vala:209
 msgid "Tag"
@@ -2081,10 +2047,8 @@ msgstr "Увядзіце пашырэнне файла"
 #: src/Dialogs/ReadFilename.vala:31
 #: src/Ext/Tools/Internal/ImageRotation.vala:112 src/ImageSaver.vala:66
 #: src/ImageSaver.vala:71
-#, fuzzy
-#| msgid "Cannot move the files"
 msgid "Cannot save this kind of files"
-msgstr "Немагчыма перамясціць файлы"
+msgstr "Немагчыма захаваць гэты тып файла"
 
 #: src/Dialogs/ReadFilename.vala:37
 msgid "Name already used"
@@ -2169,12 +2133,12 @@ msgstr "Крывыя"
 #. Translators: filter that adjust the contrast balancing the white component.
 #: src/Ext/Editor/AdjustContrast.vala:9
 msgid "Balanced"
-msgstr ""
+msgstr "Баланс"
 
 #. Translators: filter that equalizes the histogram.
 #: src/Ext/Editor/AdjustContrast.vala:18
 msgid "Equalize"
-msgstr "Ураўнаваць"
+msgstr "Выраўняць яркасць"
 
 #: src/Ext/Editor/AspectRatioGroup.vala:41
 #: src/Ext/Editor/AspectRatioGroup.vala:42
@@ -2339,16 +2303,13 @@ msgid "EXIF"
 msgstr "EXIF"
 
 #: src/Ext/FileManager/FileManager.vala:17
-#, fuzzy, c-format
-#| msgid ""
-#| "The files cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
+#, c-format
 msgid "This action is not reversable. Do you want to delete the selected file?"
 msgid_plural ""
 "This action is not reversable. Do you want to delete the %'d selected files?"
-msgstr[0] "Немагчыма перамясціць файлы ў сметніцу. Выдаліць іх незваротна?"
-msgstr[1] "Немагчыма перамясціць файлы ў сметніцу. Выдаліць іх незваротна?"
-msgstr[2] "Немагчыма перамясціць файлы ў сметніцу. Выдаліць іх незваротна?"
+msgstr[0] "Гэта дзеянне незваротнае. Выдаліць %'d выбраны файл?"
+msgstr[1] "Гэта дзеянне незваротнае. Выдаліць %'d выбраныя файлы?"
+msgstr[2] "Гэта дзеянне незваротнае. Выдаліць %'d выбраных файлаў?"
 
 #: src/Ext/FileManager/FileManager.vala:86
 msgid "Move"
@@ -2392,26 +2353,21 @@ msgstr "Перайменаваць файл?"
 
 #. Translators: %s will be replaced with a filename, do not change it.
 #: src/Ext/FileManager/OverwriteDialog.vala:158
-#, fuzzy, c-format
-#| msgid "Are you sure you want to remove “%s”?"
+#, c-format
 msgid "Source and destination are the same. Do you want to rename “%s”?"
-msgstr "Сапраўды незваротна выдаліць «%s»?"
+msgstr "Зыходная і мэтавая назва супадаюць. Перайменаваць «%s»?"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:168
 msgid "Skip _All"
 msgstr "Прапусціць _усе"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:204
-#, fuzzy
-#| msgid "Convert to lower-case"
 msgid "Content to Replace"
-msgstr "Пераўтварыць у _ніжні рэгістр"
+msgstr "Змесціва для замены"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:224
-#, fuzzy
-#| msgid "Safe content"
 msgid "New Content"
-msgstr "Бяспечнае змесціва"
+msgstr "Новае змесціва"
 
 #: src/Ext/FileManager/OverwriteDialog.vala:235
 msgid "Same answer for all the files"
@@ -2430,7 +2386,7 @@ msgstr "Паказваць"
 #. Actions
 #: src/Ext/Filters/FilterBar.vala:42 src/MainWindow.vala:478
 msgid "Personalize…"
-msgstr "Персаналізацыя…"
+msgstr "Змяніць выгляд…"
 
 #: src/Ext/Filters/FilterEditorPage.vala:74
 #: src/Ext/Scripts/ScriptEditorPage.vala:32
@@ -2487,7 +2443,7 @@ msgstr ""
 
 #: src/Ext/Filters/TestDate.vala:112 src/Ext/Filters/TestString.vala:148
 msgid "Different From"
-msgstr ""
+msgstr "Адрозніваецца ад"
 
 #: src/Ext/Filters/TestString.vala:144
 msgid "Contains"
@@ -2507,7 +2463,7 @@ msgstr "Не змяшчае"
 
 #: src/Ext/Filters/TestString.vala:150 src/Ext/Filters/TestStringList.vala:142
 msgid "Matches Pattern"
-msgstr ""
+msgstr "Адпавядае шаблону"
 
 #: src/Ext/Filters/TestStringList.vala:139
 msgid "Includes"
@@ -2537,16 +2493,12 @@ msgid "File type not supported"
 msgstr "Тып файла не падтрымліваецца"
 
 #: src/Ext/Image/ImageViewer.vala:458 src/Ext/Shortcuts/Shortcuts.vala:257
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "Horizontal Flip"
-msgstr "_Гарызантальны:"
+msgstr "Адлюстраваць па гарызанталі"
 
 #: src/Ext/Image/ImageViewer.vala:471 src/Ext/Shortcuts/Shortcuts.vala:256
-#, fuzzy
-#| msgid "_Vertical:"
 msgid "Vertical Flip"
-msgstr "_Вертыкальны:"
+msgstr "Адлюстраваць па вертыкалі"
 
 #: src/Ext/Image/ImageViewer.vala:636 src/Ext/Video/VideoViewer.vala:658
 msgid "Copying to the Clipboard"
@@ -2559,7 +2511,7 @@ msgstr "Скапіявана ў буфер абмену"
 #: src/Ext/Import/ImportFiles.vala:230
 #, c-format
 msgid "The operation requires %s of space, but only %s are available on “%s”."
-msgstr ""
+msgstr "Для аперацыі патрабуецца %s прасторы, але даступна толькі %s на «%s»."
 
 #: src/Ext/Import/ImportFiles.vala:244
 msgid "Not enough free space"
@@ -2571,10 +2523,8 @@ msgstr "Закрыць"
 
 #. Overwrite the catalog content if the generic "last imported" catalog is used.
 #: src/Ext/Import/Importer.vala:130
-#, fuzzy
-#| msgid "Last modified"
 msgid "Last Imported"
-msgstr "Апошняе змяненне"
+msgstr "Апошні імпарт"
 
 #. Caption
 #: src/Ext/Preferences/BrowserPreferences.vala:74
@@ -2618,7 +2568,7 @@ msgstr "Прабел"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:7
 msgid "Index"
-msgstr ""
+msgstr "Лікавы паказальнік"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:8
 #: src/Ext/Scripts/ScriptCommandPage.vala:10
@@ -2636,10 +2586,8 @@ msgid "File Extension"
 msgstr "Пашырэнне файла"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:11
-#, fuzzy
-#| msgid "Original size"
 msgid "Original Index"
-msgstr "Зыходны памер"
+msgstr "Зыходны лікавы паказальнік"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:12
 msgid "Created"
@@ -2647,7 +2595,7 @@ msgstr "Створана"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:14
 msgid "Digitalized"
-msgstr "Алічбавана"
+msgstr "Лічбавы код"
 
 #: src/Ext/Rename/RenameTemplatePage.vala:15
 #: src/Ext/Scripts/ScriptCommandPage.vala:14
@@ -2687,12 +2635,12 @@ msgstr "TIFF"
 #. Translators: file type
 #: src/Ext/Savers/WebpPreferences.vala:8
 msgid "WEBP"
-msgstr ""
+msgstr "WEBP"
 
 #: src/Ext/Scripts/Script.vala:262
 #, c-format
 msgid "Command exited abnormally with status %d"
-msgstr ""
+msgstr "Каманда некарэктна завяршыла працу са станам %d"
 
 #: src/Ext/Scripts/ScriptCommandPage.vala:7
 msgid "Quoted Text"
@@ -2715,17 +2663,14 @@ msgid "Command is empty"
 msgstr "Каманда пустая"
 
 #: src/Ext/Search/SearchEditor.vala:48
-#, fuzzy
-#| msgid "Search"
 msgid "Last Search"
-msgstr "Пошук"
+msgstr "Апошні пошук"
 
 #. Translators: %u is replaced with a number
 #: src/Ext/Selections/Selection.vala:167
-#, fuzzy, c-format
-#| msgid "Selection %d"
+#, c-format
 msgid "Selection %u"
-msgstr "Выбранае %d"
+msgstr "Выбраныя %u"
 
 #: src/Ext/Shortcuts/Shortcut.vala:259
 msgid "File Manager"
@@ -2745,7 +2690,7 @@ msgstr "Выйсці"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:138
 msgid "Main Menu"
-msgstr ""
+msgstr "Галоўнае меню"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:140
 msgid "Open Location"
@@ -2760,14 +2705,12 @@ msgid "Parent Folder"
 msgstr "Бацькоўская папка"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:144
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous Visited"
-msgstr "Папярэдні"
+msgstr "Папярэдняе наведанае месца"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:145
 msgid "Next Visited"
-msgstr ""
+msgstr "Наступнае наведанае месца"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:146
 msgid "Next Folder"
@@ -2806,68 +2749,48 @@ msgid "Open with Gimp"
 msgstr "Адкрыць праз GIMP"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:182
-#, fuzzy
-#| msgid "Open with Gimp"
 msgid "Open with Inkscape"
-msgstr "Адкрыць праз GIMP"
+msgstr "Адкрыць праз Inkscape"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:194
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 1"
-msgstr "Дадаць у выбранае"
+msgstr "Дадаць у выбраныя 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:195
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 2"
-msgstr "Дадаць у выбранае"
+msgstr "Дадаць у выбраныя 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:196
-#, fuzzy
-#| msgid "Add to selection"
 msgid "Add to Selection 3"
-msgstr "Дадаць у выбранае"
+msgstr "Дадаць у выбраныя 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:197
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 1"
-msgstr "Выдаліць з выбранага"
+msgstr "Выдаліць з выбраных 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:198
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 2"
-msgstr "Выдаліць з выбранага"
+msgstr "Выдаліць з выбраных 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:199
-#, fuzzy
-#| msgid "Remove from Selection"
 msgid "Remove from Selection 3"
-msgstr "Выдаліць з выбранага"
+msgstr "Выдаліць з выбраных 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:200
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 1"
-msgstr "Паказаць выбранае"
+msgstr "Паказаць выбраныя 1"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:201
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 2"
-msgstr "Паказаць выбранае"
+msgstr "Паказаць выбраныя 2"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:202
-#, fuzzy
-#| msgid "Show selection"
 msgid "Show Selection 3"
-msgstr "Паказаць выбранае"
+msgstr "Паказаць выбраныя 3"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:204
 msgid "View All"
-msgstr ""
+msgstr "Паказваць усе"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:209
 msgid "First File"
@@ -2878,10 +2801,8 @@ msgid "Last File"
 msgstr "Апошні файл"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:211
-#, fuzzy
-#| msgid "View the folders"
 msgid "View Controls"
-msgstr "Прагляд папак"
+msgstr "Паказаць элементы кіравання"
 
 #: src/Ext/Shortcuts/Shortcuts.vala:219
 msgid "Zoom In Fast"
@@ -3081,10 +3002,8 @@ msgid "No suitable loader available for this file type"
 msgstr ""
 
 #: src/Ext/Tools/Internal/ResizeImages.vala:47
-#, fuzzy
-#| msgid "Original size"
 msgid "Original"
-msgstr "Зыходны памер"
+msgstr "Зыходны"
 
 #: src/Ext/Video/VideoMetadata.vala:5
 msgid "Artist"
@@ -3115,8 +3034,6 @@ msgid "Channels"
 msgstr "Каналы"
 
 #: src/Ext/Video/VideoMetadata.vala:12
-#, fuzzy
-#| msgid "Sample rate"
 msgid "Sample Rate"
 msgstr "Частата дыскрэтызацыі"
 
@@ -3125,10 +3042,8 @@ msgid "Saving File"
 msgstr "Захаванне файла"
 
 #: src/Ext/Video/VideoViewer.vala:669
-#, fuzzy
-#| msgid "Could not add the files to the catalog"
 msgid "Could not copy the image to the clipboard"
-msgstr "Не ўдалося дадаць файлы ў каталог"
+msgstr "Не ўдалося скапіяваць відарыс у буфер абмену"
 
 #: src/Ext/Video/VideoViewer.vala:720 src/Ext/Video/VideoViewer.vala:727
 #: src/Ext/Video/VideoViewer.vala:757 src/MainWindow.vala:285
@@ -3155,7 +3070,7 @@ msgstr "Камп'ютар"
 
 #: src/Files.vala:244
 msgid "User Home"
-msgstr ""
+msgstr "Хатняя карыстальніка"
 
 #: src/History.vala:39
 msgid "_Delete History"
@@ -3212,7 +3127,7 @@ msgstr "Калі вы не захаваеце файл, змены будуць 
 
 #: src/Viewer.vala:160
 msgid "_Discard"
-msgstr ""
+msgstr "_Не захоўваць"
 
 #: src/Viewer.vala:456
 msgid "Exit Fullscreen"
@@ -3262,7 +3177,7 @@ msgstr "Мона"
 
 #: src/lib/io/save-tiff.c:165
 msgid "Insufficient memory"
-msgstr ""
+msgstr "Недастаткова памяці"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9∶05∶02" for 9
@@ -3287,2014 +3202,3 @@ msgstr "%d∶%02d∶%02d"
 msgctxt "short time format"
 msgid "%d∶%02d"
 msgstr "%d∶%02d"
-
-#~ msgid "gThumb Image Viewer"
-#~ msgstr "Праглядальнік выяў gThumb"
-
-#~ msgid "Browser mode"
-#~ msgstr "Рэжым агляду"
-
-#~ msgid "Viewer mode"
-#~ msgstr "Рэжым прагляду"
-
-#~ msgid ""
-#~ "Possible values include: general::unsorted, file::name, file::size, "
-#~ "file::mtime, exif::photo::datetimeoriginal"
-#~ msgstr ""
-#~ "Магчымыя значэнні: general::unsorted, file::name, file::size, "
-#~ "file::mtime, exif::photo::datetimeoriginal"
-
-#~ msgid "Import with gThumb"
-#~ msgstr "Імпартаваць праз gThumb"
-
-#~ msgid "Photo Import Tool"
-#~ msgstr "Інструмент імпартавання фатаграфій"
-
-#~ msgid "Import the photos on your camera card"
-#~ msgstr "Імпартаваць фатаграфіі з карты памяці фотаапарата"
-
-#~ msgid "gThumb"
-#~ msgstr "gThumb"
-
-#~ msgid "_Single click to open files"
-#~ msgstr "_Адзінарнае націсканне, каб адкрываць файлы"
-
-#~ msgid "_Double click to open files"
-#~ msgstr "_Падвойнае націсканне, каб адкрываць файлы"
-
-#~ msgid "D_etermine image type from content (slower)"
-#~ msgstr "_Вызначаць тып выявы са змесціва (павольней)"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "remove"
-#~ msgstr "выдаліць"
-
-#~ msgid "add"
-#~ msgstr "дадаць"
-
-#~ msgid "_Extensions:"
-#~ msgstr "_Пашырэнні:"
-
-#~ msgid "More extensions…"
-#~ msgstr "Больш пашырэнняў…"
-
-#~ msgid "Next"
-#~ msgstr "Наступны"
-
-#~ msgid "Filter _Name:"
-#~ msgstr "_Назва фільтра:"
-
-#~ msgid "_Match:"
-#~ msgstr "_Адпавядае:"
-
-#~ msgid "_Limit to"
-#~ msgstr "_Абмежаваць да"
-
-#~ msgid "Mean:"
-#~ msgstr "Сярэдняе:"
-
-#~ msgid "Std dev:"
-#~ msgstr "сяр. кв. адх.:"
-
-#~ msgid "Median:"
-#~ msgstr "Медыяна:"
-
-#~ msgctxt "Pixels"
-#~ msgid "Max:"
-#~ msgstr "Макс.:"
-
-#~ msgid "_Location:"
-#~ msgstr "_Размяшчэнне:"
-
-#~ msgid "Overwrite the old file with the new one?"
-#~ msgstr "Перазапісаць стары файл новым?"
-
-#~ msgid "Old File:"
-#~ msgstr "Стары файл:"
-
-#~ msgid "Filename:"
-#~ msgstr "Назва файла:"
-
-#~ msgid "Size:"
-#~ msgstr "Памер:"
-
-#~ msgid "Modified:"
-#~ msgstr "Зменена:"
-
-#~ msgid "New File:"
-#~ msgstr "Новы файл:"
-
-#~ msgid "Over_write the old file"
-#~ msgstr "Перазапісаць стары файл"
-
-#~ msgid "Do not overwrite _the old file"
-#~ msgstr "Не перазапісваць _стары файлы"
-
-#~ msgid "Overwrite _all files"
-#~ msgstr "Перазапісаць _усе файлы"
-
-#~ msgid "_Do not overwrite any file"
-#~ msgstr "_Не перазапісваць файлы"
-
-#~ msgid "_Save the new file as:"
-#~ msgstr "_Захаваць новы файл як:"
-
-#~ msgid "_Other filters:"
-#~ msgstr "_Іншыя фільтры:"
-
-#~ msgid "below the folder list"
-#~ msgstr "пад спісам папак"
-
-#~ msgid "on the right"
-#~ msgstr "справа"
-
-#~ msgid "gThumb Preferences"
-#~ msgstr "Налады gThumb"
-
-#~ msgid "Appearance"
-#~ msgstr "Выгляд"
-
-#~ msgid "T_humbnails in viewer:"
-#~ msgstr "_Мініяцюры пры праглядзе:"
-
-#~ msgid "on the side"
-#~ msgstr "збоку"
-
-#~ msgid "File _properties in browser:"
-#~ msgstr "_Уласцівасці файла ў рэжыме агляду:"
-
-#~ msgid "_Statusbar"
-#~ msgstr "_Радок стану"
-
-#~ msgid "Go to this _folder:"
-#~ msgstr "Перайсці ў вызначаную папку:"
-
-#~ msgid "Set to C_urrent"
-#~ msgstr "Уставіць _бягучае"
-
-#~ msgid "As_k confirmation before deleting files or catalogs"
-#~ msgstr "Запытваць пацвярджэнне перад выдаленнем файлаў або каталогаў"
-
-#~ msgid "Ask whether to save _modified files"
-#~ msgstr "Пытаць, ці захоўваць _змененыя файлы"
-
-#~ msgid "Shortcuts:"
-#~ msgstr "Спалучэнні клавіш:"
-
-#~ msgid "_Restore All…"
-#~ msgstr "_Аднавіць усе…"
-
-#~ msgid "file name"
-#~ msgstr "назва файла"
-
-#~ msgid "file modified date"
-#~ msgstr "дата змянення файла"
-
-#~ msgid "_Inverse order"
-#~ msgstr "_Адваротны парадак"
-
-#~ msgid "23"
-#~ msgstr "23"
-
-#~ msgid "Upload images to 23hq.com"
-#~ msgstr "Запампоўванне выяў на 23hq.com"
-
-#~ msgid "Add bookmarks support."
-#~ msgstr "Дадае падтрымку закладак."
-
-#~ msgid "_Bookmarks:"
-#~ msgstr "_Закладкі:"
-
-#~ msgid "Go to this location"
-#~ msgstr "Перайсці да размяшчэння"
-
-#~ msgid "_Name"
-#~ msgstr "_Назва"
-
-#~ msgid "_Location"
-#~ msgstr "_Размяшчэнне"
-
-#~ msgid "Could not remove the bookmark"
-#~ msgstr "Не ўдалося выдаліць закладку"
-
-#~ msgid "Burn CD/DVD"
-#~ msgstr "Запіс CD/DVD"
-
-#~ msgid "Save files to an optical disc."
-#~ msgstr "Захоўванне файлаў на аптычны дыск."
-
-#~ msgid "_Optical Disc…"
-#~ msgstr "_Аптычны дыск…"
-
-#~ msgid "Disc Name"
-#~ msgstr "Назва дыска"
-
-#~ msgid "Current _folder"
-#~ msgstr "_Бягучая папка"
-
-#~ msgid "Current folder and its s_ub-folders"
-#~ msgstr "Бягучая папка і яе _падпапкі"
-
-#~ msgid "_Selected files"
-#~ msgstr "_Выбраныя файлы"
-
-#~ msgid "Write to Disc"
-#~ msgstr "Запісаць на дыск"
-
-#, c-format
-#~ msgid "Error interpreting JPEG image file: %s"
-#~ msgstr "Памылка інтэрпрэтацыі файла выявы JPEG: %s"
-
-#, c-format
-#~ msgid "Unknown JPEG color space (%d)"
-#~ msgstr "Невядомая колеравая прастора JPEG (%d)"
-
-#~ msgid "Compression _level:"
-#~ msgstr "Узровень _сціскання:"
-
-#~ msgid "Default options:"
-#~ msgstr "Прадвызначаныя параметры:"
-
-#~ msgid "_No compression"
-#~ msgstr "_Без сціскання"
-
-#~ msgid "dpi"
-#~ msgstr "dpi"
-
-#~ msgid "TGA"
-#~ msgstr "TGA"
-
-#~ msgid "WebP"
-#~ msgstr "WebP"
-
-#, c-format
-#~ msgid "No name specified"
-#~ msgstr "Не ўказана назва"
-
-#, c-format
-#~ msgid "Invalid name. The following characters are not allowed: %s"
-#~ msgstr "Недапушчальная назва. Нельга выкарыстоўваць наступныя сімвалы: %s"
-
-#~ msgid "New catalog"
-#~ msgstr "Новы каталог"
-
-#~ msgid "Enter the catalog name:"
-#~ msgstr "Увядзіце назву каталога:"
-
-#~ msgid "C_reate"
-#~ msgstr "С_тварыць"
-
-#~ msgid "New library"
-#~ msgstr "Новая бібліятэка"
-
-#~ msgid "Enter the library name:"
-#~ msgstr "Увядзіце назву бібліятэкі:"
-
-#~ msgid "Could not remove the catalog"
-#~ msgstr "Не ўдалося выдаліць каталог"
-
-#~ msgid "Create Catalog"
-#~ msgstr "Стварыць каталог"
-
-#~ msgid "Create Library"
-#~ msgstr "Стварыць бібліятэку"
-
-#~ msgid "Organize"
-#~ msgstr "Упарадкаванне"
-
-#~ msgid "Automatically organize files by date"
-#~ msgstr "Аўтаматычна ўпарадкаваць файлы па даце"
-
-#~ msgid "Create file collections."
-#~ msgstr "Стварэнне калекцый файлаў."
-
-#~ msgid "C_atalogs:"
-#~ msgstr "К_аталогі:"
-
-#~ msgid "_View the destination"
-#~ msgstr "Па_глядзець месца прызначэння"
-
-#~ msgid "_Name:"
-#~ msgstr "_Назва:"
-
-#~ msgid "Cancel operation"
-#~ msgstr "Скасаваць аперацыю"
-
-#~ msgid "Organization:"
-#~ msgstr "Упарадкаванне:"
-
-#~ msgid "Catalog _Preview:"
-#~ msgstr "_Папярэдні прагляд каталога:"
-
-#~ msgid "_Group files by:"
-#~ msgstr "_Групаванне файлаў:"
-
-#~ msgid "Ignore catalogs with a single file"
-#~ msgstr "Ігнараваць каталогі з адным файлам"
-
-#~ msgid "Put single files in the catalog:"
-#~ msgstr "Скласці адзіночныя файлы ў каталог:"
-
-#~ msgid "Singles"
-#~ msgstr "Адзіночныя"
-
-#~ msgid "Could not create the catalog"
-#~ msgstr "Не ўдалося стварыць каталог"
-
-#~ msgid "Add to Catalog"
-#~ msgstr "Дадаць у каталог"
-
-#~ msgid "Keep the dialog open"
-#~ msgstr "Не закрываць акно"
-
-#~ msgid "Could not save the catalog"
-#~ msgstr "Не ўдалося захаваць каталог"
-
-#~ msgid "Could not load the catalog"
-#~ msgstr "Не ўдалося загрузіць каталог"
-
-#~ msgid "Files will be organized in catalogs. No file will be moved on disk."
-#~ msgstr "Файлы парадкуюцца ў каталогах, яны не будуць перамяшчацца на дыску."
-
-#~ msgid "Date photo was taken"
-#~ msgstr "Дата атрымання фота"
-
-#, c-format
-#~ msgid "The library “%s” already exists, do you want to overwrite it?"
-#~ msgstr "Бібліятэка «%s» ужо існуе. Перазапісаць яе?"
-
-#~ msgid "Over_write"
-#~ msgstr "Пера_запісаць"
-
-#~ msgid "Cannot copy the files"
-#~ msgstr "Немагчыма скапіяваць файлы"
-
-#~ msgid "Invalid destination."
-#~ msgstr "Няправільнае месца прызначэння."
-
-#, c-format
-#~ msgid "Copying files to “%s”"
-#~ msgstr "Капіяванне файлаў у «%s»"
-
-#~ msgid "Could not remove the files from the catalog"
-#~ msgstr "Не ўдалося выдаліць файлы з каталога"
-
-#, c-format
-#~ msgid "Operation completed. Catalogs: %d. Images: %d."
-#~ msgstr "Аперацыя завершана. Каталогаў: %d. Выяў: %d."
-
-#~ msgid "Change _Date…"
-#~ msgstr "Змяніць _дату…"
-
-#~ msgid "Change date"
-#~ msgstr "Змяненне даты"
-
-#~ msgid "Change the files date"
-#~ msgstr "Змяненне даты ў файлах"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Co_mment date"
-#~ msgstr "Дата _каментарыя"
-
-#~ msgid "File _modified date"
-#~ msgstr "Дата _змянення файла"
-
-#~ msgid "File c_reation date"
-#~ msgstr "Дата _стварэння файла"
-
-#~ msgid "Date p_hoto was taken"
-#~ msgstr "Дата _атрымання фота"
-
-#~ msgid "hours"
-#~ msgstr "гадзіны"
-
-#~ msgid "minutes"
-#~ msgstr "хвіліны"
-
-#~ msgid "Change Date"
-#~ msgstr "Змяніць дату"
-
-#~ msgid "Import Embedded Metadata"
-#~ msgstr "Імпартаваць убудаваныя метаданыя"
-
-#, fuzzy
-#~ msgid "Comments and tags"
-#~ msgstr "Назва пашырэння"
-
-#, fuzzy
-#~ msgid "Add comments and tags to any file type."
-#~ msgstr "Апісанне пашырэння"
-
-#~ msgid "Comment Date & Time"
-#~ msgstr "Дата і час каментарыя"
-
-#, fuzzy
-#~ msgid "Contact Sheet"
-#~ msgstr "Назва пашырэння"
-
-#, fuzzy
-#~ msgid ""
-#~ "Create an index image displaying the thumbnails of the selected files."
-#~ msgstr "Апісанне пашырэння"
-
-#~ msgid "Simple"
-#~ msgstr "Просты"
-
-#~ msgid "Simple with shadow"
-#~ msgstr "Просты з ценем"
-
-#~ msgid "Shadow only"
-#~ msgstr "Толькі цень"
-
-#~ msgid "Inward Shadow"
-#~ msgstr "Унутраны цень"
-
-#~ msgid "Outward Shadow"
-#~ msgstr "Знешні цень"
-
-#~ msgid "_Solid color"
-#~ msgstr "_Адзін колер"
-
-#~ msgid "_Gradient"
-#~ msgstr "Градыент"
-
-#~ msgid "_Style:"
-#~ msgstr "_Стыль:"
-
-#~ msgid "_Header:"
-#~ msgstr "_Верхні калонтытул:"
-
-#~ msgid "Select a font"
-#~ msgstr "Выберыце шрыфт"
-
-#~ msgid "_Footer:"
-#~ msgstr "_Ніжні калонтытул:"
-
-#~ msgid "Caption:"
-#~ msgstr "Подпіс:"
-
-#~ msgid "Help"
-#~ msgstr "Даведка"
-
-#~ msgid "_Destination:"
-#~ msgstr "_Месца прызначэння:"
-
-#~ msgid "Choose destination folder"
-#~ msgstr "Выберыце папку прызначэння"
-
-#~ msgid "File_name:"
-#~ msgstr "Назва_файла:"
-
-#~ msgid "Create a new theme"
-#~ msgstr "Стварыць новую тэму"
-
-#~ msgid "Edit the selected theme"
-#~ msgstr "Змяніць вылучаную тэму"
-
-#~ msgid "Delete the selected theme"
-#~ msgstr "Выдаліць вылучаную тэму"
-
-#~ msgid "Theme"
-#~ msgstr "Тэма"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "Images per page:"
-#~ msgstr "Выяў на старонцы:"
-
-#~ msgid "All images on a single page"
-#~ msgstr "Усе выявы на адной старонцы"
-
-#~ msgid "_All pages with the same size"
-#~ msgstr "_Усе старонкі аднаго памеру"
-
-#~ msgid "S_ort:"
-#~ msgstr "Сар_таванне:"
-
-#~ msgid "Re_verse order"
-#~ msgstr "_Адваротны парадак"
-
-#~ msgid "_Size:"
-#~ msgstr "_Памер:"
-
-#~ msgid "Sq_uared"
-#~ msgstr "_Квадрат"
-
-#~ msgid "Enumerator"
-#~ msgstr "Нумаратар"
-
-#~ msgid "Current page number"
-#~ msgstr "Нумар бягучай старонкі"
-
-#~ msgid "Total number of pages"
-#~ msgstr "Агульная колькасць старонак"
-
-#~ msgid "Could not save the theme"
-#~ msgstr "Не ўдалося захаваць тэму"
-
-#~ msgid "Could not delete the theme"
-#~ msgstr "Не ўдалося выдаліць тэму"
-
-#~ msgid "Creating images"
-#~ msgstr "Стварэнне выяў"
-
-#~ msgid "Generating thumbnails"
-#~ msgstr "Генерацыя мініяцюр"
-
-#~ msgid "Theme Properties"
-#~ msgstr "Уласцівасці тэмы"
-
-#~ msgid "New theme"
-#~ msgstr "Новая тэма"
-
-#~ msgid "Header"
-#~ msgstr "Верхні калонтытул"
-
-#~ msgid "Footer"
-#~ msgstr "Ніжні калонтытул"
-
-#~ msgid "Convert Format…"
-#~ msgstr "Пераўтварыць фармат…"
-
-#~ msgid "Convert format"
-#~ msgstr "Пераўтварэнне фармату"
-
-#~ msgid "Save images in a different format"
-#~ msgstr "Захаванне выяў у іншым фармаце"
-
-#~ msgid "New format"
-#~ msgstr "Новы фармат"
-
-#~ msgid "_Use the original image folder"
-#~ msgstr "Выкарыстоўваць _зыходную папку выявы"
-
-#~ msgid "Converting images"
-#~ msgstr "Пераўтварэнне выяў"
-
-#~ msgid "Could not show the desktop background properties"
-#~ msgstr "Не ўдалося паказаць уласцівасці фона працоўнага стала"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Налады"
-
-#~ msgid "_Undo"
-#~ msgstr "_Адрабіць"
-
-#~ msgid "Could not set the desktop background"
-#~ msgstr "Не ўдалося зрабіць фонам працоўнага стала"
-
-#~ msgid "Desktop background"
-#~ msgstr "Фон працоўнага стала"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently delete the metadata of the selected "
-#~ "files?"
-#~ msgstr "Сапраўды незваротна выдаліць метаданыя выбраных файлаў?"
-
-#~ msgid "If you delete the metadata, it will be permanently lost."
-#~ msgstr "Калі вы выдаліце метаданыя, яны будуць назаўсёды страчаны."
-
-#~ msgid "D_escription:"
-#~ msgstr "А_пісанне:"
-
-#~ msgid "_Rating:"
-#~ msgstr "_Ацэнка:"
-
-#~ msgid "_Title:"
-#~ msgstr "_Загаловак:"
-
-#~ msgid "Could not save the file metadata"
-#~ msgstr "Не ўдалося захаваць метаданыя файла"
-
-#~ msgid "Cannot read file information"
-#~ msgstr "Немагчыма прачытаць інфармацыю з файла"
-
-#~ msgid "Edit metadata"
-#~ msgstr "Змяніць метаданыя"
-
-#~ msgid "Allow to edit files metadata."
-#~ msgstr "Дазволіць змяняць метаданыя файла."
-
-#~ msgid "No date"
-#~ msgstr "Без даты"
-
-#~ msgid "The following date"
-#~ msgstr "Наступная дата"
-
-#~ msgid "Last modified date"
-#~ msgstr "Дата апошняга змянення"
-
-#~ msgid "File creation date"
-#~ msgstr "Дата стварэння файла"
-
-#~ msgid "Do not modify"
-#~ msgstr "Не змяняць"
-
-#~ msgid "example"
-#~ msgstr "прыклад"
-
-#~ msgid "C_opyright:"
-#~ msgstr "_Аўтарскае права:"
-
-#~ msgid "_Code:"
-#~ msgstr "К_од:"
-
-#~ msgid "_Source:"
-#~ msgstr "_Крыніца:"
-
-#~ msgid "EXIF, IPTC, XMP support"
-#~ msgstr "Падтрымка EXIF, IPTC, XMP"
-
-#~ msgid "Read and write exif, iptc and xmp metadata."
-#~ msgstr "Чытанне і запіс метаданых exif, iptc, xmp."
-
-#~ msgid "Exif General"
-#~ msgstr "Агульнае Exif"
-
-#~ msgid "Exif Thumbnail"
-#~ msgstr "Мініяцюра Exif"
-
-#~ msgid "Exif GPS"
-#~ msgstr "Даныя GPS Exif"
-
-#~ msgid "Exif Other"
-#~ msgstr "Іншае Exif"
-
-#~ msgid "XMP Embedded"
-#~ msgstr "Убудаваны XMP"
-
-#~ msgid "date photo was taken"
-#~ msgstr "дата атрымання фота"
-
-#~ msgid "_Export To"
-#~ msgstr "_Экспартаваць у"
-
-#~ msgid "Enter the folder name:"
-#~ msgstr "Увядзіце назву папкі:"
-
-#~ msgid "Could not perform the operation"
-#~ msgstr "Не ўдалося выканаць аперацыю"
-
-#~ msgid "Could not move the files"
-#~ msgstr "Не ўдалося перамясіць файлы"
-
-#~ msgid ""
-#~ "Files cannot be moved to the current location, as alternative you can "
-#~ "choose to copy them."
-#~ msgstr ""
-#~ "Немагчыма перамясціць файлы ў бягучае размяшчэнне, але можна іх "
-#~ "скапіяваць."
-
-#~ msgid "Copy To"
-#~ msgstr "Скапіяваць у"
-
-#~ msgid "Could not open the location"
-#~ msgstr "Не ўдалося адкрыць месца размяшчэння"
-
-#, c-format
-#~ msgid "Do you want to move “%s” to “%s”?"
-#~ msgstr "Перамясціць «%s» ў «%s»?"
-
-#, c-format
-#~ msgid "Do you want to copy “%s” to “%s”?"
-#~ msgstr "Скапіяваць «%s» ў «%s»?"
-
-#, c-format
-#~ msgid "Do you want to move the dragged files to “%s”?"
-#~ msgstr "Перамясціць перацягнутыя файлы ў «%s»?"
-
-#, c-format
-#~ msgid "Do you want to copy the dragged files to “%s”?"
-#~ msgstr "Скапіяваць перацягнутыя файлы ў «%s»?"
-
-#~ msgid "_Copy"
-#~ msgstr "_Скапіяваць"
-
-#~ msgid "File manager operations."
-#~ msgstr "Аперацыі кіраўніка файлаў."
-
-#~ msgid "Adjust contrast"
-#~ msgstr "Рэгуляванне кантраснасці"
-
-#~ msgid "Flip"
-#~ msgstr "Адлюстраваць вертыкальна"
-
-#~ msgid "Mirror"
-#~ msgstr "Адлюстраваць гарызантальна"
-
-#~ msgid "Rotate right"
-#~ msgstr "Павярнуць управа"
-
-#~ msgid "Rotate left"
-#~ msgstr "Павярнуць улева"
-
-#~ msgid "_Preview"
-#~ msgstr "_Папярэдні прагляд"
-
-#~ msgid "B_rightness:"
-#~ msgstr "_Яркасць:"
-
-#~ msgid "_Magenta-Green:"
-#~ msgstr "_Маджэнта-Зялёны:"
-
-#~ msgid "_Yellow-Blue:"
-#~ msgstr "_Жоўты-Сіні:"
-
-#~ msgid "_X:"
-#~ msgstr "_X:"
-
-#~ msgid "_Y:"
-#~ msgstr "_Y:"
-
-#~ msgid "_Grid:"
-#~ msgstr "_Сетка:"
-
-#~ msgid "_Width:"
-#~ msgstr "_Шырыня:"
-
-#~ msgid "Heigh_t:"
-#~ msgstr "_Вышыня:"
-
-#~ msgid "_Position:"
-#~ msgstr "_Пазіцыя:"
-
-#~ msgid "I_nvert aspect ratio"
-#~ msgstr "_Адваротныя суадносіны бакоў"
-
-#~ msgid "M_ultiple of:"
-#~ msgstr "Кратнае ад:"
-
-#~ msgid "Include current channel"
-#~ msgstr "Уключыць бягучы канал"
-
-#~ msgid "Dimensions"
-#~ msgstr "Памеры"
-
-#~ msgid "Original dimensions:"
-#~ msgstr "Зыходныя памеры:"
-
-#~ msgid "Scale factor:"
-#~ msgstr "Каэфіцыент маштабавання:"
-
-#~ msgid "New dimensions:"
-#~ msgstr "Новыя памеры:"
-
-#~ msgid "_Background:"
-#~ msgstr "_Фон:"
-
-#~ msgid "Point 1:"
-#~ msgstr "Пункт 1:"
-
-#~ msgid "Point 2:"
-#~ msgstr "Пункт 2:"
-
-#~ msgid "Keep aspect ratio"
-#~ msgstr "Захоўваць суадносіны бакоў"
-
-#~ msgid "Parallel"
-#~ msgstr "Паралельнае"
-
-#~ msgid "Perpendicular"
-#~ msgstr "Перпендыкулярнае"
-
-#~ msgid "Alignment"
-#~ msgstr "Выраўноўванне"
-
-#~ msgid "Amount:"
-#~ msgstr "Велічыня:"
-
-#, c-format
-#~ msgid "%d → %d"
-#~ msgstr "%d → %d"
-
-#~ msgid "Channel:"
-#~ msgstr "Канал:"
-
-#~ msgid "Presets"
-#~ msgstr "Наборы налад"
-
-#~ msgid "Applying changes"
-#~ msgstr "Ужыванне змен"
-
-#~ msgid "Adjust Colors"
-#~ msgstr "Рэгуляванне колераў"
-
-#~ msgid "Adjust Contrast"
-#~ msgstr "Рэгуляванне кантраснасці"
-
-#~ msgid "Automatic contrast adjustment"
-#~ msgstr "Аўтаматычнае рэгуляванне кантраснасці"
-
-#~ msgid "Pick a color from the image"
-#~ msgstr "Выбар колеру з выявы"
-
-#, c-format
-#~ msgid "%d × %d (Image)"
-#~ msgstr "%d × %d (выява)"
-
-#, c-format
-#~ msgid "%d × %d (Screen)"
-#~ msgstr "%d × %d (экран)"
-
-#~ msgid "5∶4"
-#~ msgstr "5∶4"
-
-#~ msgid "4∶3 (DVD, Book)"
-#~ msgstr "4∶3 (DVD, кніга)"
-
-#~ msgid "7∶5"
-#~ msgstr "7∶5"
-
-#~ msgid "3∶2 (Postcard)"
-#~ msgstr "3∶2 (паштоўка)"
-
-#~ msgid "16∶10"
-#~ msgstr "16∶10"
-
-#~ msgid "16∶9 (DVD)"
-#~ msgstr "16∶9 (DVD)"
-
-#~ msgid "1.85∶1"
-#~ msgstr "1.85∶1"
-
-#~ msgid "2.39∶1"
-#~ msgstr "2.39∶1"
-
-#~ msgid "Add to Presets"
-#~ msgstr "Дадаць да набораў налад"
-
-#~ msgid "Enter the preset name:"
-#~ msgstr "Увядзіце назву набору налад:"
-
-#~ msgid "Could not save the file"
-#~ msgstr "Не ўдалося захаваць файл"
-
-#~ msgid "Add to presets"
-#~ msgstr "Дадаць да набораў налад"
-
-#~ msgid "Adjust color curves"
-#~ msgstr "Рэгуляванне крывых змянення колеру"
-
-#~ msgid "Soil"
-#~ msgstr "Глеба"
-
-#~ msgid "Desert"
-#~ msgstr "Пустыня"
-
-#~ msgid "Arctic"
-#~ msgstr "Арктыка"
-
-#~ msgid "Mangos"
-#~ msgstr "Манга"
-
-#~ msgid "Fresh Blue"
-#~ msgstr "Свежы сіні"
-
-#~ msgid "Cherry"
-#~ msgstr "Вішня"
-
-#~ msgid "Vignette"
-#~ msgstr "Віньетка"
-
-#~ msgid "Flip the image vertically"
-#~ msgstr "Адлюстраваць выяву па вертыкалі"
-
-# ад абрэвіятуры на рускай мове, націск на другі склад, ЛОМА (Ленінградская оптыка-механічнае аб'яднанне)
-#~ msgid "Lomo"
-#~ msgstr "Лома"
-
-#~ msgid "Mirror the image horizontally"
-#~ msgstr "Адлюстраваць выяву па гарызанталі"
-
-#~ msgid "Resizing images"
-#~ msgstr "Змена памеру выяў"
-
-#~ msgid "1.91∶1"
-#~ msgstr "1.91∶1"
-
-#~ msgid "Rotate the image by 90 degrees counterclockwise"
-#~ msgstr "Павярнуць выяву на 90 градусаў супраць гадзіннікавай стрэлкі"
-
-#~ msgid "Rotate the image by 90 degrees clockwise"
-#~ msgstr "Павярнуць выяву на 90 градусаў па ходу гадзіннікавай стрэлкі"
-
-#~ msgid "Sharpening image"
-#~ msgstr "Павышэнне рэзкасці"
-
-#~ msgid "Enhance Focus"
-#~ msgstr "Паляпшэнне фокуса"
-
-#~ msgid "Find _Duplicates…"
-#~ msgstr "Пошук _дублетаў…"
-
-#~ msgid "Duplicates:"
-#~ msgstr "Дублеты:"
-
-#~ msgid "No duplicates found."
-#~ msgstr "Дублеты не знойдзены."
-
-#~ msgid "Start _at:"
-#~ msgstr "Пачаць _з:"
-
-#~ msgid "_Filter:"
-#~ msgstr "_Фільтр:"
-
-#~ msgid "Find Duplicates"
-#~ msgstr "Пошук дублетаў"
-
-#~ msgid "_Find"
-#~ msgstr "_Пошук"
-
-#~ msgid "Find duplicated files."
-#~ msgstr "Пошук дублетных файлаў."
-
-#~ msgid "leave the newest duplicates"
-#~ msgstr "пакінуць больш новыя дублеты"
-
-#~ msgid "leave the oldest duplicates"
-#~ msgstr "пакінуць больш старыя дублеты"
-
-#~ msgid "all files"
-#~ msgstr "усе файлы"
-
-#~ msgid "no file"
-#~ msgstr "ні аднаго файла"
-
-#, c-format
-#~ msgid "%d file (%s)"
-#~ msgid_plural "%d files (%s)"
-#~ msgstr[0] "%d файл (%s)"
-#~ msgstr[1] "%d файлы (%s)"
-#~ msgstr[2] "%d файлаў (%s)"
-
-#, c-format
-#~ msgid "%d duplicate"
-#~ msgid_plural "%d duplicates"
-#~ msgstr[0] "%d дублет"
-#~ msgstr[1] "%d дублеты"
-#~ msgstr[2] "%d дублетаў"
-
-#~ msgid "Searching for duplicates"
-#~ msgstr "Пошук дублетаў"
-
-#, c-format
-#~ msgid "%d file remaining"
-#~ msgid_plural "%d files remaining"
-#~ msgstr[0] "Застаўся %d файл"
-#~ msgstr[1] "Засталося %d файлы"
-#~ msgstr[2] "Засталося %d файлаў"
-
-#~ msgid "Getting the file list"
-#~ msgstr "Атрыманне спіса файлаў"
-
-#~ msgid "Flicker"
-#~ msgstr "Flicker"
-
-#~ msgid "Upload images to Flickr"
-#~ msgstr "Запампоўванне выяў на Flickr"
-
-#~ msgid "Public photos"
-#~ msgstr "Агульнадаступныя фатаграфіі"
-
-#~ msgid "Private photos, visible to family and friends"
-#~ msgstr "Прыватныя фатаграфіі, бачныя сям'і і сябрам"
-
-#~ msgid "Private photos, visible to friends"
-#~ msgstr "Прыватныя фатаграфіі, бачныя сябрам"
-
-#~ msgid "Private photos, visible to family"
-#~ msgstr "Прыватныя фатаграфіі, бачныя сям'і"
-
-#~ msgid "Private photos"
-#~ msgstr "Прыватныя фатаграфіі"
-
-#~ msgid "Moderate content"
-#~ msgstr "Умеранае змесціва"
-
-#~ msgid "_Account:"
-#~ msgstr "_Уліковы запіс:"
-
-#~ msgid "Edit accounts"
-#~ msgstr "Рэдагаваць уліковыя запісы"
-
-#~ msgid "Ph_otoset:"
-#~ msgstr "_Набор фатаграфій:"
-
-#~ msgid "_Privacy:"
-#~ msgstr "_Прыватнасць:"
-
-#~ msgid "_Safety:"
-#~ msgstr "_Бяспечнасць:"
-
-#~ msgid "Hi_de from public searches"
-#~ msgstr "С_хаваць для агульнадаступнага пошуку"
-
-#~ msgid "_Resize if larger than:"
-#~ msgstr "_Змяніць памер, калі больш за:"
-
-#~ msgid "A_ccount:"
-#~ msgstr "У_ліковы запіс:"
-
-#~ msgid "Could not connect to the server"
-#~ msgstr "Не ўдалося злучыцца з серверам"
-
-#~ msgid "Files successfully uploaded to the server."
-#~ msgstr "Файлы паспяхова запампаваны на сервер."
-
-#~ msgid "_Open in the Browser"
-#~ msgstr "_Адкрыць праз браўзер"
-
-#~ msgid "Could not create the album"
-#~ msgstr "Не ўдалося стварыць альбом"
-
-#~ msgid "Could not upload the files"
-#~ msgstr "Не ўдалося запампаваць файлы"
-
-#~ msgid "Could not export the files"
-#~ msgstr "Не ўдалося экспартаваць файлы"
-
-#, c-format
-#~ msgid "Export to %s"
-#~ msgstr "Экспартаваць у %s"
-
-#, c-format
-#~ msgid "%d file"
-#~ msgid_plural "%d files"
-#~ msgstr[0] "%d файл"
-#~ msgstr[1] "%d файлы"
-#~ msgstr[2] "%d файлаў"
-
-#~ msgid "Could not get the photo list"
-#~ msgstr "Не ўдалося атрымаць спіс фатаграфій"
-
-#~ msgid "_Import"
-#~ msgstr "_Імпартаваць"
-
-#, c-format
-#~ msgid "Import from %s"
-#~ msgstr "Імпартаваць з %s"
-
-#~ msgid "Once you’re done, click the “Continue” button below."
-#~ msgstr ""
-#~ "Калі ўсё будзе гатова, націсніце на ніжэйразмешчаную кнопку «Працягнуць»."
-
-#~ msgid "C_ontinue"
-#~ msgstr "_Працягнуць"
-
-#~ msgid "_Authorize…"
-#~ msgstr "_Аўтарызавацца…"
-
-#~ msgid "Getting the album list"
-#~ msgstr "Атрыманне спіса альбомаў"
-
-#~ msgid "Creating the new album"
-#~ msgstr "Стварэнне новага альбома"
-
-#, c-format
-#~ msgid "Could not upload “%s”: %s"
-#~ msgstr "Не ўдалося запампаваць «%s»: %s"
-
-#~ msgid "Uploading the files to the server"
-#~ msgstr "Запампоўванне файлаў на сервер"
-
-#~ msgid "Getting the photo list"
-#~ msgstr "Атрыманне спіса фатаграфій"
-
-#, c-format
-#~ msgid "Image saved as %s"
-#~ msgstr "Выява захавана як %s"
-
-#~ msgctxt "Filename"
-#~ msgid "Screenshot"
-#~ msgstr "Здымак экрана"
-
-#~ msgid "Could not take a screenshot"
-#~ msgstr "Не ўдалося зрабіць здымак экрана"
-
-#~ msgid "Use hardware acceleration"
-#~ msgstr "Выкарыстоўваць апаратнае паскарэнне"
-
-#~ msgid "_Screenshots location:"
-#~ msgstr "_Размяшчэнне здымкаў экрана:"
-
-#~ msgid "Restart when finished"
-#~ msgstr "Пасля завяршэння запускаць зноў"
-
-#~ msgid "Time:"
-#~ msgstr "Час:"
-
-#~ msgid "Audio/Video support"
-#~ msgstr "Падтрымка аўдыя і відэа"
-
-#~ msgid "Play audio and video files."
-#~ msgstr "Прайграванне аўдыя- і відэафайлаў."
-
-#~ msgid "Playing video"
-#~ msgstr "Прайграванне відэа"
-
-#~ msgid "Fit to window"
-#~ msgstr "Пад памер акна"
-
-#~ msgid "Bitrate"
-#~ msgstr "Бітрэйт"
-
-#~ msgid "Codec"
-#~ msgstr "Кодэк"
-
-#, c-format
-#~ msgid "%d × %d"
-#~ msgstr "%d × %d"
-
-#~ msgid "Could not print the selected files"
-#~ msgstr "Не ўдалося надрукаваць вылучаныя файлы"
-
-#~ msgid "Centered"
-#~ msgstr "Па цэнтры"
-
-#~ msgid "Custom"
-#~ msgstr "Адвольны"
-
-#~ msgid "The current page number"
-#~ msgstr "Нумар бягучай старонкі"
-
-#~ msgid "The total number of pages"
-#~ msgstr "Агульная колькасць старонак"
-
-#~ msgid "Special code"
-#~ msgstr "Спецыяльны код"
-
-#~ msgid "%D{ format }"
-#~ msgstr "%D{ фармат }"
-
-#~ msgid "The current date"
-#~ msgstr "Бягучая дата"
-
-#~ msgid "The total number of files"
-#~ msgstr "Агульная колькасць файлаў"
-
-#~ msgid "The event description"
-#~ msgstr "Апісанне падзеі"
-
-#~ msgid "Position:"
-#~ msgstr "Пазіцыя:"
-
-#~ msgid "Rotation:"
-#~ msgstr "Паварот:"
-
-#~ msgid "Fonts"
-#~ msgstr "Шрыфты"
-
-#~ msgid "Select Caption Font"
-#~ msgstr "Выберыце шрыфт подпісаў"
-
-#~ msgid "Select Header Font"
-#~ msgstr "Выберыце шрыфт верхняга калонтытула"
-
-#~ msgid "Select Footer Font"
-#~ msgstr "Выберыце шрыфт ніжняга калонтытула"
-
-#~ msgid "Total number of files"
-#~ msgstr "Агульная колькасць файлаў"
-
-#~ msgid "Event description"
-#~ msgstr "Апісанне падзеі"
-
-#, c-format
-#~ msgid "Page %d of %d"
-#~ msgstr "Старонка %d з %d"
-
-#~ msgid "Could not print"
-#~ msgstr "Не ўдалося надрукаваць"
-
-#~ msgid "Loading images"
-#~ msgstr "Загрузка выяў"
-
-#, fuzzy
-#~ msgid "Image print"
-#~ msgstr "ext"
-
-#, fuzzy
-#~ msgid "Allow to print images choosing the page layout."
-#~ msgstr "extent"
-
-#~ msgid "Image rotation"
-#~ msgstr "Паварот выявы"
-
-#~ msgid "Rotate images without data loss."
-#~ msgstr "Паварот выявы без страты якасці."
-
-#~ msgid "Zoom to fit width if larger"
-#~ msgstr "Маштабаваць, каб дапасаваць па шырыні, калі больш"
-
-#~ msgid "Zoom to fit height if larger"
-#~ msgstr "Маштабаваць, каб дапасаваць па вышыні, калі больш"
-
-#~ msgid "Undo edit"
-#~ msgstr "Адрабіць змену"
-
-#~ msgid "Redo edit"
-#~ msgstr "Паўтарыць скасаваную змену"
-
-#~ msgid "After loading an image:"
-#~ msgstr "Пасля загрузкі выявы:"
-
-#~ msgid "Fit to window if larger"
-#~ msgstr "Пад памер акна, калі больш"
-
-#~ msgid "Fit to width"
-#~ msgstr "Па шырыні"
-
-#~ msgid "Fit to width if larger"
-#~ msgstr "Па шырыні, калі больш"
-
-#~ msgctxt "zoom quality"
-#~ msgid "Zoom image"
-#~ msgstr "Маштабаванне выявы"
-
-#~ msgid "Zoom quality:"
-#~ msgstr "Якасць маштабавання:"
-
-#~ msgid "Gray"
-#~ msgstr "Шэры"
-
-#~ msgid "Fit to height"
-#~ msgstr "Па вышыні"
-
-#~ msgid "Paste Image"
-#~ msgstr "Уставіць выяву"
-
-#~ msgid "Apply the embedded color profile"
-#~ msgstr "Ужыць убудаваны колеравы профіль"
-
-#~ msgid "Save Image"
-#~ msgstr "Захаваць выяву"
-
-#~ msgid "Loading the original image"
-#~ msgstr "Загрузка зыходнай выявы"
-
-#~ msgid "Scroll Image"
-#~ msgstr "Прагортка выявы"
-
-#~ msgid "Image Editor"
-#~ msgstr "Рэдактар выявы"
-
-#~ msgid "_Destination"
-#~ msgstr "_Месца прызначэння"
-
-#~ msgid "No file imported"
-#~ msgstr "Файлы не імпартаваны"
-
-#~ msgid "The selected files are already present in the destination."
-#~ msgstr "Выбраныя файлы ўжо існуюць у месцы прызначэння."
-
-#~ msgid "Could not delete the files"
-#~ msgstr "Не ўдалося выдаліць файлы"
-
-#~ msgid "Delete operation not supported."
-#~ msgstr "Аперацыя выдалення не падтрымліваецца."
-
-#~ msgid "No file specified."
-#~ msgstr "Файл не вызначаны."
-
-#, c-format
-#~ msgid ""
-#~ "Not enough free space in “%s”.\n"
-#~ "%s of space is required but only %s is available."
-#~ msgstr ""
-#~ "Недастаткова вольнай прасторы на «%s».\n"
-#~ "Патрабуецца %s прасторы, але даступна толькі %s."
-
-#~ msgid "Co_mmands:"
-#~ msgstr "Ка_манды:"
-
-#~ msgid "_Terminal command (shell script)"
-#~ msgstr "Каманда _тэрмінала (сцэнарый абалонкі)"
-
-#~ msgid "Sh_ortcut:"
-#~ msgstr "Спалучэнне _клавіш:"
-
-#~ msgid "_Command:"
-#~ msgstr "_Каманда:"
-
-#~ msgid "Edit command"
-#~ msgstr "Змяніць каманду"
-
-#~ msgid "New Command"
-#~ msgstr "Новая каманда"
-
-#~ msgid "Edit Command"
-#~ msgstr "Змяніць каманду"
-
-#~ msgid "Are you sure you want to delete the selected command?"
-#~ msgstr "Сапраўды выдаліць выбраную каманду?"
-
-#, c-format
-#~ msgid "No command specified"
-#~ msgstr "Каманда не вызначана"
-
-#~ msgid "Map"
-#~ msgstr "Карта"
-
-#~ msgid "View the photo position on the map"
-#~ msgstr "Паглядзець месца фатаграфіі на карце"
-
-#~ msgid "A_ccounts:"
-#~ msgstr "_Уліковыя запісы:"
-
-#~ msgid "Loading…"
-#~ msgstr "Загрузка…"
-
-#~ msgid "New authentication…"
-#~ msgstr "Новая аўтэнтыфікацыя…"
-
-#~ msgid "Authorization Required"
-#~ msgstr "Патрабуецца аўтарызацыя"
-
-#~ msgid "Choose _Account…"
-#~ msgstr "Выберыце ўліковы _запіс…"
-
-#~ msgid "Choose Account"
-#~ msgstr "Выберыце ўліковы запіс"
-
-#~ msgid "Edit Accounts"
-#~ msgstr "Рэдагаваць уліковыя запісы"
-
-#~ msgid "Connecting to the server"
-#~ msgstr "Злучэнне з серверам"
-
-#~ msgid "Asking authorization"
-#~ msgstr "Запыт аўтарызацыі"
-
-#~ msgid "Getting account information"
-#~ msgstr "Атрыманне інфармацыі пра ўліковы запіс"
-
-#~ msgid "Choose a folder"
-#~ msgstr "Выберыце папку"
-
-#~ msgid "_Removable Device…"
-#~ msgstr "_Здымная прылада…"
-
-#~ msgid "F_older…"
-#~ msgstr "П_апка…"
-
-#~ msgid "I_mport From"
-#~ msgstr "_Імпартаваць з"
-
-#~ msgid "After importing from a device:"
-#~ msgstr "Пасля імпартавання з прылады:"
-
-#~ msgid "_Rotate the images physically"
-#~ msgstr "_Павярнуць выяву фізічна"
-
-#~ msgid "S_how:"
-#~ msgstr "_Паказваць:"
-
-#~ msgid "_Event:"
-#~ msgstr "_Падзея:"
-
-#~ msgid "Could not import the files"
-#~ msgstr "Не ўдалося імпартаваць файлы"
-
-#, c-format
-#~ msgid "Files to import: %d (%s)"
-#~ msgstr "Файлы для імпартавання: %d (%s)"
-
-#~ msgid "Could not load the folder"
-#~ msgstr "Не ўдалося загрузіць папку"
-
-#~ msgid "Getting the folder content…"
-#~ msgstr "Атрыманне змесціва папкі…"
-
-#~ msgid "Import from Removable Device"
-#~ msgstr "Імпартаваць са здымнай прылады"
-
-#~ msgid "Import from Folder"
-#~ msgstr "Імпартаваць з папкі"
-
-#~ msgid "Import photos"
-#~ msgstr "Імпартаванне фатаграфій"
-
-#~ msgid "Import photos from removable devices."
-#~ msgstr "Імпартаванне фатаграфій са здымных прылад."
-
-#~ msgid "RAW Format"
-#~ msgstr "Фармат RAW"
-
-#~ msgid "Raw format support"
-#~ msgstr "Падтрымка фармату RAW"
-
-#~ msgid "Allow to load raw format images."
-#~ msgstr "Дазваляе загружаць выявы ў фармаце raw."
-
-#~ msgid "Red Eye Removal"
-#~ msgstr "Выдаленне чырвоных вачэй"
-
-#~ msgid "Remove the red eye effect caused by camera flashes"
-#~ msgstr "Выдаліць эфект чырвоных вачэй, які ўзнікае ад успышкі фотаапарата"
-
-#~ msgid "Red-eye removal"
-#~ msgstr "Выдаленне чырвоных вачэй"
-
-#~ msgid "Tool to remove the red-eye effect from a photo."
-#~ msgstr "Інструмент для выдалення з фатаграфіі эфекту чырвоных вачэй."
-
-#~ msgid "_Sort by:"
-#~ msgstr "_Сартаванне:"
-
-#~ msgid "Cas_e:"
-#~ msgstr "_Рэгістр:"
-
-#~ msgid "Revert to the last used template"
-#~ msgstr "Вярнуцца да апошняга выкарыстанага шаблона"
-
-#~ msgid "_Preview:"
-#~ msgstr "_Папярэдні прагляд:"
-
-#~ msgid "Original enumerator"
-#~ msgstr "Зыходны нумар"
-
-#~ msgid "Modification date"
-#~ msgstr "Дата змянення"
-
-#~ msgid "Could not rename the files"
-#~ msgstr "Не ўдалося перайменаваць файлы"
-
-#~ msgid "New Name"
-#~ msgstr "Новая назва"
-
-#~ msgid "Keep original case"
-#~ msgstr "Захаваць зыходны рэгістр"
-
-#~ msgid "Convert to upper-case"
-#~ msgstr "Пераўтварыць у _верхні рэгістр"
-
-#~ msgid "Renaming files"
-#~ msgstr "Перайменаванне файлаў"
-
-#~ msgid "Rename series of files."
-#~ msgstr "Групавое перайменаванне файлаў."
-
-#~ msgid "Resize Images…"
-#~ msgstr "Змяніць памер выяў…"
-
-#~ msgid "pixel"
-#~ msgstr "піксель"
-
-#~ msgid "New dimensions"
-#~ msgstr "Новыя памеры"
-
-#~ msgid "_Height:"
-#~ msgstr "_Вышыня:"
-
-#~ msgid "Resize images"
-#~ msgstr "Змяненне памеру выяў"
-
-#~ msgid "Resize series of images."
-#~ msgstr "Групавое змяненне памеру выяў."
-
-#~ msgid "Could not perform the search"
-#~ msgstr "Не ўдалося выканаць пошук"
-
-#~ msgid "Search Result"
-#~ msgstr "Вынікі пошуку"
-
-#~ msgid "all the following rules"
-#~ msgstr "усім наступным правілам"
-
-#~ msgid "any of the following rules"
-#~ msgstr "любому з наступных правіл"
-
-#~ msgid "Add another location"
-#~ msgstr "Дадаць іншае размяшчэнне"
-
-#, c-format
-#~ msgid "Files found so far: %s"
-#~ msgstr "Знойдзена файлаў: %s"
-
-#~ msgid "Searching…"
-#~ msgstr "Пошук…"
-
-#~ msgid "Cancel the operation"
-#~ msgstr "Скасаваць аперацыю"
-
-#~ msgid "File search tool."
-#~ msgstr "Інструмент для пошуку файлаў."
-
-#~ msgid "Remove from selection"
-#~ msgstr "Выдаліць з выбранае"
-
-#~ msgid "Advanced file selection."
-#~ msgstr "Пашыраны выбар файлаў."
-
-#~ msgid "Start presentation"
-#~ msgstr "Пачаць прэзентацыю"
-
-#~ msgid "Terminate presentation"
-#~ msgstr "Завяршыць прэзентацыю"
-
-#~ msgid "Pause/Resume presentation"
-#~ msgstr "Прыпыніць/Узнавіць прэзентацыю"
-
-#~ msgid "Show next file"
-#~ msgstr "Паказаць наступны файл"
-
-#~ msgid "Show previous file"
-#~ msgstr "Паказаць папярэдні файл"
-
-#~ msgctxt "Every x seconds"
-#~ msgid "seconds"
-#~ msgstr "секунд"
-
-#~ msgid "Playlist"
-#~ msgstr "Спіс прайгравання"
-
-#~ msgid "Add files to the playlist"
-#~ msgstr "_Дадаць файлы ў спіс прайгравання"
-
-#~ msgid "Remove the selected files"
-#~ msgstr "Выдаліць выбраныя файлы"
-
-#~ msgid "Random"
-#~ msgstr "Выпадкова"
-
-#~ msgid "Fade in"
-#~ msgstr "Згасанне"
-
-#~ msgid "Play a presentation of images."
-#~ msgstr "Запуск прэзентацыі з выяў."
-
-#~ msgid "Open a folder in a terminal"
-#~ msgstr "Адкрыць папку ў тэрмінале"
-
-#~ msgid "_Web Album…"
-#~ msgstr "_Вэб-альбом…"
-
-#~ msgid "Click to view the image"
-#~ msgstr "Націсніце сюды, каб праглядзець выяву"
-
-#, c-format
-#~ msgid "Image %d of %d"
-#~ msgstr "Выява %d з %d"
-
-#, c-format
-#~ msgid "View page %d"
-#~ msgstr "Прагляд старонкі %d"
-
-#~ msgid "View the next image"
-#~ msgstr "Прагляд наступнай выявы"
-
-#~ msgid "View the next page"
-#~ msgstr "Прагляд наступнай старонкі"
-
-#~ msgid "View the previous image"
-#~ msgstr "Прагляд папярэдняй выявы"
-
-#~ msgid "View the previous page"
-#~ msgstr "Прагляд папярэдняй старонкі"
-
-#~ msgid "All images on a single image"
-#~ msgstr "Усе выявы на адной выяве"
-
-#~ msgid "Adapts to the window width"
-#~ msgstr "Дапасаваць да шырыні акна"
-
-#~ msgid "_Copy originals to destination"
-#~ msgstr "_Скапіяваць зыходныя ў месца прызначэння"
-
-#~ msgid "_Adapt to the window width "
-#~ msgstr "_Дапасаваць да шырыні акна "
-
-#~ msgid "Image Page"
-#~ msgstr "Старонка выявы"
-
-#~ msgid "Image Attributes"
-#~ msgstr "Атрыбуты выявы"
-
-#~ msgid "Current image number"
-#~ msgstr "Нумар бягучай выявы"
-
-#~ msgid "Total number of images"
-#~ msgstr "Агульная колькасць выяў"
-
-#~ msgid "Original filename"
-#~ msgstr "Зыходная назва файла"
-
-#~ msgid "Web Album"
-#~ msgstr "Вэб-альбом"
-
-#~ msgid "Malformed command"
-#~ msgstr "Каманда няправільнага фармату"
-
-#~ msgid "Could not show the destination"
-#~ msgstr "Не ўдалося паказаць апісанне"
-
-#~ msgid "The album has been created successfully."
-#~ msgstr "Альбом паспяхова створаны."
-
-#~ msgid "Saving thumbnails"
-#~ msgstr "Захаванне мініяцюр"
-
-#~ msgid "Saving HTML pages: Images"
-#~ msgstr "Захаванне старонак HTML: выявы"
-
-#~ msgid "Saving HTML pages: Indexes"
-#~ msgstr "Захаванне старонак HTML: індэксы"
-
-#~ msgid "Copying original images"
-#~ msgstr "Капіяванне зыходных выяў"
-
-#~ msgid "Could not find the style folder"
-#~ msgstr "Не ўдалося знайсці папку стыляў"
-
-#~ msgid "Could not create a temporary folder"
-#~ msgstr "Не ўдалося стварыць часовую папку"
-
-#~ msgid "Web Albums"
-#~ msgstr "Вэб-альбомы"
-
-#~ msgid "Create static web albums."
-#~ msgstr "Стварэнне статычных вэб-альбомаў."
-
-#, c-format
-#~ msgid "Could not load the position “%s”"
-#~ msgstr "Не ўдалося загрузіць пазіцыю «%s»"
-
-#~ msgid "New Filter"
-#~ msgstr "Новы фільтр"
-
-#~ msgctxt "Extensions"
-#~ msgid "All"
-#~ msgstr "Усе"
-
-#~ msgctxt "Extensions"
-#~ msgid "Enabled"
-#~ msgstr "Уключана"
-
-#~ msgid "Viewers"
-#~ msgstr "Прагляд"
-
-#~ msgid "File tools"
-#~ msgstr "Праца з файламі"
-
-#~ msgid "List tools"
-#~ msgstr "Праца са спісамі"
-
-#~ msgid "Importers"
-#~ msgstr "Імпарт"
-
-#~ msgid "Exporters"
-#~ msgstr "Экспарт"
-
-#~ msgid "Could not activate the extension"
-#~ msgstr "Не ўдалося ўключыць пашырэнне"
-
-#~ msgid "Could not deactivate the extension"
-#~ msgstr "Не ўдалося адключыць пашырэнне"
-
-#~ msgid "gThumb Development Team"
-#~ msgstr "Каманда распрацоўкі gThumb"
-
-#~ msgid "Extensions"
-#~ msgstr "Пашырэнні"
-
-#~ msgid "Restart required"
-#~ msgstr "Патрабуецца перазапуск"
-
-#~ msgid "Do you want to revert all the changes and use the default shortcuts?"
-#~ msgstr ""
-#~ "Адмяніць усе змены і выкарыстоўваць прадвызначаныя спалучэнні клавіш?"
-
-#, c-format
-#~ msgid "%s of %s"
-#~ msgstr "%s з %s"
-
-#, c-format
-#~ msgid "Moving “%s” to “%s”"
-#~ msgstr "Перамяшчэнне «%s» у «%s»"
-
-#, c-format
-#~ msgid "Copying “%s” to “%s”"
-#~ msgstr "Капіяванне «%s» у «%s»"
-
-#~ msgid "Getting file information"
-#~ msgstr "Атрыманне інфармацыі пра файл"
-
-#~ msgid "Moving files to trash"
-#~ msgstr "Перамяшчэнне файлаў у сметніцу"
-
-#~ msgid "Start in fullscreen mode"
-#~ msgstr "Запусціць у поўнаэкранным рэжыме"
-
-#~ msgid "Automatically start a presentation"
-#~ msgstr "Аўтаматычны запуск прэзентацыі"
-
-#~ msgid "Automatically import digital camera photos"
-#~ msgstr "Аўтаматычна імпартаваць фатаграфіі з лічбавага фотаапарата"
-
-#~ msgid "Save image as"
-#~ msgstr "Захаваць выяву як"
-
-#~ msgid "Statusbar"
-#~ msgstr "Радок стану"
-
-#~ msgid "Thumbnails list"
-#~ msgstr "Спіс мініяцюр"
-
-#~ msgid "Load previous location"
-#~ msgstr "Загрузіць папярэдняе размяшчэнне"
-
-#~ msgid "Load next location"
-#~ msgstr "Загрузіць наступнае размяшчэнне"
-
-#~ msgid "Load parent folder"
-#~ msgstr "Загрузіць бацькоўскую папку"
-
-#~ msgid "Load home"
-#~ msgstr "Загрузіць хатнюю папку"
-
-#~ msgid "Reload location"
-#~ msgstr "Перачытаць размяшчэнне"
-
-#~ msgid "Show/Hide hidden files"
-#~ msgstr "Паказаць/схаваць схаваныя файлы"
-
-#~ msgid "Change sorting order"
-#~ msgstr "Змяніць парадак сартавання"
-
-#~ msgid "Show first file"
-#~ msgstr "Паказаць першы файл"
-
-#~ msgid "Show last file"
-#~ msgstr "Паказаць апошні файл"
-
-#~ msgid "Select none"
-#~ msgstr "Зняць вылучэнне"
-
-#~ msgid "All"
-#~ msgstr "Усе"
-
-#, c-format
-#~ msgid "%d file selected (%s)"
-#~ msgid_plural "%d files selected (%s)"
-#~ msgstr[0] "выбран %d файл (%s)"
-#~ msgstr[1] "выбрана %d файлы (%s)"
-#~ msgstr[2] "выбрана %d файлаў (%s)"
-
-#, c-format
-#~ msgid "No suitable module found for %s"
-#~ msgstr "Прыдатны модуль для %s не знойдзены"
-
-#, c-format
-#~ msgid "Save changes to file “%s”?"
-#~ msgstr "Захаваць змены ў файл «%s»?"
-
-#~ msgid "Do _Not Save"
-#~ msgstr "_Не захоўваць"
-
-#~ msgid "Accept"
-#~ msgstr "Прыняць"
-
-#~ msgid "Could not change name"
-#~ msgstr "Не ўдалося змяніць назву"
-
-#~ msgid "Go to the previous visited location"
-#~ msgstr "Перайсці да папярэдняга наведанага месца"
-
-#~ msgid "Go to the next visited location"
-#~ msgstr "Перайсці да наступнага наведанага месца"
-
-#~ msgid "Edit file"
-#~ msgstr "Змяніць файл"
-
-#, c-format
-#~ msgid "No suitable module found"
-#~ msgstr "Прыдатны модуль не знойдзены"
-
-#, c-format
-#~ msgid "Could not open the module “%s”: %s"
-#~ msgstr "Не ўдалося адкрыць модуль «%s»: %s"
-
-#, c-format
-#~ msgid "The extension “%1$s” is required by the extension “%2$s”"
-#~ msgstr "Пашырэнню «%2$s» патрабуецца пашырэнне «%1$s»"
-
-#~ msgid "All Supported Files"
-#~ msgstr "Усе вядомыя файлы"
-
-#~ msgid "_Show Format Options"
-#~ msgstr "_Паказаць параметры фармату"
-
-#~ msgid "No file"
-#~ msgstr "Няма файлаў"
-
-#~ msgid "Could not move the files to the Trash"
-#~ msgstr "Не ўдалося перамясіць файлы ў сметніцу"
-
-#, c-format
-#~ msgid "Are you sure you want to permanently delete “%s”?"
-#~ msgstr "Сапраўды незваротна выдаліць «%s»?"
-
-#, c-format
-#~ msgid "Are you sure you want to permanently delete the %'d selected file?"
-#~ msgid_plural ""
-#~ "Are you sure you want to permanently delete the %'d selected files?"
-#~ msgstr[0] "Сапраўды незваротна выдаліць %'d вылучаны файл?"
-#~ msgstr[1] "Сапраўды незваротна выдаліць %'d вылучаныя файлы?"
-#~ msgstr[2] "Сапраўды незваротна выдаліць %'d вылучаных файлаў?"
-
-#~ msgid "If you delete a file, it will be permanently lost."
-#~ msgstr "Калі вы выдаліце гэты файл, ён будзе назаўсёды страчаны."
-
-#, c-format
-#~ msgid "No limit specified"
-#~ msgstr "Абмежаванне не вызначана"
-
-#~ msgid "(Open Parent)"
-#~ msgstr "(Адкрыць бацькоўскую)"
-
-#~ msgid "Enter the new name:"
-#~ msgstr "Увядзіце новую назву:"
-
-#~ msgid "RGB"
-#~ msgstr "RGB"
-
-#~ msgid "Could not rename the file"
-#~ msgstr "Не ўдалося перайменаваць файл"
-
-#, c-format
-#~ msgid "Could not find a suitable module to save the image as “%s”"
-#~ msgstr "Не ўдалося знайсці прыдатны модуль для захавання файла як «%s»"
-
-#~ msgid "Modified Date & Time"
-#~ msgstr "Дата і час змянення"
-
-#~ msgid "Exposure Settings"
-#~ msgstr "Налады экспазіцыі"
-
-#~ msgid "General Date & Time"
-#~ msgstr "Агульныя дата і час"
-
-#~ msgid "file path"
-#~ msgstr "шлях файла"
-
-#~ msgid "file size"
-#~ msgstr "памер файла"
-
-#~ msgid "no sorting"
-#~ msgstr "без сартавання"
-
-#~ msgid "dimensions"
-#~ msgstr "памеры"
-
-#~ msgid "aspect ratio"
-#~ msgstr "суадносіны бакоў"
-
-#~ msgid "JPEG Images"
-#~ msgstr "Выявы JPEG"
-
-#~ msgid "Raw Photos"
-#~ msgstr "Неапрацаваная фота"
-
-#~ msgid "Filename"
-#~ msgstr "Назва файла"
-
-#~ msgid "Title (embedded)"
-#~ msgstr "Загаловак (убудаваны)"
-
-#~ msgid "Description (embedded)"
-#~ msgstr "Апісанне (убудаванае)"
-
-#~ msgid "Show/Hide"
-#~ msgstr "Паказаць/схаваць"
-
-#~ msgid "Navigation"
-#~ msgstr "Навігацыя"
-
-#~ msgid "Overwrite"
-#~ msgstr "Перазапіс"
-
-#~ msgid "Saving file information"
-#~ msgstr "Захаванне інфармацыі"
-
-#, c-format
-#~ msgid "Saving “%s”"
-#~ msgstr "Захаванне «%s»"
-
-#~ msgid "Holidays"
-#~ msgstr "Выхадныя"
-
-#~ msgid "Temporary"
-#~ msgstr "Часовыя"
-
-#~ msgid "Science"
-#~ msgstr "Навука"
-
-#~ msgid "Favorite"
-#~ msgstr "Абраныя"
-
-#~ msgid "Important"
-#~ msgstr "Важныя"
-
-#~ msgid "GNOME"
-#~ msgstr "GNOME"
-
-#~ msgid "Games"
-#~ msgstr "Гульні"
-
-#~ msgid "Party"
-#~ msgstr "Вечарына"
-
-#~ msgid "Birthday"
-#~ msgstr "Дзень нараджэння"
-
-#~ msgid "Astronomy"
-#~ msgstr "Астраномія"
-
-#~ msgid "Family"
-#~ msgstr "Сям'я"
-
-#~ msgid "Day of the month"
-#~ msgstr "Дзень месяца"
-
-#~ msgid "is"
-#~ msgstr "роўна"
-
-#~ msgid "is only"
-#~ msgstr "толькі"
-
-#~ msgid "is not"
-#~ msgstr "не роўна"
-
-#~ msgid "Remove this rule"
-#~ msgstr "Выдаліць гэтае правіла"
-
-#~ msgid "Rotation"
-#~ msgstr "Паварот"
-
-#, c-format
-#~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s».  Do you "
-#~ "want to reassign it to this action instead?"
-#~ msgstr ""
-#~ "Спалучэнне клавіш «%s» ужо прывязана да дзеяння «%s».  Прывязаць яго да "
-#~ "гэтага дзеяння замест старога?"
-
-#~ msgid "Reassign"
-#~ msgstr "Прывязаць"
-
-#, c-format
-#~ msgid ""
-#~ "The key combination «%s» is already assigned to the action «%s» and "
-#~ "cannot be changed."
-#~ msgstr ""
-#~ "Спалучэнне клавіш «%s» ужо прывязана да дзеяння «%s» і не можа быць "
-#~ "зменена."
-
-#, c-format
-#~ msgid "The key combination «%s» is already assigned and cannot be changed."
-#~ msgstr ""
-#~ "Спалучэнне клавіш «%s» ужо прывязана да дзеяння і не можа быць зменена."
-
-#~ msgid "Could not display help"
-#~ msgstr "Не ўдалося паказаць даведку"
-
-#~ msgid "Could not launch the application"
-#~ msgstr "Не ўдалося запусціць праграму"
-
-#~ msgid "_Copy Here"
-#~ msgstr "_Скапіяваць сюды"
-
-#~ msgid "_Move Here"
-#~ msgstr "Пера_мясціць сюды"
-
-#~ msgid "_Link Here"
-#~ msgstr "С_тварыць спасылку сюды"
-
-#~ msgid "_Help"
-#~ msgstr "_Даведка"
-
-#~ msgid "_New"
-#~ msgstr "_Новы"
-
-#~ msgid "_Ok"
-#~ msgstr "_Ок"
-
-#~ msgid "_Remove"
-#~ msgstr "_Выдаліць"
-
-#~ msgid "Sort By…"
-#~ msgstr "Сартаванне…"
-
-#~ msgid "Open Location…"
-#~ msgstr "Адкрыць размяшчэнне…"
-
-#~ msgid "_About gThumb"
-#~ msgstr "_Аб праграме"
