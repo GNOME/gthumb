@@ -728,7 +728,7 @@ public class Gth.Application : Adw.Application {
 				"license-type", Gtk.License.GPL_2_0,
 				"translator-credits", _("translator-credits"),
 				"website", "https://gitlab.gnome.org/GNOME/gthumb/",
-				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/issues",
+				"issue-url", "https://gitlab.gnome.org/GNOME/gthumb/-/work_items",
 				"developers", developers
 			);
 		});
