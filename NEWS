@@ -1,3 +1,21 @@
+Version 4.0.1
+~~~~~~~~~~~~~
+Released: 2026-11-01
+
+Features:
+ * Added the general filter to the browser preferences as well
+
+Bugfixes:
+ * Tiff loader: crash when reading orientation tag
+ * ColorManager: crash when the monitor has no description
+ * Fixed opening remote locations from Nautilus
+
+Translations:
+ * Belarusian (Yuras Shumovich)
+ * German (Christian Kirbach)
+ * Hebrew (Yaron Shahrabani)
+ * Norwegian Nynorsk (Roy-Magne Mo)
+
 Version 4.0
 ~~~~~~~~~~~~~~~~~
 Released: 2026-09-27

@@ -69,6 +69,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="4.0.1" date="2026-11-01" type="stable">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Added the general filter to the browser preferences as well</li>
+        </ul>
+        <p>This release fixes the following bugs:</p>
+        <ul>
+          <li>Tiff loader: crash when reading orientation tag</li>
+          <li>ColorManager: crash when the monitor has no description</li>
+          <li>Fixed opening remote locations from Nautilus</li>
+        </ul>
+        <p>This release updates translations.</p>
+      </description>
+    </release>
     <release version="4.0" date="2026-09-27" type="stable">
       <description>
         <p>This release adds the following features:</p>
