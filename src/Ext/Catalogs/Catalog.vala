@@ -377,11 +377,16 @@ public class Gth.Catalog : Object {
 	public async void save_async (Cancellable cancellable) throws Error {
 		var previous_file = file;
 
-		// Update file
-		var extension = Util.get_extension (file.get_basename ());
-		var filename = Util.clear_for_filename (name) + "." + extension;
-		var parent = file.get_parent ();
-		file = parent.get_child_for_display_name (filename);
+		if (!Strings.empty (name)) {
+			// Update file from name
+			var extension = Util.get_extension (file.get_basename ());
+			var filename = Util.clear_for_filename (name) + "." + extension;
+			var parent = file.get_parent ();
+			file = parent.get_child_for_display_name (filename);
+		}
+		else if (file == null) {
+			throw new IOError.FAILED ("Catalog has no file");
+		}
 
 		// Save
 		var gio_file = Catalog.to_gio_file (file);
@@ -390,7 +395,7 @@ public class Gth.Catalog : Object {
 		yield Files.save_file_async (gio_file, bytes, cancellable);
 
 		// Delete the previous file if different
-		if (!file.equal (previous_file)) {
+		if ((previous_file != null) && !file.equal (previous_file)) {
 			try {
 				var previous_gio_file = Catalog.to_gio_file (previous_file);
 				yield previous_gio_file.delete_async (Priority.DEFAULT, cancellable);
