@@ -260,7 +260,7 @@ public class Gth.Catalog : Object {
 				break;
 
 			case "name":
-				name = child.get_inner_text ();
+				name = child.get_inner_text () ?? "";
 				break;
 			}
 		}
@@ -276,9 +276,7 @@ public class Gth.Catalog : Object {
 
 	public void save_catalog_to_doc (Dom.Element root) {
 		// Name
-		if (name != null) {
-			root.append_child (new Dom.Element.with_text ("name", name));
-		}
+		root.append_child (new Dom.Element.with_text ("name", name ?? ""));
 
 		// Date
 		if (date.is_valid ()) {
@@ -317,16 +315,19 @@ public class Gth.Catalog : Object {
 
 		// Display name
 		var display_name = new StringBuilder ();
-		if (name != null) {
+		var with_name = !Strings.empty (name);
+		if (with_name) {
 			display_name.append (name);
 		}
 		if (date.is_valid ()) {
-			if (display_name.len > 0) {
-				display_name.append (" ");
+			if (with_name) {
+				display_name.append (" (");
+				display_name.append (date.to_display_string ());
+				display_name.append (")");
 			}
-			display_name.append ("(");
-			display_name.append (date.to_display_string ());
-			display_name.append (")");
+			else {
+				display_name.append (date.to_display_string ());
+			}
 		}
 		if ((display_name.len == 0) && (file != null)) {
 			try {
