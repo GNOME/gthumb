@@ -61,6 +61,7 @@ public class Gth.DeviceDialog : Adw.Window {
 		devices.model.remove_all ();
 		var current_folder_included = false;
 		var mountable = new GenericList<FileData>();
+		var current_folder = window.browser.folder_tree.current_folder?.file;
 		FileSourceVfs.add_mountable_volumes (mountable);
 		foreach (var file_data in mountable) {
 			var action = new ActionInfo (
@@ -70,12 +71,12 @@ public class Gth.DeviceDialog : Adw.Window {
 				file_data.info.get_symbolic_icon ()
 			);
 			devices.model.append (action);
-			if (file_data.file.equal (window.browser.folder_tree.current_folder.file)) {
+			if ((current_folder != null) && file_data.file.equal (current_folder)) {
 				current_folder_included = true;
 			}
 		}
-		if (!current_folder_included) {
-			devices.model.append (new ActionInfo.for_file ("", window.browser.folder_tree.current_folder.file));
+		if (!current_folder_included && (current_folder != null)) {
+			devices.model.append (new ActionInfo.for_file ("", current_folder));
 		}
 		device_group.visible = devices.length () > 0;
 	}
