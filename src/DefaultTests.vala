@@ -7,7 +7,7 @@ public class Gth.TestVisible : Gth.Test {
 	}
 
 	public override bool match (FileData file) {
-		return file.info.get_is_hidden () == false;
+		return !(file.info.has_attribute (FileAttribute.STANDARD_IS_HIDDEN) && file.info.get_is_hidden ());
 	}
 }
 

@@ -478,7 +478,10 @@ public class Gth.FolderTree : Gtk.Box {
 		var folders = new GenericList<FileData> ();
 		foreach (unowned var file in all_children) {
 			if (file.info.get_file_type () == FileType.DIRECTORY) {
-				if (!_show_hidden && file.info.get_is_hidden ()) {
+				if (!_show_hidden
+					&& file.info.has_attribute (FileAttribute.STANDARD_IS_HIDDEN)
+					&& file.info.get_is_hidden ())
+				{
 					continue;
 				}
 				if (skip_nochild_folders && file.info.get_attribute_boolean ("gthumb::no-child")) {

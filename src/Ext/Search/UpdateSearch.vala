@@ -60,7 +60,10 @@ public class Gth.UpdateSearch {
 				yield source.foreach_child (folder.folder, flags, all_attr, job.cancellable, (child, is_parent) => {
 					var action = ForEachAction.CONTINUE;
 					if (is_parent) {
-						if (child.info.get_is_hidden () && !include_hidden) {
+						if (child.info.has_attribute (FileAttribute.STANDARD_IS_HIDDEN)
+							&& child.info.get_is_hidden ()
+							&& !include_hidden)
+						{
 							action = ForEachAction.SKIP;
 						}
 						else {

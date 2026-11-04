@@ -70,7 +70,9 @@ public class Gth.FileSourceCatalogs : Gth.FileSource {
 					if (info_list == null)
 						break;
 					foreach (var info in info_list) {
-						if (info.get_is_hidden ()) {
+						if (info.has_attribute (FileAttribute.STANDARD_IS_HIDDEN)
+							&& info.get_is_hidden ())
+						{
 							continue;
 						}
 						if (cancellable.is_cancelled ()) {

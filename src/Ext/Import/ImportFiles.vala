@@ -65,7 +65,9 @@ public class Gth.ImportFiles : Object {
 		yield source.foreach_child (folder, flags, attributes.str, job.cancellable, (child, is_parent) => {
 			var action = ForEachAction.CONTINUE;
 			if (is_parent) {
-				if (child.info.get_is_hidden ()) {
+				if (child.info.has_attribute (FileAttribute.STANDARD_IS_HIDDEN)
+					&& child.info.get_is_hidden ())
+				{
 					action = ForEachAction.SKIP;
 				}
 				else {
