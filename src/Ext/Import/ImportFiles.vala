@@ -107,6 +107,7 @@ public class Gth.ImporterDialog : Adw.Window {
 
 		var thumbnailer = new Thumbnailer.for_window (window);
 		thumbnailer.save_to_cache = false;
+		thumbnailer.set_active (true);
 		file_grid.thumbnailer = thumbnailer;
 		file_grid.thumbnail_size = window.browser.file_grid.thumbnail_size; //Thumbnailer.Size.NORMAL.to_pixels ();
 
