@@ -1151,14 +1151,16 @@ public class Gth.MainWindow : Gth.Window {
 
 		action = new SimpleAction ("remove-from-current-selection", null);
 		action.activate.connect ((_action, _params) => {
-			var is_selection = browser.folder_tree.current_folder.file.has_uri_scheme ("selection");
-			if (is_selection) {
-				var files = get_selected_files ();
-				if (files.is_empty ()) {
-					show_error (new IOError.FAILED (_("No files selected")));
-					return;
+			if (browser.folder_tree.current_folder != null) {
+				var selection = app.selections.get_selection_from_file (browser.folder_tree.current_folder.file);
+				if (selection != null) {
+					var files = get_selected_files ();
+					if (files.is_empty ()) {
+						show_error (new IOError.FAILED (_("No files selected")));
+						return;
+					}
+					selection.remove_files (files);
 				}
-				remove_files (files);
 			}
 		});
 		action_group.add_action (action);

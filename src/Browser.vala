@@ -1821,6 +1821,7 @@ public class Gth.Browser : Gtk.Box {
 			file_filter.after_removing_files ();
 			update_total_files ();
 			update_selection_info ();
+			window.viewer.files_removed_from_catalog (files);
 		}
 	}
 

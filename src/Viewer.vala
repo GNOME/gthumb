@@ -554,7 +554,7 @@ public class Gth.Viewer : Gtk.Box {
 		return selected_files;
 	}
 
-	public void files_deleted_from_disk (GenericList<File> files) {
+	void files_removed_from_current_location (GenericList<File> files) {
 		if (current_file == null) {
 			return;
 		}
@@ -566,7 +566,21 @@ public class Gth.Viewer : Gtk.Box {
 		if (window.current_page == MainWindow.Page.BROWSER) {
 			current_file = null;
 		}
-		else if (!window.browser.view_position (position)) {
+		else {
+			reload_current_position ();
+		}
+	}
+
+	public void files_deleted_from_disk (GenericList<File> files) {
+		files_removed_from_current_location (files);
+	}
+
+	public void files_removed_from_catalog (GenericList<File> files) {
+		files_removed_from_current_location (files);
+	}
+
+	public void reload_current_position () {
+		if (!window.browser.view_position (position)) {
 			if (!window.browser.view_last_file ()) {
 				window.set_page.begin (MainWindow.Page.BROWSER);
 			}
