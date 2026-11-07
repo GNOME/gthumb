@@ -1042,55 +1042,6 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect (() => reload ());
 		action_group.add_action (action);
 
-		action = new SimpleAction ("cut-files", null);
-		action.activate.connect (() => {
-			var files = file_grid.get_selected_files ();
-			window.cut_files_to_clipboard (files);
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("paste-files", null);
-		action.activate.connect (() => {
-			var local_job = window.new_job (_("Pasting Files"), JobFlags.FOREGROUND);
-			paste_files_from_clipboard.begin (folder_tree.current_folder.file, local_job, (_obj, res) => {
-				try {
-					paste_files_from_clipboard.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("duplicate-files", null);
-		action.activate.connect (() => {
-			if (!(folder_tree.current_source is FileSourceVfs)) {
-				window.show_error (new IOError.FAILED (_("Cannot move files here")));
-				return;
-			}
-			var files = file_grid.get_selected_files ();
-			if (files.is_empty ()) {
-				return;
-			}
-			var local_job = window.new_job (_("Duplicating Files"), JobFlags.FOREGROUND);
-			window.file_manager.duplicate_files.begin (files, folder_tree.current_folder.file, local_job, (_obj, res) => {
-				try {
-					window.file_manager.duplicate_files.end (res);
-				}
-				catch (Error error) {
-					window.show_error (error);
-				}
-				finally {
-					local_job.done ();
-				}
-			});
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction ("file-list-select-all", null);
 		action.activate.connect (() => {
 			grid_model.select_all ();
@@ -1109,41 +1060,9 @@ public class Gth.Browser : Gtk.Box {
 		action.activate.connect (() => edit_file ());
 		action_group.add_action (action);
 
-		action = new SimpleAction ("add-to-catalog", null);
-		action.activate.connect (() => add_to_catalog.begin ());
-		action_group.add_action (action);
-
-		action = new SimpleAction ("remove-from-catalog", null);
-		action.activate.connect (() => remove_from_catalog ());
-		action_group.add_action (action);
-
 		action = new SimpleAction.stateful ("reorder-files", null, new Variant.boolean (false));
 		action.activate.connect ((_action, _params) => {
 			activate_reordering (Util.toggle_state (_action));
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("add-to-selection", VariantType.STRING);
-		action.activate.connect ((_action, _params) => {
-			add_to_selection (uint.parse (_params.get_string (), 10));
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("remove-from-selection", VariantType.INT32);
-		action.activate.connect ((_action, _params) => {
-			remove_from_selection ((uint) _params.get_int32 ());
-		});
-		action_group.add_action (action);
-
-		action = new SimpleAction ("remove-from-current-selection", null);
-		action.activate.connect ((_action, _params) => {
-			var is_selection = folder_tree.current_folder.file.has_uri_scheme ("selection");
-			if (is_selection) {
-				var files = file_grid.get_selected_files ();
-				if (!files.is_empty ()) {
-					window.remove_files (files);
-				}
-			}
 		});
 		action_group.add_action (action);
 
@@ -1229,9 +1148,9 @@ public class Gth.Browser : Gtk.Box {
 		action = new SimpleAction ("paste", null);
 		action.activate.connect ((_action, param) => {
 			var local_job = window.new_job (_("Pasting Files"), JobFlags.FOREGROUND);
-			paste_files_from_clipboard.begin (folder_tree.context_file.file, local_job, (_obj, res) => {
+			window.paste_files_from_clipboard.begin (folder_tree.context_file.file, local_job, (_obj, res) => {
 				try {
-					paste_files_from_clipboard.end (res);
+					window.paste_files_from_clipboard.end (res);
 				}
 				catch (Error error) {
 					window.show_error (error);
@@ -2087,37 +2006,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	async void paste_files_from_clipboard (File destination, Job job) throws Error {
-		unowned var clipboard = get_clipboard ();
-		unowned string mime_type;
-		var stream = yield clipboard.read_async (
-			{ "text/uri-list", "gthumb/cut-files" },
-			Priority.DEFAULT,
-			job.cancellable,
-			out mime_type);
-		var bytes = yield Files.read_all_async (stream, job.cancellable);
-		unowned var data_as_string = (string) bytes.get_data ();
-		var text = data_as_string.substring (0, bytes.length);
-		//stdout.printf ("> text: '%s'\n", text);
-		//stdout.printf ("> type: '%s'\n", mime_type);
-		var uris = text.split_set ("\n\r");
-		var files = new GenericList<File> ();
-		foreach (unowned var uri in uris) {
-			//stdout.printf ("> URI: %s\n", uri);
-			files.model.append (File.new_for_uri (uri));
-		}
-		var source = app.get_source_for_file (destination);
-		if (mime_type == "gthumb/cut-files") {
-			if (!(source is FileSourceVfs)) {
-				throw new IOError.FAILED (_("Cannot move files here"));
-			}
-			yield window.file_manager.move_files (files, destination, job);
-		}
-		else {
-			yield source.add_files (window, destination, files, job);
-		}
-	}
-
 	public async void metadata_changed (File changed_file) {
 		// stdout.printf ("> BROWSER: METADATA CHANGED: %s\n", changed_file.get_uri ());
 		var iter = folder_tree.current_children.iterator ();
@@ -2352,40 +2240,6 @@ public class Gth.Browser : Gtk.Box {
 		}
 	}
 
-	async void add_to_catalog () {
-		var files = file_grid.get_selected_files ();
-		if (files.is_empty ()) {
-			return;
-		}
-		var local_job = window.new_job ("Add to Catalog");
-		try {
-			var selector = new Gth.FolderSelector (FolderSelectorMode.CATALOGS_ONLY | FolderSelectorMode.FOR_COPYING);
-			selector.show_destination = app.settings.get_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION);
-			var last_catalog = Settings.get_file (app.settings, PREF_BROWSER_LAST_CATALOG);
-			var catalog_file = yield selector.select_folder (window, last_catalog, local_job);
-			yield Catalog.add_files (catalog_file, files, local_job);
-			app.settings.set_string (PREF_BROWSER_LAST_CATALOG, catalog_file.get_uri ());
-			app.settings.set_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION, selector.show_destination);
-			if (selector.show_destination) {
-				yield open_location_async (catalog_file);
-			}
-		}
-		catch (Error error) {
-			window.show_error (error);
-		}
-		finally {
-			local_job.done ();
-		}
-	}
-
-	void remove_from_catalog () {
-		var files = file_grid.get_selected_files ();
-		if (files.is_empty ()) {
-			return;
-		}
-		window.remove_files (files);
-	}
-
 	void activate_reordering (bool active) {
 		file_grid.reordering = active;
 		file_grid.view.enable_rubberband = !active;
@@ -2479,26 +2333,6 @@ public class Gth.Browser : Gtk.Box {
 				app.events.files_reordered (folder_tree.current_folder.file, files, window);
 			}
 		});
-	}
-
-	void add_to_selection (uint number) {
-		var files = file_grid.get_selected_files ();
-		if (files.is_empty ()) {
-			window.show_error (new IOError.FAILED (_("No files selected")));
-			return;
-		}
-		var selection = app.selections.get_selection (number);
-		selection.add_files (files);
-	}
-
-	void remove_from_selection (uint number) {
-		var files = file_grid.get_selected_files ();
-		if (files.is_empty ()) {
-			window.show_error (new IOError.FAILED (_("No files selected")));
-			return;
-		}
-		var selection = app.selections.get_selection (number);
-		selection.remove_files (files);
 	}
 
 	WindowState state = null;

@@ -547,6 +547,37 @@ public class Gth.MainWindow : Gth.Window {
 		clipboard.set_content (provider);
 	}
 
+	public async void paste_files_from_clipboard (File destination, Job job) throws Error {
+		unowned var clipboard = get_clipboard ();
+		unowned string mime_type;
+		var stream = yield clipboard.read_async (
+			{ "text/uri-list", "gthumb/cut-files" },
+			Priority.DEFAULT,
+			job.cancellable,
+			out mime_type);
+		var bytes = yield Files.read_all_async (stream, job.cancellable);
+		unowned var data_as_string = (string) bytes.get_data ();
+		var text = data_as_string.substring (0, bytes.length);
+		//stdout.printf ("> text: '%s'\n", text);
+		//stdout.printf ("> type: '%s'\n", mime_type);
+		var uris = text.split_set ("\n\r");
+		var files = new GenericList<File> ();
+		foreach (unowned var uri in uris) {
+			//stdout.printf ("> URI: %s\n", uri);
+			files.model.append (File.new_for_uri (uri));
+		}
+		var source = app.get_source_for_file (destination);
+		if (mime_type == "gthumb/cut-files") {
+			if (!(source is FileSourceVfs)) {
+				throw new IOError.FAILED (_("Cannot move files here"));
+			}
+			yield file_manager.move_files (files, destination, job);
+		}
+		else {
+			yield source.add_files (this, destination, files, job);
+		}
+	}
+
 	public void remove_files (GenericList<File> files) {
 		var location = browser.folder_tree.current_folder.file;
 		var source = app.get_source_for_file (location);
@@ -622,6 +653,60 @@ public class Gth.MainWindow : Gth.Window {
 				local_job.done ();
 			}
 		});
+	}
+
+	async void add_to_catalog () {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			return;
+		}
+		var local_job = new_job ("Add to Catalog");
+		try {
+			var selector = new Gth.FolderSelector (FolderSelectorMode.CATALOGS_ONLY | FolderSelectorMode.FOR_COPYING);
+			selector.show_destination = app.settings.get_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION);
+			var last_catalog = Settings.get_file (app.settings, PREF_BROWSER_LAST_CATALOG);
+			var catalog_file = yield selector.select_folder (this, last_catalog, local_job);
+			yield Catalog.add_files (catalog_file, files, local_job);
+			app.settings.set_string (PREF_BROWSER_LAST_CATALOG, catalog_file.get_uri ());
+			app.settings.set_boolean (PREF_BROWSER_ADD_TO_CATALOG_SHOW_DESTINATION, selector.show_destination);
+			if (selector.show_destination) {
+				yield browser.open_location_async (catalog_file);
+			}
+		}
+		catch (Error error) {
+			show_error (error);
+		}
+		finally {
+			local_job.done ();
+		}
+	}
+
+	void remove_from_catalog () {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			return;
+		}
+		remove_files (files);
+	}
+
+	void add_to_selection (uint number) {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			show_error (new IOError.FAILED (_("No files selected")));
+			return;
+		}
+		var selection = app.selections.get_selection (number);
+		selection.add_files (files);
+	}
+
+	void remove_from_selection (uint number) {
+		var files = get_selected_files ();
+		if (files.is_empty ()) {
+			show_error (new IOError.FAILED (_("No files selected")));
+			return;
+		}
+		var selection = app.selections.get_selection (number);
+		selection.remove_files (files);
 	}
 
 	public override void init_actions () {
@@ -756,6 +841,31 @@ public class Gth.MainWindow : Gth.Window {
 				return;
 			}
 			trash_files (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("duplicate-files", null);
+		action.activate.connect (() => {
+			if (!(browser.folder_tree.current_source is FileSourceVfs)) {
+				show_error (new IOError.FAILED (_("Cannot move files here")));
+				return;
+			}
+			var files = get_selected_files ();
+			if (files.is_empty ()) {
+				return;
+			}
+			var local_job = new_job (_("Duplicating Files"), JobFlags.FOREGROUND);
+			file_manager.duplicate_files.begin (files, browser.folder_tree.current_folder.file, local_job, (_obj, res) => {
+				try {
+					file_manager.duplicate_files.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
 		});
 		action_group.add_action (action);
 
@@ -907,6 +1017,30 @@ public class Gth.MainWindow : Gth.Window {
 		});
 		action_group.add_action (action);
 
+		action = new SimpleAction ("cut-files", null);
+		action.activate.connect (() => {
+			var files = get_selected_files ();
+			cut_files_to_clipboard (files);
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("paste-files", null);
+		action.activate.connect (() => {
+			var local_job = new_job (_("Pasting Files"), JobFlags.FOREGROUND);
+			paste_files_from_clipboard.begin (browser.folder_tree.current_folder.file, local_job, (_obj, res) => {
+				try {
+					paste_files_from_clipboard.end (res);
+				}
+				catch (Error error) {
+					show_error (error);
+				}
+				finally {
+					local_job.done ();
+				}
+			});
+		});
+		action_group.add_action (action);
+
 		action = new SimpleAction ("view-script-output", null);
 		action.activate.connect (() => {
 			if (script_output != null) {
@@ -992,6 +1126,40 @@ public class Gth.MainWindow : Gth.Window {
 			var slideshow = new Gth.Slideshow ();
 			slideshow.files = images;
 			slideshow.present ();
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("add-to-catalog", null);
+		action.activate.connect (() => add_to_catalog.begin ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("remove-from-catalog", null);
+		action.activate.connect (() => remove_from_catalog ());
+		action_group.add_action (action);
+
+		action = new SimpleAction ("add-to-selection", VariantType.STRING);
+		action.activate.connect ((_action, _params) => {
+			add_to_selection (uint.parse (_params.get_string (), 10));
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("remove-from-selection", VariantType.INT32);
+		action.activate.connect ((_action, _params) => {
+			remove_from_selection ((uint) _params.get_int32 ());
+		});
+		action_group.add_action (action);
+
+		action = new SimpleAction ("remove-from-current-selection", null);
+		action.activate.connect ((_action, _params) => {
+			var is_selection = browser.folder_tree.current_folder.file.has_uri_scheme ("selection");
+			if (is_selection) {
+				var files = get_selected_files ();
+				if (files.is_empty ()) {
+					show_error (new IOError.FAILED (_("No files selected")));
+					return;
+				}
+				remove_files (files);
+			}
 		});
 		action_group.add_action (action);
 	}
