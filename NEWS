@@ -1,3 +1,12 @@
+Version 4.0.2
+~~~~~~~~~~~~~
+Released: 2026-11-08
+
+Bugfixes:
+ * Import Files: fixed import process that never completes
+ * Import Files: fixed missing thumbnails
+ * Selection and Catalog: load next image after removing the current image
+
 Version 4.0.1
 ~~~~~~~~~~~~~
 Released: 2026-11-01
