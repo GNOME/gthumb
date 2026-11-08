@@ -134,32 +134,37 @@ class Gth.FolderSelectorDialog : Adw.Window {
 
 	[GtkCallback]
 	void on_select (Gtk.Button button) {
-		try_select_folder (folder_tree.get_selected_file_data ());
-	}
-
-	void try_select_folder (FileData file_data) {
 		try {
-			if (file_data == null) {
-				throw new IOError.FAILED (_("No file selected"));
-			}
-			if (FolderSelectorMode.FOR_COPYING in mode) {
-				if (file_data.info.get_content_type () == "gthumb/library") {
-					// Cannot copy to libraries.
-					throw new IOError.FAILED (_("Invalid location"));
-				}
-				show_destination = show_destination_switch.active;
-			}
-			selected_folder = file_data.file;
-			selected ();
+			try_select_folder (folder_tree.get_selected_file_data ());
 		}
 		catch (Error error) {
 			show_message (error.message);
 		}
 	}
 
+	void try_select_folder (FileData file_data) throws Error {
+		if (file_data == null) {
+			throw new IOError.FAILED (_("No file selected"));
+		}
+		if (FolderSelectorMode.FOR_COPYING in mode) {
+			if (file_data.info.get_content_type () == "gthumb/library") {
+				// Cannot copy to libraries.
+				throw new IOError.FAILED (_("Invalid location"));
+			}
+			show_destination = show_destination_switch.active;
+		}
+		selected_folder = file_data.file;
+		selected ();
+	}
+
 	async void load_folder (FileData location, LoadAction load_action) throws Error {
 		if (load_action == LoadAction.OPEN_AS_ROOT) {
-			try_select_folder (location);
+			try {
+				try_select_folder (location);
+			}
+			catch (Error error) {
+				// Ignored
+			}
 			return;
 		}
 		yield folder_tree.load_folder (location.file, load_action);
