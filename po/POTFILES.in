@@ -266,8 +266,10 @@ src/Ext/Search/SearchSourceRow.vala
 src/Ext/Search/UpdateSearch.vala
 src/Ext/Selections/FileSourceSelections.vala
 src/Ext/Selections/Selection.vala
+src/Ext/Selections/SelectionMetadataProvider.vala
 src/Ext/Selections/Selections.vala
 src/Ext/Selections/SelectionsStatus.vala
+src/Ext/Selections/UintList.vala
 src/Ext/Shortcuts/Shortcut.vala
 src/Ext/Shortcuts/ShortcutDialog.vala
 src/Ext/Shortcuts/ShortcutRow.vala
