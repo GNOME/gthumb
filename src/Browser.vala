@@ -405,9 +405,9 @@ public class Gth.Browser : Gtk.Box {
 			file_grid.thumbnail_attributes_v = {};
 		}
 
-		// Other attributes. TODO
-		//attributes.append (",");
-		//attributes.append (GTH_ATTRIBUTE_EMBLEMS);
+		// Attribute for selection state.
+		attributes.append (",");
+		attributes.append (PrivateAttribute.SELECTIONS);
 
 		// Save in a variable to avoid recalculation.
 		list_attributes = attributes.str;

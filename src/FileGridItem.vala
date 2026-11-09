@@ -39,6 +39,11 @@ public class Gth.FileGridItem : Gtk.Box {
 		first_label.visible = attributes_v.length > 0;
 		second_label.visible = attributes_v.length > 1;
 		third_label.visible = attributes_v.length > 2;
+
+		emblems = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+		emblems.visible = false;
+		emblems.add_css_class ("accent");
+		append (emblems);
 	}
 
 	public void set_size (uint _size) {
@@ -57,21 +62,25 @@ public class Gth.FileGridItem : Gtk.Box {
 		if (size != file_grid.thumbnail_size) {
 			set_size (file_grid.thumbnail_size);
 		}
-
 		update_attributes ();
-		file_renamed_id = file_data.info_changed.connect_after (() => {
+		info_changed_id = file_data.info_changed.connect_after (() => {
 			update_attributes ();
+		});
+		update_emblems ();
+		emblems_changed_id = file_data.emblems_changed.connect_after (() => {
+			update_emblems ();
 		});
 		thumbnail.bind (file_data);
 	}
 
 	public void unbind () {
 		thumbnail.unbind ();
-		file_data.disconnect (file_renamed_id);
+		file_data.disconnect (info_changed_id);
 		first_label.set_text ("");
 		second_label.set_text ("");
 		third_label.set_text ("");
 		tooltip_text = null;
+		Util.remove_all_children (emblems);
 	}
 
 	void update_attributes () {
@@ -89,12 +98,29 @@ public class Gth.FileGridItem : Gtk.Box {
 		}
 	}
 
+	void update_emblems () {
+		Util.remove_all_children (emblems);
+		var n_emblems = 0;
+		if (file_data.info.has_attribute (PrivateAttribute.SELECTIONS)) {
+			var active_selections = file_data.info.get_attribute_object (PrivateAttribute.SELECTIONS) as Gth.UintList;
+			unowned var numbers = active_selections.get_uintv ();
+			foreach (var number in numbers) {
+				var icon = Selection.get_symbolic_icon (number);
+				emblems.append (new Gtk.Image.from_gicon (icon));
+				n_emblems++;
+			}
+		}
+		emblems.visible = n_emblems > 0;
+	}
+
 	Gth.Thumbnail thumbnail;
 	Gtk.Inscription first_label;
 	Gtk.Inscription second_label;
 	Gtk.Inscription third_label;
+	Gtk.Box emblems;
 	uint size;
-	ulong file_renamed_id;
+	ulong info_changed_id;
+	ulong emblems_changed_id;
 	unowned string[] attributes_v;
 
 	const int V_SPACING = 6;

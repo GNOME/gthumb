@@ -136,6 +136,7 @@ public class Gth.Application : Adw.Application {
 		MetadataInfo.register ("Private::File::DisplayChanged", N_("File Changed"), "File", METADATA_ALLOW_EVERYWHERE);
 		MetadataInfo.register ("Private::File::Location", N_("Folder"), "File", MetadataFlags.ALLOW_IN_PRINT | MetadataFlags.ALLOW_IN_FILE_LIST | MetadataFlags.ALLOW_IN_PROPERTIES_VIEW);
 		MetadataInfo.register (PrivateAttribute.LOADED_IMAGE_IS_MODIFIED, null, "File", MetadataFlags.HIDDEN);
+		MetadataInfo.register (PrivateAttribute.SELECTIONS, null, "File", MetadataFlags.HIDDEN);
 
 		// Translators: width and height of images or videos.
 		MetadataInfo.register ("Frame::Pixels", N_("Pixels"), "File", METADATA_ALLOW_EVERYWHERE);
@@ -179,6 +180,7 @@ public class Gth.Application : Adw.Application {
 		register_metadata_provider (typeof (ExivMetadataProvider));
 		register_metadata_provider (typeof (ImageMetadataProvider));
 		register_metadata_provider (typeof (VideoMetadataProvider));
+		register_metadata_provider (typeof (SelectionMetadataProvider));
 		// Always the last one, in order to give priority to the embedded
 		// metadata if the file is newer than the comment file.
 		register_metadata_provider (typeof (CommentMetadataProvider));

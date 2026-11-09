@@ -22,18 +22,19 @@ public class Gth.Selections {
 
 	public bool update_private_attribute (File file, FileInfo file_info) {
 		var changed = false;
-		uint[] emblems = null;
+		uint[] selections = null;
 		for (var i = 0; i < entries.length; i++) {
 			unowned var selection = entries[i];
 			if ((selection != null) && selection.contains (file)) {
-				if (emblems == null) {
-					emblems = new uint[0];
+				if (selections == null) {
+					selections = new uint[0];
 				}
-				emblems += selection.number;
+				selections += selection.number;
 			}
 		}
-		if (emblems != null) {
-			file_info.set_attribute_object (PrivateAttribute.SELECTIONS, new UintList.from_uintv (emblems));
+
+		if (selections != null) {
+			file_info.set_attribute_object (PrivateAttribute.SELECTIONS, new UintList.from_uintv (selections));
 			changed = true;
 		}
 		else if (file_info.has_attribute (PrivateAttribute.SELECTIONS)) {
