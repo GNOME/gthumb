@@ -212,6 +212,13 @@ public class Gth.Viewer : Gtk.Box {
 		}
 	}
 
+	public void emblems_changed (File file) {
+		if ((current_file != null) && current_file.file.equal (file)) {
+			app.selections.update_private_attribute (current_file.file, current_file.info);
+			update_title ();
+		}
+	}
+
 	public void list_changed () {
 		update_current_file_position ();
 	}
@@ -518,19 +525,48 @@ public class Gth.Viewer : Gtk.Box {
 	}
 
 	public void update_title () {
-		var title = new StringBuilder ();
+		// Title
+		if (window.current_page == MainWindow.Page.VIEWER) {
+			if (current_file != null) {
+				window.title = current_file.info.get_display_name ();
+			}
+			else {
+				window.title = "";
+			}
+		}
+
+		// State
 		string state = null;
 		if (current_file != null) {
-			title.append (current_file.info.get_display_name ());
 			if (current_file.get_is_modified ()) {
 				// Translators: text added to the window title when the image is modified and unsaved.
 				state = _("modified");
 			}
 		}
-		if (window.current_page == MainWindow.Page.VIEWER) {
-			window.title = title.str;
+		if (state != null) {
+			header_state.label = state;
+			header_state.visible = true;
 		}
-		set_header_state (state);
+		else {
+			header_state.visible = false;
+		}
+
+		// Emblems
+		var with_emblems = false;
+		if ((current_file != null) && current_file.info.has_attribute (PrivateAttribute.SELECTIONS)) {
+			var active_selections = current_file.info.get_attribute_object (PrivateAttribute.SELECTIONS) as Gth.UintList;
+			if (active_selections != null) {
+				foreach (unowned var button in emblem_buttons) {
+					button.visible = false;
+				}
+				unowned var numbers = active_selections.get_uintv ();
+				foreach (var number in numbers) {
+					emblem_buttons[((int) number) - 1].visible = true;
+					with_emblems = true;
+				}
+			}
+		}
+		header_emblems.visible = with_emblems;
 	}
 
 	public void update_list_info (uint files) {
@@ -634,16 +670,6 @@ public class Gth.Viewer : Gtk.Box {
 		else {
 			mediabar_revealer.set_child (null);
 			mediabar_revealer.visible = false;
-		}
-	}
-
-	public void set_header_state (string? state) {
-		if (state != null) {
-			header_state.label = state;
-			header_state.visible = true;
-		}
-		else {
-			header_state.visible = false;
 		}
 	}
 
@@ -811,6 +837,19 @@ public class Gth.Viewer : Gtk.Box {
 		action_group.add_action (action);
 	}
 
+	Gtk.Button new_emblem_button (uint number) {
+		var button = new Gtk.Button ();
+		var icon = Selection.get_symbolic_icon (number);
+		button.child = new Gtk.Image.from_gicon (icon);
+		button.clicked.connect (() => {
+			window.browser.open_selection (number, current_file?.file);
+		});
+		// Translators: %u is replaced with a number
+		button.tooltip_text = _("Selection %u").printf (number);
+		button.visible = false;
+		return button;
+	}
+
 	construct {
 		fullscreen_state = new FullscreenState (this);
 		viewer_signals = new RegisteredSignals ();
@@ -839,6 +878,14 @@ public class Gth.Viewer : Gtk.Box {
 				can_change = window.viewer.position > 0;
 			}
 		});
+
+		header_emblems.visible = false;
+		emblem_buttons = new Gtk.Button[app.selections.get_size ()];
+		for (var i = 0; i < app.selections.get_size (); i++) {
+			var button = new_emblem_button ((uint) (i + 1));
+			emblem_buttons[i] = button;
+			header_emblems.append (button);
+		}
 	}
 
 	[GtkChild] public unowned Adw.OverlaySplitView main_view;
@@ -861,6 +908,7 @@ public class Gth.Viewer : Gtk.Box {
 	[GtkChild] unowned Gtk.PopoverMenu context_menu;
 	[GtkChild] unowned Adw.WindowTitle header_title;
 	[GtkChild] unowned Gtk.Label header_state;
+	[GtkChild] unowned Gtk.Box header_emblems;
 	[GtkChild] public unowned Gth.ActionPopover tools_popover;
 	[GtkChild] public unowned Gtk.Stack sidebar_stack;
 	[GtkChild] public unowned Adw.OverlaySplitView content_view;
@@ -877,6 +925,7 @@ public class Gth.Viewer : Gtk.Box {
 	RegisteredSignals fixed_signals;
 	FullscreenState fullscreen_state;
 	bool scrollable;
+	Gtk.Button[] emblem_buttons;
 
 	const double MOTION_THRESHOLD = 10;
 }

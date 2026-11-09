@@ -34,7 +34,7 @@ public class Gth.Migration {
 		metadata.add ("comment::time", "Metadata::DateTime");
 		metadata.add ("comment::categories", "Metadata::Tags");
 		metadata.add ("comment::rating", "Metadata::Rating");
-		metadata.add ("gth::file::emblems", "Private::File::Emblems");
+		metadata.add ("gth::file::emblems", "Private::File::Selections");
 		metadata.add ("gth::standard::secondary-sort-order", "Private::SecondarySortOrder");
 		metadata.add ("image::width", "Frame::Width");
 		metadata.add ("image::height", "Frame::Height");

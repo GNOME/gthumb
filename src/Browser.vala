@@ -1066,12 +1066,6 @@ public class Gth.Browser : Gtk.Box {
 		});
 		action_group.add_action (action);
 
-		action = new SimpleAction ("open-selection", VariantType.INT32);
-		action.activate.connect ((_action, _params) => {
-			open_selection ((uint) _params.get_int32 ());
-		});
-		action_group.add_action (action);
-
 		action = new SimpleAction ("open-container", null);
 		action.activate.connect ((_action, _params) => {
 			var selected_file = file_grid.get_selected_file ();
@@ -2039,6 +2033,19 @@ public class Gth.Browser : Gtk.Box {
 		file_sorter.set_order ("Private::Unsorted", false);
 	}
 
+	public void emblems_changed (GenericList<File> files) {
+		foreach (var file in files) {
+			var iter = folder_tree.current_children.iterator ();
+			var file_data = iter.find_first_item ((file_data) => file_data.file.equal (file));
+			if (file_data != null) {
+				if (app.selections.update_private_attribute (file_data.file, file_data.info)) {
+					file_data.emblems_changed ();
+				}
+				window.viewer.emblems_changed (file_data.file);
+			}
+		}
+	}
+
 	async void new_folder () {
 		var local_job = window.new_job ("New Folder");
 		try {
@@ -2336,19 +2343,19 @@ public class Gth.Browser : Gtk.Box {
 		});
 	}
 
-	WindowState state = null;
+	WindowState before_open_selection_state = null;
 
-	void open_selection (uint number) {
+	public void open_selection (uint number, File? file_to_select = null) {
 		var uri = "selection:///%u".printf (number);
 		var location = File.new_for_uri (uri);
 		if (folder_tree.current_folder.file.equal (location)) {
-			if (state != null) {
-				window.restore_state.begin (state);
+			if (before_open_selection_state != null) {
+				window.restore_state.begin (before_open_selection_state);
 				return;
 			}
 		}
-		state = new WindowState (window);
-		open_location (location);
+		before_open_selection_state = new WindowState (window);
+		open_location (location,  LoadAction.OPEN, file_to_select);
 	}
 
 	void open_terminal (File file) {

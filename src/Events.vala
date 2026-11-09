@@ -46,6 +46,12 @@ public class Gth.Events : Object {
 		});
 	}
 
+	public signal void emblems_changed (GenericList<File> files) {
+		app.foreach_main_window ((win) => {
+			win.browser.emblems_changed (files);
+		});
+	}
+
 	public signal void files_renamed (GenericList<RenamedFile> files) {
 		app.foreach_main_window ((win) => {
 			win.browser.files_renamed (files);

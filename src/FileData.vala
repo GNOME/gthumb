@@ -88,6 +88,8 @@ public class Gth.FileData : Object {
 
 	public signal void children_changed ();
 
+	public signal void emblems_changed ();
+
 	public virtual signal void info_changed () {
 		// Invalidate cached data.
 		mtime = null;

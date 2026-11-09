@@ -21,6 +21,15 @@
                     </style>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkBox" id="header_emblems">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">6</property>
+                    <style>
+                      <class name="accent"/>
+                    </style>
+                  </object>
+                </child>
               </object>
             </property>
             <child type="start">

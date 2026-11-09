@@ -1164,6 +1164,12 @@ public class Gth.MainWindow : Gth.Window {
 			}
 		});
 		action_group.add_action (action);
+
+		action = new SimpleAction ("open-selection", VariantType.INT32);
+		action.activate.connect ((_action, _params) => {
+			browser.open_selection ((uint) _params.get_int32 ());
+		});
+		action_group.add_action (action);
 	}
 
 	async void exec_file_operation (string name, FileOperation operation, GenericList<File> files, Gth.Job? external_job = null) {
@@ -1281,6 +1287,11 @@ public class Gth.MainWindow : Gth.Window {
 		else if (state.page == Page.VIEWER) {
 			try {
 				yield viewer.open_file_async (state.file, ViewFlags.FOCUS, local_job);
+				if ((browser.folder_tree.current_folder == null)
+					|| !state.location.equal (browser.folder_tree.current_folder.file))
+				{
+					yield browser.load_folder (state.location, LoadAction.OPEN, local_job);
+				}
 			}
 			catch (Error error) {
 				show_error (error);

@@ -3,4 +3,5 @@ selections_files = files(
   'Selection.vala',
   'Selections.vala',
   'SelectionsStatus.vala',
+  'UintList.vala',
 )

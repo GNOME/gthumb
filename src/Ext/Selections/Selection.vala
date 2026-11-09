@@ -5,7 +5,6 @@ public class Gth.Selection {
 	public string sort_type;
 	public bool inverse_order;
 	public GenericArray<File> files;
-	public GenericSet<File> file_set;
 
 	public Selection (uint _number) {
 		number = _number;
@@ -18,6 +17,10 @@ public class Gth.Selection {
 	public void remove_all_files () {
 		files.length = 0;
 		file_set.remove_all ();
+	}
+
+	public bool contains (File file) {
+		return file_set.contains (file);
 	}
 
 	public bool add_file (File file) {
@@ -48,6 +51,7 @@ public class Gth.Selection {
 		var location = File.new_for_uri ("selection:///%u".printf (number));
 		app.events.files_added (location, files);
 		app.events.selection_changed (number);
+		app.events.emblems_changed (files);
 	}
 
 	public void remove_files (GenericList<File> files) {
@@ -57,6 +61,7 @@ public class Gth.Selection {
 		var location = File.new_for_uri ("selection:///%u".printf (number));
 		app.events.files_removed_from_catalog (location, files);
 		app.events.selection_changed (number);
+		app.events.emblems_changed (files);
 	}
 
 	public void set_files (GenericList<File> files) {
@@ -136,18 +141,15 @@ public class Gth.Selection {
 		return new FileData (file, info);
 	}
 
-	const string[] ICONS = {
-		"gth-flag-symbolic",
-		"gth-flag-1-symbolic",
-		"gth-flag-2-symbolic",
-		"gth-flag-3-symbolic",
-	};
+	public static Icon get_symbolic_icon (uint number) {
+		return new ThemedIcon (ICONS[number]);
+	}
 
 	public static void update_file_info (File file, FileInfo info) {
 		var number = Selection.get_number (file);
 
 		info.set_file_type (FileType.DIRECTORY);
-		info.set_symbolic_icon (new ThemedIcon (ICONS[number]));
+		info.set_symbolic_icon (Selection.get_symbolic_icon (number));
 		info.set_sort_order ((int) number);
 		info.set_attribute_boolean (FileAttribute.ACCESS_CAN_READ, true);
 		if (number > 0) {
@@ -213,5 +215,13 @@ public class Gth.Selection {
 		}
 	}
 
+	GenericSet<File> file_set;
+
 	const string ROOT = "selection:///";
+	const string[] ICONS = {
+		"gth-flag-symbolic",
+		"gth-flag-1-symbolic",
+		"gth-flag-2-symbolic",
+		"gth-flag-3-symbolic",
+	};
 }
