@@ -9,7 +9,6 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			if (value == _image) {
 				return;
 			}
-			before_changing_image ();
 			if (_default_zoom_type == ZoomType.KEEP_PREVIOUS) {
 				if (_image == null) {
 					_zoom_type = ZoomType.MAXIMIZE_IF_LARGER;
@@ -18,6 +17,7 @@ public class Gth.ImageView : Gtk.Widget, Gtk.Scrollable {
 			else {
 				_zoom_type = _default_zoom_type;
 			}
+			before_changing_image ();
 			_image = value;
 			switch (_zoom_type) {
 			case ZoomType.NATURAL_SIZE:
