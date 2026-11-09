@@ -21,25 +21,29 @@ public class Gth.Sorters {
 	public static int cmp_size (Gth.FileData a, Gth.FileData b) {
 		var size_a = a.info.get_size ();
 		var size_b = b.info.get_size ();
-		return (size_a < size_b) ? -1 : (size_a > size_b) ? 1 : 0;
+		var result = (size_a < size_b) ? -1 : (size_a > size_b) ? 1 : 0;
+		return (result != 0) ? result : Sorters.cmp_basename (a, b);
 	}
 
 	public static int cmp_modified_time (Gth.FileData a, Gth.FileData b) {
 		var time_a = a.get_modification_time ();
 		var time_b = b.get_modification_time ();
-		return time_a.compare (time_b);
+		var result = time_a.compare (time_b);
+		return (result != 0) ? result : Sorters.cmp_basename (a, b);
 	}
 
 	public static int cmp_changed_time (Gth.FileData a, Gth.FileData b) {
 		var time_a = a.get_file_changed_time ();
 		var time_b = b.get_file_changed_time ();
-		return time_a.compare (time_b);
+		var result = time_a.compare (time_b);
+		return (result != 0) ? result : Sorters.cmp_basename (a, b);
 	}
 
 	public static int cmp_created_time (Gth.FileData a, Gth.FileData b) {
 		var time_a = a.get_creation_time ();
 		var time_b = b.get_creation_time ();
-		return time_a.compare (time_b);
+		var result = time_a.compare (time_b);
+		return (result != 0) ? result : Sorters.cmp_basename (a, b);
 	}
 
 	public static int cmp_position (Gth.FileData a, Gth.FileData b) {
@@ -63,7 +67,8 @@ public class Gth.Sorters {
 			var height = b.info.get_attribute_int32 ("Frame::Height");
 			b_pixels = width * height;
 		}
-		return Util.int_cmp (a_pixels, b_pixels);
+		var result = Util.int_cmp (a_pixels, b_pixels);
+		return (result != 0) ? result : Sorters.cmp_basename (a, b);
 	}
 
 	public static int cmp_aspect_ratio (Gth.FileData a, Gth.FileData b) {
@@ -87,6 +92,7 @@ public class Gth.Sorters {
 				b_ratio = (float) width / height;
 			}
 		}
-		return (a_ratio < b_ratio) ? -1 : (a_ratio > b_ratio) ? 1 : 0;
+		var result = (a_ratio < b_ratio) ? -1 : (a_ratio > b_ratio) ? 1 : 0;
+		return (result != 0) ? result : Sorters.cmp_basename (a, b);
 	}
 }
