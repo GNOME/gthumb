@@ -1,3 +1,15 @@
+Version 4.0.3
+~~~~~~~~~~~~~
+Released: 2026-11-15
+
+Features:
+ * Browser and Viewer: show the selections the file belongs to
+
+Bugfixes:
+ * Compare by basename when the values are equal
+ * When changing image keep the previous zoom if a custom zoom was used
+ * Allow to rename files when the location is writable
+
 Version 4.0.2
 ~~~~~~~~~~~~~
 Released: 2026-11-08

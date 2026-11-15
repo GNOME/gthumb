@@ -69,6 +69,20 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="4.0.3" date="2026-11-15" type="stable">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Browser and Viewer: show the selections the file belongs to</li>
+        </ul>
+        <p>This release fixes the following bugs:</p>
+        <ul>
+          <li>Compare by basename when the values are equal</li>
+          <li>When changing image keep the previous zoom if a custom zoom was used</li>
+          <li>Allow to rename files when the location is writable</li>
+        </ul>
+      </description>
+    </release>
     <release version="4.0.2" date="2026-11-08" type="stable">
       <description>
         <p>This release fixes the following bugs:</p>
