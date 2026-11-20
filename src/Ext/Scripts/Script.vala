@@ -178,9 +178,12 @@ class Gth.ScriptProcess {
 	public void spawn (string[] argv, bool _wait_command) throws Error {
 		wait_command = _wait_command;
 		output_memory = new MemoryOutputStream (null, GLib.realloc, GLib.free);
-		output_stream = new DataOutputStream (output_memory);
+		error_memory = new MemoryOutputStream (null, GLib.realloc, GLib.free);
+		merged_output = new ByteArray ();
 
 		// Add the command to execute to the output stream.
+		var output_stream = new DataOutputStream (output_memory);
+		output_stream.set_close_base_stream (false);
 		output_stream.put_string ("$");
 		foreach (unowned var arg in argv) {
 			if (arg != null) {
@@ -189,6 +192,7 @@ class Gth.ScriptProcess {
 			}
 		}
 		output_stream.put_string ("\n\n");
+		output_stream.close ();
 
 		var flags = SpawnFlags.SEARCH_PATH;
 		if (wait_command) {
@@ -211,7 +215,7 @@ class Gth.ScriptProcess {
 			if (condition == IOCondition.HUP) {
 				return false;
 			}
-			read_channel (channel);
+			read_channel (channel, ref output_memory);
 			return true;
 		});
 
@@ -222,7 +226,7 @@ class Gth.ScriptProcess {
 			if (condition == IOCondition.HUP) {
 				return false;
 			}
-			read_channel (channel);
+			read_channel (channel, ref error_memory);
 			return true;
 		});
 	}
@@ -280,25 +284,20 @@ class Gth.ScriptProcess {
 
 	public Bytes? read_output () {
 		try {
-			read_channel_to_end (output);
-			read_channel_to_end (error);
-			output_stream.close ();
+			read_channel_to_end (output, ref output_memory);
+			read_channel_to_end (error, ref error_memory);
 		}
 		catch (Error error) {
 			// ignored.
 		}
-		try {
-			output_memory.close ();
-			return output_memory.steal_as_bytes ();
-		}
-		catch (Error error) {
-			return null;
-		}
+		var bytes = ByteArray.free_to_bytes ((owned) merged_output);
+		merged_output = null;
+		return bytes;
 	}
 
-	char buffer[2];
+	char buffer[1];
 
-	bool read_channel (IOChannel channel) {
+	bool read_channel (IOChannel channel, ref MemoryOutputStream memory) {
 		if (channel == null) {
 			return false;
 		}
@@ -308,7 +307,16 @@ class Gth.ScriptProcess {
 			if (bytes == 0) {
 				return false;
 			}
-			output_stream.write ((uint8[]) buffer[0:bytes]);
+			memory.write ((uint8[]) buffer[0:bytes]);
+			if (buffer[0] == '\n') {
+				memory.close ();
+
+				// Append line to output.
+				var line = memory.steal_as_bytes ();
+				merged_output.append (line.get_data ());
+
+				memory = new MemoryOutputStream (null, GLib.realloc, GLib.free);
+			}
 			return true;
 		}
 		catch (Error error) {
@@ -316,8 +324,22 @@ class Gth.ScriptProcess {
 		}
 	}
 
-	inline void read_channel_to_end (IOChannel channel) {
-		while (read_channel (channel)) { /* void */ }
+	inline void read_channel_to_end (IOChannel channel, ref MemoryOutputStream memory) {
+		while (read_channel (channel, ref memory)) { /* void */ }
+
+		// Read last line.
+		try {
+			if (memory.size > 0) {
+				memory.close ();
+
+				var last_line = memory.steal_as_bytes ();
+				merged_output.append (last_line.get_data ());
+
+				memory = null;
+			}
+		}
+		catch (Error error) {
+		}
 	}
 
 	void child_setup () {
@@ -340,7 +362,8 @@ class Gth.ScriptProcess {
 	IOChannel output;
 	IOChannel error;
 	MemoryOutputStream output_memory;
-	DataOutputStream output_stream;
+	MemoryOutputStream error_memory;
+	ByteArray merged_output;
 	Cancellable cancellable;
 
 	const uint MAX_WAIT = 5; // seconds
