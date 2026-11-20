@@ -31,8 +31,9 @@ public class Gth.TextViewer : Object {
 [GtkTemplate (ui = "/org/gnome/gthumb/ui/text-viewer-dialog.ui")]
 class Gth.TextViewerDialog : Adw.Dialog {
 	public TextViewerDialog (Bytes buffer) {
-		var text = (string) buffer.get_data ();
-		text_view.buffer.set_text (text, (int) buffer.get_size ());
+		unowned var text = (string) buffer.get_data ();
+		var valid_text = text.make_valid ();
+		text_view.buffer.set_text (valid_text);
 	}
 
 	[GtkChild] private unowned Gtk.TextView text_view;
