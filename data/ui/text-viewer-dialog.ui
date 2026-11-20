@@ -2,7 +2,7 @@
 <interface>
   <template class="GthTextViewerDialog">
     <property name="title" translatable="yes">Details</property>
-    <property name="content-width">700</property>
+    <property name="content-width">900</property>
     <property name="content-height">500</property>
     <child>
       <object class="AdwToolbarView">
