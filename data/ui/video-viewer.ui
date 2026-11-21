@@ -396,7 +396,7 @@
         <attribute name="target">0.75</attribute>
       </item>
       <item>
-        <attribute name="label">Normal Speed</attribute>
+        <attribute name="label" translatable="yes">Normal Speed</attribute>
         <attribute name="action">video.set-speed</attribute>
         <attribute name="target">1.00</attribute>
       </item>
